@@ -30,7 +30,11 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/jquery.min.js",
+              "src/assets/js/bootstrap.bundle.min.js",
+              "src/assets/js/main.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -124,5 +128,8 @@
       }
     }
   },
-  "defaultProject": "Eastalents"
+  "defaultProject": "Eastalents",
+  "cli": {
+    "analytics": false
+  }
 }

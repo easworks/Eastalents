@@ -1,0 +1,128 @@
+<!----- Header ----->
+<header id="header" class="fixed-top">
+  <div class="container d-flex align-items-center">
+    <h1 class="logo mr-auto">
+      <a class="black-logo" [routerLink]="['/index']">
+        <img src="assets/img/white-logo.png" />
+      </a>
+      <a class="white-logo" [routerLink]="['/index']">
+        <img src="assets/img/black-logo.png" />
+      </a>
+    </h1>
+    <nav class="nav-menu d-none d-lg-block mr-5">
+      <ul>
+        <li><a [routerLinkActive]="['active']" [routerLink]="['/Talent']">Talent</a></li>
+        <li><a [routerLinkActive]="['active']" [routerLink]="['/WhyEasworks']">Why EASWORKS?</a></li>
+        <li><a [routerLinkActive]="['active']" [routerLink]="['/How']">How</a></li>
+        <li class="drop-down">
+          <a [routerLinkActive]="['active']" [routerLink]="['/#']">Use Case</a>
+          <div class="usecase-submenu">
+            <div class="usecase-lft-menu">
+              <ul class="border-right">
+                <li>
+                  <a [routerLink]="['/Innovation']">
+                    <span
+                      ><img
+                        class="usecasemenuicon"
+                        src="assets/img/digital-transformation.svg"
+                    /></span>
+                    Digital Transformation
+                  </a>
+                </li>
+                <li>
+                  <a [routerLink]="['/Innovation']"
+                    ><span
+                      ><img
+                        class="usecasemenuicon"
+                        src="assets/img/innovation.svg" /></span
+                    >Innovation
+                  </a>
+                </li>
+                <li>
+                  <a [routerLink]="['/Innovation']"
+                    ><span
+                      ><img
+                        class="usecasemenuicon"
+                        src="assets/img/prototype-configuration.svg" /></span
+                    >Prototyping - Configuration/Customization</a
+                  >
+                </li>
+                <li>
+                  <a [routerLink]="['/Innovation']"
+                    ><span
+                      ><img
+                        class="usecasemenuicon"
+                        src="assets/img/design.svg" /></span
+                    >Design</a
+                  >
+                </li>
+                <li>
+                  <a [routerLink]="['/Innovation']"
+                    ><span
+                      ><img
+                        class="usecasemenuicon"
+                        src="assets/img/business_inteligent.svg" /></span
+                    >Business Intelligence</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="usecase-rht-menu">
+              <ul>
+                <li>
+                  <a [routerLink]="['/Innovation']"
+                    ><span
+                      ><img
+                        class="usecasemenuicon"
+                        src="assets/img/app_settings_alt_white_24dp.svg" /></span
+                    >Application modernization (Legacy Application Migration)</a
+                  >
+                </li>
+                <li>
+                  <a [routerLink]="['/Innovation']"
+                    ><span
+                      ><img
+                        class="usecasemenuicon"
+                        src="assets/img/enterprise-application.svg" /></span
+                    >Enterprise Application Integration</a
+                  >
+                </li>
+                <li>
+                  <a [routerLink]="['/Innovation']"
+                    ><span
+                      ><img
+                        class="usecasemenuicon"
+                        src="assets/img/custom-application.svg" /></span
+                    >Custom Application Development</a
+                  >
+                </li>
+                <li>
+                  <a [routerLink]="['/Innovation']"
+                    ><span
+                      ><img
+                        class="usecasemenuicon"
+                        src="assets/img/data-migration.svg" /></span
+                    >Data Migration</a
+                  >
+                </li>
+                <li>
+                  <a [routerLink]="['/Innovation']"
+                    ><span
+                      ><img
+                        class="usecasemenuicon"
+                        src="assets/img/maintance.svg" /></span
+                    >Maintenance</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li><a  [routerLinkActive]="['active']" [routerLink]="['/GetHired']">Get Hired</a></li>
+      </ul>
+    </nav>
+    <a [routerLinkActive]="['active']" [routerLink]="['/Sign-In']" class="signin-btn">Login</a>
+    <a [routerLinkActive]="['active']" [routerLink]="['/Sign-Up']" class="get-started-btn">Get Started</a>
+  </div>
+</header>
+<!----- Header ----->

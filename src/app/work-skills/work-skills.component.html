@@ -1,0 +1,288 @@
+  <!----- Header ----->
+  <header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center">
+      <h1 class="logo mr-auto">
+        <a class="black-logo" [routerLink]="['/index']">
+          <img src="assets/img/white-logo.png" />
+        </a>
+        <a class="white-logo" [routerLink]="['/index']">
+          <img src="assets/img/black-logo.png" />
+        </a>
+      </h1>
+      <nav class="nav-menu profile-creat-nav d-none d-lg-block">
+        <ul>
+          <li><a href="profile.html">Profile</a></li>
+          <li><a class="active" href="workskill.html">Workskill</a></li>
+          <li><a href="yourjobs.html">Your Jobs</a></li>
+          <li><a href="interviewsList.html">Interviews</a></li>
+          <li class="user-details dropdown">
+            <a class="user-icon dropdown-toggle" href="javascript:void(0)" id="dropdownMenuButton"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class='bx bxs-user-circle'></i>
+            </a>
+            <div class="user-dropdown dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <a class="dropdown-item" href="javascript:void(0)"><i class='bx bxs-cog'></i>Settings</a>
+              <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-help-circle'></i>Help</a>
+              <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-log-in'></i>Logout</a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <!----- Header ----->
+
+  <div class="common-space">
+    <section class="workstyle-wraper">
+      <div class="container">
+        <div class="section-title text-center">
+          <img class="wslogo" src="assets/img/workstyle.png" />
+          <span class="load-count">0 of 15</span>
+          <h2 class="workstyletitle mb-0">Which of these two words describe you the best</h2>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-12">
+            <div class="workstyle-slider">
+              <div id="form-wrapper">
+                <form>
+                  <!--Slide1-->
+                  <div id="debt-amount-slider">
+                    <input type="radio" name="debt-amount" id="1" value="1" required>
+                    <label for="1"><span class="labelvalue-text lfttext">Competitive</span></label>
+                    <input type="radio" name="debt-amount" id="2" value="2" required>
+                    <label for="2"></label>
+                    <input type="radio" name="debt-amount" id="3" value="3" checked>
+                    <label for="3"></label>
+                    <input type="radio" name="debt-amount" id="4" value="4" required>
+                    <label for="4"></label>
+                    <input type="radio" name="debt-amount" id="5" value="5" required>
+                    <label for="5"><span class="labelvalue-text rhttext">Cooperative</span></label>
+                    <div id="debt-amount-pos"></div>
+                  </div>
+                  <!--Slide2-->
+                  <div class="d-none" id="debt-amount-slider">
+                    <input type="radio" name="debt-amount" id="11" value="11" required>
+                    <label for="11"><span class="labelvalue-text lfttext">Assertive</span></label>
+                    <input type="radio" name="debt-amount" id="12" value="12" required>
+                    <label for="12"></label>
+                    <input type="radio" name="debt-amount" id="13" value="13" required>
+                    <label for="13"></label>
+                    <input type="radio" name="debt-amount" id="14" value="14" required>
+                    <label for="14"></label>
+                    <input type="radio" name="debt-amount" id="15" value="15" required>
+                    <label for="15"><span class="labelvalue-text rhttext">Laid-back</span></label>
+                    <div id="debt-amount-pos"></div>
+                  </div>
+                  <!--Slide3-->
+                  <div class="d-none" id="debt-amount-slider">
+                    <input type="radio" name="debt-amount" id="21" value="21" required>
+                    <label for="21"><span class="labelvalue-text lfttext">Defiant</span></label>
+                    <input type="radio" name="debt-amount" id="22" value="22" required>
+                    <label for="22"></label>
+                    <input type="radio" name="debt-amount" id="23" value="23" required>
+                    <label for="23"></label>
+                    <input type="radio" name="debt-amount" id="24" value="24" required>
+                    <label for="24"></label>
+                    <input type="radio" name="debt-amount" id="25" value="25" required>
+                    <label for="25"><span class="labelvalue-text rhttext">Peaceful</span></label>
+                    <div id="debt-amount-pos"></div>
+                  </div>
+                  <!--Slide4-->
+                  <div class="d-none" id="debt-amount-slider">
+                    <input type="radio" name="debt-amount" id="31" value="31" required>
+                    <label for="31"><span class="labelvalue-text lfttext">Pioneering</span></label>
+                    <input type="radio" name="debt-amount" id="32" value="32" required>
+                    <label for="32"></label>
+                    <input type="radio" name="debt-amount" id="33" value="33" required>
+                    <label for="33"></label>
+                    <input type="radio" name="debt-amount" id="34" value="34" required>
+                    <label for="34"></label>
+                    <input type="radio" name="debt-amount" id="35" value="35" required>
+                    <label for="35"><span class="labelvalue-text rhttext">Agreeable</span></label>
+                    <div id="debt-amount-pos"></div>
+                  </div>
+                  <!--Slide5-->
+                  <div class="d-none" id="debt-amount-slider">
+                    <input type="radio" name="debt-amount" id="41" value="41" required>
+                    <label for="41"><span class="labelvalue-text lfttext">Animated</span></label>
+                    <input type="radio" name="debt-amount" id="42" value="42" required>
+                    <label for="42"></label>
+                    <input type="radio" name="debt-amount" id="43" value="43" required>
+                    <label for="43"></label>
+                    <input type="radio" name="debt-amount" id="44" value="44" required>
+                    <label for="44"></label>
+                    <input type="radio" name="debt-amount" id="45" value="45" required>
+                    <label for="45"><span class="labelvalue-text rhttext">Soft-spoken</span></label>
+                    <div id="debt-amount-pos"></div>
+                  </div>
+                  <!--Slide6-->
+                  <div class="d-none" id="debt-amount-slider">
+                    <input type="radio" name="debt-amount" id="51" value="51" required>
+                    <label for="51"><span class="labelvalue-text lfttext">Adventurous</span></label>
+                    <input type="radio" name="debt-amount" id="52" value="52" required>
+                    <label for="52"></label>
+                    <input type="radio" name="debt-amount" id="53" value="53" required>
+                    <label for="53"></label>
+                    <input type="radio" name="debt-amount" id="54" value="54" required>
+                    <label for="54"></label>
+                    <input type="radio" name="debt-amount" id="55" value="55" required>
+                    <label for="55"><span class="labelvalue-text rhttext">Cautious</span></label>
+                    <div id="debt-amount-pos"></div>
+                  </div>
+                  <!--Slide7-->
+                  <div class="d-none" id="debt-amount-slider">
+                    <input type="radio" name="debt-amount" id="61" value="61" required>
+                    <label for="61"><span class="labelvalue-text lfttext">Convincing</span></label>
+                    <input type="radio" name="debt-amount" id="62" value="62" required>
+                    <label for="62"></label>
+                    <input type="radio" name="debt-amount" id="63" value="63" required>
+                    <label for="63"></label>
+                    <input type="radio" name="debt-amount" id="64" value="64" required>
+                    <label for="64"></label>
+                    <input type="radio" name="debt-amount" id="65" value="65" required>
+                    <label for="65"><span class="labelvalue-text rhttext">Restrained</span></label>
+                    <div id="debt-amount-pos"></div>
+                  </div>
+                  <!--Slide8-->
+                  <div class="d-none" id="debt-amount-slider">
+                    <input type="radio" name="debt-amount" id="71" value="71" required>
+                    <label for="71"><span class="labelvalue-text lfttext">High-spirited</span></label>
+                    <input type="radio" name="debt-amount" id="72" value="72" required>
+                    <label for="72"></label>
+                    <input type="radio" name="debt-amount" id="73" value="73" required>
+                    <label for="73"></label>
+                    <input type="radio" name="debt-amount" id="74" value="74" required>
+                    <label for="74"></label>
+                    <input type="radio" name="debt-amount" id="75" value="75" required>
+                    <label for="75"><span class="labelvalue-text rhttext">Self-controlled</span></label>
+                    <div id="debt-amount-pos"></div>
+                  </div>
+                  <!--Slide9-->
+                  <div class="d-none" id="debt-amount-slider">
+                    <input type="radio" name="debt-amount" id="81" value="81" required>
+                    <label for="81"><span class="labelvalue-text lfttext">Talkative</span></label>
+                    <input type="radio" name="debt-amount" id="82" value="82" required>
+                    <label for="82"></label>
+                    <input type="radio" name="debt-amount" id="83" value="83" required>
+                    <label for="83"></label>
+                    <input type="radio" name="debt-amount" id="84" value="84" required>
+                    <label for="84"></label>
+                    <input type="radio" name="debt-amount" id="85" value="85" required>
+                    <label for="85"><span class="labelvalue-text rhttext">Private</span></label>
+                    <div id="debt-amount-pos"></div>
+                  </div>
+                  <!--Slide10-->
+                  <div class="d-none" id="debt-amount-slider">
+                    <input type="radio" name="debt-amount" id="91" value="91" required>
+                    <label for="91"><span class="labelvalue-text lfttext">Spontaneous</span></label>
+                    <input type="radio" name="debt-amount" id="92" value="92" required>
+                    <label for="92"></label>
+                    <input type="radio" name="debt-amount" id="93" value="93" required>
+                    <label for="93"></label>
+                    <input type="radio" name="debt-amount" id="94" value="94" required>
+                    <label for="94"></label>
+                    <input type="radio" name="debt-amount" id="95" value="95" required>
+                    <label for="95"><span class="labelvalue-text rhttext">Planned</span></label>
+                    <div id="debt-amount-pos"></div>
+                  </div>
+                  <!--Slide11-->
+                  <div class="d-none" id="debt-amount-slider">
+                    <input type="radio" name="debt-amount" id="101" value="101" required>
+                    <label for="101"><span class="labelvalue-text lfttext">Enthusiastic</span></label>
+                    <input type="radio" name="debt-amount" id="102" value="102" required>
+                    <label for="102"></label>
+                    <input type="radio" name="debt-amount" id="103" value="103" required>
+                    <label for="103"></label>
+                    <input type="radio" name="debt-amount" id="104" value="104" required>
+                    <label for="104"></label>
+                    <input type="radio" name="debt-amount" id="105" value="105" required>
+                    <label for="105"><span class="labelvalue-text rhttext">Methodical</span></label>
+                    <div id="debt-amount-pos"></div>
+                  </div>
+                  <!--Slide12-->
+                  <div class="d-none" id="debt-amount-slider">
+                    <input type="radio" name="debt-amount" id="111" value="111" required>
+                    <label for="111"><span class="labelvalue-text lfttext">Trusting</span></label>
+                    <input type="radio" name="debt-amount" id="112" value="112" required>
+                    <label for="112"></label>
+                    <input type="radio" name="debt-amount" id="113" value="113" required>
+                    <label for="113"></label>
+                    <input type="radio" name="debt-amount" id="114" value="114" required>
+                    <label for="114"></label>
+                    <input type="radio" name="debt-amount" id="115" value="115" required>
+                    <label for="115"><span class="labelvalue-text rhttext">Skeptical</span></label>
+                    <div id="debt-amount-pos"></div>
+                  </div>
+                  <!--Slide13-->
+                  <div class="d-none" id="debt-amount-slider">
+                    <input type="radio" name="debt-amount" id="121" value="121" required>
+                    <label for="121"><span class="labelvalue-text lfttext">Light-hearted</span></label>
+                    <input type="radio" name="debt-amount" id="122" value="122" required>
+                    <label for="122"></label>
+                    <input type="radio" name="debt-amount" id="123" value="123" required>
+                    <label for="123"></label>
+                    <input type="radio" name="debt-amount" id="124" value="124" required>
+                    <label for="124"></label>
+                    <input type="radio" name="debt-amount" id="125" value="125" required>
+                    <label for="125"><span class="labelvalue-text rhttext">Serious</span></label>
+                    <div id="debt-amount-pos"></div>
+                  </div>
+                  <!--Slide14-->
+                  <div class="d-none" id="debt-amount-slider">
+                    <input type="radio" name="debt-amount" id="131" value="131" required>
+                    <label for="131"><span class="labelvalue-text lfttext">Impatient</span></label>
+                    <input type="radio" name="debt-amount" id="132" value="132" required>
+                    <label for="132"></label>
+                    <input type="radio" name="debt-amount" id="133" value="133" required>
+                    <label for="133"></label>
+                    <input type="radio" name="debt-amount" id="134" value="134" required>
+                    <label for="134"></label>
+                    <input type="radio" name="debt-amount" id="135" value="135" required>
+                    <label for="135"><span class="labelvalue-text rhttext">Patient</span></label>
+                    <div id="debt-amount-pos"></div>
+                  </div>
+                  <!--Slide15-->
+                  <div class="d-none" id="debt-amount-slider">
+                    <input type="radio" name="debt-amount" id="141" value="141" required>
+                    <label for="141"><span class="labelvalue-text lfttext">Lenient</span></label>
+                    <input type="radio" name="debt-amount" id="142" value="142" required>
+                    <label for="142"></label>
+                    <input type="radio" name="debt-amount" id="143" value="143" required>
+                    <label for="143"></label>
+                    <input type="radio" name="debt-amount" id="144" value="144" required>
+                    <label for="144"></label>
+                    <input type="radio" name="debt-amount" id="145" value="145" required>
+                    <label for="145"><span class="labelvalue-text rhttext">Strict</span></label>
+                    <div id="debt-amount-pos"></div>
+                  </div>
+                  <!--Slide16-->
+                  <div class="d-none" id="debt-amount-slider">
+                    <input type="radio" name="debt-amount" id="151" value="151" required>
+                    <label for="151"><span class="labelvalue-text lfttext">Accepting</span></label>
+                    <input type="radio" name="debt-amount" id="152" value="152" required>
+                    <label for="152"></label>
+                    <input type="radio" name="debt-amount" id="153" value="153" required>
+                    <label for="153"></label>
+                    <input type="radio" name="debt-amount" id="154" value="154" required>
+                    <label for="154"></label>
+                    <input type="radio" name="debt-amount" id="155" value="155" required>
+                    <label for="155"><span class="labelvalue-text rhttext">Questioning</span></label>
+                    <div id="debt-amount-pos"></div>
+                  </div>
+                </form>
+                <div class="quiz-bttn-group">
+                  <button type="button" class="btn-common-border pl-3 pr-3">Previous</button>
+                  <div class="next-skip">
+                    <button type="button" class="btn-common-border nextbtn">Next</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!--Footer-->
+  <app-footer></app-footer>

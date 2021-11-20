@@ -1,0 +1,354 @@
+  <!----- Header ----->
+  <header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center">
+      <h1 class="logo mr-auto">
+        <a class="black-logo" [routerLink]="['/index']">
+          <img src="assets/img/white-logo.png" />
+        </a>
+        <a class="white-logo" [routerLink]="['/index']">
+          <img src="assets/img/black-logo.png" />
+        </a>
+      </h1>
+      <nav class="nav-menu profile-creat-nav d-none d-lg-block">
+        <ul>
+          <li><a href="profile.html">Profile</a></li>
+          <li><a href="workstyle.html">WorkStyle</a></li>
+          <li><a class="active" href="yourjobs.html">Your Jobs</a></li>
+          <li><a href="interviewsList.html">Interviews</a></li>
+          <li class="user-details dropdown">
+            <a class="user-icon dropdown-toggle" href="javascript:void(0)" id="dropdownMenuButton"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class='bx bxs-user-circle'></i>
+            </a>
+            <div class="user-dropdown dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <a class="dropdown-item" href="javascript:void(0)"><i class='bx bxs-cog'></i>Settings</a>
+              <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-help-circle'></i>Help</a>
+              <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-log-in'></i>Logout</a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <!----- Header ----->
+  <section class="job-banner">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+          <div class="job-ban-title">
+            <h1>Your Jobs</h1>
+            <p>13 New Jobs published last week!</p>
+            <div class="job-searchbox">
+              <input type="text" placeholder="Search Jobs" class="inputview" />
+              <button type="button" class="btn-get-started searchbtn">Search</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="job-search-list">
+    <div class="container">
+      <div class="section-title text-center">
+        <h2>Most Popular Jobs</h2>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+          <nav class="job-nav">
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <a class="nav-item nav-link active" id="nav-all-tab" data-toggle="tab" href="#nav-all" role="tab"
+                aria-controls="nav-all" aria-selected="true">All</a>
+              <a class="nav-item nav-link" id="nav-open-tab" data-toggle="tab" href="#nav-open" role="tab"
+                aria-controls="nav-open" aria-selected="false">Open</a>
+              <a class="nav-item nav-link" id="nav-matches-tab" data-toggle="tab" href="#nav-matches" role="tab"
+                aria-controls="nav-matches" aria-selected="false">Matches</a>
+              <a class="nav-item nav-link" id="nav-closed-tab" data-toggle="tab" href="#nav-closed" role="tab"
+                aria-controls="nav-closed" aria-selected="false">Closed</a>
+            </div>
+          </nav>
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                  <div class="job-inner-box">
+                    <div class="job-content d-flex flex-wrap">
+                      <div class="related-brand jobbrand text-left">
+                        <figure>
+                          <img src="assets/img/14.png">
+                        </figure>
+                      </div>
+                      <div class="job-content-rht">
+                        <h4>Cybersecurity Application</h4>
+                        <p>A company building a next generation Cybersecurity application is booking for a Project
+                          Manager to lead the build of their dashboard.</p>
+                        <ul class="job-cont-type">
+                          <li><i class='bx bx-briefcase'></i> Project Manager</li>
+                          <li><i class='bx bx-compass'></i>Freelance/Contract</li>
+                          <li><i class='bx bx-world'></i> US</li>
+                          <li><i class='bx bx-calendar-week'></i> Mid-term (3-6 Months) 20 hrs/wk</li>
+                          <li><i class='bx bx-time'></i> Posted 8 hours ago</li>
+                        </ul>
+                        <div class="d-flex flex-wrap justify-content-end mt-3">
+                          <a href="javascript:void(0)" class="btn-get-started pl-3 pr-3 pt-1 pb-1">View and Apply</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-12">
+                  <div class="job-inner-box">
+                    <div class="job-content d-flex flex-wrap">
+                      <div class="related-brand jobbrand text-left">
+                        <figure>
+                          <img src="assets/img/14.png">
+                        </figure>
+                      </div>
+                      <div class="job-content-rht">
+                        <h4>Cybersecurity Application</h4>
+                        <p>A company building a next generation Cybersecurity application is booking for a Project
+                          Manager to lead the build of their dashboard.</p>
+                        <ul class="job-cont-type">
+                          <li><i class='bx bx-briefcase'></i> Project Manager</li>
+                          <li><i class='bx bx-compass'></i>Freelance/Contract</li>
+                          <li><i class='bx bx-world'></i> US</li>
+                          <li><i class='bx bx-calendar-week'></i> Mid-term (3-6 Months) 20 hrs/wk</li>
+                          <li><i class='bx bx-time'></i> Posted 8 hours ago</li>
+                        </ul>
+                        <div class="d-flex flex-wrap justify-content-end mt-3">
+                          <a href="javascript:void(0)" class="btn-get-started pl-3 pr-3 pt-1 pb-1">View and Apply</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-12">
+                  <div class="job-inner-box">
+                    <div class="job-content d-flex flex-wrap">
+                      <div class="related-brand jobbrand text-left">
+                        <figure>
+                          <img src="assets/img/14.png">
+                        </figure>
+                      </div>
+                      <div class="job-content-rht">
+                        <h4>Cybersecurity Application</h4>
+                        <p>A company building a next generation Cybersecurity application is booking for a Project
+                          Manager to lead the build of their dashboard.</p>
+                        <ul class="job-cont-type">
+                          <li><i class='bx bx-briefcase'></i> Project Manager</li>
+                          <li><i class='bx bx-compass'></i>Freelance/Contract</li>
+                          <li><i class='bx bx-world'></i> US</li>
+                          <li><i class='bx bx-calendar-week'></i> Mid-term (3-6 Months) 20 hrs/wk</li>
+                          <li><i class='bx bx-time'></i> Posted 8 hours ago</li>
+                        </ul>
+                        <div class="d-flex flex-wrap justify-content-end mt-3">
+                          <a href="javascript:void(0)" class="btn-get-started pl-3 pr-3 pt-1 pb-1">View and Apply</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-12">
+                  <div class="job-inner-box">
+                    <div class="job-content d-flex flex-wrap">
+                      <div class="related-brand jobbrand text-left">
+                        <figure>
+                          <img src="assets/img/14.png">
+                        </figure>
+                      </div>
+                      <div class="job-content-rht">
+                        <h4>Cybersecurity Application</h4>
+                        <p>A company building a next generation Cybersecurity application is booking for a Project
+                          Manager to lead the build of their dashboard.</p>
+                        <ul class="job-cont-type">
+                          <li><i class='bx bx-briefcase'></i> Project Manager</li>
+                          <li><i class='bx bx-compass'></i>Freelance/Contract</li>
+                          <li><i class='bx bx-world'></i> US</li>
+                          <li><i class='bx bx-calendar-week'></i> Mid-term (3-6 Months) 20 hrs/wk</li>
+                          <li><i class='bx bx-time'></i> Posted 8 hours ago</li>
+                        </ul>
+                        <div class="d-flex flex-wrap justify-content-end mt-3">
+                          <a href="javascript:void(0)" class="btn-get-started pl-3 pr-3 pt-1 pb-1">View and Apply</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="nav-open" role="tabpanel" aria-labelledby="nav-open-tab">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                  <div class="job-inner-box">
+                    <div class="job-content d-flex flex-wrap">
+                      <div class="related-brand jobbrand text-left">
+                        <figure>
+                          <img src="assets/img/14.png">
+                        </figure>
+                      </div>
+                      <div class="job-content-rht">
+                        <h4>Cybersecurity Application</h4>
+                        <p>A company building a next generation Cybersecurity application is booking for a Project
+                          Manager to lead the build of their dashboard.</p>
+                        <ul class="job-cont-type">
+                          <li><i class='bx bx-briefcase'></i> Project Manager</li>
+                          <li><i class='bx bx-compass'></i>Freelance/Contract</li>
+                          <li><i class='bx bx-world'></i> US</li>
+                          <li><i class='bx bx-calendar-week'></i> Mid-term (3-6 Months) 20 hrs/wk</li>
+                          <li><i class='bx bx-time'></i> Posted 8 hours ago</li>
+                        </ul>
+                        <div class="d-flex flex-wrap justify-content-end mt-3">
+                          <a href="javascript:void(0)" class="btn-get-started pl-3 pr-3 pt-1 pb-1">View and Apply</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-12">
+                  <div class="job-inner-box">
+                    <div class="job-content d-flex flex-wrap">
+                      <div class="related-brand jobbrand text-left">
+                        <figure>
+                          <img src="assets/img/14.png">
+                        </figure>
+                      </div>
+                      <div class="job-content-rht">
+                        <h4>Cybersecurity Application</h4>
+                        <p>A company building a next generation Cybersecurity application is booking for a Project
+                          Manager to lead the build of their dashboard.</p>
+                        <ul class="job-cont-type">
+                          <li><i class='bx bx-briefcase'></i> Project Manager</li>
+                          <li><i class='bx bx-compass'></i>Freelance/Contract</li>
+                          <li><i class='bx bx-world'></i> US</li>
+                          <li><i class='bx bx-calendar-week'></i> Mid-term (3-6 Months) 20 hrs/wk</li>
+                          <li><i class='bx bx-time'></i> Posted 8 hours ago</li>
+                        </ul>
+                        <div class="d-flex flex-wrap justify-content-end mt-3">
+                          <a href="javascript:void(0)" class="btn-get-started pl-3 pr-3 pt-1 pb-1">View and Apply</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="nav-matches" role="tabpanel" aria-labelledby="nav-matches-tab">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                  <div class="job-inner-box">
+                    <div class="job-content d-flex flex-wrap">
+                      <div class="related-brand jobbrand text-left">
+                        <figure>
+                          <img src="assets/img/14.png">
+                        </figure>
+                      </div>
+                      <div class="job-content-rht">
+                        <h4>Cybersecurity Application</h4>
+                        <p>A company building a next generation Cybersecurity application is booking for a Project
+                          Manager to lead the build of their dashboard.</p>
+                        <ul class="job-cont-type">
+                          <li><i class='bx bx-briefcase'></i> Project Manager</li>
+                          <li><i class='bx bx-compass'></i>Freelance/Contract</li>
+                          <li><i class='bx bx-world'></i> US</li>
+                          <li><i class='bx bx-calendar-week'></i> Mid-term (3-6 Months) 20 hrs/wk</li>
+                          <li><i class='bx bx-time'></i> Posted 8 hours ago</li>
+                        </ul>
+                        <div class="d-flex flex-wrap justify-content-end mt-3">
+                          <a href="javascript:void(0)" class="btn-get-started pl-3 pr-3 pt-1 pb-1">View and Apply</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-12">
+                  <div class="job-inner-box">
+                    <div class="job-content d-flex flex-wrap">
+                      <div class="related-brand jobbrand text-left">
+                        <figure>
+                          <img src="assets/img/14.png">
+                        </figure>
+                      </div>
+                      <div class="job-content-rht">
+                        <h4>Cybersecurity Application</h4>
+                        <p>A company building a next generation Cybersecurity application is booking for a Project
+                          Manager to lead the build of their dashboard.</p>
+                        <ul class="job-cont-type">
+                          <li><i class='bx bx-briefcase'></i> Project Manager</li>
+                          <li><i class='bx bx-compass'></i>Freelance/Contract</li>
+                          <li><i class='bx bx-world'></i> US</li>
+                          <li><i class='bx bx-calendar-week'></i> Mid-term (3-6 Months) 20 hrs/wk</li>
+                          <li><i class='bx bx-time'></i> Posted 8 hours ago</li>
+                        </ul>
+                        <div class="d-flex flex-wrap justify-content-end mt-3">
+                          <a href="javascript:void(0)" class="btn-get-started pl-3 pr-3 pt-1 pb-1">View and Apply</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="nav-closed" role="tabpanel" aria-labelledby="nav-closed-tab">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                  <div class="job-inner-box">
+                    <div class="job-content d-flex flex-wrap">
+                      <div class="related-brand jobbrand text-left">
+                        <figure>
+                          <img src="assets/img/14.png">
+                        </figure>
+                      </div>
+                      <div class="job-content-rht">
+                        <h4>Cybersecurity Application</h4>
+                        <p>A company building a next generation Cybersecurity application is booking for a Project
+                          Manager to lead the build of their dashboard.</p>
+                        <ul class="job-cont-type">
+                          <li><i class='bx bx-briefcase'></i> Project Manager</li>
+                          <li><i class='bx bx-compass'></i>Freelance/Contract</li>
+                          <li><i class='bx bx-world'></i> US</li>
+                          <li><i class='bx bx-calendar-week'></i> Mid-term (3-6 Months) 20 hrs/wk</li>
+                          <li><i class='bx bx-time'></i> Posted 8 hours ago</li>
+                        </ul>
+                        <div class="d-flex flex-wrap justify-content-end mt-3">
+                          <a href="javascript:void(0)" class="btn-get-started pl-3 pr-3 pt-1 pb-1">View and Apply</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-12">
+                  <div class="job-inner-box">
+                    <div class="job-content d-flex flex-wrap">
+                      <div class="related-brand jobbrand text-left">
+                        <figure>
+                          <img src="assets/img/14.png">
+                        </figure>
+                      </div>
+                      <div class="job-content-rht">
+                        <h4>Cybersecurity Application</h4>
+                        <p>A company building a next generation Cybersecurity application is booking for a Project
+                          Manager to lead the build of their dashboard.</p>
+                        <ul class="job-cont-type">
+                          <li><i class='bx bx-briefcase'></i> Project Manager</li>
+                          <li><i class='bx bx-compass'></i>Freelance/Contract</li>
+                          <li><i class='bx bx-world'></i> US</li>
+                          <li><i class='bx bx-calendar-week'></i> Mid-term (3-6 Months) 20 hrs/wk</li>
+                          <li><i class='bx bx-time'></i> Posted 8 hours ago</li>
+                        </ul>
+                        <div class="d-flex flex-wrap justify-content-end mt-3">
+                          <a href="javascript:void(0)" class="btn-get-started pl-3 pr-3 pt-1 pb-1">View and Apply</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!--Footer-->
+<app-footer></app-footer>
