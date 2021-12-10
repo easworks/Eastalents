@@ -1,0 +1,59 @@
+@media screen and (max-width: 679px) {
+  #header .logo img {
+    max-height: 40px;
+    width: 130px;
+  }
+  .get-started-btn {
+    margin: 0 38px 0 0;
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+  .mobile-nav-toggle {
+    right: 6px;
+  }
+  .mobile-nav-toggle i {
+    font-size: 26px;
+    color: #adadad;
+  }
+  .signin-btn {
+    font-size: 12px;
+  }
+  #banner-here {
+    height: 100%;
+  }
+  .btn-get-started {
+    padding: 8px 7px 8px 11px;
+  }
+  section {
+    padding: 60px 12px;
+  }
+  .sec-title .first-half {
+    max-width: 100%;
+    flex: auto;
+    padding-right: 0px;
+    border-right: none;
+  }
+  .sec-title .last-half {
+    padding-left: 0px;
+    max-width: 100%;
+    flex: auto;
+  }
+  .btn-common-border {
+    padding: 8px 12px 8px 12px;
+  }
+  .app-support-type .app-support-list{
+    padding: 12px 8px;
+    margin-right: 6px;
+  }
+  .contact-form-group.cfg-skills{
+    width: 100%;
+    margin-right: 0px;
+    margin-bottom: 12px;
+  }
+  .plat-items::before{
+      display: none;
+  }
+  .signup-talent-img{
+      width: 100%;
+  }
+}
