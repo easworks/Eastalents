@@ -1,118 +1,122 @@
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-import { AeRolesComponent } from "./ae-roles/ae-roles.component";
-import { ApplicationListComponent } from "./application-list/application-list.component";
-import { EmploerJobpostingEditComponent } from "./emploer-jobposting-edit/emploer-jobposting-edit.component";
-import { EmploerJobpostingViewComponent } from "./emploer-jobposting-view/emploer-jobposting-view.component";
-import { EmploerQuestionComponent } from "./emploer-question/emploer-question.component";
-import { EmploerSignUpComponent } from "./emploer-sign-up/emploer-sign-up.component";
-import { FooterComponent } from "./footer/footer.component";
-import { GetHiredComponent } from "./get-hired/get-hired.component";
-import { HeaderComponent } from "./header/header.component";
-import { HowComponent } from "./how/how.component";
-import { IndexComponent } from "./index/index.component";
-import { InnovationComponent } from "./innovation/innovation.component";
-import { InterviewListComponent } from "./interview-list/interview-list.component";
-import { ProfileComponent } from "./profile/profile.component";
-import { ResetPasswordComponent } from "./reset-password/reset-password.component";
-import { SignInComponent } from "./sign-in/sign-in.component";
-import { SignUpComponent } from "./sign-up/sign-up.component";
-import { TalentProfileEditComponent } from "./talent-profile-edit/talent-profile-edit.component";
-import { TalentProfileViewComponent } from "./talent-profile-view/talent-profile-view.component";
-import { TalentQuestionComponent } from "./talent-question/talent-question.component";
-import { TalentComponent } from "./talent/talent.component";
-import { WhyEastalentComponent } from "./why-easworks/why-easworks.component";
-import { WorkSkillsComponent } from "./work-skills/work-skills.component";
-import { YourJobsComponent } from "./your-jobs/your-jobs.component";
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { AeRolesComponent } from './ae-roles/ae-roles.component';
+import { ApplicationListComponent } from './application-list/application-list.component';
+import { EmploerJobpostingEditComponent } from './emploer-jobposting-edit/emploer-jobposting-edit.component';
+import { EmploerJobpostingViewComponent } from './emploer-jobposting-view/emploer-jobposting-view.component';
+import { EmploerQuestionComponent } from './emploer-question/emploer-question.component';
+import { EmploerSignUpComponent } from './emploer-sign-up/emploer-sign-up.component';
+import { FooterComponent } from './footer/footer.component';
+import { GetHiredComponent } from './get-hired/get-hired.component';
+import { HeaderComponent } from './header/header.component';
+import { HowComponent } from './how/how.component';
+import { IndexComponent } from './index/index.component';
+import { InnovationComponent } from './innovation/innovation.component';
+import { InterviewListComponent } from './interview-list/interview-list.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { TalentProfileEditComponent } from './talent-profile-edit/talent-profile-edit.component';
+import { TalentProfileViewComponent } from './talent-profile-view/talent-profile-view.component';
+import { TalentQuestionComponent } from './talent-question/talent-question.component';
+import { TalentComponent } from './talent/talent.component';
+import { WhyEastalentComponent } from './why-easworks/why-easworks.component';
+import { WorkSkillsComponent } from './work-skills/work-skills.component';
+import { YourJobsComponent } from './your-jobs/your-jobs.component';
 
 const routes: Routes = [
   {
-    path: "index",
+    path: 'index',
     component: IndexComponent,
   },
   {
-    path: "AEroles",
+    path: 'AEroles',
     component: AeRolesComponent,
   },
   {
-    path: "EmployerJobpostingedit",
+    path: 'EmployerJobpostingedit',
     component: EmploerJobpostingEditComponent,
   },
   {
-    path: "EmployerJobpostingview",
+    path: 'EmployerJobpostingview',
     component: EmploerJobpostingViewComponent,
   },
   {
-    path: "Employer-question",
+    path: 'Employer-question',
     component: EmploerQuestionComponent,
   },
   {
-    path: "Employer-Signup",
+    path: 'Employer-Signup',
     component: EmploerSignUpComponent,
   },
   {
-    path: "ApplicationConsultant",
+    path: 'ApplicationConsultant',
     component: ApplicationListComponent,
   },
   {
-    path: "GetHired",
+    path: 'GetHired',
     component: GetHiredComponent,
   },
   {
-    path: "How",
+    path: 'How',
     component: HowComponent,
   },
   {
-    path: "Innovation",
+    path: 'Innovation',
     component: InnovationComponent,
   },
   {
-    path: "Interview-List",
+    path: 'Interview-List',
     component: InterviewListComponent,
   },
   {
-    path: "profile",
+    path: 'profile',
     component: ProfileComponent,
   },
   {
-    path: "reset-password",
+    path: 'reset-password',
     component: ResetPasswordComponent,
   },
   {
-    path: "Sign-In",
+    path: 'signin',
     component: SignInComponent,
   },
   {
-    path: "Sign-Up",
+    path: 'signup',
     component: SignUpComponent,
   },
   {
-    path: "Talent",
+    path: 'talent',
     component: TalentComponent,
   },
   {
-    path: "Talent-Profile-Edit",
+    path: 'Talent-Profile-Edit',
     component: TalentProfileEditComponent,
   },
   {
-    path: "Talent-Profile-View",
+    path: 'Talent-Profile-View',
     component: TalentProfileViewComponent,
   },
   {
-    path: "Talent-Question",
+    path: 'talentquestion',
     component: TalentQuestionComponent,
   },
   {
-    path: "WhyEasworks",
+    path: 'WhyEasworks',
     component: WhyEastalentComponent,
   },
   {
-    path: "Work-Skills",
+    path: 'Work-Skills',
     component: WorkSkillsComponent,
   },
   {
-    path: "Your-Jobs",
+    path: 'Your-Jobs',
     component: YourJobsComponent,
+  },
+  {
+    path: '',
+    component: IndexComponent,
   },
 ];
 

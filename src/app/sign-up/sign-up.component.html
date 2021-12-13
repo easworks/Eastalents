@@ -10,7 +10,7 @@
               <div class="tabs-view">
                 <ul class="customer-type d-flex">
                   <li class="customer-list">
-                    <a class="active" [routerLink]="['/Sign-Up']">Talent</a>
+                    <a class="active" [routerLink]="['/signup']">Talent</a>
                   </li>
                   <li class="customer-list">
                     <a [routerLink]="['/Employer-Signup']">Employer</a>
@@ -21,14 +21,14 @@
                   <p class="login-te-para">The World's Top Talent Enterprise Application Network & work with world's
                     leading Companies</p>
                   <div class="job-firsttabs" id="firsttab">
-                    <form>
+                    <form [formGroup]="signUpForm" novalidate>
                       <div class="row">
                         <div class="col-lg-6 col-md-6 col-12">
                           <div class="login-form-group">
                             <label class="label-text">First Name</label>
                             <div class="login-form-input">
-                              <input type="text" placeholder="First Name" class="inputview" />
-                              <span class="error-message d-none">Please enter your Fullname</span>
+                              <input type="text" placeholder="First Name" class="inputview" formControlName="firstName" />
+                              <span class="error-message" *ngIf="submitted && signUpFormControl.firstName.errors">Please enter your first name</span>
                               <i class='bx bxs-user i-icons'></i>
                             </div>
                           </div>
@@ -37,8 +37,8 @@
                           <div class="login-form-group">
                             <label class="label-text">Last Name</label>
                             <div class="login-form-input">
-                              <input type="text" placeholder="Last Name" class="inputview" />
-                              <span class="error-message d-none">Please enter your Lastname</span>
+                              <input type="text" placeholder="Last Name" class="inputview" formControlName="lastName" />
+                              <span class="error-message" *ngIf="submitted && signUpFormControl.lastName.errors">Please enter your last name</span>
                               <i class='bx bxs-user i-icons'></i>
                             </div>
                           </div>
@@ -47,8 +47,11 @@
                           <div class="login-form-group">
                             <label class="label-text">Email Id</label>
                             <div class="login-form-input">
-                              <input type="text" placeholder="Email Address" class="inputview" />
-                              <span class="error-message d-none">Please enter your email ID</span>
+                              <input type="text" placeholder="Email Address" class="inputview" formControlName="email" />
+                              <div *ngIf="submitted && signUpFormControl.email.errors">
+                                  <span class="error-message" *ngIf="signUpFormControl.email.errors.required">Email is required</span>
+                                  <span class="error-message" *ngIf="signUpFormControl.email.errors.pattern">Email must be a valid email address</span>
+                              </div>
                               <i class='icofont-email i-icons'></i>
                             </div>
                           </div>
@@ -57,8 +60,11 @@
                           <div class="login-form-group">
                             <label class="label-text">Password</label>
                             <div class="login-form-input">
-                              <input type="password" placeholder="Password" class="inputview" />
-                              <span class="error-message  d-none">Please enter your Password</span>
+                              <input type="password" placeholder="Password" class="inputview" formControlName="password" />
+                              <div *ngIf="submitted && signUpFormControl.password.errors">
+                                <span class="error-message" *ngIf="signUpFormControl.password.errors.required">Please enter the password</span>
+                                <span class="error-message" *ngIf="signUpFormControl.password.errors.pattern">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character:</span>
+                              </div>
                               <i class='bx bxs-lock-alt i-icons'></i>
                             </div>
                           </div>
@@ -67,8 +73,12 @@
                           <div class="login-form-group">
                             <label class="label-text">Confirm Password</label>
                             <div class="login-form-input">
-                              <input type="password" placeholder="Confirm Password" class="inputview" />
-                              <span class="error-message  d-none">Please enter your Confirm Password</span>
+                              <input type="password" placeholder="Confirm Password" class="inputview" formControlName="confirmPassword" />
+                              <div *ngIf="submitted && signUpFormControl.confirmPassword.errors">
+                                <span class="error-message" *ngIf="signUpFormControl.confirmPassword.errors.required">Please enter the confirm password</span>
+                                <span class="error-message" *ngIf="signUpFormControl.confirmPassword.errors.mustMatch">Password must match</span>
+                                <!-- <span class="error-message" *ngIf="signUpFormControl.confirmPassword.errors.pattern">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character:</span> -->
+                              </div>
                               <i class='bx bxs-lock-alt i-icons'></i>
                             </div>
                           </div>
@@ -76,7 +86,7 @@
                         <div class="col-lg-12 col-md-12 col-12">
                           <div class="login-form-group">
                             <div class="checkbox-group">
-                              <input type="checkbox" id="terms-condition" />
+                              <input type="checkbox" id="terms-condition" formControlName='acceptTerms' />
                               <label for="terms-condition">You acknowledge that the EASWORKS screening process is
                                 confidential
                                 and that you will not
@@ -85,11 +95,12 @@
                                   href="javascript:void(0)">Privacy Policy</a> and <a href="javascript:void(0)">Cookie
                                   Policy</a></label>
                             </div>
+                            <div *ngIf="submitted && signUpFormControl.acceptTerms.errors" class="error-message">Accept Terms is required</div>
                           </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-12">
                           <div class="login-form-group">
-                            <button type="button" class="loginbtn">Get Started</button>
+                            <button type="button" class="loginbtn" (click)="getStarted()">Get Started</button>
                           </div>
                         </div>
                       </div>
