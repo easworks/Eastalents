@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { pattern, roles } from '../app.settings';
 import { MustMatch } from '../_helpers/must-match.validator';
-import { SignUpModel } from '../_models';
+import { ApiResponse, SignUpModel } from '../_models';
 import { HttpService } from '../_services/http.service';
 import { ToasterService } from '../_services/toaster.service';
 
@@ -47,13 +47,13 @@ export class SignUpComponent implements OnInit {
     if (this.signUpForm.invalid) {
       return;
     }
-    this.httpService.post(`users/signup`, this.signUpForm.value).subscribe((response: any) => {
-      if (response.status) {
-        this.toaster.success('SignUp Successful');
+    this.httpService.post(`users/signup`, this.signUpForm.value).subscribe((response: ApiResponse<any>) => {
+      if (!response.error) {
+        this.toaster.success(`${response.message}`);
         this.signUpForm.reset();
-        setTimeout(() => {
-          this.router.navigate(['/talentquestion']);
-        }, 1000);
+        this.submitted = false;
+      } else {
+        this.toaster.error(`${response.message}`);
       }
     });
   }

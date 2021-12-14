@@ -15,12 +15,14 @@ import { InnovationComponent } from './innovation/innovation.component';
 import { InterviewListComponent } from './interview-list/interview-list.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { TalentProfileEditComponent } from './talent-profile-edit/talent-profile-edit.component';
 import { TalentProfileViewComponent } from './talent-profile-view/talent-profile-view.component';
 import { TalentQuestionComponent } from './talent-question/talent-question.component';
 import { TalentComponent } from './talent/talent.component';
+import { VerificationComponent } from './verification/verification.component';
 import { WhyEastalentComponent } from './why-easworks/why-easworks.component';
 import { WorkSkillsComponent } from './work-skills/work-skills.component';
 import { YourJobsComponent } from './your-jobs/your-jobs.component';
@@ -29,6 +31,22 @@ const routes: Routes = [
   {
     path: 'index',
     component: IndexComponent,
+  },
+  {
+    path: 'verification/:token',
+    component: VerificationComponent,
+  },
+  {
+    path: 'verification',
+    component: VerificationComponent,
+  },
+  {
+    path: 'setnewpassword/:token',
+    component: SetNewPasswordComponent,
+  },
+  {
+    path: 'setnewpassword',
+    component: SetNewPasswordComponent,
   },
   {
     path: 'AEroles',
@@ -100,7 +118,7 @@ const routes: Routes = [
   },
   {
     path: 'talentquestion',
-    component: TalentQuestionComponent,
+    component: TalentQuestionComponent, // Get Started
   },
   {
     path: 'WhyEasworks',

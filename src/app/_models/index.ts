@@ -8,6 +8,8 @@ export interface SignUpModel {
 
 
 export interface ApiResponse<T> {
-    status?: string;
+    error?: boolean;
+    status?: boolean;
     message?: string;
+    result?: T;
 }

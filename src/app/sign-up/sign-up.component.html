@@ -50,7 +50,7 @@
                               <input type="text" placeholder="Email Address" class="inputview" formControlName="email" />
                               <div *ngIf="submitted && signUpFormControl.email.errors">
                                   <span class="error-message" *ngIf="signUpFormControl.email.errors.required">Email is required</span>
-                                  <span class="error-message" *ngIf="signUpFormControl.email.errors.pattern">Email must be a valid email address</span>
+                                  <span class="error-message" *ngIf="signUpFormControl.email.errors.pattern">Please enter the valid email address</span>
                               </div>
                               <i class='icofont-email i-icons'></i>
                             </div>

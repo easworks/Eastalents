@@ -29,9 +29,12 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { VerificationComponent } from './verification/verification.component';
+import { HttpAuthInterceptor } from './_helpers/http-auth.interceptor';
+import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +63,8 @@ import { ToastrModule } from 'ngx-toastr';
     YourJobsComponent,
     FooterComponent,
     HeaderComponent,
+    VerificationComponent,
+    SetNewPasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,7 +76,7 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpAuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
