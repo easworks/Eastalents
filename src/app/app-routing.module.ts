@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AeRolesComponent } from './ae-roles/ae-roles.component';
 import { ApplicationListComponent } from './application-list/application-list.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 import { EmploerJobpostingEditComponent } from './emploer-jobposting-edit/emploer-jobposting-edit.component';
 import { EmploerJobpostingViewComponent } from './emploer-jobposting-view/emploer-jobposting-view.component';
 import { EmploerQuestionComponent } from './emploer-question/emploer-question.component';
@@ -47,6 +48,10 @@ const routes: Routes = [
   {
     path: 'setnewpassword',
     component: SetNewPasswordComponent,
+  },
+  {
+    path: 'change-password',
+    component: ChangePasswordComponent,
   },
   {
     path: 'AEroles',

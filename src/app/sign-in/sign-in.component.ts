@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { pattern } from '../app.settings';
 import { ApiResponse } from '../_models';
 import { HttpService } from '../_services/http.service';
+import { SessionService } from '../_services/session.service';
 import { ToasterService } from '../_services/toaster.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class SignInComponent implements OnInit {
   submitted = false;
   signInForm!: FormGroup;
   constructor(private formBuilder: FormBuilder, private toaster: ToasterService,
-              private httpService: HttpService, private router: Router) { }
+              private sessionService: SessionService, private httpService: HttpService, private router: Router) { }
 
   ngOnInit(): void {
     this.initSignInForm();
@@ -43,6 +44,7 @@ export class SignInComponent implements OnInit {
     };
     this.httpService.post('users/login', params).subscribe((response: ApiResponse<any>) => {
       if (response.status) {
+        this.sessionService.setLocalStorageCredentials(response.result.user);
         this.signInForm.reset();
         this.submitted = false;
         this.router.navigate(['/talentquestion']);

@@ -6,6 +6,17 @@ export interface SignUpModel {
     userRole?: string;
 }
 
+export interface CurrentUserModel {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    password?: string;
+    role?: string;
+    token?: any;
+    activate?: number;
+    _id?: any;
+}
+
 
 export interface ApiResponse<T> {
     error?: boolean;

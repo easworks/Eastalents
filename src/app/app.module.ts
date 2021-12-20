@@ -35,6 +35,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { VerificationComponent } from './verification/verification.component';
 import { HttpAuthInterceptor } from './_helpers/http-auth.interceptor';
 import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { SetNewPasswordComponent } from './set-new-password/set-new-password.com
     HeaderComponent,
     VerificationComponent,
     SetNewPasswordComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,
