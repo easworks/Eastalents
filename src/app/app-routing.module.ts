@@ -22,6 +22,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { TalentProfileEditComponent } from './talent-profile-edit/talent-profile-edit.component';
 import { TalentProfileViewComponent } from './talent-profile-view/talent-profile-view.component';
 import { TalentQuestionComponent } from './talent-question/talent-question.component';
+import { TalentQuizQuestionComponent } from './talent-quiz-question/talent-quiz-question.component';
 import { TalentComponent } from './talent/talent.component';
 import { VerificationComponent } from './verification/verification.component';
 import { WhyEastalentComponent } from './why-easworks/why-easworks.component';
@@ -126,6 +127,10 @@ const routes: Routes = [
     component: TalentQuestionComponent, // Get Started
   },
   {
+    path: 'talentquizquestion',
+    component: TalentQuizQuestionComponent, // Get Started
+  },
+  {
     path: 'WhyEasworks',
     component: WhyEastalentComponent,
   },
@@ -147,4 +152,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

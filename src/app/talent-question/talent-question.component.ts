@@ -12,4 +12,11 @@ export class TalentQuestionComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  public currentPage = 0;
+  public width = 0;
+  public changePage(index: number): void {
+    this.currentPage += index;
+    this.width = (this.currentPage / 33) * 100;
+  }
+
 }
