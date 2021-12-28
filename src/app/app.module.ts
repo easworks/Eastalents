@@ -36,6 +36,7 @@ import { VerificationComponent } from './verification/verification.component';
 import { HttpAuthInterceptor } from './_helpers/http-auth.interceptor';
 import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { TalentQuizQuestionComponent } from './talent-quiz-question/talent-quiz-question.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     VerificationComponent,
     SetNewPasswordComponent,
     ChangePasswordComponent,
+    TalentQuizQuestionComponent,
   ],
   imports: [
     BrowserModule,
