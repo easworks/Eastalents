@@ -53,9 +53,9 @@
                     <div class="fw-input-selectlist  mt-4">
                       <!--Input-->
                       <div class="multi-select-dropdown">
-                        <ul class="multiselectUlLIst p-0">
+                        <ul *ngFor="let item of primaryEnterpriseApplication; index as i;" class="multiselectUlLIst p-0">
                           <li class="dropdown-select">
-                            <label>PLM</label>
+                            <label>{{item}}</label>
                             <div class="description ml-3">
                               <span>- No of Years</span>
                               <input type="text" class="w-20">
@@ -73,9 +73,9 @@
                       <!--Input-->
                     </div>
 
-                    <ul class="form-wizard-type mt-3  d-flex flex-wrap">
+                    <ul class="form-wizard-type mt-3 d-flex flex-wrap">
                       <li>
-                        <a href="javascript:void(0)">ERP</a>
+                        <a href="javascript:void(0)" >ERP</a>
                       </li>
                       <li>
                         <a href="javascript:void(0)">PLM</a>

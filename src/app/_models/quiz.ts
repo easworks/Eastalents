@@ -6,7 +6,7 @@ export class Quiz {
     name: string = "";
     description: string = "";
     config: QuizConfig = new QuizConfig(null);
-    questions: Question[] = [];
+    questionData: Question[] = [];
 
     constructor(data: any) {
         if (data) {
@@ -14,9 +14,9 @@ export class Quiz {
             this.name = data.question;
             this.description = data.description;
             this.config = new QuizConfig(data.config);
-            this.questions = [];
+            this.questionData = [];
             data.questions.forEach((q: any) => {
-                this.questions.push(new Question(q));
+                this.questionData.push(new Question(q));
             });
         }
     }

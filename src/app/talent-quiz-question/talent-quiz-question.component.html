@@ -35,16 +35,16 @@
             <div *ngIf="mode=='quiz' && quiz" class="question-steps">
               <div *ngFor="let question of filteredQuestions;">
                 <div class="badge badge-info">Question {{pager.index + 1}} of {{pager.count}}.</div>
-                <!-- <div *ngIf="config.duration" class="badge badge-info float-right">Time: {{ellapsedTime}} / {{duration}}
-              </div> -->
+                <div *ngIf="config.duration" class="badge badge-info float-right">Time: {{ellapsedTime}} / {{duration}}
+                </div>
                 <h2 class="main-question">{{pager.index + 1}}.
                   <span [innerHTML]="question.name"></span>
                 </h2>
                 <div class="row text-left form-wizard-answer options">
-                  <div class="col-6" *ngFor="let option of question.options">
+                  <div class="col-6" *ngFor="let option of question.optionsWithAnswers">
                     <div class="option">
                       <label class="font-weight-normal" [attr.for]="option.id">
-                        <input id="{{option.id}}" type="checkbox" [(ngModel)]="option.selected"
+                        <input id="{{option.id}}" type="checkbox" [(ngModel)]="option.attempt"
                           (change)="onSelect(question, option);" /> {{option.name}}
                       </label>
                     </div>
@@ -60,17 +60,17 @@
               <pagination *ngIf="config.showPager" direction-links="false" total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></pagination>
             </div> -->
 
-
-              <div class="quiz-bttn-group border-top pt-3">
-                <button type="button" class="btn-common-border" *ngIf="config.allowBack"
-                  (click)="goTo(pager.index - 1);">Previous</button>
-                <div class="next-skip">
-                  <button type="button" class="btn-common-border d-none">Skip</button>
-                  <button type="button" class="btn-common-border nextbtn" (click)="goTo(pager.index + 1);">Next</button>
-                </div>
-
+            </div>
+            <div class="quiz-bttn-group border-top pt-3">
+              <button type="button" class="btn-common-border" *ngIf="config.allowBack"
+                (click)="goTo(pager.index - 1);" >Previous</button>
+              <div class="next-skip">
+                <button type="button" class="btn-common-border d-none">Skip</button>
+                <button type="button" class="btn-common-border nextbtn" *ngIf="(pager.index + 1) < pager.count"
+                  (click)="goTo(pager.index + 1);">Next</button>
+                <button type="button" class="btn-common-border nextbtn" *ngIf="(pager.index + 1) == pager.count"
+                  (click)="onSubmit();">Finish</button>
               </div>
-
 
             </div>
           </div>
