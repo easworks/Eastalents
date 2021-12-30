@@ -37,6 +37,7 @@ import { HttpAuthInterceptor } from './_helpers/http-auth.interceptor';
 import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { TalentQuizQuestionComponent } from './talent-quiz-question/talent-quiz-question.component';
+import { TalentQuestionDynamicComponent } from './talent-question/talent-question-dynamic-step/talent-question-dynamic.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { TalentQuizQuestionComponent } from './talent-quiz-question/talent-quiz-
     SetNewPasswordComponent,
     ChangePasswordComponent,
     TalentQuizQuestionComponent,
+    TalentQuestionDynamicComponent
   ],
   imports: [
     BrowserModule,

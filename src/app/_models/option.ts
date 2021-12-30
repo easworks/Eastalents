@@ -1,16 +1,16 @@
 export class Option {
     id: number;
-    questionId: number;
+    // questionId: number;
     name: string;
-    isAnswer: boolean;
+    answer: boolean;
     attempt: boolean;
 
     constructor(data: any) {
         data = data || {};
         this.id = data.id;
-        this.questionId = data.questionId;
+        // this.questionId = data.questionId;
         this.name = data.option;
-        this.isAnswer = data.answer;
+        this.answer = data.answer;
         this.attempt = data.attempt;
     }
 }

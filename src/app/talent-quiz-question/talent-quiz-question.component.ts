@@ -7,6 +7,8 @@ import { Quiz } from '../_models/quiz';
 import { QuizConfig } from '../_models/quiz-config';
 import { HttpService } from '../_services/http.service';
 import { ApiResponse } from '../_models';
+import { ToasterService } from '../_services/toaster.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-talent-question',
@@ -48,11 +50,13 @@ export class TalentQuizQuestionComponent implements OnInit {
   duration = '';
 
   constructor(private quizService: QuizService,
+    private router: Router,
+    private toaster: ToasterService,
     private httpService: HttpService) { }
 
   ngOnInit() {
-    this.quizes = this.quizService.getAll();
-    this.quizName = this.quizes[0].id;
+    //this.quizes = this.quizService.getAll();
+    //this.quizName = this.quizes[0].id;
     this.loadQuiz(this.quizName);
   }
 
@@ -70,6 +74,7 @@ export class TalentQuizQuestionComponent implements OnInit {
     this.httpService.get('questions/getLatestQuestions').subscribe((response: ApiResponse<any>) => {
       if (response.status) {
         this.questionResp = response;
+        console.log(this.questionResp);
         this.quiz = new Quiz(response);
         this.pager.count = this.quiz.questionData.length;
         this.startTime = new Date();
@@ -80,9 +85,6 @@ export class TalentQuizQuestionComponent implements OnInit {
     }, (error) => {
       console.log(error);
     });
-
-
-
 
     this.mode = 'quiz';
   }
@@ -110,9 +112,9 @@ export class TalentQuizQuestionComponent implements OnInit {
   }
 
   onSelect(question: Question, option: Option) {
-    if (question.questionTypeId === 1) {
-      question.optionsWithAnswers.forEach((x) => { if (x.id !== option.id) x.attempt = false; });
-    }
+    // if (question.questionTypeId === 1) {
+    //   question.optionsWithAnswers.forEach((x) => { if (x.id !== option.id) x.attempt = false; });
+    // }
 
     if (this.config.autoMove) {
       this.goTo(this.pager.index + 1);
@@ -131,7 +133,7 @@ export class TalentQuizQuestionComponent implements OnInit {
   };
 
   isCorrect(question: Question) {
-    return question.optionsWithAnswers.every(x => x.attempt === x.isAnswer) ? 'correct' : 'wrong';
+    return question.optionsWithAnswers.every(x => x.attempt === x.answer) ? 'correct' : 'wrong';
   };
 
   onSubmit() {
@@ -140,6 +142,16 @@ export class TalentQuizQuestionComponent implements OnInit {
 
     // Post your data to the server here. answers contains the questionId and the users' answer.
     console.log(this.quiz.questionData);
-    this.mode = 'result';
+    this.httpService.post('questions/giveTest', this.quiz).subscribe((response: ApiResponse<any>) => {
+      console.log(response);
+      if (response.status) {
+        this.toaster.success(`${response.message}`);
+        setTimeout(() => {
+          this.router.navigate(['/score-analysis']);
+        }, 3000);
+      }
+    }, (error) => {
+      console.log(error);
+    });
   }
 }

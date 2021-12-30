@@ -10,10 +10,10 @@ export class Quiz {
 
     constructor(data: any) {
         if (data) {
-            this.id = data.id;
-            this.name = data.question;
-            this.description = data.description;
-            this.config = new QuizConfig(data.config);
+            // this.id = data.id;
+            // this.name = data.question;
+            // this.description = data.description;
+            // this.config = new QuizConfig(data.config);
             this.questionData = [];
             data.questions.forEach((q: any) => {
                 this.questionData.push(new Question(q));
