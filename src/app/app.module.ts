@@ -40,6 +40,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { TalentQuizQuestionComponent } from './talent-quiz-question/talent-quiz-question.component';
 import { ScoreAnalysisComponent } from './score-analysis/score-analysis.component';
 import { QuestionSectionComponent } from './question-section/question-section.component';
+import { QuantitativeAppComponent } from './quantitative-app/quantitative-app.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { QuestionSectionComponent } from './question-section/question-section.co
     TalentQuizQuestionComponent,
     ScoreAnalysisComponent,
     QuestionSectionComponent,
+    QuantitativeAppComponent,
   ],
   imports: [
     BrowserModule,
