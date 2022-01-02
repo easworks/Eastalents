@@ -16,6 +16,7 @@ import { InnovationComponent } from './innovation/innovation.component';
 import { InterviewListComponent } from './interview-list/interview-list.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ScoreAnalysisComponent } from './score-analysis/score-analysis.component';
 import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
@@ -125,6 +126,10 @@ const routes: Routes = [
   {
     path: 'talentquestion',
     component: TalentQuestionComponent, // Get Started
+  },
+  {
+    path: 'score-analysis',
+    component: ScoreAnalysisComponent, // Get Started
   },
   {
     path: 'talentquizquestion',

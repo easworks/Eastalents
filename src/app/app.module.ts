@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { GaugeChartModule } from 'angular-gauge-chart';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IndexComponent } from './index/index.component';
@@ -37,6 +38,8 @@ import { HttpAuthInterceptor } from './_helpers/http-auth.interceptor';
 import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { TalentQuizQuestionComponent } from './talent-quiz-question/talent-quiz-question.component';
+import { ScoreAnalysisComponent } from './score-analysis/score-analysis.component';
+import { QuestionSectionComponent } from './question-section/question-section.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +72,8 @@ import { TalentQuizQuestionComponent } from './talent-quiz-question/talent-quiz-
     SetNewPasswordComponent,
     ChangePasswordComponent,
     TalentQuizQuestionComponent,
+    ScoreAnalysisComponent,
+    QuestionSectionComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,6 +83,7 @@ import { TalentQuizQuestionComponent } from './talent-quiz-question/talent-quiz-
     CommonModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    GaugeChartModule,
     ToastrModule.forRoot()
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpAuthInterceptor, multi: true }],
