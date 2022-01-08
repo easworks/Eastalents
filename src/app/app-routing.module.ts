@@ -16,6 +16,7 @@ import { InnovationComponent } from './innovation/innovation.component';
 import { InterviewListComponent } from './interview-list/interview-list.component';
 import { ProfileComponent } from './profile/profile.component';
 import { QuantitativeAppComponent } from './quantitative-app/quantitative-app.component';
+import { QuesCongratulationComponent } from './ques-congratulation/ques-congratulation.component';
 import { QuestionSectionComponent } from './question-section/question-section.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ScoreAnalysisComponent } from './score-analysis/score-analysis.component';
@@ -156,6 +157,10 @@ const routes: Routes = [
   {
     path: 'quantitative-app',
     component:QuantitativeAppComponent,
+  },
+  {
+    path: 'ques-congratulation',
+    component:QuesCongratulationComponent,
   },
   {
     path: '',

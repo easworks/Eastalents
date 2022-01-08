@@ -41,6 +41,7 @@ import { TalentQuizQuestionComponent } from './talent-quiz-question/talent-quiz-
 import { ScoreAnalysisComponent } from './score-analysis/score-analysis.component';
 import { QuestionSectionComponent } from './question-section/question-section.component';
 import { QuantitativeAppComponent } from './quantitative-app/quantitative-app.component';
+import { QuesCongratulationComponent } from './ques-congratulation/ques-congratulation.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { QuantitativeAppComponent } from './quantitative-app/quantitative-app.co
     ScoreAnalysisComponent,
     QuestionSectionComponent,
     QuantitativeAppComponent,
+    QuesCongratulationComponent,
   ],
   imports: [
     BrowserModule,
