@@ -41,6 +41,7 @@ import { TalentQuizQuestionComponent } from './talent-quiz-question/talent-quiz-
 import { ScoreAnalysisComponent } from './score-analysis/score-analysis.component';
 import { QuestionSectionComponent } from './question-section/question-section.component';
 import { QuantitativeAppComponent } from './quantitative-app/quantitative-app.component';
+import { QuesCongratulationComponent } from './ques-congratulation/ques-congratulation.component';
 import { TalentQuestionDynamicComponent } from './talent-question/talent-question-dynamic-step/talent-question-dynamic.component';
 
 @NgModule({
@@ -74,6 +75,10 @@ import { TalentQuestionDynamicComponent } from './talent-question/talent-questio
     SetNewPasswordComponent,
     ChangePasswordComponent,
     TalentQuizQuestionComponent,
+    ScoreAnalysisComponent,
+    QuestionSectionComponent,
+    QuantitativeAppComponent,
+    QuesCongratulationComponent,
   ],
   imports: [
     BrowserModule,

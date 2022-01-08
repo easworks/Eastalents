@@ -46,6 +46,10 @@ p {
   font: normal 14px/18px Roboto;
   outline: none;
 }
+.textarea{
+  height: 80px;
+  resize: none;
+}
 select {
   cursor: pointer;
 }
@@ -1289,6 +1293,55 @@ footer {
   border-color: #1ba3ff;
 }
 .checkbox-group input[type="checkbox"]:not(:checked) + label::after {
+  opacity: 0;
+}
+
+/*** Feedback Radio Button ***/
+.checkbox-group input[type="radio"] {
+  position: absolute;
+  left: -99999px;
+}
+.checkbox-group input[type="radio"]:checked + label,
+.checkbox-group input[type="radio"]:not(:checked) + label {
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 0;
+  line-height: 20px;
+  font-size: 14px;
+  color: #333e48;
+  width: 100%;
+  padding: 8px 20px 0px 25px;
+}
+.checkbox-group input[type="radio"]:checked + label::before,
+.checkbox-group input[type="radio"]:not(:checked) + label::before {
+  position: absolute;
+  content: "";
+  border: 2px solid #5e6f7d;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  top: 9px;
+  left: 0px;
+}
+.checkbox-group input[type="radio"]:checked + label::after,
+.checkbox-group input[type="radio"]:not(:checked) + label::after {
+  position: absolute;
+  content: "";
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  top: 14px;
+  left: 5px;
+  background: #1ba3ff;
+}
+.checkbox-group input[type="radio"]:checked + label::after {
+  opacity: 1;
+  border-color: #1ba3ff;
+}
+.checkbox-group input[type="radio"]:checked + label::before {
+  border-color: #1ba3ff;
+}
+.checkbox-group input[type="radio"]:not(:checked) + label::after {
   opacity: 0;
 }
 
@@ -4091,6 +4144,13 @@ form #debt-amount-slider label {
   margin-bottom: 20px;
 }
 
+.cong-tickIcon h3{
+  font-size: 16px;
+}
+.cong-tickIcon p{
+  font-size: 13px;
+  color: #646464;
+}
 .qsInstruction-List{
   margin-top: 10px;
 }
@@ -4100,4 +4160,50 @@ form #debt-amount-slider label {
     color: #2e2e2e;
     display: block;
     padding-bottom: 6px;
+}
+.experienceCont{
+  font-size: 13px;
+  color: #646464;
+  text-align: center;
+  margin-top: 10px;
+}
+.feedback-submit{
+  padding: 20px 0px 0px 0px;
+  border-top: 1px solid #ebebeb;
+}
+.feedback-submit li{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 0px 8px 0px;
+}
+.feedback-submit li p{
+  font-size: 14px;
+  color: #000000;
+  margin: 0px 0px 0px 0px;
+}
+.raidobttn-group{
+  display: flex;
+}
+
+.emoji-exp-type li{
+  position: relative;
+  cursor: pointer;
+}
+.emoji-exp-type li:hover .tooltip1{
+  visibility: visible;
+  opacity: 1;
+}
+.tooltip1{
+  background: #000000;
+  font-size: 11px;
+  padding: 3px 12px;
+  border-radius: 3px;
+  color: #ffffff;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 100%;
+  visibility: hidden;
+  opacity: 0;
 }
