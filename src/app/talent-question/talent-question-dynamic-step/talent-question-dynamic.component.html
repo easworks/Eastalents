@@ -2,12 +2,12 @@
 <div class="question-steps" [ngClass]="{'d-none':currentPage!= 2}">
   <h2 class="main-question">Select your Primary Enterprise Application</h2>
   <div class="form-wizard-answer">
-    <div class="fw-input-selectlist  mt-4">
+    <div class="fw-input-selectlist" *ngFor="let field of fieldArray; let i = index">
       <!--Input-->
       <div class="multi-select-dropdown">
         <ul class="multiselectUlLIst p-0">
           <li class="dropdown-select">
-            <label>PST</label>
+            <label>{{field}}</label>
             <div class="description ml-3">
               <span>- No of Years</span>
               <input type="text" class="w-20">
@@ -19,15 +19,15 @@
           </li>
         </ul>
       </div>
-      <button type="button" class="clearbtn">
+      <button type="button" class="clearbtn" (click)="deleteFieldValue(i,field)">
         <i class="icofont-close"></i>
       </button>
       <!--Input-->
     </div>
 
-    <ul class="form-wizard-type mt-3 d-flex flex-wrap">
+    <!-- <ul class="form-wizard-type mt-3 d-flex flex-wrap">
       <li>
-        <a href="javascript:void(0)" >ERP</a>
+        <a href="javascript:void(0)">ERP</a>
       </li>
       <li>
         <a href="javascript:void(0)">PLM</a>
@@ -85,6 +85,12 @@
       </li>
       <li>
         <a href="javascript:void(0)">EAI</a>
+      </li>
+    </ul> -->
+
+    <ul class="form-wizard-type mt-3 d-flex flex-wrap">
+      <li *ngFor="let option of talentOption" (click)="selectOption(option)">
+        <a href="javascript:void(0)"> {{option}}</a>
       </li>
     </ul>
   </div>

@@ -15,7 +15,10 @@ import { IndexComponent } from './index/index.component';
 import { InnovationComponent } from './innovation/innovation.component';
 import { InterviewListComponent } from './interview-list/interview-list.component';
 import { ProfileComponent } from './profile/profile.component';
+import { QuantitativeAppComponent } from './quantitative-app/quantitative-app.component';
+import { QuestionSectionComponent } from './question-section/question-section.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ScoreAnalysisComponent } from './score-analysis/score-analysis.component';
 import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
@@ -127,6 +130,10 @@ const routes: Routes = [
     component: TalentQuestionComponent, // Get Started
   },
   {
+    path: 'score-analysis',
+    component: ScoreAnalysisComponent, // Get Started
+  },
+  {
     path: 'talentquizquestion',
     component: TalentQuizQuestionComponent, // Get Started
   },
@@ -141,6 +148,14 @@ const routes: Routes = [
   {
     path: 'Your-Jobs',
     component: YourJobsComponent,
+  },
+  {
+    path: 'question-section',
+    component: QuestionSectionComponent,
+  },
+  {
+    path: 'quantitative-app',
+    component:QuantitativeAppComponent,
   },
   {
     path: '',

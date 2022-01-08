@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiResponse } from '../_models';
-import { TalentProfileSteps } from '../_models/taltent-profile-steps';
+import { TalentProfileSteps, TalentProfileStepsPost } from '../_models/taltent-profile-steps';
 import { HttpService } from '../_services/http.service';
+import { TalentService } from '../_services/talent.service';
 import { TalentQuestionDynamicComponent } from './talent-question-dynamic-step/talent-question-dynamic.component';
 
 @Component({
@@ -10,28 +11,50 @@ import { TalentQuestionDynamicComponent } from './talent-question-dynamic-step/t
   styleUrls: []
 })
 export class TalentQuestionComponent implements OnInit {
-  profileSteps: any;//TalentProfileSteps = new TalentProfileSteps(null);
+  public currentPage = 0;
+  public width = 0;
+  public primaryEnterpriseApplication: string[] = [];
+  profileSteps: TalentProfileSteps = new TalentProfileSteps(null);
+  talentOption: any;
+  rootTalentObject: any;
+  dyanmicOption: string[] = [];
+  profileStepsPost: TalentProfileStepsPost[] = new Array<TalentProfileStepsPost>();
 
-  constructor(private httpService: HttpService) { }
+  constructor(private httpService: HttpService,
+    private talentService: TalentService) { }
 
   ngOnInit(): void {
     this.httpService.get('talentProfile/getTalentProfileSteps').subscribe((response: ApiResponse<any>) => {
       if (response.status) {
-        console.log(response);
-        this.profileSteps = response;
-        console.log(this.profileSteps);
+        this.rootTalentObject = response
+        let dataValues = []; //For values
+        let dataKeys = []; //For keys
+        for (let key in this.rootTalentObject.talentProfile) {
+          dataValues.push(this.rootTalentObject[key]);
+          dataKeys.push(key);
+        }
+        this.talentOption = dataKeys;
       }
     }, (error) => {
       console.log(error);
     });
   }
 
-  public currentPage = 0;
-  public width = 0;
-  public primaryEnterpriseApplication:string[] = [];
   public changePage(index: number): void {
-    this.currentPage += index;
-    this.width = (this.currentPage / 33) * 100;
+    if (this.currentPage == 2 && this.dyanmicOption.length > 0) {
+      let dyanmicArr: string[] = [];
+      this.dyanmicOption.forEach(element => {
+        for (let key in this.rootTalentObject.talentProfile[element]) {
+          dyanmicArr.push(key);
+        }
+      });
+      this.talentOption = dyanmicArr;
+    }
+    else {
+      this.currentPage += index;
+      this.width = (this.currentPage / 33) * 100;
+    }
+
   }
 
   public storeQuestionData(qty: QuestionEnums, val: string) {
@@ -45,6 +68,15 @@ export class TalentQuestionComponent implements OnInit {
     }
   }
 
+  nextPage(event: string) {
+    this.dyanmicOption.push(event);
+    console.log(this.dyanmicOption);
+  }
+
+  sliceItem(event: string) {
+    this.dyanmicOption.splice(this.dyanmicOption.indexOf(event), 1);
+    console.log(this.dyanmicOption);
+  }
 
 }
 

@@ -30,7 +30,7 @@
             <div class="top-wizard mb-4">
               <span>{{currentPage}} of 32 completed</span>
               <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-              [style.width]="width+'%'">
+                [style.width]="width+'%'">
                 <div class="ui-progress"></div>
               </div>
             </div>
@@ -48,7 +48,8 @@
                 </div>
                 <!--Dynamic Steps-->
 
-                <app-talent-question-dynamic [currentPage]="currentPage" ></app-talent-question-dynamic>
+                <app-talent-question-dynamic [currentPage]="currentPage" [talentOption]="talentOption"
+                  (nextPage)="nextPage($event)" (sliceItem)="sliceItem($event)"></app-talent-question-dynamic>
 
                 <!--Step-2-->
                 <div class="question-steps" [ngClass]="{'d-none':currentPage!= 3}">

@@ -14,3 +14,13 @@ export class TalentProfileSteps {
         }
     }
 }
+
+
+export class TalentProfileStepsPost {
+    step: string = "";
+    stepOption: string = "";
+    constructor() {
+        this.step = "";
+        this.stepOption = "";
+    }
+}

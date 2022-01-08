@@ -3968,3 +3968,136 @@ form #debt-amount-slider label {
   color: #3f48cc;
   border-radius: 4px;
 }
+
+
+
+/** Question Section **/
+.question-section{
+  width: 750px;
+    margin: auto;
+    background: #ffffff;
+    padding: 20px 60px;
+    box-shadow: 0 0 20px 0 #3e1c831a;
+}
+.qs-easlogo {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.qs-easlogo img{
+  width: 140px;
+  height: 100%;
+  object-fit: contain;
+}
+.qsTitle{
+  font-size: 15px;
+  font-weight: 400;
+  color: #2e2e2e;
+  margin-bottom: 6px;
+}
+.qs-table-wraper span{
+  font-size: 13px;
+  font-weight: 400;
+  color: #2e2e2e;
+  display: block;
+}
+.qsTable{
+  width: 100%;
+  table-layout: fixed;
+  margin-top: 12px;
+}
+.qsTable thead tr th{
+  font: normal 14px/22px Roboto;
+  padding:6px 8px;
+  text-align: left;
+  border: 1px solid #e2e2e2;
+  color: #3f48cc;
+}
+.qsTable tbody tr td{
+  font: normal 12px/22px Roboto;
+    padding: 6px 8px;
+    border: 1px solid #e2e2e2;
+    background: #3f48cc05;
+}
+
+.qs-instruction{
+  margin-top: 20px;
+}
+.qsInstruction{
+  margin-top: 12px;
+}
+.qsInstruction li{
+  display: flex;
+  padding-bottom: 20px;
+}
+.qsInstruction li img{
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+.qsInstruction li .qs-code{
+  margin-left: 20px;
+}
+.qsInstruction li .qs-code span{
+  font-size: 13px;
+  font-weight: 500;
+  color: #2e2e2e;
+  display: block;
+  line-height: 14px;
+    margin-bottom: 5px;
+}
+.qsInstruction li .qs-code p{
+  font-size: 13px;
+  font-weight: 400;
+  color: #2e2e2e;
+  display: block;
+  margin-bottom: 0px;
+}
+
+.startbtn{
+  font: 500 13px/18px Roboto;
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 4px;
+  transition: 0.5s;
+  color: #fff;
+  background: #202738;
+  border: none;
+  cursor: pointer;
+}
+.qs-count-section{
+  display: flex;
+  border-top: 1px solid #e2e2e2;
+  border-bottom: 1px solid #e2e2e2;
+}
+.qs-counting{
+  margin-top: 12px;
+}
+.qs-count-section li{
+  font-size: 14px;
+  color: #3f48cc;
+  flex-grow: 1;
+  flex-basis: 0;
+  padding: 4px 5px;
+}
+.ins-title{
+  font-size: 13px;
+  font-weight: 500;
+  color: #2e2e2e;
+  display: block;
+  line-height: 14px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.qsInstruction-List{
+  margin-top: 10px;
+}
+.qsInstruction-List li{
+  font-size: 13px;
+    font-weight: 400;
+    color: #2e2e2e;
+    display: block;
+    padding-bottom: 6px;
+}
