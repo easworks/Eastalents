@@ -895,7 +895,7 @@ section {
   padding: 30px 14px;
   transition: all ease-in-out 0.3s;
   background: #fff;
-  border-radius: 6px;
+  border-radius: 0px 33px 0px 33px;
   box-shadow: 0 0 20px 0 #3e1c831a;
   width: 100%;
   display: flex;
@@ -4029,7 +4029,7 @@ form #debt-amount-slider label {
   width: 750px;
     margin: auto;
     background: #ffffff;
-    padding: 20px 60px;
+    padding: 20px 30px;
     box-shadow: 0 0 20px 0 #3e1c831a;
 }
 .qs-easlogo {
@@ -4206,4 +4206,64 @@ form #debt-amount-slider label {
   bottom: 100%;
   visibility: hidden;
   opacity: 0;
+}
+
+.qs-head{
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ededed;
+  padding-bottom: 6px;
+  justify-content: space-between;
+}
+.qs-head img{
+  width: 110px;
+  height: 100%;
+  object-fit: contain;
+}
+.qs-head h1{
+  color: #1c1b1b;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 18px;
+}
+.assesmentType{
+  margin-top: 10px;
+}
+.assesmentType li{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 6px;
+}
+.asses-candidate{
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+.asses-candidate label{
+  font-size: 13px;
+  color: #7a7a7a;
+  font-weight: 400;
+  margin-bottom: 0px;
+  line-height: 16px;
+}
+.asses-candidate span{
+  font-size: 13px;
+  color: #000000;
+  font-weight: 500;
+  margin-bottom: 0px;
+  display: block;
+  padding-left: 4px;
+  line-height: 16px;
+}
+.score-paragraph{
+  margin-bottom: 0px;
+    background: #f1f1f1;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 2px;
+    text-align: center;
+}
+.score-analysis-section{
+  padding:0px;
 }
