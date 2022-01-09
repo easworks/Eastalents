@@ -30,74 +30,130 @@
     <div class="mt-3">
         <p class="score-paragraph">OVERALL SCORE ANALYSIS</p>
         <section class="score-analysis-section">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-12">
+                    <ul class="assesmentType">
+                        <li>
+                            <div class="asses-candidate">
+                                <label>Candidate Name:</label>
+                                <span>Neha</span>
+                            </div>
+
+                        </li>
+
+                        <li>
+                            <div class="asses-candidate">
+                                <label>Assessment Name:</label>
+                                <span>Sales Manager</span>
+                            </div>
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12 text-center">
+
+                    <div class="gaugeChart">
+                        <rg-gauge-chart [canvasWidth]="canvasWidth" [needleValue]="needleValue"
+                            [centralLabel]="centralLabel" [options]="options" [name]="name" [bottomLabel]="bottomLabel">
+                        </rg-gauge-chart>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12">
+                    <ul class="assesmentType">
+                        <li>
+
+                            <div class="asses-candidate  justify-content-end">
+                                <label>Date:</label>
+                                <span>29-Jan-2020</span>
+                            </div>
+                        </li>
+
+                        <li>
+
+                            <div class="asses-candidate justify-content-end">
+                                <label>Client Name:</label>
+                                <span>INSAAS</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+        </section>
+    </div>
+    <div class="mt-2">
+        <p class="score-paragraph">SCORE ANALYSIS</p>
+        <section class="score-analysis-section score-analysis text-center">
+            <div class="gauge-chart-score gaugeChart">
+                <rg-gauge-chart [canvasWidth]="canvasWidth" [needleValue]="needleValue" [centralLabel]="centralLabel"
+                    [options]="options" [name]="name" [bottomLabel]="bottomLabel"></rg-gauge-chart>
+            </div>
+            <div class="gauge-chart-score gaugeChart">
+                <rg-gauge-chart [canvasWidth]="canvasWidth" [needleValue]="needleValue" [centralLabel]="centralLabel"
+                    [options]="options" [name]="name" [bottomLabel]="bottomLabel"></rg-gauge-chart>
+            </div>
+            <div class="gauge-chart-score gaugeChart">
+                <rg-gauge-chart [canvasWidth]="canvasWidth" [needleValue]="needleValue" [centralLabel]="centralLabel"
+                    [options]="options" [name]="name" [bottomLabel]="bottomLabel"></rg-gauge-chart>
+            </div>
+        </section>
+    </div>
+    <div class="mt-2">
+        <p class="score-paragraph">SECTION ANALYSIS</p>
+        <section class="score-analysis-section">
             <ul class="assesmentType">
                 <li>
                     <div class="asses-candidate">
-                        <label>Candidate Name:</label>
-                        <span>Neha</span>
-                    </div>
-                    <div class="asses-candidate  justify-content-end">
-                        <label>Date:</label>
-                        <span>29-Jan-2020</span>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="asses-candidate">
-                        <label>Assessment Name:</label>
-                        <span>Sales Manager</span>
-                    </div>
-                    <div class="asses-candidate justify-content-end">
-                        <label>Client Name:</label>
-                        <span>INSAAS</span>
+                        <label>Section 1:</label>
+                        <span>Domain Specific - ERP</span>
                     </div>
                 </li>
             </ul>
-            <div>
-                <rg-gauge-chart [canvasWidth]="canvasWidth" [needleValue]="needleValue" [centralLabel]="centralLabel"
-                    [options]="options" [name]="name" [bottomLabel]="bottomLabel"></rg-gauge-chart>
+            <ul class="assesmentType d-flex justify-content-between">
+                <li class="d-block">
+                    <div class="asses-candidate">
+                        <label>Total Score:</label>
+                        <span>2/10</span>
+                    </div>
+                </li>
+                <li class="d-block">
+                    <div class="asses-candidate">
+                        <label>Negative Points:</label>
+                        <span>0</span>
+                    </div>
+                </li>
+                <li class="d-block">
+                    <div class="asses-candidate">
+                        <label>Time Taken:</label>
+                        <span>12 min /12 min</span>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="mt-2 qs-head">
+                <h1>Question Analysis:</h1>
             </div>
-        </section>
-    </div>
-    <div>
-        <p class="bg-light score-paragraph">SCORE ANALYSIS</p>
-        <section class="score-analysis-section score-analysis">
-            <div class="gauge-chart-score">
-                <rg-gauge-chart [canvasWidth]="canvasWidth" [needleValue]="needleValue" [centralLabel]="centralLabel"
-                    [options]="options" [name]="name" [bottomLabel]="bottomLabel"></rg-gauge-chart>
-            </div>
-            <div class="gauge-chart-score">
-                <rg-gauge-chart [canvasWidth]="canvasWidth" [needleValue]="needleValue" [centralLabel]="centralLabel"
-                    [options]="options" [name]="name" [bottomLabel]="bottomLabel"></rg-gauge-chart>
-            </div>
-            <div class="gauge-chart-score">
-                <rg-gauge-chart [canvasWidth]="canvasWidth" [needleValue]="needleValue" [centralLabel]="centralLabel"
-                    [options]="options" [name]="name" [bottomLabel]="bottomLabel"></rg-gauge-chart>
-            </div>
-        </section>
-    </div>
-    <div>
-        <p class="bg-light score-paragraph">SECTION ANALYSIS</p>
-        <section class="score-analysis-section">
-            <div>Section 1: <b>Domain Specific</b>-<span>ERP</span></div>
-            <div>
-                <span>Total Score:</span> <b>2/10</b>
-                <span>Negative Points:</span> <b>0</b>
-                <span>Time Taken:</span> <b>12 min /12 min</b>
-            </div>
-            <div>
-                <b>Question Analysis:</b>
-            </div>
-            <div>
-                <span>Total Question: <b>6</b></span>
-                <span>Correct: <b>2</b></span>
-                <span>Wrong: <b>3</b></span>
-                <span>Skipped: <b>2</b></span>
-                <span>Not Answered: <b>1</b></span>
-            </div>
-            <div>
+            <ul class="assesmentType d-flex justify-content-between">
+                <li class="d-block">
+                    <div class="asses-candidate"><label>Total Question:</label><span>6</span></div>
+                </li>
+                <li class="d-block">
+                    <div class="asses-candidate"><label class="green">Correct:</label><span class="green">2</span></div>
+                </li>
+                <li class="d-block">
+                    <div class="asses-candidate"><label class="red">Wrong:</label><span class="red">3</span></div>
+                </li>
+                <li class="d-block">
+                    <div class="asses-candidate"><label>Skipped:</label><span>2</span></div>
+                </li>
+                <li class="d-block">
+                    <div class="asses-candidate"><label>Not Answered:</label><span>1</span></div>
+                </li>
+            </ul>
+            <div class="scoreTable">
                 <table class="table">
-                    <thead class="thead-light">
+                    <thead>
                         <tr>
                             <th>Skills</th>
                             <th>#Questions</th>
@@ -106,7 +162,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><b>Domain Specific - </b><span>ERP</span></td>
+                            <td>Domain Specific - <span>ERP</span></td>
                             <td>5</td>
                             <td>2/5</td>
                         </tr>

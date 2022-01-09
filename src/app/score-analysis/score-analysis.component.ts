@@ -6,11 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./score-analysis.component.css']
 })
 export class ScoreAnalysisComponent implements OnInit {
-  public canvasWidth = 300;
+  public canvasWidth = 220;
   public needleValue = 65;
   public centralLabel = '';
   public name = '';
-  public bottomLabel = '65 %';
+  public bottomLabel = '65%';
   public options = {
       hasNeedle: true,
       needleColor: 'black',
