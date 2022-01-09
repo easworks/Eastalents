@@ -1,7 +1,7 @@
 @media screen and (max-width: 679px) {
   #header .logo img {
-    max-height: 40px;
-    width: 130px;
+    max-height: 40px !important;
+    width: 130px !important;
   }
   .get-started-btn {
     margin: 0 38px 0 0;
