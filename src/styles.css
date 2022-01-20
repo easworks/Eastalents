@@ -3864,6 +3864,8 @@ form #debt-amount-slider label {
 }
 .app-support-type .app-support-list.clasetting {
   padding: 0px 12px;
+  background:#afedec;
+  border-color:#00030F;
 }
 .cla-setting {
   font-size: 12px;
@@ -3871,7 +3873,7 @@ form #debt-amount-slider label {
   word-break: break-word;
   width: 105px;
   text-align: center;
-  color: #000000;
+  color: #ffffff;
 }
 .cla-setting i {
   display: block;
