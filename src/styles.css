@@ -3867,13 +3867,32 @@ form #debt-amount-slider label {
   background:#b4c0ea;
   border-color:#00030F;
 }
+.clasetting.colorafedec{
+  background:#afedec  !important;
+}
+.clasetting.colorb4c0ea{
+  background:#b4c0ea  !important;
+}
+.clasetting.colorfec1ae{
+  background:#fec1ae  !important;
+}
+.clasetting.colore9b0e5{
+  background:#e9b0e5 !important;
+}
+.clasetting.colorffdaad{
+  background:#ffdaad !important;
+}
+.clasetting.color97c996{
+  background:#97c996 !important;
+}
 .cla-setting {
   font-size: 12px;
   display: block;
   word-break: break-word;
   width: 105px;
   text-align: center;
-  color: #ffffff;
+  color: #000000;
+  font-weight: 500;
 }
 .cla-setting i {
   display: block;
