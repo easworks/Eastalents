@@ -1,6 +1,6 @@
 <!----- Header ----->
 <header id="header" class="fixed-top">
-  <div class="container d-flex align-items-center">
+  <div class="container-fluid d-flex align-items-center">
     <h1 class="logo mr-auto">
       <a class="black-logo" [routerLink]="['/index']">
         <img src="assets/img/white-logo.png" />
@@ -11,9 +11,11 @@
     </h1>
     <nav class="nav-menu d-none d-lg-block mr-5">
       <ul>
-        <li><a [routerLinkActive]="['active']" [routerLink]="['/Talent']">Talent</a></li>
+        <!-- <li><a [routerLinkActive]="['active']" [routerLink]="['/Talent']">Talent</a></li> -->
         <li><a [routerLinkActive]="['active']" [routerLink]="['/WhyEasworks']">Why EASWORKS?</a></li>
-        <li><a [routerLinkActive]="['active']" [routerLink]="['/How']">How</a></li>
+        <li><a [routerLinkActive]="['']" [routerLink]="['']">For Enterprise</a></li>
+        <li><a [routerLinkActive]="['']" [routerLink]="['']">For Freelancer</a></li>
+        <!-- <li><a [routerLinkActive]="['active']" [routerLink]="['/How']">How</a></li> -->
         <li class="drop-down">
           <a [routerLinkActive]="['active']" [routerLink]="['/#']">Use Case</a>
           <div class="usecase-submenu">
@@ -21,108 +23,99 @@
               <ul class="border-right">
                 <li>
                   <a [routerLink]="['/Innovation']">
-                    <span
-                      ><img
-                        class="usecasemenuicon"
-                        src="assets/img/digital-transformation.svg"
-                    /></span>
+                    <span><img class="usecasemenuicon" src="assets/img/digital-transformation.svg" /></span>
                     Digital Transformation
                   </a>
                 </li>
                 <li>
-                  <a [routerLink]="['/Innovation']"
-                    ><span
-                      ><img
-                        class="usecasemenuicon"
-                        src="assets/img/innovation.svg" /></span
-                    >Innovation
+                  <a [routerLink]="['/Innovation']"><span><img class="usecasemenuicon"
+                        src="assets/img/innovation.svg" /></span>Innovation
                   </a>
                 </li>
                 <li>
-                  <a [routerLink]="['/Innovation']"
-                    ><span
-                      ><img
-                        class="usecasemenuicon"
-                        src="assets/img/prototype-configuration.svg" /></span
-                    >Prototyping - Configuration/Customization</a
-                  >
+                  <a [routerLink]="['/Innovation']"><span><img class="usecasemenuicon"
+                        src="assets/img/prototype-configuration.svg" /></span>Prototyping -
+                    Configuration/Customization</a>
                 </li>
                 <li>
-                  <a [routerLink]="['/Innovation']"
-                    ><span
-                      ><img
-                        class="usecasemenuicon"
-                        src="assets/img/design.svg" /></span
-                    >Design</a
-                  >
+                  <a [routerLink]="['/Innovation']"><span><img class="usecasemenuicon"
+                        src="assets/img/design.svg" /></span>Design</a>
                 </li>
                 <li>
-                  <a [routerLink]="['/Innovation']"
-                    ><span
-                      ><img
-                        class="usecasemenuicon"
-                        src="assets/img/business_inteligent.svg" /></span
-                    >Business Intelligence</a
-                  >
+                  <a [routerLink]="['/Innovation']"><span><img class="usecasemenuicon"
+                        src="assets/img/business_inteligent.svg" /></span>Business Intelligence</a>
                 </li>
               </ul>
             </div>
             <div class="usecase-rht-menu">
               <ul>
                 <li>
-                  <a [routerLink]="['/Innovation']"
-                    ><span
-                      ><img
-                        class="usecasemenuicon"
-                        src="assets/img/app_settings_alt_white_24dp.svg" /></span
-                    >Application modernization (Legacy Application Migration)</a
-                  >
+                  <a [routerLink]="['/Innovation']"><span><img class="usecasemenuicon"
+                        src="assets/img/app_settings_alt_white_24dp.svg" /></span>Application modernization (Legacy
+                    Application Migration)</a>
                 </li>
                 <li>
-                  <a [routerLink]="['/Innovation']"
-                    ><span
-                      ><img
-                        class="usecasemenuicon"
-                        src="assets/img/enterprise-application.svg" /></span
-                    >Enterprise Application Integration</a
-                  >
+                  <a [routerLink]="['/Innovation']"><span><img class="usecasemenuicon"
+                        src="assets/img/enterprise-application.svg" /></span>Enterprise Application Integration</a>
                 </li>
                 <li>
-                  <a [routerLink]="['/Innovation']"
-                    ><span
-                      ><img
-                        class="usecasemenuicon"
-                        src="assets/img/custom-application.svg" /></span
-                    >Custom Application Development</a
-                  >
+                  <a [routerLink]="['/Innovation']"><span><img class="usecasemenuicon"
+                        src="assets/img/custom-application.svg" /></span>Custom Application Development</a>
                 </li>
                 <li>
-                  <a [routerLink]="['/Innovation']"
-                    ><span
-                      ><img
-                        class="usecasemenuicon"
-                        src="assets/img/data-migration.svg" /></span
-                    >Data Migration</a
-                  >
+                  <a [routerLink]="['/Innovation']"><span><img class="usecasemenuicon"
+                        src="assets/img/data-migration.svg" /></span>Data Migration</a>
                 </li>
                 <li>
-                  <a [routerLink]="['/Innovation']"
-                    ><span
-                      ><img
-                        class="usecasemenuicon"
-                        src="assets/img/maintance.svg" /></span
-                    >Maintenance</a
-                  >
+                  <a [routerLink]="['/Innovation']"><span><img class="usecasemenuicon"
+                        src="assets/img/maintance.svg" /></span>Maintenance</a>
                 </li>
               </ul>
             </div>
           </div>
         </li>
-        <li><a  [routerLinkActive]="['active']" [routerLink]="['/GetHired']">Get Hired</a></li>
+        <li><a [routerLinkActive]="['']" [routerLink]="['']">Blog</a></li>
+        <li><a [routerLinkActive]="['']" [routerLink]="['']">Apply as Freelancer</a></li>
+        <!-- <li><a  [routerLinkActive]="['active']" [routerLink]="['/GetHired']">Get Hired</a></li> -->
       </ul>
     </nav>
+
     <a [routerLinkActive]="['active']" [routerLink]="['/signin']" class="signin-btn">Login</a>
-    <a [routerLinkActive]="['active']" [routerLink]="['/signup']" class="get-started-btn">Get Started</a>
+    <a [routerLinkActive]="['']" [routerLink]="['']" class="get-started-btn hirenowbtn">Hire Now</a>
+    <!-- <a [routerLinkActive]="['active']" [routerLink]="['/signup']" class="get-started-btn">Get Started</a> -->
+    <button type="button" class="sidemenu"><i class='bx bx-menu'></i></button>
   </div>
 </header>
 <!----- Header ----->
+
+<div class="sideWrapper">
+  <div class="sideheader">
+    <img src="assets/img/black-logo.png" alt="logo" />
+    <button type="button" class="closebtn"><i class="icofont-close"></i></button>
+  </div>
+  <div class="sidebody">
+    <div class="sidebar-menu">
+      <ul class="sidebarmenuType">
+        <li>
+          <a class="sidemenulink" href="javascript:void(0)">Hire Talent</a>
+        </li>
+        <li>
+          <a class="sidemenulink" href="javascript:void(0)" data-bs-toggle="collapse" href="#collapseExample"
+            role="button" aria-expanded="false" aria-controls="collapseExample">For Enterprise</a>
+          <div class="collapse" id="collapseExample">
+            <ul>
+              <li>
+                <a href="javascript:void(0)">EASWORKS Talent</a>
+              </li>
+              <li>
+                <a href="javascript:void(0)">How its works</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="overlay"></div>

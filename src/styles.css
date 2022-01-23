@@ -220,7 +220,7 @@ section {
 }
 #header .logo img {
   max-height: 45px;
-  width: 211px;
+  width: 160px;
 }
 #header.header-scrolled .logo .white-logo {
   display: block;
@@ -418,7 +418,7 @@ section {
 /* Get Startet Button */
 .get-started-btn {
   margin-left: 12px;
-  background: transparent;
+  background: #29AAE3;
   color: #ffffff;
   border-radius: 4px;
   padding: 6px 16px;
@@ -426,9 +426,8 @@ section {
   transition: 0.3s;
   font-size: 14px;
   display: inline-block;
-  border: 1px solid #ffffff;
+  border: 1px solid #1ea6e0;
   letter-spacing: 0.5px;
-  border: 1px solid #ffffff;
 }
 .signin-btn {
   color: #ffffff;
@@ -445,8 +444,13 @@ section {
   border-color: #ffffff;
 }
 .header-scrolled .get-started-btn {
-  border: 1px solid #000000;
-  color: #000000;
+  border: 1px solid #1ea6e0;
+  color: #ffffff;
+}
+.get-started-btn:hover{
+  background: #1ea6e0;
+  border-color: #1ea6e0;
+  color:#ffffff;
 }
 @media (max-width: 768px) {
   .get-started-btn {
@@ -455,7 +459,64 @@ section {
     font-size: 12px;
   }
 }
+.sidemenu{
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 25px;
+  margin-left: 15px;
+  outline: none;
+}
+.header-scrolled .sidemenu{
+  color:#000000;
+}
 
+.sideWrapper{
+  position: fixed;
+  right: 0;
+  width: 250px;
+  height: 100%;
+  background: #ffffff;
+  z-index: 1000;
+  box-shadow: 0px 2px 15px #0000001a;
+  display: none;
+}
+.sideheader{
+  background: #f7f7f7;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 12px;
+  height: 42px;
+}
+.sideheader img{
+  width: 100px;
+  object-fit: contain;
+}
+.sideheader .closebtn{
+  color: #000000;
+  font-size: 18px;
+}
+.sidebar-menu{
+  padding: 12px;
+}
+.sidebarmenuType li a{
+  display: block;
+  position: relative;
+  color: #000000;
+  transition: 0.3s;
+  font-size: 14px;
+  padding: 4px 18px;
+}
+.sidemenulink::before{
+  position: absolute;
+  content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+  left: 0px;
+}
+.sidemenulink[aria-expanded="true"]::before{
+  transform: rotate(90deg);
+}
 /* Mobile Navigation */
 .mobile-nav-toggle {
   position: fixed;
@@ -988,7 +1049,7 @@ footer {
 }
 .foot-about img {
   max-height: 45px;
-  width: 211px;
+  width: 160px;
   margin-bottom: 20px;
 }
 .foot-about p {
@@ -4399,4 +4460,13 @@ form #debt-amount-slider label {
   .developer-type .developer-list{
     width: 100%;
   }
+}
+
+
+.apptalents-flex lottie-player{
+  width: 120px;
+  height: 120px;
+}
+.hero-img lottie-player{
+  
 }
