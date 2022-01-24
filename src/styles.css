@@ -89,6 +89,21 @@ select {
 .w-100 {
   width: 100% !important;
 }
+.bgcolor4f4ffc{
+  background: #4f4ffc !important;
+  color:#ffffff;
+}
+.appbttn{
+  font-size: 14px;
+    text-transform: capitalize;
+    display: flex;
+    border-radius: 3px;
+    justify-content: center;
+    align-items: center;
+    padding: 6px 6px;
+    outline: none;
+    text-decoration: none;
+}
 /*--------------------------------------------------------------
   # Back to top button
   --------------------------------------------------------------*/
@@ -286,6 +301,13 @@ section {
   width: 570px;
   padding: 6px 10px;
 }
+.nav-menu .drop-down .usecase-submenu.for-enterprise{
+  width: auto;
+  padding: 0px;
+}
+.nav-menu .drop-down .usecase-submenu.for-enterprise .forenterprise{
+width: 100%;
+}
 .nav-menu .drop-down .usecase-submenu::after {
   position: absolute;
   content: "";
@@ -474,7 +496,7 @@ section {
 .sideWrapper{
   position: fixed;
   right: 0;
-  width: 250px;
+  width: 300px;
   height: 100%;
   background: #ffffff;
   z-index: 1000;
@@ -497,6 +519,10 @@ section {
 .sideheader .closebtn{
   color: #000000;
   font-size: 18px;
+}
+.sidebody{
+  overflow-y: auto;
+    height: calc(100vh - 42px);
 }
 .sidebar-menu{
   padding: 12px;
@@ -4467,6 +4493,44 @@ form #debt-amount-slider label {
   width: 120px;
   height: 120px;
 }
-.hero-img lottie-player{
-  
+
+.sidemenuabt{
+  padding: 12px;
+}
+.sidemenuabt h1{
+  margin: 0px 0px 10px 0px;
+    font-size: 16px;
+    color: #000000;
+}
+
+.followusType{
+  display: flex;
+}
+.followusType li a{
+  font-size: 14px;
+    color: #000000;
+    width: 26px;
+    height: 26px;
+    border: 1px solid #dee2e6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 6px;
+    box-shadow: 0 0 20px 0 #3e1c831a;
+    background: #ffffff;
+    transition: 0.3s all ease;
+}
+.followusType li a:hover{
+  background: #4949FC;
+  color:#ffffff;
+}
+.sidemenuTabsContent .nav .nav-link{
+  font-size: 12px;
+  width: 125px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 0px;
+  text-align: left;
+  border-bottom: 1px solid #dfdfdf;
 }
