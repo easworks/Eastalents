@@ -493,56 +493,7 @@ width: 100%;
   color:#000000;
 }
 
-.sideWrapper{
-  position: fixed;
-  right: 0;
-  width: 300px;
-  height: 100%;
-  background: #ffffff;
-  z-index: 1000;
-  box-shadow: 0px 2px 15px #0000001a;
-  display: none;
-}
-.sideheader{
-  background: #f7f7f7;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0px 12px;
-  height: 42px;
-}
-.sideheader img{
-  width: 100px;
-  object-fit: contain;
-}
-.sideheader .closebtn{
-  color: #000000;
-  font-size: 18px;
-}
-.sidebody{
-  overflow-y: auto;
-    height: calc(100vh - 42px);
-}
-.sidebar-menu{
-  padding: 12px;
-}
-.sidebarmenuType li a{
-  display: block;
-  position: relative;
-  color: #000000;
-  transition: 0.3s;
-  font-size: 14px;
-  padding: 4px 18px;
-}
-.sidemenulink::before{
-  position: absolute;
-  content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
-  left: 0px;
-}
-.sidemenulink[aria-expanded="true"]::before{
-  transform: rotate(90deg);
-}
+
 /* Mobile Navigation */
 .mobile-nav-toggle {
   position: fixed;
@@ -4494,6 +4445,58 @@ form #debt-amount-slider label {
   height: 120px;
 }
 
+/*** Sidebar ***/
+.sideWrapper{
+  position: fixed;
+  right: 0;
+  width: 330px;
+  height: 100%;
+  background: #ffffff;
+  z-index: 1000;
+  box-shadow: 0px 2px 15px #0000001a;
+  display: none;
+  
+}
+.sideheader{
+  background: #f7f7f7;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 12px;
+  height: 36px;
+}
+.sideheader img{
+  width: 100px;
+  object-fit: contain;
+}
+.sideheader .closebtn{
+  color: #000000;
+  font-size: 18px;
+}
+.sidebody{
+  overflow-y: auto;
+    height: calc(100vh - 42px);
+}
+.sidebar-menu{
+  padding: 12px;
+}
+.sidebarmenuType li a{
+  display: block;
+  position: relative;
+  color: #000000;
+  transition: 0.3s;
+  font-size: 13px;
+  padding: 4px 18px;
+}
+.sidemenulink::before{
+  position: absolute;
+  content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+  left: 0px;
+}
+.sidemenulink[aria-expanded="true"]::before{
+  transform: rotate(90deg);
+}
 .sidemenuabt{
   padding: 12px;
 }
@@ -4525,12 +4528,72 @@ form #debt-amount-slider label {
   background: #4949FC;
   color:#ffffff;
 }
+.sidemenuTabsContent{
+  padding:0px 12px;
+}
+.sidemenuTabsContent .nav{
+  width: 125px;
+}
+.sidemenuTabsContent .tabcontentside{
+  border: 1px solid #efefef;
+}
 .sidemenuTabsContent .nav .nav-link{
   font-size: 12px;
-  width: 125px;
-  padding: 4px 8px;
+  width: 100%;
+  padding: 2px 8px;
   border: none;
   border-radius: 0px;
   text-align: left;
   border-bottom: 1px solid #dfdfdf;
+}
+.sidemenuTabsContent .nav .nav-link:last-child{
+  border-bottom: 0px;
+}
+.sidemenuTabsContent .tab-content{
+  width:calc(100% - 125px);
+}
+.rightpanel-easworks{
+  padding: 6px 6px 0px 6px;
+}
+.easworkSearchbox{
+  position: relative;
+}
+.easworkSearchbox input{
+  width: 100%;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    height: 24px;
+    font-size: 11px;
+    outline: none;
+}
+.easworkSearchbox input:-moz-placeholder{
+  font-size: 10px;
+}
+.easworkSearchbox input::-moz-placeholder{
+  font-size: 10px;
+}
+.easworkSearchbox input:-ms-input-placeholder{
+  font-size: 10px;
+}
+.easworkSearchbox input::-webkit-input-placeholder{
+  font-size: 10px;
+}
+.easeworkssearchList{
+  margin-top: 4px;
+  overflow-y: auto;
+  height: 413px;
+}
+.easeworkssearchList li a{
+  font-size: 11px;
+    width: 100%;
+    padding: 4px 3px;
+    border: none;
+    border-radius: 0px;
+    text-align: left;
+    display: block;
+    color:#302929;
+    transition: 0.3s all ease;
+}
+.easeworkssearchList li a:hover{
+  background: #f8f8f8;
 }
