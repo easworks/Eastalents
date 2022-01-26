@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+declare var $: any;
 
 @Component({
   selector: "app-header",
@@ -8,5 +9,16 @@ import { Component, OnInit } from "@angular/core";
 export class HeaderComponent implements OnInit {
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    $(document).ready(function () {
+      $('.sidemenu').click(function () {
+        $('.sideWrapper').show();
+        $('.overlay').show();
+      });
+      $('.closebtn').click(function () {
+        $('.sideWrapper').hide();
+        $('.overlay').hide();
+      });
+    });
+  }
 }
