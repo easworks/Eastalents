@@ -34,7 +34,8 @@
             "scripts": [
               "src/assets/js/jquery.min.js",
               "src/assets/js/bootstrap.bundle.min.js",
-              "src/assets/js/main.js"
+              "src/assets/js/main.js",
+              "./node_modules/@lottiefiles/lottie-player/dist/lottie-player.js"
             ]
           },
           "configurations": {
