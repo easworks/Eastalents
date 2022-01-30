@@ -123,7 +123,7 @@ const routes: Routes = [
     component: TalentProfileEditComponent,
   },
   {
-    path: 'Talent-Profile-View',
+    path: 'Talentprofileview',
     component: TalentProfileViewComponent,
   },
   {

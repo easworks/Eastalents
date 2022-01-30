@@ -1,26 +1,25 @@
-export class TalentProfileSteps {
-    id: number = 0;
-    name: string = "";
-    talentProfileStepsOptions: TalentProfileSteps[] = [];
+export class TalentProfile {
+    stepObject: TalentProfileSteps[] = new Array<TalentProfileSteps>(32);
 
     constructor(data: any) {
         if (data) {
-            this.id = data.id;
-            this.name = data.talentProfile;
-            this.talentProfileStepsOptions = [];
-            data.talentProfile.forEach((q: any) => {
-                this.talentProfileStepsOptions.push(new TalentProfileSteps(q));
-            });
+            this.stepObject = [];
+            for (let index = 0; index <= data; index++) {
+                this.stepObject.push(new TalentProfileSteps());
+
+            }
         }
     }
 }
 
 
-export class TalentProfileStepsPost {
+export class TalentProfileSteps {
+    id: number = 0;
     step: string = "";
-    stepOption: string = "";
+    optionObj: any;
     constructor() {
         this.step = "";
-        this.stepOption = "";
+        this.optionObj = {};
+        this.id = 0
     }
 }
