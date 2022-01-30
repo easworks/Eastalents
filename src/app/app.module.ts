@@ -42,6 +42,8 @@ import { ScoreAnalysisComponent } from './score-analysis/score-analysis.componen
 import { QuestionSectionComponent } from './question-section/question-section.component';
 import { QuantitativeAppComponent } from './quantitative-app/quantitative-app.component';
 import { QuesCongratulationComponent } from './ques-congratulation/ques-congratulation.component';
+import { TalentQuestionDynamicComponent } from './talent-question/talent-question-dynamic-step/talent-question-dynamic.component';
+import { TalentQuestionSelectItemComponent } from './talent-question/talent-question-select-item/talent-question-select-item/talent-question-select-item.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +80,8 @@ import { QuesCongratulationComponent } from './ques-congratulation/ques-congratu
     QuestionSectionComponent,
     QuantitativeAppComponent,
     QuesCongratulationComponent,
+    TalentQuestionDynamicComponent,
+    TalentQuestionSelectItemComponent
   ],
   imports: [
     BrowserModule,

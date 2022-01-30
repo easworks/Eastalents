@@ -1,0 +1,46 @@
+<div *ngIf="!isSingleControl">
+    <div class="fw-input-selectlist" *ngFor="let field of fieldArray; let i = index">
+        <!--Input-->
+        <div class="multi-select-dropdown">
+            <ul class="multiselectUlLIst p-0">
+                <li class="dropdown-select">
+                    <label>{{field}}</label>
+                    <div class="description ml-3">
+                        <span>- No of Years</span>
+                        <input type="text" class="w-20">
+                    </div>
+                    <div class="description ml-3">
+                        <span>Expertise</span>
+                        <select id="selExpert" class="select">
+                            <option id="0" value="Fresher">Fresher</option>
+                            <option id="1" value="intermediate"> intermediate</option>
+                            <option id="2" value="Advanced">Advanced</option>
+                        </select>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <button type="button" class="clearbtn" (click)="deleteOption(i,field)">
+            <i class="icofont-close"></i>
+        </button>
+        <!--Input-->
+    </div>
+</div>
+
+<div *ngIf="isSingleControl">
+    <div class="fw-input-selectlist">
+        <!--Input-->
+        <div class="multi-select-dropdown border-0 pl-0" *ngIf="fieldArray && fieldArray.length > 0">
+            <ul class="multiselectUlLIst p-0 d-flex flex-wrap">
+                <li class="dropdown-select d-block mr-2" *ngFor="let field of fieldArray; let i = index">
+                    <label class="d-flex align-items-center">
+                        {{field}}
+                        <button type="button" class="closebtn text-white" (click)="deleteOption(i,field)"><i
+                                class="icofont-close"></i></button>
+                    </label>
+                </li>
+            </ul>
+        </div>
+        <!--Input-->
+    </div>
+</div>

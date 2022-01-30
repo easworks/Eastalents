@@ -5,6 +5,10 @@ import { Option } from '../_models/option';
 import { Question } from '../_models/question';
 import { Quiz } from '../_models/quiz';
 import { QuizConfig } from '../_models/quiz-config';
+import { HttpService } from '../_services/http.service';
+import { ApiResponse } from '../_models';
+import { ToasterService } from '../_services/toaster.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-talent-question',
@@ -14,6 +18,7 @@ import { QuizConfig } from '../_models/quiz-config';
 })
 export class TalentQuizQuestionComponent implements OnInit {
 
+  questionResp: any;
   quizes: any[] = [];
   quiz: Quiz = new Quiz(null);
   mode = 'quiz';
@@ -22,7 +27,7 @@ export class TalentQuizQuestionComponent implements OnInit {
     'allowBack': true,
     'allowReview': true,
     'autoMove': false,  // if true, it will move to next question automatically when answered.
-    'duration': 300,  // indicates the time (in secs) in which quiz needs to be completed. 0 means unlimited.
+    'duration': 2700,  // indicates the time (in secs) in which quiz needs to be completed. 0 means unlimited.
     'pageSize': 1,
     'requiredAll': false,  // indicates if you must answer all the questions before submitting.
     'richText': false,
@@ -44,23 +49,43 @@ export class TalentQuizQuestionComponent implements OnInit {
   ellapsedTime = '00:00';
   duration = '';
 
-  constructor(private quizService: QuizService) { }
+  constructor(private quizService: QuizService,
+    private router: Router,
+    private toaster: ToasterService,
+    private httpService: HttpService) { }
 
   ngOnInit() {
-    this.quizes = this.quizService.getAll();
-    this.quizName = this.quizes[0].id;
+    //this.quizes = this.quizService.getAll();
+    //this.quizName = this.quizes[0].id;
     this.loadQuiz(this.quizName);
   }
 
   loadQuiz(quizName: string) {
-    this.quizService.get(quizName).subscribe(res => {
-      this.quiz = new Quiz(res);
-      this.pager.count = this.quiz.questions.length;
-      this.startTime = new Date();
-      this.ellapsedTime = '00:00';
-      this.timer = setInterval(() => { this.tick(); }, 1000);
-      this.duration = this.parseTime(this.config.duration);
+    // this.quizService.get(quizName).subscribe(res => {
+    //   this.quiz = new Quiz(res);
+    //   this.pager.count = this.quiz.questions.length;
+    //   this.startTime = new Date();
+    //   this.ellapsedTime = '00:00';
+    //   this.timer = setInterval(() => { this.tick(); }, 1000);
+    //   this.duration = this.parseTime(this.config.duration);
+    // });
+
+
+    this.httpService.get('questions/getLatestQuestions').subscribe((response: ApiResponse<any>) => {
+      if (response.status) {
+        this.questionResp = response;
+        console.log(this.questionResp);
+        this.quiz = new Quiz(response);
+        this.pager.count = this.quiz.questionData.length;
+        this.startTime = new Date();
+        this.ellapsedTime = '00:00';
+        this.timer = setInterval(() => { this.tick(); }, 1000);
+        this.duration = this.parseTime(this.config.duration);
+      }
+    }, (error) => {
+      console.log(error);
     });
+
     this.mode = 'quiz';
   }
 
@@ -82,14 +107,14 @@ export class TalentQuizQuestionComponent implements OnInit {
   }
 
   get filteredQuestions() {
-    return (this.quiz.questions) ?
-      this.quiz.questions.slice(this.pager.index, this.pager.index + this.pager.size) : [];
+    return (this.quiz.questionData) ?
+      this.quiz.questionData.slice(this.pager.index, this.pager.index + this.pager.size) : [];
   }
 
   onSelect(question: Question, option: Option) {
-    if (question.questionTypeId === 1) {
-      question.options.forEach((x) => { if (x.id !== option.id) x.selected = false; });
-    }
+    // if (question.questionTypeId === 1) {
+    //   question.optionsWithAnswers.forEach((x) => { if (x.id !== option.id) x.attempt = false; });
+    // }
 
     if (this.config.autoMove) {
       this.goTo(this.pager.index + 1);
@@ -104,19 +129,29 @@ export class TalentQuizQuestionComponent implements OnInit {
   }
 
   isAnswered(question: Question) {
-    return question.options.find(x => x.selected) ? 'Answered' : 'Not Answered';
+    return question.optionsWithAnswers.find(x => x.attempt) ? 'Answered' : 'Not Answered';
   };
 
   isCorrect(question: Question) {
-    return question.options.every(x => x.selected === x.isAnswer) ? 'correct' : 'wrong';
+    return question.optionsWithAnswers.every(x => x.attempt === x.answer) ? 'correct' : 'wrong';
   };
 
   onSubmit() {
-    let answers = [];
-    this.quiz.questions.forEach(x => answers.push({ 'quizId': this.quiz.id, 'questionId': x.id, 'answered': x.answered }));
+    // let answers = [];
+    // this.quiz.questions.forEach(x => answers.push({ 'quizId': this.quiz.id, 'questionId': x.id, 'answered': x.answered }));
 
     // Post your data to the server here. answers contains the questionId and the users' answer.
-    console.log(this.quiz.questions);
-    this.mode = 'result';
+    console.log(this.quiz.questionData);
+    this.httpService.post('questions/giveTest', this.quiz).subscribe((response: ApiResponse<any>) => {
+      console.log(response);
+      if (response.status) {
+        this.toaster.success(`${response.message}`);
+        setTimeout(() => {
+          this.router.navigate(['/score-analysis']);
+        }, 3000);
+      }
+    }, (error) => {
+      console.log(error);
+    });
   }
 }
