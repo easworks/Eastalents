@@ -4665,3 +4665,98 @@ form #debt-amount-slider label {
 .whyEasNavTabs .nav .nav-item .nav-link.active{
   color:#4949fc;
 }
+.costTitle{
+  font-size: 22px;
+    font-weight: 500;
+    text-align: left;
+    margin-top: 20px;
+    color: #372354;
+    margin-bottom: 30px;
+    text-transform: capitalize;
+}
+.costeffectBox{
+  display: flex;
+    align-items: baseline;
+}
+.costeffectBox span{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  width: 32px;
+  min-width:32px;
+  height: 32px;
+  border-radius: 50%;
+  box-shadow: 0px 2px 4px rgba(97, 97, 97, 0.18), 0px 4px 8px rgba(97, 97, 97, 0.18);
+}
+.costeffectContent{
+  padding-left: 30px;
+}
+.costeffectContent h1{
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 20px;
+}
+.defaultTitle h1{
+  color: #4949fc;
+}
+.talentGuarentList{
+  position: relative;
+  height: 350px;
+  width: 450px;
+    margin: auto;
+}
+.talentGuarentList ul .tg-item{
+  width: 120px;
+  height: 120px;
+  background: #f1f1f1;
+  border: 1px solid #000000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  word-break: break-word;
+  padding: 10px;
+  position: absolute;
+}
+.talentGuarentList ul .tg-item label{
+  color: #000000;
+  font-size: 13px;
+  display: block;
+}
+.talentGuarentList ul .tg-item span{
+  color: #4949fc;
+    font-size: 40px;
+    display: block;
+    line-height: 40px;
+    font-weight: 500;
+}
+.talentGuarentList ul .tg-item.lftPosition{
+  left: 0;
+  background: #efe4b0;
+}
+.talentGuarentList ul .tg-item.rhtPosition{
+  right: 0;
+  background: #ffaec9;
+}
+.talentGuarentList ul .tg-item.centerPosition{
+  background: #c8bfe7;
+  right: 0;
+    left: 0;
+    margin: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 180px;
+    height: 180px;
+}
+.talentGuarentList ul .tg-item.lftbtmPosition{
+  bottom: 0;
+  background: #99d9ea;
+}
+.talentGuarentList ul .tg-item.btmrhtPosition{
+  right: 0px;
+  bottom: 0;
+  background: #a7f88b;
+}
