@@ -1,8 +1,8 @@
-@import 'assets/css/bootstrap.min.css';
-@import 'assets/css/icofont.min.css';
-@import 'assets/css/boxicons.min.css';
-@import 'assets/css/aos.css';
-@import 'assets/css/responsive.css';
+@import "assets/css/bootstrap.min.css";
+@import "assets/css/icofont.min.css";
+@import "assets/css/boxicons.min.css";
+@import "assets/css/aos.css";
+@import "assets/css/responsive.css";
 
 body {
   font-family: "Roboto", sans-serif;
@@ -46,7 +46,7 @@ p {
   font: normal 14px/18px Roboto;
   outline: none;
 }
-.textarea{
+.textarea {
   height: 80px;
   resize: none;
 }
@@ -89,20 +89,20 @@ select {
 .w-100 {
   width: 100% !important;
 }
-.bgcolor4f4ffc{
+.bgcolor4f4ffc {
   background: #4f4ffc !important;
-  color:#ffffff;
+  color: #ffffff;
 }
-.appbttn{
+.appbttn {
   font-size: 14px;
-    text-transform: capitalize;
-    display: flex;
-    border-radius: 3px;
-    justify-content: center;
-    align-items: center;
-    padding: 6px 6px;
-    outline: none;
-    text-decoration: none;
+  text-transform: capitalize;
+  display: flex;
+  border-radius: 3px;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 6px;
+  outline: none;
+  text-decoration: none;
 }
 /*--------------------------------------------------------------
   # Back to top button
@@ -301,12 +301,12 @@ section {
   width: 570px;
   padding: 6px 10px;
 }
-.nav-menu .drop-down .usecase-submenu.for-enterprise{
+.nav-menu .drop-down .usecase-submenu.for-enterprise {
   width: auto;
   padding: 0px;
 }
-.nav-menu .drop-down .usecase-submenu.for-enterprise .forenterprise{
-width: 100%;
+.nav-menu .drop-down .usecase-submenu.for-enterprise .forenterprise {
+  width: 100%;
 }
 .nav-menu .drop-down .usecase-submenu::after {
   position: absolute;
@@ -440,7 +440,7 @@ width: 100%;
 /* Get Startet Button */
 .get-started-btn {
   margin-left: 12px;
-  background: #29AAE3;
+  background: #29aae3;
   color: #ffffff;
   border-radius: 4px;
   padding: 6px 16px;
@@ -469,10 +469,10 @@ width: 100%;
   border: 1px solid #1ea6e0;
   color: #ffffff;
 }
-.get-started-btn:hover{
+.get-started-btn:hover {
   background: #1ea6e0;
   border-color: #1ea6e0;
-  color:#ffffff;
+  color: #ffffff;
 }
 @media (max-width: 768px) {
   .get-started-btn {
@@ -481,7 +481,7 @@ width: 100%;
     font-size: 12px;
   }
 }
-.sidemenu{
+.sidemenu {
   border: none;
   background: transparent;
   color: #ffffff;
@@ -489,10 +489,9 @@ width: 100%;
   margin-left: 15px;
   outline: none;
 }
-.header-scrolled .sidemenu{
-  color:#000000;
+.header-scrolled .sidemenu {
+  color: #000000;
 }
-
 
 /* Mobile Navigation */
 .mobile-nav-toggle {
@@ -1672,7 +1671,8 @@ footer {
 }
 
 .apptalent-connect {
-  background: #494b4e url(assets/img/how/map.JPG) no-repeat center center / cover;
+  background: #494b4e url(assets/img/how/map.JPG) no-repeat center center /
+    cover;
   width: 100%;
   position: relative;
   display: flex;
@@ -2165,7 +2165,7 @@ footer {
   border-color: #2f2e41;
 }
 .quiz-bttn-group {
-  margin-top: 20px;
+  margin-top: 170px;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -3902,26 +3902,26 @@ form #debt-amount-slider label {
 }
 .app-support-type .app-support-list.clasetting {
   padding: 0px 12px;
-  background:#b4c0ea;
-  border-color:#00030F;
+  background: #b4c0ea;
+  border-color: #00030f;
 }
-.clasetting.colorafedec{
-  background:#afedec  !important;
+.clasetting.colorafedec {
+  background: #afedec !important;
 }
-.clasetting.colorb4c0ea{
-  background:#b4c0ea  !important;
+.clasetting.colorb4c0ea {
+  background: #b4c0ea !important;
 }
-.clasetting.colorfec1ae{
-  background:#fec1ae  !important;
+.clasetting.colorfec1ae {
+  background: #fec1ae !important;
 }
-.clasetting.colore9b0e5{
-  background:#e9b0e5 !important;
+.clasetting.colore9b0e5 {
+  background: #e9b0e5 !important;
 }
-.clasetting.colorffdaad{
-  background:#ffdaad !important;
+.clasetting.colorffdaad {
+  background: #ffdaad !important;
 }
-.clasetting.color97c996{
-  background:#97c996 !important;
+.clasetting.color97c996 {
+  background: #97c996 !important;
 }
 .cla-setting {
   font-size: 12px;
@@ -4079,15 +4079,13 @@ form #debt-amount-slider label {
   border-radius: 4px;
 }
 
-
-
 /** Question Section **/
-.question-section{
+.question-section {
   width: 750px;
-    margin: auto;
-    background: #ffffff;
-    padding: 20px 30px;
-    box-shadow: 0 0 20px 0 #3e1c831a;
+  margin: auto;
+  background: #ffffff;
+  padding: 20px 30px;
+  box-shadow: 0 0 20px 0 #3e1c831a;
 }
 .qs-easlogo {
   margin-bottom: 12px;
@@ -4095,69 +4093,69 @@ form #debt-amount-slider label {
   align-items: center;
   justify-content: space-between;
 }
-.qs-easlogo img{
+.qs-easlogo img {
   width: 140px;
   height: 100%;
   object-fit: contain;
 }
-.qsTitle{
+.qsTitle {
   font-size: 15px;
   font-weight: 400;
   color: #2e2e2e;
   margin-bottom: 6px;
 }
-.qs-table-wraper span{
+.qs-table-wraper span {
   font-size: 13px;
   font-weight: 400;
   color: #2e2e2e;
   display: block;
 }
-.qsTable{
+.qsTable {
   width: 100%;
   table-layout: fixed;
   margin-top: 12px;
 }
-.qsTable thead tr th{
+.qsTable thead tr th {
   font: normal 14px/22px Roboto;
-  padding:6px 8px;
+  padding: 6px 8px;
   text-align: left;
   border: 1px solid #e2e2e2;
   color: #3f48cc;
 }
-.qsTable tbody tr td{
+.qsTable tbody tr td {
   font: normal 12px/22px Roboto;
-    padding: 6px 8px;
-    border: 1px solid #e2e2e2;
-    background: #3f48cc05;
+  padding: 6px 8px;
+  border: 1px solid #e2e2e2;
+  background: #3f48cc05;
 }
 
-.qs-instruction{
+.qs-instruction {
   margin-top: 20px;
 }
-.qsInstruction{
+.qsInstruction {
   margin-top: 12px;
 }
-.qsInstruction li{
+.qsInstruction li {
   display: flex;
   padding-bottom: 20px;
 }
-.qsInstruction li img{
+.qsInstruction li img {
   width: 40px;
   height: 40px;
   object-fit: contain;
 }
-.qsInstruction li .qs-code{
+.qsInstruction li .qs-code {
   margin-left: 20px;
 }
-.qsInstruction li .qs-code span{
+.qsInstruction li .qs-code span {
   font-size: 13px;
   font-weight: 500;
   color: #2e2e2e;
   display: block;
   line-height: 14px;
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
-.qsInstruction li .qs-code p{
+.qsInstruction li .qs-code p {
   font-size: 13px;
   font-weight: 400;
   color: #2e2e2e;
@@ -4165,7 +4163,7 @@ form #debt-amount-slider label {
   margin-bottom: 0px;
 }
 
-.startbtn{
+.startbtn {
   font: 500 13px/18px Roboto;
   display: inline-block;
   padding: 4px 12px;
@@ -4176,22 +4174,22 @@ form #debt-amount-slider label {
   border: none;
   cursor: pointer;
 }
-.qs-count-section{
+.qs-count-section {
   display: flex;
   border-top: 1px solid #e2e2e2;
   border-bottom: 1px solid #e2e2e2;
 }
-.qs-counting{
+.qs-counting {
   margin-top: 12px;
 }
-.qs-count-section li{
+.qs-count-section li {
   font-size: 14px;
   color: #3f48cc;
   flex-grow: 1;
   flex-basis: 0;
   padding: 4px 5px;
 }
-.ins-title{
+.ins-title {
   font-size: 13px;
   font-weight: 500;
   color: #2e2e2e;
@@ -4201,57 +4199,57 @@ form #debt-amount-slider label {
   margin-bottom: 20px;
 }
 
-.cong-tickIcon h3{
+.cong-tickIcon h3 {
   font-size: 16px;
 }
-.cong-tickIcon p{
+.cong-tickIcon p {
   font-size: 13px;
   color: #646464;
 }
-.qsInstruction-List{
+.qsInstruction-List {
   margin-top: 10px;
 }
-.qsInstruction-List li{
+.qsInstruction-List li {
   font-size: 13px;
-    font-weight: 400;
-    color: #2e2e2e;
-    display: block;
-    padding-bottom: 6px;
+  font-weight: 400;
+  color: #2e2e2e;
+  display: block;
+  padding-bottom: 6px;
 }
-.experienceCont{
+.experienceCont {
   font-size: 13px;
   color: #646464;
   text-align: center;
   margin-top: 10px;
 }
-.feedback-submit{
+.feedback-submit {
   padding: 20px 0px 0px 0px;
   border-top: 1px solid #ebebeb;
 }
-.feedback-submit li{
+.feedback-submit li {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0px 0px 8px 0px;
 }
-.feedback-submit li p{
+.feedback-submit li p {
   font-size: 14px;
   color: #000000;
   margin: 0px 0px 0px 0px;
 }
-.raidobttn-group{
+.raidobttn-group {
   display: flex;
 }
 
-.emoji-exp-type li{
+.emoji-exp-type li {
   position: relative;
   cursor: pointer;
 }
-.emoji-exp-type li:hover .tooltip1{
+.emoji-exp-type li:hover .tooltip1 {
   visibility: visible;
   opacity: 1;
 }
-.tooltip1{
+.tooltip1 {
   background: #000000;
   font-size: 11px;
   padding: 3px 12px;
@@ -4265,45 +4263,45 @@ form #debt-amount-slider label {
   opacity: 0;
 }
 
-.qs-head{
+.qs-head {
   display: flex;
   align-items: center;
   border-bottom: 1px solid #ededed;
   padding-bottom: 6px;
   justify-content: space-between;
 }
-.qs-head img{
+.qs-head img {
   width: 110px;
   height: 100%;
   object-fit: contain;
 }
-.qs-head h1{
+.qs-head h1 {
   color: #1c1b1b;
   font-size: 15px;
   font-weight: 500;
   line-height: 18px;
 }
-.assesmentType{
+.assesmentType {
   margin-top: 10px;
 }
-.assesmentType li{
+.assesmentType li {
   display: flex;
   align-items: center;
   padding-bottom: 6px;
 }
-.asses-candidate{
+.asses-candidate {
   display: flex;
   align-items: center;
   flex: 1;
 }
-.asses-candidate label{
+.asses-candidate label {
   font-size: 13px;
   color: #7a7a7a;
   font-weight: 400;
   margin-bottom: 0px;
   line-height: 16px;
 }
-.asses-candidate span{
+.asses-candidate span {
   font-size: 13px;
   color: #000000;
   font-weight: 500;
@@ -4312,65 +4310,62 @@ form #debt-amount-slider label {
   padding-left: 4px;
   line-height: 16px;
 }
-.score-paragraph{
+.score-paragraph {
   margin-bottom: 0px;
-    background: #f1f1f1;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 6px 2px;
-    text-align: center;
+  background: #f1f1f1;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 2px;
+  text-align: center;
 }
-.score-analysis-section{
-  padding:0px;
+.score-analysis-section {
+  padding: 0px;
 }
 
-.gaugeChart, .gauge-chart{
+.gaugeChart,
+.gauge-chart {
   position: relative;
 }
-.gaugeChart .gauge-chart .gauge-chart__label{
+.gaugeChart .gauge-chart .gauge-chart__label {
   position: absolute;
   right: 0;
   left: 0;
   margin: 0 !important;
   font-size: 18px !important;
 }
-.gaugeChart .gauge-chart > div{
+.gaugeChart .gauge-chart > div {
   margin-top: 10px;
 }
 
-.green{
-  color:#2E7D32 !important;
+.green {
+  color: #2e7d32 !important;
 }
-.red{
-  color:#D32F2F !important;
+.red {
+  color: #d32f2f !important;
 }
 
-.scoreTable table{
+.scoreTable table {
   width: 100%;
 }
-.scoreTable table thead{
+.scoreTable table thead {
   background: #f1f1f1;
 }
-.scoreTable table thead tr th{
+.scoreTable table thead tr th {
   font-size: 13px;
   color: #000000;
   font-weight: 500;
   padding: 4px 10px;
   border-bottom: none;
 }
-.scoreTable table tbody tr td{
+.scoreTable table tbody tr td {
   font-size: 13px;
   color: #3f3f3f;
   font-weight: 400;
   padding: 4px 10px;
 }
-.scoreTable table tbody tr:nth-child(even){
+.scoreTable table tbody tr:nth-child(even) {
   background: #f1f1f142;
 }
-
-
-
-
 
 /**** Responsive  ****/
 @media screen and (max-width: 679px) {
@@ -4416,37 +4411,36 @@ form #debt-amount-slider label {
   .btn-common-border {
     padding: 8px 12px 8px 12px;
   }
-  .app-support-type .app-support-list{
+  .app-support-type .app-support-list {
     padding: 12px 8px;
     margin-right: 6px;
   }
-  .contact-form-group.cfg-skills{
+  .contact-form-group.cfg-skills {
     width: 100%;
     margin-right: 0px;
     margin-bottom: 12px;
   }
-  .plat-items::before{
-      display: none;
+  .plat-items::before {
+    display: none;
   }
-  .signup-talent-img{
-      width: 100%;
+  .signup-talent-img {
+    width: 100%;
   }
-  .apptalents-flex{
+  .apptalents-flex {
     margin-bottom: 8px;
   }
-  .developer-type .developer-list{
+  .developer-type .developer-list {
     width: 100%;
   }
 }
 
-
-.apptalents-flex lottie-player{
+.apptalents-flex lottie-player {
   width: 120px;
   height: 120px;
 }
 
 /*** Sidebar ***/
-.overlay{
+.overlay {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -4456,9 +4450,9 @@ form #debt-amount-slider label {
   left: 0;
   right: 0;
   bottom: 0;
-  display: none; 
+  display: none;
 }
-.sideWrapper{
+.sideWrapper {
   position: fixed;
   right: 0;
   width: 330px;
@@ -4467,9 +4461,8 @@ form #debt-amount-slider label {
   z-index: 10000;
   box-shadow: 0px 2px 15px #0000001a;
   display: none;
-  
 }
-.sideheader{
+.sideheader {
   background: #f7f7f7;
   width: 100%;
   display: flex;
@@ -4478,22 +4471,22 @@ form #debt-amount-slider label {
   padding: 0px 12px;
   height: 36px;
 }
-.sideheader img{
+.sideheader img {
   width: 100px;
   object-fit: contain;
 }
-.sideheader .closebtn{
+.sideheader .closebtn {
   color: #000000;
   font-size: 18px;
 }
-.sidebody{
+.sidebody {
   overflow-y: auto;
-    height: calc(100vh - 42px);
+  height: calc(100vh - 42px);
 }
-.sidebar-menu{
+.sidebar-menu {
   padding: 12px;
 }
-.sidebarmenuType li a{
+.sidebarmenuType li a {
   display: block;
   position: relative;
   color: #000000;
@@ -4501,55 +4494,55 @@ form #debt-amount-slider label {
   font-size: 13px;
   padding: 4px 18px;
 }
-.sidemenulink::before{
+.sidemenulink::before {
   position: absolute;
   content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
   left: 0px;
 }
-.sidemenulink[aria-expanded="true"]::before{
+.sidemenulink[aria-expanded="true"]::before {
   transform: rotate(90deg);
 }
-.sidemenuabt{
+.sidemenuabt {
   padding: 12px;
 }
-.sidemenuabt h1{
+.sidemenuabt h1 {
   margin: 0px 0px 10px 0px;
-    font-size: 16px;
-    color: #000000;
+  font-size: 16px;
+  color: #000000;
 }
 
-.followusType{
+.followusType {
   display: flex;
 }
-.followusType li a{
+.followusType li a {
   font-size: 14px;
-    color: #000000;
-    width: 26px;
-    height: 26px;
-    border: 1px solid #dee2e6;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 6px;
-    box-shadow: 0 0 20px 0 #3e1c831a;
-    background: #ffffff;
-    transition: 0.3s all ease;
+  color: #000000;
+  width: 26px;
+  height: 26px;
+  border: 1px solid #dee2e6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 6px;
+  box-shadow: 0 0 20px 0 #3e1c831a;
+  background: #ffffff;
+  transition: 0.3s all ease;
 }
-.followusType li a:hover{
-  background: #4949FC;
-  color:#ffffff;
+.followusType li a:hover {
+  background: #4949fc;
+  color: #ffffff;
 }
-.sidemenuTabsContent{
-  padding:0px 12px;
+.sidemenuTabsContent {
+  padding: 0px 12px;
 }
-.sidemenuTabsContent .nav{
+.sidemenuTabsContent .nav {
   width: 125px;
 }
-.sidemenuTabsContent .tabcontentside{
+.sidemenuTabsContent .tabcontentside {
   border: 1px solid #efefef;
 }
-.sidemenuTabsContent .nav .nav-link{
+.sidemenuTabsContent .nav .nav-link {
   font-size: 12px;
   width: 100%;
   padding: 2px 8px;
@@ -4558,54 +4551,61 @@ form #debt-amount-slider label {
   text-align: left;
   border-bottom: 1px solid #dfdfdf;
 }
-.sidemenuTabsContent .nav .nav-link:last-child{
+.sidemenuTabsContent .nav .nav-link:last-child {
   border-bottom: 0px;
 }
-.sidemenuTabsContent .tab-content{
-  width:calc(100% - 125px);
+.sidemenuTabsContent .tab-content {
+  width: calc(100% - 125px);
 }
-.rightpanel-easworks{
+.rightpanel-easworks {
   padding: 6px 6px 0px 6px;
 }
-.easworkSearchbox{
+.easworkSearchbox {
   position: relative;
 }
-.easworkSearchbox input{
+.easworkSearchbox input {
   width: 100%;
-    border: 1px solid #dddddd;
-    border-radius: 3px;
-    height: 24px;
-    font-size: 11px;
-    outline: none;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  height: 24px;
+  font-size: 11px;
+  outline: none;
 }
-.easworkSearchbox input:-moz-placeholder{
+.easworkSearchbox input:-moz-placeholder {
   font-size: 10px;
 }
-.easworkSearchbox input::-moz-placeholder{
+.easworkSearchbox input::-moz-placeholder {
   font-size: 10px;
 }
-.easworkSearchbox input:-ms-input-placeholder{
+.easworkSearchbox input:-ms-input-placeholder {
   font-size: 10px;
 }
-.easworkSearchbox input::-webkit-input-placeholder{
+.easworkSearchbox input::-webkit-input-placeholder {
   font-size: 10px;
 }
-.easeworkssearchList{
+.easeworkssearchList {
   margin-top: 4px;
   overflow-y: auto;
   height: 413px;
 }
-.easeworkssearchList li a{
+.easeworkssearchList li a {
   font-size: 11px;
-    width: 100%;
-    padding: 4px 3px;
-    border: none;
-    border-radius: 0px;
-    text-align: left;
-    display: block;
-    color:#302929;
-    transition: 0.3s all ease;
+  width: 100%;
+  padding: 4px 3px;
+  border: none;
+  border-radius: 0px;
+  text-align: left;
+  display: block;
+  color: #302929;
+  transition: 0.3s all ease;
 }
-.easeworkssearchList li a:hover{
+.easeworkssearchList li a:hover {
   background: #f8f8f8;
+}
+.dropdown-menu {
+  display: block;
+}
+
+.selectJobSearch {
+  background: red;
 }

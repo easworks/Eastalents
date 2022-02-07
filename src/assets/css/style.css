@@ -717,14 +717,14 @@ section {
   height: 80px;
   border-radius: 50%;
 }
-.services .icon-box .icon.ghIcon.ghIcongray{
-border-color: #cccccc;
+.services .icon-box .icon.ghIcon.ghIcongray {
+  border-color: #cccccc;
 }
-.services .icon-box .icon.ghIcon img{
+.services .icon-box .icon.ghIcon img {
   width: 42px;
   height: 42px;
 }
-.services .icon-box .icon.ghIcon img.speedheight{
+.services .icon-box .icon.ghIcon img.speedheight {
   height: 35px;
 }
 .services .icon-box .icon i {
@@ -1584,7 +1584,7 @@ footer {
   align-items: center;
   justify-content: center;
 }
-.apptalent-connect::after{
+.apptalent-connect::after {
   position: absolute;
   content: "";
   background: #494b4ee8;
@@ -1738,7 +1738,7 @@ footer {
   display: flex;
   flex-direction: column;
 }
-.platform-box .plat-content.icon-box{
+.platform-box .plat-content.icon-box {
   flex: 1 1 auto;
 }
 .plat-numberimg {
@@ -1968,7 +1968,7 @@ footer {
   height: 450px;
   margin: auto;
 }
-.qlf-imge.talentquestionImg{
+.qlf-imge.talentquestionImg {
   height: 420px;
 }
 .quiz-lft-form img {
@@ -1977,7 +1977,7 @@ footer {
   object-fit: contain;
 }
 .quiz-lft-form h1 {
-  font-size:1.5rem;
+  font-size: 1.5rem;
   font-weight: 700;
   text-transform: capitalize;
   margin-bottom: 20px;
@@ -2070,7 +2070,7 @@ footer {
   border-color: #2f2e41;
 }
 .quiz-bttn-group {
-  margin-top: 20px;
+  margin-top: 170px;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -3032,7 +3032,7 @@ sub {
   letter-spacing: 0.56px;
   font: normal 14px/24px Roboto;
 }
-.how-Under-content .plat-step{
+.how-Under-content .plat-step {
   margin: 0px 0px 12px 0px;
 }
 /** Employer Profile **/
@@ -3939,12 +3939,12 @@ form #debt-amount-slider label {
   top: 40%;
   transform: translateY(-50%);
 }
-.pro5img{
+.pro5img {
   position: absolute;
   right: 30%;
   top: 50%;
 }
-.pro4img{
+.pro4img {
   position: absolute;
   left: 30%;
   top: 50%;
@@ -3961,4 +3961,8 @@ form #debt-amount-slider label {
   font-weight: normal;
   color: #3f48cc;
   border-radius: 4px;
+}
+
+.selectJobSearch {
+  background: red;
 }

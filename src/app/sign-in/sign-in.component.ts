@@ -47,7 +47,7 @@ export class SignInComponent implements OnInit {
         this.sessionService.setLocalStorageCredentials(response.result.user);
         this.signInForm.reset();
         this.submitted = false;
-        this.router.navigate(['/talentquestion']);
+        this.router.navigate(['/talentprofilequestion']);
       } else {
         this.toaster.error(`${response.message}`);
       }

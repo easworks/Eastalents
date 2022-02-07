@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-score-analysis',
@@ -20,9 +21,13 @@ export class ScoreAnalysisComponent implements OnInit {
       rangeLabel: ['0', '100'],
       needleStartValue: 50,
   };
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit(): void {
+  }
+
+  onFeedback(){
+    this.router.navigate(['/feedback']);
   }
 
 }

@@ -19,7 +19,7 @@ export class TalentProfileSteps {
     optionObj: any;
     constructor() {
         this.step = "";
-        this.optionObj = {};
+        this.optionObj = [];
         this.id = 0
     }
 }

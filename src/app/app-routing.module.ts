@@ -127,7 +127,7 @@ const routes: Routes = [
     component: TalentProfileViewComponent,
   },
   {
-    path: 'talentquestion',
+    path: 'talentprofilequestion',
     component: TalentQuestionComponent, // Get Started
   },
   {
@@ -151,7 +151,7 @@ const routes: Routes = [
     component: YourJobsComponent,
   },
   {
-    path: 'question-section',
+    path: 'question-category',
     component: QuestionSectionComponent,
   },
   {
@@ -159,7 +159,7 @@ const routes: Routes = [
     component:QuantitativeAppComponent,
   },
   {
-    path: 'ques-congratulation',
+    path: 'feedback',
     component:QuesCongratulationComponent,
   },
   {

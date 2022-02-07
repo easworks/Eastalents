@@ -26,8 +26,8 @@
                           <div class="login-form-group">
                             <label class="label-text">First Name</label>
                             <div class="login-form-input">
-                              <input type="text" placeholder="First Name" class="inputview" />
-                              <span class="error-message d-none">Please enter your Fullname</span>
+                              <input type="text" placeholder="First Name" class="inputview" formControlName="firstName" />
+                              <span class="error-message d-none" *ngIf="submitted && signUpFormControl.firstName.errors">Please enter your Fullname</span>
                               <i class='bx bxs-user i-icons'></i>
                             </div>
                           </div>
@@ -36,8 +36,8 @@
                           <div class="login-form-group">
                             <label class="label-text">Last Name</label>
                             <div class="login-form-input">
-                              <input type="text" placeholder="Last Name" class="inputview" />
-                              <span class="error-message d-none">Please enter your Lastname</span>
+                              <input type="text" placeholder="Last Name" class="inputview" formControlName="lastName" />
+                              <span class="error-message d-none" *ngIf="submitted && signUpFormControl.lastName.errors">Please enter your Lastname</span>
                               <i class='bx bxs-user i-icons'></i>
                             </div>
                           </div>
@@ -46,8 +46,11 @@
                           <div class="login-form-group">
                             <label class="label-text">Work Email Address</label>
                             <div class="login-form-input">
-                              <input type="text" placeholder="Email Address" class="inputview" />
-                              <span class="error-message d-none">Please enter your email address</span>
+                              <input type="text" placeholder="Email Address" class="inputview" formControlName="email" />
+                              <div *ngIf="submitted && signUpFormControl.email.errors">
+                                <span class="error-message" *ngIf="signUpFormControl.email.errors.required">Email is required</span>
+                                <span class="error-message" *ngIf="signUpFormControl.email.errors.pattern">Please enter the valid email address</span>
+                            </div>
                               <i class='icofont-email i-icons'></i>
                             </div>
                           </div>
@@ -56,8 +59,11 @@
                           <div class="login-form-group">
                             <label class="label-text">Password</label>
                             <div class="login-form-input">
-                              <input type="password" placeholder="Password" class="inputview" />
-                              <span class="error-message  d-none">Please enter your Password</span>
+                              <input type="password" placeholder="Password" class="inputview"  formControlName="password"  />
+                              <div *ngIf="submitted && signUpFormControl.password.errors">
+                                <span class="error-message" *ngIf="signUpFormControl.password.errors.required">Please enter the password</span>
+                                <span class="error-message" *ngIf="signUpFormControl.password.errors.pattern">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character:</span>
+                              </div>
                               <i class='bx bxs-lock-alt i-icons'></i>
                             </div>
                           </div>
@@ -66,8 +72,12 @@
                           <div class="login-form-group">
                             <label class="label-text">Confirm Password</label>
                             <div class="login-form-input">
-                              <input type="password" placeholder="Confirm Password" class="inputview" />
-                              <span class="error-message  d-none">Please enter your Confirm Password</span>
+                              <input type="password" placeholder="Confirm Password" class="inputview" formControlName="confirmPassword" />
+                              <div *ngIf="submitted && signUpFormControl.confirmPassword.errors">
+                                <span class="error-message" *ngIf="signUpFormControl.confirmPassword.errors.required">Please enter the confirm password</span>
+                                <span class="error-message" *ngIf="signUpFormControl.confirmPassword.errors.mustMatch">Password must match</span>
+                                <!-- <span class="error-message" *ngIf="signUpFormControl.confirmPassword.errors.pattern">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character:</span> -->
+                              </div>
                               <i class='bx bxs-lock-alt i-icons'></i>
                             </div>
                           </div>
@@ -88,7 +98,7 @@
                         </div>
                         <div class="col-lg-12 col-md-12 col-12">
                           <div class="login-form-group">
-                            <button type="button" class="loginbtn">Get Started</button>
+                            <button type="button" class="loginbtn" (click)="getStarted()">Get Started</button>
                           </div>
                         </div>
                       </div>

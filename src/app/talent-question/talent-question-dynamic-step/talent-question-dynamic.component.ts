@@ -9,6 +9,7 @@ export class TalentQuestionDynamicComponent implements OnInit {
 
   @Input() talentOption: any;
   @Input() fieldArray: Array<any> = [];
+  @Input() savePreviousData: Array<any> = [];
   @Input() currentPage: number = 0;
   @Output() nextPage = new EventEmitter<string>();
   @Output() sliceItem = new EventEmitter<string>();

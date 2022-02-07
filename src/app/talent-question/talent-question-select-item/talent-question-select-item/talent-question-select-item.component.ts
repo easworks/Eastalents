@@ -8,9 +8,11 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 export class TalentQuestionSelectItemComponent implements OnInit {
 
   @Input() fieldArray: Array<any> = [];
+  @Input() savePreviousData: Array<any> = [];
   @Input() isSingleControl: Boolean = false;
 
   @Output() deleteFieldValue = new EventEmitter<string>();
+  @Output() outputData = new EventEmitter<any>();
 
   constructor() { }
 
@@ -20,5 +22,6 @@ export class TalentQuestionSelectItemComponent implements OnInit {
   deleteOption(index: any, option: any) {
     this.deleteFieldValue.emit(option);
   }
+ 
 
 }
