@@ -4602,7 +4602,6 @@ form #debt-amount-slider label {
 .easeworkssearchList li a:hover {
   background: #f8f8f8;
 }
-<<<<<<< HEAD
 .dropdown-menu {
   display: block;
 }
@@ -4610,106 +4609,106 @@ form #debt-amount-slider label {
 .selectJobSearch {
   background: red;
 }
-=======
 
-.succTick{
+.succTick {
   border: 1px solid #48c3b8;
-    background: #ffffff;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: #48bb78;
-    font-size:18px;
+  background: #ffffff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #48bb78;
+  font-size: 18px;
 }
-.succTick i{
+.succTick i {
   padding-right: 0px !important;
   color: #48bb78 !important;
 }
-.succclose{
+.succclose {
   border-color: #f56565;
-  color:#f56565;
+  color: #f56565;
 }
-.succclose i{
+.succclose i {
   color: #f56565 !important;
 }
-.fontWeight-300{
+.fontWeight-300 {
   font-weight: 300 !important;
 }
-.overflow-visible{
+.overflow-visible {
   overflow: visible !important;
 }
-.whyEasworks{
+.whyEasworks {
   background: #4949fc;
-    padding: 60px 0px;
+  padding: 60px 0px;
 }
-.whyEasNavTabs .nav{
+.whyEasNavTabs .nav {
   justify-content: center;
 }
-.whyEasNavTabs .nav .nav-item .nav-link{
+.whyEasNavTabs .nav .nav-item .nav-link {
   background: transparent;
   font-size: 16px;
   border: none;
   padding: 16px 22px;
   position: relative;
 }
-.whyEasNavTabs .nav .nav-item .nav-link.active::after{
+.whyEasNavTabs .nav .nav-item .nav-link.active::after {
   position: absolute;
-  content: '';
+  content: "";
   width: 100%;
   left: 0;
   bottom: 0;
   background: #4949fc;
   height: 2px;
 }
-.whyEasNavTabs .nav .nav-item .nav-link.active{
-  color:#4949fc;
+.whyEasNavTabs .nav .nav-item .nav-link.active {
+  color: #4949fc;
 }
-.costTitle{
+.costTitle {
   font-size: 22px;
-    font-weight: 500;
-    text-align: left;
-    margin-top: 20px;
-    color: #372354;
-    margin-bottom: 30px;
-    text-transform: capitalize;
+  font-weight: 500;
+  text-align: left;
+  margin-top: 20px;
+  color: #372354;
+  margin-bottom: 30px;
+  text-transform: capitalize;
 }
-.costeffectBox{
+.costeffectBox {
   display: flex;
-    align-items: baseline;
+  align-items: baseline;
 }
-.costeffectBox span{
+.costeffectBox span {
   display: flex;
   align-items: center;
   justify-content: center;
   background: #ffffff;
   border: 1px solid #dddddd;
   width: 32px;
-  min-width:32px;
+  min-width: 32px;
   height: 32px;
   border-radius: 50%;
-  box-shadow: 0px 2px 4px rgba(97, 97, 97, 0.18), 0px 4px 8px rgba(97, 97, 97, 0.18);
+  box-shadow: 0px 2px 4px rgba(97, 97, 97, 0.18),
+    0px 4px 8px rgba(97, 97, 97, 0.18);
 }
-.costeffectContent{
+.costeffectContent {
   padding-left: 30px;
 }
-.costeffectContent h1{
+.costeffectContent h1 {
   margin-top: 0px;
   margin-bottom: 0px;
   font-size: 20px;
 }
-.defaultTitle h1{
+.defaultTitle h1 {
   color: #4949fc;
 }
-.talentGuarentList{
+.talentGuarentList {
   position: relative;
   height: 350px;
   width: 450px;
-    margin: auto;
+  margin: auto;
 }
-.talentGuarentList ul .tg-item{
+.talentGuarentList ul .tg-item {
   width: 120px;
   height: 120px;
   background: #f1f1f1;
@@ -4723,43 +4722,42 @@ form #debt-amount-slider label {
   padding: 10px;
   position: absolute;
 }
-.talentGuarentList ul .tg-item label{
+.talentGuarentList ul .tg-item label {
   color: #000000;
   font-size: 13px;
   display: block;
 }
-.talentGuarentList ul .tg-item span{
+.talentGuarentList ul .tg-item span {
   color: #4949fc;
-    font-size: 40px;
-    display: block;
-    line-height: 40px;
-    font-weight: 500;
+  font-size: 40px;
+  display: block;
+  line-height: 40px;
+  font-weight: 500;
 }
-.talentGuarentList ul .tg-item.lftPosition{
+.talentGuarentList ul .tg-item.lftPosition {
   left: 0;
   background: #efe4b0;
 }
-.talentGuarentList ul .tg-item.rhtPosition{
+.talentGuarentList ul .tg-item.rhtPosition {
   right: 0;
   background: #ffaec9;
 }
-.talentGuarentList ul .tg-item.centerPosition{
+.talentGuarentList ul .tg-item.centerPosition {
   background: #c8bfe7;
   right: 0;
-    left: 0;
-    margin: auto;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 180px;
-    height: 180px;
+  left: 0;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 180px;
+  height: 180px;
 }
-.talentGuarentList ul .tg-item.lftbtmPosition{
+.talentGuarentList ul .tg-item.lftbtmPosition {
   bottom: 0;
   background: #99d9ea;
 }
-.talentGuarentList ul .tg-item.btmrhtPosition{
+.talentGuarentList ul .tg-item.btmrhtPosition {
   right: 0px;
   bottom: 0;
   background: #a7f88b;
 }
->>>>>>> 952ea7cc0754e4e4e697af6203168c46bd6c7672

@@ -71,7 +71,7 @@ const routes: Routes = [
     component: EmploerJobpostingViewComponent,
   },
   {
-    path: 'Employer-question',
+    path: 'employerprofilequestion',
     component: EmploerQuestionComponent,
   },
   {
