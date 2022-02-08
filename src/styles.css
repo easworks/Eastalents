@@ -234,8 +234,9 @@ section {
   display: none;
 }
 #header .logo img {
-  max-height: 45px;
-  width: 160px;
+  height: 100%;
+  width: 180px;
+  object-fit: contain;
 }
 #header.header-scrolled .logo .white-logo {
   display: block;
