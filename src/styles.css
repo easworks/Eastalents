@@ -1752,9 +1752,10 @@ footer {
   background: #3f48cc;
 }
 .apptalent-table-view table tr td {
-  font: normal 14px/22px Roboto;
+  font: 500 14px/22px Roboto;
   padding: 12px 12px;
   border: 1px solid #e2e2e2;
+  color:#000000;
 }
 .apptalent-table-view table tr td:not(:nth-child(1)) {
   text-align: center;
@@ -1773,6 +1774,9 @@ footer {
 .apptalent-table-view table tr td i {
   padding-right: 10px;
   color: #3090db;
+}
+.bg-red-300{
+  background: #f7bbbf !important;
 }
 .combtn {
   border: none;
@@ -1795,12 +1799,12 @@ footer {
 
 .price-week span {
   display: inline-block;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   color: #3090db;
 }
 .price-week span:nth-child(1) {
-  font-size: 32px;
+  font-size: 24px;
 }
 
 /** Get Hired **/
@@ -4676,20 +4680,14 @@ form #debt-amount-slider label {
 }
 .costeffectBox {
   display: flex;
-  align-items: baseline;
+  align-items: center;
 }
 .costeffectBox span {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ffffff;
-  border: 1px solid #dddddd;
-  width: 32px;
-  min-width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  box-shadow: 0px 2px 4px rgba(97, 97, 97, 0.18),
-    0px 4px 8px rgba(97, 97, 97, 0.18);
+  color: #4949fc;
+  font-size: 70px;
 }
 .costeffectContent {
   padding-left: 30px;
