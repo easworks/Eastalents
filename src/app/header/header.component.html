@@ -1,7 +1,7 @@
 <!----- Header ----->
 <header id="header" class="fixed-top">
-  <div class="container-fluid d-flex align-items-center">
-    <h1 class="logo mr-auto">
+  <div class="container-fluid d-flex align-items-center justify-content-between">
+    <h1 class="logo">
       <a class="black-logo" [routerLink]="['/index']">
         <img src="assets/img/white-logo.png" />
       </a>
@@ -9,7 +9,7 @@
         <img src="assets/img/black-logo.png" />
       </a>
     </h1>
-    <nav class="nav-menu d-none d-lg-block mr-5">
+    <nav class="nav-menu d-none d-lg-block">
       <ul>
         <!-- <li><a [routerLinkActive]="['active']" [routerLink]="['/Talent']">Talent</a></li> -->
         <li><a [routerLinkActive]="['active']" [routerLink]="['/WhyEasworks']">Why EASWORKS?</a></li>
@@ -92,16 +92,18 @@
             </div>
           </div>
         </li>
-        <li><a [routerLinkActive]="['']" [routerLink]="['']">Blog</a></li>
+        <!-- <li><a [routerLinkActive]="['']" [routerLink]="['']">Blog</a></li> -->
         <li><a [routerLinkActive]="['active']" [routerLink]="['/signup']">Apply as Freelancer</a></li>
         <!-- <li><a  [routerLinkActive]="['active']" [routerLink]="['/GetHired']">Get Hired</a></li> -->
       </ul>
     </nav>
-
-    <a [routerLinkActive]="['active']" [routerLink]="['/signin']" class="signin-btn">Login</a>
-    <a [routerLinkActive]="['active']" [routerLink]="['/Employer-Signup']" class="get-started-btn hirenowbtn">Hire Now</a>
-    <!-- <a [routerLinkActive]="['active']" [routerLink]="['/signup']" class="get-started-btn">Get Started</a> -->
-    <button type="button" class="sidemenu"><i class='bx bx-menu'></i></button>
+    <div class="d-flex align-items-center">
+      <a [routerLinkActive]="['active']" [routerLink]="['/signin']" class="signin-btn">Login</a>
+      <a [routerLinkActive]="['active']" [routerLink]="['/Employer-Signup']" class="get-started-btn hirenowbtn">Hire
+        Now</a>
+      <!-- <a [routerLinkActive]="['active']" [routerLink]="['/signup']" class="get-started-btn">Get Started</a> -->
+      <button type="button" class="sidemenu"><i class='bx bx-menu'></i></button>
+    </div>
   </div>
 </header>
 <!----- Header ----->

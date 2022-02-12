@@ -96,13 +96,14 @@ select {
 .appbttn {
   font-size: 14px;
   text-transform: capitalize;
-  display: flex;
+  display: inline-flex;
   border-radius: 3px;
   justify-content: center;
   align-items: center;
   padding: 6px 6px;
   outline: none;
   text-decoration: none;
+  min-width: 140px;
 }
 /*--------------------------------------------------------------
   # Back to top button
@@ -245,7 +246,7 @@ section {
   display: none;
 }
 #header.header-scrolled .signin-btn {
-  color: #000000;
+  color: #464444;
 }
 @media (max-width: 991px) {
   #header {
@@ -275,13 +276,14 @@ section {
   position: relative;
   color: #ffffff;
   transition: 0.3s;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 500;
 }
 .nav-menu a.active {
   color: #73d1ff;
 }
 .header-scrolled .nav-menu a {
-  color: #000000;
+  color: #464444;
 }
 .header-scrolled .nav-menu a.active {
   color: #3f48cc;
@@ -447,15 +449,16 @@ section {
   padding: 6px 16px;
   white-space: nowrap;
   transition: 0.3s;
-  font-size: 14px;
+  font-size: 13px;
   display: inline-block;
   border: 1px solid #1ea6e0;
   letter-spacing: 0.5px;
 }
 .signin-btn {
   color: #ffffff;
-  font-size: 14px;
+  font-size: 13px;
   padding: 8px 8px;
+  font-weight: 500;
 }
 .signin-btn:hover {
   color: #ffffff;
@@ -467,8 +470,9 @@ section {
   border-color: #ffffff;
 }
 .header-scrolled .get-started-btn {
-  border: 1px solid #1ea6e0;
+  border: 1px solid #4949fc;
   color: #ffffff;
+  background-color:#4949fc;
 }
 .get-started-btn:hover {
   background: #1ea6e0;
@@ -740,7 +744,7 @@ section {
 .services .icon-box {
   text-align: center;
   border: 1px solid #fff;
-  padding: 30px 20px;
+  padding: 12px 20px;
   transition: all ease-in-out 0.3s;
   background: #fff;
   border-radius: 6px;
@@ -794,13 +798,13 @@ section {
 }
 
 .services .icon-box p {
-  line-height: 24px;
+  line-height: 22px;
   font-size: 14px;
   margin-bottom: 0;
 }
 .services .icon-box .icon img {
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
 }
 .services .icon-box:hover {
@@ -1022,7 +1026,7 @@ footer {
   font-weight: 400;
   letter-spacing: 0.5px;
   color: #0b1320;
-  margin: 0 0 40px 0;
+  margin: 0 0 25px 0;
 }
 .foot-about img {
   max-height: 45px;
@@ -1436,7 +1440,7 @@ footer {
 .whyapptalent-full-wraper {
   width: 100%;
   background: #fff;
-  padding: 80px 0px 90px 0px;
+  padding: 80px 0px 60px 0px;
 }
 .main-title {
   margin: 0;
@@ -4460,7 +4464,7 @@ form #debt-amount-slider label {
 .sideWrapper {
   position: fixed;
   right: 0;
-  width: 330px;
+  width: 500px;
   height: 100%;
   background: #ffffff;
   z-index: 10000;
@@ -4474,11 +4478,12 @@ form #debt-amount-slider label {
   align-items: center;
   justify-content: space-between;
   padding: 0px 12px;
-  height: 36px;
+  height: 50px;
 }
 .sideheader img {
-  width: 100px;
+  width: 160px;
   object-fit: contain;
+  height: 100%;
 }
 .sideheader .closebtn {
   color: #000000;
@@ -4486,7 +4491,7 @@ form #debt-amount-slider label {
 }
 .sidebody {
   overflow-y: auto;
-  height: calc(100vh - 42px);
+  height: calc(100vh - 50px);
 }
 .sidebar-menu {
   padding: 12px;
@@ -4542,7 +4547,7 @@ form #debt-amount-slider label {
   padding: 0px 12px;
 }
 .sidemenuTabsContent .nav {
-  width: 125px;
+  width: 220px;
 }
 .sidemenuTabsContent .tabcontentside {
   border: 1px solid #efefef;
@@ -4560,7 +4565,7 @@ form #debt-amount-slider label {
   border-bottom: 0px;
 }
 .sidemenuTabsContent .tab-content {
-  width: calc(100% - 125px);
+  width: calc(100% - 220px);
 }
 .rightpanel-easworks {
   padding: 6px 6px 0px 6px;
@@ -4591,7 +4596,7 @@ form #debt-amount-slider label {
 .easeworkssearchList {
   margin-top: 4px;
   overflow-y: auto;
-  height: 413px;
+  height: 377px;
 }
 .easeworkssearchList li a {
   font-size: 11px;

@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit {
       $('.sidemenu').click(function () {
         $('.sideWrapper').show();
         $('.overlay').show();
+        $('body').toggleClass('overflow-hidden');
       });
       $('.closebtn').click(function () {
         $('.sideWrapper').hide();
