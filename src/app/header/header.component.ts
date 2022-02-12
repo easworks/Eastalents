@@ -14,11 +14,12 @@ export class HeaderComponent implements OnInit {
       $('.sidemenu').click(function () {
         $('.sideWrapper').show();
         $('.overlay').show();
-        $('body').toggleClass('overflow-hidden');
+        $('body').addClass('overflow-hidden');
       });
       $('.closebtn').click(function () {
         $('.sideWrapper').hide();
         $('.overlay').hide();
+        $('body').removeClass('overflow-hidden');
       });
     });
   }
