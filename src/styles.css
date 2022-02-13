@@ -4,6 +4,9 @@
 @import "assets/css/aos.css";
 @import "assets/css/responsive.css";
 
+:root{
+  --blue-color:#4949fc;
+}
 body {
   font-family: "Roboto", sans-serif;
   color: #444444;
@@ -153,16 +156,32 @@ section {
   padding: 30px 0;
   position: relative;
 }
-
-.section-title h2 {
-  font-size: 1.6rem;
+.main-title{
+  margin: 0;
+  font-size: 3rem;
   font-weight: 700;
-  margin-bottom: 20px;
+  line-height: 60px;
+  color: #3e4450;
+}
+.secondaryTitle{
+  font-size: 1.625rem;
+    font-weight: 700;
+    text-transform: capitalize;
+    margin-bottom: 20px;
+    padding-bottom: 0;
+    color: #2e2e2e;
+    position: relative;
+    z-index: 2;
+}
+.section-title h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 40px;
   padding-bottom: 0;
   color: #2e2e2e;
   position: relative;
   z-index: 2;
-  line-height: 40px;
+  line-height: 50px;
 }
 .secondary-title {
   font: 700 1.25rem/24px Roboto;
@@ -470,9 +489,9 @@ section {
   border-color: #ffffff;
 }
 .header-scrolled .get-started-btn {
-  border: 1px solid #4949fc;
+  border: 1px solid var(--blue-color);
   color: #ffffff;
-  background-color:#4949fc;
+  background-color:var(--blue-color);
 }
 .get-started-btn:hover {
   background: #1ea6e0;
@@ -610,7 +629,7 @@ section {
 /**********Banner section ***********/
 #banner-here {
   width: 100%;
-  background: #fff;
+  /* background: #fff; */
   padding: 100px 0px 90px 0px;
 }
 
@@ -622,7 +641,7 @@ section {
   color: #3e4450;
 }
 .spantitlecolor{
-  color:#4949fc;
+  color:var(--blue-color);
 }
 #banner-here h2 {
   margin: 0;
@@ -904,7 +923,7 @@ section {
   margin-bottom: 0px;
 }
 .sec-title .first-half h2 {
-  font-size: 1.953rem;
+  font-size: 1.625rem;
   font-weight: 700;
   text-transform: capitalize;
   margin-bottom: 20px;
@@ -998,10 +1017,10 @@ section {
   padding-bottom: 6px;
 }
 .developer-type .developer-list a:hover {
-  color: #0aaeff;
+  color: var(--blue-color);
 }
 .developer-type .developer-list a.linkview {
-  color: #0aaeff;
+  color: var(--blue-color);
 }
 #banner-here h2.normal-title {
   font-size: 20px;
@@ -1057,7 +1076,7 @@ footer {
 }
 .foot-type .foot-link a:hover,
 .foot-type .foot-link a:hover i {
-  color: #1aaef8;
+  color: var(--blue-color);
 }
 .foot-type .foot-link a i {
   color: #0b1320;
@@ -1445,18 +1464,12 @@ footer {
   background: #fff;
   padding: 80px 0px 60px 0px;
 }
-.main-title {
-  margin: 0;
-  font-size: 2.2rem;
-  font-weight: 700;
-  line-height: 50px;
-  color: #3e4450;
-}
+
 .common-para {
   color: #000000;
   margin: 20px 0 0px 0;
   letter-spacing: 0.56px;
-  font: normal 15px/25px Roboto;
+  font: normal 14px/24px Roboto;
 }
 
 /**** Timeline ****/
@@ -1671,7 +1684,7 @@ footer {
   color: #000000;
   margin: 20px 0 0px 0;
   letter-spacing: 0.56px;
-  font: normal 14px/20px Roboto;
+  font: normal 14px/24px Roboto;
 }
 .ourvalue-grid p span {
   display: block;
@@ -1812,7 +1825,7 @@ footer {
   display: inline-block;
   font-size: 15px;
   font-weight: 500;
-  color: #4949fc;
+  color: var(--blue-color);
 }
 
 /** Get Hired **/
@@ -1860,7 +1873,7 @@ footer {
   position: absolute;
   width: 78%;
   height: 5px;
-  background: #4949fc;
+  background: var(--blue-color);
   top: 19px;
   left: 0;
   right: 0;
@@ -1887,8 +1900,8 @@ footer {
   width: 100%;
   height: 100%;
   border-radius: 100%;
-  background-color: #4949fc;
-  border: 3px solid #4949fc;
+  background-color: var(--blue-color);
+  border: 3px solid var(--blue-color);
 }
 .plat-step span {
   position: relative;
@@ -1991,8 +2004,9 @@ footer {
 .twowaysstreet-type li {
   color: #000000;
   text-decoration: none;
-  display: block;
-  font-size: 15px;
+  display: flex;
+  align-items: baseline;
+  font-size: 14px;
   position: relative;
   transition: 0.5s;
   padding-bottom: 10px;
@@ -2016,7 +2030,7 @@ footer {
 .applytojoin-btn:hover {
   width: 238px;
   height: 56px;
-  background: #4949fc;
+  background: #29aae3;
   border-radius: 3px;
   font: 500 16px/14px Roboto;
   letter-spacing: 2px;
@@ -4041,7 +4055,7 @@ form #debt-amount-slider label {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: #4949fc;
+  background: var(--blue-color);
   padding: 3px;
   box-shadow: 0 0 20px 0 #dfdfdf1a;
 }
@@ -4050,7 +4064,7 @@ form #debt-amount-slider label {
   right: 7px;
   top: 38px;
   color: #ffffff;
-  background: #4949fc;
+  background: var(--blue-color);
   border-radius: 50%;
   font-size: 12px;
   padding: 3px;
@@ -4543,7 +4557,7 @@ form #debt-amount-slider label {
   transition: 0.3s all ease;
 }
 .followusType li a:hover {
-  background: #4949fc;
+  background: var(--blue-color);
   color: #ffffff;
 }
 .sidemenuTabsContent {
@@ -4646,7 +4660,7 @@ form #debt-amount-slider label {
   overflow: visible !important;
 }
 .whyEasworks {
-  background: #4949fc;
+  background: var(--blue-color);
   padding: 60px 0px;
 }
 .whyEasNavTabs .nav {
@@ -4665,11 +4679,11 @@ form #debt-amount-slider label {
   width: 100%;
   left: 0;
   bottom: 0;
-  background: #4949fc;
+  background: var(--blue-color);
   height: 2px;
 }
 .whyEasNavTabs .nav .nav-item .nav-link.active {
-  color: #4949fc;
+  color: var(--blue-color);
 }
 .costTitle {
   font-size: 22px;
@@ -4688,7 +4702,7 @@ form #debt-amount-slider label {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #4949fc;
+  color: var(--blue-color);
   font-size: 70px;
 }
 .costeffectContent {
@@ -4700,64 +4714,44 @@ form #debt-amount-slider label {
   font-size: 20px;
 }
 .defaultTitle h1 {
-  color: #4949fc;
+  color: var(--blue-color);
 }
 .talentGuarentList {
   position: relative;
-  height: 350px;
-  width: 450px;
-  margin: auto;
+}
+.talentGuarentList ul{
+  display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
 }
 .talentGuarentList ul .tg-item {
-  width: 120px;
-  height: 120px;
-  background: #f1f1f1;
-  border: 1px solid #000000;
-  border-radius: 50%;
+
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
   word-break: break-word;
-  padding: 10px;
-  position: absolute;
+  width: 48%;
+  text-align: left;
+  margin-bottom: 40px;
 }
 .talentGuarentList ul .tg-item label {
   color: #000000;
-  font-size: 13px;
+  font-size: 15px;
   display: block;
+  margin-bottom: 20px;
 }
 .talentGuarentList ul .tg-item span {
-  color: #4949fc;
-  font-size: 40px;
+  color: var(--blue-color);
+  font-size:4.063rem;
   display: block;
-  line-height: 40px;
+  line-height: 50px;
   font-weight: 500;
 }
-.talentGuarentList ul .tg-item.lftPosition {
-  left: 0;
-  background: #efe4b0;
+
+.howitworks{
+  text-align: center;
 }
-.talentGuarentList ul .tg-item.rhtPosition {
-  right: 0;
-  background: #ffaec9;
-}
-.talentGuarentList ul .tg-item.centerPosition {
-  background: #c8bfe7;
-  right: 0;
-  left: 0;
-  margin: auto;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 180px;
-  height: 180px;
-}
-.talentGuarentList ul .tg-item.lftbtmPosition {
-  bottom: 0;
-  background: #99d9ea;
-}
-.talentGuarentList ul .tg-item.btmrhtPosition {
-  right: 0px;
-  bottom: 0;
-  background: #a7f88b;
+.howitworks p a{
+  text-decoration: underline;
+    color: var(--blue-color);
+    font-weight: 500;
 }
