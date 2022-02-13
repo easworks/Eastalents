@@ -184,7 +184,7 @@ section {
   color: #000000;
   margin: 20px 0 30px 0;
   letter-spacing: 0.56px;
-  font: normal 15px/24px Roboto;
+  font: normal 14px/22px Roboto;
 }
 
 @media (max-width: 575px) {
@@ -611,15 +611,18 @@ section {
 #banner-here {
   width: 100%;
   background: #fff;
-  padding: 120px 0px 90px 0px;
+  padding: 100px 0px 90px 0px;
 }
 
 #banner-here h1 {
   margin: 0;
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 700;
   line-height: 60px;
   color: #3e4450;
+}
+.spantitlecolor{
+  color:#4949fc;
 }
 #banner-here h2 {
   margin: 0;
@@ -1073,7 +1076,7 @@ footer {
 }
 
 .common-space {
-  padding-top: 81px;
+  padding-top: 80px;
 }
 
 /**** Login ****/
@@ -1744,45 +1747,48 @@ footer {
   color: #ffffff;
 }
 .apptalent-table-view table tr th {
-  font: normal 16px/22px Roboto;
-  padding: 20px 0px;
+  font: bold 18px/22px Roboto;
+  padding: 12px 0px;
   text-align: center;
-  background-color: #0b1320;
-  border-right: 1px solid #4d4d4d;
+  /* background-color: #0b1320; */
+  /* border-right: 1px solid #4d4d4d; */
+  color:#000000;
 }
 .apptalent-table-view table tr th.pth-first-th {
   background: transparent;
 }
-.apptalent-table-view table tr th:nth-child(2) {
+/* .apptalent-table-view table tr th:nth-child(2) {
   background: #3f48cc;
-}
+} */
 .apptalent-table-view table tr td {
   font: 500 14px/22px Roboto;
-  padding: 12px 12px;
+  padding: 8px 12px;
   border: 1px solid #e2e2e2;
   color:#000000;
 }
 .apptalent-table-view table tr td:not(:nth-child(1)) {
   text-align: center;
 }
-.apptalent-table-view table tr:nth-child(even):not(.price-table-head) {
-  background: #f1f1f1;
+ .apptalent-table-view table tr:nth-child(even):not(.price-table-head) {
+  background: #f1f1f138;
 }
-.apptalent-table-view table tr td:nth-child(2) {
+/*.apptalent-table-view table tr td:nth-child(2) {
   background: #ffffff;
-}
+} */
 .apptalent-table-view table tr td p {
   margin: 0px;
   display: flex;
   align-items: baseline;
+  font: 500 15px/22px Roboto;
+  letter-spacing: 0.5px;
 }
 .apptalent-table-view table tr td i {
   padding-right: 10px;
   color: #3090db;
 }
-.bg-red-300{
+/* .bg-red-300{
   background: #f7bbbf !important;
-}
+} */
 .combtn {
   border: none;
   background: #ffffff;
@@ -1804,12 +1810,9 @@ footer {
 
 .price-week span {
   display: inline-block;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
-  color: #3090db;
-}
-.price-week span:nth-child(1) {
-  font-size: 24px;
+  color: #4949fc;
 }
 
 /** Get Hired **/
@@ -1857,7 +1860,7 @@ footer {
   position: absolute;
   width: 78%;
   height: 5px;
-  background: #4bb4ff;
+  background: #4949fc;
   top: 19px;
   left: 0;
   right: 0;
@@ -1884,8 +1887,8 @@ footer {
   width: 100%;
   height: 100%;
   border-radius: 100%;
-  background-color: #4bb4ff;
-  border: 3px solid #4bb4ff;
+  background-color: #4949fc;
+  border: 3px solid #4949fc;
 }
 .plat-step span {
   position: relative;
@@ -2013,7 +2016,7 @@ footer {
 .applytojoin-btn:hover {
   width: 238px;
   height: 56px;
-  background: #4bb4ff;
+  background: #4949fc;
   border-radius: 3px;
   font: 500 16px/14px Roboto;
   letter-spacing: 2px;
@@ -4038,7 +4041,7 @@ form #debt-amount-slider label {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: #4bb4ff;
+  background: #4949fc;
   padding: 3px;
   box-shadow: 0 0 20px 0 #dfdfdf1a;
 }
@@ -4047,7 +4050,7 @@ form #debt-amount-slider label {
   right: 7px;
   top: 38px;
   color: #ffffff;
-  background: #4bb4ff;
+  background: #4949fc;
   border-radius: 50%;
   font-size: 12px;
   padding: 3px;
@@ -4621,20 +4624,13 @@ form #debt-amount-slider label {
 }
 
 .succTick {
-  border: 1px solid #48c3b8;
+  border: none;
   background: #ffffff;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #48bb78;
-  font-size: 18px;
+  font-size: 26px;
 }
 .succTick i {
   padding-right: 0px !important;
-  color: #48bb78 !important;
+  color: #36B37E !important;
 }
 .succclose {
   border-color: #f56565;
