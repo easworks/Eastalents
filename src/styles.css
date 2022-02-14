@@ -4755,3 +4755,26 @@ form #debt-amount-slider label {
     color: var(--blue-color);
     font-weight: 500;
 }
+
+.clientsimg{
+  width: 120px;
+}
+.designToolIcons{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: -38px;
+  margin-top: 20px;
+}
+.designToolIcons li{
+  min-width: 45px;
+  height: 45px;
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px 0 #3e1c831a;
+  margin-right:10px;
+}
