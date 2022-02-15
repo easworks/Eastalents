@@ -1710,6 +1710,9 @@ footer {
   left: 0;
   right: 0;
 }
+.bgblue-connect::after{
+  background: #4949fce8;
+}
 .apptalent-connect .container {
   z-index: 1;
 }
@@ -4777,4 +4780,12 @@ form #debt-amount-slider label {
   justify-content: center;
   box-shadow: 0 0 20px 0 #3e1c831a;
   margin-right:10px;
+}
+.rftrail{
+  font-size: 13px;
+  color: #3c3e40;
+  font-weight: 400;
+  display: block;
+  text-transform: capitalize;
+  text-align: center;
 }
