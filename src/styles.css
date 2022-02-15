@@ -658,7 +658,7 @@ section {
 }
 
 .btn-get-started {
-  font: 500 16px/28px Roboto;
+  font: 400 16px/28px Roboto;
   display: inline-block;
   padding: 8px 30px 8px 30px;
   border-radius: 4px;
@@ -4420,9 +4420,7 @@ form #debt-amount-slider label {
   #banner-here {
     height: 100%;
   }
-  .btn-get-started {
-    padding: 8px 7px 8px 11px;
-  }
+
   section {
     padding: 60px 12px;
   }
