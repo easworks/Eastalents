@@ -72,7 +72,7 @@ export class EmploerQuestionComponent implements OnInit {
       console.log(this.employeeQuestionData[0].type);
     });
   }
-  deleteOption(i:any,field:any){
+  deleteSelectedOption(field:any){
     this.employeeQuestionData[this.currentIndex].option.forEach((element:any)=>{
       if(element.value.toLowerCase() === field.value.toLowerCase()){
         element.selected = false;
@@ -114,15 +114,16 @@ export class EmploerQuestionComponent implements OnInit {
       }
 });
   }
-  onInputNoOfYear(value:any,field:any){
+  onInputNoOfYear(opt:any){
+    
     // console.log(event);
-    this.ref.detectChanges();
-    this.upDateYearInMixedType(value,field);
+    // this.ref.detectChanges();
+    this.upDateYearInMixedType(opt.event,opt.field);
   }
-  onInputSkill(value:any,field:any){
+  onInputSkill(opt:any){
     // console.log(event);
-    this.ref.detectChanges();
-    this.upDateSkillInMixedType(value,field);
+    // this.ref.detectChanges();
+    this.upDateSkillInMixedType(opt.event,opt.field);
   }
 
   upDateYearInMixedType(value:any,completeData:any){

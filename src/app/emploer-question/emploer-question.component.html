@@ -68,28 +68,8 @@
       <div class="form-wizard-answer mt-2">
         <div class="multiselect-languge">
           <div class="lang-list-box">
-            <div class="fw-input-selectlist" *ngFor="let field of fieldArray; let i = index">
-            
-              <div class="multi-select-dropdown">
-                <ul class="multiselectUlLIst p-0">
-                  <li class="dropdown-select">
-                    <label>{{field.value}}</label>
-                    <div class="description ml-3">
-                      <span>- No of Years</span>
-                      <input type="text" class="w-20" (ngModelChange)="onInputNoOfYear($event,field)" name="noOfYear" [(ngModel)]="field.noOfYear">
-                    </div>
-                    <div class="description ml-3">
-                      <span>Skill Level</span>
-                      <input type="text" name="skill" (ngModelChange)="onInputSkill($event,field)" [(ngModel)]="field.skill">
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <button type="button" class="clearbtn" (click)="deleteOption(i,field)">
-                <i class="icofont-close"></i>
-              </button>
-             
-            </div>
+            <app-employer-select-item [fieldArray]="fieldArray" (inputNoOfYear)="onInputNoOfYear($event)" (inputNoOfSkill)="onInputSkill($event)"
+            (deleteFieldValue)="deleteSelectedOption($event)"></app-employer-select-item>
             <div class="language-multiselect-dropdown mt-2">
               <div class="lm-dropdown dropdown">
                 <input type="text" placeholder="Type the desired skills you need in your project"
@@ -117,7 +97,7 @@
                  
 
                   <div class="quiz-bttn-group border-top pt-3" *ngIf="currentIndex >0 && currentIndex<16">
-                    <button type="button" class="btn-common-border" (click)="onChange(-1)">Previous</button>
+                    <button type="button" class="btn-common-border" [disabled]="currentIndex === 1" (click)="onChange(-1)">Previous</button>
                     <div class="next-skip">
                       <button type="button" class="btn-common-border d-none">Skip</button>
                       <button type="button" class="btn-common-border nextbtn" (click)="onChange(1)">Next</button>

@@ -44,6 +44,7 @@ import { QuantitativeAppComponent } from './quantitative-app/quantitative-app.co
 import { QuesCongratulationComponent } from './ques-congratulation/ques-congratulation.component';
 import { TalentQuestionDynamicComponent } from './talent-question/talent-question-dynamic-step/talent-question-dynamic.component';
 import { TalentQuestionSelectItemComponent } from './talent-question/talent-question-select-item/talent-question-select-item/talent-question-select-item.component';
+import { EmployerSelectItemComponent } from './employer-select-item/employer-select-item.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { TalentQuestionSelectItemComponent } from './talent-question/talent-ques
     QuantitativeAppComponent,
     QuesCongratulationComponent,
     TalentQuestionDynamicComponent,
-    TalentQuestionSelectItemComponent
+    TalentQuestionSelectItemComponent,
+    EmployerSelectItemComponent
   ],
   imports: [
     BrowserModule,
