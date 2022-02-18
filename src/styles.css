@@ -4797,3 +4797,61 @@ form #debt-amount-slider label {
   text-transform: capitalize;
   text-align: center;
 }
+
+.categorySelect .contact-form-group .contact-input-group{
+  width: 200px;
+}
+.categorySelect .contact-form-group{
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.categorySelect .contact-form-group label{
+  margin-right: 12px;
+}
+.categorySelect .contact-form-group .contact-input-group select{
+  height: 36px;
+}
+
+/** Step **/
+.stepContent .step-item{
+  position: relative;
+    border-left: 1px solid #000000;
+    padding-left: 50px;
+    padding-bottom: 40px;
+}
+.stepContent .step-item:last-child{
+  border-left: 0px;
+}
+.step-title h1 {
+  font-size: 26px;
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-bottom: 20px;
+  padding-bottom: 0;
+  color: #2e2e2e;
+  position: relative;
+  z-index: 2;
+}
+.step-title p {
+  color: #000000;
+  margin: 20px 0 0px 0;
+  letter-spacing: 0.56px;
+  font: normal 14px/24px Roboto;
+}
+.stepNum{
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 40px;
+  color: #ffffff;
+  background: #4949fc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  left: -26px;
+  border: 3px solid #ffffff;
+}
