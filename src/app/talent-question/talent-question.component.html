@@ -2092,7 +2092,7 @@
                 </div>
 
                 <div class="quiz-bttn-group border-top pt-3" [ngClass]="{'d-none':currentPage== 33}">
-                  <button type="button" class="btn-common-border" (click)="changePage(-1)">Previous</button>
+                  <button type="button" class="btn-common-border" [disabled]="currentPage === 1" (click)="changePage(-1)">Previous</button>
                   <div class="next-skip">
                     <button type="button" class="btn-common-border d-none">Skip</button>
                     <button type="button" class="btn-common-border nextbtn" [disabled]="disableNextButton" (click)="changePage(1)">Next</button>

@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { ThrowStmt } from '@angular/compiler';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { element } from 'protractor';
 
@@ -21,6 +22,7 @@ export class EmploerQuestionComponent implements OnInit {
     mixed:"mixed"
   }
   firstOption=false;
+  disableNextButton:boolean = true;
 
   ngOnInit(): void {
     this.getData();
@@ -44,6 +46,7 @@ export class EmploerQuestionComponent implements OnInit {
        this.fieldArray = [];
        this.checkAndShowData();
     }
+    this.enableDisableNextButton();
 
   }
 
@@ -51,7 +54,7 @@ export class EmploerQuestionComponent implements OnInit {
   if(this.currentIndex ===1 ||this.currentIndex ===2 ||this.currentIndex ===11 ||this.currentIndex ===14 ||this.currentIndex ===15 ){
     return 'mixed';
   }
-  else if (this.currentIndex === 4 ||this.currentIndex ===9){
+  else if (this.currentIndex === 3 ||this.currentIndex ===9){
     return 'textarea';
   }
   else{
@@ -93,8 +96,9 @@ export class EmploerQuestionComponent implements OnInit {
     else if (type === 'select'){
       opt.selected = !opt.selected;
       this.disableOtherValues(opt);
-
+      
     }
+    this.enableDisableNextButton();
   }
   getDataForFieldArray(opt:any){
     this.employeeQuestionData[this.currentIndex].option.forEach((element:any)=>{
@@ -119,11 +123,13 @@ export class EmploerQuestionComponent implements OnInit {
     // console.log(event);
     // this.ref.detectChanges();
     this.upDateYearInMixedType(opt.event,opt.field);
+    this.enableDisableNextButton();
   }
   onInputSkill(opt:any){
     // console.log(event);
     // this.ref.detectChanges();
     this.upDateSkillInMixedType(opt.event,opt.field);
+    this.enableDisableNextButton();
   }
 
   upDateYearInMixedType(value:any,completeData:any){
@@ -156,6 +162,36 @@ export class EmploerQuestionComponent implements OnInit {
           });
   }
 
+
+  enableDisableNextButton(){
+    this.disableNextButton = true;
+    let checkVariableForMixed = false;
+    const questionType = this.getType();
+    if(this.type.select === questionType){
+      this.employeeQuestionData[this.currentIndex].option.forEach((element:any)=>{
+        if(element.selected=== true && element.disable=== false){
+          this.disableNextButton = false;
+        }
+      });
+    }
+    else if(this.type.mixed === questionType){
+      this.fieldArray.forEach((element:any)=>{
+        if(element.value != '' && element.noOfYear != '' &&  element.skill != ''){
+             checkVariableForMixed = true;
+        }
+        else{
+          checkVariableForMixed = false;
+        }
+      });
+      this.disableNextButton = !checkVariableForMixed;
+      
+    }
+    else if(this.type.textarea === questionType){
+      if(this.employeeQuestionData[this.currentIndex].value != ''){
+        this.disableNextButton = false;
+      }
+    }
+  }
   goToMyProfile(){
     console.log(this.employeeQuestionData);
   }

@@ -58,7 +58,7 @@
       <h2 class="main-question">{{data.question}}</h2>
       <div class="form-wizard-answer mt-3">
         <div class="form-wizard-textarea">
-          <textarea name="data" [(ngModel)]="data.value"></textarea>
+          <textarea name="data" [(ngModel)]="data.value" (input)="selectOption(data.value,data.type)"></textarea>
         </div>
       </div>
     </div>
@@ -100,7 +100,7 @@
                     <button type="button" class="btn-common-border" [disabled]="currentIndex === 1" (click)="onChange(-1)">Previous</button>
                     <div class="next-skip">
                       <button type="button" class="btn-common-border d-none">Skip</button>
-                      <button type="button" class="btn-common-border nextbtn" (click)="onChange(1)">Next</button>
+                      <button type="button" class="btn-common-border nextbtn" [disabled]="disableNextButton" (click)="onChange(1)">Next</button>
                     </div>
 
                   </div>
