@@ -45,6 +45,7 @@ import { QuesCongratulationComponent } from './ques-congratulation/ques-congratu
 import { TalentQuestionDynamicComponent } from './talent-question/talent-question-dynamic-step/talent-question-dynamic.component';
 import { TalentQuestionSelectItemComponent } from './talent-question/talent-question-select-item/talent-question-select-item/talent-question-select-item.component';
 import { EmployerSelectItemComponent } from './employer-select-item/employer-select-item.component';
+import { VettedIndividualsComponent } from './vetted-individuals/vetted-individuals.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { EmployerSelectItemComponent } from './employer-select-item/employer-sel
     QuesCongratulationComponent,
     TalentQuestionDynamicComponent,
     TalentQuestionSelectItemComponent,
-    EmployerSelectItemComponent
+    EmployerSelectItemComponent,
+    VettedIndividualsComponent
   ],
   imports: [
     BrowserModule,

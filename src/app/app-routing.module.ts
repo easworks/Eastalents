@@ -29,6 +29,7 @@ import { TalentQuestionComponent } from './talent-question/talent-question.compo
 import { TalentQuizQuestionComponent } from './talent-quiz-question/talent-quiz-question.component';
 import { TalentComponent } from './talent/talent.component';
 import { VerificationComponent } from './verification/verification.component';
+import { VettedIndividualsComponent } from './vetted-individuals/vetted-individuals.component';
 import { WhyEastalentComponent } from './why-easworks/why-easworks.component';
 import { WorkSkillsComponent } from './work-skills/work-skills.component';
 import { YourJobsComponent } from './your-jobs/your-jobs.component';
@@ -161,6 +162,10 @@ const routes: Routes = [
   {
     path: 'feedback',
     component:QuesCongratulationComponent,
+  },
+  {
+    path: 'vetted-individuals',
+    component:VettedIndividualsComponent,
   },
   {
     path: '',
