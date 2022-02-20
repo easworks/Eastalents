@@ -46,6 +46,7 @@ import { TalentQuestionDynamicComponent } from './talent-question/talent-questio
 import { TalentQuestionSelectItemComponent } from './talent-question/talent-question-select-item/talent-question-select-item/talent-question-select-item.component';
 import { EmployerSelectItemComponent } from './employer-select-item/employer-select-item.component';
 import { VettedIndividualsComponent } from './vetted-individuals/vetted-individuals.component';
+import { DatafilterPipe } from './datafilter.pipe';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import { VettedIndividualsComponent } from './vetted-individuals/vetted-individu
     TalentQuestionDynamicComponent,
     TalentQuestionSelectItemComponent,
     EmployerSelectItemComponent,
-    VettedIndividualsComponent
+    VettedIndividualsComponent,
+    DatafilterPipe
   ],
   imports: [
     BrowserModule,
