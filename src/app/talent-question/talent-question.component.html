@@ -4,9 +4,10 @@
       <div class="col-lg-4 col-md-4 col-12 p-0 quiz-content-lft">
         <div class="quiz-lft-form">
           <div class="quiz-lft-form-center">
-             <div class="qlf-imge talentquestionImg">
+            <div class="qlf-imge talentquestionImg">
               <!--<img src="assets/img/Vertical_Enterprise_Application_Talents.png" /> -->
-              <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_ureyqxyw.json" background="transparent"  speed="1"  style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+              <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_ureyqxyw.json" background="transparent"
+                speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
             </div>
             <h1 class="text-white">Welcome to EASWORKS</h1>
             <p class="text-white">Work With The World’s Leading Companies By applying to join EASWORKS Enterprise
@@ -44,17 +45,17 @@
                   <h2 class="main-question">Professional Summary</h2>
                   <div class="form-wizard-answer mt-3">
                     <div class="form-wizard-textarea">
-                      <textarea name="this.talentProfile.stepObject[0].optionObj.name" 
-                      [(ngModel)]="this.talentProfile.stepObject[0].optionObj.name"></textarea>
+                      <textarea name="this.talentProfile.stepObject[0].optionObj.name"
+                        [(ngModel)]="this.talentProfile.stepObject[0].optionObj.name"></textarea>
                     </div>
                   </div>
                 </div>
 
                 <!--Dynamic Steps 2,3,4,5-->
                 <app-talent-question-dynamic [ngClass]="{'d-none':currentPage!= dyanmicStepNum}"
-                  [currentPage]="currentPage" [talentOption]="talentOption" [fieldArray]="fieldArray" [savePreviousData]="savePreviousData"
-                  (nextPage)="nextPage($event)" (sliceItem)="sliceItem($event)"></app-talent-question-dynamic>
-
+                  [currentPage]="currentPage" [talentOption]="talentOption" [fieldArray]="fieldArray"
+                  [savePreviousData]="savePreviousData" (nextPage)="nextPage($event)" (sliceItem)="sliceItem($event)">
+                </app-talent-question-dynamic>
                 <!--Step-5-->
                 <div class="question-steps" [ngClass]="{'d-none':currentPage!= 6}">
                   <h2 class="main-question">Select your Technology stack (Pick max of 3)</h2>
@@ -65,8 +66,9 @@
                       <label class="language-title"> Languages</label>
                       <div class="lang-list-box">
 
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [savePreviousData]="savePreviousData"  [isSingleControl]="false"
-                         (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [savePreviousData]="savePreviousData"
+                          [isSingleControl]="false" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
 
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
@@ -149,6 +151,636 @@
                               </ul>
                             </div>
                           </div>
+
+                          <div class="selectTechStack d-none">
+                            <div class="sts-tancontent d-flex align-items-start w-100">
+                              <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
+                                aria-orientation="vertical">
+                                <h1 class="tabtitle">Select Tech Stack</h1>
+                                <button class="nav-link" id="v-pills-tq1-tab" data-bs-toggle="pill"
+                                  data-bs-target="#v-pills-tq1" type="button" role="tab" aria-controls="v-pills-home"
+                                  aria-selected="true">
+                                  API
+                                </button>
+                                <button class="nav-link" id="v-pills-tq2-tab" data-bs-toggle="pill"
+                                  data-bs-target="#v-pills-tq2" type="button" role="tab" aria-controls="v-pills-profile"
+                                  aria-selected="false">
+                                  Backend Framework
+                                </button>
+                                <button class="nav-link" id="v-pills-tq3-tab" data-bs-toggle="pill"
+                                  data-bs-target="#v-pills-tq3" type="button" role="tab" aria-controls="v-pills-home"
+                                  aria-selected="true">
+                                  Build Tool
+                                </button>
+                                <button class="nav-link" id="v-pills-tq4-tab" data-bs-toggle="pill"
+                                  data-bs-target="#v-pills-tq4" type="button" role="tab" aria-controls="v-pills-profile"
+                                  aria-selected="false">
+                                  Certification
+                                </button>
+                                <button class="nav-link" id="v-pills-tq5-tab" data-bs-toggle="pill"
+                                  data-bs-target="#v-pills-tq5" type="button" role="tab" aria-controls="v-pills-profile"
+                                  aria-selected="false">
+                                  Datastore
+                                </button>
+                                <button class="nav-link" id="v-pills-tq6-tab" data-bs-toggle="pill"
+                                  data-bs-target="#v-pills-tq6" type="button" role="tab" aria-controls="v-pills-profile"
+                                  aria-selected="false">
+                                  Discipline
+                                </button>
+                                <button class="nav-link" id="v-pills-tq7-tab" data-bs-toggle="pill"
+                                  data-bs-target="#v-pills-tq7" type="button" role="tab" aria-controls="v-pills-profile"
+                                  aria-selected="false">
+                                  Frontend Framework
+                                </button>
+                                <button class="nav-link" id="v-pills-tq8-tab" data-bs-toggle="pill"
+                                  data-bs-target="#v-pills-tq8" type="button" role="tab" aria-controls="v-pills-profile"
+                                  aria-selected="false">
+                                  Infrastructure
+                                </button>
+                                <button class="nav-link" id="v-pills-tq9-tab" data-bs-toggle="pill"
+                                  data-bs-target="#v-pills-tq9" type="button" role="tab" aria-controls="v-pills-profile"
+                                  aria-selected="false">
+                                  Language
+                                </button>
+                                <button class="nav-link" id="v-pills-tq10-tab" data-bs-toggle="pill"
+                                  data-bs-target="#v-pills-tq10" type="button" role="tab"
+                                  aria-controls="v-pills-profile" aria-selected="false">
+                                  Library
+                                </button>
+                                <button class="nav-link" id="v-pills-tq11-tab" data-bs-toggle="pill"
+                                  data-bs-target="#v-pills-tq11" type="button" role="tab"
+                                  aria-controls="v-pills-profile" aria-selected="false">
+                                  Markup
+                                </button>
+                                <button class="nav-link" id="v-pills-tq12-tab" data-bs-toggle="pill"
+                                  data-bs-target="#v-pills-tq12" type="button" role="tab"
+                                  aria-controls="v-pills-profile" aria-selected="false">
+                                  Methodology
+                                </button>
+                              </div>
+                              <div class="tab-content" id="v-pills-tabContent">
+                                <div class="tab-pane fade show active" id="v-pills-tq1" role="tabpanel"
+                                  aria-labelledby="v-pills-tq1-tab">
+                                  <div class="rightpanel-easworks">
+                                    <div class="easworkSearchbox">
+                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                    </div>
+                                    <ul class="easeworkssearchList">
+                                      <li>
+                                        <a href="javascript:void(0)">SAP Business by design</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="v-pills-tq2" role="tabpanel"
+                                  aria-labelledby="v-pills-tq2-tab">
+                                  <div class="rightpanel-easworks">
+                                    <div class="easworkSearchbox">
+                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                    </div>
+                                    <ul class="easeworkssearchList">
+                                      <li>
+                                        <a href="javascript:void(0)">SAP Business by design</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="v-pills-tq3" role="tabpanel"
+                                  aria-labelledby="v-pills-tq3-tab">
+                                  <div class="rightpanel-easworks">
+                                    <div class="easworkSearchbox">
+                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                    </div>
+                                    <ul class="easeworkssearchList">
+                                      <li>
+                                        <a href="javascript:void(0)">SAP Business by design</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                                
+                                <div class="tab-pane fade" id="v-pills-tq4" role="tabpanel"
+                                  aria-labelledby="v-pills-tq4-tab">
+                                  <div class="rightpanel-easworks">
+                                    <div class="easworkSearchbox">
+                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                    </div>
+                                    <ul class="easeworkssearchList">
+                                      <li>
+                                        <a href="javascript:void(0)">SAP Business by design</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                                
+                                <div class="tab-pane fade" id="v-pills-tq5" role="tabpanel"
+                                  aria-labelledby="v-pills-tq5-tab">
+                                  <div class="rightpanel-easworks">
+                                    <div class="easworkSearchbox">
+                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                    </div>
+                                    <ul class="easeworkssearchList">
+                                      <li>
+                                        <a href="javascript:void(0)">SAP Business by design</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                                
+                                <div class="tab-pane fade" id="v-pills-tq6" role="tabpanel"
+                                  aria-labelledby="v-pills-tq6-tab">
+                                  <div class="rightpanel-easworks">
+                                    <div class="easworkSearchbox">
+                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                    </div>
+                                    <ul class="easeworkssearchList">
+                                      <li>
+                                        <a href="javascript:void(0)">SAP Business by design</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                                
+                                <div class="tab-pane fade" id="v-pills-tq7" role="tabpanel"
+                                  aria-labelledby="v-pills-tq7-tab">
+                                  <div class="rightpanel-easworks">
+                                    <div class="easworkSearchbox">
+                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                    </div>
+                                    <ul class="easeworkssearchList">
+                                      <li>
+                                        <a href="javascript:void(0)">SAP Business by design</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-tq8" role="tabpanel"
+                                  aria-labelledby="v-pills-tq8-tab">
+                                  <div class="rightpanel-easworks">
+                                    <div class="easworkSearchbox">
+                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                    </div>
+                                    <ul class="easeworkssearchList">
+                                      <li>
+                                        <a href="javascript:void(0)">SAP Business by design</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-tq9" role="tabpanel"
+                                  aria-labelledby="v-pills-tq92-tab">
+                                  <div class="rightpanel-easworks">
+                                    <div class="easworkSearchbox">
+                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                    </div>
+                                    <ul class="easeworkssearchList">
+                                      <li>
+                                        <a href="javascript:void(0)">SAP Business by design</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-tq10" role="tabpanel"
+                                  aria-labelledby="v-pills-tq10-tab">
+                                  <div class="rightpanel-easworks">
+                                    <div class="easworkSearchbox">
+                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                    </div>
+                                    <ul class="easeworkssearchList">
+                                      <li>
+                                        <a href="javascript:void(0)">SAP Business by design</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-tq11" role="tabpanel"
+                                  aria-labelledby="v-pills-tq11-tab">
+                                  <div class="rightpanel-easworks">
+                                    <div class="easworkSearchbox">
+                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                    </div>
+                                    <ul class="easeworkssearchList">
+                                      <li>
+                                        <a href="javascript:void(0)">SAP Business by design</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-tq12" role="tabpanel"
+                                  aria-labelledby="v-pills-tq12-tab">
+                                  <div class="rightpanel-easworks">
+                                    <div class="easworkSearchbox">
+                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                    </div>
+                                    <ul class="easeworkssearchList">
+                                      <li>
+                                        <a href="javascript:void(0)">SAP Business by design</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">SAP ERP</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                      </li>
+                                      <li>
+                                        <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -162,8 +794,9 @@
                     <div class="multiselect-languge">
                       <label class="language-title"> Standards</label>
                       <div class="lang-list-box">
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [savePreviousData]="savePreviousData" [isSingleControl]="false"
-                          (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [savePreviousData]="savePreviousData"
+                          [isSingleControl]="false" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
                             <input type="text" placeholder="Type the desired skills you need in your project"
@@ -254,8 +887,9 @@
                     <div class="multiselect-languge">
                       <label class="language-title"> Storage</label>
                       <div class="lang-list-box">
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false" [savePreviousData]="savePreviousData"
-                          (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false"
+                          [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
                             <input type="text" placeholder="Type the desired skills you need in your project"
@@ -325,8 +959,9 @@
                     <div class="multiselect-languge">
                       <label class="language-title">Backend Frameworks</label>
                       <div class="lang-list-box">
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false" [savePreviousData]="savePreviousData"
-                          (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false"
+                          [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
                             <input type="text" placeholder="Type the desired skills you need in your project"
@@ -391,8 +1026,9 @@
                     <div class="multiselect-languge">
                       <label class="language-title"> Libraries / APIS</label>
                       <div class="lang-list-box">
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false" [savePreviousData]="savePreviousData"
-                          (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false"
+                          [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
                             <input type="text" placeholder="Type the desired skills you need in your project"
@@ -445,8 +1081,9 @@
                     <div class="multiselect-languge">
                       <label class="language-title">Build Tools</label>
                       <div class="lang-list-box">
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="true" [savePreviousData]="savePreviousData"
-                          (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="true"
+                          [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
                             <input type="text" placeholder="Type the desired skills you need in your project"
@@ -531,8 +1168,9 @@
                     <div class="multiselect-languge ">
                       <label class="language-title">CMS</label>
                       <div class="lang-list-box">
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="true" [savePreviousData]="savePreviousData"
-                          (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="true"
+                          [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
                             <input type="text" placeholder="Type the desired skills you need in your project"
@@ -600,8 +1238,9 @@
                     <div class="multiselect-languge">
                       <label class="language-title">Certification</label>
                       <div class="lang-list-box">
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="true" [savePreviousData]="savePreviousData"
-                          (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="true"
+                          [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
                             <input type="text" placeholder="Type the desired skills you need in your project"
@@ -666,8 +1305,9 @@
                     <div class="multiselect-languge">
                       <label class="language-title">Discipline</label>
                       <div class="lang-list-box">
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="true" [savePreviousData]="savePreviousData"
-                          (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="true"
+                          [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
                             <input type="text" placeholder="Type the desired skills you need in your project"
@@ -915,8 +1555,9 @@
                     <div class="multiselect-languge">
                       <label class="language-title">Frontend Framework</label>
                       <div class="lang-list-box">
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="true" [savePreviousData]="savePreviousData"
-                          (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="true"
+                          [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
                             <input type="text" placeholder="Type the desired skills you need in your project"
@@ -978,8 +1619,9 @@
                     <div class="multiselect-languge ">
                       <label class="language-title">Infrastructure</label>
                       <div class="lang-list-box">
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="true" [savePreviousData]="savePreviousData"
-                          (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="true"
+                          [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
                             <input type="text" placeholder="Type the desired skills you need in your project"
@@ -1083,8 +1725,9 @@
                     <div class="multiselect-languge">
                       <label class="language-title"> Libraries</label>
                       <div class="lang-list-box">
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false" [savePreviousData]="savePreviousData"
-                          (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false"
+                          [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
                             <input type="text" placeholder="Type the desired skills you need in your project"
@@ -1246,8 +1889,9 @@
                     <div class="multiselect-languge">
                       <label class="language-title"> Markup</label>
                       <div class="lang-list-box">
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false" [savePreviousData]="savePreviousData"
-                          (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false"
+                          [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
                             <input type="text" placeholder="Type the desired skills you need in your project"
@@ -1300,8 +1944,9 @@
                     <div class="multiselect-languge">
                       <label class="language-title"> Methodology</label>
                       <div class="lang-list-box">
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false" [savePreviousData]="savePreviousData"
-                          (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false"
+                          [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
                             <input type="text" placeholder="Type the desired skills you need in your project"
@@ -1352,8 +1997,9 @@
                     <div class="multiselect-languge">
                       <label class="language-title">Operating Systerm (OS)</label>
                       <div class="lang-list-box">
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false" [savePreviousData]="savePreviousData"
-                          (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false"
+                          [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
                             <input type="text" placeholder="Type the desired skills you need in your project"
@@ -1404,8 +2050,9 @@
                     <div class="multiselect-languge">
                       <label class="language-title">Stack</label>
                       <div class="lang-list-box">
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false" [savePreviousData]="savePreviousData"
-                          (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false"
+                          [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
                             <input type="text" placeholder="Type the desired skills you need in your project"
@@ -1451,8 +2098,9 @@
                     <div class="multiselect-languge">
                       <label class="language-title">Stylesheets</label>
                       <div class="lang-list-box">
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false" [savePreviousData]="savePreviousData"
-                          (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false"
+                          [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
                             <input type="text" placeholder="Type the desired skills you need in your project"
@@ -1489,8 +2137,9 @@
                     <div class="multiselect-languge">
                       <label class="language-title">Tools</label>
                       <div class="lang-list-box">
-                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="true" [savePreviousData]="savePreviousData"
-                          (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="true"
+                          [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
+                        </app-talent-question-select-item>
                         <div class="language-multiselect-dropdown mt-2">
                           <div class="lm-dropdown dropdown">
                             <input type="text" placeholder="Type the desired skills you need in your project"
@@ -1701,8 +2350,9 @@
                 <div class="question-steps" [ngClass]="{'d-none':currentPage!= 24}">
                   <h2 class="main-question">Select the Industry or Domain worked</h2>
                   <div class="form-wizard-answer">
-                    <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false" [savePreviousData]="savePreviousData"
-                      (deleteFieldValue)="deleteFieldValue($event)"></app-talent-question-select-item>
+                    <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false"
+                      [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
+                    </app-talent-question-select-item>
 
                     <div class="language-multiselect-dropdown mt-2">
                       <div class="lm-dropdown dropdown">
@@ -1732,8 +2382,9 @@
                   <div class="form-wizard-answer">
                     <ul class="form-wizard-type jss-list selectarea  mt-3 row">
 
-                      <li class="col-lg-12 col-md-12 col-12"  *ngFor="let option of jobSearch">
-                        <a href="javascript:void(0)" class="pl-3 pr-3" (click)="clickJobSearch(option)" [ngStyle]="{'background-color':option.selected?'green':''}">
+                      <li class="col-lg-12 col-md-12 col-12" *ngFor="let option of jobSearch">
+                        <a href="javascript:void(0)" class="pl-3 pr-3" (click)="clickJobSearch(option)"
+                          [ngStyle]="{'background-color':option.selected?'green':''}">
                           <span class="d-block text-uppercase font-weight-bold">{{option.firstPart}}</span>
                           <span class="d-block">{{option.secondPart}}</span>
                         </a>
@@ -1806,7 +2457,7 @@
                               <div class="can-toggle">
                                 <input id="a" type="checkbox" name='checkbox' [(ngModel)]="experience.isChecked">
                                 <label for="a">
-                                  <div class="can-toggle__switch" data-checked="Yes" data-unchecked="No" ></div>
+                                  <div class="can-toggle__switch" data-checked="Yes" data-unchecked="No"></div>
                                 </label>
                               </div>
                             </div>
@@ -1817,7 +2468,8 @@
                         <div class="form-group-wizard d-flex align-items-center">
                           <label class="qs-label-text">What year did you start programming professionally?</label>
                           <div class="form-input-group qs-year">
-                            <select class="com-select" name="workingProfessionally" [(ngModel)]="experience.startWorkingProfessionally">
+                            <select class="com-select" name="workingProfessionally"
+                              [(ngModel)]="experience.startWorkingProfessionally">
                               <option value="0">Select Year</option>
                               <option value="2000">2000</option>
                               <option value="2001">2001</option>
@@ -1858,8 +2510,10 @@
                   <div class="form-wizard-answer">
                     <ul class="form-wizard-type jss-list selectarea  mt-3 row">
                       <li class="col-lg-12 col-md-12 col-12" *ngFor="let option of employmentOpportunity">
-                        <a href="javascript:void(0)" class="pl-3 pr-3" (click)="clickemploymentOpportunity(option)" [ngStyle]="{'background-color':option.selected?'green':''}">
-                          {{option.firstPart}} <strong *ngIf="option.secondPart"> {{option.secondPart}}</strong><sub *ngIf="option.thirdPart">{{option.thirdPart}}</sub>
+                        <a href="javascript:void(0)" class="pl-3 pr-3" (click)="clickemploymentOpportunity(option)"
+                          [ngStyle]="{'background-color':option.selected?'green':''}">
+                          {{option.firstPart}} <strong *ngIf="option.secondPart"> {{option.secondPart}}</strong><sub
+                            *ngIf="option.thirdPart">{{option.thirdPart}}</sub>
                         </a>
                       </li>
                       <!-- <li class="col-lg-12 col-md-12 col-12">
@@ -1892,7 +2546,8 @@
                   <div class="form-wizard-answer">
                     <ul class="form-wizard-type mt-4 p-0 row">
                       <li class="col-lg-12 col-md-12 col-12" *ngFor="let option of englishFluencyLevel">
-                        <a href="javascript:void(0)" class="d-block" (click)="clickEnglishFluencyLevel(option)" [ngStyle]="{'background-color':option.selected?'green':''}">
+                        <a href="javascript:void(0)" class="d-block" (click)="clickEnglishFluencyLevel(option)"
+                          [ngStyle]="{'background-color':option.selected?'green':''}">
                           <strong *ngIf="option.firstPart">{{option.firstPart}}</strong>{{option.secondPart}}</a>
                       </li>
                       <!-- <li class="col-lg-12 col-md-12 col-12">
@@ -1993,7 +2648,8 @@
                         <div class="form-group-wizard d-flex align-items-center">
                           <label class="qs-label-text">Bitbucket</label>
                           <div class="form-input-group  w-100">
-                            <input type="text" class="inputview" name="bitBucket" [(ngModel)]="socialMediaLink.bitBucket">
+                            <input type="text" class="inputview" name="bitBucket"
+                              [(ngModel)]="socialMediaLink.bitBucket">
                           </div>
                         </div>
                       </li>
@@ -2001,7 +2657,8 @@
                         <div class="form-group-wizard d-flex align-items-center">
                           <label class="qs-label-text">Stack Overflow</label>
                           <div class="form-input-group  w-100">
-                            <input type="text" class="inputview" name="stackOverflow" [(ngModel)]="socialMediaLink.stackOverflow">
+                            <input type="text" class="inputview" name="stackOverflow"
+                              [(ngModel)]="socialMediaLink.stackOverflow">
                           </div>
                         </div>
                       </li>
@@ -2009,7 +2666,8 @@
                         <div class="form-group-wizard d-flex align-items-center">
                           <label class="qs-label-text">Portfolio</label>
                           <div class="form-input-group  w-100">
-                            <input type="text" class="inputview" name="portfolio" [(ngModel)]="socialMediaLink.portfolio">
+                            <input type="text" class="inputview" name="portfolio"
+                              [(ngModel)]="socialMediaLink.portfolio">
                           </div>
                         </div>
                       </li>
@@ -2034,7 +2692,8 @@
                         <div class="form-group-wizard d-flex align-items-center">
                           <label class="qs-label-text">Desired Hourly rate</label>
                           <div class="form-input-group position-relative w-50">
-                            <input type="text" name="desiredHourlyRate" class="inputview" [(ngModel)]="expectation.desiredHourlyRate">
+                            <input type="text" name="desiredHourlyRate" class="inputview"
+                              [(ngModel)]="expectation.desiredHourlyRate">
                             <span class="dollar">USD/Hour</span>
                           </div>
                         </div>
@@ -2043,7 +2702,8 @@
                         <div class="form-group-wizard  d-flex align-items-center">
                           <label class="qs-label-text">Monthly rate (Full Time Engagement)</label>
                           <div class="form-input-group position-relative w-50">
-                            <input type="text" name="monthlyRate"  class="inputview" [(ngModel)]="expectation.monthlyRate">
+                            <input type="text" name="monthlyRate" class="inputview"
+                              [(ngModel)]="expectation.monthlyRate">
                             <span class="dollar">USD/Hour</span>
                           </div>
                         </div>
@@ -2052,7 +2712,8 @@
                         <div class="form-group-wizard d-flex align-items-center">
                           <label class="qs-label-text">Target Annual Salary</label>
                           <div class="form-input-group position-relative w-50">
-                            <input type="text"  name="annualSalary" class="inputview" [(ngModel)]="expectation.annualSalary">
+                            <input type="text" name="annualSalary" class="inputview"
+                              [(ngModel)]="expectation.annualSalary">
                             <span class="dollar">USD/Hour</span>
                           </div>
                         </div>
@@ -2067,7 +2728,8 @@
                   <div class="form-wizard-answer">
                     <ul class="form-wizard-type selectarea  mt-4 row">
                       <li class="col-lg-4 col-md-4 col-12" *ngFor="let option of startWorkingWithEasyWork">
-                        <a href="javascript:void(0)" (click)='onStartWorkingWithEayWork(option)' [ngStyle]="{'background-color':option.selected?'green':''}">{{option.data}}</a>
+                        <a href="javascript:void(0)" (click)='onStartWorkingWithEayWork(option)'
+                          [ngStyle]="{'background-color':option.selected?'green':''}">{{option.data}}</a>
                       </li>
                       <!-- <li class="col-lg-4 col-md-4 col-12">
                         <a href="javascript:void(0)">Immediately</a>
@@ -2092,10 +2754,12 @@
                 </div>
 
                 <div class="quiz-bttn-group border-top pt-3" [ngClass]="{'d-none':currentPage== 33}">
-                  <button type="button" class="btn-common-border" [disabled]="currentPage === 1" (click)="changePage(-1)">Previous</button>
+                  <button type="button" class="btn-common-border" [disabled]="currentPage === 1"
+                    (click)="changePage(-1)">Previous</button>
                   <div class="next-skip">
                     <button type="button" class="btn-common-border d-none">Skip</button>
-                    <button type="button" class="btn-common-border nextbtn" [disabled]="disableNextButton" (click)="changePage(1)">Next</button>
+                    <button type="button" class="btn-common-border nextbtn" [disabled]="disableNextButton"
+                      (click)="changePage(1)">Next</button>
                   </div>
 
                 </div>

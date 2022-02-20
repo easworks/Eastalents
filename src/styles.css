@@ -2219,7 +2219,7 @@ footer {
   border-color: #2f2e41;
 }
 .quiz-bttn-group {
-  margin-top: 170px;
+  margin-top: 100px;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -4869,4 +4869,40 @@ form #debt-amount-slider label {
   border-radius: 50%;
   left: -26px;
   border: 3px solid #ffffff;
+}
+
+.selectTechStack .sts-tancontent{
+  border: 1px solid #efefef;
+}
+.sts-tancontent .nav{
+  width: 220px;
+}
+
+.sts-tancontent .nav .nav-link {
+  font-size: 12px;
+  width: 100%;
+  padding: 6px 8px;
+  border: none;
+  border-radius: 0px;
+  text-align: left;
+  border-bottom: 1px solid #dfdfdf;
+}
+.sts-tancontent .nav .nav-link:last-child {
+  border-bottom: 0px;
+}
+.sts-tancontent .tab-content {
+  width: calc(100% - 220px);
+}
+.sts-tancontent .easeworkssearchList{
+  height: 332px;
+}
+.sts-tancontent .easeworkssearchList li a{
+  font-size: 12px;
+}
+.tabtitle{
+  font-size: 14px;
+  font-weight: 500;
+  border-bottom: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  padding: 5px 6px;
 }
