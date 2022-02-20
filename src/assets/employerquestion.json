@@ -72,7 +72,7 @@
         },
         {
             "question":"Select your specialization area to be hired",
-            "type":"select",
+            "type":"multiselect",
             "option":[
                 {"value":"Program Management" ,"selected":false,"disable":false},
                 {"value":"Business Requirement" ,"selected":false,"disable":false},
@@ -90,7 +90,7 @@
         },
         {
             "question":"Select your Primary Role",
-            "type":"select",
+            "type":"multiselect",
             "option":[
                 {"value":"Developer" ,"selected":false,"disable":false},
                 {"value":"Solution Architect" ,"selected":false,"disable":false},
@@ -163,7 +163,7 @@
         },
         {
             "question":"What would you like your new hire to start?",
-            "type":"select",
+            "type":"multiselect",
             "option":[
                 {"value":"as soon as possible" ,"selected":false,"disable":false},
                 {"value":"specific date in the future" ,"selected":false,"disable":false},
@@ -172,7 +172,7 @@
         },
         {
             "question":"Are you open to working with someone who is remote?",
-            "type":"select",
+            "type":"multiselect",
             "option":[
                 {"value":"Yes, Working remote is OK","selected":false,"disable":false},
                 {"value":"No, I need someone on-site","selected":false,"disable":false},

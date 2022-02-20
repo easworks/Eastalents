@@ -46,7 +46,20 @@
       <div class="form-wizard-answer">
         <ul class="form-wizard-type jss-list selectarea  mt-3 row">
           <li class="col-lg-12 col-md-12 col-12" *ngFor="let option of data.option">
-            <a href="javascript:void(0)" class="pl-3 pr-3"  [style.background-color]="option.selected ? 'green': ''" [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}" (click)="selectOption(option,data.type)">
+            <a href="javascript:void(0)" class="pl-3 pr-3"  [style.color]="option.selected ? 'white': ''"   [style.background-color]="option.selected ? '#4949fc': ''" [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}" (click)="selectOption(option,data.type)">
+              {{option.value}}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div *ngIf="data.type === type.multiselect &&  this.currentIndex === i" class="question-steps">
+      <h2 class="main-question">{{data.question}}</h2>
+      <div class="form-wizard-answer">
+        <ul class="form-wizard-type jss-list selectarea  mt-3 row">
+          <li class="col-lg-12 col-md-12 col-12" *ngFor="let option of data.option">
+            <a href="javascript:void(0)" class="pl-3 pr-3"  [style.color]="option.selected ? 'white': ''"   [style.background-color]="option.selected ? '#4949fc': ''"  (click)="selectOption(option,data.type)">
               {{option.value}}
             </a>
           </li>
@@ -74,10 +87,10 @@
               <div class="lm-dropdown dropdown">
                 <input type="text" placeholder="Type the desired skills you need in your project"
                   class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
+                  aria-haspopup="true" aria-expanded="false" name="filterbasedon"  [(ngModel)]="filterString">
                 <div class="mselect-dropdownmenu dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <ul>
-                    <li *ngFor="let option of data.option">
+                    <li *ngFor="let option of data.option | datafilter:filterString">
                       <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3" [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}" (click)="selectOption(option,data.type)">
                         {{option.value}}
                       </a>

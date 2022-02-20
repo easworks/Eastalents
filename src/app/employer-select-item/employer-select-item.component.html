@@ -9,8 +9,12 @@
             <input type="text" class="w-20" (ngModelChange)="onInputNoOfYear($event,field)" name="noOfYear" [(ngModel)]="field.noOfYear">
           </div>
           <div class="description ml-3">
-            <span>Skill Level</span>
-            <input type="text" name="skill" (ngModelChange)="onInputSkill($event,field)" [(ngModel)]="field.skill">
+              <span>Expertise</span>
+              <select id="selExpert" class="select" (ngModelChange)="onInputSkill($event,field)" [(ngModel)]="field.skill">
+                  <option id="0" value="Fresher">Fresher</option>
+                  <option id="1" value="intermediate"> intermediate</option>
+                  <option id="2" value="Advanced">Advanced</option>
+              </select>
           </div>
         </li>
       </ul>

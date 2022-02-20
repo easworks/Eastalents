@@ -19,10 +19,12 @@ export class EmploerQuestionComponent implements OnInit {
   type={
     select:"select",
     textarea:"textarea",
-    mixed:"mixed"
+    mixed:"mixed",
+    multiselect:"multiselect"
   }
   firstOption=false;
   disableNextButton:boolean = true;
+  filterString:any='';
 
   ngOnInit(): void {
     this.getData();
@@ -57,6 +59,9 @@ export class EmploerQuestionComponent implements OnInit {
   else if (this.currentIndex === 3 ||this.currentIndex ===9){
     return 'textarea';
   }
+  else if (this.currentIndex === 6 ||this.currentIndex ===7 || this.currentIndex === 12 || this.currentIndex === 13){
+    return 'multiselect';
+  }
   else{
     return 'select';
   }
@@ -83,6 +88,7 @@ export class EmploerQuestionComponent implements OnInit {
         this.fieldArray = this.fieldArray.filter((item:any) => item.value.toLowerCase() !== field.value.toLowerCase())
       }
 });
+this.enableDisableNextButton();
   }
   selectOption(opt:any,type:string){
     if(type === 'mixed'){
@@ -96,6 +102,12 @@ export class EmploerQuestionComponent implements OnInit {
     else if (type === 'select'){
       opt.selected = !opt.selected;
       this.disableOtherValues(opt);
+      
+    }
+    else if (type === 'multiselect'){
+      opt.selected = !opt.selected;
+      // this.disableOtherValues(opt);
+      
       
     }
     this.enableDisableNextButton();
@@ -187,9 +199,16 @@ export class EmploerQuestionComponent implements OnInit {
       
     }
     else if(this.type.textarea === questionType){
-      if(this.employeeQuestionData[this.currentIndex].value != ''){
+      if(this.employeeQuestionData[this.currentIndex].value != '' && this.employeeQuestionData[this.currentIndex].value.length>=200 ){
         this.disableNextButton = false;
       }
+    }
+    else if(this.type.multiselect === questionType){
+     for(var i= 0;i<this.employeeQuestionData[this.currentIndex].option.length;i++){
+       if(this.employeeQuestionData[this.currentIndex].option[i].selected === true){
+         this.disableNextButton = false;
+       }
+     }
     }
   }
   goToMyProfile(){
