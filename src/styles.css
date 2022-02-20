@@ -1788,6 +1788,16 @@ footer {
 /* .apptalent-table-view table tr th:nth-child(2) {
   background: #3f48cc;
 } */
+.heightlighttable table tr th {
+  border: 1px solid #e2e2e2;
+}
+.heightlighttable table tr th.pth-first-th {
+  border:none;
+}
+.heightlighttable table tr th:nth-child(2){
+  background: #F5F6FC;
+  color:#000000;
+}
 .apptalent-table-view table tr td {
   font: 500 14px/22px Roboto;
   padding: 8px 12px;
@@ -1803,6 +1813,9 @@ footer {
 /*.apptalent-table-view table tr td:nth-child(2) {
   background: #ffffff;
 } */
+.heightlighttable table tr td:nth-child(2) {
+  background: #F5F6FC;
+}
 .apptalent-table-view table tr td p {
   margin: 0px;
   display: flex;
