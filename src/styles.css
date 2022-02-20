@@ -795,6 +795,9 @@ section {
   margin-bottom: 20px;
   transition: ease-in-out 0.3s;
 }
+.easpromiseiticon{
+  width: 80px;
+}
 .services .icon-box .icon.ghIcon {
   border: 5px solid #3f48cc;
   width: 80px;
