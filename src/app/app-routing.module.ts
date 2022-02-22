@@ -8,6 +8,7 @@ import { EmploerJobpostingViewComponent } from './emploer-jobposting-view/emploe
 import { EmploerQuestionComponent } from './emploer-question/emploer-question.component';
 import { EmploerSignUpComponent } from './emploer-sign-up/emploer-sign-up.component';
 import { FooterComponent } from './footer/footer.component';
+import { ForClientComponent } from './for-client/for-client.component';
 import { GetHiredComponent } from './get-hired/get-hired.component';
 import { HeaderComponent } from './header/header.component';
 import { HowComponent } from './how/how.component';
@@ -166,6 +167,10 @@ const routes: Routes = [
   {
     path: 'vetted-individuals',
     component:VettedIndividualsComponent,
+  },
+  {
+    path: 'for-clients',
+    component:ForClientComponent,
   },
   {
     path: '',
