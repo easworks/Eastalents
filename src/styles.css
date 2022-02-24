@@ -798,12 +798,12 @@ section {
 .easpromiseiticon{
   width: 80px;
 }
-.services .icon-box .icon.ghIcon {
+/* .services .icon-box .icon.ghIcon {
   border: 5px solid #3f48cc;
   width: 80px;
   height: 80px;
   border-radius: 50%;
-}
+} */
 .services .icon-box .icon.ghIcon.ghIcongray {
   border-color: #cccccc;
 }
