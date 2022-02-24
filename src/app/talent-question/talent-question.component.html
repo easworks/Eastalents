@@ -32,9 +32,9 @@
             <!--Loading -->
             <div class="top-wizard mb-4" *ngIf="currentPage<33">
               <span>{{currentPage}} of 32 completed</span>
-              <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                [style.width]="width+'%'">
-                <div class="ui-progress"></div>
+              <div class="progress-bar">
+                <div class="ui-progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                  [style.width]="width+'%'"></div>
               </div>
             </div>
             <!--Loading -->
@@ -47,6 +47,61 @@
                     <div class="form-wizard-textarea">
                       <textarea name="this.talentProfile.stepObject[0].optionObj.name"
                         [(ngModel)]="this.talentProfile.stepObject[0].optionObj.name"></textarea>
+                    </div>
+
+                  </div>
+                  <h2 class="main-question mt-2 mb-2">Your Location TimeZone</h2>
+                  <div class="form-wizard-answer ">
+                    <div class="location-timezone">
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                          <div class="loc-timezone mb-2">
+                            <label class="label-text">Country</label>
+                            <div class="loc-inputgroup">
+                              <select class="inputview">
+                                <option value="1">india</option>
+                                <option value="2">US</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                          <div class="loc-timezone mb-2">
+                            <label class="label-text">State</label>
+                            <div class="loc-inputgroup">
+                              <select class="inputview">
+                                <option value="1">Tamil Nadu</option>
+                                <option value="2">Kerela</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                          <div class="loc-timezone">
+                            <label class="label-text">City</label>
+                            <div class="loc-inputgroup">
+                              <select class="inputview">
+                                <option value="1">Chennai</option>
+                                <option value="2">Chennai</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                          <div class="loc-timezone">
+                            <label class="label-text">TimeZone</label>
+                            <div class="loc-inputgroup">
+                              <select class="inputview">
+                                <option value="1">TimeZone</option>
+                                <option value="2">TimeZone</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -223,7 +278,8 @@
                                   aria-labelledby="v-pills-tq1-tab">
                                   <div class="rightpanel-easworks">
                                     <div class="easworkSearchbox">
-                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                      <input type="text"
+                                        placeholder="Type the desired skill you need in your project" />
                                     </div>
                                     <ul class="easeworkssearchList">
                                       <li>
@@ -270,7 +326,8 @@
                                   aria-labelledby="v-pills-tq2-tab">
                                   <div class="rightpanel-easworks">
                                     <div class="easworkSearchbox">
-                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                      <input type="text"
+                                        placeholder="Type the desired skill you need in your project" />
                                     </div>
                                     <ul class="easeworkssearchList">
                                       <li>
@@ -317,7 +374,8 @@
                                   aria-labelledby="v-pills-tq3-tab">
                                   <div class="rightpanel-easworks">
                                     <div class="easworkSearchbox">
-                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                      <input type="text"
+                                        placeholder="Type the desired skill you need in your project" />
                                     </div>
                                     <ul class="easeworkssearchList">
                                       <li>
@@ -359,12 +417,13 @@
                                     </ul>
                                   </div>
                                 </div>
-                                
+
                                 <div class="tab-pane fade" id="v-pills-tq4" role="tabpanel"
                                   aria-labelledby="v-pills-tq4-tab">
                                   <div class="rightpanel-easworks">
                                     <div class="easworkSearchbox">
-                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                      <input type="text"
+                                        placeholder="Type the desired skill you need in your project" />
                                     </div>
                                     <ul class="easeworkssearchList">
                                       <li>
@@ -406,12 +465,13 @@
                                     </ul>
                                   </div>
                                 </div>
-                                
+
                                 <div class="tab-pane fade" id="v-pills-tq5" role="tabpanel"
                                   aria-labelledby="v-pills-tq5-tab">
                                   <div class="rightpanel-easworks">
                                     <div class="easworkSearchbox">
-                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                      <input type="text"
+                                        placeholder="Type the desired skill you need in your project" />
                                     </div>
                                     <ul class="easeworkssearchList">
                                       <li>
@@ -453,12 +513,13 @@
                                     </ul>
                                   </div>
                                 </div>
-                                
+
                                 <div class="tab-pane fade" id="v-pills-tq6" role="tabpanel"
                                   aria-labelledby="v-pills-tq6-tab">
                                   <div class="rightpanel-easworks">
                                     <div class="easworkSearchbox">
-                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                      <input type="text"
+                                        placeholder="Type the desired skill you need in your project" />
                                     </div>
                                     <ul class="easeworkssearchList">
                                       <li>
@@ -500,12 +561,13 @@
                                     </ul>
                                   </div>
                                 </div>
-                                
+
                                 <div class="tab-pane fade" id="v-pills-tq7" role="tabpanel"
                                   aria-labelledby="v-pills-tq7-tab">
                                   <div class="rightpanel-easworks">
                                     <div class="easworkSearchbox">
-                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                      <input type="text"
+                                        placeholder="Type the desired skill you need in your project" />
                                     </div>
                                     <ul class="easeworkssearchList">
                                       <li>
@@ -551,7 +613,8 @@
                                   aria-labelledby="v-pills-tq8-tab">
                                   <div class="rightpanel-easworks">
                                     <div class="easworkSearchbox">
-                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                      <input type="text"
+                                        placeholder="Type the desired skill you need in your project" />
                                     </div>
                                     <ul class="easeworkssearchList">
                                       <li>
@@ -597,7 +660,8 @@
                                   aria-labelledby="v-pills-tq92-tab">
                                   <div class="rightpanel-easworks">
                                     <div class="easworkSearchbox">
-                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                      <input type="text"
+                                        placeholder="Type the desired skill you need in your project" />
                                     </div>
                                     <ul class="easeworkssearchList">
                                       <li>
@@ -643,7 +707,8 @@
                                   aria-labelledby="v-pills-tq10-tab">
                                   <div class="rightpanel-easworks">
                                     <div class="easworkSearchbox">
-                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                      <input type="text"
+                                        placeholder="Type the desired skill you need in your project" />
                                     </div>
                                     <ul class="easeworkssearchList">
                                       <li>
@@ -689,7 +754,8 @@
                                   aria-labelledby="v-pills-tq11-tab">
                                   <div class="rightpanel-easworks">
                                     <div class="easworkSearchbox">
-                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                      <input type="text"
+                                        placeholder="Type the desired skill you need in your project" />
                                     </div>
                                     <ul class="easeworkssearchList">
                                       <li>
@@ -735,7 +801,8 @@
                                   aria-labelledby="v-pills-tq12-tab">
                                   <div class="rightpanel-easworks">
                                     <div class="easworkSearchbox">
-                                      <input type="text" placeholder="Type the desired skill you need in your project" />
+                                      <input type="text"
+                                        placeholder="Type the desired skill you need in your project" />
                                     </div>
                                     <ul class="easeworkssearchList">
                                       <li>
@@ -1129,7 +1196,7 @@
                                 <li><a class="dropdown-item" (click)="selectOption($event)">Maven</a></li>
                                 <li><a class="dropdown-item" (click)="selectOption($event)">Mercurial</a></li>
                                 <li><a class="dropdown-item" (click)="selectOption($event)">Microsoft Team Foundation
-                Server</a></li>
+                                    Server</a></li>
                                 <li><a class="dropdown-item" (click)="selectOption($event)">NPM</a></li>
                                 <li><a class="dropdown-item" (click)="selectOption($event)">NewRelic</a></li>
                                 <li><a class="dropdown-item" (click)="selectOption($event)">Octopus Deploy</a></li>
@@ -2348,7 +2415,8 @@
 
                 <!--Step-23-->
                 <div class="question-steps" [ngClass]="{'d-none':currentPage!= 24}">
-                  <h2 class="main-question">Select the Industry or Domain worked</h2>
+                  <h2 class="main-question">Select Industry used for <span class="spantitlecolor">PLM - Product
+                      Lifecycle Management and Engineering</span> </h2>
                   <div class="form-wizard-answer">
                     <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false"
                       [savePreviousData]="savePreviousData" (deleteFieldValue)="deleteFieldValue($event)">
@@ -2373,6 +2441,636 @@
                         </div>
                       </div>
                     </div>
+
+                    <div class="selectTechStack">
+                      <div class="sts-tancontent d-flex align-items-start w-100">
+                        <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
+                          aria-orientation="vertical">
+                          <h1 class="tabtitle">Select Industry group and Industry</h1>
+                          <button class="nav-link" id="v-pills-indus1-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-indus1" type="button" role="tab" aria-controls="v-pills-home"
+                            aria-selected="true">
+                            API
+                          </button>
+                          <button class="nav-link" id="v-pills-indus2-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-indus2" type="button" role="tab" aria-controls="v-pills-profile"
+                            aria-selected="false">
+                            Backend Framework
+                          </button>
+                          <button class="nav-link" id="v-pills-indus3-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-indus3" type="button" role="tab" aria-controls="v-pills-home"
+                            aria-selected="true">
+                            Build Tool
+                          </button>
+                          <button class="nav-link" id="v-pills-indus4-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-indus4" type="button" role="tab" aria-controls="v-pills-profile"
+                            aria-selected="false">
+                            Certification
+                          </button>
+                          <button class="nav-link" id="v-pills-indus5-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-indus5" type="button" role="tab" aria-controls="v-pills-profile"
+                            aria-selected="false">
+                            Datastore
+                          </button>
+                          <button class="nav-link" id="v-pills-indus6-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-indus6" type="button" role="tab" aria-controls="v-pills-profile"
+                            aria-selected="false">
+                            Discipline
+                          </button>
+                          <button class="nav-link" id="v-pills-indus7-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-indus7" type="button" role="tab" aria-controls="v-pills-profile"
+                            aria-selected="false">
+                            Frontend Framework
+                          </button>
+                          <button class="nav-link" id="v-pills-indus8-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-indus8" type="button" role="tab" aria-controls="v-pills-profile"
+                            aria-selected="false">
+                            Infrastructure
+                          </button>
+                          <button class="nav-link" id="v-pills-indus9-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-indus9" type="button" role="tab" aria-controls="v-pills-profile"
+                            aria-selected="false">
+                            Language
+                          </button>
+                          <button class="nav-link" id="v-pills-indus10-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-indus10" type="button" role="tab" aria-controls="v-pills-profile"
+                            aria-selected="false">
+                            Library
+                          </button>
+                          <button class="nav-link" id="v-pills-indus11-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-indus11" type="button" role="tab" aria-controls="v-pills-profile"
+                            aria-selected="false">
+                            Markup
+                          </button>
+                          <button class="nav-link" id="v-pills-indus12-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-indus12" type="button" role="tab" aria-controls="v-pills-profile"
+                            aria-selected="false">
+                            Methodology
+                          </button>
+                        </div>
+                        <div class="tab-content" id="v-pills-tabContent">
+                          <div class="tab-pane fade show active" id="v-pills-indus1" role="tabpanel"
+                            aria-labelledby="v-pills-indus1-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type the desired skill you need in your project" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div class="tab-pane fade" id="v-pills-indus2" role="tabpanel"
+                            aria-labelledby="v-pills-indus2-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type the desired skill you need in your project" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div class="tab-pane fade" id="v-pills-indus3" role="tabpanel"
+                            aria-labelledby="v-pills-indus3-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type the desired skill you need in your project" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div class="tab-pane fade" id="v-pills-indus4" role="tabpanel"
+                            aria-labelledby="v-pills-indus4-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type the desired skill you need in your project" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div class="tab-pane fade" id="v-pills-indus5" role="tabpanel"
+                            aria-labelledby="v-pills-indus5-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type the desired skill you need in your project" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div class="tab-pane fade" id="v-pills-indus6" role="tabpanel"
+                            aria-labelledby="v-pills-indus6-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type the desired skill you need in your project" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div class="tab-pane fade" id="v-pills-indus7" role="tabpanel"
+                            aria-labelledby="v-pills-indus7-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type the desired skill you need in your project" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="tab-pane fade" id="v-pills-indus8" role="tabpanel"
+                            aria-labelledby="v-pills-indus8-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type the desired skill you need in your project" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="tab-pane fade" id="v-pills-indus9" role="tabpanel"
+                            aria-labelledby="v-pills-indus92-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type the desired skill you need in your project" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="tab-pane fade" id="v-pills-indus10" role="tabpanel"
+                            aria-labelledby="v-pills-indus10-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type the desired skill you need in your project" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="tab-pane fade" id="v-pills-indus11" role="tabpanel"
+                            aria-labelledby="v-pills-indus11-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type the desired skill you need in your project" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="tab-pane fade" id="v-pills-indus12" role="tabpanel"
+                            aria-labelledby="v-pills-indus12-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type the desired skill you need in your project" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">GP</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -2389,24 +3087,27 @@
                           <span class="d-block">{{option.secondPart}}</span>
                         </a>
                       </li>
-                      <!-- <li class="col-lg-12 col-md-12 col-12">
-                        <a href="javascript:void(0)" class="pl-3 pr-3" (click)="selectOption($event)"     >
-                          <span class="d-block text-uppercase font-weight-bold">Actively Looking For Jobs</span>
-                          <span class="d-block">We will match you with all available job opportunities</span>
-                        </a>
+                    </ul>
+
+                    <ul>
+                      <li>
+                        <div class="checkbox-group">
+                          <input type="radio" id="jss1" name="raido" />
+                          <label for="jss1">Actively looking for PLM Jobs</label>
+                        </div>
                       </li>
-                      <li class="col-lg-12 col-md-12 col-12">
-                        <a href="javascript:void(0)" class="pl-3 pr-3">
-                          <span class="d-block text-uppercase font-weight-bold">Passively Looking For the Right Opportunity</span>
-                          <span class="d-block">We will send you a daily digest of jobs that match your profile</span>
-                        </a>
+                      <li>
+                        <div class="checkbox-group">
+                          <input type="radio" id="jss2" name="raido" />
+                          <label for="jss2">Passively looking for the right PLM opportunity</label>
+                        </div>
                       </li>
-                      <li class="col-lg-12 col-md-12 col-12">
-                        <a href="javascript:void(0)" class="pl-3 pr-3">
-                          <span class="d-block text-uppercase font-weight-bold">Not Currently Looking for new work</span>
-                          <span class="d-block">We will pause job match emails but keep your account active</span>
-                        </a>
-                      </li> -->
+                      <li>
+                        <div class="checkbox-group">
+                          <input type="radio" id="jss3" name="raido" />
+                          <label for="jss3">Not currently looking for new PLM work</label>
+                        </div>
+                      </li>
                     </ul>
                   </div>
                 </div>

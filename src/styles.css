@@ -2179,7 +2179,7 @@ footer {
 }
 .progress-bar .ui-progress {
   width: 0%;
-  background: #1ba3ff;
+  background: #4949FC;
   position: absolute;
   left: 0;
   top: 0;
@@ -4938,6 +4938,13 @@ background-color: #4949fc26;
   border-radius: 0;
   overflow-anchor: none;
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,border-radius .15s ease;
+}
+.accordion-button:hover{
+  color: #ffffff;
+  background-color: #4949fc;
+}
+.accordion-button:hover::after{
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAAMElEQVQ4jWNgoDP4X/+/nhTlRf9BgHgt/1X/PxnVMti0kKhhVDmVlJORgUjOojQBAK1xm9/iH7nOAAAAAElFTkSuQmCC');
 }
 .accordion-button:not(.collapsed) {
   color: #ffffff;
