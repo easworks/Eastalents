@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output,EventEmitter } from "@angular/core";
+import { Router } from "@angular/router"; 
 declare var $: any;
 
 @Component({
@@ -7,7 +8,8 @@ declare var $: any;
   styleUrls: [],
 })
 export class HeaderComponent implements OnInit {
-  constructor() {}
+  constructor(public router: Router) { }
+  @Output() eventForSwitchTenant = new EventEmitter();
 
   ngOnInit(): void {
     $(document).ready(function () {
@@ -23,4 +25,13 @@ export class HeaderComponent implements OnInit {
       });
     });
   }
+
+  goToUseCase(value: any) { 
+    sessionStorage.setItem("useCaseName", value);
+    this.router.navigate(['/useCase',value]);
+    this.eventForSwitchTenant.emit('');
+  }
+
+  
+
 }

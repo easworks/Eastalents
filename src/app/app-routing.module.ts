@@ -12,7 +12,6 @@ import { GetHiredComponent } from './get-hired/get-hired.component';
 import { HeaderComponent } from './header/header.component';
 import { HowComponent } from './how/how.component';
 import { IndexComponent } from './index/index.component';
-import { InnovationComponent } from './innovation/innovation.component';
 import { InterviewListComponent } from './interview-list/interview-list.component';
 import { ProfileComponent } from './profile/profile.component';
 import { QuantitativeAppComponent } from './quantitative-app/quantitative-app.component';
@@ -28,6 +27,7 @@ import { TalentProfileViewComponent } from './talent-profile-view/talent-profile
 import { TalentQuestionComponent } from './talent-question/talent-question.component';
 import { TalentQuizQuestionComponent } from './talent-quiz-question/talent-quiz-question.component';
 import { TalentComponent } from './talent/talent.component';
+import { UseCaseComponent } from './use-case/use-case.component';
 import { VerificationComponent } from './verification/verification.component';
 import { VettedIndividualsComponent } from './vetted-individuals/vetted-individuals.component';
 import { WhyEastalentComponent } from './why-easworks/why-easworks.component';
@@ -92,8 +92,8 @@ const routes: Routes = [
     component: HowComponent,
   },
   {
-    path: 'Innovation',
-    component: InnovationComponent,
+    path: 'useCase/:id',
+    component: UseCaseComponent,
   },
   {
     path: 'Interview-List',
@@ -167,7 +167,6 @@ const routes: Routes = [
     path: 'vetted-individuals',
     component:VettedIndividualsComponent,
   },
-
   {
     path: '',
     component: IndexComponent,
@@ -175,7 +174,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{onSameUrlNavigation: 'reload'})],
   exports: [RouterModule],
 })
 export class AppRoutingModule { }

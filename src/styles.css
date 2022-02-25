@@ -4970,3 +4970,6 @@ background-color: #4949fc26;
 .accordion-body{
   padding: 12px;
 }
+.cursor-pointer{
+  cursor: pointer !important;
+}
