@@ -4598,6 +4598,11 @@ form #debt-amount-slider label {
 .sidemenuTabsContent .tabcontentside {
   border: 1px solid #efefef;
 }
+.tabcontentside .industrylisttab{
+  height: 410px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
 .sidemenuTabsContent .nav .nav-link {
   font-size: 12px;
   width: 100%;
@@ -4896,8 +4901,27 @@ form #debt-amount-slider label {
 .sts-tancontent .tab-content {
   width: calc(100% - 220px);
 }
+.tabtitlelistheight{
+  height: 340px;
+  overflow-y: auto;
+}
+.scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.scroll::-webkit-scrollbar-track {
+  box-shadow: none;
+  background: #f1f1f1;
+}
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #cccccc;
+  border-radius:60px;
+}
 .sts-tancontent .easeworkssearchList{
   height: 332px;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link{
+  background:#4949FC;
+  color:#ffffff;
 }
 .sts-tancontent .easeworkssearchList li a{
   font-size: 12px;
