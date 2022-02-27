@@ -45,9 +45,10 @@ p {
   border: 1px solid #cccccc;
   height: 38px;
   border-radius: 3px;
-  padding: 2px 12px;
-  font: normal 14px/18px Roboto;
+  padding: 2px 8px;
+  font: normal 13px/18px Roboto;
   outline: none;
+  text-overflow: ellipsis;
 }
 .textarea {
   height: 80px;
@@ -670,9 +671,9 @@ section {
   font-size: 2.5rem !important;
 }
 .btn-get-started {
-  font: 400 16px/28px Roboto;
+  font: 400 14px/22px Roboto;
   display: inline-block;
-  padding: 8px 30px 8px 30px;
+  padding: 6px 12px;
   border-radius: 4px;
   transition: 0.5s;
   color: #fff;
@@ -683,9 +684,9 @@ section {
   color: #ffffff;
 }
 .btn-common-border {
-  font: 500 16px/24px Roboto;
+  font: 500 14px/22px Roboto;
   display: inline-block;
-  padding: 8px 30px 8px 30px;
+  padding: 6px 12px;
   border-radius: 4px;
   transition: 0.5s;
   background: #ffffff;
@@ -2902,8 +2903,8 @@ footer {
   color: #f56565;
 }
 .addworkhistorybtn i {
-  font-size: 22px;
-  margin-right: 6px;
+  font-size: 20px;
+  margin-right: 12px;
 }
 
 .codechallenge p {
@@ -4996,4 +4997,99 @@ background-color: #4949fc26;
 }
 .cursor-pointer{
   cursor: pointer !important;
+}
+
+.cw-select{
+  margin-right: -1px;
+}
+.cw-select select{
+  height: 38px;
+  border: 1px solid #dddddd;
+  font-size: 12px;
+  outline: none;
+}
+
+.uploadProfile{
+  position: relative;
+}
+.uploadProfile input[type="file"]{
+  display: none;
+}
+.uploadProfile label{
+  width: 150px;
+  border: 1px dashed #dddddd;
+  height: 150px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align:center;
+}
+.up-para{
+  margin: 0px;
+  font-size: 12px;
+  color:#000000;
+}
+
+.uploadfiles{
+  position: relative;
+}
+.uploadfiles input[type="file"]{
+  display: none;
+}
+.uploadfiles label{
+  border: 1px solid #4949fc;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  margin: 0px 0px 0px -1px;
+  padding: 0px 12px;
+  white-space: nowrap;
+  height: 38px;
+  cursor: pointer;
+  background: #4949fc;
+  color: #ffffff;
+}
+
+
+.defaultTable{
+  width: 100%;
+  border: 1px solid #dddddd;
+  table-layout: fixed;
+}
+.defaultTable thead tr th{
+  border: 1px solid #dddddd;
+  font-size: 12px;
+  font-weight: 500;
+  color: #000000;
+  padding:4px 6px;
+  background: #f1f1f185;
+  word-break:break-word;
+}
+.defaultTable thead tr th:last-child{
+  width:70px;
+}
+.defaultTable tbody tr td{
+  border: 1px solid #dddddd;
+  font-size: 12px;
+  color: #000000;
+  padding:4px 6px;
+  word-break:break-word;
+}
+.defaultTable tbody tr td input, .defaultTable tbody tr td select{
+  height:28px;
+  font-size: 12p
+}
+.remoebtn{
+  border: none;
+    background: transparent;
+    font-size: x-large;
+    color: #000000;
+    text-align: center;
 }
