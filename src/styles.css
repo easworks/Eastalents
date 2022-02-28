@@ -5093,3 +5093,47 @@ background-color: #4949fc26;
     color: #000000;
     text-align: center;
 }
+
+
+/** ToasterMessage **/
+.toastermessage{
+  padding: 16px;
+  border-radius: 3px;
+  background: #E3FCEF;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+.toastermessage .toastTick{
+  width: 40px;
+  line-height: 20px;
+}
+.toastermessage .toastTick .ticktoast{
+  color:#006644;
+  border:none;
+  background: transparent;
+  font-size: 24px;
+}
+.toastermessage .toastContent{
+  width: calc(100% - 50px);
+}
+.toastContent h1{
+  font-size: 1.14286em;
+  margin: 0px 0px 8px;
+  line-height: 1.25;
+  font-weight: 600;
+}
+.toastContent p{
+  font-size: 14px;
+  color:#172b4d;
+  font-weight: 400;
+  margin: 0px;
+}
+.toastContent p span{
+  font-weight: 500;
+}
+.toastermessage .clearbtn{
+  color:#000000;
+  font-size: 20px;
+}
