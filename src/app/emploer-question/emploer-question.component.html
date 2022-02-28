@@ -1116,11 +1116,11 @@
 
 
                 <div class="quiz-bttn-group border-top pt-3" *ngIf="currentIndex >0 && currentIndex<16">
-                  <button type="button" class="btn-common-border" [disabled]="currentIndex === 1"
+                  <button type="button" class="btn-common-border" 
                     (click)="onChange(-1)">Previous</button>
                   <div class="next-skip">
                     <button type="button" class="btn-common-border d-none">Skip</button>
-                    <button type="button" class="btn-common-border nextbtn" [disabled]="disableNextButton"
+                    <button type="button" class="btn-common-border nextbtn" 
                       (click)="onChange(1)">Next</button>
                   </div>
 
