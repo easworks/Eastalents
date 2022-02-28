@@ -2945,7 +2945,7 @@ footer {
   width: 100%;
 }
 .mselect-dropdownmenu ul {
-  max-height: 160px;
+  max-height: 85px;
   overflow-y: auto;
 }
 .mselect-dropdownmenu ul li a {
