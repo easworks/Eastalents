@@ -71,7 +71,7 @@
                     <h2 class="main-question">{{data.question}}</h2>
                     <div class="form-wizard-answer">
                       <ul class="form-wizard-type jss-list selectarea  mt-3 row">
-                        <li class="col-lg-4 col-md-4 col-sm-6 col-12" *ngFor="let option of data.option">
+                        <li class="col-lg-6 col-md-6 col-sm-6 col-12" *ngFor="let option of data.option">
                           <a href="javascript:void(0)" class="pl-3 pr-3" [style.color]="option.selected ? 'white': ''"
                             [style.background-color]="option.selected ? '#4949fc': ''"
                             [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
@@ -1152,19 +1152,112 @@
                     </li>
                   </ul>
                 </div>
-
-                <div class="form-wizard-step mt-2  d-none">
-                  <h2 class="main-question">Do you need ERP - SAP Development/Coding/Customization experience</h2>
-                  <ul class="form-wizard-type jss-list selectarea mt-3 d-flex">
-                    <li class="w-auto">
-                      <a href="javascript:void(0)" class="text-center">Yes</a>
+                
+                <!--Step2-->
+                <div class="form-wizard-step mt-2 d-none">
+                  <h2 class="main-question">Select the needed EAS - PLM and Engineering software experience for new hiring</h2>
+                  <ul class="form-wizard-type jss-list selectarea mt-3 row">
+                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                      <a href="javascript:void(0)">Team Center</a>
                     </li>
-                    <li class="w-auto">
-                      <a href="javascript:void(0)" class="text-center">No</a>
+                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                      <a href="javascript:void(0)">Aras</a>
+                    </li>
+                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                      <a href="javascript:void(0)">Arena</a>
+                    </li>
+                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                      <a href="javascript:void(0)">Fusion Lifecycle</a>
+                    </li>
+                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                      <a href="javascript:void(0)">Windchill</a>
+                    </li>
+                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                      <a href="javascript:void(0)">SAP PLM</a>
+                    </li>
+                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                      <a href="javascript:void(0)">Propel PLM</a>
+                    </li>
+                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                      <a href="javascript:void(0)">Upchain</a>
+                    </li>
+                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                      <a href="javascript:void(0)">Enovia</a>
+                    </li>
+                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                      <a href="javascript:void(0)">Oracle Agile</a>
+                    </li>
+                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                      <a href="javascript:void(0)">Open BOM</a>
                     </li>
                   </ul>
                 </div>
 
+                <!--Step7-->
+                <div class="form-wizard-step mt-2 d-none">
+                  <h2 class="main-question">What level of ERP - SAP Developer Experience?</h2>
+                  <ul class="form-wizard-type jss-list selectarea mt-3 row">
+                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                      <a href="javascript:void(0)">Entry Level</a>
+                    </li>
+                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                      <a href="javascript:void(0)">Individual Contributor</a>
+                    </li>
+                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                      <a href="javascript:void(0)">Mid-Level Management</a>
+                    </li>
+                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                      <a href="javascript:void(0)">Excutive/Senior Leadership</a>
+                    </li>
+                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                      <a href="javascript:void(0)">Decide Later</a>
+                    </li>
+                  </ul>
+                </div>
+
+                <!--Step10-->
+                <div class="form-wizard-step mt-2 d-none">
+                  <h2 class="main-question">What is your estimated budget for this ERP - SAP Developer role?</h2>
+                  <ul class="form-wizard-type jss-list selectarea mt-3 row">
+                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                      <a href="javascript:void(0)">Less than $50/hr</a>
+                    </li>
+                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                      <a href="javascript:void(0)">$51 - $75/hr</a>
+                    </li>
+                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                      <a href="javascript:void(0)">$76 - $100/hr</a>
+                    </li>
+                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                      <a href="javascript:void(0)">$101 - $120/hr</a>
+                    </li>
+                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                      <a href="javascript:void(0)">More than $120/hr</a>
+                    </li>
+                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                      <a href="javascript:void(0)">Not sure on Hourly rate</a>
+                    </li>
+                  </ul>
+                </div>
+
+                <!--Step10-->
+                <div class="form-wizard-step mt-2 d-none">
+                  <h2 class="main-question">What do you need the ERP - SAP Developer to start?</h2>
+                  <ul class="form-wizard-type jss-list selectarea mt-3 row">
+                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                      <a href="javascript:void(0)">Immediately</a>
+                    </li>
+                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                      <a href="javascript:void(0)">In 1 to 2 weeks</a>
+                    </li>
+                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                      <a href="javascript:void(0)">More than 2 weeks</a>
+                    </li>
+                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                      <a href="javascript:void(0)">Decide Later</a>
+                    </li>
+                  </ul>
+                </div>
 
 
 

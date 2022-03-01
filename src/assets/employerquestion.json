@@ -63,11 +63,13 @@
             ]
         },
         {
-            "question":"Which option best describes the project you are hiring for?",
+            "question":"What describe the ERP - SAP project you are hiring for?",
             "type":"select",
             "option":[
                 {"value":"It's a new project (From Scratch)" ,"selected":false,"disable":false},
-                {"value":"It's an existing project (looking for additional help)" ,"selected":false,"disable":false}
+                {"value":"It's an existing project (looking for additional help)" ,"selected":false,"disable":false},
+                {"value":"Advisory service or Consultation" ,"selected":false,"disable":false},
+                {"value":"None of above, just exploring EASWORKS" ,"selected":false,"disable":false}
             ]
         },
         {
@@ -124,11 +126,10 @@
             "question":"How much of a designer's time are you looking for?",
             "type":"select",
             "option":[
-                {"value":"40 Hours/Week" ,"selected":false,"disable":false},
-                {"value":"30 Hours/Week" ,"selected":false,"disable":false},
-                {"value":"20 Hours/Week" ,"selected":false,"disable":false},
                 {"value":"10 Hours/Week or less" ,"selected":false,"disable":false},
-                {"value":"Hire as Full time employee" ,"selected":false,"disable":false},
+                {"value":"20 Hours/Week" ,"selected":false,"disable":false},
+                {"value":"30 Hours/Week" ,"selected":false,"disable":false},
+                {"value":"40 Hours/Week" ,"selected":false,"disable":false},
                 {"value":"I'm not sure" ,"selected":false,"disable":false}
             ]
         },
