@@ -89,7 +89,7 @@
             ]
         },
         {
-            "question":"Select your Primary Role",
+            "question":"What ERP - SAP role are you interested in?",
             "type":"multiselect",
             "option":[
                 {"value":"Developer" ,"selected":false,"disable":false},
@@ -138,15 +138,15 @@
             "value":""
         },
         {
-            "question":"How long are you looking to hire a designer for?",
+            "question":"How long are you looking to hire ERP - SAP Developer",
             "type":"select",
             "option":[
-                {"value":"Less than 1 month" ,"selected":false,"disable":false,"part2":"Our minimum Engagement is at least 100 hours. If you need less than. it may be difficult for us to help."},
+                {"value":"Less than 1 Week" ,"selected":false,"disable":false,"part2":"Our minimum Engagement is at least 100 hours. If you need less than. it may be difficult for us to help."},
+                {"value":"1 - 4 Months" ,"selected":false,"disable":false},
                 {"value":"1 - 3 Months" ,"selected":false,"disable":false},
-                {"value":"3 - 3 Months" ,"selected":false,"disable":false},
-                {"value":"> 6 Months" ,"selected":false,"disable":false},
-                {"value":"Hire as Full time employee" ,"selected":false,"disable":false},
-                {"value":"I'm not sure" ,"selected":false,"disable":false}
+                {"value":"3 - 6 Months" ,"selected":false,"disable":false},
+                {"value":"More than 6 months" ,"selected":false,"disable":false},
+                {"value":"Decide Later" ,"selected":false,"disable":false}
             ]
         },
         {
@@ -171,11 +171,12 @@
             ]
         },
         {
-            "question":"Are you open to working with someone who is remote?",
+            "question":"Are you open to working with a Remote ERP - SAP Developer",
             "type":"multiselect",
             "option":[
-                {"value":"Yes, Working remote is OK","selected":false,"disable":false},
-                {"value":"No, I need someone on-site","selected":false,"disable":false},
+                {"value":"Yes","selected":false,"disable":false},
+                {"value":"No","selected":false,"disable":false},
+                {"value":"Hybrid Model","selected":false,"disable":false},
                 {"value":"i'm not sure","selected":false,"disable":false}
             ]
         },

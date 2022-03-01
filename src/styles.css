@@ -2214,7 +2214,7 @@ footer {
   padding: 6px 8px;
   margin-right: 6px;
   min-width: 70px;
-  font-size: 13px;
+  font-size: 12px;
   color: #000000;
 }
 .form-wizard-type li a.active {
@@ -5136,4 +5136,23 @@ background-color: #4949fc26;
 .toastermessage .clearbtn{
   color:#000000;
   font-size: 20px;
+}
+
+.toastbtn{
+  position: relative;
+  text-align: center;
+  display: inline-flex;
+  border-width: 0;
+  border-radius: 3px;
+  box-sizing: border-box;
+  align-items: baseline;
+  font-weight: 500;
+  max-width: 100%;
+  padding: 6px 12px;
+  font-size: 13px;
+  text-transform: capitalize;
+  background: #006644;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  margin-top: 12px;
 }
