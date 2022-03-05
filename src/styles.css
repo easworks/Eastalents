@@ -95,8 +95,10 @@ select {
 }
 .bgcolor4f4ffc {
   background: #4f4ffc !important;
-  color: #ffffff;
+  color: #ffffff !important;
+  border-color:#4f4ffc !important;
 }
+
 .btn-close {
   box-sizing: content-box;
   width: 1em;
@@ -2040,6 +2042,7 @@ footer {
   justify-content: center;
   align-items: center;
 }
+
 .twowaysstreet-type {
   text-align: left;
   margin-left: 20px;
@@ -2549,6 +2552,7 @@ footer {
   display: flex;
   align-items: center;
 }
+
 .resumebtn.update-resume {
   background: #0b1320;
   color: #ffffff;
@@ -5258,4 +5262,10 @@ background-color: #4949fc26;
 .status-btn.blue{
   background: #3f66fb0f;
   color:#3F66FB;
+}
+
+.gethiredlottie{
+  width: 120px;
+  height: 100px;
+  margin: auto;
 }
