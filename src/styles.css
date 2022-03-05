@@ -97,6 +97,17 @@ select {
   background: #4f4ffc !important;
   color: #ffffff;
 }
+.btn-close {
+  box-sizing: content-box;
+  width: 1em;
+  height: 1em;
+  padding: 0.25em 0.25em;
+  color: #000;
+  background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAABFQAAARUBKX4CGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAACUSURBVEiJxZZBDoAgDAQnPNV38VbqhYsGLVuKkpgQpLPQrgJAASpwmBkZD3B0ZqF3DGgZIh3eOrPeB5ZERqzHFxlwM8OdsAK/CERFvBg5QJ0bD5xcSCyvyi5l24l1ijhEM0HAhpKNC7vbrykaFXQ0FhJ4Ayki339o0urUX4Wa35mYJfhUvVbhnkgK3LH1/kN/67XlBIjWmDspb5WuAAAAAElFTkSuQmCC') center/1em auto no-repeat;
+  border: 0;
+  border-radius: 0.25rem;
+  opacity: .5;
+}
 .appbttn {
   font-size: 14px;
   text-transform: capitalize;
@@ -4664,9 +4675,6 @@ form #debt-amount-slider label {
 .easeworkssearchList li a:hover {
   background: #f8f8f8;
 }
-.dropdown-menu {
-  display: block;
-}
 
 .selectJobSearch {
   background: red;
@@ -5155,4 +5163,99 @@ background-color: #4949fc26;
   color: #ffffff;
   letter-spacing: 0.3px;
   margin-top: 12px;
+}
+
+/** Employee Profile **/
+.profiletitle{
+  font-size: 1rem;
+    color: #1c1b1b;
+}
+.emp-profileImg {
+  margin: 0px;
+  width: 150px;
+  min-width: 150px;
+  height: 150px;
+  display: block;
+  position: relative;
+  border: 1px solid #dddddd;
+}
+.emp-profileImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 3px;
+}
+.emp-profileImg .edit-profile {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.emp-profileImg .edit-profile input {
+  display: none;
+}
+.emp-profileImg .edit-profile label {
+  font-size: 11px;
+  background: #0b1320b0;
+  margin: 0;
+  padding: 2px 6px;
+  display: flex;
+  color: #ffffff;
+  align-items: center;
+  line-height: 17px;
+  cursor: pointer;
+}
+.emp-profileImg  .edit-profile label i {
+  margin-right: 3px;
+}
+.emp-smallTile{
+  color: #494949;
+    font-size: 14px;
+    margin: 6px 0px 12px 0px;
+    font-weight: 500;
+}
+.resumebtn.update-resume i.add-mem{
+  font-size:16px;
+}
+
+.emp-table{
+  width: 100%;
+  border:1px solid #dddddd;
+}
+.emp-table thead tr th{
+  font: 500 14px/22px Roboto;
+  padding: 4px 12px;
+  border: 1px solid #e2e2e2;
+  color: #000000;
+}
+.emp-table tbody tr td{
+  font: normal 13px/22px Roboto;
+  padding: 4px 12px;
+  border: 1px solid #e2e2e2;
+  color: #000000;
+}
+.status-btn{
+  border: 1px solid #dddddd;
+  background: #ffffff;
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  outline: none;
+  color: #000000;
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  line-height: 16px;
+  font-weight: 500;
+}
+.status-btn.red{
+  background: #F136370f;
+  color:#F13637 !important;
+}
+.status-btn.green{
+  background: #3DC13C0f;
+  color:#3DC13C !important;
+}
+.status-btn.blue{
+  background: #3f66fb0f;
+  color:#3F66FB;
 }

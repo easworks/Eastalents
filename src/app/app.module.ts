@@ -47,7 +47,8 @@ import { TalentQuestionSelectItemComponent } from './talent-question/talent-ques
 import { EmployerSelectItemComponent } from './employer-select-item/employer-select-item.component';
 import { VettedIndividualsComponent } from './vetted-individuals/vetted-individuals.component';
 import { DatafilterPipe } from './datafilter.pipe';
-import { UseCaseComponent } from './use-case/use-case.component'; 
+import { UseCaseComponent } from './use-case/use-case.component';
+import { EmployerProfileComponent } from './employer-profile/employer-profile.component'; 
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import { UseCaseComponent } from './use-case/use-case.component';
     EmployerSelectItemComponent,
     UseCaseComponent,
     VettedIndividualsComponent,
-    DatafilterPipe
+    DatafilterPipe,
+    EmployerProfileComponent
   ],
   imports: [
     BrowserModule,
