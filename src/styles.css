@@ -50,6 +50,10 @@ p {
   outline: none;
   text-overflow: ellipsis;
 }
+.bg-blue{
+  background: #4949fc !important;
+  color:#ffffff !important;
+}
 .textarea {
   height: 80px;
   resize: none;
@@ -5268,4 +5272,53 @@ background-color: #4949fc26;
   width: 120px;
   height: 100px;
   margin: auto;
+}
+
+
+
+.treeview{
+  margin-left: 2rem;
+  margin-top: -1.4rem;
+}
+.treeview li{
+  display: flex;
+}
+.treeview li .treeview-item{
+  display: flex;
+  flex-direction: column;
+  width: 26px;
+  font-size:22px;
+  font-weight: 600;
+  position: relative;
+}
+.treeview-letter{
+  text-align: center;
+}
+.treeview-line{
+  height: 100%;
+  display: block;
+  margin-left: 0.75rem;
+  border-left: 1px solid rgb(186, 185, 185);
+  margin-top: 0.25rem;
+}
+.treeview-line.lastchild{
+  border-left: 0px;
+}
+.treeview-content{
+  flex: 1 1 0%;
+    margin-left: 0.55rem;
+    margin-bottom: 20px;
+}
+.treeview-content h4{
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 6px;
+  color: #372354;
+  margin-bottom: 12px;
+}
+.treeview-content p{
+  line-height: 22px;
+  font-size: 14px;
+  margin-bottom: 0;
+  margin-top: 5px;
 }
