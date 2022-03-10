@@ -13,8 +13,8 @@ export class EmployerSelectItemComponent implements OnInit {
 
   @Output() deleteFieldValue = new EventEmitter<any>();
   // @Output() outputData = new EventEmitter<any>();
-  @Output() inputNoOfYear = new EventEmitter<any>();
-  @Output() inputNoOfSkill = new EventEmitter<any>();
+  // @Output() inputNoOfYear = new EventEmitter<any>();
+  // @Output() inputNoOfSkill = new EventEmitter<any>();
 
   constructor() { }
 
@@ -25,11 +25,11 @@ export class EmployerSelectItemComponent implements OnInit {
     this.deleteFieldValue.emit(option);
   }
 
-  onInputNoOfYear(event:any,field:any){
-    this.inputNoOfYear.emit({event:event,field:field});
-  }
-  onInputSkill(event:any,field:any){
-    this.inputNoOfSkill.emit({event:event,field:field});
-  }
+  // onInputNoOfYear(event:any,field:any){
+  //   this.inputNoOfYear.emit({event:event,field:field});
+  // }
+  // onInputSkill(event:any,field:any){
+  //   this.inputNoOfSkill.emit({event:event,field:field});
+  // }
 
 }
