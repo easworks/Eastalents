@@ -8,11 +8,13 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 export class TalentQuestionSelectItemComponent implements OnInit {
 
   @Input() fieldArray: Array<any> = [];
-  @Input() savePreviousData: Array<any> = [];
-  @Input() isSingleControl: Boolean = false;
+  // @Input() savePreviousData: Array<any> = [];
+  // @Input() isSingleControl: Boolean = false;
 
-  @Output() deleteFieldValue = new EventEmitter<string>();
-  @Output() outputData = new EventEmitter<any>();
+  @Output() deleteFieldValue = new EventEmitter<any>();
+  // @Output() outputData = new EventEmitter<any>();
+  @Output() inputNoOfYear = new EventEmitter<any>();
+  @Output() inputNoOfSkill = new EventEmitter<any>();
 
   constructor() { }
 
@@ -21,6 +23,13 @@ export class TalentQuestionSelectItemComponent implements OnInit {
 
   deleteOption(index: any, option: any) {
     this.deleteFieldValue.emit(option);
+  }
+
+  onInputNoOfYear(event:any,field:any){
+    this.inputNoOfYear.emit({event:event,field:field});
+  }
+  onInputSkill(event:any,field:any){
+    this.inputNoOfSkill.emit({event:event,field:field});
   }
  
 

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpService } from '../_services/http.service';
+import { SessionService } from '../_services/session.service';
+import { ToasterService } from '../_services/toaster.service';
 
 @Component({
   selector: 'app-ques-congratulation',
@@ -8,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class QuesCongratulationComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,private httpService: HttpService,private toaster: ToasterService,private sessionService: SessionService) { }
 
   feedback1='';
   feedback2='';
@@ -34,13 +37,29 @@ export class QuesCongratulationComponent implements OnInit {
   }
 
   onSubmitFeedback(){
-   console.log(this.feedback1)
-   console.log(this.feedback2)
-   console.log(this.feedback3)
-   console.log(this.feedback4)
-   console.log(this.feedback5)
-  //  console.log(this.str)
-  this.router.navigate(['/Talentprofileview']);
+    this.sendFeedBack();
+  }
+
+
+  sendFeedBack(){
+    let talent={
+      "feedback1":this.feedback1,
+      "feedback2":this.feedback2,
+      "feedback3":this.feedback3,
+      "feedback4":this.feedback4,
+      "feedback5":this.feedback5,
+      "str":this.str
+
+    }
+    let data:any={
+      userId: this.sessionService.getLocalStorageCredentials()._id,
+      feedbackSteps:JSON.stringify(talent)
+    }
+    this.httpService.post('talentProfile/updateTalentProfileFeedback',{}).subscribe((res:any)=>{
+         if(res.status === 'success'){
+          this.router.navigate(['/Talentprofileview']);
+         }
+    });
   }
 
 }

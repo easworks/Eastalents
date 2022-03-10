@@ -1,7 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { element } from 'protractor';
-import { ObservableLike } from 'rxjs';
 import { ApiResponse } from '../_models';
 import { TalentProfile, TalentProfileSteps } from '../_models/taltent-profile-steps';
 import { HttpService } from '../_services/http.service';
@@ -33,211 +32,213 @@ export class TalentQuestionComponent implements OnInit {
   product: string[] = [];
   profileSummary: string = "";
   ToSendOnProfileData:any={};
-  dataKeys:string[] = []; //For keys
-  socialMediaLink={
-    linkedIn:"",
-    gitHub:"",
-    gitLab:"",
-    bitBucket:"",
-    stackOverflow:"",
-    portfolio:"",
-    otherUrl:"",
-    type:'SocialMediaLink'
-  }
-  expectation={
-    desiredHourlyRate:"",
-    monthlyRate:"",
-    annualSalary:"",
-    type:'Expectation'
-  }
-  jobSearch=[
-    {selected:false,type:'jobSearch' ,firstPart:'Actively Looking For Jobs',secondPart:'We will match you with all available job opportunities'},
-    {selected:false,type:'jobSearch' ,firstPart:'Passively Looking For the Right Opportunity',secondPart:'We will send you a daily digest of jobs that match your profile'},
-    {selected:false,type:'jobSearch' ,firstPart:'Not Currently Looking for new work',secondPart:'We will pause job match emails but keep your account active'}
-  ]
+  // dataKeys:string[] = []; //For keys
   selected=true;
-
-  experience={
-    startFreelancing:'',
-    isChecked:false,
-    startWorkingProfessionally:'',
-    type:'experience'
-  }
-  employmentOpportunity=[
-    {selected:false,type:'employmentOpportunity' ,firstPart:'Freelance or Contact work -',secondPart:'Short Term',thirdPart:'(1-3 Months)'},
-    {selected:false,type:'employmentOpportunity' ,firstPart:'Freelance or Contact work -',secondPart:'Long Term',thirdPart:'(3-36 Months)'},
-    {selected:false,type:'employmentOpportunity' ,firstPart:'Fulltime Salaried Employee',secondPart:'' ,thirdPart:''},
-    {selected:false,type:'employmentOpportunity' ,firstPart:' Any of the above',secondPart:'' ,thirdPart:''},
-  ]
-  englishFluencyLevel=[
-    {selected:false,type:'englishFluencyLevel' ,secondPart:'No Practical proficiency (Google translates me)',firstPart:''},
-    {selected:false,type:'englishFluencyLevel' ,firstPart:'Basic',secondPart:'- I can Read, write & speak basic English'},
-    {selected:false,type:'englishFluencyLevel' ,firstPart:'Fluent',secondPart:'I can Read, understand, write ,speak & comprehend English with no trouble.'},
-    {selected:false,type:'englishFluencyLevel' ,firstPart:'Professional',secondPart:' – I have advance level of proficiency & can communicate in complex & cognitively demanding situation.' ,},
-    {selected:false,type:'englishFluencyLevel' ,secondPart:'Excellent Native/Bilingual -English is my primary & native language',firstPart:''},
-  ]
-  startWorkingWithEasyWork=[
-    {selected:false,type:'startWorkingWithEasyWork' ,data:'Immediately'},
-    {selected:false,type:'startWorkingWithEasyWork' ,data:'In 1 Week'},
-    {selected:false,type:'startWorkingWithEasyWork' ,data:'In 2 Weeks'},
-    {selected:false,type:'startWorkingWithEasyWork' ,data:'In 3 Weeks',},
-    {selected:false,type:'startWorkingWithEasyWork' ,data:'In 1 Month'},
-    {selected:false,type:'startWorkingWithEasyWork' ,data:'In more than 1 month'},
-  ]
   firstTime=false;
   name:any={};
-  year:any=[
-    {value:2000},
-    {value:2001},
-    {value:2002},
-    {value:2003},
-    {value:2004},
-    {value:2005},
-    {value:2006},
-    {value:2007},
-    {value:2008},
-    {value:2009},
-    {value:2010},
-    {value:2011},
-    {value:2012},
-    {value:2013},
-    {value:2014},
-    {value:2015},
-    {value:2016},
-    {value:2018},
-    {value:2019},
-    {value:2020},
-    {value:2021},
-    {value:2022},
-    
-
-    
-
-  ]
-
+  dummyData:any;
+  requiredFormat:any={
+    button:[],
+    option:[],
+  };
+  datathree:any[]=[];
+  completeJobs:any[]=[];
+  completeProduct:any[]=[];
+  dataKeys:any[] = []; //For keys
+  talentQuestionData:any=[];
+  filterString='';
+  type={
+    "socialMedia":"socialMedia"
+  }
+  countries:any;
+  allState:any;
+  cities:any;
+  enterpriseApplicationGroup='';
+  enterpriseApplicationSubGroup='';
+  buttonDataFilter='';
+  newAttribteExp={"role":"","startDuration":"","endDuration":"","skills":"","clientName":""};
+  selectedVideoFiles:any;
+  experienceArray:any=[];
+  selectedImage:any;
+  selectedCountry='';
+  selectedCity='';
+  selectedState='';
+  showProfessionalCodingExperience:boolean = false;
+  showemploymentOpportunity:boolean = false;
+  jobRole:any=[];
   constructor(private httpService: HttpService,
     private router: Router,
-    private talentService: TalentService,private toaster: ToasterService,private sessionService: SessionService) {
+    private talentService: TalentService,private http: HttpClient,private toaster: ToasterService,private sessionService: SessionService) {
   }
 
   ngOnInit(): void {
+    this.getDynamicData();
+    this.getData();
     this.name.firstName = this.sessionService.getLocalStorageCredentials().firstName;
-    this.httpService.get('talentProfile/getTalentProfileSteps').subscribe((response: ApiResponse<any>) => {
+    this.talentQuestionData.unshift({question:{first:"Select your Primary ",second:"role"},"id":5,type:"mixed","option":this.completeProduct})
+    this.talentQuestionData.unshift({question:{first:"Select the ",second:"system phase you have worked"},"id":4,type:"mixed","option":this.completeJobs})
+    this.talentQuestionData.unshift({question:{first:"Select the ",second:"module to have specialized"},"id":3,type:"mixed","option":this.datathree})
+    this.talentQuestionData.unshift({question:{first:"Select Your Primary Enterprise Application",second:""},"id":2,type:"mixed","option":this.dataKeys})
+    this.talentQuestionData.unshift({question:"Professional Summary","id":1,type:"textarea",profileSummary:"",country:{},state:{},city:''})
+    this.talentQuestionData.unshift({question:"","id":0,type:"","data":""})
+    console.log(this.talentQuestionData);
+    console.log(this.currentPage);
+    this.getCountry();
+
+  }
+
+   getDynamicData(){
+     this.httpService.get('talentProfile/getTalentProfileSteps').subscribe((response: ApiResponse<any>) => {
       if (response.status) {
         this.rootTalentObject = response
         let dataValues = []; //For values
         for (let key in this.rootTalentObject.talentProfile) {
-          dataValues.push(this.rootTalentObject[key]);
-          this.dataKeys.push(key);
+          dataValues.push(this.rootTalentObject.talentProfile[key]);
+          this.dataKeys.push({value:key,selected:false,disable:false,noOfYear:'',skill:''});
+          this.datathree.push({value:this.rootTalentObject.talentProfile[key]['Primary Domain'],selected:false,disable:false,noOfYear:'',skill:'',group:key});
+          for (let key2 in this.rootTalentObject.talentProfile[key].Modules) {
+            this.rootTalentObject.talentProfile[key].Modules[key2]['Job roles'].forEach((jobdata:any)=>{
+              if(jobdata){
+
+                this.completeJobs.push({value:jobdata,selected:false,disable:false,noOfYear:'',skill:'',group:key,subgroup:key2,primaryDomain:this.rootTalentObject.talentProfile[key]['Primary Domain']});
+              }
+            });
+            this.rootTalentObject.talentProfile[key].Modules[key2].Product.forEach((productdata:any)=>{
+              if(productdata){
+
+                this.completeProduct.push({value:productdata.name,selected:false,disable:false,noOfYear:'',skill:'',group:key,subgroup:key2,primaryDomain:this.rootTalentObject.talentProfile[key]['Primary Domain']});
+              }
+             });
+
+          }
         }
         this.talentOption = this.dataKeys;
+        console.log(this.dataKeys)
+        console.log(this.datathree)
+        console.log(this.completeJobs)
+        console.log(this.completeProduct)
       }
     }, (error) => {
       console.log(error);
     });
-
   }
 
-  public changePage(index: number): void {
-    let saveNextData: Array<any> = [];
-      if(this.fieldArray.length){
-        saveNextData = this.fieldArray;
-        this.fieldArray=[];
-      }
-      if(!(this.currentPage === 25 || this.currentPage ===32 || this.currentPage ===27 || this.currentPage ===28)){
-        this.pushObjects(saveNextData);
-
-      }
-      console.log(this.talentProfile);
-      saveNextData=[];
-      // this.enableDisableNextButton();
-      this.firstTime= false;
-    if (this.currentPage > 1 && index ===1 ) {
-      //maintain post object
-      if(!(this.currentPage ===30 || this.currentPage ===26 || this.currentPage === 31 || this.currentPage ===28 ||this.currentPage ===25 || this.currentPage ===32 || this.currentPage ===27)){
-        this.preserveData(index);
-
-      }
-    }
-    else if(this.currentPage > 1 && index=== -1){
-      if(!(this.currentPage ===30 || this.currentPage ===26|| this.currentPage === 31 || this.currentPage ===25 || this.currentPage ===32 || this.currentPage ===27 || this.currentPage ===28)){
-     this.preserveData(index);
-      }
-    }
-    this.currentPage += index;
-    this.width = (this.currentPage / 32) * 100;
-
-    if (this.currentPage == 4)
-      this.talentOption = this.jobs;
-    if (this.currentPage == 5)
-      this.talentOption = this.product;
-
-    if (this.currentPage == 2 ||
-      this.currentPage == 3 ||
-      this.currentPage == 4 ||
-      this.currentPage == 5)
-      this.dyanmicStepNum = this.currentPage;
-
-    //change step
-    if ((this.currentPage == 2 || this.currentPage == 3) && this.dyanmicOption.length > 0) {
-      let dyanmicArr: string[] = [];
-      this.dyanmicOption.forEach(element => {
-        for (let key in this.rootTalentObject.talentProfile[element]) {
-          dyanmicArr.push(key);
-          if (this.currentPage == 3) {
-            this.jobs.push(...this.rootTalentObject.talentProfile[element][key]["Jobs"]);
-            this.product.push(...this.rootTalentObject.talentProfile[element][key]["Product"]);
-          }
-        }
-      });
-
-      if (this.currentPage == 3)
-        this.talentOption = dyanmicArr;
-    }
-    if(this.currentPage==2){
-      this.talentOption = this.dataKeys;
-    }
-
-    
-  }
-
-  pushObjects(opt:any){
-    if(this.currentPage === 30){
-      this.updateValue(this.socialMediaLink);
-    }
-    else if(this.currentPage === 31){
-      this.updateValue(this.expectation);
-    }
-    else if(this.currentPage === 26){
-     this.updateValue(this.experience);
-
-    }
-    else{
-    opt.forEach((element:any) => {
-      this.talentProfile.stepObject[this.currentPage - 1].optionObj.push(element);
+  getData(){
+    return this.http.get('/assets/talentquestion.json').subscribe( (res:any) =>{
+      this.talentQuestionData.push(...res);
+      console.log(this.talentQuestionData);
     });
   }
 
+
+  getCountry(){
+    this.httpService.get('location/getCountries').subscribe((response: any) => {
+      if(response.status){
+        this.countries = response.countries;
+      }
+    });
+    console.log(this.countries);
+  }
+  onSelectCountry(opt:any){
+    this.talentQuestionData[1].country = this.countries.find((item:any)=>item.code === opt);
+    this.selectedCountry = opt;
+    this.getState(opt);
+  }
+  getCity(stateiso:any){
+    const data={
+      "countryCode":this.talentQuestionData[1].country.code,
+      "stateCode":stateiso
+    }
+    this.httpService.post('location/getCities',data).subscribe((res:any) => {
+      if(res.status){
+        this.cities = res.cities
+       }
+    });
+  }
+  getState(countryCode:any){
+    const data={
+      "countryCode":countryCode,
+    }
+    this.httpService.post('location/getStates',data).subscribe((response: any) => {
+      if(response.status){
+       this.allState = response.states
+      }
+    });
   }
 
-  updateValue(data:any){
-    let updateArray = this.talentProfile.stepObject[this.currentPage - 1].optionObj;
-    if(updateArray.length >0){
-      updateArray.forEach((element:any)=>{
-        for (const key in data) {
-          if(data[key] != element[key]){
-            element[key]=data[key];
-          }
-  // console.log(`${key}: ${user[key]}`);
-      }
-      });  
-    }
-    else if (updateArray.length === 0){
-      updateArray.push(data);
-      // this.enableDisableNextButton();
+  onSelectState(opt:any){
+    this.talentQuestionData[1].state = this.allState.find((item:any)=>item.iso === opt);
+    this.selectedState = opt;
+    this.getCity(opt);
+  }
 
+  onSelectCity(opt:any){
+    this.talentQuestionData[1].city = this.cities.find((item:any)=>item === opt);
+    this.selectedCity = opt;
+  }
+
+  onAddExperience(){
+   this.talentQuestionData[this.currentPage].experience.push({"role":"","startDuration":"","endDuration":"","skills":"","clientName":""});
+  }
+  onRemoveExperience(opt:any,i:any){
+    this.talentQuestionData[this.currentPage].experience.splice(i,1);
+  }
+  onAddEducation(){
+    this.talentQuestionData[this.currentPage].education.push({"degree":"","specialization":"","startDuration":"","endDuration":"","school":"","address":""});
+  }
+  onRemoveEducation(opt:any,i:any){
+    this.talentQuestionData[this.currentPage].education.splice(i,1);
+  }
+  onVideoUpload(event:any){
+    this.selectedVideoFiles = event.target.files;
+  }
+  uploadVideo(){
+     
+  }
+  onImage(event:any){
+    this.selectedImage = event.target.files[0]
+  }
+  uploadImage(){
+    const uploadData = new FormData();
+    uploadData.append('myFile', this.selectedImage, this.selectedImage.name);
+    this.httpService.post('talentProfile/setTalentProfilePhoto',uploadData).subscribe((response: ApiResponse<any>) => {
+      if (!response.error) {
+        this.toaster.success(`${response.message}`);
+      }
+    }, (error) => {
+      console.log(error);
+      this.toaster.error(`${error.message}`);
+    });
+  }
+  checkAndShowData(){
+    this.talentQuestionData[this.currentPage].option.forEach((element:any)=>{
+      if(element.selected=== true){
+        this.fieldArray.push(element);
+      }
+    });
+  }
+  buttonData(opt:any){
+    console.log(opt);
+  this.buttonDataFilter = opt.value;
+  }
+  public changePage(index: number): void {
+
+    this.currentPage += index;
+    if(this.currentPage === 7  && this.showProfessionalCodingExperience === false){
+      if(index>0){
+        this.currentPage = this.currentPage +1;
+
+      }
+      else if (index <0){
+        this.currentPage = this.currentPage - 1;
+      }
+ }
+    this.width = (this.currentPage / 12) * 100;
+
+    if(this.currentPage === 2 || this.currentPage === 3 || this.currentPage ==4 || this.currentPage === 5 || this.currentPage === 7 || this.currentPage ===8 ){
+      this.fieldArray=[];
+      this.checkAndShowData();
     }
-    data={};
   }
 
   nextPage(event: string) {
@@ -281,107 +282,205 @@ export class TalentQuestionComponent implements OnInit {
   }
 
 
-  selectOption(option: any) {
-    this.nextPage(option.target.innerText);
+  selectOption(opt: any) {
+    if(this.currentPage === 1){ // firstQuestion
+
+    }
+    else if(this.currentPage === 2){
+      opt.selected= true;
+      this.enterpriseApplicationGroup = opt.value;
+      this.disableOtherValues(opt);
+      this.getDataForFieldArray(opt);
+    }
+    else if( this.currentPage ===3 || this.currentPage ===4 || this.currentPage === 5){
+      if(this.currentPage === 3){
+        this.enterpriseApplicationSubGroup = opt.value;
+      }
+      opt.selected= true;
+      opt.disable = true;
+      this.getDataForFieldArray(opt);
+    }
+    else if (this.currentPage === 6){
+      opt.selected = !opt.selected;
+     if(opt.value === 'NO' && opt.selected === true){
+    this.talentQuestionData[this.currentPage].option[0].disable = true;
+    this.talentQuestionData[this.currentPage].option[1].disable = false;
+    this.showProfessionalCodingExperience = false;
+     }
+     else if(opt.value === 'YES'  && opt.selected === true){
+      this.talentQuestionData[this.currentPage].option[0].disable = false;
+     this.talentQuestionData[this.currentPage].option[1].disable = true;
+     this.showProfessionalCodingExperience = true;
+     }
+     else if (opt.selected === false){
+      this.talentQuestionData[this.currentPage].option[0].disable = false;
+      this.talentQuestionData[this.currentPage].option[1].disable = false;
+      this.showProfessionalCodingExperience = false;
+     }
+    }
+    else if( this.currentPage === 7 || this.currentPage ===8){
+      opt.selected= true;
+      opt.disable = true;
+      this.getDataForFieldArray(opt);
+    }
+    else if (this.currentPage === 9){
+        opt.selected = !opt.selected;
+        if(opt.subType === 'select'){
+        this.talentQuestionData[this.currentPage].data.forEach((element:any)=>{
+          if(element.type === 'select'){
+            element.option.forEach((optionData:any)=>{
+              if(opt.selected === true && opt.firstPart != optionData.firstPart ){
+                optionData.disable = true;
+              }
+              else if(opt.selected === false){
+                optionData.disable = false;
+              }
+            });
+          }
+    });
+  }
+  if(opt.selected === true && opt.firstPart ==='Actively Looking For Jobs'){
+    this.showemploymentOpportunity = true;
+  }
+  else{
+    this.showemploymentOpportunity = false;
+  }
+    }
+    else if (this.currentPage === 10){
+      opt.selected = !opt.selected;
+    }
+    else if (this.currentPage === 11){
+
+    }
+    else if (this.currentPage === 12){
+     //to be decide later
+    }
+  }
+
+
+  getDataForFieldArray(opt:any){
+    this.talentQuestionData[this.currentPage].option.forEach((element:any)=>{
+      if(element.selected === true && element.value.toLowerCase() === opt.value.toLowerCase()){
+        this.fieldArray.push({value:opt.value,noOfYear:'',skill:''});
+        if(this.currentPage === 4){
+          this.jobRole.push({value:opt.value,noOfYear:'',skill:''});
+        }
+      }
+});
+  }
+
+  disableOtherValues(opt:any){
+    if(this.currentPage === 2){
+      this.talentQuestionData[this.currentPage].option.forEach((element:any)=>{
+        element.disable = true;
+});
+    }
+    else{
+      
+    }
   }
 
   deleteFieldValue(option: any) {
     this.sliceItem(option);
   }
 
-   private preserveData(index:any){
-     this.savePreviousData=[];
-  if(index ===1){
-    if(this.talentProfile.stepObject[this.currentPage].optionObj.length){
-      this.talentProfile.stepObject[this.currentPage].optionObj.forEach((element:any) => {
-          this.savePreviousData.push(element);
-      });
-
+  onInputNoOfYear(opt:any){
+    if(this.currentPage === 2){
+      this.upDateYearInQues2(opt.event,opt.field);
+    }
+    else if( this.currentPage ===3 || this.currentPage ===4 || this.currentPage === 5 || this.currentPage === 7 || this.currentPage ===8) {
+      this.upDateYear(opt.event,opt.field);
     }
   }
-  else if (index === -1){
-    if(this.talentProfile.stepObject[this.currentPage-2].optionObj.length){
-      this.talentProfile.stepObject[this.currentPage-2].optionObj.forEach((element:any) => {
-          this.savePreviousData.push(element);
-      });
+  upDateYearInQues2(value:any,completeData:any){
+    this.talentQuestionData[this.currentPage].option.forEach((element:any)=>{
+             if(completeData.value.toLowerCase() === element.value.toLowerCase() && element.selected === true){
+               element.noOfYear = value;
+             }
+          });
 
-    }
-  }
-
-  }
-
-  clickJobSearch(option:any){
-    if(this.firstTime === false){
-      // this.enableDisableNextButton();
-      this.firstTime = true;
-    }
-    console.log(this.jobSearch);
-    this.talentProfile.stepObject[this.currentPage-1].optionObj.length=0;
-   this.jobSearch.forEach((element:any)=>{
-    if(element.firstPart === option.firstPart){
-        element.selected = this.selected;
-        this.talentProfile.stepObject[this.currentPage-1].optionObj.push(option);
-        console.log(this.talentProfile);
-    }
-    else{
-      element.selected = false;
-    }
-   });
-   
-  }
-  onStartWorkingWithEayWork(option:any){
-    if(this.firstTime === false){
-      // this.enableDisableNextButton();
-      this.firstTime = true;
-    }
-    this.talentProfile.stepObject[this.currentPage-1].optionObj.length=0;
-   this.startWorkingWithEasyWork.forEach((element:any)=>{
-    if(element.data === option.data){
-        element.selected = this.selected;
-        this.talentProfile.stepObject[this.currentPage-1].optionObj.push(option);
-        console.log(this.talentProfile);
-    }
-    else{
-      element.selected = false;
-    }
+   this.fieldArray.forEach((element:any)=>{
+     if(element.value.toLowerCase() === completeData.value.toLowerCase() ){
+          element.noOfYear = value;
+     }
    });
   }
 
-  clickemploymentOpportunity(option:any){
-    if(this.firstTime === false){
-      // this.enableDisableNextButton();
-      this.firstTime = true;
-    }
-    option.selected = !option.selected;
-   this.employmentOpportunity.forEach((element:any)=>{
-    if(element.firstPart === option.firstPart && element.secondPart === option.secondPart){
-      if(element.selected === true){
-        this.talentProfile.stepObject[this.currentPage-1].optionObj.push(option);
-        console.log(this.talentProfile);
-      }
-      else if(element.selected === false && this.talentProfile.stepObject[this.currentPage-1].optionObj.length >0){
-        this.talentProfile.stepObject[this.currentPage-1].optionObj.splice(this.talentProfile.stepObject[this.currentPage-1].optionObj.indexOf(option),1)
-      }
+  upDateYear(value:any,completeData:any){
+    this.talentQuestionData[this.currentPage].option.forEach((element:any)=>{
+             if(completeData.value.toLowerCase() === element.value.toLowerCase() && element.selected === true && element.disable ===true){
+               element.noOfYear = value;
+             }
+          });
 
-    }
+   this.fieldArray.forEach((element:any)=>{
+     if(element.value.toLowerCase() === completeData.value.toLowerCase() ){
+          element.noOfYear = value;
+     }
    });
   }
-  clickEnglishFluencyLevel(option:any){
-    if(this.firstTime === false){
-      // this.enableDisableNextButton();
-      this.firstTime = true;
+  onInputSkill(opt:any){
+    if(this.currentPage === 2){
+      this.upDateSkillInQues2(opt.event,opt.field);
     }
-    this.talentProfile.stepObject[this.currentPage-1].optionObj.length=0;
-   this.englishFluencyLevel.forEach((element:any)=>{
-    if(element.secondPart === option.secondPart){
-        element.selected = this.selected;
-        this.talentProfile.stepObject[this.currentPage-1].optionObj.push(option);
-        console.log(this.talentProfile);
+    else if( this.currentPage ===3 || this.currentPage ===4 || this.currentPage === 5 || this.currentPage === 7 || this.currentPage ===8) {
+      this.upDateSkill(opt.event,opt.field);
     }
-    else{
-      element.selected = false;
+  }
+  upDateSkillInQues2(value:any,completeData:any){
+    this.talentQuestionData[this.currentPage].option.forEach((element:any)=>{
+             if(completeData.value.toLowerCase() === element.value.toLowerCase()  && element.selected === true){
+               element.skill = value;
+             }
+          });
+
+          this.fieldArray.forEach((element:any)=>{
+            if(element.value.toLowerCase() === completeData.value.toLowerCase() ){
+                 element.skill = value;
+            }
+          });
+  }
+
+  upDateSkill(value:any,completeData:any){
+    this.talentQuestionData[this.currentPage].option.forEach((element:any)=>{
+             if(completeData.value.toLowerCase() === element.value.toLowerCase()  && element.selected === true && element.disable === true){
+               element.skill = value;
+              //  completeData.skill = value;
+             }
+          });
+
+          this.fieldArray.forEach((element:any)=>{
+            if(element.value.toLowerCase() === completeData.value.toLowerCase() ){
+                 element.skill = value;
+            }
+          });
+  }
+  deleteSelectedOption(field:any){
+    if(this.currentPage === 2){
+      this.talentQuestionData[this.currentPage].option.forEach((element:any)=>{
+        if(element.value.toLowerCase() === field.value.toLowerCase()){
+          element.selected = false;
+          element.disable = false;
+          this.fieldArray = this.fieldArray.filter((item:any) => item.value.toLowerCase() !== field.value.toLowerCase())
+        }
+        else{
+          element.disable = false;
+        }
+  });
     }
-   });
+    else if( this.currentPage ===3 || this.currentPage ===4 || this.currentPage === 5 || this.currentPage === 7 || this.currentPage ===8) {
+      this.talentQuestionData[this.currentPage].option.forEach((element:any)=>{
+        if(element.value.toLowerCase() === field.value.toLowerCase()){
+          element.selected = false;
+          element.disable = false;
+          this.fieldArray = this.fieldArray.filter((item:any) => item.value.toLowerCase() !== field.value.toLowerCase());
+          if(this.currentPage === 4){
+            this.jobRole = this.jobRole.filter((item:any) => item.value.toLowerCase() !== field.value.toLowerCase())
+
+          }
+        }
+  });
+    }
   }
   enableDisableNextButton(){
     this.disableNextButton = true;
