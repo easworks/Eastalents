@@ -306,14 +306,15 @@
 
                     <div *ngIf="data.type === 'selectMultiselect' &&  this.currentPage === data.id">
                       <ng-container *ngFor = "let subValue of  data.data">
-                        <div class="question-steps">
+                        <div class="question-steps"  *ngIf = "subValue.visible">
                           <h2 class="main-question"><span class="spantitlecolor">{{enterpriseApplicationGroup}}</span> {{subValue.question}}</h2>
                           <div class="form-wizard-answer">
                             <ul class="form-wizard-type jss-list selectarea  mt-3 row">
         
                               <li class="col-lg-12 col-md-12 col-12" *ngFor = "let option of  subValue.option">
                                 <a href="javascript:void(0)" class="pl-3 pr-3" (click)="selectOption(option)"
-                                  [ngStyle]="{'background-color':option.selected?'#4949fc':''}"
+                                [style.background-color]="option.selected ?'#4949fc' :''"
+                                [style.color]="option.selected ? 'white': ''"
                                   [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}" >
                                   <span class="d-block text-uppercase">{{option.firstPart}}</span>
                                   <span *ngIf="option.secondPart">{{option.secondPart}}</span>
@@ -372,6 +373,19 @@
                                 </div>
                               </div>
                             </li>
+                            <li class="col-lg-12 col-md-12 col-12">
+                              <div class="form-group-wizard d-flex align-items-center">
+                                <label class="qs-label-text">Weekely Hour Rate </label>
+                                <div class="form-input-group position-relative w-50">
+                                  <select class="inputview" name="preferredPLM" [(ngModel)]="data.data.weeklyHourlyRate">
+                                      <option value="10hour/week">10hour/week</option>
+                                      <option value="20hour/week">20hour/week</option>
+                                      <option value="30hour/week">30hour/week</option>
+                                      <option value="40hour/week">40hour/week</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </li>
                           </ul>
                         </div>
                         <h2 class="main-question">If you get an offer, how soon can you start working with EASWORKS?</h2>
@@ -379,7 +393,7 @@
                           <ul class="form-wizard-type selectarea  mt-4 row">
                             <li class="col-lg-4 col-md-4 col-12" *ngFor="let option of data.startWorkingWithEasyWork">
                               <a href="javascript:void(0)" (click)='selectOption(option)'
-                                
+                              [style.color]="option.selected ? 'white': ''"
                                 [style.background-color]="option.selected ?'#4949fc' :''"
                                 >
                                 {{option.value}}</a>
@@ -433,9 +447,6 @@
                                   </div>
                                   <p class="up-para">Please upload JPG or PNG file that is at least 380 X 380 pixels and no
                                     larger than 15mb.</p>
-                                    <button class="btn btn-success btn-sm"  (click)="uploadImage()">
-                                      Upload Image
-                                    </button>
                                 </div>
                               </div>
                             </li>
