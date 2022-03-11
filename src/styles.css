@@ -103,6 +103,68 @@ select {
   border-color:#4f4ffc !important;
 }
 
+.common-para{
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: #000000;
+  margin: 20px 0px 20px 0px;
+}
+.main-title{
+  margin: 0;
+  font-size: 2.441rem;
+  font-weight: 700;
+  line-height: 50px;
+  color: #0b1320;
+}
+.second-title{
+  font-size: 1.953rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 40px;
+  color:#0b1320;
+}
+.thirdTitle{
+  font-size: 1.563em;
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-bottom: 20px;
+  padding-bottom: 0;
+  color: #0b1320;
+}
+.fourthtitle{
+  font-size: 1.25em;
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-bottom: 20px;
+  color: #0b1320;
+}
+
+.section-title {
+  padding: 30px 0;
+  position: relative;
+}
+.secondaryTitle{
+  font-size: 1.953em;
+  font-weight: 600;
+  text-transform: capitalize;
+  margin-bottom: 20px;
+  padding-bottom: 0;
+  color: #2e2e2e;
+  position: relative;
+  z-index: 2;
+}
+.section-title h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  padding-bottom: 0;
+  color: #2e2e2e;
+  position: relative;
+  z-index: 2;
+  line-height: 50px;
+}
+
 .btn-close {
   box-sizing: content-box;
   width: 1em;
@@ -170,50 +232,10 @@ section {
 .dark-2 {
   background: #2944c1;
 }
-.section-title {
-  padding: 30px 0;
-  position: relative;
-}
-.main-title{
-  margin: 0;
-  font-size: 3rem;
-  font-weight: 700;
-  line-height: 60px;
-  color: #3e4450;
-}
-.secondaryTitle{
-  font-size: 1.625rem;
-    font-weight: 700;
-    text-transform: capitalize;
-    margin-bottom: 20px;
-    padding-bottom: 0;
-    color: #2e2e2e;
-    position: relative;
-    z-index: 2;
-}
-.section-title h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 40px;
-  padding-bottom: 0;
-  color: #2e2e2e;
-  position: relative;
-  z-index: 2;
-  line-height: 50px;
-}
 .secondary-title {
   font: 700 1.25rem/24px Roboto;
 }
-.thirdTitle{
-  font-size: 1.875rem;
-    font-weight: 700;
-    text-transform: capitalize;
-    margin-bottom: 20px;
-    padding-bottom: 0;
-    color: #2e2e2e;
-    position: relative;
-    z-index: 2;
-}
+
 /* .section-title span {
     position: absolute;
     top: 30px;
@@ -665,7 +687,7 @@ section {
   margin: 0;
   font-size: 3rem;
   font-weight: 700;
-  line-height: 60px;
+  line-height: 50px;
   color: #3e4450;
 }
 .spantitlecolor{
@@ -1036,12 +1058,11 @@ section {
   padding-bottom: 10px;
 }
 .developer-type .developer-list a {
-  color: #5e5e5e;
+  color: #0b1320;
   text-decoration: none;
   font-size: 14px;
   position: relative;
   transition: 0.5s;
-
   display: flex;
   align-items: baseline;
 }
@@ -1498,12 +1519,7 @@ footer {
   padding: 80px 0px 60px 0px;
 }
 
-.common-para {
-  color: #000000;
-  margin: 20px 0 0px 0;
-  letter-spacing: 0.56px;
-  font: normal 14px/24px Roboto;
-}
+
 
 /**** Timeline ****/
 .job-timeline {
