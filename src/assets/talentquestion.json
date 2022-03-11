@@ -9684,6 +9684,7 @@
                 {
                     "question":"-Job Search Status",
                     "type":"select",
+                    "visible":true,
                     "option":[
                         {"selected":false,"disable":false,"firstPart":"Actively Looking For Jobs","secondPart":"We will match you with all available job opportunities","subType":"select"},
                         {"selected":false,"disable":false, "firstPart":"Passively Looking For the Right Opportunity","secondPart":"We will send you a daily digest of jobs that match your profile","subType":"select"},
@@ -9693,6 +9694,7 @@
                 {
                     "question":"-Employment Opportunity",
                     "type":"multiselect",
+                    "visible":false,
                     "option":[
                         {"selected":false,"disable":false,"firstPart":"Freelance or Contact work -","secondPart":"Short Term","thirdPart":"(1-3 Months)","subType":"multiselect"},
                         {"selected":false,"disable":false, "firstPart":"Freelance or Contact work -","secondPart":"Long Term","thirdPart":"(3-36 Months)","subType":"multiselect"},
@@ -9710,7 +9712,8 @@
             "desiredHourlyrate":"",
             "targetAnnualSalary":"",
             "monthlyRate":"",
-            "selectedPLM":""
+            "selectedPLM":"",
+            "weeklyHourlyRate":""
         },
         "startWorkingWithEasyWork":
 [

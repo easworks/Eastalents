@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiResponse } from '../_models';
@@ -197,6 +198,8 @@ export class TalentQuestionComponent implements OnInit {
   }
   onImage(event:any){
     this.selectedImage = event.target.files[0]
+    console.log(this.selectedImage);
+    this.uploadImage();
   }
   uploadImage(){
     const uploadData = new FormData();
@@ -340,10 +343,10 @@ export class TalentQuestionComponent implements OnInit {
     });
   }
   if(opt.selected === true && opt.firstPart ==='Actively Looking For Jobs'){
-    this.showemploymentOpportunity = true;
+    this.talentQuestionData[this.currentPage].data[1].visible = true;
   }
   else{
-    this.showemploymentOpportunity = false;
+    this.talentQuestionData[this.currentPage].data[1].visible = false;
   }
     }
     else if (this.currentPage === 10){
