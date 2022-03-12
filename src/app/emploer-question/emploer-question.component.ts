@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { ThrowStmt } from '@angular/compiler';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { element } from 'protractor';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-emploer-question',
@@ -10,7 +9,7 @@ import { element } from 'protractor';
 })
 export class EmploerQuestionComponent implements OnInit {
 
-  constructor( private http: HttpClient,private ref: ChangeDetectorRef) { }
+  constructor( private http: HttpClient,private ref: ChangeDetectorRef,private router: Router,) { }
   currentIndex:number =0;
   fieldArray:any=[];
   answers:any=[];
@@ -19,12 +18,16 @@ export class EmploerQuestionComponent implements OnInit {
   type={
     select:"select",
     textarea:"textarea",
-    mixed:"mixed",
-    multiselect:"multiselect"
+    selectBox:"selectBox",
+    multiselect:"multiselect",
+    techquestion:"techquestion",
+    selectYesNo:"selectYesNo",
   }
   firstOption=false;
   disableNextButton:boolean = true;
   filterString:any='';
+  buttonDataFilter='';
+  enterpriseApplication='';
 
   ngOnInit(): void {
     this.getData();
@@ -44,32 +47,42 @@ export class EmploerQuestionComponent implements OnInit {
     if(this.type.select === questionType){
          //Do nothing
     }
-    else if(this.type.mixed === questionType){
+    else if(this.type.selectBox === questionType || this.type.techquestion === questionType){
        this.fieldArray = [];
        this.checkAndShowData();
     }
-    this.enableDisableNextButton();
+    // this.enableDisableNextButton();
 
   }
 
   getType():string{
-  if(this.currentIndex ===1 ||this.currentIndex ===2 ||this.currentIndex ===11 ||this.currentIndex ===14 ||this.currentIndex ===15 ){
-    return 'mixed';
+  if(this.currentIndex ===1 ||this.currentIndex ===2 ||this.currentIndex ===3){
+    return 'selectBox';
   }
-  else if (this.currentIndex === 3 ||this.currentIndex ===9){
-    return 'textarea';
+  else if (this.currentIndex === 5 ||this.currentIndex ===14){
+    return 'techquestion';
   }
-  else if (this.currentIndex === 6 ||this.currentIndex ===7 || this.currentIndex === 12 || this.currentIndex === 13){
+  else if (this.currentIndex === 11){
     return 'multiselect';
+  }
+  else if (this.currentIndex === 4 ){
+    return 'selectYesNo';
+  }
+  else if (this.currentIndex === 13){
+    return 'resumequestion';
   }
   else{
     return 'select';
   }
   }
 
+  buttonData(opt:any){
+  this.buttonDataFilter = opt.value;
+  }
+
   checkAndShowData(){
     this.employeeQuestionData[this.currentIndex].option.forEach((element:any)=>{
-      if(element.selected=== true && element.disable=== true){
+      if(element.selected=== true ){
         this.fieldArray.push(element);
       }
     });
@@ -88,16 +101,23 @@ export class EmploerQuestionComponent implements OnInit {
         this.fieldArray = this.fieldArray.filter((item:any) => item.value.toLowerCase() !== field.value.toLowerCase())
       }
 });
-this.enableDisableNextButton();
+// this.enableDisableNextButton();
   }
   selectOption(opt:any,type:string){
-    if(type === 'mixed'){
+    if(type === 'selectBox' || type === 'techquestion'){
         opt.selected= true;
         opt.disable = true;
+        if(this.currentIndex === 1){
+        this.employeeQuestionData[this.currentIndex].option.forEach((option:any)=>{
+            option.disable = true;
+        });
+        }
         this.getDataForFieldArray(opt);
     }
-    else if (type === 'textarea'){
-     //do nothing
+    else if (type === 'selectYesNo'){
+       opt.selected = !opt.selected;
+       this.disableOtherValues(opt);
+
     }
     else if (type === 'select'){
       opt.selected = !opt.selected;
@@ -110,7 +130,12 @@ this.enableDisableNextButton();
       
       
     }
-    this.enableDisableNextButton();
+    else if (type === 'resumequestion'){
+      // opt.selected = !opt.selected;
+      // this.disableOtherValues(opt);
+      
+    }
+    // this.enableDisableNextButton();
   }
   getDataForFieldArray(opt:any){
     this.employeeQuestionData[this.currentIndex].option.forEach((element:any)=>{
@@ -130,49 +155,49 @@ this.enableDisableNextButton();
       }
 });
   }
-  onInputNoOfYear(opt:any){
+  // onInputNoOfYear(opt:any){
     
-    // console.log(event);
-    // this.ref.detectChanges();
-    this.upDateYearInMixedType(opt.event,opt.field);
-    this.enableDisableNextButton();
-  }
-  onInputSkill(opt:any){
-    // console.log(event);
-    // this.ref.detectChanges();
-    this.upDateSkillInMixedType(opt.event,opt.field);
-    this.enableDisableNextButton();
-  }
+  //   // console.log(event);
+  //   // this.ref.detectChanges();
+  //   this.upDateYearInMixedType(opt.event,opt.field);
+  //   // this.enableDisableNextButton();
+  // }
+  // onInputSkill(opt:any){
+  //   // console.log(event);
+  //   // this.ref.detectChanges();
+  //   this.upDateSkillInMixedType(opt.event,opt.field);
+  //   // this.enableDisableNextButton();
+  // }
 
-  upDateYearInMixedType(value:any,completeData:any){
-    this.employeeQuestionData[this.currentIndex].option.forEach((element:any)=>{
-             if(completeData.value.toLowerCase() === element.value.toLowerCase() && element.selected === true && element.disable ===true){
-               element.noOfYear = value;
-              //  completeData.noOfYear = value;
-             }
-          });
+  // upDateYearInMixedType(value:any,completeData:any){
+  //   this.employeeQuestionData[this.currentIndex].option.forEach((element:any)=>{
+  //            if(completeData.value.toLowerCase() === element.value.toLowerCase() && element.selected === true && element.disable ===true){
+  //              element.noOfYear = value;
+  //             //  completeData.noOfYear = value;
+  //            }
+  //         });
 
-   this.fieldArray.forEach((element:any)=>{
-     if(element.value.toLowerCase() === completeData.value.toLowerCase() ){
-          element.noOfYear = value;
-     }
-   });
-  }
+  //  this.fieldArray.forEach((element:any)=>{
+  //    if(element.value.toLowerCase() === completeData.value.toLowerCase() ){
+  //         element.noOfYear = value;
+  //    }
+  //  });
+  // }
 
-  upDateSkillInMixedType(value:any,completeData:any){
-    this.employeeQuestionData[this.currentIndex].option.forEach((element:any)=>{
-             if(completeData.value.toLowerCase() === element.value.toLowerCase()  && element.selected === true && element.disable === true){
-               element.skill = value;
-              //  completeData.skill = value;
-             }
-          });
+  // upDateSkillInMixedType(value:any,completeData:any){
+  //   this.employeeQuestionData[this.currentIndex].option.forEach((element:any)=>{
+  //            if(completeData.value.toLowerCase() === element.value.toLowerCase()  && element.selected === true && element.disable === true){
+  //              element.skill = value;
+  //             //  completeData.skill = value;
+  //            }
+  //         });
 
-          this.fieldArray.forEach((element:any)=>{
-            if(element.value.toLowerCase() === completeData.value.toLowerCase() ){
-                 element.skill = value;
-            }
-          });
-  }
+  //         this.fieldArray.forEach((element:any)=>{
+  //           if(element.value.toLowerCase() === completeData.value.toLowerCase() ){
+  //                element.skill = value;
+  //           }
+  //         });
+  // }
 
 
   enableDisableNextButton(){
@@ -186,7 +211,7 @@ this.enableDisableNextButton();
         }
       });
     }
-    else if(this.type.mixed === questionType){
+    else if(this.type.selectBox === questionType){
       this.fieldArray.forEach((element:any)=>{
         if(element.value != '' && element.noOfYear != '' &&  element.skill != ''){
              checkVariableForMixed = true;
@@ -212,6 +237,7 @@ this.enableDisableNextButton();
     }
   }
   goToMyProfile(){
+    this.router.navigate(['/employerprofile']);
     console.log(this.employeeQuestionData);
   }
 

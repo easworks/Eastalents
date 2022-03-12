@@ -1,1435 +1,1587 @@
 <div class="quiz-wraper">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-4 col-md-4 col-12 p-0 quiz-content-lft">
-        <div class="quiz-lft-form">
-          <!-- <div class="qlf-imge"><img src="assets/img/employee-quesnaries.png" /></div> -->
-          <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_8nfvjov1.json" background="transparent"
-            speed="1" style="width: 300px; height: 100%;" loop autoplay></lottie-player>
-          <h1 class="text-white">Welcome to EASWORKS</h1>
-          <p class="text-white">The simplest, fastest way to have access & build teams pre-vetted enterprise
-            Application talent with global remote team has never been this simpler.</p>
-        </div>
-      </div>
-      <div class="col-lg-8 col-md-8 col-12 p-0 quiz-content-rht">
-        <div class="quiz-form-wizard">
-
-          <div class="quiz-start" *ngIf="currentIndex === 0">
-            <div class="quiz-logo">
-              <img src="assets/img/workstyle.png" />
-            </div>
-            <p>Please carefully and honestly answer the following questions to complete you Joining Application.</p>
-            <button type="button" class="btn-get-started mt-3" (click)="onChange(1)">Get Started</button>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-12 p-0 quiz-content-lft">
+          <div class="quiz-lft-form">
+            <!-- <div class="qlf-imge"><img src="assets/img/employee-quesnaries.png" /></div> -->
+            <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_8nfvjov1.json" background="transparent"
+              speed="1" style="width: 300px; height: 100%;" loop autoplay></lottie-player>
+            <h1 class="text-white">Welcome to EASWORKS</h1>
+            <p class="text-white">The simplest, fastest way to have access & build teams pre-vetted enterprise
+              Application talent with global remote team has never been this simpler.</p>
           </div>
-          <div class="quiz-start-ans" *ngIf="currentIndex >0 && currentIndex<16">
-            <div class="quiz-logo">
-              <img src="assets/img/workstyle.png" />
+        </div>
+        <div class="col-lg-8 col-md-8 col-12 p-0 quiz-content-rht">
+          <div class="quiz-form-wizard">
+  
+            <div class="quiz-start" *ngIf="currentIndex === 0">
+              <div class="quiz-logo">
+                <img src="assets/img/workstyle.png" />
+              </div>
+              <p>Please carefully and honestly answer the following questions to complete you Joining Application.</p>
+              <button type="button" class="btn-get-started mt-3" (click)="onChange(1)">Get Started</button>
             </div>
-
-            <div class="toastermessage">
-              <div class="toastTick">
-                <button type="button" class="ticktoast">
-                  <i class='bx bxs-check-circle'></i>
+            <div class="quiz-start-ans" *ngIf="currentIndex >0 && currentIndex<16">
+              <div class="quiz-logo">
+                <img src="assets/img/workstyle.png" />
+              </div>
+  
+              <div class="toastermessage">
+                <div class="toastTick">
+                  <button type="button" class="ticktoast">
+                    <i class='bx bxs-check-circle'></i>
+                  </button>
+                </div>
+                <div class="toastContent">
+                  <h1>Your EASWORKS account has been created successfully</h1>
+                  <p><span>Let's Learn more about your business and EAS requirment</span></p>
+                  <p class="mt-1">In order to match you with the best EAS talents for your projects, we need to gather
+                    some information
+                    about you and your business</p>
+                  <button type="button" class="toastbtn">Takes 60 Seconds</button>
+                </div>
+                <button type="button" class="clearbtn">
+                  <i class='bx bx-x'></i>
                 </button>
               </div>
-              <div class="toastContent">
-                <h1>Your EASWORKS account has been created successfully</h1>
-                <p><span>Let's Learn more about your business and EAS requirment</span></p>
-                <p class="mt-1">In order to match you with the best EAS talents for your projects, we need to gather
-                  some information
-                  about you and your business</p>
-                <button type="button" class="toastbtn">Takes 60 Seconds</button>
+  
+              <!--all pages message -->
+              <div class="toastermessage">
+  
+                <div class="toastContent w-100">
+                  <p><span>Let's Learn more about your Product Lifecycle Management (PLM) and Engineering - Teamcenter
+                      requirement</span></p>
+                </div>
               </div>
-              <button type="button" class="clearbtn">
-                <i class='bx bx-x'></i>
-              </button>
-            </div>
-
-            <!--all pages message -->
-            <div class="toastermessage">
-
-              <div class="toastContent w-100">
-                <p><span>Let's Learn more about your Product Lifecycle Management (PLM) and Engineering - Teamcenter
-                    requirement</span></p>
+  
+              <!--Loading -->
+              <div class="top-wizard mb-4" *ngIf="currentIndex<15 && currentIndex >0">
+                <span>{{currentIndex}} of 14 completed</span>
+                <div class="progress-bar">
+                  <div class="ui-progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                    [style.width]="width+'%'"></div>
+                </div>
               </div>
-            </div>
-
-            <!--Loading -->
-            <div class="top-wizard mb-4" *ngIf="currentIndex<16 && currentIndex >0">
-              <span>{{currentIndex}} of 15 completed</span>
-              <div class="progress-bar">
-                <div class="ui-progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                  [style.width]="width+'%'"></div>
-              </div>
-            </div>
-
-            <!--Loading -->
-            <form>
-
-              <div class="form-wizard-step">
-                <div *ngFor="let data of employeeQuestionData; let i = index">
-                  <div *ngIf="data.type === type.select &&  this.currentIndex === i" class="question-steps">
-                    <h2 class="main-question">{{data.question}}</h2>
-                    <div class="form-wizard-answer">
-                      <ul class="form-wizard-type jss-list selectarea  mt-3 row">
-                        <li class="col-lg-6 col-md-6 col-sm-6 col-12" *ngFor="let option of data.option">
-                          <a href="javascript:void(0)" class="pl-3 pr-3" [style.color]="option.selected ? 'white': ''"
-                            [style.background-color]="option.selected ? '#4949fc': ''"
-                            [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
-                            (click)="selectOption(option,data.type)">
-                            {{option.value}}
-                          </a>
-                        </li>
-                      </ul>
+  
+              <!--Loading -->
+              <form>
+  
+                <div class="form-wizard-step">
+                  <div *ngFor="let data of employeeQuestionData; let i = index">
+                    <div *ngIf="data.type === type.select &&  this.currentIndex === i" class="question-steps">
+                      <h2 class="main-question">{{data.question.first}}<span class="spantitlecolor">{{enterpriseApplication}}</span> {{data.question.second}}  </h2>
+                      <div class="form-wizard-answer">
+                        <ul class="form-wizard-type jss-list selectarea  mt-3 row">
+                          <li class="col-lg-6 col-md-6 col-sm-6 col-12" *ngFor="let option of data.option">
+                            <a href="javascript:void(0)" class="pl-3 pr-3" [style.color]="option.selected ? 'white': ''"
+                              [style.background-color]="option.selected ? '#4949fc': ''"
+                              [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
+                              (click)="selectOption(option,data.type)">
+                              {{option.value}}
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+  
                     </div>
-
-                  </div>
-
-                  <div *ngIf="data.type === type.multiselect &&  this.currentIndex === i" class="question-steps">
-                    <h2 class="main-question">{{data.question}}</h2>
-                    <div class="form-wizard-answer">
-                      <ul class="form-wizard-type jss-list selectarea  mt-3 row">
-                        <li class="col-lg-4 col-md-4 col-sm-6 col-12" *ngFor="let option of data.option">
-                          <a href="javascript:void(0)" class="pl-2 pr-2" [style.color]="option.selected ? 'white': ''"
-                            [style.background-color]="option.selected ? '#4949fc': ''"
-                            (click)="selectOption(option,data.type)">
-                            {{option.value}}
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div *ngIf="data.type === type.textarea && this.currentIndex === i" class="question-steps">
-                    <h2 class="main-question">{{data.question}}</h2>
-                    <div class="form-wizard-answer mt-3">
-                      <div class="form-wizard-textarea">
-                        <textarea name="data" [(ngModel)]="data.value"
-                          (input)="selectOption(data.value,data.type)"></textarea>
+  
+                    <div *ngIf="data.type === type.multiselect &&  this.currentIndex === i" class="question-steps">
+                      <h2 class="main-question">{{data.question.first}}<span class="spantitlecolor">{{enterpriseApplication}}</span> {{data.question.second}}  </h2>
+                      <div class="form-wizard-answer">
+                        <ul class="form-wizard-type jss-list selectarea  mt-3 row">
+                          <li class="col-lg-4 col-md-4 col-sm-6 col-12" *ngFor="let option of data.option">
+                            <a href="javascript:void(0)" class="pl-2 pr-2" [style.color]="option.selected ? 'white': ''"
+                              [style.background-color]="option.selected ? '#4949fc': ''"
+                              (click)="selectOption(option,data.type)">
+                              {{option.value}}
+                            </a>
+                          </li>
+                        </ul>
                       </div>
                     </div>
-                  </div>
-
-                  <div *ngIf="data.type === type.mixed && this.currentIndex === i" class="question-steps">
-                    <h2 class="main-question">{{ data.question}}</h2>
-                    <div class="form-wizard-answer mt-2">
-                      <div class="multiselect-languge">
-                        <div class="lang-list-box">
-                          <app-employer-select-item [fieldArray]="fieldArray" (inputNoOfYear)="onInputNoOfYear($event)"
-                            (inputNoOfSkill)="onInputSkill($event)" (deleteFieldValue)="deleteSelectedOption($event)">
-                          </app-employer-select-item>
-                          <div class="language-multiselect-dropdown mt-2">
-                            <div class="lm-dropdown dropdown">
-                              <input type="text" placeholder="Type the desired skills you need in your project"
-                                class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false" name="filterbasedon"
-                                [(ngModel)]="filterString">
-                              <div class="mselect-dropdownmenu dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <ul>
-                                  <li *ngFor="let option of data.option | datafilter:filterString">
-                                    <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3"
-                                      [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
-                                      (click)="selectOption(option,data.type)">
-                                      {{option.value}}
-                                    </a>
-                                  </li>
-                                </ul>
+  
+                    <div *ngIf="data.type === type.selectBox && this.currentIndex === i" class="question-steps">
+                      <h2 class="main-question">{{data.question.first}}<span class="spantitlecolor">{{enterpriseApplication}}</span> {{data.question.second}}  </h2>
+                      <div class="form-wizard-answer mt-2">
+                        <div class="multiselect-languge">
+                          <div class="lang-list-box">
+                            <app-employer-select-item [fieldArray]="fieldArray"  (deleteFieldValue)="deleteSelectedOption($event)">
+                            </app-employer-select-item>
+                            <div class="language-multiselect-dropdown mt-2">
+                              <div class="lm-dropdown dropdown">
+                                <input type="text" placeholder="Type the desired skills you need in your project"
+                                  class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
+                                  aria-haspopup="true" aria-expanded="false" name="filterbasedon"
+                                  [(ngModel)]="filterString">
+                                <div class="mselect-dropdownmenu dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <ul>
+                                    <li *ngFor="let option of data.option | datafilter:filterString">
+                                      <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3"
+                                        [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
+                                        (click)="selectOption(option,data.type)">
+                                        {{option.value}}
+                                      </a>
+                                    </li>
+                                  </ul>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-
-
-
-                </div>
-
-                <!--Step1-->
-                <!--Select your Primary Enterprise Application you like to Hire Tabs-->
-                <div class="form-wizard-step mt-2 d-none">
-                  <h2 class="main-question">Select Enterprise Application domain which requires new hiring</h2>
-                  <div class="sidemenuTabsContent p-0">
-                    <div class="tabcontentside d-flex align-items-start w-100">
-                      <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
-                        aria-orientation="vertical">
-                        <button class="nav-link active" id="v-pills-erpeq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-erpeq" type="button" role="tab" aria-controls="v-pills-home"
-                          aria-selected="true">
-                          ERP
-                        </button>
-                        <button class="nav-link" id="v-pills-plmeq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-plmeq" type="button" role="tab" aria-controls="v-pills-settings"
-                          aria-selected="false">
-                          PLM
-                        </button>
-                        <button class="nav-link" id="v-pills-bigdataeq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-bigdataeq" type="button" role="tab" aria-controls="v-pills-profile"
-                          aria-selected="false">
-                          BIG DATA
-                        </button>
-                        <button class="nav-link" id="v-pills-hrmeq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-hrmeq" type="button" role="tab" aria-controls="v-pills-messages"
-                          aria-selected="false">
-                          HRM
-                        </button>
-                        <button class="nav-link" id="v-pills-lmseq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-lmseq" type="button" role="tab" aria-controls="v-pills-settings"
-                          aria-selected="false">
-                          LMS
-                        </button>
-                        <button class="nav-link" id="v-pills-crmeq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-crmeq" type="button" role="tab" aria-controls="v-pills-settings"
-                          aria-selected="false">
-                          CRM
-                        </button>
-                        <button class="nav-link" id="v-pills-meseq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-meseq" type="button" role="tab" aria-controls="v-pills-settings"
-                          aria-selected="false">
-                          MES
-                        </button>
-                        <button class="nav-link" id="v-pills-scmeq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-scmeq" type="button" role="tab" aria-controls="v-pills-settings"
-                          aria-selected="false">
-                          SCM
-                        </button>
-                        <button class="nav-link" id="v-pills-dwedweq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-dwedweq" type="button" role="tab" aria-controls="v-pills-settings"
-                          aria-selected="false">
-                          DW/EDW
-                        </button>
-                        <button class="nav-link" id="v-pills-etleq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-etleq" type="button" role="tab" aria-controls="v-pills-settings"
-                          aria-selected="false">
-                          ETL
-                        </button>
-                        <button class="nav-link" id="v-pills-qmseq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-qmseq-itsm" type="button" role="tab" aria-controls="v-pills-settings"
-                          aria-selected="false">
-                          QMS
-                        </button>
-                        <button class="nav-link" id="v-pills-ioteq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-ioteq" type="button" role="tab" aria-controls="v-pills-settings"
-                          aria-selected="false">
-                          IOT
-                        </button>
-                        <button class="nav-link" id="v-pills-mdmeq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-mdmeq" type="button" role="tab" aria-controls="v-pills-settings"
-                          aria-selected="false">
-                          MDM
-                        </button>
-                        <button class="nav-link" id="v-pills-cmseq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-cmseq" type="button" role="tab" aria-controls="v-pills-settings"
-                          aria-selected="false">
-                          CMS
-                        </button>
-                        <button class="nav-link" id="v-pills-eameq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-eameq" type="button" role="tab" aria-controls="v-pills-settings"
-                          aria-selected="false">
-                          EAM
-                        </button>
-                        <button class="nav-link" id="v-pills-dbaeq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-dbaeq" type="button" role="tab" aria-controls="v-pills-settings"
-                          aria-selected="false">
-                          DBA
-                        </button>
-                        <button class="nav-link" id="v-pills-bieq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-bieq" type="button" role="tab" aria-controls="v-pills-settings"
-                          aria-selected="false">
-                          BI
-                        </button>
-                        <button class="nav-link" id="v-pills-caeq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-caeq" type="button" role="tab" aria-controls="v-pills-settings"
-                          aria-selected="false">
-                          Custom Application
-                        </button>
-                        <button class="nav-link" id="v-pills-eaieq-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-eaieq" type="button" role="tab" aria-controls="v-pills-settings"
-                          aria-selected="false">
-                          EAI
-                        </button>
+  
+                    <div class="question-steps" *ngIf="data.type === type.techquestion &&  this.currentIndex === i">
+                      <h2 class="main-question">{{data.question.first}}<span class="spantitlecolor">{{enterpriseApplication}}</span> {{data.question.second}}  </h2>
+                      <div class="form-wizard-answer">
+                        <app-employer-select-item [fieldArray]="fieldArray" (deleteFieldValue)="deleteSelectedOption($event)">
+                      </app-employer-select-item>
+                    <div  class="sidemenuTabsContent mt-3 p-0">
+                      <div class="tabcontentside d-flex align-items-start w-100">
+                        <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
+                          aria-orientation="vertical">
+                          <h1 class="tabtitle">Select Tech stack</h1>
+                          <button  *ngFor="let but of data.button" class="nav-link" id="v-pills-IoT-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-IoT" type="button" role="tab" aria-controls="v-pills-settings"
+                            aria-selected="false" (click)="buttonData(but)"> 
+                            {{but.value}}
+                          </button>
+                        </div>
+                        <div class="tab-content" id="v-pills-tabContent">
+                          <div class="tab-pane fade show active" id="v-pills-erpaf" role="tabpanel"
+                            aria-labelledby="v-pills-erpaf-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" name="filter" placeholder="Type a skill to filter the list below" [(ngModel)]="filterString" />
+                              </div>
+                              <ul class="easeworkssearchList scroll">
+                                <li *ngFor="let opt of data.option | datafilter:filterString">
+                                  <ng-container *ngIf="opt.group === buttonDataFilter">
+                                    <a href="javascript:void(0)" (click)="selectOption(opt,data.type)">{{opt.value}}</a>
+                                  </ng-container>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+  
                       </div>
-                      <div class="tab-content" id="v-pills-tabContent">
-                        <div class="tab-pane fade show active" id="v-pills-erpeq" role="tabpanel"
-                          aria-labelledby="v-pills-erpeq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
+                      </div>
+                    </div>
+                    </div>
+  
+  
+                    <div class="question-steps"  *ngIf="data.type === type.selectYesNo &&  this.currentIndex === i">
+                      <h2 class="main-question">{{data.question.first}}<span class="spantitlecolor">{{enterpriseApplication}}</span> {{data.question.second}}  </h2>
+                    <div class="form-wizard-answer mb-3">
+                      <ul class="form-wizard-type mt-4 p-0 row">
+                        <li class="col-lg-12 col-md-12 col-12">
+                          <div class="form-group-wizard d-flex align-items-center">
+                            <label class="qs-label-text">Have you ever worked as Freelancer in past</label>
+                            <div class="form-input-group position-relative w-50">
+                              <ul class="form-wizard-type mt-4 p-0 d-flex">
+                                <li class="w-auto" *ngFor="let opt of data.option">
+                                  <a href="javascript:void(0)" class="d-block text-center" 
+                                  [ngStyle]=" opt.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
+                                  [style.background-color]="opt.selected ? '#4949fc': ''"
+                                  [style.color]="opt.selected ? 'white': ''"
+                                  (click)="selectOption(opt,data.type)">
+                                    {{opt.value}}</a>
+                                </li>
+                              </ul>
                             </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
+                          </div>
+                        </li>
+                      </ul>
+                      </div>
+                      </div>
+  
+                      <div class="question-steps"  *ngIf="data.type === 'resumequestion' &&  this.currentIndex === i" >
+                        <h2 class="main-question">{{data.question.first}}<span class="spantitlecolor">{{enterpriseApplication}}</span> {{data.question.second}}  </h2>
+                        <div class="form-wizard-answer mb-3">
+                          <ul class="form-wizard-type mt-4 p-0 row">
+                            <li class="col-lg-12 col-md-12 col-12">
+                              <div class="form-group-wizard d-flex align-items-center">
+                                <label class="qs-label-text">Location</label>
+                                <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
+                                  <select class="inputview">
+                                    <option value="1">india</option>
+                                    <option value="2">US</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </li>
+                            <li class="col-lg-12 col-md-12 col-12">
+                              <div class="form-group-wizard d-flex align-items-center">
+                                <label class="qs-label-text">Contact Phone Number</label>
+                                <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
+                                  <input type="text" class="inputview">
+                                  <div class="cw-select">
+                                    <select>
+                                      <option value="1">+91</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                            <li class="col-lg-12 col-md-12 col-12">
+                              <div class="form-group-wizard d-flex align-items-center">
+                                <label class="qs-label-text">Industry Group</label>
+                                <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
+                                  <select class="inputview">
+                                    <option value="1">Industry</option>
+                                    <option value="2">Industry</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </li>
+                            <li class="col-lg-12 col-md-12 col-12">
+                              <div class="form-group-wizard d-flex align-items-center">
+                                <label class="qs-label-text">Industry</label>
+                                <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
+                                  <select class="inputview">
+                                    <option value="1">Industry</option>
+                                    <option value="2">Industry</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+        
+                          <div class="form-wizard-step mt-2 d-none">
+                            <h2 class="main-question">How do you define your company?</h2>
+                            <ul class="form-wizard-type jss-list selectarea mt-3 row">
+                              <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                                <a href="javascript:void(0)">Enterprise</a>
                               </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
+                              <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                                <a href="javascript:void(0)">Small Business</a>
                               </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                              <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                                <a href="javascript:void(0)">Start-Up</a>
                               </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
+                              <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                                <a href="javascript:void(0)">Agency</a>
                               </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
+                              <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                                <a href="javascript:void(0)">Franchise</a>
                               </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                              <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                                <a href="javascript:void(0)">Other</a>
                               </li>
                             </ul>
                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-plmeq" role="tabpanel"
-                          aria-labelledby="v-pills-plmeq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
-                            </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
+        
+                          <div class="form-wizard-step mt-2 d-none">
+                            <h2 class="main-question">How many people are employed at your company?</h2>
+                            <ul class="form-wizard-type jss-list selectarea mt-3 row">
+                              <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                                <a href="javascript:void(0)">1 - 5 Employees</a>
                               </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
+                              <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                                <a href="javascript:void(0)">6 - 24 Employees</a>
                               </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                              <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                                <a href="javascript:void(0)">25 - 100 Employees</a>
                               </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
+                              <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                                <a href="javascript:void(0)">100+ Employees</a>
                               </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
+                             
                             </ul>
                           </div>
                         </div>
-                        <div class="tab-pane fade" id="v-pills-bigdataeq" role="tabpanel"
-                          aria-labelledby="v-pills-bigdataeq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
-                            </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                            </ul>
-                          </div>
+      
+                      </div>
+  
+  
+  
+                  </div>
+  
+                  <!--Step1-->
+                  <!--Select your Primary Enterprise Application you like to Hire Tabs-->
+                  <div class="form-wizard-step mt-2 d-none">
+                    <h2 class="main-question">Select Enterprise Application domain which requires new hiring</h2>
+                    <div class="sidemenuTabsContent p-0">
+                      <div class="tabcontentside d-flex align-items-start w-100">
+                        <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
+                          aria-orientation="vertical">
+                          <button class="nav-link active" id="v-pills-erpeq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-erpeq" type="button" role="tab" aria-controls="v-pills-home"
+                            aria-selected="true">
+                            ERP
+                          </button>
+                          <button class="nav-link" id="v-pills-plmeq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-plmeq" type="button" role="tab" aria-controls="v-pills-settings"
+                            aria-selected="false">
+                            PLM
+                          </button>
+                          <button class="nav-link" id="v-pills-bigdataeq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-bigdataeq" type="button" role="tab" aria-controls="v-pills-profile"
+                            aria-selected="false">
+                            BIG DATA
+                          </button>
+                          <button class="nav-link" id="v-pills-hrmeq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-hrmeq" type="button" role="tab" aria-controls="v-pills-messages"
+                            aria-selected="false">
+                            HRM
+                          </button>
+                          <button class="nav-link" id="v-pills-lmseq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-lmseq" type="button" role="tab" aria-controls="v-pills-settings"
+                            aria-selected="false">
+                            LMS
+                          </button>
+                          <button class="nav-link" id="v-pills-crmeq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-crmeq" type="button" role="tab" aria-controls="v-pills-settings"
+                            aria-selected="false">
+                            CRM
+                          </button>
+                          <button class="nav-link" id="v-pills-meseq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-meseq" type="button" role="tab" aria-controls="v-pills-settings"
+                            aria-selected="false">
+                            MES
+                          </button>
+                          <button class="nav-link" id="v-pills-scmeq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-scmeq" type="button" role="tab" aria-controls="v-pills-settings"
+                            aria-selected="false">
+                            SCM
+                          </button>
+                          <button class="nav-link" id="v-pills-dwedweq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-dwedweq" type="button" role="tab" aria-controls="v-pills-settings"
+                            aria-selected="false">
+                            DW/EDW
+                          </button>
+                          <button class="nav-link" id="v-pills-etleq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-etleq" type="button" role="tab" aria-controls="v-pills-settings"
+                            aria-selected="false">
+                            ETL
+                          </button>
+                          <button class="nav-link" id="v-pills-qmseq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-qmseq-itsm" type="button" role="tab" aria-controls="v-pills-settings"
+                            aria-selected="false">
+                            QMS
+                          </button>
+                          <button class="nav-link" id="v-pills-ioteq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-ioteq" type="button" role="tab" aria-controls="v-pills-settings"
+                            aria-selected="false">
+                            IOT
+                          </button>
+                          <button class="nav-link" id="v-pills-mdmeq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-mdmeq" type="button" role="tab" aria-controls="v-pills-settings"
+                            aria-selected="false">
+                            MDM
+                          </button>
+                          <button class="nav-link" id="v-pills-cmseq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-cmseq" type="button" role="tab" aria-controls="v-pills-settings"
+                            aria-selected="false">
+                            CMS
+                          </button>
+                          <button class="nav-link" id="v-pills-eameq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-eameq" type="button" role="tab" aria-controls="v-pills-settings"
+                            aria-selected="false">
+                            EAM
+                          </button>
+                          <button class="nav-link" id="v-pills-dbaeq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-dbaeq" type="button" role="tab" aria-controls="v-pills-settings"
+                            aria-selected="false">
+                            DBA
+                          </button>
+                          <button class="nav-link" id="v-pills-bieq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-bieq" type="button" role="tab" aria-controls="v-pills-settings"
+                            aria-selected="false">
+                            BI
+                          </button>
+                          <button class="nav-link" id="v-pills-caeq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-caeq" type="button" role="tab" aria-controls="v-pills-settings"
+                            aria-selected="false">
+                            Custom Application
+                          </button>
+                          <button class="nav-link" id="v-pills-eaieq-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-eaieq" type="button" role="tab" aria-controls="v-pills-settings"
+                            aria-selected="false">
+                            EAI
+                          </button>
                         </div>
-                        <div class="tab-pane fade" id="v-pills-hrmeq" role="tabpanel"
-                          aria-labelledby="v-pills-hrmeq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
+                        <div class="tab-content" id="v-pills-tabContent">
+                          <div class="tab-pane fade show active" id="v-pills-erpeq" role="tabpanel"
+                            aria-labelledby="v-pills-erpeq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
                             </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                            </ul>
                           </div>
-                        </div>
-
-                        <div class="tab-pane fade" id="v-pills-lmseq" role="tabpanel"
-                          aria-labelledby="v-pills-lmseq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
+                          <div class="tab-pane fade" id="v-pills-plmeq" role="tabpanel"
+                            aria-labelledby="v-pills-plmeq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
                             </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                            </ul>
                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-crmeq" role="tabpanel"
-                          aria-labelledby="v-pills-crmeq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
+                          <div class="tab-pane fade" id="v-pills-bigdataeq" role="tabpanel"
+                            aria-labelledby="v-pills-bigdataeq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
                             </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                            </ul>
                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-meseq" role="tabpanel"
-                          aria-labelledby="v-pills-meseq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
+                          <div class="tab-pane fade" id="v-pills-hrmeq" role="tabpanel"
+                            aria-labelledby="v-pills-hrmeq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
                             </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                            </ul>
                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-scmeq" role="tabpanel"
-                          aria-labelledby="v-pills-scmeq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
+  
+                          <div class="tab-pane fade" id="v-pills-lmseq" role="tabpanel"
+                            aria-labelledby="v-pills-lmseq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
                             </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                            </ul>
                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-dwedweq" role="tabpanel"
-                          aria-labelledby="v-pills-dwedweq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
+                          <div class="tab-pane fade" id="v-pills-crmeq" role="tabpanel"
+                            aria-labelledby="v-pills-crmeq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
                             </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                            </ul>
                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-etleq" role="tabpanel"
-                          aria-labelledby="v-pills-etleq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
+                          <div class="tab-pane fade" id="v-pills-meseq" role="tabpanel"
+                            aria-labelledby="v-pills-meseq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
                             </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                            </ul>
                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-qmseq" role="tabpanel"
-                          aria-labelledby="v-pills-qmseq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
+                          <div class="tab-pane fade" id="v-pills-scmeq" role="tabpanel"
+                            aria-labelledby="v-pills-scmeq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
                             </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                            </ul>
                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-ioteq" role="tabpanel"
-                          aria-labelledby="v-pills-ioteq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
+                          <div class="tab-pane fade" id="v-pills-dwedweq" role="tabpanel"
+                            aria-labelledby="v-pills-dwedweq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
                             </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                            </ul>
                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-mdmeq" role="tabpanel"
-                          aria-labelledby="v-pills-mdmeq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
+                          <div class="tab-pane fade" id="v-pills-etleq" role="tabpanel"
+                            aria-labelledby="v-pills-etleq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
                             </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                            </ul>
                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-cmseq" role="tabpanel"
-                          aria-labelledby="v-pills-cmseq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
+                          <div class="tab-pane fade" id="v-pills-qmseq" role="tabpanel"
+                            aria-labelledby="v-pills-qmseq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
                             </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                            </ul>
                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-eameq" role="tabpanel"
-                          aria-labelledby="v-pills-eameq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
+                          <div class="tab-pane fade" id="v-pills-ioteq" role="tabpanel"
+                            aria-labelledby="v-pills-ioteq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
                             </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                            </ul>
                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-dbaeq" role="tabpanel"
-                          aria-labelledby="v-pills-dbaeq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
+                          <div class="tab-pane fade" id="v-pills-mdmeq" role="tabpanel"
+                            aria-labelledby="v-pills-mdmeq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
                             </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                            </ul>
                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-bieq" role="tabpanel" aria-labelledby="v-pills-bieq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
+                          <div class="tab-pane fade" id="v-pills-cmseq" role="tabpanel"
+                            aria-labelledby="v-pills-cmseq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
                             </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                            </ul>
                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-caeq" role="tabpanel" aria-labelledby="v-pills-caeq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
+                          <div class="tab-pane fade" id="v-pills-eameq" role="tabpanel"
+                            aria-labelledby="v-pills-eameq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
                             </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                            </ul>
                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-eaieq" role="tabpanel"
-                          aria-labelledby="v-pills-eaieq-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" placeholder="Type a skill to filter the list below" />
+                          <div class="tab-pane fade" id="v-pills-dbaeq" role="tabpanel"
+                            aria-labelledby="v-pills-dbaeq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
                             </div>
-                            <ul class="easeworkssearchList">
-                              <li>
-                                <a href="javascript:void(0)">SAP Business by design</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">SAP ERP</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Oracle JD Edwards</a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                              </li>
-                            </ul>
+                          </div>
+                          <div class="tab-pane fade" id="v-pills-bieq" role="tabpanel" aria-labelledby="v-pills-bieq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="tab-pane fade" id="v-pills-caeq" role="tabpanel" aria-labelledby="v-pills-caeq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="tab-pane fade" id="v-pills-eaieq" role="tabpanel"
+                            aria-labelledby="v-pills-eaieq-tab">
+                            <div class="rightpanel-easworks">
+                              <div class="easworkSearchbox">
+                                <input type="text" placeholder="Type a skill to filter the list below" />
+                              </div>
+                              <ul class="easeworkssearchList">
+                                <li>
+                                  <a href="javascript:void(0)">SAP Business by design</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">SAP ERP</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Oracle JD Edwards</a>
+                                </li>
+                                <li>
+                                  <a href="javascript:void(0)">Microsoft Dynamics GP</a>
+                                </li>
+                              </ul>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-
-                <div class="form-wizard-step mt-2 d-none">
-                  <h2 class="main-question">Select the needed EAS - PLM and Engineering software experience for new
-                    hiring</h2>
-                  <ul class="form-wizard-type jss-list selectarea mt-3 row">
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Team Center</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Aras</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Arena</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Fusion Lifecycle</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Windchill</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">SAP PLM</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Propel PLM</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Upchain</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Enovia</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Oracle Agile</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Open BOM</a>
-                    </li>
-                  </ul>
-                </div>
-
-                <!--Step2-->
-                <div class="form-wizard-step mt-2 d-none">
-                  <h2 class="main-question">Select the needed EAS - PLM and Engineering software experience for new
-                    hiring</h2>
-                  <ul class="form-wizard-type jss-list selectarea mt-3 row">
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Team Center</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Aras</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Arena</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Fusion Lifecycle</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Windchill</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">SAP PLM</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Propel PLM</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Upchain</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Enovia</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Oracle Agile</a>
-                    </li>
-                    <li class="col-lg-3 col-md-3 col-sm-3 col-12">
-                      <a href="javascript:void(0)">Open BOM</a>
-                    </li>
-                  </ul>
-                </div>
-
-                <!--Step7-->
-                <div class="form-wizard-step mt-2 d-none">
-                  <h2 class="main-question">What level of ERP - SAP Developer Experience?</h2>
-                  <ul class="form-wizard-type jss-list selectarea mt-3 row">
-                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                      <a href="javascript:void(0)">Entry Level</a>
-                    </li>
-                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                      <a href="javascript:void(0)">Individual Contributor</a>
-                    </li>
-                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                      <a href="javascript:void(0)">Mid-Level Management</a>
-                    </li>
-                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                      <a href="javascript:void(0)">Excutive/Senior Leadership</a>
-                    </li>
-                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                      <a href="javascript:void(0)">Decide Later</a>
-                    </li>
-                  </ul>
-                </div>
-
-                <!--Step7-->
-                <div class="form-wizard-step mt-2 d-none">
-                  <h2 class="main-question">Number of ERP - SAP Position to be required</h2>
-                  <div class="form-input-group">
-                    <select class="inputview">
-                      <option value="1">ERP</option>
-                      <option value="2">SAP</option>
-                    </select>
+  
+                  <div class="form-wizard-step mt-2  d-none">
+                    <h2 class="main-question">Select the needed EAS - PLM and Engineering software experience for new hiring</h2>
+                    <ul class="form-wizard-type jss-list selectarea mt-3 row">
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Team Center</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Aras</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Arena</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Fusion Lifecycle</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Windchill</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">SAP PLM</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Propel PLM</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Upchain</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Enovia</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Oracle Agile</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Open BOM</a>
+                      </li>
+                    </ul>
                   </div>
-                </div>
-
-                <!--Step10-->
-                <div class="form-wizard-step mt-2 d-none">
-                  <h2 class="main-question">What is your estimated budget for this ERP - SAP Developer role?</h2>
-                  <ul class="form-wizard-type jss-list selectarea mt-3 row">
-                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                      <a href="javascript:void(0)">Less than $50/hr</a>
-                    </li>
-                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                      <a href="javascript:void(0)">$51 - $75/hr</a>
-                    </li>
-                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                      <a href="javascript:void(0)">$76 - $100/hr</a>
-                    </li>
-                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                      <a href="javascript:void(0)">$101 - $120/hr</a>
-                    </li>
-                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                      <a href="javascript:void(0)">More than $120/hr</a>
-                    </li>
-                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                      <a href="javascript:void(0)">Not sure on Hourly rate</a>
-                    </li>
-                  </ul>
-                </div>
-
-                <!--EQF - 9-->
-                <div class="form-wizard-step mt-2 d-none">
-                  <h2 class="main-question">What do you need the ERP - SAP Developer to start?</h2>
-                  <ul class="form-wizard-type jss-list selectarea mt-3 row">
-                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                      <a href="javascript:void(0)">Immediately</a>
-                    </li>
-                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                      <a href="javascript:void(0)">In 1 to 2 weeks</a>
-                    </li>
-                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                      <a href="javascript:void(0)">More than 2 weeks</a>
-                    </li>
-                    <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                      <a href="javascript:void(0)">Decide Later</a>
-                    </li>
-                  </ul>
-                </div>
-                <!--EQF - 11-->
-                <div class="form-wizard-step mt-2 d-none">
-                  <ul class="form-wizard-type mt-4 p-0 row">
-                    <li class="col-lg-12 col-md-12 col-12">
-                      <div class="form-group-wizard d-flex align-items-center">
-                        <label class="qs-label-text">Location</label>
-                        <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
-                          <select class="inputview">
-                            <option value="1">india</option>
-                            <option value="2">US</option>
-                          </select>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="col-lg-12 col-md-12 col-12">
-                      <div class="form-group-wizard d-flex align-items-center">
-                        <label class="qs-label-text">Contact Phone Number</label>
-                        <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
-                          <input type="text" class="inputview">
-                          <div class="cw-select">
-                            <select>
-                              <option value="1">United Kingdom (44)</option>
+  
+                  <!--Step2-->
+                  <div class="form-wizard-step mt-2  d-none">
+                    <h2 class="main-question">Select the needed EAS - PLM and Engineering software experience for new hiring</h2>
+                    <ul class="form-wizard-type jss-list selectarea mt-3 row">
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Team Center</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Aras</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Arena</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Fusion Lifecycle</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Windchill</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">SAP PLM</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Propel PLM</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Upchain</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Enovia</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Oracle Agile</a>
+                      </li>
+                      <li class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <a href="javascript:void(0)">Open BOM</a>
+                      </li>
+                    </ul>
+                  </div>
+  
+                  <!--Step7-->
+                  <div class="form-wizard-step mt-2  d-none">
+                    <h2 class="main-question">What level of ERP - SAP Developer Experience?</h2>
+                    <ul class="form-wizard-type jss-list selectarea mt-3 row">
+                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                        <a href="javascript:void(0)">Entry Level</a>
+                      </li>
+                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                        <a href="javascript:void(0)">Individual Contributor</a>
+                      </li>
+                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                        <a href="javascript:void(0)">Mid-Level Management</a>
+                      </li>
+                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                        <a href="javascript:void(0)">Excutive/Senior Leadership</a>
+                      </li>
+                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                        <a href="javascript:void(0)">Decide Later</a>
+                      </li>
+                    </ul>
+                  </div>
+  
+                  <!--Step7-->
+                  <div class="form-wizard-step mt-2 d-none">
+                    <h2 class="main-question">Number of ERP - SAP Position to be required</h2>
+                    <div class="form-input-group">
+                      <select class="inputview">
+                        <option value="1">ERP</option>
+                        <option value="2">SAP</option>
+                      </select>
+                    </div>
+                  </div>
+  
+                  <!--Step10-->
+                  <div class="form-wizard-step mt-2  d-none">
+                    <h2 class="main-question">What is your estimated budget for this ERP - SAP Developer role?</h2>
+                    <ul class="form-wizard-type jss-list selectarea mt-3 row">
+                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                        <a href="javascript:void(0)">Less than $50/hr</a>
+                      </li>
+                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                        <a href="javascript:void(0)">$51 - $75/hr</a>
+                      </li>
+                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                        <a href="javascript:void(0)">$76 - $100/hr</a>
+                      </li>
+                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                        <a href="javascript:void(0)">$101 - $120/hr</a>
+                      </li>
+                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                        <a href="javascript:void(0)">More than $120/hr</a>
+                      </li>
+                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                        <a href="javascript:void(0)">Not sure on Hourly rate</a>
+                      </li>
+                    </ul>
+                  </div>
+  
+                  <!--EQF - 9-->
+                  
+                  <!--Step10-->
+                  <div class="form-wizard-step mt-2  d-none">
+                    <h2 class="main-question">What do you need the ERP - SAP Developer to start?</h2>
+                    <ul class="form-wizard-type jss-list selectarea mt-3 row">
+                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                        <a href="javascript:void(0)">Immediately</a>
+                      </li>
+                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                        <a href="javascript:void(0)">In 1 to 2 weeks</a>
+                      </li>
+                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                        <a href="javascript:void(0)">More than 2 weeks</a>
+                      </li>
+                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                        <a href="javascript:void(0)">Decide Later</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <!--EQF - 11-->
+                  <div class="form-wizard-step mt-2 d-none">
+                    <ul class="form-wizard-type mt-4 p-0 row">
+                      <li class="col-lg-12 col-md-12 col-12">
+                        <div class="form-group-wizard d-flex align-items-center">
+                          <label class="qs-label-text">Location</label>
+                          <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
+                            <select class="inputview">
+                              <option value="1">india</option>
+                              <option value="2">US</option>
                             </select>
                           </div>
                         </div>
-                      </div>
-                    </li>
-                    <li class="col-lg-12 col-md-12 col-12">
-                      <div class="form-group-wizard d-flex align-items-center">
-                        <label class="qs-label-text">Industry Group</label>
-                        <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
-                          <select class="inputview">
-                            <option value="1">Industry</option>
-                            <option value="2">Industry</option>
-                          </select>
+                      </li>
+                      <li class="col-lg-12 col-md-12 col-12">
+                        <div class="form-group-wizard d-flex align-items-center">
+                          <label class="qs-label-text">Contact Phone Number</label>
+                          <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
+                            <input type="text" class="inputview">
+                            <div class="cw-select">
+                              <select>
+                                <option value="1">United Kingdom (44)</option>
+                              </select>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </li>
-                    <li class="col-lg-12 col-md-12 col-12">
-                      <div class="form-group-wizard d-flex align-items-center">
-                        <label class="qs-label-text">Industry</label>
-                        <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
-                          <select class="inputview">
-                            <option value="1">Industry</option>
-                            <option value="2">Industry</option>
-                          </select>
+                      </li>
+                      <li class="col-lg-12 col-md-12 col-12">
+                        <div class="form-group-wizard d-flex align-items-center">
+                          <label class="qs-label-text">Industry Group</label>
+                          <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
+                            <select class="inputview">
+                              <option value="1">Industry</option>
+                              <option value="2">Industry</option>
+                            </select>
+                          </div>
                         </div>
-                      </div>
-                    </li>
-                  </ul>
-
-                  <div class="form-wizard-step mt-2">
-                    <h2 class="main-question">How do you define your company?</h2>
-                    <ul class="form-wizard-type jss-list selectarea mt-3 row">
-                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                        <a href="javascript:void(0)">Enterprise</a>
                       </li>
-                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                        <a href="javascript:void(0)">Small Business</a>
-                      </li>
-                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                        <a href="javascript:void(0)">Start-Up</a>
-                      </li>
-                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                        <a href="javascript:void(0)">Agency</a>
-                      </li>
-                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                        <a href="javascript:void(0)">Franchise</a>
-                      </li>
-                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                        <a href="javascript:void(0)">Other</a>
+                      <li class="col-lg-12 col-md-12 col-12">
+                        <div class="form-group-wizard d-flex align-items-center">
+                          <label class="qs-label-text">Industry</label>
+                          <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
+                            <select class="inputview">
+                              <option value="1">Industry</option>
+                              <option value="2">Industry</option>
+                            </select>
+                          </div>
+                        </div>
                       </li>
                     </ul>
+  
+                    <div class="form-wizard-step mt-2">
+                      <h2 class="main-question">How do you define your company?</h2>
+                      <ul class="form-wizard-type jss-list selectarea mt-3 row">
+                        <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                          <a href="javascript:void(0)">Enterprise</a>
+                        </li>
+                        <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                          <a href="javascript:void(0)">Small Business</a>
+                        </li>
+                        <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                          <a href="javascript:void(0)">Start-Up</a>
+                        </li>
+                        <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                          <a href="javascript:void(0)">Agency</a>
+                        </li>
+                        <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                          <a href="javascript:void(0)">Franchise</a>
+                        </li>
+                        <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                          <a href="javascript:void(0)">Other</a>
+                        </li>
+                      </ul>
+                    </div>
+  
+                    <div class="form-wizard-step mt-2">
+                      <h2 class="main-question">How many people are employed at your company?</h2>
+                      <ul class="form-wizard-type jss-list selectarea mt-3 row">
+                        <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                          <a href="javascript:void(0)">1 - 5 Employees</a>
+                        </li>
+                        <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                          <a href="javascript:void(0)">6 - 24 Employees</a>
+                        </li>
+                        <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                          <a href="javascript:void(0)">25 - 100 Employees</a>
+                        </li>
+                        <li class="col-lg-4 col-md-4 col-sm-4 col-12">
+                          <a href="javascript:void(0)">100+ Employees</a>
+                        </li>
+  
+                      </ul>
+                    </div>
                   </div>
-
-                  <div class="form-wizard-step mt-2">
-                    <h2 class="main-question">How many people are employed at your company?</h2>
-                    <ul class="form-wizard-type jss-list selectarea mt-3 row">
-                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                        <a href="javascript:void(0)">1 - 5 Employees</a>
-                      </li>
-                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                        <a href="javascript:void(0)">6 - 24 Employees</a>
-                      </li>
-                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                        <a href="javascript:void(0)">25 - 100 Employees</a>
-                      </li>
-                      <li class="col-lg-4 col-md-4 col-sm-4 col-12">
-                        <a href="javascript:void(0)">100+ Employees</a>
-                      </li>
-
-                    </ul>
+  
+  
+                  <div class="quiz-bttn-group border-top pt-3" *ngIf="currentIndex >0 && currentIndex<15">
+                    <button type="button" class="btn-common-border" (click)="onChange(-1)">Previous</button>
+                    <div class="next-skip">
+                      <button type="button" class="btn-common-border d-none">Skip</button>
+                      <button type="button" class="btn-common-border nextbtn" (click)="onChange(1)">Next</button>
+                    </div>
+  
                   </div>
                 </div>
-
-
-                <div class="quiz-bttn-group border-top pt-3" *ngIf="currentIndex >0 && currentIndex<16">
-                  <button type="button" class="btn-common-border" (click)="onChange(-1)">Previous</button>
-                  <div class="next-skip">
-                    <button type="button" class="btn-common-border d-none">Skip</button>
-                    <button type="button" class="btn-common-border nextbtn" (click)="onChange(1)">Next</button>
-                  </div>
-
-                </div>
-              </div>
-            </form>
-
-          </div>
-
-          <div class="congrtz-content" *ngIf="currentIndex===16">
-            <span>
-              <i class='bx bx-check'></i>
-            </span>
-            <h3>Thank you for choosing EASWORKS!!!</h3>
-            <p>Your EASWORKS Enterprise Application Specialist will be reaching out soon</p>
-            <img class="congts-img" src="assets/img/Congrats_employer.png" />
-            <div class="next-step-dashboard border-top pt-3">
-              <h4 class="text-center mb-3">Next Steps</h4>
-              <ul class="twowaysstreet-type text-center mt-2 row">
-                <li class="col-lg-4 col-md-4 col-12 pr-0 d-block">
-                  <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_mcqtv0qr.json"
-                    background="transparent" speed="1" style="width: 100%; height: 100px;" loop autoplay>
-                  </lottie-player>
-                  <p class="qn-para">Discuss work needs and Enterprise Application talent preference</p>
-                </li>
-                <li class="col-lg-4 col-md-4 col-12 pl-0 d-block">
-                  <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_6ln47dih.json"
-                    background="transparent" speed="1" style="width: 100%; height: 100px;" loop autoplay>
-                  </lottie-player>
-                  <p class="qn-para">Meet 1-2 prevetted Enterprise Application talent from our global talent pool.</p>
-                </li>
-                <li class="col-lg-4 col-md-4 col-12  pr-0 d-block">
-                  <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_mlfv646z.json"
-                    background="transparent" speed="1" style="width: 100%; height: 100px;" loop autoplay>
-                  </lottie-player>
-                  <p class="qn-para">Start work on no-risk trial period.</p>
-                </li>
-              </ul>
+              </form>
+  
             </div>
-            <a href="javascript:void(0)" class="btn-common-border nextbtn" (click)="goToMyProfile()">Go to My
-              Profile</a>
+  
+            <div class="congrtz-content" *ngIf="currentIndex===15">
+              <span>
+                <i class='bx bx-check'></i>
+              </span>
+              <h3>Thank you for choosing EASWORKS!!!</h3>
+              <p>Your EASWORKS Enterprise Application Specialist will be reaching out soon</p>
+              <img class="congts-img" src="assets/img/Congrats_employer.png" />
+              <div class="next-step-dashboard border-top pt-3">
+                <h4 class="text-center mb-3">Next Steps</h4>
+                <ul class="twowaysstreet-type text-center mt-2 row">
+                  <li class="col-lg-4 col-md-4 col-12 pr-0 d-block">
+                    <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_mcqtv0qr.json"
+                      background="transparent" speed="1" style="width: 100%; height: 100px;" loop autoplay>
+                    </lottie-player>
+                    <p class="qn-para">Discuss work needs and Enterprise Application talent preference</p>
+                  </li>
+                  <li class="col-lg-4 col-md-4 col-12 pl-0 d-block">
+                    <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_6ln47dih.json"
+                      background="transparent" speed="1" style="width: 100%; height: 100px;" loop autoplay>
+                    </lottie-player>
+                    <p class="qn-para">Meet 1-2 prevetted Enterprise Application talent from our global talent pool.</p>
+                  </li>
+                  <li class="col-lg-4 col-md-4 col-12  pr-0 d-block">
+                    <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_mlfv646z.json"
+                      background="transparent" speed="1" style="width: 100%; height: 100px;" loop autoplay>
+                    </lottie-player>
+                    <p class="qn-para">Start work on no-risk trial period.</p>
+                  </li>
+                </ul>
+              </div>
+              <a href="javascript:void(0)" class="btn-common-border nextbtn" (click)="goToMyProfile()">Go to My
+                Profile</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>

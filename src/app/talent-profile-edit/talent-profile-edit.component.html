@@ -101,7 +101,7 @@
                 <div class="profile-card">
                   <div class="common-title d-flex justify-content-between">
                     <h2 class="card-title mb-0">Profile Strength</h2>
-                    <button type="button" class="editbtn"><i class='bx bxs-edit'></i></button>
+                    <button type="button" class="editbtn" (click)="onUpdate()"><i class='bx bxs-edit'></i></button>
                   </div>
                   <div class="profile-body p-3">
                     <p class="common-para m-0">It is a long established fact that a reader will be distracted by the
@@ -187,50 +187,8 @@
                   </div>
                   <div class="profile-body p-3">
                     <ul class="app-soft-type">
-                      <li class="app-soft-list">
-                        Node Js
-                      </li>
-                      <li class="app-soft-list">
-                        CSS
-                      </li>
-                      <li class="app-soft-list">
-                        JavaScript
-                      </li>
-                      <li class="app-soft-list">
-                        GIT
-                      </li>
-                      <li class="app-soft-list">
-                        Express.js
-                      </li>
-                      <li class="app-soft-list">
-                        HTML5
-                      </li>
-                      <li class="app-soft-list">
-                        Test-driven Development (TDD)
-                      </li>
-                      <li class="app-soft-list">
-                        DevOps
-                      </li>
-                      <li class="app-soft-list">
-                        Redux
-                      </li>
-                      <li class="app-soft-list">
-                        Babel
-                      </li>
-                      <li class="app-soft-list">
-                        React
-                      </li>
-                      <li class="app-soft-list">
-                        Jest
-                      </li>
-                      <li class="app-soft-list">
-                        React Redux
-                      </li>
-                      <li class="app-soft-list">
-                        TypeScript
-                      </li>
-                      <li class="app-soft-list">
-                        Windows
+                      <li class="app-soft-list" *ngFor = "let data of randomTechData">
+                        {{data.value}}
                       </li>
                     </ul>
                   </div>
@@ -601,16 +559,16 @@
           </ul>
         </div>
         <div class="row">
-          <div class="col-lg-12 col-md-12 col-12" data-aos="fade-up" data-aos-delay="100">
-            <h2 class="secondary-title">Languages</h2>
+          <div class="col-lg-12 col-md-12 col-12" data-aos="fade-up" data-aos-delay="100" *ngFor = "let data of groups">
+            <h2 class="secondary-title">{{data.group}}</h2>
             <ul class="developer-type">
-              <li class="developer-list">
+              <li class="developer-list" *ngFor = "let opt of data.option">
                 <a href="javascript:void(0)">
-                  <i class="icofont-simple-right"></i> JavaScript
+                  <i class="icofont-simple-right"></i> {{opt.value}}
                 </a>
                 <div class="lang-progress w-40">
-                  <span class="lang-bar w-50">2</span>
-                  <span class="lang-bar bggray w-50">P</span>
+                  <span class="lang-bar w-50">{{opt.noOfYear}}</span>
+                  <span class="lang-bar bggray w-50">{{opt.skill.charAt(0)}}</span>
                 </div>
               </li>
               <li class="developer-list">
@@ -1113,7 +1071,7 @@
           <p class="common-para text-white mb-3">Plus, writing this bit of code increases your profile strength by A
             LOT, making your profile more competitive when you apply for
             gigs.</p>
-          <a href="javascript:void(0)" class="applytojoin-btn">View Instructions</a>
+          <a href="javascript:void(0)" class="applytojoin-btn" (click)="takeTest()">View Instructions</a>
         </div>
       </div>
     </section>

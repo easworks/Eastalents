@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiResponse } from '../_models';
 import { TalentProfile, TalentProfileSteps } from '../_models/taltent-profile-steps';
 import { HttpService } from '../_services/http.service';
@@ -67,12 +66,22 @@ export class TalentQuestionComponent implements OnInit {
   showProfessionalCodingExperience:boolean = false;
   showemploymentOpportunity:boolean = false;
   jobRole:any=[];
+  idToNavigate:any;
   constructor(private httpService: HttpService,
-    private router: Router,
+    private router: Router, private route: ActivatedRoute,
     private talentService: TalentService,private http: HttpClient,private toaster: ToasterService,private sessionService: SessionService) {
   }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+        // Defaults to 0 if no query param provided.
+        this.idToNavigate = +params['id'] || 0;
+        console.log(this.idToNavigate);
+        if(this.idToNavigate){
+          this.changePage(this.idToNavigate);
+
+        }
+      });
     this.getDynamicData();
     this.getData();
     this.name.firstName = this.sessionService.getLocalStorageCredentials().firstName;
@@ -80,7 +89,7 @@ export class TalentQuestionComponent implements OnInit {
     this.talentQuestionData.unshift({question:{first:"Select the ",second:"system phase you have worked"},"id":4,type:"mixed","option":this.completeJobs})
     this.talentQuestionData.unshift({question:{first:"Select the ",second:"module to have specialized"},"id":3,type:"mixed","option":this.datathree})
     this.talentQuestionData.unshift({question:{first:"Select Your Primary Enterprise Application",second:""},"id":2,type:"mixed","option":this.dataKeys})
-    this.talentQuestionData.unshift({question:"Professional Summary","id":1,type:"textarea",profileSummary:"",country:{},state:{},city:''})
+    this.talentQuestionData.unshift({question:"Professional Summary","id":1,type:"textarea",profileSummary:"",country:{},state:{},city:'',timezone:''})
     this.talentQuestionData.unshift({question:"","id":0,type:"","data":""})
     console.log(this.talentQuestionData);
     console.log(this.currentPage);
@@ -225,6 +234,7 @@ export class TalentQuestionComponent implements OnInit {
   this.buttonDataFilter = opt.value;
   }
   public changePage(index: number): void {
+
 
     this.currentPage += index;
     if(this.currentPage === 7  && this.showProfessionalCodingExperience === false){
@@ -487,27 +497,88 @@ export class TalentQuestionComponent implements OnInit {
   }
   enableDisableNextButton(){
     this.disableNextButton = true;
-    if(this.currentPage === 0){
+    if(this.currentPage === 1){
+      if(this.talentQuestionData[this.currentPage].profileSummary != '' && this.talentQuestionData[this.currentPage].profileSummary.length >200 && this.selectedCity && this.selectedCountry && this.selectedState){
+        this.disableNextButton = false;
+      }
+    }
+    else if(this.currentPage === 6){
+         if(this.talentQuestionData[this.currentPage].startFreelancing ){
+          if(this.talentQuestionData[this.currentPage].option[0].seleced === true && this.talentQuestionData[this.currentPage].startWorkingProfessionally ){
+            this.disableNextButton = false;
+          }
+          else if(this.talentQuestionData[this.currentPage].option[1].seleced === true){
+            this.disableNextButton = false;
+          }
+         }
+    }
+    else if (this.currentPage===2 || this.currentPage === 3|| this.currentPage === 4 || this.currentPage === 5 || this.currentPage ===7  || this.currentPage ===8){
+     this.fieldArray.forEach((element:any)=>{
+      if(element.value && element.noOfYear && element.expertise){
+           this.disableNextButton = false;
+      }
+      else{
+        this.disableNextButton = true;
+      }
+      });
+    }
+    else if(this.currentPage === 9){
       this.disableNextButton = false;
     }
-    else if (this.currentPage==-26 || this.currentPage === 30|| this.currentPage === 31 || this.currentPage === 25 || this.currentPage ===32 || this.currentPage ===27 || this.currentPage ===28){
+    else if(this.currentPage === 10){
+     this.disableNextButton = this.getButtonEnableForTen();
+    }
+    else if(this.currentPage === 11){
       this.disableNextButton = false;
     }
-    else{
-      this.disableNextButton = false;
-      // this.fieldArray.forEach((element:any)=>{
-      // if(element.value && element.noOfYear && element.expertise){
-      //      this.disableNextButton = false;
-      // }
-      // else{
-      //   this.disableNextButton = true;
-      // }
-      // });
+    else if(this.currentPage === 12){
+      this.disableNextButton = this.getButtonEnableForQue12();
     }
   }
 
+  getButtonEnableForTen(){
+    let opt = this.talentQuestionData[this.currentPage];
+    if(opt.data.desiredHourlyrate && opt.data.targetAnnualSalary && opt.data.monthlyRate && opt.data.selectedPLM && opt.data.weeklyHourlyRate && this.getButtonEnableForMultiSelect(opt.startWorkingWithEasyWork)){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
+  getButtonEnableForQue12(){
+    let flag =1;
+    let opt = this.talentQuestionData[this.currentPage];
+    opt.option.forEach((data:any) =>{
+      if(data.value === '' && data.value.length <8){
+        flag = 0;
+      }
+    });
+    return !flag;
+  }
+
+  getButtonEnableForMultiSelect(multiselectData:any){
+    let flag =0;
+    for(var i= 0;i<multiselectData.length;i++){
+             if(multiselectData[i].selected === true){
+               flag = 1;
+             }
+           }
+  return flag;
+  }
+
+  getButtonEnableForSelect(selectData:any){
+    let flag =0;
+    selectData.forEach((element:any)=>{
+              if(element.selected=== true && element.disable=== false){
+                flag =1;
+              }
+            });
+    return flag;
+  }
+
   goToMyProfile() {
-    let talent:any = this.talentProfile;
+    let talent:any = this.talentQuestionData;
     let data:any={
       userId: this.sessionService.getLocalStorageCredentials()._id,
       steps:JSON.stringify(talent)
@@ -515,11 +586,53 @@ export class TalentQuestionComponent implements OnInit {
     this.httpService.post('talentProfile/createTalentProfile',data).subscribe((response: ApiResponse<any>) => {
       if (!response.error) {
         this.toaster.success(`${response.message}`);
-        this.router.navigate(['/Talentprofileview']);
+        // this.router.navigate(['/Talentprofileview']);
       }
     }, (error) => {
       console.log(error);
       this.toaster.error(`${error.message}`);
     });
+  }
+
+  getanswerData(){
+    let answer:any=[];
+    this.talentQuestionData.forEach((data:any)=>{
+     if(data.id ===1){
+      answer.push({id:data.id,profileSummary:data.profileSummary,city:data.city,country:data.country,state:data.state,timezone:data.timezone})
+     }
+     else if(data.id === 6 ){
+      answer.push({id:data.id,startFreelancing:data.startFreelancing,startWorkingProfessionally:data.startWorkingProfessionally,selectedYesNo:''});
+      data.option.forEach((opt:any)=>{
+         if(opt.selected === true){
+           answer[data.id].selectedYesNo=opt.value;
+         }
+      })
+    }
+     else if( data.id ===2 &&  data.id === 3 &&  data.id === 4 &&  data.id === 5 &&  data.id === 8 &&  data.id === 7){
+       answer.push({id:data.id,option:[]})
+      data.option.forEach((opt:any)=>{
+         if(opt.selected === true){
+           answer[data.id].option.push({value:opt.value,skill:opt.skill,noOfYear:opt.noOfYear})
+         }
+      });
+      if(data.button.length){
+        data.option.forEach((opt:any)=>{
+        answer[data.id].button.push({value:opt.value})
+        });
+      }
+     }
+    else if(data.id ===9){
+
+    }
+    else if(data.id ===10){
+
+    }
+    else if(data.id ===11){
+
+    }
+    else if(data.id ===12){
+
+    }
+    })
   }
 }
