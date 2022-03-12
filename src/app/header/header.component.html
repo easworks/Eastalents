@@ -75,7 +75,7 @@
                   </a>
                 </li>
                 <li>
-                  <a class="cursor-pointer" (click)="goToUseCase('data_migration')"><span><img class="usecasemenuicon"
+                  <a class="cursor-pointer" (click)="goToUseCase('enterprise_application_integration')"><span><img class="usecasemenuicon"
                         src="assets/img/enterprise-application.svg" /></span>Enterprise Application Integration
                   </a>
                 </li>
@@ -86,7 +86,7 @@
                   </a>
                 </li>
                 <li>
-                  <a class="cursor-pointer" (click)="goToUseCase('enterprise_application_integration')"><span><img
+                  <a class="cursor-pointer" (click)="goToUseCase('data_migration')"><span><img
                         class="usecasemenuicon" src="assets/img/data-migration.svg" /></span>Data Migration</a>
                 </li>
                 <li>
@@ -127,105 +127,108 @@
     <div class="sidebar-menu">
       <ul class="sidebarmenuType">
         <li>
-          <a class="sidemenulink" [routerLink]="['/Talent']">Hire Talent</a>
+          <a class="sidemenulink" href="javascript:void(0)">Hire Talent</a>
         </li>
         <li>
-          <a class="sidemenulink" [routerLink]="['']" role="button">For Enterprise</a>
+          <a class="sidemenulink" [routerLink]="['/for-clients']" role="button">For Enterprise</a>
+          <div class="collapse" id="collapseExample">
+            <ul>
+              <li>
+                <a [routerLink]="['/talent']"> EASWORKS Talent </a>
+              </li>
+              <li>
+                <a [routerLink]="['/How']">How its works </a>
+              </li>
+            </ul>
+          </div>
         </li>
         <li>
-          <a class="sidemenulink" [routerLink]="['/WhyEasworks']">Why EASWORKS?</a>
+          <a class="sidemenulink" href="javascript:void(0)">Join EASWORKS</a>
         </li>
         <li>
-          <a class="sidemenulink" [routerLink]="['/GetHired']">For Freelancers</a>
-        </li>
-        <li>
-          <a class="sidemenulink" [routerLink]="['/Employer-Signup']">Hire Now</a>
+          <a class="sidemenulink" href="javascript:void(0)">For Freelancers</a>
         </li>
       </ul>
     </div>
     <div class="sidemenuTabsContent">
       <div class="tabcontentside d-flex align-items-start w-100">
-        <div>
-          <h1 class="tabtitle">Enterprise Application Domain</h1>
-          <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <button class="nav-link active" id="v-pills-erpaf-tab" data-bs-toggle="pill" data-bs-target="#v-pills-erpaf"
-              type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
-              ERP - Accounting & Financial
-            </button>
-            <button class="nav-link" id="v-pills-erpso-tab" data-bs-toggle="pill" data-bs-target="#v-pills-erpso"
-              type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">
-              ERP - Services and Operations
-            </button>
-            <button class="nav-link" id="v-pills-crm-tab" data-bs-toggle="pill" data-bs-target="#v-pills-crm"
-              type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">
-              CRM
-            </button>
-            <button class="nav-link" id="v-pills-plm-tab" data-bs-toggle="pill" data-bs-target="#v-pills-plm"
-              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-              PLM
-            </button>
-            <button class="nav-link" id="v-pills-biba-tab" data-bs-toggle="pill" data-bs-target="#v-pills-biba"
-              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-              BI/BA
-            </button>
-            <button class="nav-link" id="v-pills-hcm-tab" data-bs-toggle="pill" data-bs-target="#v-pills-hcm"
-              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-              HCM
-            </button>
-            <button class="nav-link" id="v-pills-scm-tab" data-bs-toggle="pill" data-bs-target="#v-pills-scm"
-              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-              SCM
-            </button>
-            <button class="nav-link" id="v-pills-ppm-tab" data-bs-toggle="pill" data-bs-target="#v-pills-ppm"
-              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-              PPM
-            </button>
-            <button class="nav-link" id="v-pills-cms-tab" data-bs-toggle="pill" data-bs-target="#v-pills-cms"
-              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-              CMS
-            </button>
-            <button class="nav-link" id="v-pills-bdp-tab" data-bs-toggle="pill" data-bs-target="#v-pills-bdp"
-              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-              BDP
-            </button>
-            <button class="nav-link" id="v-pills-itsm-tab" data-bs-toggle="pill" data-bs-target="#v-pills-itsm"
-              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-              ITSM
-            </button>
-            <button class="nav-link" id="v-pills-c-tab" data-bs-toggle="pill" data-bs-target="#v-pills-itsm" type="button"
-              role="tab" aria-controls="v-pills-settings" aria-selected="false">
-              AI
-            </button>
-            <button class="nav-link" id="v-pills-qms-tab" data-bs-toggle="pill" data-bs-target="#v-pills-qms"
-              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-              QMS
-            </button>
-            <button class="nav-link" id="v-pills-mes-tab" data-bs-toggle="pill" data-bs-target="#v-pills-mes"
-              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-              MES
-            </button>
-            <button class="nav-link" id="v-pills-iaas-tab" data-bs-toggle="pill" data-bs-target="#v-pills-iaas"
-              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-              IaaS
-            </button>
-            <button class="nav-link" id="v-pills-lms-tab" data-bs-toggle="pill" data-bs-target="#v-pills-lms"
-              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-              LMS
-            </button>
-            <button class="nav-link" id="v-pills-ecommerce-tab" data-bs-toggle="pill" data-bs-target="#v-pills-ecommerce"
-              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-              eCommerce
-            </button>
-            <button class="nav-link" id="v-pills-IoT-tab" data-bs-toggle="pill" data-bs-target="#v-pills-IoT"
-              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-              IoT
-            </button>
-          </div>
+        <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+          <button class="nav-link active" id="v-pills-erpaf-tab" data-bs-toggle="pill" data-bs-target="#v-pills-erpaf"
+            type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
+            ERP - Accounting & Financial
+          </button>
+          <button class="nav-link" id="v-pills-erpso-tab" data-bs-toggle="pill" data-bs-target="#v-pills-erpso"
+            type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+            ERP - Services and Operations
+          </button>
+          <button class="nav-link" id="v-pills-crm-tab" data-bs-toggle="pill" data-bs-target="#v-pills-crm"
+            type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">
+            CRM
+          </button>
+          <button class="nav-link" id="v-pills-plm-tab" data-bs-toggle="pill" data-bs-target="#v-pills-plm"
+            type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+            PLM
+          </button>
+          <button class="nav-link" id="v-pills-biba-tab" data-bs-toggle="pill" data-bs-target="#v-pills-biba"
+            type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+            BI/BA
+          </button>
+          <button class="nav-link" id="v-pills-hcm-tab" data-bs-toggle="pill" data-bs-target="#v-pills-hcm"
+            type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+            HCM
+          </button>
+          <button class="nav-link" id="v-pills-scm-tab" data-bs-toggle="pill" data-bs-target="#v-pills-scm"
+            type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+            SCM
+          </button>
+          <button class="nav-link" id="v-pills-ppm-tab" data-bs-toggle="pill" data-bs-target="#v-pills-ppm"
+            type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+            PPM
+          </button>
+          <button class="nav-link" id="v-pills-cms-tab" data-bs-toggle="pill" data-bs-target="#v-pills-cms"
+            type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+            CMS
+          </button>
+          <button class="nav-link" id="v-pills-bdp-tab" data-bs-toggle="pill" data-bs-target="#v-pills-bdp"
+            type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+            BDP
+          </button>
+          <button class="nav-link" id="v-pills-itsm-tab" data-bs-toggle="pill" data-bs-target="#v-pills-itsm"
+            type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+            ITSM
+          </button>
+          <button class="nav-link" id="v-pills-c-tab" data-bs-toggle="pill" data-bs-target="#v-pills-itsm" type="button"
+            role="tab" aria-controls="v-pills-settings" aria-selected="false">
+            AI
+          </button>
+          <button class="nav-link" id="v-pills-qms-tab" data-bs-toggle="pill" data-bs-target="#v-pills-qms"
+            type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+            QMS
+          </button>
+          <button class="nav-link" id="v-pills-mes-tab" data-bs-toggle="pill" data-bs-target="#v-pills-mes"
+            type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+            MES
+          </button>
+          <button class="nav-link" id="v-pills-iaas-tab" data-bs-toggle="pill" data-bs-target="#v-pills-iaas"
+            type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+            IaaS
+          </button>
+          <button class="nav-link" id="v-pills-lms-tab" data-bs-toggle="pill" data-bs-target="#v-pills-lms"
+            type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+            LMS
+          </button>
+          <button class="nav-link" id="v-pills-ecommerce-tab" data-bs-toggle="pill" data-bs-target="#v-pills-ecommerce"
+            type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+            eCommerce
+          </button>
+          <button class="nav-link" id="v-pills-IoT-tab" data-bs-toggle="pill" data-bs-target="#v-pills-IoT"
+            type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+            IoT
+          </button>
         </div>
         <div class="tab-content" id="v-pills-tabContent">
           <div class="tab-pane fade show active" id="v-pills-erpaf" role="tabpanel" aria-labelledby="v-pills-erpaf-tab">
             <div class="rightpanel-easworks">
-              <h1 class="tabtitle border-0">Enterprise Application Softwares (EAS)</h1>
               <div class="easworkSearchbox">
                 <input type="text" placeholder="Type a skill to filter the list below" />
               </div>

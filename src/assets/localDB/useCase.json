@@ -7,7 +7,7 @@
         "description": "EASWORKS enables Innovation led by Design thinking software development with focus on SOLUTION to reinvent your enterprise application portfolio, making use of emerging technology and building with speed and agility to enable you to meet business needs, now and in the future.",
         "title_1": "How Innovation enabled by",
         "title_1_sub": "Design Thinking process works ?",
-        "img_1": "/assets/localDB/Innovation.json",
+        "img_1": "/assets/localDB/Innovation_Design_Thinking.png",
         "steps": [
             {
                 "step": "01",
@@ -75,7 +75,7 @@
         "description": "EASWORKS helps on your Digital continuity & Transformation to transform your business using pioneering enterprise technologies skills to become digitally ready with all legacy applications. EASWORKS proven tech-skills and experience help businesses gain maximum benefits in your digital transformation journey.",
         "title_1": "How ",
         "title_1_sub": "Digital continuity & transformation (DX) works ?",
-        "img_1": "/assets/localDB/DigitalTransformation(DX).json",
+        "img_1": "/assets/localDB/DigitalTransformation(DX).jpg",
         "steps": [
             {
                 "step": "01",
@@ -136,14 +136,14 @@
         "title_3_btn": "START TO IMPLEMENT DIGITAL TRANSFORMATION "
     },
     "prototyping": {
-        "title": "",
+        "title": "", 
         "title_sub": "Prototyping",
         "img": "/assets/localDB/Prototyping.json",
         "btn_text": "Start Prototyping",
         "description": "EASWORKS helps to generate simple experimental model of a proposed Enterprise Application solution with different technologies & approaches to test or validate ideas, design assumptions and other aspects of its conceptualization quickly and cheaply.",
         "title_1": "How",
         "title_1_sub": "Enterprise Application prototyping works ?",
-        "img_1": "/assets/localDB/Prototyping.json",
+        "img_1": "/assets/localDB/Prototyping.png",
         "steps": [
             {
                 "step": "01",
@@ -199,42 +199,32 @@
         "title_3_btn": "START PROTOTYPING"
     },
     "enterprise_application_design": {
-        "title": "Enterprise Application Integration",
-        "title_sub": "(EAI)",
+        "title": "Enterprise Application",
+        "title_sub": "Design",
         "img": "/assets/localDB/Design.json",
-        "btn_text": "Implement Enterprise Application Integration",
-        "description": "EASWORKS  helps data flow freely between applications without significant changes to database configurations or the applications themselves, leading to a streamlined process and increased data availability.",
+        "btn_text": "Start UX/UI Designing",
+        "description": "EASWORKS helps to provide effective and efficient Enterprise Application UI Design & Enterprise Software UX Design to streamline business processes, reduce errors, and reduce user frustration to deliver best in class design for your Enterprise Application.",
         "title_1": "How ",
-        "title_1_sub": "Enterprise Application Integrations (EAI) works ?",
-        "img_1": "/assets/localDB/Design.json",
+        "title_1_sub": "Enterprise Application Designs works ?",
+        "img_1": "/assets/localDB/Enterprise Application Design.png",
         "steps": [
             {
                 "step": "01",
-                "title": "Point-to-point integration",
-                "desc": "Data is taken from one source, perhaps reformatted, and then ingested by the next application which is suited for small workflows and a few tools. "
+                "title": "UI/UX Design- For End-to-end development",
+                "desc": "EASWORKS partners with you at each step of the process to understand your needs and ensure that our enterprise application solution integrates smoothly into your existing enterprise application software ecosystem while delivering an exceptional experience for your users."
             },
             {
                 "step": "02",
-                "title": "Hub-and-spoke integration",
-                "desc": "This approach uses a central program to facilitate the data and steps between the participation applications. The program can handle the data reformatting and keep workflows moving in the event of an application slowdown."
+                "title": "Greenfield Design",
+                "desc": "EASWORKS Designers will work closely with the user community to ensure that the UX meets their needs. As the software is developed, they provide critical feedback that will guarantee that the UX of the final product remains focused and productive."
             },
             {
                 "step": "03",
-                "title": "Enterprise Bus integration (ESB)",
-                "desc": "In a common bus design, all participating applications use a set of standards to send and receive data or workflows."
-            },
-            {
-                "step": "04",
-                "title": "Middleware integration",
-                "desc": "This involves an intermediary program that sits between the end user and the underlying application. Middleware supports interface integration and may have an underlying hub-and-spoke or bus design."
-            },
-            {
-                "step": "05",
-                "title": "Microservices",
-                "desc": "These can be serverless functions or dedicated apps designed to integrate easily or quickly connect programs. Microservices can often be easily offloaded as cloud workloads."
-            }
+                "title": "Redesign - Legacy Application Support",
+                "desc": "EASWORKS helps to completely redesign an application's UX or help minimize the impact on the application's design while allowing new features to be integrated as Enterprise applications evolve throughout their lifetimes."
+            } 
         ],
-        "title_2_desc": "in implementing Enterprise Application Integration (EAI) tools ",
+        "title_2_desc": "in developing best in class UX/UI Designs ",
         "profiles": [
             {
                 "name": "David Jhon Warner",
@@ -274,7 +264,7 @@
         "description": "EASWORKS helps to use Business Analytics & Business Intelligence technologies used for the data analysis of business information and refers to a range of tools that provide quick, easy-to-digest access to insights of your  organization's current state, based on available data.",
         "title_1": "How ",
         "title_1_sub": "Business Analytics (BA) & Business Intelligence (BI) works ?",
-        "img_1": "/assets/localDB/BusinessIntelligence.json",
+        "img_1": "/assets/localDB/Business  Intelligence.png",
         "steps": [
             {
                 "step": "01",
@@ -341,8 +331,8 @@
                 "footer": "EASWORKS Since 2010"
             }
         ],
-        "title_3": "Helps you to understand  detailed intelligence about the state of the business by Top BI developers.",
-        "title_3_btn": "START BUSINESS ANALYTICS & BUSINESS INTELLIGENCE"
+        "title_3": "Helps you to best in class UX/UI Enterprise Application Designs by top Designers.",
+        "title_3_btn": "START UX/UI DESIGNING"
     },
     "application_modernaization": {
         "title": "Application modernization",
@@ -352,7 +342,7 @@
         "description": "EASWORKS helps Application migration of moving software applications between different computing environments including languages, frameworks and infrastructure platforms with below different approaches. <br/> (i) Rehost (lift & shift) <br/> (ii) Retain (hybrid) <br/> (iii) Retire <br/> (iv) Repurchase (drop & shop) <br/> (v) Refactoting (rearchitect) <br/> (vi) Replatforming (lift & optimize)",
         "title_1": "How ",
         "title_1_sub": "is Application migration performed ?",
-        "img_1": "/assets/localDB/ApplicationModernization.json",
+        "img_1": "/assets/localDB/Application Migration.png",
         "steps": [
             {
                 "step": "01",
@@ -425,7 +415,7 @@
         "description": "EASWORKS provides data migration service to move data between storage systems, applications, or formats with ETL process which would be needed during upgrading of databases, deploying a new application or switching from on-premises to cloud-based storage and applications. <br/> EASWORKS supports different migration types: <br/> (i) Database migration <br/> (ii) Storage migration <br/> (iii) Business process migration <br/> (iv) Application migration <br/> (v) Datacenter migration <br/> (vi) Cloud migration",
         "title_1": "How ",
         "title_1_sub": "is Data migration performed ?",
-        "img_1": "/assets/localDB/DataMigration.json",
+        "img_1": "/assets/localDB/Data Migration.png",
         "steps": [
             {
                 "step": "01",
@@ -483,7 +473,7 @@
         "description": "EASWORKS helps to build Custom Enterprise Application software development which are aimed to serve a particular set of business requirements for your organization which is not possible in Commercial off-the-shelf Applications (COTS).",
         "title_1": "How ",
         "title_1_sub": "Custom Enterprise Application Development happens ?",
-        "img_1": "/assets/localDB/CustomEnterpriseApplication.json",
+        "img_1": "/assets/localDB/Custom-software-development.png",
         "steps": [
             {
                 "step": "01",
@@ -561,7 +551,7 @@
         "description": "EASWORKS  helps data flow freely between applications without significant changes to database configurations or the applications themselves, leading to a streamlined process and increased data availability.",
         "title_1": "How ",
         "title_1_sub": "Enterprise Application Integrations (EAI) works ?",
-        "img_1": "/assets/localDB/ApplicationIntegration.json",
+        "img_1": "/assets/localDB/Enterprise Application Integration(EAI).png",
         "steps": [
             {
                 "step": "01",
@@ -629,7 +619,7 @@
         "description": "EASWORKS provides Enterprise Application support and maintenance with different service offerings depending on the type, business criticality, and specific requirements of your applications.",
         "title_1": "How is",
         "title_1_sub": "Enterprise Application support and maintenances performed ?",
-        "img_1": "/assets/localDB/Support&Maintenance.json",
+        "img_1": "/assets/localDB/Support.gif",
         "steps": [
             {
                 "step": "01",
