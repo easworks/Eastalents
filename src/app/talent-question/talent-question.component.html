@@ -25,13 +25,13 @@
             <p>Please carefully and honestly answer the following questions to complete you Joining Application.</p>
             <button type="button" class="btn-get-started mt-3" (click)="changePage(1)">Get Started</button>
           </div>
-          <div class="quiz-start-ans" *ngIf="currentPage >0 && currentPage<13">
+          <div class="quiz-start-ans" *ngIf="currentPage >0 && currentPage<14">
             <div class="quiz-logo">
               <img src="assets/img/workstyle.png" />
             </div>
             <!--Loading -->
-            <div class="top-wizard mb-4" *ngIf="currentPage<13 && currentPage >0">
-              <span>{{currentPage}} of 12 completed</span>
+            <div class="top-wizard mb-4" *ngIf="currentPage<14 && currentPage >0">
+              <span>{{currentPage}} of 13 completed</span>
               <div class="progress-bar">
                 <div class="ui-progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
                   [style.width]="width+'%'"></div>
@@ -140,19 +140,30 @@
                                         {{option.value}}
                                       </a>
                                     </ng-container>
-                                    <ng-container *ngIf="data.id  === 4 && option.group === enterpriseApplicationGroup && option.primaryDomain === enterpriseApplicationSubGroup">
+                                    <ng-container *ngFor="let subgroup of  enterpriseApplicationSubGroup">
+                                    <ng-container *ngIf="data.id  === 4 && option.subgroup === subgroup && option.primaryDomain === enterpriseApplicationGroup">
                                       <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3"
                                         [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
                                         (click)="selectOption(option)">
                                         {{option.value}}
                                       </a>
                                     </ng-container>
-                                    <ng-container *ngIf="data.id  === 5 && option.group === enterpriseApplicationGroup && option.primaryDomain === enterpriseApplicationSubGroup">
+                                    </ng-container>
+                                    <ng-container *ngIf="data.id  === 5">
                                     <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3"
                                       [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
                                       (click)="selectOption(option)">
                                       {{option.value}}
                                     </a>
+                                  </ng-container>
+                                  <ng-container *ngFor="let subgroup of  enterpriseApplicationSubGroup">
+                                  <ng-container *ngIf="data.id  === 6 && option.subgroup === subgroup && option.primaryDomain === enterpriseApplicationGroup">
+                                    <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3"
+                                      [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
+                                      (click)="selectOption(option)">
+                                      {{option.value}}
+                                    </a>
+                                  </ng-container>
                                   </ng-container>
                                   </li>
                                 </ul>
@@ -265,9 +276,15 @@
                   <div class="question-steps" *ngIf="data.type === 'specialtechquestion' &&  this.currentPage === data.id">
                     <h2 class="main-question">{{data.question}}<span class="spantitlecolor">{{enterpriseApplicationGroup}}</span> </h2>
                     <div class="form-wizard-answer">
+                      <ng-container *ngIf="data.id  === 8">
                       <app-talent-question-select-item [fieldArray]="fieldArray" (inputNoOfYear)="onInputNoOfYear($event)"
                       (inputNoOfSkill)="onInputSkill($event)" (deleteFieldValue)="deleteSelectedOption($event)">
                     </app-talent-question-select-item>
+                    </ng-container>
+                    <ng-container *ngIf="data.id  === 9">
+                      <app-employer-select-item [fieldArray]="fieldArray" (deleteFieldValue)="deleteSelectedOption($event)">
+                      </app-employer-select-item>
+                      </ng-container>
                   <div  class="sidemenuTabsContent mt-3 p-0">
                     <div class="tabcontentside d-flex align-items-start w-100">
                       <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
@@ -289,7 +306,9 @@
                             <ul class="easeworkssearchList scroll">
                               <li *ngFor="let opt of data.option | datafilter:filterString">
                                 <ng-container *ngIf="opt.group === buttonDataFilter">
-                                  <a href="javascript:void(0)" (click)="selectOption(opt)">{{opt.value}}</a>
+                                  <a href="javascript:void(0)" (click)="selectOption(opt)"
+                                  [ngStyle]=" opt.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
+                                  >{{opt.value}}</a>
                                 </ng-container>
                                 
                               </li>
@@ -365,7 +384,7 @@
                               <div class="form-group-wizard d-flex align-items-center">
                                 <label class="qs-label-text">Preferred <span class="spantitlecolor">{{enterpriseApplicationGroup}}</span> role</label>
                                 <div class="form-input-group position-relative w-50">
-                                  <select class="inputview" name="preferredPLM" [(ngModel)]="data.data.selectedPLM">
+                                  <select class="inputview" name='role' [ngModel]="selectedRole" (ngModelChange)="selectOption($event)">
                                     <ng-container *ngFor="let role of jobRole">
                                       <option value="{{role.value}}">{{role.value}}</option>
                                     </ng-container>
@@ -375,7 +394,7 @@
                             </li>
                             <li class="col-lg-12 col-md-12 col-12">
                               <div class="form-group-wizard d-flex align-items-center">
-                                <label class="qs-label-text">Weekely Hour Rate </label>
+                                <label class="qs-label-text">Weekly Hour Rate </label>
                                 <div class="form-input-group position-relative w-50">
                                   <select class="inputview" name="preferredPLM" [(ngModel)]="data.data.weeklyHourlyRate">
                                       <option value="10hour/week">10hour/week</option>
@@ -410,7 +429,7 @@
                               <div class="form-group-wizard d-flex align-items-center">
                                 <label class="qs-label-text">Contact Phone Number</label>
                                 <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
-                                  <input type="text" class="inputview" name="phonenumber" [(ngModel)]="data.phonenumber">
+                                  <input type="text" class="inputview"  maxlength="10" name="phonenumber" [(ngModel)]="data.phonenumber">
                                   <div class="cw-select">
                                     <select name="phonecode" [(ngModel)]="data.phoneCode">
                                       <ng-container *ngFor="let country of countries">
@@ -425,7 +444,7 @@
                               <div class="form-group-wizard d-flex align-items-center">
                                 <label class="qs-label-text">Whatsapp Number</label>
                                 <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
-                                  <input type="text" class="inputview" name="phonenumber2" [(ngModel)]="data.phonenumber2">
+                                  <input type="text" class="inputview"  maxlength="10" name="phonenumber2" [(ngModel)]="data.phonenumber2">
                                   <div class="cw-select">
                                     <select name="phonecode2" [(ngModel)]="data.phoneCode2">
                                       <ng-container *ngFor="let country of countries">
@@ -684,7 +703,7 @@
 
 
 
-                <div class="quiz-bttn-group border-top pt-3" *ngIf="currentPage<13 && currentPage >0">
+                <div class="quiz-bttn-group border-top pt-3" *ngIf="currentPage<14 && currentPage >0">
                   <button type="button" class="btn-common-border" [disabled]="currentPage === 1"
                     (click)="changePage(-1)">Previous</button>
                   <div class="next-skip">
@@ -698,7 +717,7 @@
             </form>
 
           </div>
-          <div class="congrtz-content" *ngIf="currentPage===13">
+          <div class="congrtz-content" *ngIf="currentPage===14">
             <span>
               <i class='bx bx-check'></i>
             </span>

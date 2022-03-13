@@ -54,7 +54,7 @@ export class TalentQuestionComponent implements OnInit {
   allState:any;
   cities:any;
   enterpriseApplicationGroup='';
-  enterpriseApplicationSubGroup='';
+  enterpriseApplicationSubGroup:any=[];
   buttonDataFilter='';
   newAttribteExp={"role":"","startDuration":"","endDuration":"","skills":"","clientName":""};
   selectedVideoFiles:any;
@@ -67,6 +67,8 @@ export class TalentQuestionComponent implements OnInit {
   showemploymentOpportunity:boolean = false;
   jobRole:any=[];
   idToNavigate:any;
+  completePhase:any=[];
+  selectedRole='';
   constructor(private httpService: HttpService,
     private router: Router, private route: ActivatedRoute,
     private talentService: TalentService,private http: HttpClient,private toaster: ToasterService,private sessionService: SessionService) {
@@ -84,9 +86,11 @@ export class TalentQuestionComponent implements OnInit {
       });
     this.getDynamicData();
     this.getData();
+    this.getDataForSystemPhase();
     this.name.firstName = this.sessionService.getLocalStorageCredentials().firstName;
-    this.talentQuestionData.unshift({question:{first:"Select your Primary ",second:"role"},"id":5,type:"mixed","option":this.completeProduct})
-    this.talentQuestionData.unshift({question:{first:"Select the ",second:"system phase you have worked"},"id":4,type:"mixed","option":this.completeJobs})
+    this.talentQuestionData.unshift({question:{first:"Select your Primary ",second:"role"},"id":6,type:"mixed","option":this.completeJobs})
+    this.talentQuestionData.unshift({question:{first:"Select the ",second:"system phase you have worked"},"id":5,type:"mixed","option":this.completePhase})
+    this.talentQuestionData.unshift({question:{first:"Select your Primary ",second:"role"},"id":4,type:"mixed","option":this.completeProduct})
     this.talentQuestionData.unshift({question:{first:"Select the ",second:"module to have specialized"},"id":3,type:"mixed","option":this.datathree})
     this.talentQuestionData.unshift({question:{first:"Select Your Primary Enterprise Application",second:""},"id":2,type:"mixed","option":this.dataKeys})
     this.talentQuestionData.unshift({question:"Professional Summary","id":1,type:"textarea",profileSummary:"",country:{},state:{},city:'',timezone:''})
@@ -104,9 +108,9 @@ export class TalentQuestionComponent implements OnInit {
         let dataValues = []; //For values
         for (let key in this.rootTalentObject.talentProfile) {
           dataValues.push(this.rootTalentObject.talentProfile[key]);
-          this.dataKeys.push({value:key,selected:false,disable:false,noOfYear:'',skill:''});
-          this.datathree.push({value:this.rootTalentObject.talentProfile[key]['Primary Domain'],selected:false,disable:false,noOfYear:'',skill:'',group:key});
+          this.dataKeys.push({value:this.rootTalentObject.talentProfile[key]['Primary Domain'],selected:false,disable:false,noOfYear:'',skill:''});
           for (let key2 in this.rootTalentObject.talentProfile[key].Modules) {
+            this.datathree.push({value:key2,selected:false,disable:false,noOfYear:'',skill:'',group:this.rootTalentObject.talentProfile[key]['Primary Domain']});
             this.rootTalentObject.talentProfile[key].Modules[key2]['Job roles'].forEach((jobdata:any)=>{
               if(jobdata){
 
@@ -138,6 +142,16 @@ export class TalentQuestionComponent implements OnInit {
       this.talentQuestionData.push(...res);
       console.log(this.talentQuestionData);
     });
+  }
+
+  getDataForSystemPhase(){
+    let dataPhase =['Project Planning','Analysis & Requirement','Design','Solution Architecting','Development','Customization','Configuration','Integration','Testing','Devops','Project Management','Support and Maintainence','Dashboard/Reports','Others'];
+
+    dataPhase.forEach((opt:any)=>{
+      this.completePhase.push({value:opt,selected:false,disable:false,noOfYear:'',skill:''});
+    });
+
+
   }
 
 
@@ -237,7 +251,7 @@ export class TalentQuestionComponent implements OnInit {
 
 
     this.currentPage += index;
-    if(this.currentPage === 7  && this.showProfessionalCodingExperience === false){
+    if(this.currentPage === 8  && this.showProfessionalCodingExperience === false){
       if(index>0){
         this.currentPage = this.currentPage +1;
 
@@ -248,7 +262,7 @@ export class TalentQuestionComponent implements OnInit {
  }
     this.width = (this.currentPage / 12) * 100;
 
-    if(this.currentPage === 2 || this.currentPage === 3 || this.currentPage ==4 || this.currentPage === 5 || this.currentPage === 7 || this.currentPage ===8 ){
+    if(this.currentPage === 2 || this.currentPage === 3 || this.currentPage ==4 || this.currentPage === 5 || this.currentPage === 6 || this.currentPage ===8 || this.currentPage === 9 ){
       this.fieldArray=[];
       this.checkAndShowData();
     }
@@ -305,15 +319,18 @@ export class TalentQuestionComponent implements OnInit {
       this.disableOtherValues(opt);
       this.getDataForFieldArray(opt);
     }
-    else if( this.currentPage ===3 || this.currentPage ===4 || this.currentPage === 5){
+    else if( this.currentPage ===3 || this.currentPage ===4 || this.currentPage === 5 || this.currentPage === 6){
       if(this.currentPage === 3){
-        this.enterpriseApplicationSubGroup = opt.value;
+        this.enterpriseApplicationSubGroup.push(opt.value);
       }
       opt.selected= true;
       opt.disable = true;
       this.getDataForFieldArray(opt);
+      if(this.currentPage === 6 && this.getCountForSixQuestion() === 3){
+        this.disableOtherValues(opt);
+      }
     }
-    else if (this.currentPage === 6){
+    else if (this.currentPage === 7){
       opt.selected = !opt.selected;
      if(opt.value === 'NO' && opt.selected === true){
     this.talentQuestionData[this.currentPage].option[0].disable = true;
@@ -331,12 +348,12 @@ export class TalentQuestionComponent implements OnInit {
       this.showProfessionalCodingExperience = false;
      }
     }
-    else if( this.currentPage === 7 || this.currentPage ===8){
+    else if( this.currentPage === 8 || this.currentPage ===9){
       opt.selected= true;
       opt.disable = true;
       this.getDataForFieldArray(opt);
     }
-    else if (this.currentPage === 9){
+    else if (this.currentPage === 10){
         opt.selected = !opt.selected;
         if(opt.subType === 'select'){
         this.talentQuestionData[this.currentPage].data.forEach((element:any)=>{
@@ -351,21 +368,26 @@ export class TalentQuestionComponent implements OnInit {
             });
           }
     });
-  }
   if(opt.selected === true && opt.firstPart ==='Actively Looking For Jobs'){
     this.talentQuestionData[this.currentPage].data[1].visible = true;
   }
   else{
     this.talentQuestionData[this.currentPage].data[1].visible = false;
   }
-    }
-    else if (this.currentPage === 10){
-      opt.selected = !opt.selected;
+}
     }
     else if (this.currentPage === 11){
-
+      if(opt.type === 'startWorkingWithEasyWork'){
+        opt.selected = !opt.selected;
+      }
+      else{
+        this.selectedRole = opt;
+      }
     }
     else if (this.currentPage === 12){
+
+    }
+    else if (this.currentPage === 13){
      //to be decide later
     }
   }
@@ -375,7 +397,7 @@ export class TalentQuestionComponent implements OnInit {
     this.talentQuestionData[this.currentPage].option.forEach((element:any)=>{
       if(element.selected === true && element.value.toLowerCase() === opt.value.toLowerCase()){
         this.fieldArray.push({value:opt.value,noOfYear:'',skill:''});
-        if(this.currentPage === 4){
+        if(this.currentPage === 6){
           this.jobRole.push({value:opt.value,noOfYear:'',skill:''});
         }
       }
@@ -383,15 +405,22 @@ export class TalentQuestionComponent implements OnInit {
   }
 
   disableOtherValues(opt:any){
-    if(this.currentPage === 2){
+    if(this.currentPage === 2 || this.currentPage === 6){
       this.talentQuestionData[this.currentPage].option.forEach((element:any)=>{
         element.disable = true;
 });
     }
-    else{
-      
-    }
   }
+
+  getCountForSixQuestion(){
+    let count =0;
+      this.talentQuestionData[this.currentPage].option.forEach((element:any)=>{
+        if(element.selected === true){
+          count = count + 1;
+        }
+});
+  return count;
+}
 
   deleteFieldValue(option: any) {
     this.sliceItem(option);
@@ -401,7 +430,7 @@ export class TalentQuestionComponent implements OnInit {
     if(this.currentPage === 2){
       this.upDateYearInQues2(opt.event,opt.field);
     }
-    else if( this.currentPage ===3 || this.currentPage ===4 || this.currentPage === 5 || this.currentPage === 7 || this.currentPage ===8) {
+    else if( this.currentPage ===3 || this.currentPage ===4 || this.currentPage === 5 || this.currentPage === 6 || this.currentPage ===8 || this.currentPage === 9) {
       this.upDateYear(opt.event,opt.field);
     }
   }
@@ -436,7 +465,7 @@ export class TalentQuestionComponent implements OnInit {
     if(this.currentPage === 2){
       this.upDateSkillInQues2(opt.event,opt.field);
     }
-    else if( this.currentPage ===3 || this.currentPage ===4 || this.currentPage === 5 || this.currentPage === 7 || this.currentPage ===8) {
+    else if( this.currentPage ===3 || this.currentPage ===4 || this.currentPage === 5 || this.currentPage === 6 || this.currentPage ===8 || this.currentPage === 9) {
       this.upDateSkill(opt.event,opt.field);
     }
   }
@@ -471,29 +500,56 @@ export class TalentQuestionComponent implements OnInit {
   deleteSelectedOption(field:any){
     if(this.currentPage === 2){
       this.talentQuestionData[this.currentPage].option.forEach((element:any)=>{
+        element.disable = false;
         if(element.value.toLowerCase() === field.value.toLowerCase()){
           element.selected = false;
-          element.disable = false;
           this.fieldArray = this.fieldArray.filter((item:any) => item.value.toLowerCase() !== field.value.toLowerCase())
         }
-        else{
-          element.disable = false;
-        }
   });
+  this.disableDependentValuesForPreviousQuestion();
     }
-    else if( this.currentPage ===3 || this.currentPage ===4 || this.currentPage === 5 || this.currentPage === 7 || this.currentPage ===8) {
+    else if( this.currentPage ===3 || this.currentPage ===4 || this.currentPage === 5 || this.currentPage === 6 || this.currentPage ===8 || this.currentPage === 9) {
       this.talentQuestionData[this.currentPage].option.forEach((element:any)=>{
         if(element.value.toLowerCase() === field.value.toLowerCase()){
           element.selected = false;
           element.disable = false;
           this.fieldArray = this.fieldArray.filter((item:any) => item.value.toLowerCase() !== field.value.toLowerCase());
-          if(this.currentPage === 4){
+          if(this.currentPage === 6){
             this.jobRole = this.jobRole.filter((item:any) => item.value.toLowerCase() !== field.value.toLowerCase())
-
           }
         }
+        
+        if(this.currentPage === 6 && this.getCountForSixQuestion() <= 3 && element.selected === false){
+          element.disable = false;
+       }
   });
+      if(this.currentPage ===3){
+        this.disableNextQuesDependentValue();
+      }
     }
+  }
+  disableDependentValuesForPreviousQuestion(){
+    this.talentQuestionData.forEach((data:any)=>{
+      if(data.id ===3 || data.id ===4 || data.id ===6 ){
+        data.option.forEach((opt:any)=>{
+          opt.selected = false;
+          opt.disable = false;
+          this.enterpriseApplicationGroup='';
+          this.enterpriseApplicationSubGroup=[];
+        });
+      }
+    });
+  }
+  disableNextQuesDependentValue(){
+    this.talentQuestionData.forEach((data:any)=>{
+      if(data.id ===4 || data.id ===6 ){
+        data.option.forEach((opt:any)=>{
+          opt.selected = false;
+          opt.disable = false;
+          this.enterpriseApplicationSubGroup=[];
+        });
+      }
+    });
   }
   enableDisableNextButton(){
     this.disableNextButton = true;
@@ -502,17 +558,17 @@ export class TalentQuestionComponent implements OnInit {
         this.disableNextButton = false;
       }
     }
-    else if(this.currentPage === 6){
+    else if(this.currentPage === 7){
          if(this.talentQuestionData[this.currentPage].startFreelancing ){
-          if(this.talentQuestionData[this.currentPage].option[0].seleced === true && this.talentQuestionData[this.currentPage].startWorkingProfessionally ){
+          if(this.talentQuestionData[this.currentPage].option[0].selected === true && this.talentQuestionData[this.currentPage].startWorkingProfessionally ){
             this.disableNextButton = false;
           }
-          else if(this.talentQuestionData[this.currentPage].option[1].seleced === true){
+          else if(this.talentQuestionData[this.currentPage].option[1].selected === true){
             this.disableNextButton = false;
           }
          }
     }
-    else if (this.currentPage===2 || this.currentPage === 3|| this.currentPage === 4 || this.currentPage === 5 || this.currentPage ===7  || this.currentPage ===8){
+    else if (this.currentPage===2 || this.currentPage === 3|| this.currentPage === 4 || this.currentPage === 5 || this.currentPage ===6  || this.currentPage ===8 || this.currentPage === 9 ){
      this.fieldArray.forEach((element:any)=>{
       if(element.value && element.noOfYear && element.expertise){
            this.disableNextButton = false;
@@ -522,21 +578,21 @@ export class TalentQuestionComponent implements OnInit {
       }
       });
     }
-    else if(this.currentPage === 9){
-      this.disableNextButton = false;
-    }
     else if(this.currentPage === 10){
-     this.disableNextButton = this.getButtonEnableForTen();
+      this.disableNextButton = false;
     }
     else if(this.currentPage === 11){
-      this.disableNextButton = false;
+     this.disableNextButton = this.getButtonEnableForElev();
     }
     else if(this.currentPage === 12){
-      this.disableNextButton = this.getButtonEnableForQue12();
+      this.disableNextButton = false;
+    }
+    else if(this.currentPage === 13){
+      this.disableNextButton = this.getButtonEnableForQue13();
     }
   }
 
-  getButtonEnableForTen(){
+  getButtonEnableForElev(){
     let opt = this.talentQuestionData[this.currentPage];
     if(opt.data.desiredHourlyrate && opt.data.targetAnnualSalary && opt.data.monthlyRate && opt.data.selectedPLM && opt.data.weeklyHourlyRate && this.getButtonEnableForMultiSelect(opt.startWorkingWithEasyWork)){
       return false;
@@ -546,7 +602,7 @@ export class TalentQuestionComponent implements OnInit {
     }
   }
 
-  getButtonEnableForQue12(){
+  getButtonEnableForQue13(){
     let flag =1;
     let opt = this.talentQuestionData[this.currentPage];
     opt.option.forEach((data:any) =>{
