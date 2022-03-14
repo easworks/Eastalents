@@ -9,7 +9,9 @@
         <img src="assets/img/black-logo.png" />
       </a>
     </h1>
-    <nav class="nav-menu d-none d-lg-block">
+    <button type="button" id="togglebutton" class="toggleMenu"><i class='bx bx-menu'></i></button>
+    <nav class="nav-menu d-lg-block">
+      <button type="button"  class="toggleMenu toggle-closebtn"><i class='bx bx-x'></i></button>
       <ul>
         <!-- <li><a [routerLinkActive]="['active']" [routerLink]="['/Talent']">Talent</a></li> -->
         <li>
@@ -105,7 +107,7 @@
         <!-- <li><a  [routerLinkActive]="['active']" [routerLink]="['/GetHired']">Get Hired</a></li> -->
       </ul>
     </nav>
-    <div class="d-flex align-items-center">
+    <div class="login-hirenow">
       <a [routerLinkActive]="['active']" [routerLink]="['/signin']" class="signin-btn">Login</a>
       <a [routerLinkActive]="['active']" [routerLink]="['/Employer-Signup']" class="get-started-btn hirenowbtn">Hire
         Now</a>
