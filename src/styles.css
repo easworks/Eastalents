@@ -9,12 +9,10 @@
 }
 body {
   font-family: "Roboto", sans-serif;
-  color: #444444;
-}
-html,
-body {
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
 a {
   text-decoration: none;
 }
@@ -108,7 +106,7 @@ select {
   font-weight: 400;
   line-height: 1.75;
   color: #000000;
-  margin: 20px 0px 20px 0px;
+  margin: 15px 0px 15px 0px;
 }
 .main-title{
   margin: 0;
@@ -360,14 +358,14 @@ section {
   position: relative;
   color: #ffffff;
   transition: 0.3s;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 400;
 }
 .nav-menu a.active {
   color: #73d1ff;
 }
 .header-scrolled .nav-menu a {
-  color: #464444;
+  color: #000000;
 }
 .header-scrolled .nav-menu a.active {
   color: #3f48cc;
@@ -427,7 +425,7 @@ section {
   font-size: 13px;
   font-weight: 500;
   text-transform: none;
-  color: #5f687b;
+  color: #000000;
   white-space: normal;
   word-break: break-word;
   position: relative;
@@ -725,17 +723,21 @@ section {
   font-size: 2.5rem !important;
 }
 .btn-get-started {
-  font: 400 14px/22px Roboto;
+  font: 500 15px/22px Roboto;
   display: inline-block;
-  padding: 6px 12px;
+  padding: 8px 30px;
   border-radius: 4px;
   transition: 0.5s;
   color: #fff;
   background: #202738;
-  border: 1px solid #202738;
+  border: 2px solid #202738;
 }
 .btn-get-started:hover {
   color: #ffffff;
+}
+.btn-get-started.bttnwbg{
+  background: #ffffff;
+  color: #000000;
 }
 .btn-common-border {
   font: 500 14px/22px Roboto;
