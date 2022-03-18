@@ -137,6 +137,14 @@ select {
   margin-bottom: 20px;
   color: #0b1320;
 }
+.subtitle{
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 20px;
+  color: #1c1b1b;
+  margin-bottom: 12px;
+}
 
 .section-title {
   padding: 30px 0;
@@ -220,7 +228,9 @@ section {
   padding: 60px 0;
   overflow: hidden;
 }
-
+.banner-section{
+  padding-top:0px;
+}
 .section-bg {
   background-color: #f7f7f7;
 }
@@ -877,15 +887,6 @@ section {
   transition: 0.3s;
 }
 
-.services .icon-box h4 {
-  font-size: 18px;
-  font-weight: 600;
-  text-align: center;
-  margin-top: 20px;
-  color: #372354;
-  margin-bottom: 12px;
-}
-
 .services .icon-box h4 a {
   color: #1c1b1b;
   transition: ease-in-out 0.3s;
@@ -1037,6 +1038,9 @@ section {
   justify-content: center;
   border-bottom: 4px solid #0aaeff;
 }
+.flexible-lottie{
+  height: 150px;
+}
 .apptalents-flex img {
   width: 120px;
   height: 120px;
@@ -1046,12 +1050,7 @@ section {
 .apptalents-flex img.img-defultSize {
   width: 170px;
 }
-.apptalents-flex h1 {
-  font-size: 1.25rem;
-  color: #1c1b1b;
-  margin-top: 20px;
-  margin-bottom: 12px;
-}
+
 .apptalents-flex p {
   line-height: 24px;
   font-size: 14px;
@@ -1912,14 +1911,7 @@ footer {
 
 /** Get Hired **/
 .gethire-wraper {
-  background-color: #ffffff;
   position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  padding-top: 50px;
-  padding-bottom: 50px;
-  overflow: hidden;
 }
 .gethire-wraper::after {
   content: "";
@@ -2099,6 +2091,10 @@ footer {
   align-items: baseline;
   padding-bottom: 20px;
 }
+.outcomeestalentsUL li span{
+  font-weight: bold;
+  white-space: nowrap;
+}
 .twowaysstreet-type li i {
   padding-right: 10px;
   color: #3090db;
@@ -2112,10 +2108,9 @@ footer {
 .applytojoin-btn,
 .applytojoin-btn:hover {
   width: 238px;
-  height: 56px;
   background: #29aae3;
   border-radius: 3px;
-  font: 500 16px/14px Roboto;
+  font: 500 14px/20px Roboto;
   letter-spacing: 2px;
   color: #ffffff;
   text-transform: uppercase;
@@ -2124,7 +2119,7 @@ footer {
   justify-content: center;
   text-decoration: none;
   margin: auto;
-  padding: 0px 20px;
+  padding: 8px 20px;
 }
 .applytojoin-btn.whyapp-applytojoin {
   margin: inherit;
@@ -3221,16 +3216,6 @@ sub {
   margin: auto;
 }
 
-.how-Under-content h1 {
-  font-size: 1.953rem;
-  font-weight: 700;
-  text-transform: capitalize;
-  margin-bottom: 20px;
-  padding-bottom: 0;
-  color: #2e2e2e;
-  position: relative;
-  z-index: 2;
-}
 .how-Under-content p {
   color: #000000;
   margin: 20px 0 30px 0;
