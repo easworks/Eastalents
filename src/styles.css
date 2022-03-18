@@ -1243,7 +1243,7 @@ footer {
 }
 .customer-type .customer-list a {
   display: block;
-  font-size: 14px;
+  font-size: 18px;
   color: #515151;
   text-transform: uppercase;
   font-weight: 500;
@@ -2446,6 +2446,9 @@ footer {
   height: 180px;
   margin-bottom: 20px;
   object-fit: contain;
+}
+.congrtzLottie{
+  height: 250px;
 }
 
 .next-step-dashboard h4 {
