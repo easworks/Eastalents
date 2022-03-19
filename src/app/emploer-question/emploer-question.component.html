@@ -16,14 +16,16 @@
   
             <div class="quiz-start" *ngIf="currentIndex === 0">
               <div class="quiz-logo">
-                <img src="assets/img/workstyle.png" />
+                <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_m4gdjtfv.json" background="transparent"
+                speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
               </div>
               <p>Please carefully and honestly answer the following questions to complete you Joining Application.</p>
               <button type="button" class="btn-get-started mt-3" (click)="onChange(1)">Get Started</button>
             </div>
             <div class="quiz-start-ans" *ngIf="currentIndex >0 && currentIndex<16">
               <div class="quiz-logo">
-                <img src="assets/img/workstyle.png" />
+                <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_m4gdjtfv.json" background="transparent"
+                speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
               </div>
   
               <div class="toastermessage">

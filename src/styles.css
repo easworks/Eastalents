@@ -1798,13 +1798,7 @@ footer {
 .apptalent-connect.grow-erpteam .container {
   z-index: 1;
 }
-.apptalent-export-content p {
-  color: #ffffff;
-  margin: 0px 0 0px 0;
-  letter-spacing: 0.56px;
-  font: normal 26px/40px Roboto;
-  text-align: center;
-}
+
 .apptalent-export-content p span {
   display: block;
 }
@@ -2133,11 +2127,11 @@ footer {
 /*** Question && Answer ***/
 .quiz-logo {
   text-align: center;
-  margin-bottom: 20px;
-}
-.quiz-logo img {
   width: 90px;
   height: 90px;
+  margin: 0 auto 20px;
+}
+.quiz-logo img {
   object-fit: contain;
 }
 .question-ans-header {

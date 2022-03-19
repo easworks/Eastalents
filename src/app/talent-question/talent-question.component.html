@@ -20,14 +20,16 @@
         <div class="quiz-form-wizard">
           <div class="quiz-start" *ngIf="currentPage === 0">
             <div class="quiz-logo">
-              <img src="assets/img/workstyle.png" />
+              <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_xxsz0pga.json" background="transparent"
+                speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
             </div>
             <p>Please carefully and honestly answer the following questions to complete you Joining Application.</p>
             <button type="button" class="btn-get-started mt-3" (click)="changePage(1)">Get Started</button>
           </div>
           <div class="quiz-start-ans" *ngIf="currentPage >0 && currentPage<14">
             <div class="quiz-logo">
-              <img src="assets/img/workstyle.png" />
+              <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_xxsz0pga.json" background="transparent"
+                speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
             </div>
             <!--Loading -->
             <div class="top-wizard mb-4" *ngIf="currentPage<14 && currentPage >0">
@@ -724,7 +726,7 @@
             <h3>Congrats {{name.firstName}}!</h3>
             <p>Looks like you could be a great fit for our platform!</p>
             <!-- <img class="congts-img" src="assets/img/Congrats_Talent.png" /> -->
-            <div class="congrtzLottie"><lottie-player src="https://assets10.lottiefiles.com/packages/lf20_ktpdtwb5.json" background="transparent"
+            <div class="congrtzLottie"><lottie-player src="https://assets8.lottiefiles.com/packages/lf20_8uojpeha.json" background="transparent"
           speed="1" style="width: 100%; height: 100%" loop autoplay></lottie-player>
         </div>
             <div class="next-step-dashboard border-top pt-3">
