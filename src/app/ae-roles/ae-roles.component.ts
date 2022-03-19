@@ -16,6 +16,7 @@ export class AeRolesComponent implements OnInit {
     this.software = JSON.parse(this.software);
     this.domains = JSON.parse(this.domains);
     this.softwareList = this.domains[0]['softwate'];
+    window.scrollTo(0,0);
   }
 
   ngOnInit(): void {

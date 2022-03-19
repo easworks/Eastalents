@@ -18,6 +18,7 @@ export class IndexComponent implements OnInit {
   public homeJobDetails: any;
   public primaryDomains: any;
   public softwate: any;
+  public softwareList: any = [];
   constructor(public HomeService: HomeService, public router: Router) { }
   ngOnInit(): void {
     this.HomeService.getTalentProfileSteps('talentProfile/getTalentProfileSteps').subscribe(res => {
@@ -50,9 +51,14 @@ export class IndexComponent implements OnInit {
             moduleArray.unshift("All");
             profiles['moduleArray'] = moduleArray;
             profiles['Product'].splice(7, 0, { "name": `Custom ${profiles['prefix']} / Legacy Application`, imageUrl: "Custom", "color": this.productColorList[Math.floor(Math.random() * this.productColorList.length)] })
+            profiles['show'] = true;
+            profiles['limit'] = 10;
             talentprofile.push(profiles);
             this.homeDetails = JSON.parse(JSON.stringify(talentprofile));
             this.applicationRoles = talentprofile;
+          }
+          if (i == prefix_suffix.length - 1) {
+            this.softwareList = this.primaryDomains[0]['softwate'];
           }
         })
       })
@@ -82,10 +88,22 @@ export class IndexComponent implements OnInit {
 
   goToRoles(prd: any, productObj: any) {
     prd['Product'] = productObj;
-    console.log(this.primaryDomains);
     sessionStorage.setItem("prd", JSON.stringify(prd));
     sessionStorage.setItem("software", JSON.stringify(this.softwate));
     sessionStorage.setItem("domain", JSON.stringify(this.primaryDomains));
     this.router.navigate(['/AEroles'])
   }
+
+  goToJobs(role: any, list: any) {
+    list['role'] = role;
+    sessionStorage.setItem("role", JSON.stringify(list));
+    sessionStorage.setItem("software", JSON.stringify(this.softwate));
+    sessionStorage.setItem("domain", JSON.stringify(this.primaryDomains));
+    this.router.navigate(['/ApplicationConsultant'])
+  }
+
+  changeDomain(i: any) { 
+    this.softwareList = this.primaryDomains[i.value]['softwate']
+  }
+
 }
