@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpService } from '../_services/http.service';
 
 @Component({
   selector: 'app-score-analysis',
@@ -21,13 +23,20 @@ export class ScoreAnalysisComponent implements OnInit {
       rangeLabel: ['0', '100'],
       needleStartValue: 50,
   };
-  constructor(private router:Router) { }
+  countries:any;
+  constructor(private router:Router,private http: HttpClient,private httpService: HttpService) { }
 
   ngOnInit(): void {
+    this.httpService.get('questions/getUserTests').subscribe((response: any) => {
+      if(response.status){
+        this.countries = response.countries;
+      }
+    });
   }
 
   onFeedback(){
     this.router.navigate(['/feedback']);
   }
+  
 
 }

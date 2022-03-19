@@ -59,4 +59,28 @@ export class SignInComponent implements OnInit {
     });
   }
 
+  onGoogleLogin(){
+    this.httpService.get('gmail/getGmailUrl').subscribe((response: any) => {
+      if(response.status){
+       
+      }
+    });
+  }
+
+  onLinkedInLogin(){
+    this.httpService.get('linkedin/getLinkedinUrl').subscribe((response: any) => {
+      if(response.status){
+       
+      }
+    });
+  }
+
+  onGithubLogin(){
+    this.httpService.get('linedin/getGmailUrl').subscribe((response: any) => {
+      if(response.status){
+        
+      }
+    });
+  }
+
 }

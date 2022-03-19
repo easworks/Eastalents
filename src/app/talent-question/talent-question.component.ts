@@ -46,6 +46,7 @@ export class TalentQuestionComponent implements OnInit {
   completeProduct:any[]=[];
   dataKeys:any[] = []; //For keys
   talentQuestionData:any=[];
+  talentDataToUpdate:any=[];
   filterString='';
   type={
     "socialMedia":"socialMedia"
@@ -72,33 +73,37 @@ export class TalentQuestionComponent implements OnInit {
   constructor(private httpService: HttpService,
     private router: Router, private route: ActivatedRoute,
     private talentService: TalentService,private http: HttpClient,private toaster: ToasterService,private sessionService: SessionService) {
+      this.talentDataToUpdate = this.router.getCurrentNavigation()?.extras.state;
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
         // Defaults to 0 if no query param provided.
-        this.idToNavigate = +params['id'] || 0;
-        console.log(this.idToNavigate);
+        this.idToNavigate =  +this.route.snapshot.queryParams['id'] || 0;
         if(this.idToNavigate){
+          this.talentQuestionData = this.talentDataToUpdate.data;
+          this.showProfessionalCodingExperience = this.idToNavigate === 8 || this.idToNavigate === 7  ? true :false;
           this.changePage(this.idToNavigate);
-
+         
         }
-      });
+        else{
+          this.initializeValue();
+        }
+    this.name.firstName = this.sessionService.getLocalStorageCredentials().firstName;
+    this.getCountry();
+
+  }
+
+  initializeValue(){
     this.getDynamicData();
     this.getData();
     this.getDataForSystemPhase();
-    this.name.firstName = this.sessionService.getLocalStorageCredentials().firstName;
     this.talentQuestionData.unshift({question:{first:"Select your Primary ",second:"role"},"id":6,type:"mixed","option":this.completeJobs})
     this.talentQuestionData.unshift({question:{first:"Select the ",second:"system phase you have worked"},"id":5,type:"mixed","option":this.completePhase})
-    this.talentQuestionData.unshift({question:{first:"Select your Primary ",second:"role"},"id":4,type:"mixed","option":this.completeProduct})
+    this.talentQuestionData.unshift({question:{first:"Select your Primary ",second:"software experience"},"id":4,type:"mixed","option":this.completeProduct})
     this.talentQuestionData.unshift({question:{first:"Select the ",second:"module to have specialized"},"id":3,type:"mixed","option":this.datathree})
     this.talentQuestionData.unshift({question:{first:"Select Your Primary Enterprise Application",second:""},"id":2,type:"mixed","option":this.dataKeys})
     this.talentQuestionData.unshift({question:"Professional Summary","id":1,type:"textarea",profileSummary:"",country:{},state:{},city:'',timezone:''})
     this.talentQuestionData.unshift({question:"","id":0,type:"","data":""})
-    console.log(this.talentQuestionData);
-    console.log(this.currentPage);
-    this.getCountry();
-
   }
 
    getDynamicData(){
@@ -135,6 +140,18 @@ export class TalentQuestionComponent implements OnInit {
     }, (error) => {
       console.log(error);
     });
+  }
+
+  getHeight(){
+    if(this.currentPage === 9){
+      return 1118;
+    }
+    else if(this.currentPage === 8){
+      return 358;
+    }
+    else{
+      return 377;
+    }
   }
 
   getData(){
@@ -382,6 +399,7 @@ export class TalentQuestionComponent implements OnInit {
       }
       else{
         this.selectedRole = opt;
+        this.talentQuestionData[this.currentPage].data.selectedPLM = this.selectedRole;
       }
     }
     else if (this.currentPage === 12){
@@ -551,6 +569,15 @@ export class TalentQuestionComponent implements OnInit {
       }
     });
   }
+
+  onlyNumber(evt:any) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
   enableDisableNextButton(){
     this.disableNextButton = true;
     if(this.currentPage === 1){
