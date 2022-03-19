@@ -216,7 +216,7 @@
                         </li>
                         <li class="col-lg-12 col-md-12 col-12">
                           <div class="form-group-wizard d-flex  align-items-center">
-                            <label class="qs-label-text">Do you have <span class="spantitlecolor">{{enterpriseApplicationGroup}}</span>  Development/Coding experience</label>
+                            <label class="qs-label-text">Do you have <span class="spantitlecolor">{{enterpriseApplicationGroup}}</span> - Development/Coding experience</label>
                             <div class="form-input-group">
                               <div class="d-flex w-100">
                                 <div class="form-input-group position-relative w-50">
@@ -237,7 +237,7 @@
                         </li>
                         <li *ngIf  = 'showProfessionalCodingExperience' class="col-lg-12 col-md-12 col-12">
                           <div class="form-group-wizard d-flex align-items-center">
-                            <label class="qs-label-text">Total Year of professionally coding experience?</label>
+                            <label class="qs-label-text">Total Year of professional coding experience?</label>
                             <div class="form-input-group qs-year">
                               <select class="com-select" name="workingProfessionally"
                                 [(ngModel)]="data.startWorkingProfessionally">
@@ -291,7 +291,7 @@
                     <div class="tabcontentside d-flex align-items-start w-100">
                       <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
                         aria-orientation="vertical">
-                        <h1 class="tabtitle">Select Tech stack</h1>
+                        <h1 class="tabtitle">{{data.subtitle}}</h1>
                         <button  *ngFor="let but of data.button" class="nav-link" id="v-pills-IoT-tab" data-bs-toggle="pill"
                           data-bs-target="#v-pills-IoT" type="button" role="tab" aria-controls="v-pills-settings"
                           aria-selected="false" (click)="buttonData(but)"> 
@@ -305,7 +305,7 @@
                             <div class="easworkSearchbox">
                               <input type="text" name="filter" placeholder="Type a skill to filter the list below" [(ngModel)]="filterString" />
                             </div>
-                            <ul class="easeworkssearchList scroll">
+                            <ul class="easeworkssearchList scroll" [style.height.px]="getHeight()">
                               <li *ngFor="let opt of data.option | datafilter:filterString">
                                 <ng-container *ngIf="opt.group === buttonDataFilter">
                                   <a href="javascript:void(0)" (click)="selectOption(opt)"
@@ -356,7 +356,7 @@
                               <div class="form-group-wizard d-flex align-items-center">
                                 <label class="qs-label-text">Desired Hourly rate</label>
                                 <div class="form-input-group position-relative w-50">
-                                  <input type="text" name="desiredHourlyRate" class="inputview"
+                                  <input type="text" name="desiredHourlyRate" class="inputview" appBlockCopyPaste (keypress)="onlyNumber($event)"
                                     [(ngModel)]="data.data.desiredHourlyRate">
                                   <span class="dollar">USD/Hour</span>
                                 </div>
@@ -366,7 +366,7 @@
                               <div class="form-group-wizard  d-flex align-items-center">
                                 <label class="qs-label-text">Monthly rate (Full Time Engagement)</label>
                                 <div class="form-input-group position-relative w-50">
-                                  <input type="text" name="monthlyRate" class="inputview"
+                                  <input type="text" name="monthlyRate" class="inputview" appBlockCopyPaste (keypress)="onlyNumber($event)"
                                     [(ngModel)]="data.data.monthlyRate">
                                   <span class="dollar">USD/Hour</span>
                                 </div>
@@ -376,7 +376,7 @@
                               <div class="form-group-wizard d-flex align-items-center">
                                 <label class="qs-label-text">Target Annual Salary</label>
                                 <div class="form-input-group position-relative w-50">
-                                  <input type="text" name="annualSalary" class="inputview"
+                                  <input type="text" name="annualSalary" class="inputview" appBlockCopyPaste (keypress)="onlyNumber($event)"
                                     [(ngModel)]="data.data.targetAnnualSalary">
                                   <span class="dollar">USD/Hour</span>
                                 </div>
@@ -409,7 +409,7 @@
                             </li>
                           </ul>
                         </div>
-                        <h2 class="main-question">If you get an offer, how soon can you start working with EASWORKS?</h2>
+                        <h2 class="main-question">If you get an offer, how soon can you start working?</h2>
                         <div class="form-wizard-answer">
                           <ul class="form-wizard-type selectarea  mt-4 row">
                             <li class="col-lg-4 col-md-4 col-12" *ngFor="let option of data.startWorkingWithEasyWork">
@@ -431,7 +431,7 @@
                               <div class="form-group-wizard d-flex align-items-center">
                                 <label class="qs-label-text">Contact Phone Number</label>
                                 <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
-                                  <input type="text" class="inputview"  maxlength="10" name="phonenumber" [(ngModel)]="data.phonenumber">
+                                  <input type="text" class="inputview" appBlockCopyPaste  (keypress)="onlyNumber($event)" maxlength="10" name="phonenumber" [(ngModel)]="data.phonenumber">
                                   <div class="cw-select">
                                     <select name="phonecode" [(ngModel)]="data.phoneCode">
                                       <ng-container *ngFor="let country of countries">
@@ -446,7 +446,7 @@
                               <div class="form-group-wizard d-flex align-items-center">
                                 <label class="qs-label-text">Whatsapp Number</label>
                                 <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
-                                  <input type="text" class="inputview"  maxlength="10" name="phonenumber2" [(ngModel)]="data.phonenumber2">
+                                  <input type="text" class="inputview" appBlockCopyPaste (keypress)="onlyNumber($event)"  maxlength="10" name="phonenumber2" [(ngModel)]="data.phonenumber2">
                                   <div class="cw-select">
                                     <select name="phonecode2" [(ngModel)]="data.phoneCode2">
                                       <ng-container *ngFor="let country of countries">
@@ -645,10 +645,7 @@
                               <tbody>
                                 <tr *ngFor="let education of data.education; let i = index">
                                   <td>
-                                    <select class="inputview" [(ngModel)]="education.degree" #name="ngModel" name="education{{i}}.degree">
-                                      <option>Role-1</option>
-                                      <option>Role-2</option>
-                                    </select>
+                                    <input type="text" class="inputview mr-1" #name="ngModel" name="education{{i}}.degree" [(ngModel)]="education.degree"/>
                                   </td>
                                   <td>
                                       <input type="text" class="inputview"  #name="ngModel" name="education{{i}}.specialization" [(ngModel)]="education.specialization"/>
@@ -660,16 +657,10 @@
                                     </div>
                                   </td>
                                   <td>
-                                    <select class="inputview" #name="ngModel" name="education{{i}}.school" [(ngModel)]="education.school">
-                                      <option>School</option>
-                                      <option>College</option>
-                                    </select>
+                                    <input type="text" class="inputview mr-1" #name="ngModel" name="education{{i}}.school" [(ngModel)]="education.school"/>
                                   </td>
                                   <td>
-                                    <select class="inputview" #name="ngModel" name="education{{i}}.address" [(ngModel)]="education.address">
-                                      <option>Country</option>
-                                      <option>City</option>
-                                    </select>
+                                    <input type="text" class="inputview mr-1" #name="ngModel" name="education{{i}}.address" [(ngModel)]="education.address"/>
                                   </td>
                                   <td class="text-center">
                                     <button type="button" class="remoebtn" (click)="onRemoveEducation(education,i)">

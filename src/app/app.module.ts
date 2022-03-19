@@ -48,7 +48,8 @@ import { EmployerSelectItemComponent } from './employer-select-item/employer-sel
 import { VettedIndividualsComponent } from './vetted-individuals/vetted-individuals.component';
 import { DatafilterPipe } from './datafilter.pipe';
 import { UseCaseComponent } from './use-case/use-case.component';
-import { EmployerProfileComponent } from './employer-profile/employer-profile.component'; 
+import { EmployerProfileComponent } from './employer-profile/employer-profile.component';
+import { BlockCopyPasteDirective } from './block-copy-paste.directive'; 
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { EmployerProfileComponent } from './employer-profile/employer-profile.co
     UseCaseComponent,
     VettedIndividualsComponent,
     DatafilterPipe,
-    EmployerProfileComponent
+    EmployerProfileComponent,
+    BlockCopyPasteDirective
   ],
   imports: [
     BrowserModule,

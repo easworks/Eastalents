@@ -7,13 +7,13 @@
         <h1 class="text-center">Sign In</h1>
         <ul class="social-type">
           <li class="social-list">
-            <a class="facebook-link" href="javascript:void(0)"><i class='bx bxl-github'></i></a>
+            <a class="facebook-link" href="javascript:void(0)" (click)="onGithubLogin()"><i class='bx bxl-github'></i></a>
           </li>
           <li class="social-list">
-            <a class="linked-link" href="javascript:void(0)"><i class='bx bxl-linkedin'></i></a>
+            <a class="linked-link" href="javascript:void(0)" (click)="onLinkedInLogin()"><i class='bx bxl-linkedin'></i></a>
           </li>
           <li class="social-list">
-            <a class="google-link" href="javascript:void(0)"><i class='bx bxl-google'></i></a>
+            <a class="google-link" href="javascript:void(0)" (click)="onGoogleLogin()"><i class='bx bxl-google'></i></a>
           </li>
         </ul>
         <form [formGroup]="signInForm" novalidate>

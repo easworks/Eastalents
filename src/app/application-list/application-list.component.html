@@ -3,30 +3,30 @@
 <!----- Header ----->
 <div class="common-space">
 <!--Banner section-->
-<section class="gethire-wraper d-flex align-items-center">
+<section id="banner-here" class="gethire-wraper d-flex align-items-center">
   <div class="container-fluid">
     <div class="row">
       <div
-        class="col-lg-6 col-md-6 col-sm-6 col-12 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column">
-        <h1 data-aos="fade-up" data-aos-delay="200"  class="main-title">Start Building <span class="spantitlecolor">Winning Teams</span>
+        class="col-lg-7 col-md-7 col-sm-7 col-12 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+        <h1 data-aos="fade-up" data-aos-delay="200">Start Building <span class="spantitlecolor">Winning Teams</span>
           Remotely
         </h1>
-        <p data-aos="fade-up" data-aos-delay="400"  class="mt-4 common-para">EASWORKS is a platform for top PLM Project Manager, Application
+        <p data-aos="fade-up" data-aos-delay="400">EASWORKS is a platform for top {{role?.prefix}} {{role?.role}},
+          Application
           Consultant, Developers, Engineers, programmers, coders, Analyst, Solution Architects, Consultants, QA and
-          Project managers. Elite companies and start-ups hire top freelance PLM Project Manager experts from EASWORKS
-          for their mission critical PLM - Product Lifecycle Management and Engineering projects.</p>
-        <div class="d-flex mt-2" data-aos="fade-up" data-aos-delay="500">
-          <a href="javascript:void(0)" class="btn-get-started mr-3">Hire Now</a>
-          <a href="javascript:void(0)" class="btn-get-started bttnwbg"> Apply for Jobs</a>
+          Project managers. Elite companies and start-ups hire top freelance {{role?.prefix}} {{role?.role}} experts
+          from EASWORKS
+          for their mission critical {{role?.prefix}} - {{role?.name}}.</p>
+        <div class="d-flex" data-aos="fade-up" data-aos-delay="500">
+          <a href="javascript:void(0)" class="btn-get-started mr-3 pl-3 pr-3">Hire Now</a>
+          <a href="javascript:void(0)" class="btn-common-border pl-3 pr-3"> Apply for Jobs</a>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-6 col-12 order-1 order-lg-2 hero-img">
+      <div class="col-lg-5 col-md-5 col-sm-5 col-12 order-1 order-lg-2 hero-img animated">
         <div class="dynamic-content">
-          <span><strong>ERP</strong> Application Consultant</span>
+          <span><strong>{{role?.prefix}}</strong> {{role?.role}}</span>
         </div>
         <img src="assets/img/erpapplication.png" class="img-fluid " alt="">
-        <!-- <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_cbdefxj0.json" background="transparent"
-              speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player> -->
       </div>
     </div>
   </div>
@@ -68,8 +68,8 @@
 <!-- Our Service Section -->
 <section class="team-dna services">
   <div class="container">
-    <div class="text-center">
-      <h2 class="second-title">Hire top <span class="spantitlecolor">PLM Project Manager</span> talent</h2>
+    <div class="second-title text-center">
+      <h2>Hire top <span class="spantitlecolor">{{role?.prefix}} {{role?.role}}</span> talent</h2>
     </div>
     <div class="row plat-items hiringenterprise mt-5">
       <div class="col-lg-4 col-md-4 col-12 d-flex">
@@ -81,7 +81,8 @@
             <div class="icon">
               <img src="assets/img/ae-joinforfree.png" alt="image" />
             </div>
-            <h2 class="secondary-title">Post your <span class="spantitlecolor">PLM Project Manager</span> Job needs.
+            <h2 class="secondary-title">Post your <span class="spantitlecolor">{{role?.prefix}} {{role?.role}}</span>
+              Job needs.
             </h2>
             <p class="common-para">Simply post your enterprise application hiring requirement and talk to our industry
               expert.</p>
@@ -98,7 +99,8 @@
             <div class="icon">
               <img src="assets/img/ae-revieandshorlist.png" alt="image" />
             </div>
-            <h2 class="secondary-title">Thoroughly Vetted <span class="spantitlecolor">PLM Project Manager</span></h2>
+            <h2 class="secondary-title">Thoroughly Vetted <span class="spantitlecolor">{{role?.prefix}}
+                {{role?.role}}</span></h2>
             <p class="common-para">We will provide you the best suited Teamcenter PLM Developer to interview based on
               your requirement from our talent network.</p>
           </div>
@@ -114,7 +116,8 @@
             <div class="icon">
               <img src="assets/img/ae-pay.png" alt="image" />
             </div>
-            <h2 class="secondary-title">Pay <span class="spantitlecolor">PLM Project Manager</span> when you're
+            <h2 class="secondary-title">Pay <span class="spantitlecolor">{{role?.prefix}} {{role?.role}}</span> when
+              you're
               satisfied (Risk Free)</h2>
             <p class="common-para">Try a AppTalents Teamcenter PLM Developer for up to 20 hours of trial work, Release
               payments when it has been completed and you're 100% satisfied.</p>
@@ -129,50 +132,43 @@
   <div class="container">
     <div class="text-center">
       <h2 class="second-title">Hiring for a specific <span class="spantitlecolor">Enterprise Application role?</span></h2>
-      <p class="common-para  mt-4">The EASWORKS platform includes experts across a very wide array of Enterprise Application Software (EAS)
+      <p  class="common-para  mt-4">The EASWORKS platform includes experts across a very wide array of Enterprise Application Software (EAS)
         development languages and technologies. See the list below to find EAS freelance developer profiles and
         contractors with your desired skill.</p>
-        <form>
-          <div class="row align-items-end justify-content-center">
-            <div class="contact-form-group cfg-skills text-left">
-              <label>Enterprise Application</label>
-              <div class="contact-input-group">
-                <select class="inputview">
-                  <option value="1">Big Data Platforms</option>
-                  <option value="2">Big Data Analytics Tools</option>
-                  <option value="3">Business Analytics Tools</option>
-                  <option value="4">Business Intelligence Tools</option>
-                  <option value="5">EAM Software</option>
-                  <option value="6">CRM Software</option>
-                  <option value="7">ERP Software</option>
-                  <option value="8">MES Software</option>
-                  <option value="9">PLM Software</option>
-                  <option value="10">LMS Software</option>
-                  <option value="11">CMS Software</option>
-                  <option value="12">Project Management Software</option>
-                  <option value="13">Supply Chain Management Software</option>
-                  <option value="14">Quality Management Software</option>
-                </select>
-              </div>
-            </div>
-            <div class="contact-form-group cfg-skills text-left">
-              <label>Softwares</label>
-              <div class="contact-input-group">
-                <select class="inputview">
-                  <option value="1">JD Edwards</option>
-                  <option value="1">JD Edwards</option>
-                </select>
-              </div>
-            </div>
-            <div class="contact-form-group d-flex flex-wrap">
-              <a href="javascript:void(0)" class="btn-get-started mr-3">Get Started</a>
+      <form>
+        <div class="row align-items-end justify-content-center">
+          <div class="contact-form-group cfg-skills text-left">
+            <label>Enterprise Application</label>
+            <div class="contact-input-group">
+              <select class="inputview"  (change)="changeDomain($event?.target)">
+                <option *ngFor="let list of domains"   [value]="list?.domain">{{list?.domain}}</option> 
+              </select>
             </div>
           </div>
-        </form>
+          <div class="contact-form-group cfg-skills text-left">
+            <label>Softwares</label>
+            <div class="contact-input-group">
+              <select class="inputview">
+                <option *ngFor="let list of softwareList" [value]="list.name">{{list.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="contact-form-group d-flex flex-wrap">
+            <a href="javascript:void(0)" class="btn-get-started mr-3">Get Started</a>
+          </div>
+        </div>
+      </form>
     </div>
     <div class="row">
       <div class="col-lg-12 col-md-12 col-12" data-aos="fade-up" data-aos-delay="100">
         <ul class="developer-type">
+          <li class="developer-list" *ngFor="let list of role?.Job_Roles">
+            <a>
+              <i class="icofont-simple-right"></i> {{role?.prefix}} {{list}}
+            </a>
+          </li>
+        </ul>
+        <!-- <ul class="developer-type">
           <li class="developer-list">
             <a href="javascript:void(0)">
               <i class="icofont-simple-right"></i> PLM Business Analyst
@@ -494,8 +490,7 @@
             </a>
           </li>
 
-        </ul>
-
+        </ul> -->
       </div>
     </div>
   </div>
@@ -505,7 +500,8 @@
 <section class="apps-wraper">
   <div class="container">
     <div class="text-center mb-5">
-      <h2 class="second-title">Hiring for a specific <span class="spantitlecolor">Enterprise Application <br>Development/Customization skill?</span></h2>
+      <h2 class="second-title">Hiring for a specific <span class="spantitlecolor">Enterprise Application <br>Development/Customization
+          skill?</span></h2>
     </div>
     <div class="row">
       <div class="col-lg-12 col-md-12 col-12" data-aos="fade-up" data-aos-delay="100">
@@ -582,7 +578,8 @@
       <p class="common-para mb-4 text-white">
         Whether you need help with a current or upcoming Enterprise Application project , initial advice and consultation, need with a more specific mix of skills or just want to introduce yourself. Let’s see if we can help
       </p>
-      <a href="javascript:void(0)" class="applytojoin-btn whyapp-applytojoin bg-white text-dark mr-auto ml-auto">Talk to Us</a>
+      <a href="javascript:void(0)" class="applytojoin-btn whyapp-applytojoin bg-white text-dark mr-auto ml-auto">Talk to
+        Us</a>
     </div>
   </div>
 </section>

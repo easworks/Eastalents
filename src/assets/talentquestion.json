@@ -17,7 +17,7 @@
     ]
     },
     {
-        "question":"Select your Technology stack ",
+        "question":"Select Technology stack used for ",
         "title":"Technology",
         "id":8,
         "type":"specialtechquestion",
@@ -1167,7 +1167,7 @@
         ]
      },
      {
-        "question": "Select the Industry Used For ",
+        "question": "Select Industry Used For ",
         "title": "Technology",
         "id": 9,
         "type": "specialtechquestion",
@@ -9682,7 +9682,7 @@
             "id":10,
             "data":[
                 {
-                    "question":"-Job Search Status",
+                    "question":"-Job status",
                     "type":"select",
                     "visible":true,
                     "option":[
