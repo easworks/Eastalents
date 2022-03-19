@@ -2101,7 +2101,6 @@ footer {
 }
 .applytojoin-btn,
 .applytojoin-btn:hover {
-  width: 238px;
   background: #29aae3;
   border-radius: 3px;
   font: 500 14px/20px Roboto;
@@ -4707,14 +4706,6 @@ form #debt-amount-slider label {
 }
 .costeffectContent {
   padding-left: 30px;
-}
-.costeffectContent h1 {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  font-size: 20px;
-}
-.defaultTitle h1 {
-  color: var(--blue-color);
 }
 .talentGuarentList {
   position: relative;
