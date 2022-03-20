@@ -59,6 +59,9 @@ p {
 select {
   cursor: pointer;
 }
+.perfectdiv{
+  flex: 1 1 auto;
+}
 .fontSmall {
   font-size: 1rem !important;
 }
@@ -102,7 +105,7 @@ select {
 }
 
 .common-para{
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.75;
   color: #000000;
@@ -1798,7 +1801,13 @@ footer {
 .apptalent-connect.grow-erpteam .container {
   z-index: 1;
 }
-
+.apptalent-export-content p {
+  color: #ffffff;
+  margin: 0px 0 0px 0;
+  letter-spacing: 0.56px;
+  font: normal 26px/40px Roboto;
+  text-align: center;
+}
 .apptalent-export-content p span {
   display: block;
 }
@@ -2107,7 +2116,7 @@ footer {
   letter-spacing: 2px;
   color: #ffffff;
   text-transform: uppercase;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
@@ -2122,6 +2131,7 @@ footer {
   padding: 0px 20px;
   width: auto;
 }
+
 
 /*** Question && Answer ***/
 .quiz-logo {
@@ -3212,12 +3222,6 @@ sub {
   margin: auto;
 }
 
-.how-Under-content p {
-  color: #000000;
-  margin: 20px 0 30px 0;
-  letter-spacing: 0.56px;
-  font: normal 14px/24px Roboto;
-}
 .how-Under-content .plat-step {
   margin: 0px 0px 12px 0px;
 }
@@ -5214,54 +5218,46 @@ background-color: #4949fc26;
   margin: auto;
 }
 
-
-
 .treeview{
+  display: inline-block;
+  padding: 0;
+}
+
+.treeview li {
+  list-style: none;
+  margin: auto;
   margin-left: 2rem;
-  margin-top: -1.4rem;
-}
-.treeview li{
-  display: flex;
-}
-.treeview li .treeview-item{
-  display: flex;
-  flex-direction: column;
-  width: 26px;
-  font-size:22px;
-  font-weight: 600;
+  border-left: 1px dashed #000000;
+  padding: 0 0 12px 30px;
   position: relative;
 }
+.treeview li:last-child{
+  border-left: none;
+}
 .treeview-letter{
-  text-align: center;
-}
-.treeview-line{
-  height: 100%;
-  display: block;
-  margin-left: 0.75rem;
-  border-left: 1px solid rgb(186, 185, 185);
-  margin-top: 0.25rem;
-}
-.treeview-line.lastchild{
-  border-left: 0px;
-}
-.treeview-content{
-  flex: 1 1 0%;
-    margin-left: 0.55rem;
-    margin-bottom: 20px;
+  position: absolute;
+    left: -16px;
+    top:-5px;
+    background: #4949fc;
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 16px;
+    border: 3px solid #ffffff;
 }
 .treeview-content h4{
   font-size: 18px;
   font-weight: 600;
   margin-top: 6px;
-  color: #372354;
+  color: #000000;
   margin-bottom: 12px;
 }
-.treeview-content p{
-  line-height: 22px;
-  font-size: 14px;
-  margin-bottom: 0;
-  margin-top: 5px;
-}
+
 
 /*** Responsive ***/
 @media screen and (min-width: 480px) and (max-width:767px) {
