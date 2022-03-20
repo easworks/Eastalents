@@ -443,7 +443,7 @@
           </ul>
           <div class="seemore-option" (click)="list.show = !list.show" [style]="{ cursor: 'pointer' }">
             <a class="moreless erpml">
-              <i class="bx bx-plus"></i> See {{ list.show ? "more" : "less" }} {{list.prefix}}
+              <i class="bx " [ngClass]="list.show == true ? 'bx-plus' : 'bx-minus'"></i> See {{ list.show ? "more" : "less" }} {{list.prefix}}
               skills
             </a>
           </div>
