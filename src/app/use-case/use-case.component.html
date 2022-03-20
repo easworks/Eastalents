@@ -4,18 +4,17 @@
 
 <div *ngIf="loadContent" class="common-space">
     <!--Why AppTalent-->
-    <div class="whyapptalent-full-wraper">
+    <section class="gethire-wraper">
         <div class="container-fluid">
-            <div class="row">
-                <div
-                    class="col-lg-7 col-md-7 col-sm-7 col-12 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+            <div class="row align-items-center">
+                <div class="col-lg-7 col-md-7 col-sm-7 col-12 pt-lg-0 order-2 order-lg-1 d-flex flex-column">
                     <h1 data-aos="fade-up" data-aos-delay="200" class="main-title">
                         {{useCaseDetails['title']}}
                         <span class="spantitlecolor">{{useCaseDetails['title_sub']}}</span>
                     </h1>
 
-                    <p class="common-para mt-5" [innerHTML]="useCaseDetails['description']"></p>
-                    <div class="d-flex mt-5">
+                    <p class="common-para mt-52" [innerHTML]="useCaseDetails['description']"></p>
+                    <div class="d-flex mt-4">
                         <a href="javascript:void(0)" class="btn-get-started mr-3">{{useCaseDetails['btn_text']}}</a>
                     </div>
                 </div>
@@ -28,7 +27,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!--Clients section-->
     <section id="cliens" class="cliens section-bg pt-4 pb-4">
@@ -65,9 +64,10 @@
     <!---Building Enterprise Team in our DNA-->
     <section class="team-dna ">
         <div class="container">
-            <div class="section-title text-center">
-                <h2>Advantages of using <span class="spantitlecolor">EASWORKS</span></h2>
-                <p>Our flexible engagement models allow to have access to some of Top Enterprise Tech Leaders in your
+            <div class="text-center">
+                <h2 class="second-title mb-4">Advantages of using <span class="spantitlecolor">EASWORKS</span></h2>
+                <p class="common-para">Our flexible engagement models allow to have access to some of Top Enterprise
+                    Tech Leaders in your
                     enterprise domain to help and transform your business.</p>
             </div>
             <div class="row">
@@ -80,8 +80,9 @@
                             </lottie-player>
                         </div>
                         <div class="beteam-box">
-                            <h2>Flexible engagement Model</h2>
-                            <p class="text-center"> Talent as a Service or EAS Project, Road map and provide enterprise
+                            <h2 class="subtitle">Flexible engagement Model</h2>
+                            <p class="common-para text-center"> Talent as a Service or EAS Project, Road map and provide
+                                enterprise
                                 application
                                 Development plan</p>
                         </div>
@@ -96,8 +97,9 @@
                             </lottie-player>
                         </div>
                         <div class="beteam-box">
-                            <h2>Top Enterprise Tech Leaders</h2>
-                            <p class="text-center">Opportunity to work with Top Enterprise tech expertise specific to
+                            <h2 class="subtitle">Top Enterprise Tech Leaders</h2>
+                            <p class="common-para text-center">Opportunity to work with Top Enterprise tech expertise
+                                specific to
                                 your Industry
                                 domain</p>
                         </div>
@@ -112,8 +114,8 @@
                             </lottie-player>
                         </div>
                         <div class="beteam-box">
-                            <h2>Enterprise Roadmap</h2>
-                            <p class="text-center">Aligning to your enterprise</p>
+                            <h2 class="subtitle">Enterprise Roadmap</h2>
+                            <p class="common-para text-center">Aligning to your enterprise</p>
                         </div>
                     </div>
                 </div>
@@ -123,8 +125,8 @@
     <!--Key Difference-->
     <section class="how-understading-wraper section-bg">
         <div class="container">
-            <div class="section-title text-center">
-                <h2>{{useCaseDetails['title_1']}} <br><span class="spantitlecolor">
+            <div class="text-center">
+                <h2 class="second-title mb-5">{{useCaseDetails['title_1']}} <span class="spantitlecolor">
                         {{useCaseDetails['title_1_sub']}}</span></h2>
             </div>
 
@@ -139,55 +141,11 @@
                                 <span>{{list.step}}</span>
                             </div>
                             <div class="step-title">
-                                <h1>{{list.title}}</h1>
-                                <p [innerHTML]="list.desc"></p>
+                                <h1 class="subtitle text-left mt-0">{{list.title}}</h1>
+                                <p class="common-para" [innerHTML]="list.desc"></p>
                             </div>
                         </li>
 
-                        <!-- <li class="step-item">
-              <div class="stepNum">
-                <span>02</span>
-              </div>
-              <div class="step-title">
-                <h1>Determine Its Root Cause</h1>
-                <p>Professionals get the chance to explore the problem for themselves from the perspective of Customer’s
-                  needs,</p>
-              </div>
-            </li>
-
-            <li class="step-item">
-              <div class="stepNum">
-                <span>03</span>
-              </div>
-              <div class="step-title">
-                <h1>Encourages Innovative Thinking & Creative Problem Solving</h1>
-                <p>The process involves a great deal of brainstorming and formulating new ideas that can help to expand
-                  your
-                  organization & enables innovation and creativity to solve the problems that customers face daily.</p>
-              </div>
-            </li>
-
-            <li class="step-item">
-              <div class="stepNum">
-                <span>04</span>
-              </div>
-              <div class="step-title">
-                <h1>Outcome Meet Clients Requirements</h1>
-                <p>This involves prototyping with iterative approach that are designed with the design thinking approach
-                  will meet the objectives and client expectations.</p>
-              </div>
-            </li>
-
-            <li class="step-item">
-              <div class="stepNum">
-                <span>05</span>
-              </div>
-              <div class="step-title">
-                <h1>Create Value While Solving Real Problems</h1>
-                <p>Innovation enabled by Design Thinking process specifically directed at creating value and solving
-                  problems, from small to large, in almost any industry.</p>
-              </div>
-            </li> -->
                     </ul>
 
 
@@ -222,9 +180,9 @@ text-center
 
     <section class="twowaystreet-wraper section-bg">
         <div class="container">
-            <div class="section-title text-center">
-                <h2>The right EAS talent for the job</h2>
-                <p>Our Enterprise Application freelancers have years of experience rapidly
+            <div class="text-center">
+                <h2 class="second-title mb-4">The right EAS talent for the job</h2>
+                <p class="common-para">Our Enterprise Application freelancers have years of experience rapidly
                     {{useCaseDetails['title_2_desc']}}</p>
                 <div class="row justify-content-center">
                     <div class="col-lg-4 col-md-4 col-12" *ngFor="let list of useCaseDetails['profiles']">
@@ -255,7 +213,7 @@ text-center
 <section class="apptalent-connect bgblue-connect">
     <div class="container">
         <div class="apptalent-export-content talktous-content text-center">
-            <h1 class="text-white">{{useCaseDetails['title_3']}}</h1>
+            <h1 class="second-title mb-4 text-white">{{useCaseDetails['title_3']}}</h1>
             <a href="javascript:void(0)"
                 class="applytojoin-btn whyapp-applytojoin text-nowrap d-inline-flex w-auto bg-white text-dark mr-auto ml-auto">{{useCaseDetails['title_3_btn']}}</a>
         </div>

@@ -1118,7 +1118,7 @@ footer {
 }
 .foot-about h2 {
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: 0.5px;
   color: #0b1320;
   margin: 0 0 25px 0;
@@ -1744,7 +1744,6 @@ footer {
   font-weight: 600;
   text-align: center;
   margin-top: 20px;
-  color: #372354;
   margin-bottom: 12px;
   text-transform: capitalize;
 }
@@ -4800,34 +4799,27 @@ form #debt-amount-slider label {
 /** Step **/
 .stepContent .step-item{
   position: relative;
-    border-left: 1px solid #000000;
+    border-left: 1px dashed #0f0f0f;
     padding-left: 50px;
-    padding-bottom: 40px;
+    padding-bottom: 20px;
 }
 .stepContent .step-item:last-child{
   border-left: 0px;
 }
 .step-title h1 {
-  font-size: 26px;
-  font-weight: 700;
-  text-transform: capitalize;
-  margin-bottom: 20px;
-  padding-bottom: 0;
-  color: #2e2e2e;
-  position: relative;
-  z-index: 2;
-}
-.step-title p {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 6px;
   color: #000000;
-  margin: 20px 0 0px 0;
-  letter-spacing: 0.56px;
-  font: normal 14px/24px Roboto;
+  margin-bottom: 12px;
 }
+
 .stepNum{
   position: absolute;
-  width: 50px;
-  height: 50px;
-  font-size: 1.2rem;
+  width: 45px;
+  min-width: 45px;
+  height: 45px;
+  font-size: 16px;
   font-weight: 700;
   line-height: 40px;
   color: #ffffff;
@@ -4836,7 +4828,8 @@ form #debt-amount-slider label {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  left: -26px;
+  left: -23px;
+  top: -10px;
   border: 3px solid #ffffff;
 }
 
@@ -5227,7 +5220,7 @@ background-color: #4949fc26;
   list-style: none;
   margin: auto;
   margin-left: 2rem;
-  border-left: 1px dashed #000000;
+  border-left: 1px dashed #0f0f0f;
   padding: 0 0 12px 30px;
   position: relative;
 }
@@ -5357,6 +5350,7 @@ background-color: #4949fc26;
   }
   .second-title{
     font-size: 1.500rem;
+    line-height: 30px;
   }
   .clientsimg{
     margin-bottom: 20px;
@@ -5471,6 +5465,7 @@ background-color: #4949fc26;
   }
   .second-title{
     font-size: 1.500rem;
+    line-height: 30px;
   }
   .clientsimg{
     margin-bottom: 20px;
@@ -5486,5 +5481,47 @@ background-color: #4949fc26;
   }
   .categorySelect .contact-form-group label{
     margin-bottom: 12px;
+  }
+  /** Why Easworks **/
+  .common-space{
+    padding-top: 59px;
+  }
+  .whyEasNavTabs .nav{
+    display: block;
+  }
+  .whyEasNavTabs .nav .nav-item .nav-link{
+    display: block;
+    text-align: center;
+    width: 100%;
+    font-size: 14px;
+    padding: 8px 22px;
+  }
+  .apptalent-table-view{
+    overflow-x: auto;
+  }
+  .apptalent-table-view table{
+    overflow-x: auto;
+    table-layout: auto;
+  }
+  .apptalent-table-view table tr th{
+    white-space: nowrap;
+    padding: 12px 8px;
+    font:bold 14px/22px Roboto;
+  }
+  .apptalent-table-view table tr th img{
+    width: 120px;
+  }
+  .apptalent-table-view table tr td p{
+    font:500 13px/19px Roboto;
+  }
+  .talktous-content h1{
+    font-size: 1.375rem;
+    line-height: 38px;
+  }
+  .foot-about{
+    margin-bottom: 20px;
+  }
+  .worldfigureType{
+    display: none;
   }
 }
