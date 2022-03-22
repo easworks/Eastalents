@@ -736,9 +736,9 @@ section {
   font-size: 2.5rem !important;
 }
 .btn-get-started {
-  font: 500 15px/22px Roboto;
+  font: 500 14px/18px Roboto;
   display: inline-block;
-  padding: 8px 30px;
+  padding: 6px 20px;
   border-radius: 4px;
   transition: 0.5s;
   color: #fff;
@@ -867,6 +867,7 @@ section {
 }
 .easpromiseiticon{
   width: 80px;
+  height: 80px;
 }
 /* .services .icon-box .icon.ghIcon {
   border: 5px solid #3f48cc;
@@ -2891,8 +2892,8 @@ footer {
   width: 33%;
 }
 .visible-so li label {
-  color: #494949;
-  font-size: 15px;
+  color: #000000;
+  font-size: 14px;
   margin: 0px;
   font-weight: 500;
   display: block;
@@ -2907,7 +2908,13 @@ footer {
   font-size: 20px;
   margin-right: 3px;
 }
-
+.ws-assessment-type .visible-so li{
+  width: auto;
+}
+.ws-assessment-type .visible-so li label{
+  margin-right: 12px;
+  min-width: 180px;
+}
 /** Work History **/
 
 .workhistory-table table tr th {
@@ -2935,7 +2942,7 @@ footer {
   background: #e1e1e1;
   padding: 2px 6px;
   font-size: 13px;
-  margin-right: 6px;
+  margin-right: 4px;
   border-radius: 3px;
 }
 .deletebtn {
