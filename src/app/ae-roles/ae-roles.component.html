@@ -15,7 +15,8 @@
           justify-content-center
         ">
         <h1 data-aos="fade-up" data-aos-delay="200">
-          One platform with everything you need with <span class="spantitlecolor">{{prd?.Product?.name}} {{prd?.prefix}}</span> implementation
+          One platform with everything you need with <span class="spantitlecolor">{{prd?.Product?.name}} -
+            {{prd?.prefix}}</span> implementation
         </h1>
         <p data-aos="fade-up" data-aos-delay="400">
           EASWORKS is a platform for top {{prd?.Product?.name}} {{prd?.prefix}} Application Consultant,
@@ -24,12 +25,25 @@
           Developers from EASWORKS for their critical Enterprise projects.
         </p>
         <h2 class="normal-title" data-aos="fade-up" data-aos-delay="200">
-          <span class="spantitlecolor">{{prd?.Product?.name}} {{prd?.prefix}}</span> Roles
+          <span class="spantitlecolor">{{prd?.Product?.name}} - {{prd?.prefix}}</span> Roles
+          <div class="roles-hm-btn">
+            <a href="javascript:void(0)" class="btn-get-started mr-3">Hire for <span class="spantitlecolor">{{prd?.prefix}}</span> Role</a>
+            <a href="javascript:void(0)" class="btn-common-border">
+              Apply for <span class="spantitlecolor">{{prd?.prefix}} </span> Jobs</a>
+          </div>
+          <!-- <div class="d-flex" data-aos="fade-up" data-aos-delay="500">
+            
+          </div> -->
+
         </h2>
         <ul class="developer-type aerolestype" data-aos="fade-up" data-aos-delay="200">
-          <li class="developer-list" *ngFor="let list of prd?.Job_Roles">
-            <a href="javascript:void(0)"><i class="icofont-simple-right"></i>{{prd?.Product?.name}} {{prd?.prefix}} {{list}}</a>
-          </li>
+          <ng-container *ngFor="let list of prd?.Job_Roles;let i = index;">
+            <li class="developer-list" *ngIf="show ? i < 12 : i">
+              <a href="javascript:void(0)"><i class="icofont-simple-right"></i>{{prd?.Product?.name}} -
+                {{prd?.prefix}}
+                {{list}}</a>
+            </li>
+          </ng-container>
           <!-- <li class="developer-list">
             <a href="javascript:void(0)"><i class="icofont-simple-right"></i>Teamcenter PLM Developer</a>
           </li>
@@ -52,10 +66,8 @@
             <a href="javascript:void(0)"><i class="icofont-simple-right"></i>Teamcenter PLM Trainer</a>
           </li> -->
         </ul>
-        <div class="d-flex" data-aos="fade-up" data-aos-delay="500">
-          <a href="javascript:void(0)" class="btn-get-started mr-3">Hire Now</a>
-          <a href="javascript:void(0)" class="btn-common-border">
-            Apply for Jobs</a>
+        <div class="d-flex justify-content-center" data-aos="fade-up" data-aos-delay="500">
+          <a href="javascript:void(0)" class="see-more-btn" (click)="showMore()">See {{ show ? "more" : "less" }}</a>
         </div>
       </div>
       <div class="col-lg-5 col-md-5 col-sm-5 col-12 order-1 order-lg-2 hero-img animated" data-aos="fade-up"
@@ -159,7 +171,8 @@
               <img src="assets/img/ae-pay.png" alt="image" />
             </div>
             <h2 class="secondary-title">
-              Pay <span class="spantitlecolor"> {{prd?.Product?.name}} {{prd?.prefix}}</span> when you’re satisfied (Risk Free)
+              Pay <span class="spantitlecolor"> {{prd?.Product?.name}} {{prd?.prefix}}</span> when you’re satisfied
+              (Risk Free)
             </h2>
             <p class="common-para">
               Try a AppTalents {{prd?.Product?.name}} {{prd?.prefix}} Developer for up to 20 hours of
@@ -177,7 +190,8 @@
 <section id="services" class="services section-bg">
   <div class="container">
     <div class="section-title text-center">
-      <h2>Hiring for a specific <br><span class="spantitlecolor">Enterprise Application Software (EAS) skills?</span>
+      <h2>Hiring for a specific <br><span class="spantitlecolor">Enterprise {{prd?.Product?.name}} ({{prd?.prefix}})
+          skills?</span>
       </h2>
       <p class="common-para">The EASWORKS platform includes experts across a very wide array of Enterprise Application
         Software (EAS) development languages and technologies. See the list below to find EAS freelance developer
@@ -188,8 +202,8 @@
         <div class="contact-form-group cfg-skills">
           <label>Primary Enterprise Application Domain</label>
           <div class="contact-input-group">
-            <select class="inputview"  (change)="changeDomain($event?.target)">
-              <option *ngFor="let list of domains"   [value]="list?.domain">{{list?.domain}}</option>
+            <select class="inputview" (change)="changeDomain($event?.target)">
+              <option *ngFor="let list of domains" [value]="list?.domain">{{list?.domain}}</option>
               <!-- <option value="2">Big Data Analytics Tools</option>
               <option value="3">Business Analytics Tools</option>
               <option value="4">Business Intelligence Tools</option>
@@ -320,7 +334,8 @@
       <p class="mb-4">
         Let’s see if we can help
       </p>
-      <a href="javascript:void(0)" class="applytojoin-btn whyapp-applytojoin bg-white text-dark mr-auto ml-auto">Talk to Us</a>
+      <a href="javascript:void(0)" class="applytojoin-btn whyapp-applytojoin bg-white text-dark mr-auto ml-auto">Talk to
+        Us</a>
     </div>
   </div>
 </section>

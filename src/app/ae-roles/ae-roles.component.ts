@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: []
 })
 export class AeRolesComponent implements OnInit {
+  public show: boolean = true;
   public prd: any = sessionStorage.getItem("prd");
   public software: any = sessionStorage.getItem("software");
   public domains: any = sessionStorage.getItem("domain");
@@ -16,7 +17,7 @@ export class AeRolesComponent implements OnInit {
     this.software = JSON.parse(this.software);
     this.domains = JSON.parse(this.domains);
     this.softwareList = this.domains[0]['softwate'];
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
   }
 
   ngOnInit(): void {
@@ -24,5 +25,12 @@ export class AeRolesComponent implements OnInit {
 
   changeDomain(list: any) {
     this.softwareList = this.software[list.value]
+  }
+
+  showMore(){
+    this.show = !this.show;
+    if(this.show){
+      window.scrollTo(0, 0);
+    }
   }
 }

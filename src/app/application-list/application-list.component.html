@@ -2,173 +2,177 @@
 <app-header></app-header>
 <!----- Header ----->
 <div class="common-space">
-<!--Banner section-->
-<section id="banner-here" class="gethire-wraper d-flex align-items-center">
-  <div class="container-fluid">
-    <div class="row">
-      <div
-        class="col-lg-7 col-md-7 col-sm-7 col-12 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
-        <h1 data-aos="fade-up" data-aos-delay="200">Start Building <span class="spantitlecolor">Winning Teams</span>
-          Remotely
-        </h1>
-        <p data-aos="fade-up" data-aos-delay="400">EASWORKS is a platform for top {{role?.prefix}} {{role?.role}},
-          Application
-          Consultant, Developers, Engineers, programmers, coders, Analyst, Solution Architects, Consultants, QA and
-          Project managers. Elite companies and start-ups hire top freelance {{role?.prefix}} {{role?.role}} experts
-          from EASWORKS
-          for their mission critical {{role?.prefix}} - {{role?.name}}.</p>
-        <div class="d-flex" data-aos="fade-up" data-aos-delay="500">
-          <a href="javascript:void(0)" class="btn-get-started mr-3 pl-3 pr-3">Hire Now</a>
-          <a href="javascript:void(0)" class="btn-common-border pl-3 pr-3"> Apply for Jobs</a>
-        </div>
-      </div>
-      <div class="col-lg-5 col-md-5 col-sm-5 col-12 order-1 order-lg-2 hero-img animated">
-        <div class="dynamic-content">
-          <span><strong>{{role?.prefix}}</strong> {{role?.role}}</span>
-        </div>
-        <img src="assets/img/erpapplication.png" class="img-fluid " alt="">
-      </div>
-    </div>
-  </div>
-</section>
-<!--Banner section End-->
-
-<!--Clients section-->
-<section id="cliens" class="cliens section-bg pt-4 pb-4">
-  <div class="container">
-    <div class="row aos-init" data-aos="fade-up" data-aos-delay="100">
-      <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-        <img src="assets/img/clients/client-1.png" class="img-fluid clientsimg" alt="" />
-      </div>
-
-      <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-        <img src="assets/img/clients/client-2.png" class="img-fluid clientsimg" alt="" />
-      </div>
-
-      <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-        <img src="assets/img/clients/client-3.png" class="img-fluid clientsimg" alt="" />
-      </div>
-
-      <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-        <img src="assets/img/clients/client-4.png" class="img-fluid clientsimg" alt="" />
-      </div>
-
-      <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-        <img src="assets/img/clients/client-5.png" class="img-fluid clientsimg" alt="" />
-      </div>
-
-      <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-        <img src="assets/img/clients/client-1.png" class="img-fluid clientsimg" alt="" />
-      </div>
-    </div>
-  </div>
-</section>
-<!--Clients section End-->
-
-<!-- Our Service Section -->
-<section class="team-dna services">
-  <div class="container">
-    <div class="second-title text-center">
-      <h2>Hire top <span class="spantitlecolor">{{role?.prefix}} {{role?.role}}</span> talent</h2>
-    </div>
-    <div class="row plat-items hiringenterprise mt-5">
-      <div class="col-lg-4 col-md-4 col-12 d-flex">
-        <div class="platform-box">
-          <div class="plat-step">
-            <span>01</span>
-          </div>
-          <div class="plat-content icon-box mt-4">
-            <div class="icon">
-              <img src="assets/img/ae-joinforfree.png" alt="image" />
-            </div>
-            <h2 class="secondary-title">Post your <span class="spantitlecolor">{{role?.prefix}} {{role?.role}}</span>
-              Job needs.
-            </h2>
-            <p class="common-para">Simply post your enterprise application hiring requirement and talk to our industry
-              expert.</p>
+  <!--Banner section-->
+  <section id="banner-here" class="pt-4 gethire-wraper d-flex align-items-center">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-7 col-md-7 col-sm-7 col-12 pt-5 mt-5  order-2 order-lg-1 d-flex flex-column">
+          <h1 data-aos="fade-up" data-aos-delay="200">Hire {{role?.prefix}} {{role?.role}} And Start Building <span
+              class="spantitlecolor">Winning {{role?.prefix}} Team</span>
+            Remotely
+          </h1>
+          <p data-aos="fade-up" data-aos-delay="400">EASWORKS is a platform for top {{role?.prefix}} {{role?.role}},
+            Application
+            Consultant, Developers, Engineers, programmers, coders, Analyst, Solution Architects, Consultants, QA and
+            Project managers. Elite companies and start-ups hire top freelance {{role?.prefix}} {{role?.role}} experts
+            from EASWORKS
+            for their mission critical {{role?.prefix}} - {{role?.name}}.</p>
+          <div class="d-flex" data-aos="fade-up" data-aos-delay="500">
+            <a href="javascript:void(0)" class="btn-get-started mr-3 pl-3 pr-3">Hire {{role?.prefix}} {{role?.role}}</a>
+            <a href="javascript:void(0)" class="btn-common-border pl-3 pr-3"> Apply for {{role?.prefix}} {{role?.role}}
+              Jobs</a>
           </div>
         </div>
-      </div>
-
-      <div class="col-lg-4 col-md-4 col-12 d-flex">
-        <div class="platform-box">
-          <div class="plat-step">
-            <span>02</span>
+        <div class="col-lg-5 col-md-5 col-sm-5 col-12 order-1 order-lg-2 hero-img animated">
+          <div class="dynamic-content">
+            <span><strong>{{role?.prefix}}</strong> {{role?.role}}</span>
           </div>
-          <div class="plat-content icon-box mt-4">
-            <div class="icon">
-              <img src="assets/img/ae-revieandshorlist.png" alt="image" />
-            </div>
-            <h2 class="secondary-title">Thoroughly Vetted <span class="spantitlecolor">{{role?.prefix}}
-                {{role?.role}}</span></h2>
-            <p class="common-para">We will provide you the best suited Teamcenter PLM Developer to interview based on
-              your requirement from our talent network.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-4 col-12 d-flex">
-        <div class="platform-box">
-          <div class="plat-step">
-            <span>03</span>
-          </div>
-          <div class="plat-content icon-box mt-4">
-            <div class="icon">
-              <img src="assets/img/ae-pay.png" alt="image" />
-            </div>
-            <h2 class="secondary-title">Pay <span class="spantitlecolor">{{role?.prefix}} {{role?.role}}</span> when
-              you're
-              satisfied (Risk Free)</h2>
-            <p class="common-para">Try a AppTalents Teamcenter PLM Developer for up to 20 hours of trial work, Release
-              payments when it has been completed and you're 100% satisfied.</p>
-          </div>
+          <img src="assets/img/erpapplication.png" class="img-fluid " alt="">
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+  <!--Banner section End-->
 
-<section class="all-developers section-bg">
-  <div class="container">
-    <div class="text-center">
-      <h2 class="second-title">Hiring for a specific <span class="spantitlecolor">Enterprise Application role?</span></h2>
-      <p  class="common-para  mt-4">The EASWORKS platform includes experts across a very wide array of Enterprise Application Software (EAS)
-        development languages and technologies. See the list below to find EAS freelance developer profiles and
-        contractors with your desired skill.</p>
-      <form>
-        <div class="row align-items-end justify-content-center">
-          <div class="contact-form-group cfg-skills text-left">
-            <label>Enterprise Application</label>
-            <div class="contact-input-group">
-              <select class="inputview"  (change)="changeDomain($event?.target)">
-                <option *ngFor="let list of domains"   [value]="list?.domain">{{list?.domain}}</option> 
-              </select>
+  <!--Clients section-->
+  <section id="cliens" class="cliens section-bg pt-4 pb-4">
+    <div class="container">
+      <div class="row aos-init" data-aos="fade-up" data-aos-delay="100">
+        <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+          <img src="assets/img/clients/client-1.png" class="img-fluid clientsimg" alt="" />
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+          <img src="assets/img/clients/client-2.png" class="img-fluid clientsimg" alt="" />
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+          <img src="assets/img/clients/client-3.png" class="img-fluid clientsimg" alt="" />
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+          <img src="assets/img/clients/client-4.png" class="img-fluid clientsimg" alt="" />
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+          <img src="assets/img/clients/client-5.png" class="img-fluid clientsimg" alt="" />
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+          <img src="assets/img/clients/client-1.png" class="img-fluid clientsimg" alt="" />
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--Clients section End-->
+
+  <!-- Our Service Section -->
+  <section class="team-dna services">
+    <div class="container">
+      <div class="second-title text-center">
+        <h2>Hire top <span class="spantitlecolor">{{role?.prefix}} {{role?.role}}</span> talent</h2>
+      </div>
+      <div class="row plat-items hiringenterprise mt-5">
+        <div class="col-lg-4 col-md-4 col-12 d-flex">
+          <div class="platform-box">
+            <div class="plat-step">
+              <span>01</span>
             </div>
-          </div>
-          <div class="contact-form-group cfg-skills text-left">
-            <label>Softwares</label>
-            <div class="contact-input-group">
-              <select class="inputview">
-                <option *ngFor="let list of softwareList" [value]="list.name">{{list.name}}</option>
-              </select>
+            <div class="plat-content icon-box mt-4">
+              <div class="icon">
+                <img src="assets/img/ae-joinforfree.png" alt="image" />
+              </div>
+              <h2 class="secondary-title">Post your <span class="spantitlecolor">{{role?.prefix}} {{role?.role}}</span>
+                Job needs.
+              </h2>
+              <p class="common-para">Simply post your enterprise application hiring requirement and talk to our industry
+                expert.</p>
             </div>
-          </div>
-          <div class="contact-form-group d-flex flex-wrap">
-            <a href="javascript:void(0)" class="btn-get-started mr-3">Get Started</a>
           </div>
         </div>
-      </form>
+
+        <div class="col-lg-4 col-md-4 col-12 d-flex">
+          <div class="platform-box">
+            <div class="plat-step">
+              <span>02</span>
+            </div>
+            <div class="plat-content icon-box mt-4">
+              <div class="icon">
+                <img src="assets/img/ae-revieandshorlist.png" alt="image" />
+              </div>
+              <h2 class="secondary-title">Thoroughly Vetted <span class="spantitlecolor">{{role?.prefix}}
+                  {{role?.role}}</span></h2>
+              <p class="common-para">We will provide you the best suited Teamcenter PLM Developer to interview based on
+                your requirement from our talent network.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-12 d-flex">
+          <div class="platform-box">
+            <div class="plat-step">
+              <span>03</span>
+            </div>
+            <div class="plat-content icon-box mt-4">
+              <div class="icon">
+                <img src="assets/img/ae-pay.png" alt="image" />
+              </div>
+              <h2 class="secondary-title">Pay <span class="spantitlecolor">{{role?.prefix}} {{role?.role}}</span> when
+                you're
+                satisfied (Risk Free)</h2>
+              <p class="common-para">Try a AppTalents Teamcenter PLM Developer for up to 20 hours of trial work, Release
+                payments when it has been completed and you're 100% satisfied.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-12" data-aos="fade-up" data-aos-delay="100">
-        <ul class="developer-type">
-          <li class="developer-list" *ngFor="let list of role?.Job_Roles">
-            <a>
-              <i class="icofont-simple-right"></i> {{role?.prefix}} {{list}}
-            </a>
-          </li>
-        </ul>
-        <!-- <ul class="developer-type">
+  </section>
+
+  <section class="all-developers section-bg">
+    <div class="container">
+      <div class="text-center">
+        <h2 class="second-title">Hiring for a specific <span class="spantitlecolor">Enterprise Application role?</span>
+        </h2>
+        <p class="common-para  mt-4">The EASWORKS platform includes experts across a very wide array of Enterprise
+          Application Software (EAS)
+          development languages and technologies. See the list below to find EAS freelance developer profiles and
+          contractors with your desired skill.</p>
+        <form>
+          <div class="row align-items-end justify-content-center">
+            <div class="contact-form-group cfg-skills text-left">
+              <label>Enterprise Application</label>
+              <div class="contact-input-group">
+                <select class="inputview" [(ngModel)]="domainInput" name="domainInput"
+                  (change)="changeDomain($event?.target)">
+                  <option *ngFor="let list of domains" [value]="list?.domain">{{list?.domain}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="contact-form-group cfg-skills text-left">
+              <label>Softwares</label>
+              <div class="contact-input-group">
+                <select class="inputview">
+                  <option *ngFor="let list of softwareList" [value]="list.name">{{list.name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="contact-form-group d-flex flex-wrap">
+              <a href="javascript:void(0)" class="btn-get-started  mr-3">Get Started</a>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-12" data-aos="fade-up" data-aos-delay="100">
+          <ul class="developer-type">
+            <li class="developer-list" *ngFor="let list of role?.Job_Roles">
+              <a class="cursor-pointer">
+                <i class="icofont-simple-right"></i> {{role?.prefix}} {{list}}
+              </a>
+            </li>
+          </ul>
+          <!-- <ul class="developer-type">
           <li class="developer-list">
             <a href="javascript:void(0)">
               <i class="icofont-simple-right"></i> PLM Business Analyst
@@ -491,22 +495,44 @@
           </li>
 
         </ul> -->
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Our apps Section -->
-<section class="apps-wraper">
-  <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="second-title">Hiring for a specific <span class="spantitlecolor">Enterprise Application <br>Development/Customization
-          skill?</span></h2>
-    </div>
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-12" data-aos="fade-up" data-aos-delay="100">
-        <h2 class="secondary-title">PLM - Product Lifecycle Management</h2>
-        <ul class="app-support-type plmList">
+  <!-- Our apps Section -->
+  <section class="apps-wraper">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="second-title">Hiring for a specific <span class="spantitlecolor">Enterprise Application
+            <br>Development/Customization
+            skill?</span></h2>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-12" data-aos="fade-up" data-aos-delay="100">
+          <h2 class="secondary-title">{{role?.prefix}} - {{role?.name}}</h2>
+
+          <ul class="app-support-type erpList">
+            <!-- <li class="app-support-list">
+              <a href="AEroles.html">
+                <img src="assets/img/language/plm-teamcenter.png" alt="image">
+              </a>
+            </li> -->
+            <ng-container *ngFor="let prd of softwareList;let i = index;">
+              <li class="app-support-list" *ngIf="showMore ? i < 8 : i"
+                [ngClass]="[prd?.imageUrl == 'Custom' ? prd?.color : '',prd?.imageUrl == 'Custom' ? 'clasetting' : '']"
+                [ngStyle]="{'display':prd?.imageUrl == '' ? 'none':''}">
+                <a class="cr-pointer" *ngIf="prd?.imageUrl != 'Custom'" (click)="goToRoles(list,prd)">
+                  <img [src]="imageBaseUrl + prd?.imageUrl" alt="image" />
+                </a>
+                <a *ngIf="prd?.imageUrl == 'Custom'">
+                  <span class="cla-setting"><i class="bx bxs-cog"></i>{{prd.name}}</span>
+                </a>
+              </li>
+            </ng-container>
+          </ul>
+
+          <!-- <ul class="app-support-type plmList">
           <li class="app-support-list">
             <a href="AEroles.html">
               <img src="assets/img/language/plm-teamcenter.png" alt="image">
@@ -557,45 +583,49 @@
           <li class="app-support-list"><a href="AEroles.html">
               <img src="assets/img/language/plm_lectra.png" alt="image">
             </a> </li>
-        </ul>
-        <div class="seemore-option">
-          <a class="moreless plmml" href="javascript:void(0)">
-            <i class='bx bx-plus'></i> See PLM more skills
-          </a>
+        </ul> -->
+          <div class="seemore-option">
+            <a class="moreless plmml" (click)="showMore = !showMore" href="javascript:void(0)">
+              <i class="bx " [ngClass]="showMore == true ? 'bx-plus' : 'bx-minus'"></i> See {{ showMore ? "more" : "less" }} {{role?.prefix}}
+              skills
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Our apps Section -->
-<section class="apptalent-connect bgblue-connect">
-  <div class="container">
-    <div class="apptalent-export-content text-center ">
-      <h1 class="second-title text-white mb-4">
-        HAVE SPECIFIC QUESTION - WE'D LOVE TO HEAR FROM YOU
-      </h1>
-      <p class="common-para mb-4 text-white">
-        Whether you need help with a current or upcoming Enterprise Application project , initial advice and consultation, need with a more specific mix of skills or just want to introduce yourself. Let’s see if we can help
-      </p>
-      <a href="javascript:void(0)" class="applytojoin-btn whyapp-applytojoin bg-white text-dark mr-auto ml-auto">Talk to
-        Us</a>
+  <!-- Our apps Section -->
+  <section class="apptalent-connect bgblue-connect">
+    <div class="container">
+      <div class="apptalent-export-content text-center ">
+        <h1 class="second-title text-white mb-4">
+          HAVE SPECIFIC QUESTION - WE'D LOVE TO HEAR FROM YOU
+        </h1>
+        <p class="common-para mb-4 text-white">
+          Whether you need help with a current or upcoming Enterprise Application project , initial advice and
+          consultation, need with a more specific mix of skills or just want to introduce yourself. Let’s see if we can
+          help
+        </p>
+        <a href="javascript:void(0)" class="applytojoin-btn whyapp-applytojoin bg-white text-dark mr-auto ml-auto">Talk
+          to
+          Us</a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Our apps Section -->
-<section class="signUpFreesection">
-  <div class="container">
-    <div class="apptalent-export-content text-center ">
-      <h1 class="second-title text-black mb-4">
-        <span class="spantitlecolor">Sign up - Free</span> to see more EAS Profiles.
-      </h1>
-      <a href="javascript:void(0)" class="applytojoin-btn">Talk to Us</a>
-      <span class="rftrail text-black mt-1">Risk free trial, pay only if satisfied</span>
+  <!-- Our apps Section -->
+  <section class="signUpFreesection">
+    <div class="container">
+      <div class="apptalent-export-content text-center ">
+        <h1 class="second-title text-black mb-4">
+          <span class="spantitlecolor">Sign up - Free</span> to see more EAS Profiles.
+        </h1>
+        <a href="javascript:void(0)" class="applytojoin-btn">Talk to Us</a>
+        <span class="rftrail text-black mt-1">Risk free trial, pay only if satisfied</span>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 </div>
 <!--Footer-->
 <app-footer></app-footer>

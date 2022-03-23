@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-application-list',
@@ -10,12 +11,20 @@ export class ApplicationListComponent implements OnInit {
   public software: any = sessionStorage.getItem("software");
   public domains: any = sessionStorage.getItem("domain");
   public softwareList: any = [];
+  public imageBaseUrl = `${environment.imageUrl}`;
+  public domainInput: any;
+  public showMore: boolean = true;
   constructor() {
     this.role = JSON.parse(this.role);
     this.software = JSON.parse(this.software);
-    this.domains = JSON.parse(this.domains);
-    this.softwareList = this.domains[0]['softwate'];
-    window.scrollTo(0,0);
+    this.domains = JSON.parse(this.domains); 
+    window.scrollTo(0, 0);
+    this.domainInput = this.role['name'];
+    this.domains.map((e: any) => {
+      if (e.domain == this.role['name']) {
+        this.softwareList = e['softwate'];
+      }
+    }) 
   }
 
   ngOnInit(): void {
