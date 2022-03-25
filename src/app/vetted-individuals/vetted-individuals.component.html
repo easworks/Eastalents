@@ -9,9 +9,9 @@
             <div class="row">
                 <div
                     class="col-lg-7 col-md-7 col-sm-7 col-12 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                    <h1 data-aos="fade-up" data-aos-delay="200" class="main-title">Vetted Individuals</h1>
-
-                    <p class="common-para">Hire Individual top EAS Talents on-demand based on skill or role.</p>
+                    <h1 data-aos="fade-up" data-aos-delay="200" class="main-title">{{vettedIndividuals.title}}</h1>
+                    <div class="vetted" [innerHTML]="vettedIndividuals?.content?.sec_1_desc"></div>
+                    <!-- <p class="common-para">Hire Individual top EAS Talents on-demand based on skill or role.</p>
                     <p class="common-para">With the right EAS team members, you can boost the EAS project's
                         performance, outcome, and smoothness to any enterprise projects and, as they enter new phases of
                         maturity, sometimes it’s necessary to add new EAS members or fill the skill gaps who are just
@@ -19,7 +19,7 @@
                     <p class="common-para">EAS talent can be hire skilled professionals for short term or long-term
                         project based on your EAS projects goal.</p>
                     <p class="common-para">EASWORKS allows you to hire EAS talent on-demand (Talent as a service -
-                        TaaS), proven, reliable, and cost-effective way for our enterprise clients.</p>
+                        TaaS), proven, reliable, and cost-effective way for our enterprise clients.</p> -->
                     <div class="d-flex mt-4">
                         <a href="javascript:void(0)" class="btn-get-started mr-3">Talk to Us</a>
                     </div>
@@ -37,21 +37,22 @@
         <div class="container">
             <div class="text-center">
                 <h2 class="second-title mb-5">
-                    Why choose EAS <span class="spantitlecolor">Vetted Individuals ? </span></h2>
+                    Why choose EAS <span class="spantitlecolor">{{vettedIndividuals.title}} ? </span></h2>
             </div>
             <div class="row row-cols-5 justify-content-center">
-                <div class="col d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
+                <div class="col d-flex align-items-stretch" *ngFor="let list of vettedIndividuals?.content?.sec_2"
+                    data-aos="fade-up" data-aos-delay="300">
                     <div class="icon-box">
                         <div class="icon easpromiseiticon">
-                            <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_bzqwxvlp.json" background="transparent"
-                              speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+                            <lottie-player [src]="list.img" background="transparent" speed="1"
+                                style="width: 100%; height: 100%;" loop autoplay></lottie-player>
                         </div>
-                        <h4 class="subtitle"><a href="">Dedicated EAS individuals</a></h4>
-                        <p class="common-para">Assigned to a particular client and will remain intact over the life cycle of EAS project</p>
+                        <h4 class="subtitle"><a href="">{{list.title}}</a></h4>
+                        <p class="common-para">{{list.desc}}</p>
                     </div>
                 </div>
 
-                <div class="col d-flex align-items-stretch mt-md-0" data-aos="fade-up" data-aos-delay="400">
+                <!-- <div class="col d-flex align-items-stretch mt-md-0" data-aos="fade-up" data-aos-delay="400">
                     <div class="icon-box">
                         <div class="icon easpromiseiticon">
                             <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_xoih8e2r.json" background="transparent"
@@ -66,7 +67,6 @@
                 <div class="col d-flex align-items-stretch mt-lg-0" data-aos="fade-up" data-aos-delay="200">
                     <div class="icon-box">
                         <div class="icon easpromiseiticon">
-                            <!-- <img src="assets/img/reliable.png" alt="image" /> -->
                             <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_7ghmdeyc.json" background="transparent"
                               speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
                           </div>
@@ -79,7 +79,6 @@
                 <div class="col d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
                     <div class="icon-box">
                         <div class="icon easpromiseiticon">
-                            <!-- <img src="assets/img/businessValue.png" alt="image" /> -->
                             <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_dkhbr8gm.json" background="transparent"
                               speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
                           </div>
@@ -91,7 +90,6 @@
                 <div class="col d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                     <div class="icon-box">
                         <div class="icon easpromiseiticon">
-                            <!-- <img src="assets/img/faster.png" alt="image" /> -->
                             <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_tbhzfws5.json" background="transparent"
                               speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
                           </div>
@@ -99,7 +97,7 @@
                         <p class="common-para">Integrate into your internal team’s processes, daily/weekly report and participate actively
                             in daily meetings and progress reports.</p>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -108,29 +106,29 @@
     <section class="services">
         <div class="container position-relative">
             <div class="text-center">
-                <h2 class="second-title mb-5 text-dark">Benefits of hiring <span class="spantitlecolor">Vetted Individuals</span></h2>
+                <h2 class="second-title mb-5 text-dark">Benefits of hiring <span
+                        class="spantitlecolor">{{vettedIndividuals.title}}</span></h2>
             </div>
-
             <div class="row align-items-start section">
-                <div class="col-lg-6 col-md-6 col-12" data-aos="fade-right" data-aos-delay="200">
-                    <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_ureyqxyw.json"
-                        background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay>
+                <div *ngIf="vettedIndividuals?.content?.sec_3_img" class="col-lg-6 col-md-6 col-12"
+                    data-aos="fade-right" data-aos-delay="200">
+                    <lottie-player [src]="vettedIndividuals?.content?.sec_3_img" background="transparent" speed="1"
+                        style="width: 100%; height: 100%;" loop autoplay>
                     </lottie-player>
                 </div>
                 <div class="col-lg-6 col-md-6 col-12" data-aos="fade-left" data-aos-delay="200">
                     <ul class="stepContent">
-                        <li class="step-item">
+                        <li class="step-item" *ngFor="let list of vettedIndividuals?.content?.sec_3_steps">
                             <div class="stepNum">
-                                <span>01</span>
+                                <span>{{list.step}}</span>
                             </div>
                             <div class="step-title">
-                                <h1>Talent & Higher EAS Experts Commitment</h1>
-                                <p>Quickly integrate outstanding software engineers that increase your team's capacity
-                                    and add value to your project.</p>
+                                <h1>{{list.title}}</h1>
+                                <p>{{list.desc}}</p>
                             </div>
                         </li>
 
-                        <li class="step-item">
+                        <!-- <li class="step-item">
                             <div class="stepNum">
                                 <span>02</span>
                             </div>
@@ -161,7 +159,7 @@
                                 <p>Increase or decrease the size of your development workforce as needed with on-demand
                                     talent to complete the project within the budget.</p>
                             </div>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -172,19 +170,16 @@
     <section class="services section-bg">
         <div class="container position-relative">
             <div class="text-center">
-                <h2 class="second-title mb-5 text-dark">When is <span class="spantitlecolor">Vetted Individuals</span> best?</h2>
+                <h2 class="second-title mb-5 text-dark">When is <span
+                        class="spantitlecolor">{{vettedIndividuals.title}}</span> best?</h2>
             </div>
-
             <div class="row align-items-start section">
-
                 <div class="col-lg-6 col-md-6 col-12" data-aos="fade-left" data-aos-delay="200">
-                    <div class="defaultTitle">
-                        <h1 class="subtitle text-left"> 1. Need specific EAS skills</h1>
-                        <p class="common-para">Need to quickly expand your team by bringing in high skilled & domain
-                            specific EAS experts.</p>
+                    <div class="defaultTitle" *ngFor="let list of vettedIndividuals?.content?.sec_4_qa">
+                        <h1 class="subtitle text-left"> {{list.question}}</h1>
+                        <p class="common-para">{{list.ans}}</p>
                     </div>
-
-                    <div class="defaultTitle">
+                    <!-- <div class="defaultTitle">
                         <h1 class="subtitle text-left"> 2. Need reinforce your In-house EAS team</h1>
                         <p class="common-para">While you have In-house Enterprise Application software developers. For
                             some new projects you will need current expertise. In this case, strengthen your IT team.
@@ -201,14 +196,14 @@
                     <div class="defaultTitle">
                         <h1 class="subtitle text-left"> 4. As a bridge for hire</h1>
                         <p class="common-para">Short-term employment may turn into longer employee relations.</p>
-                    </div>
-
+                    </div> -->
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 order-1 order-lg-2 hero-img" data-aos="fade-up"
+                <div *ngIf="vettedIndividuals?.content?.sec_4_img"
+                    class="col-lg-6 col-md-6 col-sm-6 order-1 order-lg-2 hero-img" data-aos="fade-up"
                     data-aos-delay="600">
                     <!-- <img src="assets/img/whyapptalent/Why-EASWORKS.png" class="img-fluid animated" alt="" /> -->
-                    <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_wmo8uhav.json"
-                        background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay>
+                    <lottie-player [src]="vettedIndividuals?.content?.sec_4_img" background="transparent" speed="1"
+                        style="width: 100%; height: 100%;" loop autoplay>
                     </lottie-player>
                 </div>
             </div>
@@ -220,40 +215,31 @@
         <div class="container">
             <div class="text-center">
                 <h2 class="second-title mb-5">
-                    How does <span class="spantitlecolor">Vetted Individuals</span> hire work?</h2>
+                    How does <span class="spantitlecolor">{{vettedIndividuals.title}}</span> hire work?</h2>
             </div>
-            <div class="row align-items-center">
-                <div class="col-lg-6 col-md-6 col-12" data-aos="fade-right" data-aos-delay="200">
-                    <div class="how-image">
-                        <img src="assets/img/how/understanding.svg" class="img-fluid" />
+            <ng-container *ngFor="let list of vettedIndividuals?.content?.sec_5_title;let i = index;">
+                <div class="row align-items-center" [ngClass]="{'flex-row-reverse':i%2}">
+                    <div class="col-lg-6 col-md-6 col-12" data-aos="fade-right" data-aos-delay="200">
+                        <div class="how-image">
+                            <img [src]="list.img" class="img-fluid" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12" data-aos="fade-left" data-aos-delay="200">
+                        <div class="how-Under-content">
+                            <h1 class="second-title">{{list.title}}</h1>
+                            <p class="common-para">{{list.desc}}</p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-12" data-aos="fade-left" data-aos-delay="200">
-                    <div class="how-Under-content">
-                        <!-- <div class="plat-step text-center">
-                            <span>01</span>
-                        </div> -->
-                        <h1 class="second-title">Identifying talent gaps</h1>
-                        <p class="common-para">Based on your project and analyze if your in-house team has the needed skills and time to
-                            fulfill the project themselves across the project lifecycle. Make a list of what Enterprise
-                            Application resources and technologies are required to complete the project smoothly.</p>
-                        <p class="common-para">If you see a talent shortage on your team to handle the EAS project, then get in touch with
-                            EASWORKS to fill the gaps.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row align-items-center flex-row-reverse">
+            </ng-container>
+            <!-- <div class="row align-items-center flex-row-reverse">
                 <div class="col-lg-6 col-md-6 col-12" data-aos="fade-left" data-aos-delay="200">
                     <div class="how-image">
                         <img src="assets/img/how/sourcing.svg" class="img-fluid" />
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-12" data-aos="fade-left" data-aos-delay="200">
-                    <div class="how-Under-content">
-                        <!-- <div class="plat-step text-center">
-                            <span>01</span>
-                        </div> -->
+                    <div class="how-Under-content"> 
                         <h1 class="second-title">Interview talent matches</h1>
                         <p class="common-para">Interview hand selected and pre-screened EAS talent matches based on your project
                             requirement,skills,industry experience.</p>
@@ -261,21 +247,16 @@
                 </div>
             </div>
 
-
             <div class="row align-items-center mb-4">
                 <div class="col-lg-6 col-md-6 col-12" data-aos="fade-right" data-aos-delay="200">
                     <div class="how-image">
-                        <!-- <img src="assets/img/how/review-candidate.png" class="img-fluid" /> -->
                         <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_ureyqxyw.json"
                             background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay>
                         </lottie-player>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-12" data-aos="fade-left" data-aos-delay="200">
-                    <div class="how-Under-content">
-                        <!-- <div class="plat-step text-center">
-                            <span>01</span>
-                        </div> -->
+                    <div class="how-Under-content"> 
                         <h1 class="second-title">Onboarding and work integration</h1>
                         <p class="common-para">Work with EASWORKS team to settling the terms and conditions, signing contracts and NDAs.
                             Introduce the new EAS team members into your company, inform them of technical concepts, and
@@ -284,7 +265,6 @@
                 </div>
             </div>
 
-
             <div class="row align-items-center flex-row-reverse">
                 <div class="col-lg-6 col-md-6 col-12" data-aos="fade-left" data-aos-delay="200">
                     <div class="how-image h-auto">
@@ -292,17 +272,14 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-12" data-aos="fade-left" data-aos-delay="200">
-                    <div class="how-Under-content">
-                        <!-- <div class="plat-step text-center">
-                            <span>01</span>
-                        </div> -->
+                    <div class="how-Under-content"> 
                         <h1 class="second-title">Managing the process</h1>
-                        <p class="common-para">The last step involves managing the EAS project with your vetted individuals EASWORK talent
+                        <p class="common-para">The last step involves managing the EAS project with your {{vettedIndividuals.title}} EASWORK talent
                             while learning and relearning various aspects. Make sure the roles are apparent and the
                             objectives/goals clearly defined including the needed daily/weekly/monthly reports.</p>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
 
@@ -310,8 +287,7 @@
         <div class="container">
             <div class="apptalent-export-content">
                 <p>
-                    EASWORKS connects the elite Enterprise Application software
-                    <span>Individual talents all over the world</span>
+                    {{vettedIndividuals?.content?.sec_6_title}}
                 </p>
                 <div class="apptalent-worldfigure">
                     <ul class="worldfigureType" id="banner-here">
@@ -356,7 +332,7 @@
                     <thead>
                         <tr class="price-table-head">
                             <th class="pth-first-th"></th>
-                            <th>Vetted Individuals</th>
+                            <th>{{vettedIndividuals.title}}</th>
                             <th>Full Teams</th>
                             <th>EAS Project Based</th>
                         </tr>
@@ -568,7 +544,8 @@
                 <h1 class="second-title text-center mb-4 text-black">
                     Sign up - free to <span class="spantitlecolor">hire thoroughly vetted Individual EAS talents.</span>
                 </h1>
-                <div class="d-flex justify-content-center flex-wrap"><a href="javascript:void(0)" class="applytojoin-btn">Hire Now</a></div>
+                <div class="d-flex justify-content-center flex-wrap"><a href="javascript:void(0)"
+                        class="applytojoin-btn">Hire Now</a></div>
                 <span class="rftrail text-black mt-1">Risk free trial, pay only if satisfied</span>
             </div>
         </div>

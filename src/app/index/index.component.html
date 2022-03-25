@@ -266,25 +266,23 @@
         </h2>
       </div>
       <div class="row">
-        <div class="col-lg-4 col-md-4 col-12 d-flex" data-aos="fade-up" data-aos-delay="100">
+        <div *ngFor="let list of entToendJson" class="col-lg-4 col-md-4 col-12 d-flex" data-aos="fade-up"
+          data-aos-delay="100">
           <div class="apptalents-flex">
             <div class="flexible-lottie">
-              <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_7akav0kg.json" background="transparent"
-                speed="1" style="width: 120px; height: 100%" loop autoplay></lottie-player>
+              <lottie-player [src]="list.img" background="transparent" speed="1" style="width: 120px; height: 100%" loop
+                autoplay></lottie-player>
             </div>
             <div class="perfectdiv">
-              <h1 class="subtitle">Vetted Individuals</h1>
-              <p class="common-para">Find the missing skill on your team with one of our pre-vetted EAS professionals
-                who
-                bring the skill-set and knowledge you’re after.</p>
-
+              <h1 class="subtitle">{{list.title}}</h1>
+              <p class="common-para">{{list.desc}}</p>
               <div class="get-startedbtn">
-                <a [routerLink]="['/vetted-individuals']" class="btn-get-started pl-3 pr-3">Get Started</a>
+                <a (click)="gotoVettedIndividuals(list)" class="btn-get-started pl-3 pr-3 cursor-pointer">Get Started</a>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-12 d-flex" data-aos="fade-up" data-aos-delay="200">
+        <!-- <div class="col-lg-4 col-md-4 col-12 d-flex" data-aos="fade-up" data-aos-delay="200">
           <div class="apptalents-flex">
             <div class="flexible-lottie">
               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_kcovw7lp.json" background="transparent"
@@ -317,7 +315,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
@@ -443,7 +441,8 @@
           </ul>
           <div class="seemore-option" (click)="list.show = !list.show" [style]="{ cursor: 'pointer' }">
             <a class="moreless erpml">
-              <i class="bx " [ngClass]="list.show == true ? 'bx-plus' : 'bx-minus'"></i> See {{ list.show ? "more" : "less" }} {{list.prefix}}
+              <i class="bx " [ngClass]="list.show == true ? 'bx-plus' : 'bx-minus'"></i> See {{ list.show ? "more" :
+              "less" }} {{list.prefix}}
               skills
             </a>
           </div>
@@ -3087,7 +3086,7 @@
           </div>
           <ul class="developer-type">
             <li class="developer-list" *ngFor="let role of list?.Job_Roles">
-              <a (click)="goToJobs(role,list)">
+              <a class="cursor-pointer" (click)="goToJobs(role,list)">
                 <i class="icofont-simple-right"></i> {{list?.prefix}} {{role}}
               </a>
             </li>

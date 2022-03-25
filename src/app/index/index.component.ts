@@ -3,12 +3,15 @@ import { HomeService } from '../_services/home.service';
 import { environment } from 'src/environments/environment';
 import * as _ from 'lodash';
 import { Router } from '@angular/router';
+import entToend from '../../assets/localDB/e2e.json';
+var entToendJson: any = entToend;
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements OnInit {
+  public entToendJson: any = entToendJson;
   show: boolean = false;
   public imageBaseUrl = `${environment.imageUrl}`;
   productColorList = ['colorafedec', 'colorb4c0ea', 'colorfec1ae', 'colore9b0e5', 'colorffdaad', 'color97c996', 'colorafedec']
@@ -102,8 +105,12 @@ export class IndexComponent implements OnInit {
     this.router.navigate(['/ApplicationConsultant'])
   }
 
-  changeDomain(i: any) { 
+  changeDomain(i: any) {
     this.softwareList = this.primaryDomains[i.value]['softwate']
+  }
+  gotoVettedIndividuals(data: any) {
+    sessionStorage.setItem("vettedIndividuals", JSON.stringify(data));
+    this.router.navigate(['/vetted-individuals'])
   }
 
 }

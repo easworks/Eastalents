@@ -522,7 +522,7 @@
               <li class="app-support-list" *ngIf="showMore ? i < 8 : i"
                 [ngClass]="[prd?.imageUrl == 'Custom' ? prd?.color : '',prd?.imageUrl == 'Custom' ? 'clasetting' : '']"
                 [ngStyle]="{'display':prd?.imageUrl == '' ? 'none':''}">
-                <a class="cr-pointer" *ngIf="prd?.imageUrl != 'Custom'" (click)="goToRoles(list,prd)">
+                <a class="cr-pointer" *ngIf="prd?.imageUrl != 'Custom'" >
                   <img [src]="imageBaseUrl + prd?.imageUrl" alt="image" />
                 </a>
                 <a *ngIf="prd?.imageUrl == 'Custom'">
