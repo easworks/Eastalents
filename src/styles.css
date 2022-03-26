@@ -869,12 +869,7 @@ section {
   width: 80px;
   height: 80px;
 }
-/* .services .icon-box .icon.ghIcon {
-  border: 5px solid #3f48cc;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-} */
+
 .services .icon-box .icon.ghIcon.ghIcongray {
   border-color: #cccccc;
 }
@@ -5557,4 +5552,40 @@ background-color: #4949fc26;
 .roles-hm-btn{
   display: inline-flex;
   padding-left: 24px;
+}
+
+.industryType{
+position: relative;
+}
+.industryType .industryTypeList{
+  border: 1px solid #dddddd;
+  display: flex;
+  border-radius: 3px;
+  width: 100%;
+  box-shadow: 0 0 20px 0 #3e1c831a;
+  background: #ffffff;
+  margin-bottom: 12px;
+}
+.industry-box{
+  width: 100%;
+}
+.industry-box:last-child{
+  border-bottom: 0px;
+}
+.industry-box label{
+  font-size: 13px;
+    font-weight: 500;
+    color: #333030;
+    margin-bottom: 0px;
+    display: block;
+    line-height: 16px;
+    padding: 3px 4px;
+}
+.industry-box span{
+  font-size: 13px;
+    font-weight: normal;
+    color: #4b4b4b;
+    display: block;
+    line-height: 16px;
+    padding: 3px 4px;
 }
