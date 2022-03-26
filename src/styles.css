@@ -103,7 +103,13 @@ select {
   color: #ffffff !important;
   border-color:#4f4ffc !important;
 }
-
+.vetted p{
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: #000000;
+  margin: 15px 0px 15px 0px;
+}
 .common-para{
   font-size: 0.875rem;
   font-weight: 400;
@@ -232,7 +238,7 @@ section {
   overflow: hidden;
 }
 .banner-section{
-  padding-top:0px;
+  padding-top:30px;
 }
 .section-bg {
   background-color: #f7f7f7;
@@ -4465,6 +4471,10 @@ form #debt-amount-slider label {
 .apptalents-flex lottie-player {
   width: 120px;
   height: 120px;
+}
+.lott:last-child .apptalents-flex .flexible-lottie lottie-player{
+  width: 100% !important;
+  height: 170px !important;
 }
 
 /*** Sidebar ***/

@@ -4,21 +4,21 @@
 
 <div *ngIf="loadContent" class="common-space">
     <!--Why AppTalent-->
-    <section class="gethire-wraper">
+    <section class="gethire-wraper banner-section">
         <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-lg-7 col-md-7 col-sm-7 col-12 pt-lg-0 order-2 order-lg-1 d-flex flex-column">
+            <div class="row">
+                <div class="col-lg-7 col-md-7 col-sm-7 col-12 d-flex flex-column">
                     <h1 data-aos="fade-up" data-aos-delay="200" class="main-title">
                         {{useCaseDetails['title']}}
                         <span class="spantitlecolor">{{useCaseDetails['title_sub']}}</span>
                     </h1>
 
-                    <p class="common-para mt-52" [innerHTML]="useCaseDetails['description']"></p>
-                    <div class="d-flex mt-4">
+                    <p class="common-para mt-4" [innerHTML]="useCaseDetails['description']"></p>
+                    <div class="d-flex mt-2">
                         <a href="javascript:void(0)" class="btn-get-started mr-3">{{useCaseDetails['btn_text']}}</a>
                     </div>
                 </div>
-                <div class="col-lg-5 col-md-5 col-sm-5 col-12 order-1 order-lg-2 hero-img" data-aos="fade-up"
+                <div class="col-lg-5 col-md-5 col-sm-5 col-12 hero-img" data-aos="fade-up"
                     data-aos-delay="600">
                     <!-- <img [src]="useCaseDetails['img']" class="img-fluid animated" alt=""> -->
                     <lottie-player *ngIf="useCaseDetails['img']" [src]="useCaseDetails['img']" background="transparent"
