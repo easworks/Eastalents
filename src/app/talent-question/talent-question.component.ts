@@ -69,7 +69,8 @@ export class TalentQuestionComponent implements OnInit {
   jobRole:any=[];
   idToNavigate:any;
   completePhase:any=[];
-  selectedRole='';
+  preferredPLM='';
+  currentPLM='';
   constructor(private httpService: HttpService,
     private router: Router, private route: ActivatedRoute,
     private talentService: TalentService,private http: HttpClient,private toaster: ToasterService,private sessionService: SessionService) {
@@ -326,7 +327,7 @@ export class TalentQuestionComponent implements OnInit {
   }
 
 
-  selectOption(opt: any) {
+  selectOption(opt: any,type?:any) {
     if(this.currentPage === 1){ // firstQuestion
 
     }
@@ -397,9 +398,13 @@ export class TalentQuestionComponent implements OnInit {
       if(opt.type === 'startWorkingWithEasyWork'){
         opt.selected = !opt.selected;
       }
-      else{
-        this.selectedRole = opt;
-        this.talentQuestionData[this.currentPage].data.selectedPLM = this.selectedRole;
+      else if(type === 'preferredPLM'){
+        this.preferredPLM = opt;
+        this.talentQuestionData[this.currentPage].data.preferredPLM = this.preferredPLM;
+      }
+      else if(type === 'currentPLM'){
+        this.currentPLM = opt;
+        this.talentQuestionData[this.currentPage].data.currentPLM = this.currentPLM;
       }
     }
     else if (this.currentPage === 12){
@@ -669,7 +674,7 @@ export class TalentQuestionComponent implements OnInit {
     this.httpService.post('talentProfile/createTalentProfile',data).subscribe((response: ApiResponse<any>) => {
       if (!response.error) {
         this.toaster.success(`${response.message}`);
-        // this.router.navigate(['/Talentprofileview']);
+        this.router.navigate(['/Talent-Profile-Edit']);
       }
     }, (error) => {
       console.log(error);

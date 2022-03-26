@@ -386,7 +386,19 @@
                               <div class="form-group-wizard d-flex align-items-center">
                                 <label class="qs-label-text">Preferred <span class="spantitlecolor">{{enterpriseApplicationGroup}}</span> role</label>
                                 <div class="form-input-group position-relative w-50">
-                                  <select class="inputview" name='role' [ngModel]="selectedRole" (ngModelChange)="selectOption($event)">
+                                  <select class="inputview" name='preferredPLM' [ngModel]="preferredPLM" (ngModelChange)="selectOption($event,'preferredPLM')">
+                                    <ng-container *ngFor="let role of jobRole">
+                                      <option value="{{role.value}}">{{role.value}}</option>
+                                    </ng-container>
+                                  </select>
+                                </div>
+                              </div>
+                            </li>
+                            <li class="col-lg-12 col-md-12 col-12">
+                              <div class="form-group-wizard d-flex align-items-center">
+                                <label class="qs-label-text">Current <span class="spantitlecolor">{{enterpriseApplicationGroup}}</span> role</label>
+                                <div class="form-input-group position-relative w-50">
+                                  <select class="inputview" name='currentPLM' [ngModel]="currentPLM" (ngModelChange)="selectOption($event,'currentPLM')">
                                     <ng-container *ngFor="let role of jobRole">
                                       <option value="{{role.value}}">{{role.value}}</option>
                                     </ng-container>
@@ -682,7 +694,7 @@
                               <div class="form-group-wizard d-flex align-items-center">
                                 <label class="qs-label-text">{{opt.label}}</label>
                                 <div class="form-input-group  w-100">
-                                  <input type="text" class="inputview" name="opt.label" [(ngModel)]="opt.value">
+                                  <input type="text" class="inputview" name="{{opt.label}}" [(ngModel)]="opt.value">
                                 </div>
                               </div>
                             </li>

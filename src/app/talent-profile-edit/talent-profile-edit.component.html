@@ -50,14 +50,13 @@
                       </div>
                     </span>
                     <div class="pc-namd-detail">
-                      <h1>{{personalData.firstName}}<span> {{ personalData.lastName}} </span><i
-                          class='bx bxs-edit com-edit'></i></h1>
+                      <h1>{{personalData.firstName}}<span> {{ personalData.lastName}} </span></h1>
                       <ul class="pc-type mt-2">
                         <li>
                           <label>Current Role:</label>
                           <div class="flex-baseline">
-                            <span class="pc-text">Software Developer</span>
-                            <button type="button" class="com-edit"><i class='bx bxs-edit com-edit'></i></button>
+                            <span class="pc-text">{{dataToDisplay.currentPLM}}</span>
+                            <button type="button" class="com-edit"><i class='bx bxs-edit com-edit' (click)="onUpdate('11')"></i></button>
                           </div>
                         </li>
                         <li>
@@ -73,8 +72,8 @@
                         <li>
                           <label>Prefered Role:</label>
                           <div class="flex-baseline">
-                            <span class="pc-text">Software Developer</span>
-                            <button type="button" class="com-edit"><i class='bx bxs-edit com-edit'></i></button>
+                            <span class="pc-text">{{dataToDisplay.preferredPLM}}</span>
+                            <button type="button" class="com-edit"><i class='bx bxs-edit com-edit' (click)="onUpdate('11')"></i></button>
                           </div>
                         </li>
                       </ul>
@@ -119,7 +118,7 @@
               <div class="profile-card">
                 <div class="common-title d-flex justify-content-between">
                   <h2 class="card-title mb-0">Top Enterprise Application Domain Experience</h2>
-                  <button type="button" class="editbtn"><i class='bx bxs-edit'></i></button>
+                  <!-- <button type="button" class="editbtn"><i class='bx bxs-edit'></i></button> -->
                 </div>
                 <div class="profile-body p-3">
                   <div class="mepb-card">
@@ -149,20 +148,17 @@
                       </ul>
                     </div>
                     <ul class="enterprise-type">
-                      <li class="enterprise-list">
-                        <span class="enterprise-link">ERP</span>
+                      <ng-container *ngIf="this.talentQuestionData[2]">
+                      <ng-container *ngFor="let data of this.talentQuestionData[2].option">
+                      <li class="enterprise-list" *ngIf ="data.selected === true">
+                        <span class="enterprise-link">{{data.value}}</span>
                         <div class="lang-progress">
-                          <span class="lang-bar w-50">2</span>
-                          <span class="lang-bar bggray w-50">P</span>
+                          <span class="lang-bar w-50">{{data.noOfYear}} </span>
+                          <span class="lang-bar bggray w-50">{{data.skill.charAt(0) | uppercase}}</span>
                         </div>
                       </li>
-                      <li class="enterprise-list">
-                        <span class="enterprise-link">PLM</span>
-                        <div class="lang-progress">
-                          <span class="lang-bar w-50">2</span>
-                          <span class="lang-bar bggray w-50">P</span>
-                        </div>
-                      </li>
+                    </ng-container>
+                    </ng-container>
                     </ul>
                   </div>
                 </div>
@@ -175,26 +171,23 @@
               <div class="profile-card">
                 <div class="common-title d-flex justify-content-between">
                   <h2 class="card-title mb-0">Top EAS Experience</h2>
-                  <button type="button" class="editbtn"><i class='bx bxs-edit'></i></button>
+                  <button type="button" class="editbtn"><i class='bx bxs-edit' (click)="onUpdate('4')"></i></button>
                 </div>
                 <div class="profile-body p-3">
                   <div class="mepb-card">
 
                     <ul class="enterprise-type">
-                      <li class="enterprise-list">
-                        <span class="enterprise-link">ERP</span>
+                      <ng-container *ngIf="this.talentQuestionData[4]">
+                      <ng-container *ngFor="let data of this.talentQuestionData[4].option">
+                      <li class="enterprise-list" *ngIf ="data.selected === true">
+                        <span class="enterprise-link">{{data.value}}</span>
                         <div class="lang-progress">
-                          <span class="lang-bar w-50">2</span>
-                          <span class="lang-bar bggray w-50">P</span>
+                          <span class="lang-bar w-50">{{data.noOfYear}}</span>
+                          <span class="lang-bar bggray w-50">{{data.skill.charAt(0) | uppercase}}</span>
                         </div>
                       </li>
-                      <li class="enterprise-list">
-                        <span class="enterprise-link">PLM</span>
-                        <div class="lang-progress">
-                          <span class="lang-bar w-50">2</span>
-                          <span class="lang-bar bggray w-50">P</span>
-                        </div>
-                      </li>
+                     </ng-container>
+                     </ng-container>
                     </ul>
                   </div>
                 </div>
@@ -207,19 +200,17 @@
               <div class="profile-card">
                 <div class="common-title d-flex justify-content-between">
                   <h2 class="card-title mb-0">Top Modules Experience</h2>
-                  <button type="button" class="editbtn"><i class='bx bxs-edit'></i></button>
+                  <!-- <button type="button" class="editbtn"><i class='bx bxs-edit'></i></button> -->
                 </div>
                 <div class="profile-body p-3">
                   <ul class="app-soft-type">
-                    <li class="app-soft-list">
-                      Change Management
+                    <ng-container *ngIf="this.talentQuestionData[3]">
+                    <ng-container *ngFor="let data of this.talentQuestionData[3].option">
+                    <li class="app-soft-list"  *ngIf ="data.selected === true">
+                      {{data.value}}
                     </li>
-                    <li class="app-soft-list">
-                      Test-drive Development (TDD)
-                    </li>
-                    <li class="app-soft-list">
-                      Test-drive Development (TDD)
-                    </li>
+                  </ng-container>
+                  </ng-container>
                   </ul>
                 </div>
               </div>
@@ -231,19 +222,17 @@
               <div class="profile-card">
                 <div class="common-title d-flex justify-content-between">
                   <h2 class="card-title mb-0">System Phases Worked</h2>
-                  <button type="button" class="editbtn"><i class='bx bxs-edit'></i></button>
+                  <button type="button" class="editbtn"><i class='bx bxs-edit' (click)="onUpdate('5')"></i></button>
                 </div>
                 <div class="profile-body p-3">
                   <ul class="app-soft-type">
-                    <li class="app-soft-list">
-                      Development
+                    <ng-container *ngIf="this.talentQuestionData[5]">
+                    <ng-container *ngFor="let data of this.talentQuestionData[5].option">
+                    <li class="app-soft-list" *ngIf ="data.selected === true">
+                      {{data.value}}
                     </li>
-                    <li class="app-soft-list">
-                      Testing
-                    </li>
-                    <li class="app-soft-list">
-                      Test-drive Development (TDD)
-                    </li>
+                  </ng-container>
+                </ng-container>
                   </ul>
                 </div>
               </div>
@@ -254,11 +243,27 @@
               <div class="profile-card">
                 <div class="common-title d-flex justify-content-between">
                   <h2 class="card-title mb-0">Industry</h2>
-                  <button type="button" class="editbtn"><i class='bx bxs-edit'></i></button>
+                  <button type="button" class="editbtn"><i class='bx bxs-edit' (click)="onUpdate('9')"></i></button>
                 </div>
                 <div class="profile-body p-3">
                   <ul class="industryType row">
-                    <li class="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <ng-container *ngIf="this.talentQuestionData[9]">
+                      <ng-container *ngFor="let data of this.talentQuestionData[9].option">
+                    <li class="col-lg-6 col-md-6 col-sm-6 col-12" *ngIf ="data.selected === true">
+                      <div class="industryTypeList">
+                        <div class="industry-box border-right">
+                          <label>Group</label>
+                          <span>{{data.group}}</span>
+                        </div>
+                        <div class="industry-box">
+                          <label>Industry</label>
+                          <span>{{data.value}}</span>
+                        </div>
+                      </div>
+                    </li>
+                    </ng-container>
+                    </ng-container>
+                    <!-- <li class="col-lg-6 col-md-6 col-sm-6 col-12">
                       <div class="industryTypeList">
                         <div class="industry-box border-right">
                           <label>Group</label>
@@ -269,19 +274,7 @@
                           <span>Call Center</span>
                         </div>
                       </div>
-                    </li>
-                    <li class="col-lg-6 col-md-6 col-sm-6 col-12">
-                      <div class="industryTypeList">
-                        <div class="industry-box border-right">
-                          <label>Group</label>
-                          <span>Administrative Service</span>
-                        </div>
-                        <div class="industry-box">
-                          <label>Industry</label>
-                          <span>Call Center</span>
-                        </div>
-                      </div>
-                    </li>
+                    </li> -->
                   </ul>
                 </div>
               </div>
@@ -293,7 +286,7 @@
               <div class="profile-card">
                 <div class="common-title d-flex justify-content-between">
                   <h2 class="card-title mb-0">Top Development Skills</h2>
-                  <button type="button" class="editbtn"><i class='bx bxs-edit'></i></button>
+                  <!-- <button type="button" class="editbtn"><i class='bx bxs-edit'></i></button> -->
                 </div>
                 <div class="profile-body p-3">
                   <ul class="app-soft-type">
@@ -327,7 +320,7 @@
                       <li>
                         <div class="pro-com-textedit">
                           <label>Top EAS Experience</label>
-                          <button type="button" class="com-edit" (click)="onUpdate('2')"><i
+                          <button type="button" class="com-edit" (click)="onUpdate('4')"><i
                               class='bx bxs-edit com-edit'></i></button>
                         </div>
                         <div class="talent-progress-bar">
@@ -336,9 +329,8 @@
                       </li>
                       <li>
                         <div class="pro-com-textedit">
-                          <label>Top Development Skills</label>
-                          <button type="button" class="com-edit" (click)="onUpdate('6')"><i
-                              class='bx bxs-edit com-edit'></i></button>
+                          <label>EAS System Phases Worked</label>
+                          <button type="button" class="com-edit" (click)="onUpdate('5')"><i class='bx bxs-edit com-edit'></i></button>
                         </div>
                         <div class="talent-progress-bar">
                           <span class="talent-progress progress-green w-100"></span>
@@ -346,8 +338,8 @@
                       </li>
                       <li>
                         <div class="pro-com-textedit">
-                          <label>EAS Software Experience</label>
-                          <button type="button" class="com-edit"><i class='bx bxs-edit com-edit'></i></button>
+                          <label>Job Role </label>
+                          <button type="button" class="com-edit" (click)="onUpdate('6')"><i class='bx bxs-edit com-edit'></i></button>
                         </div>
                         <div class="talent-progress-bar">
                           <span class="talent-progress progress-green w-100"></span>
@@ -355,8 +347,8 @@
                       </li>
                       <li>
                         <div class="pro-com-textedit">
-                          <label>Modules Experience</label>
-                          <button type="button" class="com-edit"><i class='bx bxs-edit com-edit'></i></button>
+                          <label>Experience</label>
+                          <button type="button" class="com-edit" (click)="onUpdate('7')"><i class='bx bxs-edit com-edit'></i></button>
                         </div>
                         <div class="talent-progress-bar">
                           <span class="talent-progress progress-green w-100"></span>
@@ -365,22 +357,13 @@
                       <li>
                         <div class="pro-com-textedit">
                           <label>Technology Stacks</label>
-                          <button type="button" class="com-edit"><i class='bx bxs-edit com-edit'></i></button>
+                          <button type="button" class="com-edit" (click)="onUpdate('8')"><i class='bx bxs-edit com-edit'></i></button>
                         </div>
                         <div class="talent-progress-bar">
                           <span class="talent-progress progress-green w-100"></span>
                         </div>
                       </li>
-                      <li>
-                        <div class="pro-com-textedit">
-                          <label>EAS System Phases Worked</label>
-                          <button type="button" class="com-edit"><i class='bx bxs-edit com-edit'></i></button>
-                        </div>
-                        <div class="talent-progress-bar">
-                          <span class="talent-progress progress-green w-100"></span>
-                        </div>
-                      </li>
-                      <li>
+                      <!-- <li>
                         <div class="pro-com-textedit">
                           <label>Introduction Video</label>
                           <button type="button" class="com-edit" (click)="onUpdate('1')"><i
@@ -389,11 +372,11 @@
                         <div class="talent-progress-bar">
                           <span class="talent-progress progress-green w-0"></span>
                         </div>
-                      </li>
+                      </li> -->
                       <li>
                         <div class="pro-com-textedit">
                           <label>Job Search Status Profiecncy</label>
-                          <button type="button" class="com-edit" (click)="onUpdate('1')"><i
+                          <button type="button" class="com-edit" (click)="onUpdate('10')"><i
                               class='bx bxs-edit com-edit'></i></button>
                         </div>
                         <div class="talent-progress-bar">
@@ -412,17 +395,7 @@
                       </li>
                       <li>
                         <div class="pro-com-textedit">
-                          <label>Technology Stacks</label>
-                          <button type="button" class="com-edit" (click)="onUpdate('8')"><i
-                              class='bx bxs-edit com-edit'></i></button>
-                        </div>
-                        <div class="talent-progress-bar">
-                          <span class="talent-progress progress-green"></span>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="pro-com-textedit">
-                          <label>Work History Code Challenge</label>
+                          <label>About yourself</label>
                           <button type="button" class="com-edit" (click)="onUpdate('12')"><i
                               class='bx bxs-edit com-edit'></i></button>
                         </div>
@@ -432,18 +405,8 @@
                       </li>
                       <li>
                         <div class="pro-com-textedit">
-                          <label>Education</label>
-                          <button type="button" class="com-edit" (click)="onUpdate('12')"><i
-                              class='bx bxs-edit com-edit'></i></button>
-                        </div>
-                        <div class="talent-progress-bar">
-                          <span class="talent-progress progress-green"></span>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="pro-com-textedit">
-                          <label>Contact Details</label>
-                          <button type="button" class="com-edit" (click)="onUpdate('12')"><i
+                          <label>Social Media Links</label>
+                          <button type="button" class="com-edit" (click)="onUpdate('13')"><i
                               class='bx bxs-edit com-edit'></i></button>
                         </div>
                         <div class="talent-progress-bar">
@@ -453,7 +416,7 @@
                       <li>
                         <div class="pro-com-textedit">
                           <label>Work Skill Assessment (WAS)</label>
-                          <button type="button" class="com-edit"><i class='bx bxs-edit com-edit'></i></button>
+                          <button type="button" class="com-edit"><i class='bx bxs-edit com-edit' (click)="onUpdate('1')"></i></button>
                         </div>
                         <div class="talent-progress-bar">
                           <span class="talent-progress progress-green"></span>
@@ -507,9 +470,9 @@
                         </div>
                         <div class="col-lg-12 col-md-12 col-12">
                           <div class="contact-form-group">
-                            <label>Referral Code</label>
+                            <label>Stack Overflow</label>
                             <div class="contact-input-group">
-                              <span class="editLabel">28480</span>
+                              <span class="editLabel">{{dataToDisplay.stackOverflow}}</span>
                             </div>
                           </div>
                         </div>
@@ -526,7 +489,7 @@
                           <div class="contact-form-group">
                             <label>Telephone</label>
                             <div class="contact-input-group">
-                              <span class="editLabel">+1 456 789 2322</span>
+                              <span class="editLabel">{{dataToDisplay.phoneCode2}}{{dataToDisplay.phoneNumber2}}</span>
                             </div>
                           </div>
                         </div>
@@ -544,6 +507,33 @@
                             <label>GitLab</label>
                             <div class="contact-input-group">
                               <span class="editLabel">{{dataToDisplay.GitLab}}</span>
+                              <input type="text" class="inputview d-none" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-12">
+                          <div class="contact-form-group">
+                            <label>Portfolio</label>
+                            <div class="contact-input-group">
+                              <span class="editLabel">{{dataToDisplay.portfolio}}</span>
+                              <input type="text" class="inputview d-none" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-12">
+                          <div class="contact-form-group">
+                            <label>bitbucket</label>
+                            <div class="contact-input-group">
+                              <span class="editLabel">{{dataToDisplay.bitbucket}}</span>
+                              <input type="text" class="inputview d-none" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-12">
+                          <div class="contact-form-group">
+                            <label>Other URL</label>
+                            <div class="contact-input-group">
+                              <span class="editLabel">{{dataToDisplay.otherurl}}</span>
                               <input type="text" class="inputview d-none" />
                             </div>
                           </div>
@@ -598,49 +588,41 @@
       <div class="row">
         <div class="col-lg-6 col-md-6 col-12 border-right">
           <h2 class="card-title mb-3">Job Search Status</h2>
-          <p class="common-para">Tell your future clients how much time you have for new work</p>
-          <div class="js-status-dropdown">
-            <select class="inputview">
-              <option>Actively Looking for Jobs</option>
-              <option>Passively Looking for the Right Opportunity</option>
-              <option>Not Currently Looking for New Work</option>
-            </select>
-          </div>
+          <!-- <p class="common-para">Tell your future clients how much time you have for new work</p> -->
+            <ul class="form-wizard-type jss-list selectarea  mt-3 row">
+            <li *ngFor = "let option of  this.talentQuestionData[10].data[0].option">
+              <a href="javascript:void(0)" class="pl-3 pr-3"
+              [style.background-color]="option.selected ?'#4949fc' :''"
+              [style.color]="option.selected ? 'white': ''"
+                [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}" >
+                <span class="d-block text-uppercase">{{option.firstPart}}</span>
+                <span *ngIf="option.secondPart">{{option.secondPart}}</span>
+                <sub *ngIf="option.thirdPart">{{option.thirdPart}}</sub>
+              </a>
+            </li>
+            </ul>
         </div>
         <div class="col-lg-6 col-md-6 col-12">
-          <h2 class="card-title mb-3">Visible to you and Staff only</h2>
+          <h2 class="card-title mb-3">Employment Opportunity</h2>
           <div class="interested-visible">
-            <div class="iv-formgroup">
-              <label>What Kind of jobs are you interested in?</label>
-              <div class="d-flex w-100 mb-2">
-                <div class="iv-input-form w-50">
-                  <input type="text" class="inputview" />
-                </div>
-                <div class="can-toggle ml-2">
-                  <input id="a" type="checkbox">
-                  <label for="a">
-                    <div class="can-toggle__switch" data-checked="Yes" data-unchecked="No"></div>
-                  </label>
-                </div>
-              </div>
-              <div class="d-flex w-100">
-                <div class="iv-input-form w-50">
-                  <input type="text" class="inputview" />
-                </div>
-                <div class="can-toggle ml-2">
-                  <input id="b" type="checkbox">
-                  <label for="b">
-                    <div class="can-toggle__switch" data-checked="Yes" data-unchecked="No"></div>
-                  </label>
-                </div>
-              </div>
-            </div>
+            <ul class="form-wizard-type jss-list selectarea  mt-3 row">
+              <li *ngFor = "let option of  this.talentQuestionData[10].data[1].option">
+                <a href="javascript:void(0)" class="pl-3 pr-3"
+                [style.background-color]="option.selected ?'#4949fc' :''"
+                [style.color]="option.selected ? 'white': ''"
+                  [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}" >
+                  <span class="d-block text-uppercase">{{option.firstPart}}</span>
+                  <span *ngIf="option.secondPart">{{option.secondPart}}</span>
+                  <sub *ngIf="option.thirdPart">{{option.thirdPart}}</sub>
+                </a>
+              </li>
+              </ul>
             <div class="iv-formgroup mt-2">
               <label>Max Hours Per Week Available for contact GIGS?</label>
               <div class="iv-input-form">
                 <div class="d-flex align-items-center">
                   <p class="m-0">{{dataToDisplay.weeklyHourlyRate}}</p>
-                  <button type="button" class="editbtn ml-2"><i class="bx bxs-edit"></i></button>
+                  <button type="button" class="editbtn ml-2"><i class="bx bxs-edit" (click)="onUpdate('11')"></i></button>
                 </div>
               </div>
             </div>
@@ -659,18 +641,17 @@
             <li>
               <label>Phone Number:</label>
               <span class="pc-text">{{dataToDisplay.phoneNumber}}</span>
-              <i class="bx bxs-edit com-edit"></i>
+              <i class="bx bxs-edit com-edit" (click)="onUpdate('13')"></i>
             </li>
             <li>
               <label>Works Hours(Your Local Time):</label>
               <span class="pc-text">02:30</span>
-              <i class="bx bxs-edit com-edit"></i>
+              <i class="bx bxs-edit com-edit" (click)="onUpdate('1')"></i>
             </li>
             <li>
               <label>External Links:</label>
-              <span class="pc-text d-inline-flex align-items-center"><i class='bx bxl-github externallink'></i>Update
-                Links</span>
-              <i class="bx bxs-edit com-edit"></i>
+              <span class="pc-text d-inline-flex align-items-center"><i class='bx bxl-github externallink'></i>{{dataToDisplay.GitHub}}</span>
+              <i class="bx bxs-edit com-edit" (click)="onUpdate('13')"></i>
             </li>
           </ul>
         </div>
@@ -680,17 +661,17 @@
             <li>
               <label>Hourly:</label>
               <span class="pc-text">${{dataToDisplay.desiredHourlyRate}}</span>
-              <i class="bx bxs-edit com-edit"></i>
+              <i class="bx bxs-edit com-edit" (click)="onUpdate('11')"></i>
             </li>
             <li>
               <label>Monthly Retainer:</label>
               <span class="pc-text">${{dataToDisplay.monthlyRate}}</span>
-              <i class="bx bxs-edit com-edit"></i>
+              <i class="bx bxs-edit com-edit" (click)="onUpdate('11')"></i>
             </li>
             <li>
               <label>Salary:</label>
               <span class="pc-text">${{dataToDisplay.targetAnnualSalary}}</span>
-              <i class="bx bxs-edit com-edit"></i>
+              <i class="bx bxs-edit com-edit" (click)="onUpdate('11')"></i>
             </li>
           </ul>
         </div>

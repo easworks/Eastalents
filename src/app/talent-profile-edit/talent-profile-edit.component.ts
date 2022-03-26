@@ -94,12 +94,23 @@ randomTechData:any=[];
     this.dataToDisplay.state=this.talentQuestionData[1].state;
     this.dataToDisplay.country=this.talentQuestionData[1].country;
     this.dataToDisplay.phoneNumber=this.talentQuestionData[12].phonenumber;
-    this.dataToDisplay.LinkedIn=this.talentQuestionData[13].option[2].value;
-    this.dataToDisplay.GitLab=this.talentQuestionData[13].option[0].value;
+    this.dataToDisplay.phoneNumber2=this.talentQuestionData[12].phonenumber2;
+    this.dataToDisplay.phoneCode=this.talentQuestionData[12].phoneCode;
+    this.dataToDisplay.phoneCode2=this.talentQuestionData[12].phoneCode2;
+    this.dataToDisplay.LinkedIn=this.talentQuestionData[13].option[0].value;
+    this.dataToDisplay.GitHub=this.talentQuestionData[13].option[1].value;
+    this.dataToDisplay.GitLab=this.talentQuestionData[13].option[2].value;
+    this.dataToDisplay.bitbucket=this.talentQuestionData[13].option[3].value;
+    this.dataToDisplay.stackOverflow=this.talentQuestionData[13].option[4].value;
+    this.dataToDisplay.portfolio=this.talentQuestionData[13].option[5].value;
+    this.dataToDisplay.otherurl=this.talentQuestionData[13].option[6].value;
     this.dataToDisplay.weeklyHourlyRate=this.talentQuestionData[11].data.weeklyHourlyRate;
     this.dataToDisplay.targetAnnualSalary=this.talentQuestionData[11].data.targetAnnualSalary;
     this.dataToDisplay.monthlyRate=this.talentQuestionData[11].data.monthlyRate;
     this.dataToDisplay.desiredHourlyRate=this.talentQuestionData[11].data.desiredHourlyRate;
+    this.dataToDisplay.preferredPLM=this.talentQuestionData[11].data.preferredPLM;
+    this.dataToDisplay.currentPLM=this.talentQuestionData[11].data.currentPLM;
+    // this.personalData.firstName=this.personalData.firstName + ' ';
   }
 
       onUpdate(opt:any){

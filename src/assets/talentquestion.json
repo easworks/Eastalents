@@ -9709,10 +9709,11 @@
         "type":"inputSelectMultiselect",
         "id":11,
         "data":{
-            "desiredHourlyrate":"",
+            "desiredHourlyRate":"",
             "targetAnnualSalary":"",
             "monthlyRate":"",
-            "selectedPLM":"",
+            "preferredPLM":"",
+            "currentPLM":"",
             "weeklyHourlyRate":""
         },
         "startWorkingWithEasyWork":
