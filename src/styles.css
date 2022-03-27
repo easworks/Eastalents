@@ -5624,7 +5624,9 @@ position: relative;
   font: bold 14px/20px Roboto;
   padding: 8px 0px;
   text-align: center;
-  border: 1px solid #e2e2e2;
+  border: 1px solid #6969ff;
+  background: #4949fc;
+  color: #ffffff;
 }
 .ws-table tbody tr td{
   font: 400 14px/20px Roboto;
