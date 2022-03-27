@@ -1,288 +1,2204 @@
-  <!----- Header ----->
-  <header id="header" class="fixed-top">
-    <div class="container d-flex align-items-center">
-      <h1 class="logo mr-auto">
-        <a class="black-logo" [routerLink]="['/index']">
-          <img src="assets/img/white-logo.png" />
-        </a>
-        <a class="white-logo" [routerLink]="['/index']">
-          <img src="assets/img/black-logo.png" />
-        </a>
-      </h1>
-      <nav class="nav-menu profile-creat-nav d-none d-lg-block">
-        <ul>
-          <li><a href="profile.html">Profile</a></li>
-          <li><a class="active" href="workskill.html">Workskill</a></li>
-          <li><a href="yourjobs.html">Your Jobs</a></li>
-          <li><a href="interviewsList.html">Interviews</a></li>
-          <li class="user-details dropdown">
-            <a class="user-icon dropdown-toggle" href="javascript:void(0)" id="dropdownMenuButton"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class='bx bxs-user-circle'></i>
-            </a>
-            <div class="user-dropdown dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" href="javascript:void(0)"><i class='bx bxs-cog'></i>Settings</a>
-              <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-help-circle'></i>Help</a>
-              <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-log-in'></i>Logout</a>
-            </div>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-  <!----- Header ----->
+<!----- Header ----->
+<header id="header" class="fixed-top">
+  <div class="container d-flex align-items-center">
+    <h1 class="logo mr-auto">
+      <a class="black-logo" [routerLink]="['/index']">
+        <img src="assets/img/white-logo.png" />
+      </a>
+      <a class="white-logo" [routerLink]="['/index']">
+        <img src="assets/img/black-logo.png" />
+      </a>
+    </h1>
+    <nav class="nav-menu profile-creat-nav d-none d-lg-block">
+      <ul>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a class="active" href="workskill.html">Workskill</a></li>
+        <li><a href="yourjobs.html">Your Jobs</a></li>
+        <li><a href="interviewsList.html">Interviews</a></li>
+        <li class="user-details dropdown">
+          <a class="user-icon dropdown-toggle" href="javascript:void(0)" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class='bx bxs-user-circle'></i>
+          </a>
+          <div class="user-dropdown dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="javascript:void(0)"><i class='bx bxs-cog'></i>Settings</a>
+            <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-help-circle'></i>Help</a>
+            <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-log-in'></i>Logout</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!----- Header ----->
 
-  <div class="common-space">
-    <section class="workstyle-wraper">
-      <div class="container">
-        <div class="section-title text-center">
-          <img class="wslogo" src="assets/img/workstyle.png" />
-          <span class="load-count">0 of 15</span>
-          <h2 class="workstyletitle mb-0">Which of these two words describe you the best</h2>
+<div class="common-space pt-3">
+  <section class="workstyle-wraper">
+    <div class="container">
+      <div class="section-title ">
+        <div class="quiz-logo text-center">
+          <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_xxsz0pga.json" background="transparent"
+            speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
         </div>
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-12">
-            <div class="workstyle-slider">
-              <div id="form-wrapper">
-                <form>
-                  <!--Slide1-->
-                  <div id="debt-amount-slider">
-                    <input type="radio" name="debt-amount" id="1" value="1" required>
-                    <label for="1"><span class="labelvalue-text lfttext">Competitive</span></label>
-                    <input type="radio" name="debt-amount" id="2" value="2" required>
-                    <label for="2"></label>
-                    <input type="radio" name="debt-amount" id="3" value="3" checked>
-                    <label for="3"></label>
-                    <input type="radio" name="debt-amount" id="4" value="4" required>
-                    <label for="4"></label>
-                    <input type="radio" name="debt-amount" id="5" value="5" required>
-                    <label for="5"><span class="labelvalue-text rhttext">Cooperative</span></label>
-                    <div id="debt-amount-pos"></div>
-                  </div>
-                  <!--Slide2-->
-                  <div class="d-none" id="debt-amount-slider">
-                    <input type="radio" name="debt-amount" id="11" value="11" required>
-                    <label for="11"><span class="labelvalue-text lfttext">Assertive</span></label>
-                    <input type="radio" name="debt-amount" id="12" value="12" required>
-                    <label for="12"></label>
-                    <input type="radio" name="debt-amount" id="13" value="13" required>
-                    <label for="13"></label>
-                    <input type="radio" name="debt-amount" id="14" value="14" required>
-                    <label for="14"></label>
-                    <input type="radio" name="debt-amount" id="15" value="15" required>
-                    <label for="15"><span class="labelvalue-text rhttext">Laid-back</span></label>
-                    <div id="debt-amount-pos"></div>
-                  </div>
-                  <!--Slide3-->
-                  <div class="d-none" id="debt-amount-slider">
-                    <input type="radio" name="debt-amount" id="21" value="21" required>
-                    <label for="21"><span class="labelvalue-text lfttext">Defiant</span></label>
-                    <input type="radio" name="debt-amount" id="22" value="22" required>
-                    <label for="22"></label>
-                    <input type="radio" name="debt-amount" id="23" value="23" required>
-                    <label for="23"></label>
-                    <input type="radio" name="debt-amount" id="24" value="24" required>
-                    <label for="24"></label>
-                    <input type="radio" name="debt-amount" id="25" value="25" required>
-                    <label for="25"><span class="labelvalue-text rhttext">Peaceful</span></label>
-                    <div id="debt-amount-pos"></div>
-                  </div>
-                  <!--Slide4-->
-                  <div class="d-none" id="debt-amount-slider">
-                    <input type="radio" name="debt-amount" id="31" value="31" required>
-                    <label for="31"><span class="labelvalue-text lfttext">Pioneering</span></label>
-                    <input type="radio" name="debt-amount" id="32" value="32" required>
-                    <label for="32"></label>
-                    <input type="radio" name="debt-amount" id="33" value="33" required>
-                    <label for="33"></label>
-                    <input type="radio" name="debt-amount" id="34" value="34" required>
-                    <label for="34"></label>
-                    <input type="radio" name="debt-amount" id="35" value="35" required>
-                    <label for="35"><span class="labelvalue-text rhttext">Agreeable</span></label>
-                    <div id="debt-amount-pos"></div>
-                  </div>
-                  <!--Slide5-->
-                  <div class="d-none" id="debt-amount-slider">
-                    <input type="radio" name="debt-amount" id="41" value="41" required>
-                    <label for="41"><span class="labelvalue-text lfttext">Animated</span></label>
-                    <input type="radio" name="debt-amount" id="42" value="42" required>
-                    <label for="42"></label>
-                    <input type="radio" name="debt-amount" id="43" value="43" required>
-                    <label for="43"></label>
-                    <input type="radio" name="debt-amount" id="44" value="44" required>
-                    <label for="44"></label>
-                    <input type="radio" name="debt-amount" id="45" value="45" required>
-                    <label for="45"><span class="labelvalue-text rhttext">Soft-spoken</span></label>
-                    <div id="debt-amount-pos"></div>
-                  </div>
-                  <!--Slide6-->
-                  <div class="d-none" id="debt-amount-slider">
-                    <input type="radio" name="debt-amount" id="51" value="51" required>
-                    <label for="51"><span class="labelvalue-text lfttext">Adventurous</span></label>
-                    <input type="radio" name="debt-amount" id="52" value="52" required>
-                    <label for="52"></label>
-                    <input type="radio" name="debt-amount" id="53" value="53" required>
-                    <label for="53"></label>
-                    <input type="radio" name="debt-amount" id="54" value="54" required>
-                    <label for="54"></label>
-                    <input type="radio" name="debt-amount" id="55" value="55" required>
-                    <label for="55"><span class="labelvalue-text rhttext">Cautious</span></label>
-                    <div id="debt-amount-pos"></div>
-                  </div>
-                  <!--Slide7-->
-                  <div class="d-none" id="debt-amount-slider">
-                    <input type="radio" name="debt-amount" id="61" value="61" required>
-                    <label for="61"><span class="labelvalue-text lfttext">Convincing</span></label>
-                    <input type="radio" name="debt-amount" id="62" value="62" required>
-                    <label for="62"></label>
-                    <input type="radio" name="debt-amount" id="63" value="63" required>
-                    <label for="63"></label>
-                    <input type="radio" name="debt-amount" id="64" value="64" required>
-                    <label for="64"></label>
-                    <input type="radio" name="debt-amount" id="65" value="65" required>
-                    <label for="65"><span class="labelvalue-text rhttext">Restrained</span></label>
-                    <div id="debt-amount-pos"></div>
-                  </div>
-                  <!--Slide8-->
-                  <div class="d-none" id="debt-amount-slider">
-                    <input type="radio" name="debt-amount" id="71" value="71" required>
-                    <label for="71"><span class="labelvalue-text lfttext">High-spirited</span></label>
-                    <input type="radio" name="debt-amount" id="72" value="72" required>
-                    <label for="72"></label>
-                    <input type="radio" name="debt-amount" id="73" value="73" required>
-                    <label for="73"></label>
-                    <input type="radio" name="debt-amount" id="74" value="74" required>
-                    <label for="74"></label>
-                    <input type="radio" name="debt-amount" id="75" value="75" required>
-                    <label for="75"><span class="labelvalue-text rhttext">Self-controlled</span></label>
-                    <div id="debt-amount-pos"></div>
-                  </div>
-                  <!--Slide9-->
-                  <div class="d-none" id="debt-amount-slider">
-                    <input type="radio" name="debt-amount" id="81" value="81" required>
-                    <label for="81"><span class="labelvalue-text lfttext">Talkative</span></label>
-                    <input type="radio" name="debt-amount" id="82" value="82" required>
-                    <label for="82"></label>
-                    <input type="radio" name="debt-amount" id="83" value="83" required>
-                    <label for="83"></label>
-                    <input type="radio" name="debt-amount" id="84" value="84" required>
-                    <label for="84"></label>
-                    <input type="radio" name="debt-amount" id="85" value="85" required>
-                    <label for="85"><span class="labelvalue-text rhttext">Private</span></label>
-                    <div id="debt-amount-pos"></div>
-                  </div>
-                  <!--Slide10-->
-                  <div class="d-none" id="debt-amount-slider">
-                    <input type="radio" name="debt-amount" id="91" value="91" required>
-                    <label for="91"><span class="labelvalue-text lfttext">Spontaneous</span></label>
-                    <input type="radio" name="debt-amount" id="92" value="92" required>
-                    <label for="92"></label>
-                    <input type="radio" name="debt-amount" id="93" value="93" required>
-                    <label for="93"></label>
-                    <input type="radio" name="debt-amount" id="94" value="94" required>
-                    <label for="94"></label>
-                    <input type="radio" name="debt-amount" id="95" value="95" required>
-                    <label for="95"><span class="labelvalue-text rhttext">Planned</span></label>
-                    <div id="debt-amount-pos"></div>
-                  </div>
-                  <!--Slide11-->
-                  <div class="d-none" id="debt-amount-slider">
-                    <input type="radio" name="debt-amount" id="101" value="101" required>
-                    <label for="101"><span class="labelvalue-text lfttext">Enthusiastic</span></label>
-                    <input type="radio" name="debt-amount" id="102" value="102" required>
-                    <label for="102"></label>
-                    <input type="radio" name="debt-amount" id="103" value="103" required>
-                    <label for="103"></label>
-                    <input type="radio" name="debt-amount" id="104" value="104" required>
-                    <label for="104"></label>
-                    <input type="radio" name="debt-amount" id="105" value="105" required>
-                    <label for="105"><span class="labelvalue-text rhttext">Methodical</span></label>
-                    <div id="debt-amount-pos"></div>
-                  </div>
-                  <!--Slide12-->
-                  <div class="d-none" id="debt-amount-slider">
-                    <input type="radio" name="debt-amount" id="111" value="111" required>
-                    <label for="111"><span class="labelvalue-text lfttext">Trusting</span></label>
-                    <input type="radio" name="debt-amount" id="112" value="112" required>
-                    <label for="112"></label>
-                    <input type="radio" name="debt-amount" id="113" value="113" required>
-                    <label for="113"></label>
-                    <input type="radio" name="debt-amount" id="114" value="114" required>
-                    <label for="114"></label>
-                    <input type="radio" name="debt-amount" id="115" value="115" required>
-                    <label for="115"><span class="labelvalue-text rhttext">Skeptical</span></label>
-                    <div id="debt-amount-pos"></div>
-                  </div>
-                  <!--Slide13-->
-                  <div class="d-none" id="debt-amount-slider">
-                    <input type="radio" name="debt-amount" id="121" value="121" required>
-                    <label for="121"><span class="labelvalue-text lfttext">Light-hearted</span></label>
-                    <input type="radio" name="debt-amount" id="122" value="122" required>
-                    <label for="122"></label>
-                    <input type="radio" name="debt-amount" id="123" value="123" required>
-                    <label for="123"></label>
-                    <input type="radio" name="debt-amount" id="124" value="124" required>
-                    <label for="124"></label>
-                    <input type="radio" name="debt-amount" id="125" value="125" required>
-                    <label for="125"><span class="labelvalue-text rhttext">Serious</span></label>
-                    <div id="debt-amount-pos"></div>
-                  </div>
-                  <!--Slide14-->
-                  <div class="d-none" id="debt-amount-slider">
-                    <input type="radio" name="debt-amount" id="131" value="131" required>
-                    <label for="131"><span class="labelvalue-text lfttext">Impatient</span></label>
-                    <input type="radio" name="debt-amount" id="132" value="132" required>
-                    <label for="132"></label>
-                    <input type="radio" name="debt-amount" id="133" value="133" required>
-                    <label for="133"></label>
-                    <input type="radio" name="debt-amount" id="134" value="134" required>
-                    <label for="134"></label>
-                    <input type="radio" name="debt-amount" id="135" value="135" required>
-                    <label for="135"><span class="labelvalue-text rhttext">Patient</span></label>
-                    <div id="debt-amount-pos"></div>
-                  </div>
-                  <!--Slide15-->
-                  <div class="d-none" id="debt-amount-slider">
-                    <input type="radio" name="debt-amount" id="141" value="141" required>
-                    <label for="141"><span class="labelvalue-text lfttext">Lenient</span></label>
-                    <input type="radio" name="debt-amount" id="142" value="142" required>
-                    <label for="142"></label>
-                    <input type="radio" name="debt-amount" id="143" value="143" required>
-                    <label for="143"></label>
-                    <input type="radio" name="debt-amount" id="144" value="144" required>
-                    <label for="144"></label>
-                    <input type="radio" name="debt-amount" id="145" value="145" required>
-                    <label for="145"><span class="labelvalue-text rhttext">Strict</span></label>
-                    <div id="debt-amount-pos"></div>
-                  </div>
-                  <!--Slide16-->
-                  <div class="d-none" id="debt-amount-slider">
-                    <input type="radio" name="debt-amount" id="151" value="151" required>
-                    <label for="151"><span class="labelvalue-text lfttext">Accepting</span></label>
-                    <input type="radio" name="debt-amount" id="152" value="152" required>
-                    <label for="152"></label>
-                    <input type="radio" name="debt-amount" id="153" value="153" required>
-                    <label for="153"></label>
-                    <input type="radio" name="debt-amount" id="154" value="154" required>
-                    <label for="154"></label>
-                    <input type="radio" name="debt-amount" id="155" value="155" required>
-                    <label for="155"><span class="labelvalue-text rhttext">Questioning</span></label>
-                    <div id="debt-amount-pos"></div>
-                  </div>
-                </form>
-                <div class="quiz-bttn-group">
-                  <button type="button" class="btn-common-border pl-3 pr-3">Previous</button>
-                  <div class="next-skip">
-                    <button type="button" class="btn-common-border nextbtn">Next</button>
-                  </div>
+        <h4 class="subtitle text-center">Workstyle Assessment - WSA</h4>
+        <span class="load-count text-center">0 of 15</span>
+        <div class="">
+          <h2 class="workstyletitle mb-0 text-center">INSTRUCTIONS - WORKSTYLE ASSESSMENT (WSA)</h2>
+          <p class="common-para mb-2 text-left">The WSA is based on DISC based assessment which are extensively
+            researched,
+            reliable, accurate and time-tested to determine how individuals see themselves responding to workplace
+            situations that they perceive to be favorable or challenging, and reveals whether their response patterns
+            are
+            active or passive</p>
+          <p class="common-para mb-2 text-left">It’s really an assessment and NOT A TEST . We use assessments to learn
+            about
+            a
+            perspective or way of thinking. It has no right or wrong answers. You cannot pass or fail the assessment.
+          </p>
+          <p class="common-para text-left">Answering these 28 questions only indicates a person's view or perspective.
+            There is no way to get it wrong. And it takes as little as 7 minutes to complete.</p>
+          <h4 class="subtitle text-left">RESPONDING</h4>
+          <ol class="respond-ws">
+            <li>Study the first group of four words on the WSA - DISC based Assessment while thinking about yourself in
+              your <strong>WORK Environment</strong> or <strong>WORK settings.</strong></li>
+            <li>Answer honestly and spontaneously</li>
+            <li>Select only one word that <strong>MOST</strong> describes you by checking the box in the
+              <strong>MOST</strong> column.
+            </li>
+            <li>Select only one word that <strong>LEAST </strong> describes you by checking the box in the <strong>LEAST
+              </strong> column.</li>
+            <li>Use the same procedures to respond to the remaining groups of descriptive words.</li>
+          </ol>
+          <p class="common-para"><strong>REMEMBER:</strong> Select only one MOST and one LEAST choice for each group.
+          </p>
+          <div class="d-flex justify-content-center mt-3">
+            <a href="javascript:void(0)" class="btn-get-started">Get Started</a>
+          </div>
+        </div>
+      </div>
+      <div class="row d-none" >
+        <div class="col-lg-12 col-md-12 col-12">
+          <div class="workstyle-slider">
+            <div id="form-wrapper">
+              <form>
+                <h4 class="subtitle text-left">Choose one MOST and one LEAST in each of the 28 groups of words.</h4>
+                <p class="common-para"><strong>REMEMBER:</strong> There are no right or wrong answers in this Work
+                  Skill Assessment & You cannot pass or fail the WSA assessment by answering the questions as it only
+                  indicates a person's view or perspective, so just make the best decision you can.</p>
+                <!--Slide1-->
+                <div class="workstyle-slide ">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Enthusiastic</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws1'>
+                            <label for="ws1"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws2'>
+                            <label for="ws2"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Daring</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws3'>
+                            <label for="ws3"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws4'>
+                            <label for="ws4"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Diplomatic</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws5'>
+                            <label for="ws5"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws6'>
+                            <label for="ws6"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Satisfied</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws7'>
+                            <label for="ws7"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws8'>
+                            <label for="ws8"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!--Slide2-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Cautious</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws9'>
+                            <label for="ws9"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws10'>
+                            <label for="ws10"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Determined</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws11'>
+                            <label for="ws11"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws12'>
+                            <label for="ws12"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Convincing</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws13'>
+                            <label for="ws13"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws14'>
+                            <label for="ws14"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Good-natured</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws15'>
+                            <label for="ws15"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws16'>
+                            <label for="ws16"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!--Slide3-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Friendly</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws17'>
+                            <label for="ws17"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws18'>
+                            <label for="ws18"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Accurate</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws19'>
+                            <label for="ws19"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws20'>
+                            <label for="ws20"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Outspoken</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws21'>
+                            <label for="ws21"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws22'>
+                            <label for="ws22"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Calm</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws23'>
+                            <label for="ws23"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws24'>
+                            <label for="ws24"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide4-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Talkative</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws25'>
+                            <label for="ws25"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws26'>
+                            <label for="ws26"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Controlled</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws27'>
+                            <label for="ws27"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws28'>
+                            <label for="ws28"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Conventional</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws29'>
+                            <label for="ws29"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws30'>
+                            <label for="ws30"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Decisive</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws31'>
+                            <label for="ws31"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws32'>
+                            <label for="ws32"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide5-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Adventurous</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws33'>
+                            <label for="ws33"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws34'>
+                            <label for="ws34"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Insightful</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws35'>
+                            <label for="ws35"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws36'>
+                            <label for="ws36"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Outgoing</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws37'>
+                            <label for="ws37"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws38'>
+                            <label for="ws38"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Moderate</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws39'>
+                            <label for="ws39"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws40'>
+                            <label for="ws40"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide6-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Gentle</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws41'>
+                            <label for="ws41"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws42'>
+                            <label for="ws42"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Persuasive</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws43'>
+                            <label for="ws43"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws44'>
+                            <label for="ws44"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Humble</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws45'>
+                            <label for="ws45"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws46'>
+                            <label for="ws46"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Original</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws47'>
+                            <label for="ws47"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws48'>
+                            <label for="ws48"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide7-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Expressive</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws49'>
+                            <label for="ws49"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws50'>
+                            <label for="ws50"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Conscientious</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws51'>
+                            <label for="ws51"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws52'>
+                            <label for="ws52"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Dominant</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws53'>
+                            <label for="ws53"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws54'>
+                            <label for="ws54"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Responsive</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws55'>
+                            <label for="ws55"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws56'>
+                            <label for="ws56"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide8-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Poised</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws57'>
+                            <label for="ws57"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws58'>
+                            <label for="ws58"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Observant</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws59'>
+                            <label for="ws59"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws60'>
+                            <label for="ws60"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Modest</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws61'>
+                            <label for="ws61"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws62'>
+                            <label for="ws62"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Impatient</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws63'>
+                            <label for="ws63"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws64'>
+                            <label for="ws64"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide9-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Tactful</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws65'>
+                            <label for="ws65"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws66'>
+                            <label for="ws66"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Agreeable</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws67'>
+                            <label for="ws67"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws68'>
+                            <label for="ws68"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Magnetic</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws69'>
+                            <label for="ws69"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws70'>
+                            <label for="ws70"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Insistent</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws71'>
+                            <label for="ws71"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws72'>
+                            <label for="ws72"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide10-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Brave</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws73'>
+                            <label for="ws73"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws74'>
+                            <label for="ws74"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Inspiring</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws75'>
+                            <label for="ws75"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws76'>
+                            <label for="ws76"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Submissive</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws77'>
+                            <label for="ws77"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws78'>
+                            <label for="ws78"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Timid</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws79'>
+                            <label for="ws79"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws80'>
+                            <label for="ws80"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide11-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Reserved</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws81'>
+                            <label for="ws81"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws82'>
+                            <label for="ws82"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Obliging</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws83'>
+                            <label for="ws83"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws84'>
+                            <label for="ws84"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Strong-willed</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws85'>
+                            <label for="ws85"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws86'>
+                            <label for="ws86"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Cheerful</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws87'>
+                            <label for="ws87"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws88'>
+                            <label for="ws88"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide12-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Stimulating</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws89'>
+                            <label for="ws89"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws90'>
+                            <label for="ws90"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Kind</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws91'>
+                            <label for="ws91"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws92'>
+                            <label for="ws92"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Perceptive</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws93'>
+                            <label for="ws93"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws94'>
+                            <label for="ws94"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Independent</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws95'>
+                            <label for="ws95"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws96'>
+                            <label for="ws96"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide13-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Competitive</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws97'>
+                            <label for="ws97"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws98'>
+                            <label for="ws98"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Considerate</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws99'>
+                            <label for="ws99"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws100'>
+                            <label for="ws100"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Joyful</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws101'>
+                            <label for="ws101"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws102'>
+                            <label for="ws102"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Private</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws103'>
+                            <label for="ws103"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws104'>
+                            <label for="ws104"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide14-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Fussy</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws106'>
+                            <label for="ws106"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws107'>
+                            <label for="ws107"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Obedient</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws108'>
+                            <label for="ws108"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws109'>
+                            <label for="ws109"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Firm</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws110'>
+                            <label for="ws110"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws111'>
+                            <label for="ws111"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Playful</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws112'>
+                            <label for="ws112"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws113'>
+                            <label for="ws113"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide15-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Attractive</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws114'>
+                            <label for="ws114"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws115'>
+                            <label for="ws115"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Introspective</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws116'>
+                            <label for="ws116"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws117'>
+                            <label for="ws117"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Stubborn</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws118'>
+                            <label for="ws118"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws119'>
+                            <label for="ws119"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Predictable</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws120'>
+                            <label for="ws120"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws121'>
+                            <label for="ws121"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide16-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Logical</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws122'>
+                            <label for="ws122"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws123'>
+                            <label for="ws123"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Bold</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws124'>
+                            <label for="ws124"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws125'>
+                            <label for="ws125"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Loyal</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws126'>
+                            <label for="ws126"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws127'>
+                            <label for="ws127"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Charming</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws128'>
+                            <label for="ws128"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws129'>
+                            <label for="ws129"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide17-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Sociable</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws130'>
+                            <label for="ws130"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws131'>
+                            <label for="ws131"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Patient</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws132'>
+                            <label for="ws132"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws133'>
+                            <label for="ws133"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Self-reliant</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws134'>
+                            <label for="ws134"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws135'>
+                            <label for="ws135"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Soft-spoken</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws136'>
+                            <label for="ws136"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws137'>
+                            <label for="ws137"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide18-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Willing</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws138'>
+                            <label for="ws138"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws139'>
+                            <label for="ws139"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Eager</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws140'>
+                            <label for="ws140"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws141'>
+                            <label for="ws141"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Thorough</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws142'>
+                            <label for="ws142"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws143'>
+                            <label for="ws143"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>High-spirted</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws144'>
+                            <label for="ws144"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws145'>
+                            <label for="ws145"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide19-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Aggressive</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws146'>
+                            <label for="ws146"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws147'>
+                            <label for="ws147"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Extroverted</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws148'>
+                            <label for="ws148"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws149'>
+                            <label for="ws149"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Amiable</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws150'>
+                            <label for="ws150"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws151'>
+                            <label for="ws151"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Fearful</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws152'>
+                            <label for="ws152"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws153'>
+                            <label for="ws153"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide20-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Confident</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws154'>
+                            <label for="ws154"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws155'>
+                            <label for="ws155"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Sympathetic</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws156'>
+                            <label for="ws156"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws157'>
+                            <label for="ws157"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Impartial</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws158'>
+                            <label for="ws158"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws159'>
+                            <label for="ws159"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Assertive</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws160'>
+                            <label for="ws160"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws161'>
+                            <label for="ws161"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide21-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Well-disciplined</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws162'>
+                            <label for="ws162"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws163'>
+                            <label for="ws163"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Generous</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws164'>
+                            <label for="ws164"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws165'>
+                            <label for="ws165"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Animated</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws166'>
+                            <label for="ws166"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws167'>
+                            <label for="ws167"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Persistent</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws168'>
+                            <label for="ws168"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws169'>
+                            <label for="ws169"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide22-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Impulsive</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws170'>
+                            <label for="ws170"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws171'>
+                            <label for="ws171"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Introverted</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws172'>
+                            <label for="ws172"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws173'>
+                            <label for="ws173"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Forceful</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws174'>
+                            <label for="ws174"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws175'>
+                            <label for="ws175"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Easygoing</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws176'>
+                            <label for="ws176"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws177'>
+                            <label for="ws177"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide23-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Good mixer</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws178'>
+                            <label for="ws178"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws179'>
+                            <label for="ws179"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Refined</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws180'>
+                            <label for="ws180"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws181'>
+                            <label for="ws181"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Vigorous</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws182'>
+                            <label for="ws182"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws183'>
+                            <label for="ws183"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Lenient</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws184'>
+                            <label for="ws184"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws185'>
+                            <label for="ws185"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide24-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Captivating</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws186'>
+                            <label for="ws186"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws187'>
+                            <label for="ws187"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Contented</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws188'>
+                            <label for="ws188"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws189'>
+                            <label for="ws189"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Demanding</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws190'>
+                            <label for="ws190"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws191'>
+                            <label for="ws191"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Compliant</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws192'>
+                            <label for="ws192"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws193'>
+                            <label for="ws193"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide25-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Argumentative</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws194'>
+                            <label for="ws194"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws195'>
+                            <label for="ws195"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Systematic</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws196'>
+                            <label for="ws196"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws197'>
+                            <label for="ws197"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Cooperative</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws198'>
+                            <label for="ws198"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws199'>
+                            <label for="ws199"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Light-hearted</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws200'>
+                            <label for="ws200"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws201'>
+                            <label for="ws201"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide26-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Jovial</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws202'>
+                            <label for="ws202"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws203'>
+                            <label for="ws203"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Precise</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws204'>
+                            <label for="ws204"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws205'>
+                            <label for="ws205"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Direct</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws206'>
+                            <label for="ws206"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws207'>
+                            <label for="ws207"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Even-tempered</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws208'>
+                            <label for="ws208"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws209'>
+                            <label for="ws209"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide27-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Restless</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws210'>
+                            <label for="ws210"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws211'>
+                            <label for="ws211"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Neighborly</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws212'>
+                            <label for="ws212"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws213'>
+                            <label for="ws213"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Appealing</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws214'>
+                            <label for="ws214"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws215'>
+                            <label for="ws215"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Careful</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws216'>
+                            <label for="ws216"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws217'>
+                            <label for="ws217"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!--Slide28-->
+                <div class="workstyle-slide d-none">
+                  <table class="ws-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Most</th>
+                        <th>Least</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Respecttul</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws218'>
+                            <label for="ws218"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws219'>
+                            <label for="ws219"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Pioneering</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws220'>
+                            <label for="ws220"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws221'>
+                            <label for="ws221"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Optimistic</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws222'>
+                            <label for="ws222"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws223'>
+                            <label for="ws223"></label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Helpful</td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws224'>
+                            <label for="ws224"></label>
+                          </div>
+                        </td>
+                        <td class="text-center ws-radio">
+                          <div class="ws-radio-group">
+                            <input type="radio" name="radio" id='ws225'>
+                            <label for="ws225"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </form>
+              <div class="quiz-bttn-group mt-4">
+                <button type="button" class="btn-common-border pl-3 pr-3">Previous</button>
+                <div class="next-skip">
+                  <button type="button" class="btn-common-border nextbtn">Next</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
+</div>
 
-  <!--Footer-->
-  <app-footer></app-footer>
+<!--Footer-->
+<app-footer></app-footer>
