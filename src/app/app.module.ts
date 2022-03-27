@@ -49,7 +49,8 @@ import { VettedIndividualsComponent } from './vetted-individuals/vetted-individu
 import { DatafilterPipe } from './datafilter.pipe';
 import { UseCaseComponent } from './use-case/use-case.component';
 import { EmployerProfileComponent } from './employer-profile/employer-profile.component';
-import { BlockCopyPasteDirective } from './block-copy-paste.directive'; 
+import { BlockCopyPasteDirective } from './block-copy-paste.directive';
+import { HelpCenterComponent } from './help-center/help-center.component'; 
 
 @NgModule({
   declarations: [
@@ -93,7 +94,8 @@ import { BlockCopyPasteDirective } from './block-copy-paste.directive';
     VettedIndividualsComponent,
     DatafilterPipe,
     EmployerProfileComponent,
-    BlockCopyPasteDirective
+    BlockCopyPasteDirective,
+    HelpCenterComponent
   ],
   imports: [
     BrowserModule,

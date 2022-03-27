@@ -11,6 +11,7 @@ import { EmployerProfileComponent } from './employer-profile/employer-profile.co
 import { FooterComponent } from './footer/footer.component';
 import { GetHiredComponent } from './get-hired/get-hired.component';
 import { HeaderComponent } from './header/header.component';
+import { HelpCenterComponent } from './help-center/help-center.component';
 import { HowComponent } from './how/how.component';
 import { IndexComponent } from './index/index.component';
 import { InterviewListComponent } from './interview-list/interview-list.component';
@@ -171,6 +172,10 @@ const routes: Routes = [
   {
     path: 'employer-profile',
     component:EmployerProfileComponent,
+  },
+  {
+    path:'help-center',
+    component:HelpCenterComponent,
   },
   {
     path: '',

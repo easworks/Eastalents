@@ -5685,3 +5685,64 @@ position: relative;
 .ws-radio-group input[type="radio"]:not(:checked) + label::after {
   opacity: 0;
 }
+
+/** Help Center **/
+.help-search{
+  position: relative;
+  width: 500px;
+  margin: 20px auto;
+}
+.help-search input{
+  border: none;
+  background: #ffffff;
+  width: 100%;
+  height: 42px;
+  padding:0px 12px 0px 38px;
+  font-size: 14px;
+  outline: none;
+  border-radius: 3px;
+  box-shadow: 0 0 20px 0 #3e1c831a;
+}
+.help-search i{
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #878787;
+  font-size: 20px;
+}
+
+.helpbox{
+  background: #ffffff;
+  box-shadow: 0 0 20px 0 #3e1c831a;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.help-type li a{
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #000000;
+  display: block;
+  padding-bottom: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.help-type li a:hover{
+  color: #4949fc;
+}
+.morelink a{
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #4949fc;
+  display: flex;
+  align-items: center;
+}
+.morelink a i{
+  margin-left: 12px;
+  font-size: 22px;
+}
