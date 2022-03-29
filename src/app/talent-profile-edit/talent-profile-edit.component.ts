@@ -40,21 +40,18 @@ videoUrl:any;
   ngOnInit(): void {
     this.getTalentProfile();
     this.getImage();
-    this.getVideo();
     this.getPdf();
 
   }
 
   ngAfterViewInit(): void {
-    this.videoPlayer.nativeElement.onloadeddata = (event:any) => {
-      console.log('Video data is loaded.');
-      this.dataLoaded = true;
-    };
+    this.getVideo();
 
-    this.videoPlayer.nativeElement.onplaying = (event:any) => {
-      console.log('Video is no longer paused.');
-      this.videoStarted = true;
-    };
+
+    // this.videoPlayer.nativeElement.onplaying = (event:any) => {
+    //   console.log('Video is no longer paused.');
+    //   this.videoStarted = true;
+    // };
   }
 
   getImage(){
@@ -80,9 +77,13 @@ videoUrl:any;
     this.httpService.post('talentProfile/getTalentProfileVideo',data).subscribe((response: any) => {
       if (!response.error) {
         // this.toaster.success(`${response.message}`);
-        console.log(response);
+        this.videoStarted =true;
         this.videoUrl = this.imageBaseUrl + response.userData.file.path;
         console.log(this.videoUrl);
+        console.log(this.videoPlayer);
+        if(this.videoStarted){
+          this.videoPlayer.nativeElement.src = this.videoUrl;;
+        }
 
       }
     }, (error) => {
