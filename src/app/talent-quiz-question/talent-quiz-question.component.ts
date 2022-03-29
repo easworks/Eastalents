@@ -9,6 +9,7 @@ import { HttpService } from '../_services/http.service';
 import { ApiResponse } from '../_models';
 import { ToasterService } from '../_services/toaster.service';
 import { Router } from '@angular/router';
+import { SessionService } from '../_services/session.service';
 
 @Component({
   selector: 'app-talent-question',
@@ -52,7 +53,8 @@ export class TalentQuizQuestionComponent implements OnInit {
   constructor(private quizService: QuizService,
     private router: Router,
     private toaster: ToasterService,
-    private httpService: HttpService) { }
+    private httpService: HttpService,
+    private sessionService : SessionService) { }
 
   ngOnInit() {
     //this.quizes = this.quizService.getAll();
@@ -141,6 +143,10 @@ export class TalentQuizQuestionComponent implements OnInit {
     // this.quiz.questions.forEach(x => answers.push({ 'quizId': this.quiz.id, 'questionId': x.id, 'answered': x.answered }));
 
     // Post your data to the server here. answers contains the questionId and the users' answer.
+    // let data:{
+    //   userId: this.sessionService.getLocalStorageCredentials()._id,
+
+    // }
     console.log(this.quiz.questionData);
     this.httpService.post('questions/giveTest', this.quiz).subscribe((response: ApiResponse<any>) => {
       console.log(response);
