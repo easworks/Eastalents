@@ -166,7 +166,7 @@ const routes: Routes = [
     component:QuesCongratulationComponent,
   },
   {
-    path: 'vetted-individuals',
+    path: 'eas-needs/:id',
     component:VettedIndividualsComponent,
   },
   {

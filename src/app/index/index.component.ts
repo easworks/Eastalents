@@ -108,9 +108,12 @@ export class IndexComponent implements OnInit {
   changeDomain(i: any) {
     this.softwareList = this.primaryDomains[i.value]['softwate']
   }
+  
   gotoVettedIndividuals(data: any) {
-    sessionStorage.setItem("vettedIndividuals", JSON.stringify(data));
-    this.router.navigate(['/vetted-individuals'])
+    sessionStorage.setItem("vettedIndividuals", JSON.stringify(data)); 
+    let url = data.title;
+    url = url.replaceAll(" ",""); 
+    this.router.navigate(['/eas-needs',url])
   }
 
 }
