@@ -15,6 +15,7 @@ import { ToasterService } from '../_services/toaster.service';
 export class SignInComponent implements OnInit {
   submitted = false;
   signInForm!: FormGroup;
+  githubUserName='skv10';
   constructor(private formBuilder: FormBuilder, private toaster: ToasterService,
               private sessionService: SessionService, private httpService: HttpService, private router: Router) { }
 
@@ -60,11 +61,12 @@ export class SignInComponent implements OnInit {
   }
 
   onGoogleLogin(){
-    this.httpService.get('gmail/getGmailUrl').subscribe((response: any) => {
-      if(response.status){
+    // this.httpService.get('gmail/getGmailUrl').subscribe((response: any) => {
+    //   if(response.status){
        
-      }
-    });
+    //   }
+    // });
+    this.router.navigateByUrl('https://eas-works.herokuapp.com/api/gmail/getGmailUrl');
   }
 
   onLinkedInLogin(){
@@ -76,7 +78,10 @@ export class SignInComponent implements OnInit {
   }
 
   onGithubLogin(){
-    this.httpService.get('linedin/getGmailUrl').subscribe((response: any) => {
+    let data={
+       "login":this.githubUserName
+    }
+    this.httpService.post('github/getGithubUrl',data).subscribe((response: any) => {
       if(response.status){
         
       }

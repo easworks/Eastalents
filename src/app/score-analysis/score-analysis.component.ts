@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from '../_services/http.service';
+import { SessionService } from '../_services/session.service';
 
 @Component({
   selector: 'app-score-analysis',
@@ -24,10 +25,13 @@ export class ScoreAnalysisComponent implements OnInit {
       needleStartValue: 50,
   };
   countries:any;
-  constructor(private router:Router,private http: HttpClient,private httpService: HttpService) { }
+  constructor(private router:Router,private http: HttpClient,private httpService: HttpService,private sessionService: SessionService) { }
 
   ngOnInit(): void {
-    this.httpService.get('questions/getUserTests').subscribe((response: any) => {
+    let data:any={
+      userId: this.sessionService.getLocalStorageCredentials()._id,
+    }
+    this.httpService.post('questions/getUserTests',data).subscribe((response: any) => {
       if(response.status){
         this.countries = response.countries;
       }

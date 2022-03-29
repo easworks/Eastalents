@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpService } from '../_services/http.service';
 
 @Component({
   selector: 'app-emploer-question',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class EmploerQuestionComponent implements OnInit {
 
-  constructor( private http: HttpClient,private ref: ChangeDetectorRef,private router: Router,) { }
+  constructor( private http: HttpClient,private ref: ChangeDetectorRef,private router: Router,private httpService: HttpService) { }
   currentIndex:number =0;
   fieldArray:any=[];
   answers:any=[];
@@ -27,12 +28,47 @@ export class EmploerQuestionComponent implements OnInit {
   disableNextButton:boolean = true;
   filterString:any='';
   buttonDataFilter='';
-  enterpriseApplication='';
+  enterpriseApplicationGroup='';
 
   ngOnInit(): void {
-    this.getData();
+    // this.getData();
     console.log(this.currentIndex);
     this.answers[this.currentIndex]={name:'GET started'};
+    this.httpService.get('employerProfile/getEmployerProfileSteps').subscribe((response: any) => {
+      if (response.status) {
+        // this.rootTalentObject = response
+        this.employeeQuestionData = response.employerProfile;
+        console.log(this.employeeQuestionData);
+        // let dataValues = []; //For values
+        // for (let key in this.rootTalentObject.talentProfile) {
+        //   dataValues.push(this.rootTalentObject.talentProfile[key]);
+        //   this.dataKeys.push({value:this.rootTalentObject.talentProfile[key]['Primary Domain'],selected:false,disable:false,noOfYear:'',skill:''});
+        //   for (let key2 in this.rootTalentObject.talentProfile[key].Modules) {
+        //     this.datathree.push({value:key2,selected:false,disable:false,noOfYear:'',skill:'',group:this.rootTalentObject.talentProfile[key]['Primary Domain']});
+        //     this.rootTalentObject.talentProfile[key].Modules[key2]['Job roles'].forEach((jobdata:any)=>{
+        //       if(jobdata){
+
+        //         this.completeJobs.push({value:jobdata,selected:false,disable:false,noOfYear:'',skill:'',group:key,subgroup:key2,primaryDomain:this.rootTalentObject.talentProfile[key]['Primary Domain']});
+        //       }
+        //     });
+        //     this.rootTalentObject.talentProfile[key].Modules[key2].Product.forEach((productdata:any)=>{
+        //       if(productdata){
+
+        //         this.completeProduct.push({value:productdata.name,selected:false,disable:false,noOfYear:'',skill:'',group:key,subgroup:key2,primaryDomain:this.rootTalentObject.talentProfile[key]['Primary Domain']});
+        //       }
+        //      });
+
+        //   }
+        // }
+        // this.talentOption = this.dataKeys;
+        // console.log(this.dataKeys)
+        // console.log(this.datathree)
+        // console.log(this.completeJobs)
+        // console.log(this.completeProduct)
+      }
+    }, (error) => {
+      console.log(error);
+    });
   }
 
   onChange(index:number){
@@ -108,6 +144,7 @@ export class EmploerQuestionComponent implements OnInit {
         opt.selected= true;
         opt.disable = true;
         if(this.currentIndex === 1){
+          this.enterpriseApplicationGroup = opt.value;
         this.employeeQuestionData[this.currentIndex].option.forEach((option:any)=>{
             option.disable = true;
         });
