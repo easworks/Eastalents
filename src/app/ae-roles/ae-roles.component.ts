@@ -12,11 +12,18 @@ export class AeRolesComponent implements OnInit {
   public domains: any = sessionStorage.getItem("domain");
   public domainValue: any;
   public softwareList: any = [];
+  public domainInput: any;
   constructor() {
     this.prd = JSON.parse(this.prd);
     this.software = JSON.parse(this.software);
-    this.domains = JSON.parse(this.domains);
-    this.softwareList = this.domains[0]['softwate'];
+    this.domains = JSON.parse(this.domains); 
+    this.domainInput = this.prd['name'];
+
+    this.domains.map((e: any) => {
+      if (e.domain == this.prd['name']) {
+        this.softwareList = e['softwate'];
+      }
+    }) 
     window.scrollTo(0, 0);
   }
 
@@ -27,9 +34,9 @@ export class AeRolesComponent implements OnInit {
     this.softwareList = this.software[list.value]
   }
 
-  showMore(){
+  showMore() {
     this.show = !this.show;
-    if(this.show){
+    if (this.show) {
       window.scrollTo(0, 0);
     }
   }

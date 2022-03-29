@@ -4,11 +4,11 @@
 
 <div class="common-space">
     <!--Why AppTalent-->
-    <section class="gethire-wraper banner-section pt-5 d-flex">
+    <section class="gethire-wraper d-flex align-items-center">
         <div class="container-fluid">
             <div class="row">
                 <div
-                    class="col-lg-7 col-md-7 col-sm-7 col-12 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column">
+                    class="col-lg-7 col-md-7 col-sm-7 col-12 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
                     <h1 data-aos="fade-up" data-aos-delay="200" class="main-title">{{vettedIndividuals.title}}</h1>
                     <div class="vetted" [innerHTML]="vettedIndividuals?.content?.sec_1_desc"></div>
                     <!-- <p class="common-para">Hire Individual top EAS Talents on-demand based on skill or role.</p>
@@ -39,7 +39,7 @@
                 <h2 class="second-title mb-5">
                     Why choose EAS <span class="spantitlecolor">{{vettedIndividuals.title}} ? </span></h2>
             </div>
-            <div class="row justify-content-center">
+            <div class="row row-cols-5 justify-content-center">
                 <div class="col d-flex align-items-stretch" *ngFor="let list of vettedIndividuals?.content?.sec_2"
                     data-aos="fade-up" data-aos-delay="300">
                     <div class="icon-box">
@@ -328,13 +328,13 @@
             </div>
 
             <div class="apptalent-table-view heightlighttable">
-                <table>
+                <!-- <table>
                     <thead>
                         <tr class="price-table-head">
                             <th class="pth-first-th"></th>
-                            <th>{{vettedIndividuals.title}}</th>
-                            <th>Full Teams</th>
-                            <th>EAS Project Based</th>
+                            <th class="highlight-{{highlighter}}">Vetted Individuals</th>
+                            <th class="highlight-{{highlighter}}">Full Teams</th>
+                            <th class="highlight-{{highlighter}}">EAS Project Based</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -442,7 +442,6 @@
                             <td class="bg-red-300"> Recommended</td>
                             <td class="bg-red-300">Optional</td>
                         </tr>
-
                         <tr>
                             <td>
                                 <p>
@@ -459,7 +458,6 @@
                                 Occasional
                             </td>
                         </tr>
-
                         <tr>
                             <td>
                                 <p>
@@ -470,7 +468,6 @@
                             <td>Some</td>
                             <td>None</td>
                         </tr>
-
                         <tr>
                             <td>
                                 <p>
@@ -530,6 +527,51 @@
                             <td>Client </td>
                             <td>EASWORKS</td>
                             <td>EASWORKS</td>
+                        </tr>
+                    </tbody>
+                </table> -->
+
+                <table>
+                    <thead>
+                        <tr *ngIf="title == 'Vetted Individuals'" class="price-table-head">
+                            <th class="pth-first-th"></th>
+                            <th class="highlight">Vetted Individuals</th>
+                            <th>Full Teams</th>
+                            <th>EAS Project Based</th>
+                        </tr>
+                        <tr *ngIf="title == 'Full Teams'" class="price-table-head">
+                            <th class="pth-first-th"></th>
+                            <th>Vetted Individuals</th>
+                            <th class="highlight">Full Teams</th>
+                            <th>EAS Project Based</th>
+                        </tr>
+                        <tr *ngIf="title == 'Enterprise Application Projects'" class="price-table-head">
+                            <th class="pth-first-th"></th>
+                            <th>Vetted Individuals</th>
+                            <th>Full Teams</th>
+                            <th class="highlight">EAS Project Based</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let list of compareTableValies">
+                            <ng-container *ngIf="title == 'Vetted Individuals'">
+                                <td>{{list.scope}}</td>
+                                <td class="highlight">{{list.vetted}}</td>
+                                <td>{{list.full_teams}}</td>
+                                <td>{{list.project_based}}</td>
+                            </ng-container>
+                            <ng-container *ngIf="title == 'Full Teams'">
+                                <td>{{list.scope}}</td>
+                                <td>{{list.vetted}}</td>
+                                <td class="highlight">{{list.full_teams}}</td>
+                                <td>{{list.project_based}}</td>
+                            </ng-container>
+                            <ng-container *ngIf="title == 'Enterprise Application Projects'">
+                                <td>{{list.scope}}</td>
+                                <td>{{list.vetted}}</td>
+                                <td>{{list.full_teams}}</td>
+                                <td class="highlight">{{list.project_based}}</td>
+                            </ng-container>
                         </tr>
                     </tbody>
                 </table>
