@@ -61,6 +61,7 @@ export class TalentQuestionComponent implements OnInit {
   selectedVideoFiles:any;
   experienceArray:any=[];
   selectedImage:any;
+  selectedPDF:any;
   selectedCountry='';
   selectedCity='';
   selectedState='';
@@ -71,6 +72,7 @@ export class TalentQuestionComponent implements OnInit {
   completePhase:any=[];
   preferredPLM='';
   currentPLM='';
+  editMode = true;
   constructor(private httpService: HttpService,
     private router: Router, private route: ActivatedRoute,
     private talentService: TalentService,private http: HttpClient,private toaster: ToasterService,private sessionService: SessionService) {
@@ -80,17 +82,40 @@ export class TalentQuestionComponent implements OnInit {
   ngOnInit(): void {
         // Defaults to 0 if no query param provided.
         this.idToNavigate =  +this.route.snapshot.queryParams['id'] || 0;
+        this.name.firstName = this.sessionService.getLocalStorageCredentials().firstName;
+        this.getCountry();
         if(this.idToNavigate){
+          this.editMode = false;
           this.talentQuestionData = this.talentDataToUpdate.data;
           this.showProfessionalCodingExperience = this.idToNavigate === 8 || this.idToNavigate === 7  ? true :false;
+          this.currentPLM = this.talentQuestionData[11].data.currentPLM;
+          this.preferredPLM = this.talentQuestionData[11].data.preferredPLM;
+          this.talentQuestionData[6].option.forEach((element:any)=>{
+            if(element.selected === true){
+              this.jobRole.push({value:element.value,noOfYear:'',skill:''});
+            }
+          });
+          this.selectedCountry = this.talentQuestionData[1].country.code;
+          this.getState(this.selectedCountry);
+          this.selectedState = this.talentQuestionData[1].state.iso;
+          this.getCity(this.selectedCountry,this.selectedState);
+          this.selectedCity = this.talentQuestionData[1].city;
           this.changePage(this.idToNavigate);
+          this.talentQuestionData[2].option.forEach((element:any)=>{
+            if(element.selected === true){
+              this.enterpriseApplicationGroup = element.value;
+            }
+          });
+          this.talentQuestionData[3].option.forEach((element:any)=>{
+            if(element.selected === true){
+              this.enterpriseApplicationSubGroup.push(element.value);
+            }
+          });
          
         }
         else{
           this.initializeValue();
         }
-    this.name.firstName = this.sessionService.getLocalStorageCredentials().firstName;
-    this.getCountry();
 
   }
 
@@ -155,6 +180,8 @@ export class TalentQuestionComponent implements OnInit {
     }
   }
 
+
+
   getData(){
     return this.http.get('/assets/talentquestion.json').subscribe( (res:any) =>{
       this.talentQuestionData.push(...res);
@@ -179,16 +206,15 @@ export class TalentQuestionComponent implements OnInit {
         this.countries = response.countries;
       }
     });
-    console.log(this.countries);
   }
   onSelectCountry(opt:any){
     this.talentQuestionData[1].country = this.countries.find((item:any)=>item.code === opt);
     this.selectedCountry = opt;
     this.getState(opt);
   }
-  getCity(stateiso:any){
+  getCity(countryCode:any,stateiso:any){
     const data={
-      "countryCode":this.talentQuestionData[1].country.code,
+      "countryCode":countryCode,
       "stateCode":stateiso
     }
     this.httpService.post('location/getCities',data).subscribe((res:any) => {
@@ -211,7 +237,7 @@ export class TalentQuestionComponent implements OnInit {
   onSelectState(opt:any){
     this.talentQuestionData[1].state = this.allState.find((item:any)=>item.iso === opt);
     this.selectedState = opt;
-    this.getCity(opt);
+    this.getCity(this.talentQuestionData[1].country.code,opt);
   }
 
   onSelectCity(opt:any){
@@ -231,11 +257,40 @@ export class TalentQuestionComponent implements OnInit {
   onRemoveEducation(opt:any,i:any){
     this.talentQuestionData[this.currentPage].education.splice(i,1);
   }
+  onChoosePDF(event:any){
+    this.selectedPDF = event.target.files[0];
+    this.uploadPdf();
+  }
+  uploadPdf(){
+    const uploadData = new FormData();
+    uploadData.append('talentProfileResume', this.selectedPDF, this.selectedPDF.name);
+    uploadData.append('userId',this.sessionService.getLocalStorageCredentials()._id);
+    this.httpService.post('talentProfile/setTalentProfileResume',uploadData).subscribe((response: ApiResponse<any>) => {
+      if (!response.error) {
+        this.toaster.success(`${response.message}`);
+      }
+    }, (error) => {
+      console.log(error);
+      this.toaster.error(`${error.message}`);
+    });
+  }
   onVideoUpload(event:any){
-    this.selectedVideoFiles = event.target.files;
+    this.selectedVideoFiles = event.target.files[0];
+    console.log(event);
+    this.uploadVideo();
   }
   uploadVideo(){
-     
+    const uploadData = new FormData();
+    uploadData.append('talentProfileVideo', this.selectedVideoFiles, this.selectedVideoFiles.name);
+    uploadData.append('userId',this.sessionService.getLocalStorageCredentials()._id);
+    this.httpService.post('talentProfile/setTalentProfileVideo',uploadData).subscribe((response: ApiResponse<any>) => {
+      if (!response.error) {
+        this.toaster.success(`${response.message}`);
+      }
+    }, (error) => {
+      console.log(error);
+      this.toaster.error(`${error.message}`);
+    });
   }
   onImage(event:any){
     this.selectedImage = event.target.files[0]
@@ -244,7 +299,8 @@ export class TalentQuestionComponent implements OnInit {
   }
   uploadImage(){
     const uploadData = new FormData();
-    uploadData.append('myFile', this.selectedImage, this.selectedImage.name);
+    uploadData.append('talentProfilePhoto', this.selectedImage, this.selectedImage.name);
+    uploadData.append('userId',this.sessionService.getLocalStorageCredentials()._id);
     this.httpService.post('talentProfile/setTalentProfilePhoto',uploadData).subscribe((response: ApiResponse<any>) => {
       if (!response.error) {
         this.toaster.success(`${response.message}`);

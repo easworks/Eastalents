@@ -43,9 +43,9 @@
                 <div class="profile-card-body">
                   <div class="d-flex">
                     <span class="pc-avatar">
-                      <img src="assets/img/jobrole.jpg" />
+                      <img src="https://eas-works.herokuapp.com/uploads/talentProfile/talentProfilePhoto-1648400146303.png" />
                       <div class="edit-profile">
-                        <input type="file" id="fileupload" />
+                        <input type="file" id="fileupload" accept=".png,.jpg" (change)="onImage($event)" />
                         <label for="fileupload"><i class='bx bxs-edit'></i>Edit</label>
                       </div>
                     </span>
@@ -78,7 +78,7 @@
                         </li>
                       </ul>
                       <div class="view-res-btngroup">
-                        <button type="button" class="resumebtn">View Resume</button>
+                        <button type="button" class="resumebtn" (click)="viewPdf()">View Resume</button>
                         <button type="button" class="resumebtn update-resume ml-2"><i class='bx bxs-edit'></i>Update
                           Resume</button>
                       </div>
@@ -558,8 +558,11 @@
       <div class="row mt-5">
         <div class="col-lg-6 col-md-6 col-12">
           <div class="video-tag">
-            <iframe width="100%" height="300" src="https://www.youtube.com/embed/-pBiVpzRfBI" title="Hiring Video"
-              frameborder="0" allowfullscreen></iframe>
+            <video width="400" height="240" controls #videoPlayer preload="auto">
+              <source src="{{videoUrl}}" type="video/mp4">
+              <!-- <source [src]="videoUrl" type="video/ogg"> -->
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
         <div class="col-lg-6 col-md-6 col-12">
@@ -590,7 +593,8 @@
           <h2 class="card-title mb-3">Job Search Status</h2>
           <!-- <p class="common-para">Tell your future clients how much time you have for new work</p> -->
             <ul class="form-wizard-type jss-list selectarea  mt-3 row">
-            <li *ngFor = "let option of  this.talentQuestionData[10].data[0].option">
+              <ng-container *ngIf="talentQuestionData && talentQuestionData[10]">
+            <li *ngFor = "let option of  talentQuestionData[10].data[0].option">
               <a href="javascript:void(0)" class="pl-3 pr-3"
               [style.background-color]="option.selected ?'#4949fc' :''"
               [style.color]="option.selected ? 'white': ''"
@@ -600,12 +604,14 @@
                 <sub *ngIf="option.thirdPart">{{option.thirdPart}}</sub>
               </a>
             </li>
+            </ng-container>
             </ul>
         </div>
         <div class="col-lg-6 col-md-6 col-12">
           <h2 class="card-title mb-3">Employment Opportunity</h2>
           <div class="interested-visible">
             <ul class="form-wizard-type jss-list selectarea  mt-3 row">
+              <ng-container *ngIf="talentQuestionData && talentQuestionData[10]">
               <li *ngFor = "let option of  this.talentQuestionData[10].data[1].option">
                 <a href="javascript:void(0)" class="pl-3 pr-3"
                 [style.background-color]="option.selected ?'#4949fc' :''"
@@ -616,6 +622,7 @@
                   <sub *ngIf="option.thirdPart">{{option.thirdPart}}</sub>
                 </a>
               </li>
+              </ng-container>
               </ul>
             <div class="iv-formgroup mt-2">
               <label>Max Hours Per Week Available for contact GIGS?</label>
@@ -1192,25 +1199,24 @@
                     <th>Role</th>
                     <th>Duration</th>
                     <th>Developer Skills</th>
-                    <th>Role & Responsibilities</th>
+                    <th>Client name</th>
                     <th>Action</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>BackEnd</td>
-                    <td>February 2019 - April 2021</td>
+                <tbody >
+                  <ng-container *ngIf="talentQuestionData && talentQuestionData[12]">
+                  <tr *ngFor="let data of talentQuestionData[12].experience">
+                    <td>{{data.role}}</td>
+                    <td>{{data.startDuration}} - {{data.endDuration}}</td>
                     <td>
-                      <ul class="table-lan-type">
-                        <li>Backend Engineer</li>
-                        <li>RabbitMQ</li>
-                      </ul>
+                      {{data.skills}}
                     </td>
-                    <td>BackEnd</td>
+                    <td>{{data.clientName}}</td>
                     <td>
                       <button type="button" class="deletebtn"><i class='bx bxs-trash'></i></button>
                     </td>
                   </tr>
+                  </ng-container>
                 </tbody>
               </table>
             </div>
@@ -1231,6 +1237,7 @@
                 <thead>
                   <tr class="price-table-head">
                     <th>Degree</th>
+                    <th>Duration</th>
                     <th>University</th>
                     <th>City/State/Country</th>
                     <th>Specialization</th>
@@ -1238,15 +1245,18 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Bacherols</td>
-                    <td>National University</td>
-                    <td>Bangalore/Karnataka/India</td>
-                    <td>Computer Science</td>
+                  <ng-container *ngIf="talentQuestionData && talentQuestionData[12]">
+                  <tr *ngFor="let data of this.talentQuestionData[12].education">
+                    <td>{{data.degree}}</td>
+                    <td>{{data.startDuration}} - {{data.endDuration}}</td>
+                    <td>{{data.school}}</td>
+                    <td>{{data.address}}</td>
+                    <td>{{data.specialization}}</td>
                     <td>
                       <button type="button" class="deletebtn"><i class='bx bxs-trash'></i></button>
                     </td>
                   </tr>
+                  </ng-container>
                 </tbody>
               </table>
             </div>
