@@ -73,6 +73,8 @@ export class TalentQuestionComponent implements OnInit {
   preferredPLM='';
   currentPLM='';
   editMode = true;
+  resume='';
+  selectedVideo='';
   constructor(private httpService: HttpService,
     private router: Router, private route: ActivatedRoute,
     private talentService: TalentService,private http: HttpClient,private toaster: ToasterService,private sessionService: SessionService) {
@@ -268,6 +270,7 @@ export class TalentQuestionComponent implements OnInit {
     this.httpService.post('talentProfile/setTalentProfileResume',uploadData).subscribe((response: ApiResponse<any>) => {
       if (!response.error) {
         this.toaster.success(`${response.message}`);
+        this.resume = this.selectedPDF.name;
       }
     }, (error) => {
       console.log(error);
@@ -286,6 +289,7 @@ export class TalentQuestionComponent implements OnInit {
     this.httpService.post('talentProfile/setTalentProfileVideo',uploadData).subscribe((response: ApiResponse<any>) => {
       if (!response.error) {
         this.toaster.success(`${response.message}`);
+        this.selectedVideo = this.selectedVideoFiles.name
       }
     }, (error) => {
       console.log(error);

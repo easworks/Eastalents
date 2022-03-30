@@ -29,6 +29,7 @@ export class EmploerQuestionComponent implements OnInit {
   filterString:any='';
   buttonDataFilter='';
   enterpriseApplicationGroup='';
+  showTechQuestion:boolean = false;
 
   ngOnInit(): void {
     // this.getData();
@@ -39,32 +40,6 @@ export class EmploerQuestionComponent implements OnInit {
         // this.rootTalentObject = response
         this.employeeQuestionData = response.employerProfile;
         console.log(this.employeeQuestionData);
-        // let dataValues = []; //For values
-        // for (let key in this.rootTalentObject.talentProfile) {
-        //   dataValues.push(this.rootTalentObject.talentProfile[key]);
-        //   this.dataKeys.push({value:this.rootTalentObject.talentProfile[key]['Primary Domain'],selected:false,disable:false,noOfYear:'',skill:''});
-        //   for (let key2 in this.rootTalentObject.talentProfile[key].Modules) {
-        //     this.datathree.push({value:key2,selected:false,disable:false,noOfYear:'',skill:'',group:this.rootTalentObject.talentProfile[key]['Primary Domain']});
-        //     this.rootTalentObject.talentProfile[key].Modules[key2]['Job roles'].forEach((jobdata:any)=>{
-        //       if(jobdata){
-
-        //         this.completeJobs.push({value:jobdata,selected:false,disable:false,noOfYear:'',skill:'',group:key,subgroup:key2,primaryDomain:this.rootTalentObject.talentProfile[key]['Primary Domain']});
-        //       }
-        //     });
-        //     this.rootTalentObject.talentProfile[key].Modules[key2].Product.forEach((productdata:any)=>{
-        //       if(productdata){
-
-        //         this.completeProduct.push({value:productdata.name,selected:false,disable:false,noOfYear:'',skill:'',group:key,subgroup:key2,primaryDomain:this.rootTalentObject.talentProfile[key]['Primary Domain']});
-        //       }
-        //      });
-
-        //   }
-        // }
-        // this.talentOption = this.dataKeys;
-        // console.log(this.dataKeys)
-        // console.log(this.datathree)
-        // console.log(this.completeJobs)
-        // console.log(this.completeProduct)
       }
     }, (error) => {
       console.log(error);
@@ -73,6 +48,15 @@ export class EmploerQuestionComponent implements OnInit {
 
   onChange(index:number){
     this.currentIndex += index;
+    if(this.currentIndex === 5  && this.showTechQuestion === false){
+      if(index>0){
+        this.currentIndex = this.currentIndex +1;
+
+      }
+      else if (index <0){
+        this.currentIndex = this.currentIndex - 1;
+      }
+ }
     this.width = (this.currentIndex / 15) * 100;
     if(this.currentIndex === 1){
       this.firstOption = true;
@@ -95,7 +79,7 @@ export class EmploerQuestionComponent implements OnInit {
   if(this.currentIndex ===1 ||this.currentIndex ===2 ||this.currentIndex ===3){
     return 'selectBox';
   }
-  else if (this.currentIndex === 5 ||this.currentIndex ===14){
+  else if (this.currentIndex === 5){
     return 'techquestion';
   }
   else if (this.currentIndex === 11){
@@ -123,12 +107,12 @@ export class EmploerQuestionComponent implements OnInit {
       }
     });
   }
-  getData(){
-    return this.http.get('/assets/employerquestion.json').subscribe(res =>{
-      this.employeeQuestionData = res;
-      console.log(this.employeeQuestionData[0].type);
-    });
-  }
+  // getData(){
+  //   return this.http.get('/assets/employerquestion.json').subscribe(res =>{
+  //     this.employeeQuestionData = res;
+  //     console.log(this.employeeQuestionData[0].type);
+  //   });
+  // }
   deleteSelectedOption(field:any){
     this.employeeQuestionData[this.currentIndex].option.forEach((element:any)=>{
       if(element.value.toLowerCase() === field.value.toLowerCase()){
@@ -153,6 +137,7 @@ export class EmploerQuestionComponent implements OnInit {
     }
     else if (type === 'selectYesNo'){
        opt.selected = !opt.selected;
+       this.showOrHideTechQuestion(opt);
        this.disableOtherValues(opt);
 
     }
@@ -189,6 +174,15 @@ export class EmploerQuestionComponent implements OnInit {
       }
       else if(opt.selected === false){
         element.disable = false;
+      }
+});
+  }
+
+  showOrHideTechQuestion(opt:any){
+    this.showTechQuestion = false;
+    this.employeeQuestionData[this.currentIndex].option.forEach((element:any)=>{
+      if(element.selected === true && opt.value.toLowerCase() === 'yes'){
+        this.showTechQuestion = true;
       }
 });
   }
@@ -274,7 +268,7 @@ export class EmploerQuestionComponent implements OnInit {
     }
   }
   goToMyProfile(){
-    this.router.navigate(['/employerprofile']);
+    this.router.navigate(['/employer-profile']);
     console.log(this.employeeQuestionData);
   }
 

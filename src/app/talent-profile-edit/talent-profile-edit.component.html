@@ -43,7 +43,7 @@
                 <div class="profile-card-body">
                   <div class="d-flex">
                     <span class="pc-avatar">
-                      <img src="https://eas-works.herokuapp.com/uploads/talentProfile/talentProfilePhoto-1648400146303.png" />
+                      <img src="{{imgUrl}}" />
                       <div class="edit-profile">
                         <input type="file" id="fileupload" accept=".png,.jpg" (change)="onImage($event)" />
                         <label for="fileupload"><i class='bx bxs-edit'></i>Edit</label>
@@ -558,7 +558,7 @@
       <div class="row mt-5">
         <div class="col-lg-6 col-md-6 col-12">
           <div class="video-tag">
-            <video width="400" height="240" controls #videoPlayer>
+            <video width="510" height="310" controls #videoPlayer>
               <source src="{{videoUrl}}" type="video/mp4">
               <!-- <source [src]="videoUrl" type="video/ogg"> -->
               Your browser does not support the video tag.

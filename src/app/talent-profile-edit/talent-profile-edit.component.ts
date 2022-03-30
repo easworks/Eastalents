@@ -62,7 +62,7 @@ videoUrl:any;
       if (!response.error) {
         // this.toaster.success(`${response.message}`);
         console.log(response);
-        this.imgUrl = response.userData.file.path;
+        this.imgUrl = this.imageBaseUrl + response.userData.file.path;
 
       }
     }, (error) => {
@@ -123,9 +123,10 @@ videoUrl:any;
     const uploadData = new FormData();
     uploadData.append('talentProfilePhoto', this.selectedImage, this.selectedImage.name);
     uploadData.append('userId',this.sessionService.getLocalStorageCredentials()._id);
-    this.httpService.post('talentProfile/setTalentProfilePhoto',uploadData).subscribe((response: ApiResponse<any>) => {
+    this.httpService.post('talentProfile/setTalentProfilePhoto',uploadData).subscribe((response: any) => {
       if (!response.error) {
         this.toaster.success(`${response.message}`);
+        this.imgUrl = this.imageBaseUrl + response.talentProfileUpload.file.path;
       }
     }, (error) => {
       console.log(error);

@@ -490,7 +490,7 @@
                               <div class="form-group-wizard d-flex align-items-center">
                                 <label class="qs-label-text">Resume</label>
                                 <div class="form-input-group position-relative w-50 d-flex">
-                                  <input type="text" class="inputview">
+                                  <input type="text" class="inputview" name="resumepdf" readOnly [(ngModel)]="resume">
                                   <div class="uploadfiles">
                                     <input type="file" id="up-files" (change)="onChoosePDF($event)"/>
                                     <label for="up-files">Choose PDF</label>
@@ -503,7 +503,7 @@
                               <div class="form-group-wizard d-flex align-items-center">
                                 <label class="qs-label-text">Upload Video</label>
                                 <div class="form-input-group position-relative w-50 d-flex">
-                                  <input type="text" class="inputview">
+                                  <input type="text" class="inputview" readOnly  name='video' [(ngModel)]="selectedVideo">
                                   <div class="uploadfiles">
                                     <input type="file" id="up-files-video" (change)="onVideoUpload($event)" />
                                     <label for="up-files-video">Upload Video</label>
