@@ -50,7 +50,9 @@ import { DatafilterPipe } from './datafilter.pipe';
 import { UseCaseComponent } from './use-case/use-case.component';
 import { EmployerProfileComponent } from './employer-profile/employer-profile.component';
 import { BlockCopyPasteDirective } from './block-copy-paste.directive';
-import { HelpCenterComponent } from './help-center/help-center.component'; 
+import { HelpCenterComponent } from './help-center/help-center.component';
+import { HelpCenterViewComponent } from './help-center-view/help-center-view.component';
+import { HelpCenterDetailsComponent } from './help-center-details/help-center-details.component'; 
 
 @NgModule({
   declarations: [
@@ -95,7 +97,9 @@ import { HelpCenterComponent } from './help-center/help-center.component';
     DatafilterPipe,
     EmployerProfileComponent,
     BlockCopyPasteDirective,
-    HelpCenterComponent
+    HelpCenterComponent,
+    HelpCenterViewComponent,
+    HelpCenterDetailsComponent
   ],
   imports: [
     BrowserModule,
