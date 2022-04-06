@@ -45,14 +45,13 @@
             <form>
               <div class="form-wizard-step">
                 <div *ngFor="let data of talentQuestionData; let i = index">
-                  <div class="question-steps"  *ngIf="data.type === 'textarea' &&  this.currentPage === data.id" >
+                  <div class="question-steps" *ngIf="data.type === 'textarea' &&  this.currentPage === data.id">
                     <h2 class="main-question">Professional Summary</h2>
                     <div class="form-wizard-answer mt-3">
                       <div class="form-wizard-textarea">
-                        <textarea name="summary"
-                          [(ngModel)]="data.profileSummary"></textarea>
+                        <textarea name="summary" [(ngModel)]="data.profileSummary"></textarea>
                       </div>
-  
+
                     </div>
                     <h2 class="main-question mt-2 mb-2">Your Location TimeZone</h2>
                     <div class="form-wizard-answer ">
@@ -62,7 +61,8 @@
                             <div class="loc-timezone mb-2">
                               <label class="label-text">Country</label>
                               <div class="loc-inputgroup">
-                                <select class="inputview" name='country' [ngModel]="selectedCountry" (ngModelChange)="onSelectCountry($event)">
+                                <select class="inputview" name='country' [ngModel]="selectedCountry"
+                                  (ngModelChange)="onSelectCountry($event)">
                                   <ng-container *ngFor="let country of countries">
                                     <option value="{{country.code}}">{{country.name}}</option>
                                   </ng-container>
@@ -70,12 +70,13 @@
                               </div>
                             </div>
                           </div>
-  
+
                           <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                             <div class="loc-timezone mb-2">
                               <label class="label-text">State</label>
                               <div class="loc-inputgroup">
-                                <select class="inputview"  name='state' [ngModel]="selectedState" (ngModelChange)="onSelectState($event)">
+                                <select class="inputview" name='state' [ngModel]="selectedState"
+                                  (ngModelChange)="onSelectState($event)">
                                   <ng-container *ngFor="let state of allState">
                                     <option value="{{state.iso}}">{{state.name}}</option>
                                   </ng-container>
@@ -83,12 +84,13 @@
                               </div>
                             </div>
                           </div>
-  
+
                           <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                             <div class="loc-timezone">
                               <label class="label-text">City</label>
                               <div class="loc-inputgroup">
-                                <select class="inputview" name='city' [ngModel]="selectedCity" (ngModelChange)="onSelectCity($event)">
+                                <select class="inputview" name='city' [ngModel]="selectedCity"
+                                  (ngModelChange)="onSelectCity($event)">
                                   <ng-container *ngFor="let city of cities">
                                     <option value="{{city}}">{{city}}</option>
                                   </ng-container>
@@ -96,7 +98,7 @@
                               </div>
                             </div>
                           </div>
-  
+
                           <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                             <div class="loc-timezone">
                               <label class="label-text">TimeZone</label>
@@ -112,14 +114,16 @@
                       </div>
                     </div>
                   </div>
-                  
+
                   <div *ngIf="data.type === 'mixed' && this.currentPage === data.id" class="question-steps">
-                    <h2 class="main-question">{{data.question.first}}<span class="spantitlecolor">{{data.id==2? '' :enterpriseApplicationGroup}}</span> {{data.question.second}}  </h2>
+                    <h2 class="main-question">{{data.question.first}}<span class="spantitlecolor">{{data.id==2? ''
+                        :enterpriseApplicationGroup}}</span> {{data.question.second}} </h2>
                     <div class="form-wizard-answer mt-2">
                       <div class="multiselect-languge">
                         <div class="lang-list-box">
-                          <app-talent-question-select-item [fieldArray]="fieldArray" (inputNoOfYear)="onInputNoOfYear($event)"
-                            (inputNoOfSkill)="onInputSkill($event)" (deleteFieldValue)="deleteSelectedOption($event)">
+                          <app-talent-question-select-item [fieldArray]="fieldArray"
+                            (inputNoOfYear)="onInputNoOfYear($event)" (inputNoOfSkill)="onInputSkill($event)"
+                            (deleteFieldValue)="deleteSelectedOption($event)">
                           </app-talent-question-select-item>
                           <div class="language-multiselect-dropdown mt-2">
                             <div class="lm-dropdown dropdown">
@@ -127,9 +131,9 @@
                                 class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false" name="filterbasedon"
                                 [(ngModel)]="filterString">
-                              <div  aria-labelledby="dropdownMenuButton">
+                              <div aria-labelledby="dropdownMenuButton">
                                 <ul>
-                                  <li *ngFor="let option of data.option | datafilter:filterString">
+                                  <li *ngFor="let option of data.option | datafilterTalent:filterString">
                                     <ng-container *ngIf="data.id  === 2">
                                       <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3"
                                         [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
@@ -137,7 +141,8 @@
                                         {{option.value}}
                                       </a>
                                     </ng-container>
-                                    <ng-container *ngIf="data.id  === 3 && enterpriseApplicationGroup && option.group === enterpriseApplicationGroup">
+                                    <ng-container
+                                      *ngIf="data.id  === 3 && enterpriseApplicationGroup && option.group === enterpriseApplicationGroup">
                                       <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3"
                                         [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
                                         (click)="selectOption(option)">
@@ -145,30 +150,32 @@
                                       </a>
                                     </ng-container>
                                     <ng-container *ngFor="let subgroup of  enterpriseApplicationSubGroup">
-                                    <ng-container *ngIf="data.id  === 4 && option.subgroup === subgroup && option.primaryDomain === enterpriseApplicationGroup">
+                                      <ng-container
+                                        *ngIf="data.id  === 4 && option.subgroup === subgroup && option.primaryDomain === enterpriseApplicationGroup">
+                                        <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3"
+                                          [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
+                                          (click)="selectOption(option)">
+                                          {{option.value}}
+                                        </a>
+                                      </ng-container>
+                                    </ng-container>
+                                    <ng-container *ngIf="data.id  === 5">
                                       <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3"
                                         [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
                                         (click)="selectOption(option)">
                                         {{option.value}}
                                       </a>
                                     </ng-container>
+                                    <ng-container *ngFor="let subgroup of  enterpriseApplicationSubGroup">
+                                      <ng-container
+                                        *ngIf="data.id  === 6 && option.subgroup === subgroup && option.primaryDomain === enterpriseApplicationGroup">
+                                        <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3"
+                                          [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
+                                          (click)="selectOption(option)">
+                                          {{option.value}}
+                                        </a>
+                                      </ng-container>
                                     </ng-container>
-                                    <ng-container *ngIf="data.id  === 5">
-                                    <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3"
-                                      [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
-                                      (click)="selectOption(option)">
-                                      {{option.value}}
-                                    </a>
-                                  </ng-container>
-                                  <ng-container *ngFor="let subgroup of  enterpriseApplicationSubGroup">
-                                  <ng-container *ngIf="data.id  === 6 && option.subgroup === subgroup && option.primaryDomain === enterpriseApplicationGroup">
-                                    <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3"
-                                      [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
-                                      (click)="selectOption(option)">
-                                      {{option.value}}
-                                    </a>
-                                  </ng-container>
-                                  </ng-container>
                                   </li>
                                 </ul>
                               </div>
@@ -179,13 +186,15 @@
                     </div>
                   </div>
 
-                  <div class="question-steps" *ngIf="data.type === 'specialProgrammingQuestion' &&  this.currentPage === data.id">
+                  <div class="question-steps"
+                    *ngIf="data.type === 'specialProgrammingQuestion' &&  this.currentPage === data.id">
                     <h2 class="main-question">Tell us a bit about your experience</h2>
                     <div class="form-wizard-answer">
                       <ul class="form-wizard-type mt-4 p-0 row">
                         <li class="col-lg-12 col-md-12 col-12">
                           <div class="form-group-wizard d-flex  align-items-center">
-                            <label class="qs-label-text">Total Number of Year of experience in this <span class="spantitlecolor">{{enterpriseApplicationGroup}}</span> domain?</label>
+                            <label class="qs-label-text">Total Number of Year of experience in this <span
+                                class="spantitlecolor">{{enterpriseApplicationGroup}}</span> domain?</label>
                             <div class="form-input-group  qs-year">
                               <select class="com-select" name='freelancing' [(ngModel)]="data.startFreelancing">
                                 <option value="0">Select Year</option>
@@ -218,17 +227,18 @@
                         </li>
                         <li class="col-lg-12 col-md-12 col-12">
                           <div class="form-group-wizard d-flex  align-items-center">
-                            <label class="qs-label-text">Do you have <span class="spantitlecolor">{{enterpriseApplicationGroup}}</span> - Development/Coding experience</label>
+                            <label class="qs-label-text">Do you have <span
+                                class="spantitlecolor">{{enterpriseApplicationGroup}}</span> - Development/Coding
+                              experience</label>
                             <div class="form-input-group">
                               <div class="d-flex w-100">
                                 <div class="form-input-group position-relative w-50">
                                   <ul class="form-wizard-type mt-4 p-0 d-flex">
                                     <li class="w-auto" *ngFor="let opt of data.option">
-                                      <a href="javascript:void(0)" class="d-block text-center" 
-                                      [ngStyle]=" opt.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
-                                      [style.background-color]="opt.selected ? '#4949fc': ''"
-                                      [style.color]="opt.selected ? 'white': ''"
-                                      (click)="selectOption(opt)">
+                                      <a href="javascript:void(0)" class="d-block text-center"
+                                        [ngStyle]=" opt.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
+                                        [style.background-color]="opt.selected ? '#4949fc': ''"
+                                        [style.color]="opt.selected ? 'white': ''" (click)="selectOption(opt)">
                                         {{opt.value}}</a>
                                     </li>
                                   </ul>
@@ -237,7 +247,7 @@
                             </div>
                           </div>
                         </li>
-                        <li *ngIf  = 'showProfessionalCodingExperience' class="col-lg-12 col-md-12 col-12">
+                        <li *ngIf='showProfessionalCodingExperience' class="col-lg-12 col-md-12 col-12">
                           <div class="form-group-wizard d-flex align-items-center">
                             <label class="qs-label-text">Total Year of professional coding experience?</label>
                             <div class="form-input-group qs-year">
@@ -271,438 +281,480 @@
                             </div>
                           </div>
                         </li>
-  
-  
+
+
                       </ul>
                     </div>
                   </div>
 
-                  <div class="question-steps" *ngIf="data.type === 'specialtechquestion' &&  this.currentPage === data.id">
-                    <h2 class="main-question">{{data.question}}<span class="spantitlecolor">{{enterpriseApplicationGroup}}</span> </h2>
+                  <div class="question-steps"
+                    *ngIf="data.type === 'specialtechquestion' &&  this.currentPage === data.id">
+                    <h2 class="main-question">{{data.question}}<span
+                        class="spantitlecolor">{{enterpriseApplicationGroup}}</span> </h2>
                     <div class="form-wizard-answer">
                       <ng-container *ngIf="data.id  === 8">
-                      <app-talent-question-select-item [fieldArray]="fieldArray" (inputNoOfYear)="onInputNoOfYear($event)"
-                      (inputNoOfSkill)="onInputSkill($event)" (deleteFieldValue)="deleteSelectedOption($event)">
-                    </app-talent-question-select-item>
-                    </ng-container>
-                    <ng-container *ngIf="data.id  === 9">
-                      <app-employer-select-item [fieldArray]="fieldArray" (deleteFieldValue)="deleteSelectedOption($event)">
-                      </app-employer-select-item>
+                        <app-talent-question-select-item [fieldArray]="fieldArray"
+                          (inputNoOfYear)="onInputNoOfYear($event)" (inputNoOfSkill)="onInputSkill($event)"
+                          (deleteFieldValue)="deleteSelectedOption($event)">
+                        </app-talent-question-select-item>
                       </ng-container>
-                  <div  class="sidemenuTabsContent mt-3 p-0">
-                    <div class="tabcontentside d-flex align-items-start w-100">
-                      <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
-                        aria-orientation="vertical">
-                        <h1 class="tabtitle">{{data.subtitle}}</h1>
-                        <button  *ngFor="let but of data.button" class="nav-link" id="v-pills-IoT-tab" data-bs-toggle="pill"
-                          data-bs-target="#v-pills-IoT" type="button" role="tab" aria-controls="v-pills-settings"
-                          aria-selected="false" (click)="buttonData(but)"> 
-                          {{but.value}}
-                        </button>
-                      </div>
-                      <div class="tab-content" id="v-pills-tabContent">
-                        <div class="tab-pane fade show active" id="v-pills-erpaf" role="tabpanel"
-                          aria-labelledby="v-pills-erpaf-tab">
-                          <div class="rightpanel-easworks">
-                            <div class="easworkSearchbox">
-                              <input type="text" name="filter" placeholder="Type a skill to filter the list below" [(ngModel)]="filterString" />
-                            </div>
-                            <ul class="easeworkssearchList scroll" [style.height.px]="getHeight()">
-                              <li *ngFor="let opt of data.option | datafilter:filterString">
-                                <ng-container *ngIf="opt.group === buttonDataFilter">
-                                  <a href="javascript:void(0)" (click)="selectOption(opt)"
-                                  [ngStyle]=" opt.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
-                                  >{{opt.value}}</a>
-                                </ng-container>
-                                
-                              </li>
-                            </ul>
+                      <ng-container *ngIf="data.id  === 9">
+                        <app-employer-select-item-talent-question [fieldArray]="fieldArray"
+                          (deleteFieldValue)="deleteSelectedOption($event)">
+                        </app-employer-select-item-talent-question>
+                      </ng-container>
+                      <div class="sidemenuTabsContent mt-3 p-0">
+                        <div class="tabcontentside d-flex align-items-start w-100">
+                          <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
+                            aria-orientation="vertical">
+                            <h1 class="tabtitle">{{data.subtitle}}</h1>
+                            <button *ngFor="let but of data.button" class="nav-link" id="v-pills-IoT-tab"
+                              data-bs-toggle="pill" data-bs-target="#v-pills-IoT" type="button" role="tab"
+                              aria-controls="v-pills-settings" aria-selected="false" (click)="buttonData(but)">
+                              {{but.value}}
+                            </button>
                           </div>
+                          <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-erpaf" role="tabpanel"
+                              aria-labelledby="v-pills-erpaf-tab">
+                              <div class="rightpanel-easworks">
+                                <div class="easworkSearchbox">
+                                  <input type="text" name="filter" placeholder="Type a skill to filter the list below"
+                                    [(ngModel)]="filterString" />
+                                </div>
+                                <ul class="easeworkssearchList scroll" [style.height.px]="getHeight()">
+                                  <li *ngFor="let opt of data.option | datafilterTalent:filterString">
+                                    <ng-container *ngIf="opt.group === buttonDataFilter">
+                                      <a href="javascript:void(0)" (click)="selectOption(opt)"
+                                        [ngStyle]=" opt.disable ? {'pointer-events':'none','opacity':'0.6'}:{}">{{opt.value}}</a>
+                                    </ng-container>
+
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+
                         </div>
                       </div>
-
-                    </div>
                     </div>
                   </div>
-                  </div>
 
 
-                    <div *ngIf="data.type === 'selectMultiselect' &&  this.currentPage === data.id">
-                      <ng-container *ngFor = "let subValue of  data.data">
-                        <div class="question-steps"  *ngIf = "subValue.visible">
-                          <h2 class="main-question"><span class="spantitlecolor">{{enterpriseApplicationGroup}}</span> {{subValue.question}}</h2>
-                          <div class="form-wizard-answer">
-                            <ul class="form-wizard-type jss-list selectarea  mt-3 row">
-        
-                              <li class="col-lg-12 col-md-12 col-12" *ngFor = "let option of  subValue.option">
-                                <a href="javascript:void(0)" class="pl-3 pr-3" (click)="selectOption(option)"
+                  <div *ngIf="data.type === 'selectMultiselect' &&  this.currentPage === data.id">
+                    <ng-container *ngFor="let subValue of  data.data">
+                      <div class="question-steps" *ngIf="subValue.visible">
+                        <h2 class="main-question"><span class="spantitlecolor">{{enterpriseApplicationGroup}}</span>
+                          {{subValue.question}}</h2>
+                        <div class="form-wizard-answer">
+                          <ul class="form-wizard-type jss-list selectarea  mt-3 row">
+
+                            <li class="col-lg-12 col-md-12 col-12" *ngFor="let option of  subValue.option">
+                              <a href="javascript:void(0)" class="pl-3 pr-3" (click)="selectOption(option)"
                                 [style.background-color]="option.selected ?'#4949fc' :''"
                                 [style.color]="option.selected ? 'white': ''"
-                                  [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}" >
-                                  <span class="d-block text-uppercase">{{option.firstPart}}</span>
-                                  <span *ngIf="option.secondPart">{{option.secondPart}}</span>
-                                  <sub *ngIf="option.thirdPart">{{option.thirdPart}}</sub>
-                                </a>
-                              </li>
-                            </ul>
-                          </div>
+                                [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}">
+                                <span class="d-block text-uppercase">{{option.firstPart}}</span>
+                                <span *ngIf="option.secondPart">{{option.secondPart}}</span>
+                                <sub *ngIf="option.thirdPart">{{option.thirdPart}}</sub>
+                              </a>
+                            </li>
+                          </ul>
                         </div>
-                      </ng-container>
+                      </div>
+                    </ng-container>
+                  </div>
+
+                  <div class="question-steps"
+                    *ngIf="data.type === 'inputSelectMultiselect' &&  this.currentPage === data.id">
+                    <h2 class="main-question">Hourly Rate Expectation</h2>
+                    <div class="form-wizard-answer mb-3">
+                      <ul class="form-wizard-type mt-4 p-0 row">
+                        <li class="col-lg-12 col-md-12 col-12">
+                          <div class="form-group-wizard d-flex align-items-center">
+                            <label class="qs-label-text">Desired Hourly rate</label>
+                            <div class="form-input-group position-relative w-50">
+                              <input type="text" name="desiredHourlyRate" class="inputview" appBlockCopyPaste
+                                (keypress)="onlyNumber($event)" [(ngModel)]="data.data.desiredHourlyRate">
+                              <span class="dollar">USD/Hour</span>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="col-lg-12 col-md-12 col-12">
+                          <div class="form-group-wizard  d-flex align-items-center">
+                            <label class="qs-label-text">Monthly rate (Full Time Engagement)</label>
+                            <div class="form-input-group position-relative w-50">
+                              <input type="text" name="monthlyRate" class="inputview" appBlockCopyPaste
+                                (keypress)="onlyNumber($event)" [(ngModel)]="data.data.monthlyRate">
+                              <span class="dollar">USD/Hour</span>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="col-lg-12 col-md-12 col-12">
+                          <div class="form-group-wizard d-flex align-items-center">
+                            <label class="qs-label-text">Target Annual Salary</label>
+                            <div class="form-input-group position-relative w-50">
+                              <input type="text" name="annualSalary" class="inputview" appBlockCopyPaste
+                                (keypress)="onlyNumber($event)" [(ngModel)]="data.data.targetAnnualSalary">
+                              <span class="dollar">USD/Hour</span>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="col-lg-12 col-md-12 col-12">
+                          <div class="form-group-wizard d-flex align-items-center">
+                            <label class="qs-label-text">Preferred <span
+                                class="spantitlecolor">{{enterpriseApplicationGroup}}</span> role</label>
+                            <div class="form-input-group position-relative w-50">
+                              <select class="inputview" name='preferredPLM' [ngModel]="preferredPLM"
+                                (ngModelChange)="selectOption($event,'preferredPLM')">
+                                <ng-container *ngFor="let role of jobRole">
+                                  <option value="{{role.value}}">{{role.value}}</option>
+                                </ng-container>
+                              </select>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="col-lg-12 col-md-12 col-12">
+                          <div class="form-group-wizard d-flex align-items-center">
+                            <label class="qs-label-text">Current <span
+                                class="spantitlecolor">{{enterpriseApplicationGroup}}</span> role</label>
+                            <div class="form-input-group position-relative w-50">
+                              <select class="inputview" name='currentPLM' [ngModel]="currentPLM"
+                                (ngModelChange)="selectOption($event,'currentPLM')">
+                                <ng-container *ngFor="let role of jobRole">
+                                  <option value="{{role.value}}">{{role.value}}</option>
+                                </ng-container>
+                              </select>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="col-lg-12 col-md-12 col-12">
+                          <div class="form-group-wizard d-flex align-items-center">
+                            <label class="qs-label-text">Weekly Hour Rate </label>
+                            <div class="form-input-group position-relative w-50">
+                              <select class="inputview" name="weeklyHourlyRate"
+                                [(ngModel)]="data.data.weeklyHourlyRate">
+                                <option value="10hour/week">10hour/week</option>
+                                <option value="20hour/week">20hour/week</option>
+                                <option value="30hour/week">30hour/week</option>
+                                <option value="40hour/week">40hour/week</option>
+                              </select>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <h2 class="main-question">If you get an offer, how soon can you start working?</h2>
+                    <div class="form-wizard-answer">
+                      <ul class="form-wizard-type selectarea  mt-4 row">
+                        <li class="col-lg-4 col-md-4 col-12" *ngFor="let option of data.startWorkingWithEasyWork">
+                          <a href="javascript:void(0)" (click)='selectOption(option)'
+                            [style.color]="option.selected ? 'white': ''"
+                            [style.background-color]="option.selected ?'#4949fc' :''">
+                            {{option.value}}</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="question-steps" *ngIf="data.type === 'resumequestion' &&  this.currentPage === data.id">
+                    <h2 class="main-question">Hi <span class="spantitlecolor">{{name.firstName}},</span> Tell us about
+                      Yourself</h2>
+                    <div class="form-wizard-answer mb-3">
+                      <ul class="form-wizard-type mt-4 p-0 row">
+                        <li class="col-lg-12 col-md-12 col-12">
+                          <div class="form-group-wizard d-flex align-items-center">
+                            <label class="qs-label-text">Contact Phone Number</label>
+                            <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
+                              <input type="text" class="inputview" appBlockCopyPaste (keypress)="onlyNumber($event)"
+                                maxlength="10" name="phonenumber" [(ngModel)]="data.phonenumber">
+                              <div class="cw-select">
+                                <select name="phonecode" [(ngModel)]="data.phoneCode">
+                                  <ng-container *ngFor="let country of countries">
+                                    <option value="{{country.dialcode}}">{{country.dialcode}}</option>
+                                  </ng-container>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="col-lg-12 col-md-12 col-12">
+                          <div class="form-group-wizard d-flex align-items-center">
+                            <label class="qs-label-text">Whatsapp Number</label>
+                            <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
+                              <input type="text" class="inputview" appBlockCopyPaste (keypress)="onlyNumber($event)"
+                                maxlength="10" name="phonenumber2" [(ngModel)]="data.phonenumber2">
+                              <div class="cw-select">
+                                <select name="phonecode2" [(ngModel)]="data.phoneCode2">
+                                  <ng-container *ngFor="let country of countries">
+                                    <option value="{{country.dialcode}}">{{country.dialcode}}</option>
+                                  </ng-container>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+
+                        <li class="col-lg-12 col-md-12 col-12">
+                          <div class="form-group-wizard d-flex align-items-baseline">
+                            <label class="qs-label-text">Profile Photo</label>
+                            <div class="form-input-group position-relative w-50">
+                              <div class="uploadProfile">
+                                <input type="file" id="profilephoto" accept=".png,.jpg" (change)="onImage($event)" />
+                                <label for="profilephoto">Drag or Upload an Image</label>
+                              </div>
+                              <p class="up-para">Please upload JPG or PNG file that is at least 380 X 380 pixels and no
+                                larger than 15mb.</p>
+                            </div>
+                          </div>
+                        </li>
+
+                        <li class="col-lg-12 col-md-12 col-12">
+                          <div class="form-group-wizard d-flex align-items-center">
+                            <label class="qs-label-text">Resume</label>
+                            <div class="form-input-group position-relative w-50 d-flex">
+                              <input type="text" class="inputview" name="resumepdf" readOnly [(ngModel)]="resume">
+                              <div class="uploadfiles">
+                                <input type="file" id="up-files" (change)="onChoosePDF($event)" />
+                                <label for="up-files">Choose PDF</label>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+
+                        <li class="col-lg-12 col-md-12 col-12">
+                          <div class="form-group-wizard d-flex align-items-center">
+                            <label class="qs-label-text">Upload Video</label>
+                            <div class="form-input-group position-relative w-50 d-flex">
+                              <input type="text" class="inputview" readOnly name='video' [(ngModel)]="selectedVideo">
+                              <div class="uploadfiles">
+                                <input type="file" id="up-files-video" (change)="onVideoUpload($event)" />
+                                <label for="up-files-video">Upload Video</label>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+
+                        <li class="col-lg-12 col-md-12 col-12">
+                          <div class="form-group-wizard d-flex align-items-center">
+                            <label class="qs-label-text">Reasons to Apply for EASWORKS</label>
+                            <div class="form-input-group position-relative w-50">
+                              <select class="inputview" name="applyEasworks" [(ngModel)]="data.reasonToApply">
+                                <option value="Want to work on challenging enterprise application projects.">Want to
+                                  work on challenging enterprise application projects.</option>
+                                <option value="Need extra work or income ($$)">Need extra work or income ($$)</option>
+                                <option value="Remote works provides flexibility & freedom">Remote works provides
+                                  flexibility & freedom</option>
+                                <option value="Want to learn new enterprise application & associated technical skills">
+                                  Want to learn new enterprise application & associated technical skills
+                                </option>
+                                <option value="Want to work with elite companies">Want to work with elite companies
+                                </option>
+                                <option value="Word of mouth reference">Word of mouth reference</option>
+                                <option value="Joining based on postive online review">Joining based on postive online
+                                  review</option>
+                                <option value="Want to part of EAS community">Want to part of EAS community</option>
+                                <option value="Others">Others</option>
+                              </select>
+                            </div>
+                          </div>
+                        </li>
+
+                        <li class="col-lg-12 col-md-12 col-12">
+                          <div class="form-group-wizard d-flex align-items-center">
+                            <label class="qs-label-text">Have you ever worked as Freelancer in past</label>
+                            <div class="form-input-group position-relative w-50">
+                              <select class="inputview" name="pastExperience" [(ngModel)]="data.workAsFreelancerInPast">
+                                <option value="YES">Yes</option>
+                                <option value="NO">No</option>
+                              </select>
+                            </div>
+                          </div>
+                        </li>
+
+                        <li class="col-lg-12 col-md-12 col-12" *ngIf="data.workAsFreelancerInPast=== 'YES'">
+                          <div class="form-group-wizard d-flex align-items-center">
+                            <label class="qs-label-text">Number of years of freelancer experience</label>
+                            <div class="form-input-group position-relative w-50">
+                              <select class="inputview" name="noOfYearExperience"
+                                [(ngModel)]="data.FreelancingExperience">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                              </select>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="col-lg-12 col-md-12 col-12">
+                          <div class="form-group-wizard d-flex align-items-center">
+                            <label class="qs-label-text"> Select your English fluency level</label>
+                            <div class="form-input-group position-relative w-50">
+                              <select class="inputview" name="englishFluencyLevel"
+                                [(ngModel)]="data.englishFluencyLevel">
+                                <option value="NO(N) Practical proficiency (Google translates me)">NO(N) Practical
+                                  proficiency (Google translates me)</option>
+                                <option value="Basic(B) - I can Read,write & speak basic English">Basic(B) - I can
+                                  Read,write & speak basic English </option>
+                                <option
+                                  value="Fluent(F)-I can Read,write,understand,speak & comprehend English with no trouble">
+                                  Fluent(F)-I can Read,write,understand,speak & comprehend English with no trouble
+                                </option>
+                                <option
+                                  value="Professional(P)-I have Advance Level of proficiency  7 can communicate in complex and cognitively demading situation">
+                                  Professional(P)-I have Advance Level of proficiency 7 can communicate in complex and
+                                  cognitively demading situation
+                                </option>
+                                <option
+                                  value="Excellent Native/Billungal(E) - English is my primary and native language">
+                                  Excellent Native/Billungal(E) - English is my primary and native language</option>
+                              </select>
+                            </div>
+                          </div>
+                        </li>
+
+                      </ul>
                     </div>
 
-                    <div class="question-steps"  *ngIf="data.type === 'inputSelectMultiselect' &&  this.currentPage === data.id">
-                        <h2 class="main-question">Hourly Rate Expectation</h2>
-                        <div class="form-wizard-answer mb-3">
-                          <ul class="form-wizard-type mt-4 p-0 row">
-                            <li class="col-lg-12 col-md-12 col-12">
-                              <div class="form-group-wizard d-flex align-items-center">
-                                <label class="qs-label-text">Desired Hourly rate</label>
-                                <div class="form-input-group position-relative w-50">
-                                  <input type="text" name="desiredHourlyRate" class="inputview" appBlockCopyPaste (keypress)="onlyNumber($event)"
-                                    [(ngModel)]="data.data.desiredHourlyRate">
-                                  <span class="dollar">USD/Hour</span>
-                                </div>
-                              </div>
-                            </li>
-                            <li class="col-lg-12 col-md-12 col-12">
-                              <div class="form-group-wizard  d-flex align-items-center">
-                                <label class="qs-label-text">Monthly rate (Full Time Engagement)</label>
-                                <div class="form-input-group position-relative w-50">
-                                  <input type="text" name="monthlyRate" class="inputview" appBlockCopyPaste (keypress)="onlyNumber($event)"
-                                    [(ngModel)]="data.data.monthlyRate">
-                                  <span class="dollar">USD/Hour</span>
-                                </div>
-                              </div>
-                            </li>
-                            <li class="col-lg-12 col-md-12 col-12">
-                              <div class="form-group-wizard d-flex align-items-center">
-                                <label class="qs-label-text">Target Annual Salary</label>
-                                <div class="form-input-group position-relative w-50">
-                                  <input type="text" name="annualSalary" class="inputview" appBlockCopyPaste (keypress)="onlyNumber($event)"
-                                    [(ngModel)]="data.data.targetAnnualSalary">
-                                  <span class="dollar">USD/Hour</span>
-                                </div>
-                              </div>
-                            </li>
-                            <li class="col-lg-12 col-md-12 col-12">
-                              <div class="form-group-wizard d-flex align-items-center">
-                                <label class="qs-label-text">Preferred <span class="spantitlecolor">{{enterpriseApplicationGroup}}</span> role</label>
-                                <div class="form-input-group position-relative w-50">
-                                  <select class="inputview" name='preferredPLM' [ngModel]="preferredPLM" (ngModelChange)="selectOption($event,'preferredPLM')">
-                                    <ng-container *ngFor="let role of jobRole">
-                                      <option value="{{role.value}}">{{role.value}}</option>
-                                    </ng-container>
-                                  </select>
-                                </div>
-                              </div>
-                            </li>
-                            <li class="col-lg-12 col-md-12 col-12">
-                              <div class="form-group-wizard d-flex align-items-center">
-                                <label class="qs-label-text">Current <span class="spantitlecolor">{{enterpriseApplicationGroup}}</span> role</label>
-                                <div class="form-input-group position-relative w-50">
-                                  <select class="inputview" name='currentPLM' [ngModel]="currentPLM" (ngModelChange)="selectOption($event,'currentPLM')">
-                                    <ng-container *ngFor="let role of jobRole">
-                                      <option value="{{role.value}}">{{role.value}}</option>
-                                    </ng-container>
-                                  </select>
-                                </div>
-                              </div>
-                            </li>
-                            <li class="col-lg-12 col-md-12 col-12">
-                              <div class="form-group-wizard d-flex align-items-center">
-                                <label class="qs-label-text">Weekly Hour Rate </label>
-                                <div class="form-input-group position-relative w-50">
-                                  <select class="inputview" name="weeklyHourlyRate" [(ngModel)]="data.data.weeklyHourlyRate">
-                                      <option value="10hour/week">10hour/week</option>
-                                      <option value="20hour/week">20hour/week</option>
-                                      <option value="30hour/week">30hour/week</option>
-                                      <option value="40hour/week">40hour/week</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                        <h2 class="main-question">If you get an offer, how soon can you start working?</h2>
-                        <div class="form-wizard-answer">
-                          <ul class="form-wizard-type selectarea  mt-4 row">
-                            <li class="col-lg-4 col-md-4 col-12" *ngFor="let option of data.startWorkingWithEasyWork">
-                              <a href="javascript:void(0)" (click)='selectOption(option)'
-                              [style.color]="option.selected ? 'white': ''"
-                                [style.background-color]="option.selected ?'#4949fc' :''"
-                                >
-                                {{option.value}}</a>
-                            </li>
-                          </ul>
-                        </div>
+                    <div class="question-steps mt-2">
+                      <div class="d-flex align-items-center">
+                        <h2 class="main-question">Work Experience</h2>
+                        <button type="button"
+                          class="btn-get-started addworkhistorybtn mb-2 d-flex align-items-center ml-auto"
+                          (click)="onAddExperience()"><i class="bx bx-plus-circle"></i> Add Experience</button>
                       </div>
+                      <div class="form-wizard-answer">
+                        <table class="defaultTable">
+                          <thead>
+                            <tr>
+                              <th>Roles</th>
+                              <th>Duration</th>
+                              <th>Developer Skills</th>
+                              <th>Client Name</th>
+                              <th class="text-center">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let expert of data.experience; let i = index">
+                              <td>
+                                <select class="inputview" [(ngModel)]="expert.role" #name="ngModel"
+                                  name="expert{{i}}.role">
+                                  <ng-container *ngFor="let role of jobRole">
+                                    <option value="{{role.value}}">{{role.value}}</option>
+                                  </ng-container>
+                                </select>
+                              </td>
+                              <td>
+                                <div class="d-flex">
+                                  <input type="text" class="inputview mr-1" #name="ngModel"
+                                    name="expert{{i}}.startDuration" [(ngModel)]="expert.startDuration" />
+                                  <input type="text" class="inputview" #name="ngModel" name="expert{{i}}.endDuration"
+                                    [(ngModel)]="expert.endDuration" />
+                                </div>
+                              </td>
+                              <td>
+                                <input type="text" class="inputview" #name="ngModel" name="expert{{i}}.skills"
+                                  [(ngModel)]="expert.skills" />
+                              </td>
+                              <td>
+                                <input type="text" class="inputview" #name="ngModel" name="expert{{i}}.clientName"
+                                  [(ngModel)]="expert.clientName" />
+                              </td>
+                              <td class="text-center">
+                                <button type="button" class="remoebtn" (click)="onRemoveExperience(expert,i)">
+                                  <i class='bx bx-minus-circle'></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
 
-                      <div class="question-steps"  *ngIf="data.type === 'resumequestion' &&  this.currentPage === data.id" >
-                        <h2 class="main-question">Hi <span class="spantitlecolor">{{name.firstName}},</span> Tell us about Yourself</h2>
-                        <div class="form-wizard-answer mb-3">
-                          <ul class="form-wizard-type mt-4 p-0 row">
-                            <li class="col-lg-12 col-md-12 col-12">
-                              <div class="form-group-wizard d-flex align-items-center">
-                                <label class="qs-label-text">Contact Phone Number</label>
-                                <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
-                                  <input type="text" class="inputview" appBlockCopyPaste  (keypress)="onlyNumber($event)" maxlength="10" name="phonenumber" [(ngModel)]="data.phonenumber">
-                                  <div class="cw-select">
-                                    <select name="phonecode" [(ngModel)]="data.phoneCode">
-                                      <ng-container *ngFor="let country of countries">
-                                        <option value="{{country.dialcode}}">{{country.dialcode}}</option>
-                                      </ng-container>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                            <li class="col-lg-12 col-md-12 col-12">
-                              <div class="form-group-wizard d-flex align-items-center">
-                                <label class="qs-label-text">Whatsapp Number</label>
-                                <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
-                                  <input type="text" class="inputview" appBlockCopyPaste (keypress)="onlyNumber($event)"  maxlength="10" name="phonenumber2" [(ngModel)]="data.phonenumber2">
-                                  <div class="cw-select">
-                                    <select name="phonecode2" [(ngModel)]="data.phoneCode2">
-                                      <ng-container *ngFor="let country of countries">
-                                        <option value="{{country.dialcode}}">{{country.dialcode}}</option>
-                                      </ng-container>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-      
-                            <li class="col-lg-12 col-md-12 col-12">
-                              <div class="form-group-wizard d-flex align-items-baseline">
-                                <label class="qs-label-text">Profile Photo</label>
-                                <div class="form-input-group position-relative w-50">
-                                  <div class="uploadProfile">
-                                    <input type="file" id="profilephoto" accept=".png,.jpg" (change)="onImage($event)" />
-                                    <label for="profilephoto">Drag or Upload an Image</label>
-                                  </div>
-                                  <p class="up-para">Please upload JPG or PNG file that is at least 380 X 380 pixels and no
-                                    larger than 15mb.</p>
-                                </div>
-                              </div>
-                            </li>
-      
-                            <li class="col-lg-12 col-md-12 col-12">
-                              <div class="form-group-wizard d-flex align-items-center">
-                                <label class="qs-label-text">Resume</label>
-                                <div class="form-input-group position-relative w-50 d-flex">
-                                  <input type="text" class="inputview" name="resumepdf" readOnly [(ngModel)]="resume">
-                                  <div class="uploadfiles">
-                                    <input type="file" id="up-files" (change)="onChoosePDF($event)"/>
-                                    <label for="up-files">Choose PDF</label>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-      
-                            <li class="col-lg-12 col-md-12 col-12">
-                              <div class="form-group-wizard d-flex align-items-center">
-                                <label class="qs-label-text">Upload Video</label>
-                                <div class="form-input-group position-relative w-50 d-flex">
-                                  <input type="text" class="inputview" readOnly  name='video' [(ngModel)]="selectedVideo">
-                                  <div class="uploadfiles">
-                                    <input type="file" id="up-files-video" (change)="onVideoUpload($event)" />
-                                    <label for="up-files-video">Upload Video</label>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-      
-                            <li class="col-lg-12 col-md-12 col-12">
-                              <div class="form-group-wizard d-flex align-items-center">
-                                <label class="qs-label-text">Reasons to Apply for EASWORKS</label>
-                                <div class="form-input-group position-relative w-50">
-                                  <select class="inputview" name="applyEasworks" [(ngModel)]="data.reasonToApply">
-                                    <option value="Want to work on challenging enterprise application projects.">Want to work on challenging enterprise application projects.</option>
-                                    <option value="Need extra work or income ($$)">Need extra work or income ($$)</option>
-                                    <option value="Remote works provides flexibility & freedom">Remote works provides flexibility & freedom</option>
-                                    <option value="Want to learn new enterprise application & associated technical skills">Want to learn new enterprise application & associated technical skills
-                                    </option>
-                                    <option value="Want to work with elite companies">Want to work with elite companies</option>
-                                    <option value="Word of mouth reference">Word of mouth reference</option>
-                                    <option value="Joining based on postive online review">Joining based on postive online review</option>
-                                    <option value="Want to part of EAS community">Want to part of EAS community</option>
-                                    <option value="Others">Others</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </li>
-      
-                            <li class="col-lg-12 col-md-12 col-12">
-                              <div class="form-group-wizard d-flex align-items-center">
-                                <label class="qs-label-text">Have you ever worked as Freelancer in past</label>
-                                <div class="form-input-group position-relative w-50">
-                                  <select class="inputview"name="pastExperience" [(ngModel)]="data.workAsFreelancerInPast">
-                                    <option value="YES">Yes</option>
-                                    <option value="NO">No</option>
-                                    </select>
-                                </div>
-                              </div>
-                            </li>
-      
-                            <li class="col-lg-12 col-md-12 col-12" *ngIf="data.workAsFreelancerInPast=== 'YES'">
-                              <div class="form-group-wizard d-flex align-items-center">
-                                <label class="qs-label-text">Number of years of freelancer experience</label>
-                                <div class="form-input-group position-relative w-50">
-                                  <select class="inputview" name="noOfYearExperience" [(ngModel)]="data.FreelancingExperience">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                    <option value="13">13</option>
-                                    <option value="14">14</option>
-                                    <option value="15">15</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </li>
-                            <li class="col-lg-12 col-md-12 col-12">
-                              <div class="form-group-wizard d-flex align-items-center">
-                                <label class="qs-label-text"> Select your English fluency level</label>
-                                <div class="form-input-group position-relative w-50">
-                                  <select class="inputview" name="englishFluencyLevel"  [(ngModel)]="data.englishFluencyLevel">
-                                    <option value="NO(N) Practical proficiency (Google translates me)">NO(N) Practical proficiency (Google translates me)</option>
-                                    <option value="Basic(B) - I can Read,write & speak basic English">Basic(B) - I can Read,write & speak basic English </option>
-                                    <option value="Fluent(F)-I can Read,write,understand,speak & comprehend English with no trouble">Fluent(F)-I can Read,write,understand,speak & comprehend English with no trouble</option>
-                                    <option value="Professional(P)-I have Advance Level of proficiency  7 can communicate in complex and cognitively demading situation">Professional(P)-I have Advance Level of proficiency  7 can communicate in complex and cognitively demading situation 
-                                    </option>
-                                    <option value="Excellent Native/Billungal(E) - English is my primary and native language">Excellent Native/Billungal(E) - English is my primary and native language</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </li>
-      
-                          </ul>
-                        </div>
-      
-                        <div class="question-steps mt-2">
-                          <div class="d-flex align-items-center">
-                            <h2 class="main-question">Work Experience</h2>
-                            <button type="button"
-                              class="btn-get-started addworkhistorybtn mb-2 d-flex align-items-center ml-auto" (click)="onAddExperience()"><i
-                                class="bx bx-plus-circle"></i> Add Experience</button>
-                          </div>
-                          <div class="form-wizard-answer">
-                            <table class="defaultTable">
-                              <thead>
-                                <tr>
-                                  <th>Roles</th>
-                                  <th>Duration</th>
-                                  <th>Developer Skills</th>
-                                  <th>Client Name</th>
-                                  <th class="text-center">Action</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr *ngFor="let expert of data.experience; let i = index">
-                                  <td >
-                                    <select class="inputview" [(ngModel)]="expert.role" #name="ngModel" name="expert{{i}}.role">
-                                      <ng-container *ngFor="let role of jobRole">
-                                        <option value="{{role.value}}">{{role.value}}</option>
-                                      </ng-container>
-                                    </select>
-                                  </td>
-                                  <td>
-                                    <div class="d-flex">
-                                      <input type="text" class="inputview mr-1"  #name="ngModel" name="expert{{i}}.startDuration" [(ngModel)]="expert.startDuration" />
-                                      <input type="text" class="inputview"  #name="ngModel" name="expert{{i}}.endDuration"  [(ngModel)]="expert.endDuration" />
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <input type="text" class="inputview"  #name="ngModel" name="expert{{i}}.skills"  [(ngModel)]="expert.skills" />
-                                  </td>
-                                  <td>
-                                    <input type="text" class="inputview"  #name="ngModel" name="expert{{i}}.clientName" [(ngModel)]="expert.clientName" />
-                                  </td>
-                                  <td class="text-center">
-                                    <button type="button" class="remoebtn" (click)="onRemoveExperience(expert,i)">
-                                      <i class='bx bx-minus-circle'></i>
-                                    </button>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-      
-                        <div class="question-steps mt-3">
-                          <div class="d-flex align-items-center">
-                            <h2 class="main-question">Education</h2>
-                            <button type="button"
-                              class="btn-get-started addworkhistorybtn mb-2 d-flex align-items-center ml-auto" (click)="onAddEducation()"><i
-                                class="bx bx-plus-circle"></i> Add Education</button>
-                          </div>
-                          <div class="form-wizard-answer">
-                            <table class="defaultTable">
-                              <thead>
-                                <tr>
-                                  <th>Degree</th>
-                                  <th>Specialization</th>
-                                  <th>Duration</th>
-                                  <th>School/ College/ University</th>
-                                  <th>Country/ State/ City</th>
-                                  <th class="text-center">Action</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr *ngFor="let education of data.education; let i = index">
-                                  <td>
-                                    <input type="text" class="inputview mr-1" #name="ngModel" name="education{{i}}.degree" [(ngModel)]="education.degree"/>
-                                  </td>
-                                  <td>
-                                      <input type="text" class="inputview"  #name="ngModel" name="education{{i}}.specialization" [(ngModel)]="education.specialization"/>
-                                  </td>
-                                  <td>
-                                    <div class="d-flex">
-                                      <input type="text" class="inputview mr-1" #name="ngModel" name="education{{i}}.startDuration" [(ngModel)]="education.startDuration"/>
-                                      <input type="text" class="inputview"  #name="ngModel" name="education{{i}}.endDuration" [(ngModel)]="education.endDuration" />
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <input type="text" class="inputview mr-1" #name="ngModel" name="education{{i}}.school" [(ngModel)]="education.school"/>
-                                  </td>
-                                  <td>
-                                    <input type="text" class="inputview mr-1" #name="ngModel" name="education{{i}}.address" [(ngModel)]="education.address"/>
-                                  </td>
-                                  <td class="text-center">
-                                    <button type="button" class="remoebtn" (click)="onRemoveEducation(education,i)">
-                                      <i class='bx bx-minus-circle'></i>
-                                    </button>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
+                    <div class="question-steps mt-3">
+                      <div class="d-flex align-items-center">
+                        <h2 class="main-question">Education</h2>
+                        <button type="button"
+                          class="btn-get-started addworkhistorybtn mb-2 d-flex align-items-center ml-auto"
+                          (click)="onAddEducation()"><i class="bx bx-plus-circle"></i> Add Education</button>
                       </div>
+                      <div class="form-wizard-answer">
+                        <table class="defaultTable">
+                          <thead>
+                            <tr>
+                              <th>Degree</th>
+                              <th>Specialization</th>
+                              <th>Duration</th>
+                              <th>School/ College/ University</th>
+                              <th>Country/ State/ City</th>
+                              <th class="text-center">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let education of data.education; let i = index">
+                              <td>
+                                <input type="text" class="inputview mr-1" #name="ngModel" name="education{{i}}.degree"
+                                  [(ngModel)]="education.degree" />
+                              </td>
+                              <td>
+                                <input type="text" class="inputview" #name="ngModel"
+                                  name="education{{i}}.specialization" [(ngModel)]="education.specialization" />
+                              </td>
+                              <td>
+                                <div class="d-flex">
+                                  <input type="text" class="inputview mr-1" #name="ngModel"
+                                    name="education{{i}}.startDuration" [(ngModel)]="education.startDuration" />
+                                  <input type="text" class="inputview" #name="ngModel" name="education{{i}}.endDuration"
+                                    [(ngModel)]="education.endDuration" />
+                                </div>
+                              </td>
+                              <td>
+                                <input type="text" class="inputview mr-1" #name="ngModel" name="education{{i}}.school"
+                                  [(ngModel)]="education.school" />
+                              </td>
+                              <td>
+                                <input type="text" class="inputview mr-1" #name="ngModel" name="education{{i}}.address"
+                                  [(ngModel)]="education.address" />
+                              </td>
+                              <td class="text-center">
+                                <button type="button" class="remoebtn" (click)="onRemoveEducation(education,i)">
+                                  <i class='bx bx-minus-circle'></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
 
-                      <div class="question-steps" *ngIf="data.type === type.socialMedia &&  this.currentPage === data.id">
-                        <h2 class="main-question">Hi <span class="spantitlecolor">{{name.firstName}},</span> Please Share Links That can  help us to get know you </h2>
-                        <div class="form-wizard-answer">
-                          <ul class="form-wizard-type mt-4 p-0 row">
-                            <li class="col-lg-12 col-md-12 col-12"  *ngFor="let opt of data.option">
-                              <div class="form-group-wizard d-flex align-items-center">
-                                <label class="qs-label-text">{{opt.label}}</label>
-                                <div class="form-input-group  w-100">
-                                  <input type="text" class="inputview" name="{{opt.label}}" [(ngModel)]="opt.value">
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
+                  <div class="question-steps" *ngIf="data.type === type.socialMedia &&  this.currentPage === data.id">
+                    <h2 class="main-question">Hi <span class="spantitlecolor">{{name.firstName}},</span> Please Share
+                      Links That can help us to get know you </h2>
+                    <div class="form-wizard-answer">
+                      <ul class="form-wizard-type mt-4 p-0 row">
+                        <li class="col-lg-12 col-md-12 col-12" *ngFor="let opt of data.option">
+                          <div class="form-group-wizard d-flex align-items-center">
+                            <label class="qs-label-text">{{opt.label}}</label>
+                            <div class="form-input-group  w-100">
+                              <input type="text" class="inputview" name="{{opt.label}}" [(ngModel)]="opt.value">
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
 
 
 
@@ -731,43 +783,45 @@
             <h3>Congrats {{name.firstName}}!</h3>
             <p>Looks like you could be a great fit for our platform!</p>
             <!-- <img class="congts-img" src="assets/img/Congrats_Talent.png" /> -->
-            <div class="congrtzLottie"><lottie-player src="https://assets8.lottiefiles.com/packages/lf20_8uojpeha.json" background="transparent"
-          speed="1" style="width: 100%; height: 100%" loop autoplay></lottie-player>
-        </div>
+            <div class="congrtzLottie">
+              <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_8uojpeha.json" background="transparent"
+                speed="1" style="width: 100%; height: 100%" loop autoplay></lottie-player>
+            </div>
             <div class="next-step-dashboard border-top pt-3">
               <h4 class="text-center mb-3">Next Steps</h4>
               <ul class="twowaysstreet-type text-center mt-2 row">
                 <li class="col-lg-3 col-md-3 col-12 pr-0 d-block">
                   <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_mcqtv0qr.json"
-                  background="transparent" speed="1" style="width: 100%; height: 100px;" loop autoplay>
-                </lottie-player>
+                    background="transparent" speed="1" style="width: 100%; height: 100px;" loop autoplay>
+                  </lottie-player>
                   <h4>Profile review for completeness and feedback</h4>
                 </li>
                 <li class="col-lg-3 col-md-3 col-12 pl-0 d-block">
                   <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_6ln47dih.json"
-                  background="transparent" speed="1" style="width: 100%; height: 100px;" loop autoplay>
-                </lottie-player>
+                    background="transparent" speed="1" style="width: 100%; height: 100px;" loop autoplay>
+                  </lottie-player>
                   <h4>Profile Approve</h4>
                 </li>
                 <li class="col-lg-3 col-md-3 col-12  pr-0 d-block">
                   <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_mlfv646z.json"
-                  background="transparent" speed="1" style="width: 100%; height: 100px;" loop autoplay>
-                </lottie-player>
+                    background="transparent" speed="1" style="width: 100%; height: 100px;" loop autoplay>
+                  </lottie-player>
                   <h4>Apply for elite companies</h4>
                 </li>
                 <li class="col-lg-3 col-md-3 col-12 d-block">
                   <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_ssmd5ixl.json"
-                  background="transparent" speed="1" style="width: 100%; height: 100px;" loop autoplay>
-                </lottie-player>
+                    background="transparent" speed="1" style="width: 100%; height: 100px;" loop autoplay>
+                  </lottie-player>
                   <h4>Onboard and start working after interview selection</h4>
                 </li>
               </ul>
             </div>
             <div class="d-flex justify-content-between w-100 mt-3">
-              <a href="javascript:void(0)" (click)="goToMyProfile()" class="btn-common-border nextbtn">Take EAS skill Assessment Test</a>
+              <a href="javascript:void(0)" (click)="goToMyProfile()" class="btn-common-border nextbtn">Take EAS skill
+                Assessment Test</a>
               <a href="javascript:void(0)" (click)="goToMyProfile()" class="btn-common-border nextbtn">Go to My
                 Profile</a>
-                
+
             </div>
           </div>
         </div>

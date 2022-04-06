@@ -167,7 +167,7 @@
                               </div>
                               <ul class="easeworkssearchList scroll">
                                 <li *ngFor="let opt of data.option | datafilter:filterString">
-                                  <ng-container *ngIf="opt.group === buttonDataFilter">
+                                  <ng-container *ngIf="opt.group === buttonDataFilter"> 
                                     <a href="javascript:void(0)" (click)="selectOption(opt,data.type)">{{opt.value}}</a>
                                   </ng-container>
                                 </li>

@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import { Router } from '@angular/router';
 import entToend from '../../assets/localDB/e2e.json';
 var entToendJson: any = entToend;
+
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',

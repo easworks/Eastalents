@@ -6,8 +6,7 @@ import { TalentProfile, TalentProfileSteps } from '../_models/taltent-profile-st
 import { HttpService } from '../_services/http.service';
 import { SessionService } from '../_services/session.service';
 import { TalentService } from '../_services/talent.service';
-import { ToasterService } from '../_services/toaster.service';
-import { TalentQuestionDynamicComponent } from './talent-question-dynamic-step/talent-question-dynamic.component';
+import { ToasterService } from '../_services/toaster.service'; 
 
 @Component({
   selector: 'app-talent-question',

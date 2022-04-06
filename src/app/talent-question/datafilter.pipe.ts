@@ -1,18 +1,18 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'datafilter'
+  name: 'datafilterTalent'
 })
-export class DatafilterPipe implements PipeTransform {
+export class DatafilterTalentPipe implements PipeTransform {
 
   transform(items: any[], filt: any): any {
     const filter = filt.toLowerCase();
     if (!items || !filter) {
-        return items;
+      return items;
     }
     // filter items array, items which match and return true will be
     // kept, false will be filtered out
     return items.filter(item => item.value.toLowerCase().indexOf(filter) !== -1);
-}
+  }
 
 }
