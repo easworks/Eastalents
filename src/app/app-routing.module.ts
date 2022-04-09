@@ -189,6 +189,10 @@ const routes: Routes = [
     loadChildren: () => import('./help-center-details/help-center-details.module').then(m => m.HelpCenterDetailsModule)
   },
   {
+    path: 'talent-message',
+    loadChildren: () => import('./talen-messagebox/talen-messagebox.module').then(m => m.TalentMessageModule)
+  },
+  {
     path: '',
     loadChildren: () => import('./index/index.module').then(m => m.IndexModule)
     ,

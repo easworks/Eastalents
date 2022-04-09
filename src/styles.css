@@ -6,6 +6,17 @@
 
 :root {
   --blue-color: #4949fc;
+  --fontSize10: 0.625rem;
+  --fontSize11: 0.688rem;
+  --fontSize12: 0.75rem;
+  --fontSize13: 0.813rem;
+  --fontSize14: 0.875rem;
+  --fontSize15: 0.938rem;
+  --fontSize16: 1rem;
+  --fontSize17: 1.063rem;
+  --fontSize18: 1.125rem;
+  --fontSize19: 1.188rem;
+  --fontSize20: 1.25rem;
 }
 
 body {
@@ -41,6 +52,12 @@ h6 {
 
 p {
   font-size: 14px;
+}
+
+.textelipse {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .inputview {
@@ -1306,7 +1323,7 @@ footer {
 }
 
 .common-space {
-  padding-top: 80px;
+  padding-top: 79px;
 }
 
 /**** Login ****/
@@ -6384,11 +6401,12 @@ form #debt-amount-slider label {
 }
 
 
-.helpcenter-smallbox{
+.helpcenter-smallbox {
   width: calc(100% - 30%);
   margin: auto;
   padding: 60px 0px;
 }
+
 .help-center-view {
   padding-bottom: 20px;
 }
@@ -6436,7 +6454,8 @@ form #debt-amount-slider label {
   border-radius: 6px;
   padding: 20px;
 }
-.hc-view-type li{
+
+.hc-view-type li {
   border-bottom: 1px solid #dddddd;
   padding: 12px 0px;
   display: flex;
@@ -6444,7 +6463,8 @@ form #debt-amount-slider label {
   font-size: 14px;
   font-weight: normal;
 }
-.hc-view-type li label{
+
+.hc-view-type li label {
   display: block;
   color: #0b1320;
   position: relative;
@@ -6455,26 +6475,30 @@ form #debt-amount-slider label {
   text-overflow: ellipsis;
   margin-right: 12px;
 }
-.hc-view-type li a{
+
+.hc-view-type li a {
   display: flex;
   align-items: center;
   color: #4949fc;
 
 }
-.hc-view-type li:last-child{
+
+.hc-view-type li:last-child {
   border-bottom: none;
 }
+
 .hc-view-type li a i {
   margin-left: 12px;
   font-size: 20px;
 }
 
 /** Help center Tabs **/
-.hc-detail-nav{
+.hc-detail-nav {
   width: 100%;
   flex-wrap: nowrap;
 }
-.hc-detail-nav .nav-link{
+
+.hc-detail-nav .nav-link {
   border: none;
   text-align: left;
   font-size: 14px;
@@ -6483,10 +6507,190 @@ form #debt-amount-slider label {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.hcv-deital-content{
+
+.hcv-deital-content {
   border: 1px solid #ebebeb;
   background: #ffffff;
   box-shadow: 0 0 20px 0 #3e1c831a;
   border-radius: 3px;
   padding: 20px;
+}
+
+/** message Box **/
+.message-wrapper {
+  display: flex;
+  width: 100%;
+}
+
+/* sidebar */
+.message-sidebar {
+  width: 300px;
+  position: relative;
+  border-right: 1px solid #dee2e6;
+}
+
+.m-sidebar-head {
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  padding: 0px 6px;
+  height: 45px;
+  align-items: center;
+}
+
+.m-searchbox {
+  position: relative;
+  width: calc(100% - 32px);
+}
+
+.m-searchbox input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 12px;
+  padding: 0px 6px 0px 26px;
+  height: 42px;
+}
+
+.m-searchbox i {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  color: #9ea2a9;
+}
+
+.m-toogle-group {
+  width: 32px;
+}
+
+.m-toogle-group .tooglebtn {
+  border: none;
+  background: transparent;
+  padding: 0px;
+  width: 20px;
+  height: 20px;
+  font-size: 22px;
+  color: #313131;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+.m-uset-Type {
+  height: calc(100vh - 123px);
+    overflow-y: auto;
+}
+.m-uset-Type .m-user-list {
+  display: block;
+  padding: 10px 6px;
+  border-bottom: 1px solid #f1f1f1;
+  cursor: pointer;
+}
+
+.m-user-card {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.m-userIcon {
+  position: relative;
+  display: inline-block;
+  width: 32px;
+  margin-right: 8px;
+}
+
+.m-user-icon {
+  min-width: 32px;
+  height: 32px;
+  width: 32px;
+  background: #ebebff;
+  display: flex;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 600;
+  justify-content: center;
+  align-items: center;
+}
+
+.status {
+  position: absolute;
+  background: #a0a0a0;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #ffffff;
+  border-radius: 50%;
+  bottom: 0;
+  right: 0;
+  display: block;
+}
+
+.status.green {
+  background: #198038;
+}
+
+.status.red {
+  background: #da1e28;
+}
+
+.status.yellow {
+  background: #f1c21b;
+}
+
+.status.blue {
+  background: #0f62fe;
+}
+
+.status.gray {
+  background: #6f6f6f;
+}
+
+.m-user-details {
+  width: calc(100% - 38px);
+}
+
+.m-user-name{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.m-user-details h4 {
+  font-size: var(--fontSize13);
+  line-height: 16px;
+  color: #0b1320;
+}
+
+.m-user-details p {
+  font-size: var(--fontSize12);
+  line-height: 20px;
+  color: #0b1320;
+  margin-bottom: 0px;
+}
+
+.m-user-details .sendmsg-indicate {
+  font-size: var(--fontSize12);
+  line-height: 16px;
+  color: #727882;
+  display: block;
+}
+
+.m-user-timer {
+  font-size: var(--fontSize11);
+  color: #9a9a9a;
+  display: block;
+  width: 150px;
+    text-align: right;
+}
+
+/* message-content */
+.message-content {
+  width: calc(100% - 300px);
+  position: relative;
+}
+
+.message-profile {
+  width: 300px;
+  position: relative;
+  background: #f1f1f1;
 }
