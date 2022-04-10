@@ -626,7 +626,10 @@ section {
   font-size: 30px;
   line-height: 28px;
 }
-
+.profile-creat-nav ul .emailNotify a{
+  font-size: 20px;
+  line-height: 26px;
+}
 /* Get Startet Button */
 .get-started-btn {
   margin-left: 12px;
@@ -7035,4 +7038,24 @@ form #debt-amount-slider label {
 .sharefile-type li .downloadfile i {
   margin-right: 8px;
   font-size: var(--fontSize14);
+}
+.userSetting .tooglebtn::after{
+  display: none;
+}
+.right{
+  left: auto !important;
+  right: 0 !important;
+  transform: translate(0px, 0px) !important;
+}
+.settingdropdown{
+  padding: 0px;
+  margin-top: 20px !important;
+  box-shadow: 0 0 20px 0 #3e1c831a;
+  z-index: 100;
+}
+.settingdropdown li .dropdown-item {
+  display: block;
+  color: #000000;
+  font-size: var(--fontSize13);
+  padding: 6px 12px;
 }

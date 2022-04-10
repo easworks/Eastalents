@@ -15,6 +15,16 @@
                 <li><a href="workstyle.html">WorkStyle</a></li>
                 <li><a class="" href="yourjobs.html">Your Jobs</a></li>
                 <li><a href="interviewsList.html">Interviews</a></li>
+                <li class="emailNotify">
+                    <a href="javascript:void(0)">
+                        <i class='bx bxs-envelope' ></i>
+                    </a>
+                </li>
+                <li class="emailNotify">
+                    <a href="javascript:void(0)">
+                        <i class='bx bxs-bell'></i>
+                    </a>
+                </li>
                 <li class="user-details dropdown">
                     <a class="user-icon dropdown-toggle" href="javascript:void(0)" id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -145,8 +155,12 @@
                     </div>
                 </div>
                 <div class="m-ud-rht">
-                    <div class="userSetting m-toogle-group">
-                        <button type="button" class="tooglebtn"><i class='bx bx-dots-horizontal-rounded'></i></button>
+                    <div class="userSetting m-toogle-group dropdown">
+                        <button type="button" class="tooglebtn dropdown-toggle" id="usersetting" data-bs-toggle="dropdown" aria-expanded="false"><i class='bx bx-dots-horizontal-rounded'></i></button>
+                        <ul class="settingdropdown dropdown-menu right" aria-labelledby="usersetting">
+                            <li><a class="dropdown-item" href="javascript:void(0)">Schedule a Meeting</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)">View Contract</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
