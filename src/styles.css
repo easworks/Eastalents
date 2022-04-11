@@ -6797,7 +6797,7 @@ form #debt-amount-slider label {
 }
 
 .message-content-body {
-  height: calc(100vh - 169px);
+  height: calc(100vh - 199px);
   overflow-y: auto;
   padding: 12px;
 }
@@ -7058,4 +7058,74 @@ form #debt-amount-slider label {
   color: #000000;
   font-size: var(--fontSize13);
   padding: 6px 12px;
+}
+.m-user-subhead{
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  height: 30px;
+  align-items: center;
+  border-bottom: 1px solid #dee2e6;
+}
+.m-user-bttn{
+  display: flex;
+}
+.m-user-bttn a{
+  display: flex;
+  font-size: var(--fontSize12);
+  color: #4949fc;
+  padding: 4px 12px;
+  align-items: center;
+  font-weight: 500;
+}
+.m-user-bttn a i{
+  margin-right: 6px;
+  font-size: 17px;
+}
+
+/** Notifications **/
+.notifiy-box{
+  background: #ffffff;    
+  border-radius: 6px;
+  box-shadow: 0 0 20px 0 #3e1c831a;
+  border: 1px solid #dee2e6;
+  margin-bottom: 12px;
+}
+.notifiy-box h4{
+  margin: 0px;
+    padding: 12px 12px;
+    border-bottom: 1px solid #dee2e6;
+}
+.notify-body{
+  padding: 16px;
+}
+.nofity-type li{
+  padding: 16px;
+  position: relative;
+  border: 1px solid #b5e8ff;
+  border-radius: 3px;
+  background: #f4fcff;
+  margin-bottom: 12px;
+}
+.notify-card{
+  display: flex;
+  width: 100%;
+}
+.notify-card .notify-content{
+  width: calc(100% - 20px);
+}
+.notify-content p{
+  margin: 0px;
+  font-size: var(--fontSize14);
+  color: #000000;
+}
+.closebtn{
+  color:#000000;
+  font-size: 18px;
+  line-height: 16px;
+}
+.notify-time{
+  font-size: var(--fontSize12);
+  color: #989898;
+  display: block;
 }

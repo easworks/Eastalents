@@ -193,6 +193,10 @@ const routes: Routes = [
     loadChildren: () => import('./talen-messagebox/talen-messagebox.module').then(m => m.TalentMessageModule)
   },
   {
+    path: 'notifications',
+    loadChildren: () => import('./notifications/notifications.module').then(m => m.NotificationsModule)
+  },
+  {
     path: '',
     loadChildren: () => import('./index/index.module').then(m => m.IndexModule)
     ,
