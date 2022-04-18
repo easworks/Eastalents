@@ -35,6 +35,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { HttpAuthInterceptor } from './_helpers/http-auth.interceptor';
 import { TalenMessageboxComponent } from './talen-messagebox/talen-messagebox.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { FilterPipe } from './header/filter.pipe'; 
 // import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 // import { ChangePasswordComponent } from './change-password/change-password.component';
 // import { TalentQuizQuestionComponent } from './talent-quiz-question/talent-quiz-question.component';
@@ -82,6 +83,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
     HeaderComponent,
     // NotificationsComponent,
     // TalenMessageboxComponent,
+    FilterPipe
     // VerificationComponent,
     // SetNewPasswordComponent,
     // ChangePasswordComponent,

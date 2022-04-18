@@ -155,7 +155,16 @@
     <div class="sidemenuTabsContent">
       <div class="tabcontentside d-flex align-items-start w-100">
         <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-          <button class="nav-link active" id="v-pills-erpaf-tab" data-bs-toggle="pill" data-bs-target="#v-pills-erpaf"
+          <ng-container *ngFor="let list of sideNavList;let i = index;">
+            <button class="nav-link" [ngClass]="{'active':list.selected}" (click)="selectDomain(i)"
+              id="v-pills-erpaf-tab" data-bs-toggle="pill" data-bs-target="#v-pills-erpaf" type="button" role="tab"
+              aria-controls="v-pills-home" >
+              {{list.prefix}} - {{list.name}}
+            </button>
+          </ng-container>
+
+
+          <!-- <button class="nav-link active" id="v-pills-erpaf-tab" data-bs-toggle="pill" data-bs-target="#v-pills-erpaf"
             type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
             ERP - Accounting & Financial
           </button>
@@ -226,16 +235,20 @@
           <button class="nav-link" id="v-pills-IoT-tab" data-bs-toggle="pill" data-bs-target="#v-pills-IoT"
             type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
             IoT
-          </button>
+          </button> -->
         </div>
         <div class="tab-content" id="v-pills-tabContent">
           <div class="tab-pane fade show active" id="v-pills-erpaf" role="tabpanel" aria-labelledby="v-pills-erpaf-tab">
             <div class="rightpanel-easworks">
               <div class="easworkSearchbox">
-                <input type="text" placeholder="Type a skill to filter the list below" />
+                <input type="text" [(ngModel)]="searchText" name="searchText"
+                  placeholder="Type a skill to filter the list below" />
               </div>
               <ul class="easeworkssearchList">
-                <li>
+                <li *ngFor="let item of subNavlist | filter: searchText; let i = index">
+                  <a href="javascript:void(0)" (click)="goToRoles(i)"  >{{item.name}}</a>
+                </li>
+                <!-- <li>
                   <a href="javascript:void(0)">SAP ERP</a>
                 </li>
                 <li>
@@ -270,7 +283,7 @@
                 </li>
                 <li>
                   <a href="javascript:void(0)">Microsoft Dynamics GP</a>
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>
@@ -1040,6 +1053,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </div>
     <div class="sidemenuabt">

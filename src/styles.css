@@ -133,6 +133,9 @@ select {
   width: 90% !important;
 }
 
+.w-100 {
+  width: 100% !important;
+}
 
 .bgcolor4f4ffc {
   background: #4f4ffc !important;
