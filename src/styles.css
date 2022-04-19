@@ -7200,7 +7200,7 @@ form #debt-amount-slider label {
   margin-top: 12px;
 }
 .viewcontract-nav .nav-link{
-  font-size: var(--fontSize14);
+  font-size: var(--fontSize15);
   color: #000000;
   background: #ffffff;
   padding: 6px 20px;
@@ -7232,4 +7232,57 @@ form #debt-amount-slider label {
 .spanLabel{
   font-size: var(--fontSize12);
     display: block;
+}
+.viewHis-contractlink{
+  text-decoration: underline;
+  font-size: var(--fontSize12);
+  color: var(--primary);
+  display: inline-block;
+  text-align: right;
+}
+.support-box{
+  display: flex;
+  width: 100%;
+}
+.supportIcon i{
+  background: #0b1320;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border-radius: 50%;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.supportContent{
+  padding-left: 12px;
+}
+.supportContent h4{
+  font-size: var(--fontSize14);
+}
+.supportContent p{
+  margin: 0px;
+}
+.viewcontract-support {
+  border: 1px solid #dddddd;
+    background: #f5f5f5;
+    border-radius: 3px;
+    padding: 5px 12px;
+}
+
+.viewcontract-table{
+  width: 100%;
+  border: 1px solid #dddddd;
+  margin-top: 12px;
+}
+.viewcontract-table thead tr th{
+  border: 1px solid #dddddd;
+  font-size: var(--fontSize14);
+  padding: 4px 12px;
+}
+.viewcontract-table tbody tr td{
+  border: 1px solid #dddddd;
+  font-size: var(--fontSize14);
+  padding: 4px 12px;
 }
