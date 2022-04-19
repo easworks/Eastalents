@@ -1,7 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
-import usecase from '../../assets/localDB/useCase.json';
+import usecase from '../../assets/localDB/useCase.json'; 
 var usecaseJson: any = usecase;
 @Component({
   selector: 'app-use-case',
@@ -13,12 +14,13 @@ export class UseCaseComponent implements OnInit, AfterViewInit {
   public useCaseValue: any = sessionStorage.getItem("useCaseName");
   public test = "../../assets/packages/f20_ureyqxyw.json";
   public useCaseDetails: any;
-  constructor() {
+  constructor(  private router: Router) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.useCaseDetails = usecaseJson[this.useCaseValue]
     // this.test = "assets/packages/lf20_ureyqxyw.json"
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
   }
 
   ngAfterViewInit(): void {
