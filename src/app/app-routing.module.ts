@@ -197,6 +197,10 @@ const routes: Routes = [
     loadChildren: () => import('./notifications/notifications.module').then(m => m.NotificationsModule)
   },
   {
+    path: 'view-contract-employer-talent',
+    loadChildren: () => import('./view-contract-employer-talent/view-contract-employer-talent.module').then(m => m.ViewContractEmployerTalentModule)
+  },
+  {
     path: '',
     loadChildren: () => import('./index/index.module').then(m => m.IndexModule)
     ,

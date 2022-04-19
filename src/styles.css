@@ -7129,3 +7129,104 @@ form #debt-amount-slider label {
   color: #989898;
   display: block;
 }
+
+.breadcrumb-type{
+  background-color: transparent;
+    color: #6c757d;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+.breadcrumb-type li a {
+  color: #333;
+  font-size: 12px;
+}
+
+.viewContract-employer{
+  box-shadow: 0 0 20px 0 #3e1c831a;
+  border: 1px solid #d9d9d9;
+  width: 100%;
+  margin-top: 20px;
+}
+.viewContract-profile{
+  padding: 12px;
+  display: flex;
+  align-items: center;
+}
+.vc-profile-icon{
+  position: relative;
+  display: inline-block;
+}
+.vc-profile-icon img{
+  width:60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.vc-profile-icon .dots{
+  width: 12px;
+  height: 12px;
+  background: #b7b7b7;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  border: 1px solid #ffffff;
+}
+.vc-profile-details{
+  margin-left: 12px;
+}
+.vc-profile-details h1{
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: #000000;
+}
+.vc-profile-details span{
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: #3e4652;
+  display: block;
+}
+.viewcontract-nav{
+  margin-top: 12px;
+}
+.viewcontract-nav .nav-link{
+  font-size: var(--fontSize14);
+  color: #000000;
+  background: #ffffff;
+  padding: 6px 20px;
+  border: none;
+  margin-bottom: 0px;
+  position: relative;
+}
+.viewcontract-nav .nav-link.active{
+  color:var(--blue-color);
+}
+.viewcontract-nav .nav-link.active::after{
+  position: absolute;
+  content: '';
+  background: var(--blue-color);
+  left: 0;
+    width: 100%;
+    height: 2px;
+    bottom: -1px;
+}
+
+.viewcontract-panel{
+  padding: 12px;
+  position: relative;
+}
+.viewcontract-terms h4{
+  font-size: var(--fontSize15);
+    color: #0b1320;
+}
+.spanLabel{
+  font-size: var(--fontSize12);
+    display: block;
+}

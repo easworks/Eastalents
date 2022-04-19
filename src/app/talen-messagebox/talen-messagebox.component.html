@@ -16,7 +16,7 @@
                 <li><a class="" href="yourjobs.html">Your Jobs</a></li>
                 <li><a href="interviewsList.html">Interviews</a></li>
                 <li class="emailNotify">
-                    <a href="javascript:void(0)">
+                    <a [routerLink]="['/talent-message']">
                         <i class='bx bxs-envelope' ></i>
                     </a>
                 </li>
@@ -155,19 +155,15 @@
                     </div>
                 </div>
                 <div class="m-ud-rht">
-                    <div class="userSetting m-toogle-group dropdown">
-                        <button type="button" class="tooglebtn dropdown-toggle" id="usersetting" data-bs-toggle="dropdown" aria-expanded="false"><i class='bx bx-dots-horizontal-rounded'></i></button>
-                        <ul class="settingdropdown dropdown-menu right" aria-labelledby="usersetting">
-                            <li><a class="dropdown-item" href="javascript:void(0)">Schedule a Meeting</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0)">View Contract</a></li>
-                        </ul>
+                    <div class="userSetting m-toogle-group">
+                        <button type="button" class="tooglebtn" id="usersetting"><i class='bx bx-dots-horizontal-rounded'></i></button>
                     </div>
                 </div>
             </div>
             <div class="m-user-subhead">
                 <div class="m-user-bttn">
                     <a href="javascript:void(0)"><i class='bx bx-calendar-event'></i>Schedule a Meeting</a>
-                    <a href="javascript:void(0)"><i class='bx bxs-contact'></i>View Contract</a>
+                    <a [routerLink]="['/view-contract-employer-talent']"><i class='bx bxs-contact'></i>View Contract</a>
                 </div>
             </div>
 
