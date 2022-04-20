@@ -7339,3 +7339,89 @@ form #debt-amount-slider label {
     padding: 4px 6px;
     font-size: var(--fontSize12);
 }
+
+.feedback-box{
+  width: 400px;
+  margin: auto;
+  text-align: center;
+}
+.feedback-icon{
+  display: inline-block;
+  position: relative;
+}
+.feedback-icon i{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  background: #efefff;
+  color: #4949fc;
+  font-size: 80px;
+  border-radius: 50%;
+}
+.feedback-box h4{
+  font-size: var(--fontSize14);
+  color: #0b1320;
+  margin-bottom: 12px;
+  margin-top: 12px;
+}
+.feedback-form{
+  margin-top: 20px;
+}
+.feedback-form-header{
+  padding: 6px 12px;
+}
+.feedback-form-content{
+  padding: 6px 12px;
+}
+.feedback-form-content h5{
+  font-size: var(--fontSize14);
+  color: #0b1320;
+  margin-bottom: 12px;
+  margin-top: 12px;
+}
+.feedback-star{
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.feedback-star .star li a{
+  display: block;
+}
+.feedback-star label{
+  font-size: var(--fontSize13);
+  margin: 0 0 0 12px;
+}
+.totalscore h4{
+  font-size: var(--fontSize13);
+}
+.feedback-comments{
+  width: 500px;
+  position: relative;
+}
+.feedback-comments textarea{
+  width: 100%;
+  border: 1px solid #cccccc;
+  height: 60px;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font: normal 13px/18px Roboto;
+  outline: none;
+  resize: none;
+}
+.feedback-comments span{
+  font-size: var(--fontSize12);
+  display: block;
+  text-align: right;
+}
+.feedback-form-details{
+  padding: 6px 12px;
+}
+.feedback-form-details p{
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: #000000;
+}
