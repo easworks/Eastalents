@@ -7286,3 +7286,56 @@ form #debt-amount-slider label {
   font-size: var(--fontSize14);
   padding: 4px 12px;
 }
+
+.add-milestone-modal{
+  width: 100%;
+}
+.add-milestone-modal .modal-header{
+  padding: 6px 12px;
+}
+.add-milestone-modal .modal-header h5{
+  font-size: var(--fontSize15);
+}
+.amt-dollar{
+  position: absolute;
+  left: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #f1f1f1;
+  display: flex;
+  width: 36px;
+  height: 36px;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  border-right: 1px solid #cccccc;
+}
+.milestonespace input{
+  padding: 0px 0px 0px 45px;
+}
+.duedateInfo{
+  position:relative;
+}
+.duedateInfo:hover .tooltip-info{
+  visibility: visible;
+  opacity: 1;
+}
+.tooltip-info{
+  position: absolute;
+  top: 100%;
+  background: #000000;
+  z-index: 1057;
+  right: 0;
+  border-radius: 3px;
+  color: #ffffff;
+  visibility: hidden;
+  opacity: 0;
+}
+.white-space-nowrap{
+  white-space: nowrap !important;
+}
+.tooltip-info p{
+  margin: 0px;
+    padding: 4px 6px;
+    font-size: var(--fontSize12);
+}
