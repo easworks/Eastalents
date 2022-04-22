@@ -7510,6 +7510,7 @@ form #debt-amount-slider label {
   box-shadow: 0 0 20px 0 #3e1c831a;
   border: 1px solid #dbdfea;
   border-radius: 3px;
+  margin-bottom: 20px;
 }
 
 .eas-card-inner {
@@ -7581,4 +7582,55 @@ form #debt-amount-slider label {
 .barchart img{
   width:100%;
   height: 257px;
+}
+
+.eas-table{
+  padding: 20px;
+}
+.eas-table table{
+  width: 100%;
+}
+.eas-table table thead{
+  border-bottom: 1px solid #dddddd;
+}
+.eas-table table thead tr th{
+  font-size: var(--fontSize13);
+    font-weight: 500;
+    padding: 6px 12px;
+}
+.eas-table table tbody tr td{
+  font-size: var(--fontSize13);
+  font-weight: normal;
+  padding: 6px 12px;
+}
+.eas-table table tbody tr:nth-child(even){
+  background: #f1f1f1;
+}
+.eas-status{
+  color:#223D5B;
+  font-weight: 500;
+}
+.eas-status.color1{
+  color:#FB5907;
+}
+.eas-status.color2{
+  color:#4F83BF;
+}
+.eas-status.color3{
+  color:#7F38BB;
+}
+.eas-status.color4{
+  color:#CC222F;
+}
+.eas-status.color5{
+  color:#F0BF00;
+}
+.eas-status.color6{
+  color:#C94A3C;
+}
+.eas-status.color7{
+  color:#05A879;
+}
+.eas-status.color8{
+  color:#7DE311;
 }
