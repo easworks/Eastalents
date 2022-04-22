@@ -1,0 +1,105 @@
+<!----- Header ----->
+<header id="header" class="fixed-top">
+    <div class="container-fluid d-flex align-items-center">
+        <h1 class="logo mr-auto">
+            <a class="black-logo" [routerLink]="['/index']">
+                <img src="assets/img/white-logo.png" />
+            </a>
+            <a class="white-logo" [routerLink]="['/index']">
+                <img src="assets/img/black-logo.png" />
+            </a>
+        </h1>
+        <nav class="nav-menu profile-creat-nav d-none d-lg-block">
+            <ul>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a [routerLink]="['/dashboard']">Dashboard</a></li>
+                <li><a href="workstyle.html">WorkStyle</a></li>
+                <li><a class="" href="yourjobs.html">Your Jobs</a></li>
+                <li><a href="interviewsList.html">Interviews</a></li>
+                <li class="emailNotify">
+                    <a [routerLink]="['/talent-message']">
+                        <i class='bx bxs-envelope'></i>
+                    </a>
+                </li>
+                <li class="emailNotify">
+                    <a [routerLink]="['/notifications']">
+                        <i class='bx bxs-bell'></i>
+                    </a>
+                </li>
+                <li class="user-details dropdown">
+                    <a class="user-icon dropdown-toggle" href="javascript:void(0)" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class='bx bxs-user-circle'></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="common-space">
+    <section class="dashboard-wrapper pt-3">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="eas-card">
+                        <div class="eas-card-inner">
+                            <div class="eas-card-title">
+                                <h4>My Job Details</h4>
+                            </div>
+                            <div class="eas-chart-body">
+                                <div class="charts-view">
+                                    <img src="../../assets/img/pie-chart-jobDetails.png" />
+                                </div>
+                                <div class="chart-series">
+                                    <div class="chart-value">
+                                        <span class="chart-dot green"></span>
+                                        <span class="c-value">Review</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot blue"></span>
+                                        <span class="c-value">Screen</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot yellow"></span>
+                                        <span class="c-value">Assessment</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot color66ECFF"></span>
+                                        <span class="c-value">Interview</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot red"></span>
+                                        <span class="c-value">Negotiation</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot green"></span>
+                                        <span class="c-value">Offer</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot red"></span>
+                                        <span class="c-value">Hire</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="eas-card">
+                        <div class="eas-card-inner">
+                            <div class="eas-card-title">
+                                <h4>Enterprise Applications - Hiring Details</h4>
+                            </div>
+                            <div class="eas-chart-body">
+                                <div class="barchart">
+                                    <img src="../../assets/img/barChart.PNG" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

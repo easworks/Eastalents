@@ -201,6 +201,10 @@ const routes: Routes = [
     loadChildren: () => import('./view-contract-employer-talent/view-contract-employer-talent.module').then(m => m.ViewContractEmployerTalentModule)
   },
   {
+    path: 'dashboard',
+    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+  },
+  {
     path: '',
     loadChildren: () => import('./index/index.module').then(m => m.IndexModule)
     ,

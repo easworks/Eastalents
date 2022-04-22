@@ -435,10 +435,11 @@ section {
 .nav-menu a {
   display: block;
   position: relative;
-  color: #ffffff;
+  color: #ffffff !important;
   transition: 0.3s;
   font-size: 14px;
   font-weight: 400;
+  cursor: pointer;
 }
 
 .nav-menu a.active {
@@ -629,10 +630,12 @@ section {
   font-size: 30px;
   line-height: 28px;
 }
-.profile-creat-nav ul .emailNotify a{
+
+.profile-creat-nav ul .emailNotify a {
   font-size: 20px;
   line-height: 26px;
 }
+
 /* Get Startet Button */
 .get-started-btn {
   margin-left: 12px;
@@ -6598,10 +6601,12 @@ form #debt-amount-slider label {
   cursor: pointer;
   position: relative;
 }
-.m-uset-Type .m-user-list.active{
+
+.m-uset-Type .m-user-list.active {
   background: #f6f6ff;
 }
-.m-uset-Type .m-user-list.active::after{
+
+.m-uset-Type .m-user-list.active::after {
   position: absolute;
   content: '';
   background: #4949fc;
@@ -6610,6 +6615,7 @@ form #debt-amount-slider label {
   width: 3px;
   height: 100%;
 }
+
 .m-user-card {
   display: flex;
   align-items: center;
@@ -6849,9 +6855,11 @@ form #debt-amount-slider label {
 .chatRight .chat-card-cont {
   background: #4949fc;
 }
-.chatRight .chat-card-cont p{
+
+.chatRight .chat-card-cont p {
   color: #ffffff;
 }
+
 .chatRight .chat-card-cont .m-user-name h4 {
   display: none;
 }
@@ -7013,10 +7021,11 @@ form #debt-amount-slider label {
   color: #8383a7;
 }
 
-.sharefile-type{
+.sharefile-type {
   height: calc(100vh - 314px);
   overflow-y: auto;
 }
+
 .sharefile-type li {
   display: block;
   padding: 4px 12px;
@@ -7042,27 +7051,32 @@ form #debt-amount-slider label {
   margin-right: 8px;
   font-size: var(--fontSize14);
 }
-.userSetting .tooglebtn::after{
+
+.userSetting .tooglebtn::after {
   display: none;
 }
-.right{
+
+.right {
   left: auto !important;
   right: 0 !important;
   transform: translate(0px, 0px) !important;
 }
-.settingdropdown{
+
+.settingdropdown {
   padding: 0px;
   margin-top: 20px !important;
   box-shadow: 0 0 20px 0 #3e1c831a;
   z-index: 100;
 }
+
 .settingdropdown li .dropdown-item {
   display: block;
   color: #000000;
   font-size: var(--fontSize13);
   padding: 6px 12px;
 }
-.m-user-subhead{
+
+.m-user-subhead {
   display: flex;
   width: 100%;
   justify-content: flex-end;
@@ -7070,10 +7084,12 @@ form #debt-amount-slider label {
   align-items: center;
   border-bottom: 1px solid #dee2e6;
 }
-.m-user-bttn{
+
+.m-user-bttn {
   display: flex;
 }
-.m-user-bttn a{
+
+.m-user-bttn a {
   display: flex;
   font-size: var(--fontSize12);
   color: #4949fc;
@@ -7081,28 +7097,32 @@ form #debt-amount-slider label {
   align-items: center;
   font-weight: 500;
 }
-.m-user-bttn a i{
+
+.m-user-bttn a i {
   margin-right: 6px;
   font-size: 17px;
 }
 
 /** Notifications **/
-.notifiy-box{
-  background: #ffffff;    
+.notifiy-box {
+  background: #ffffff;
   border-radius: 6px;
   box-shadow: 0 0 20px 0 #3e1c831a;
   border: 1px solid #dee2e6;
   margin-bottom: 12px;
 }
-.notifiy-box h4{
+
+.notifiy-box h4 {
   margin: 0px;
-    padding: 12px 12px;
-    border-bottom: 1px solid #dee2e6;
+  padding: 12px 12px;
+  border-bottom: 1px solid #dee2e6;
 }
-.notify-body{
+
+.notify-body {
   padding: 16px;
 }
-.nofity-type li{
+
+.nofity-type li {
   padding: 16px;
   position: relative;
   border: 1px solid #b5e8ff;
@@ -7110,66 +7130,76 @@ form #debt-amount-slider label {
   background: #f4fcff;
   margin-bottom: 12px;
 }
-.notify-card{
+
+.notify-card {
   display: flex;
   width: 100%;
 }
-.notify-card .notify-content{
+
+.notify-card .notify-content {
   width: calc(100% - 20px);
 }
-.notify-content p{
+
+.notify-content p {
   margin: 0px;
   font-size: var(--fontSize14);
   color: #000000;
 }
-.closebtn{
-  color:#000000;
+
+.closebtn {
+  color: #000000;
   font-size: 18px;
   line-height: 16px;
 }
-.notify-time{
+
+.notify-time {
   font-size: var(--fontSize12);
   color: #989898;
   display: block;
 }
 
-.breadcrumb-type{
+.breadcrumb-type {
   background-color: transparent;
-    color: #6c757d;
-    font-size: 1rem;
-    font-weight: 500;
-    margin-bottom: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
+  color: #6c757d;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
 }
+
 .breadcrumb-type li a {
   color: #333;
   font-size: 12px;
 }
 
-.viewContract-employer{
+.viewContract-employer {
   box-shadow: 0 0 20px 0 #3e1c831a;
   border: 1px solid #d9d9d9;
   width: 100%;
   margin-top: 20px;
 }
-.viewContract-profile{
+
+.viewContract-profile {
   padding: 12px;
   display: flex;
   align-items: center;
 }
-.vc-profile-icon{
+
+.vc-profile-icon {
   position: relative;
   display: inline-block;
 }
-.vc-profile-icon img{
-  width:60px;
+
+.vc-profile-icon img {
+  width: 60px;
   height: 60px;
   object-fit: cover;
   border-radius: 50%;
 }
-.vc-profile-icon .dots{
+
+.vc-profile-icon .dots {
   width: 12px;
   height: 12px;
   background: #b7b7b7;
@@ -7180,26 +7210,31 @@ form #debt-amount-slider label {
   right: 2px;
   border: 1px solid #ffffff;
 }
-.vc-profile-details{
+
+.vc-profile-details {
   margin-left: 12px;
 }
-.vc-profile-details h1{
+
+.vc-profile-details h1 {
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 4px;
   color: #000000;
 }
-.vc-profile-details span{
+
+.vc-profile-details span {
   font-size: 12px;
   font-weight: 500;
   margin-bottom: 4px;
   color: #3e4652;
   display: block;
 }
-.viewcontract-nav{
+
+.viewcontract-nav {
   margin-top: 12px;
 }
-.viewcontract-nav .nav-link{
+
+.viewcontract-nav .nav-link {
   font-size: var(--fontSize15);
   color: #000000;
   background: #ffffff;
@@ -7208,43 +7243,50 @@ form #debt-amount-slider label {
   margin-bottom: 0px;
   position: relative;
 }
-.viewcontract-nav .nav-link.active{
-  color:var(--blue-color);
+
+.viewcontract-nav .nav-link.active {
+  color: var(--blue-color);
 }
-.viewcontract-nav .nav-link.active::after{
+
+.viewcontract-nav .nav-link.active::after {
   position: absolute;
   content: '';
   background: var(--blue-color);
   left: 0;
-    width: 100%;
-    height: 2px;
-    bottom: -1px;
+  width: 100%;
+  height: 2px;
+  bottom: -1px;
 }
 
-.viewcontract-panel{
+.viewcontract-panel {
   padding: 12px;
   position: relative;
 }
-.viewcontract-terms h4{
+
+.viewcontract-terms h4 {
   font-size: var(--fontSize15);
-    color: #0b1320;
+  color: #0b1320;
 }
-.spanLabel{
+
+.spanLabel {
   font-size: var(--fontSize12);
-    display: block;
+  display: block;
 }
-.viewHis-contractlink{
+
+.viewHis-contractlink {
   text-decoration: underline;
   font-size: var(--fontSize12);
   color: var(--primary);
   display: inline-block;
   text-align: right;
 }
-.support-box{
+
+.support-box {
   display: flex;
   width: 100%;
 }
-.supportIcon i{
+
+.supportIcon i {
   background: #0b1320;
   width: 20px;
   height: 20px;
@@ -7255,48 +7297,57 @@ form #debt-amount-slider label {
   align-items: center;
   justify-content: center;
 }
-.supportContent{
+
+.supportContent {
   padding-left: 12px;
 }
-.supportContent h4{
+
+.supportContent h4 {
   font-size: var(--fontSize14);
 }
-.supportContent p{
+
+.supportContent p {
   margin: 0px;
 }
+
 .viewcontract-support {
   border: 1px solid #dddddd;
-    background: #f5f5f5;
-    border-radius: 3px;
-    padding: 5px 12px;
+  background: #f5f5f5;
+  border-radius: 3px;
+  padding: 5px 12px;
 }
 
-.viewcontract-table{
+.viewcontract-table {
   width: 100%;
   border: 1px solid #dddddd;
   margin-top: 12px;
 }
-.viewcontract-table thead tr th{
-  border: 1px solid #dddddd;
-  font-size: var(--fontSize14);
-  padding: 4px 12px;
-}
-.viewcontract-table tbody tr td{
+
+.viewcontract-table thead tr th {
   border: 1px solid #dddddd;
   font-size: var(--fontSize14);
   padding: 4px 12px;
 }
 
-.add-milestone-modal{
+.viewcontract-table tbody tr td {
+  border: 1px solid #dddddd;
+  font-size: var(--fontSize14);
+  padding: 4px 12px;
+}
+
+.add-milestone-modal {
   width: 100%;
 }
-.add-milestone-modal .modal-header{
+
+.add-milestone-modal .modal-header {
   padding: 6px 12px;
 }
-.add-milestone-modal .modal-header h5{
+
+.add-milestone-modal .modal-header h5 {
   font-size: var(--fontSize15);
 }
-.amt-dollar{
+
+.amt-dollar {
   position: absolute;
   left: 1px;
   top: 50%;
@@ -7310,17 +7361,21 @@ form #debt-amount-slider label {
   font-weight: 500;
   border-right: 1px solid #cccccc;
 }
-.milestonespace input{
+
+.milestonespace input {
   padding: 0px 0px 0px 45px;
 }
-.duedateInfo{
-  position:relative;
+
+.duedateInfo {
+  position: relative;
 }
-.duedateInfo:hover .tooltip-info{
+
+.duedateInfo:hover .tooltip-info {
   visibility: visible;
   opacity: 1;
 }
-.tooltip-info{
+
+.tooltip-info {
   position: absolute;
   top: 100%;
   background: #000000;
@@ -7331,25 +7386,29 @@ form #debt-amount-slider label {
   visibility: hidden;
   opacity: 0;
 }
-.white-space-nowrap{
+
+.white-space-nowrap {
   white-space: nowrap !important;
 }
-.tooltip-info p{
+
+.tooltip-info p {
   margin: 0px;
-    padding: 4px 6px;
-    font-size: var(--fontSize12);
+  padding: 4px 6px;
+  font-size: var(--fontSize12);
 }
 
-.feedback-box{
+.feedback-box {
   width: 400px;
   margin: auto;
   text-align: center;
 }
-.feedback-icon{
+
+.feedback-icon {
   display: inline-block;
   position: relative;
 }
-.feedback-icon i{
+
+.feedback-icon i {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -7360,48 +7419,58 @@ form #debt-amount-slider label {
   font-size: 80px;
   border-radius: 50%;
 }
-.feedback-box h4{
+
+.feedback-box h4 {
   font-size: var(--fontSize14);
   color: #0b1320;
   margin-bottom: 12px;
   margin-top: 12px;
 }
-.feedback-form{
+
+.feedback-form {
   margin-top: 20px;
 }
-.feedback-form-header{
+
+.feedback-form-header {
   padding: 6px 12px;
 }
-.feedback-form-content{
+
+.feedback-form-content {
   padding: 6px 12px;
 }
-.feedback-form-content h5{
+
+.feedback-form-content h5 {
   font-size: var(--fontSize14);
   color: #0b1320;
   margin-bottom: 12px;
   margin-top: 12px;
 }
-.feedback-star{
+
+.feedback-star {
   display: flex;
   align-items: center;
   margin-bottom: 6px;
 }
 
-.feedback-star .star li a{
+.feedback-star .star li a {
   display: block;
 }
-.feedback-star label{
+
+.feedback-star label {
   font-size: var(--fontSize13);
   margin: 0 0 0 12px;
 }
-.totalscore h4{
+
+.totalscore h4 {
   font-size: var(--fontSize13);
 }
-.feedback-comments{
+
+.feedback-comments {
   width: 500px;
   position: relative;
 }
-.feedback-comments textarea{
+
+.feedback-comments textarea {
   width: 100%;
   border: 1px solid #cccccc;
   height: 60px;
@@ -7411,17 +7480,105 @@ form #debt-amount-slider label {
   outline: none;
   resize: none;
 }
-.feedback-comments span{
+
+.feedback-comments span {
   font-size: var(--fontSize12);
   display: block;
   text-align: right;
 }
-.feedback-form-details{
+
+.feedback-form-details {
   padding: 6px 12px;
 }
-.feedback-form-details p{
+
+.feedback-form-details p {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.75;
   color: #000000;
+}
+
+/** Dashboard **/
+.eas-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  box-shadow: 0 0 20px 0 #3e1c831a;
+  border: 1px solid #dbdfea;
+  border-radius: 3px;
+}
+
+.eas-card-inner {
+  padding: 1.5rem;
+}
+
+.eas-card-title {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.eas-card-title h4 {
+  font-size: var(--fontSize16);
+  font-weight: 500;
+}
+
+.eas-chart-body{
+  text-align: center;
+    padding-top: 20px;
+}
+.charts-view{
+  text-align: center;
+}
+.charts-view img{
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+}
+
+.chart-series{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.chart-series .chart-value{
+  padding-right:15px;
+  padding-left:15px;
+}
+.chart-dot{
+  width: 8px;
+  height: 8px;
+  background: #cccccc;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+.green{
+  background: #36b649 !important;
+}
+.blue{
+  background: #4747fc !important;
+}
+.yellow{
+  background: #fbb138 !important;
+}
+.color66ECFF{
+  background: #66ECFF !important;
+}
+.red{
+  background: #B15151 !important;
+}
+.c-value{
+  font-size: var(--fontSize11);
+  color: #000000;
+}
+.barchart img{
+  width:100%;
+  height: 257px;
 }
