@@ -205,6 +205,10 @@ const routes: Routes = [
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
   },
   {
+    path: 'saved-favourite',
+    loadChildren: () => import('./favourite-saved/favourite-saved.module').then(m => m.FavouriteSavedModule)
+  },
+  {
     path: '',
     loadChildren: () => import('./index/index.module').then(m => m.IndexModule)
     ,
