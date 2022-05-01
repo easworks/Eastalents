@@ -1186,7 +1186,10 @@ section {
 .flexible-lottie {
   height: 150px;
 }
-
+.lottietile:nth-child(3) .flexible-lottie .lottieIcons{
+  width: 170px !important;
+  height: 170px !important;
+}
 .apptalents-flex img {
   width: 120px;
   height: 120px;
