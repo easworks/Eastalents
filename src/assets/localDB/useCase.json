@@ -7,7 +7,7 @@
         "description": "EASWORKS enables Innovation led by Design thinking software development with focus on SOLUTION to reinvent your enterprise application portfolio, making use of emerging technology and building with speed and agility to enable you to meet business needs, now and in the future.",
         "title_1": "How Innovation enabled by",
         "title_1_sub": "Design Thinking process works ?",
-        "img_1": "/assets/localDB/Innovation_Design_Thinking.png",
+        "img_1": "https://assets10.lottiefiles.com/packages/lf20_w26e86eb.json",
         "steps": [
             {
                 "step": "01",
@@ -75,7 +75,7 @@
         "description": "EASWORKS helps on your Digital continuity & Transformation to transform your business using pioneering enterprise technologies skills to become digitally ready with all legacy applications. EASWORKS proven tech-skills and experience help businesses gain maximum benefits in your digital transformation journey.",
         "title_1": "How ",
         "title_1_sub": "Digital continuity & transformation (DX) works ?",
-        "img_1": "/assets/localDB/DigitalTransformation(DX).jpg",
+        "img_1": "https://assets4.lottiefiles.com/packages/lf20_tdxghhik.json",
         "steps": [
             {
                 "step": "01",
@@ -143,7 +143,7 @@
         "description": "EASWORKS helps to generate simple experimental model of a proposed Enterprise Application solution with different technologies & approaches to test or validate ideas, design assumptions and other aspects of its conceptualization quickly and cheaply.",
         "title_1": "How",
         "title_1_sub": "Enterprise Application prototyping works ?",
-        "img_1": "/assets/localDB/Prototyping.png",
+        "img_1": "https://assets1.lottiefiles.com/packages/lf20_syloy0qc.json",
         "steps": [
             {
                 "step": "01",
@@ -153,17 +153,17 @@
             {
                 "step": "02",
                 "title": "LOW-FIDELITY USER PROTOTYPES",
-                "desc": "(i)Essentially an interactive wireframe (doesn't look real). <br/>(ii)Created by interactive designers to test the workflow. <br/> (iii)Simulates process to identify usability issues early."
+                "desc": "(i) Essentially an interactive wireframe (doesn't look real). <br/>(ii)Created by interactive designers to test the workflow. <br/> (iii)Simulates process to identify usability issues early."
             },
             {
                 "step": "03",
                 "title": "HIGH-FIDELITY USER PROTOTYPES",
-                "desc": "(i)Realistic looking, working simulation. <br/> (ii)Good for communicating a proposed product to stakeholders. <br/> (iii)Used in defensive user testing, not to see if they'll like it, but to learn if they won't. "
+                "desc": "(i) Realistic looking, working simulation. <br/> (ii)Good for communicating a proposed product to stakeholders. <br/> (iii)Used in defensive user testing, not to see if they'll like it, but to learn if they won't. "
             },
             {
                 "step": "04",
                 "title": "LIVE-DATA PROTOTYPES",
-                "desc": "(i)Very limited implementation created by developers to prove it works. <br/> (ii)Has access to real data and is sent real live traffic. <br/> (iii)Hasn't been 'productized' (no test automation, SEO, localization, etc.). "
+                "desc": "(i) Very limited implementation created by developers to prove it works. <br/> (ii)Has access to real data and is sent real live traffic. <br/> (iii)Hasn't been 'productized' (no test automation, SEO, localization, etc.). "
             }
         ],
         "title_2_desc": "in developing prototypes",
@@ -206,7 +206,7 @@
         "description": "EASWORKS helps to provide effective and efficient Enterprise Application UI Design & Enterprise Software UX Design to streamline business processes, reduce errors, and reduce user frustration to deliver best in class design for your Enterprise Application.",
         "title_1": "How ",
         "title_1_sub": "Enterprise Application Designs works ?",
-        "img_1": "/assets/localDB/Enterprise Application Design.png",
+        "img_1": "https://assets7.lottiefiles.com/packages/lf20_ikbsx61i.json",
         "steps": [
             {
                 "step": "01",
@@ -264,7 +264,7 @@
         "description": "EASWORKS helps to use Business Analytics & Business Intelligence technologies used for the data analysis of business information and refers to a range of tools that provide quick, easy-to-digest access to insights of your  organization's current state, based on available data.",
         "title_1": "How ",
         "title_1_sub": "Business Analytics (BA) & Business Intelligence (BI) works ?",
-        "img_1": "/assets/localDB/Business  Intelligence.png",
+        "img_1": "https://assets8.lottiefiles.com/packages/lf20_u9d7gukw.json",
         "steps": [
             {
                 "step": "01",
@@ -342,7 +342,7 @@
         "description": "EASWORKS helps Application migration of moving software applications between different computing environments including languages, frameworks and infrastructure platforms with below different approaches. <br/> (i) Rehost (lift & shift) <br/> (ii) Retain (hybrid) <br/> (iii) Retire <br/> (iv) Repurchase (drop & shop) <br/> (v) Refactoting (rearchitect) <br/> (vi) Replatforming (lift & optimize)",
         "title_1": "How ",
         "title_1_sub": "is Application migration performed ?",
-        "img_1": "/assets/localDB/Application Migration.png",
+        "img_1": "https://assets2.lottiefiles.com/packages/lf20_wjkdowmi.json",
         "steps": [
             {
                 "step": "01",
@@ -415,7 +415,7 @@
         "description": "EASWORKS provides data migration service to move data between storage systems, applications, or formats with ETL process which would be needed during upgrading of databases, deploying a new application or switching from on-premises to cloud-based storage and applications. <br/> EASWORKS supports different migration types: <br/> (i) Database migration <br/> (ii) Storage migration <br/> (iii) Business process migration <br/> (iv) Application migration <br/> (v) Datacenter migration <br/> (vi) Cloud migration",
         "title_1": "How ",
         "title_1_sub": "is Data migration performed ?",
-        "img_1": "/assets/localDB/Data Migration.png",
+        "img_1": "https://assets9.lottiefiles.com/packages/lf20_jcf1usol.json",
         "steps": [
             {
                 "step": "01",
@@ -473,7 +473,7 @@
         "description": "EASWORKS helps to build Custom Enterprise Application software development which are aimed to serve a particular set of business requirements for your organization which is not possible in Commercial off-the-shelf Applications (COTS).",
         "title_1": "How ",
         "title_1_sub": "Custom Enterprise Application Development happens ?",
-        "img_1": "/assets/localDB/Custom-software-development.png",
+        "img_1": "https://assets2.lottiefiles.com/packages/lf20_rjibs4ai.json",
         "steps": [
             {
                 "step": "01",
@@ -551,7 +551,7 @@
         "description": "EASWORKS  helps data flow freely between applications without significant changes to database configurations or the applications themselves, leading to a streamlined process and increased data availability.",
         "title_1": "How ",
         "title_1_sub": "Enterprise Application Integrations (EAI) works ?",
-        "img_1": "/assets/localDB/Enterprise Application Integration(EAI).png",
+        "img_1": "https://assets7.lottiefiles.com/packages/lf20_8zmfnsdi.json",
         "steps": [
             {
                 "step": "01",

@@ -576,6 +576,7 @@ section {
   padding: 0px;
   left: auto !important;
   right: 0 !important;
+  transform: translate3d(0px, 35px, 0px) !important;
 }
 
 .user-dropdown .dropdown-item {
@@ -966,7 +967,7 @@ section {
 .services .icon-box {
   text-align: center;
   border: 1px solid #fff;
-  padding: 12px 20px;
+  padding: 12px 12px;
   transition: all ease-in-out 0.3s;
   background: #fff;
   border-radius: 6px;
@@ -3664,6 +3665,9 @@ sub {
   height: 300px;
   margin: auto;
 }
+.how-image.vettedindimg{
+  height: 200px;
+}
 
 .how-Under-content .plat-step {
   margin: 0px 0px 12px 0px;
@@ -5921,17 +5925,17 @@ form #debt-amount-slider label {
 }
 
 .status-btn.red {
-  background: #f136370f;
+  background: #f136370f !important;
   color: #f13637 !important;
 }
 
 .status-btn.green {
-  background: #3dc13c0f;
+  background: #3dc13c0f !important;
   color: #3dc13c !important;
 }
 
 .status-btn.blue {
-  background: #3f66fb0f;
+  background: #3f66fb0f !important;
   color: #3f66fb;
 }
 

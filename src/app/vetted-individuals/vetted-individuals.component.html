@@ -7,26 +7,18 @@
     <section class="gethire-wraper banner-section">
         <div class="container-fluid">
             <div class="row">
-                <div
-                    class="col-lg-7 col-md-7 col-sm-7 col-12 pt-5 d-flex flex-column">
+                <div class="col-lg-7 col-md-7 col-sm-7 col-12 pt-5 d-flex flex-column">
                     <h1 data-aos="fade-up" data-aos-delay="200" class="main-title">{{vettedIndividuals.title}}</h1>
                     <div class="vetted" [innerHTML]="vettedIndividuals?.content?.sec_1_desc"></div>
-                    <!-- <p class="common-para">Hire Individual top EAS Talents on-demand based on skill or role.</p>
-                    <p class="common-para">With the right EAS team members, you can boost the EAS project's
-                        performance, outcome, and smoothness to any enterprise projects and, as they enter new phases of
-                        maturity, sometimes it’s necessary to add new EAS members or fill the skill gaps who are just
-                        right for the job.</p>
-                    <p class="common-para">EAS talent can be hire skilled professionals for short term or long-term
-                        project based on your EAS projects goal.</p>
-                    <p class="common-para">EASWORKS allows you to hire EAS talent on-demand (Talent as a service -
-                        TaaS), proven, reliable, and cost-effective way for our enterprise clients.</p> -->
+
                     <div class="d-flex mt-4">
                         <a href="javascript:void(0)" class="btn-get-started mr-3">Talk to Us</a>
                     </div>
                 </div>
-                <div class="col-lg-5 col-md-5 col-sm-5 col-12 pt-2 hero-img" data-aos="fade-up"
-                    data-aos-delay="600">
-                    <img src="assets/img/usercase-1.png" class="img-fluid animated" alt="">
+                <div class="col-lg-5 col-md-5 col-sm-5 col-12 pt-2 hero-img" data-aos="fade-up" data-aos-delay="600">
+                    <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_exozqfza.json"
+                        background="transparent" speed="1" style="width: 100%; height: 100%" loop autoplay>
+                    </lottie-player>
                 </div>
             </div>
         </div>
@@ -39,7 +31,7 @@
                 <h2 class="second-title mb-5">
                     Why choose EAS <span class="spantitlecolor">{{vettedIndividuals.title}} ? </span></h2>
             </div>
-            <div class="row row-cols-5 justify-content-center">
+            <div class="row justify-content-center">
                 <div class="col d-flex align-items-stretch" *ngFor="let list of vettedIndividuals?.content?.sec_2"
                     data-aos="fade-up" data-aos-delay="300">
                     <div class="icon-box">
@@ -51,53 +43,6 @@
                         <p class="common-para">{{list.desc}}</p>
                     </div>
                 </div>
-
-                <!-- <div class="col d-flex align-items-stretch mt-md-0" data-aos="fade-up" data-aos-delay="400">
-                    <div class="icon-box">
-                        <div class="icon easpromiseiticon">
-                            <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_xoih8e2r.json" background="transparent"
-                              speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
-                          </div>
-                        <h4 class="subtitle"><a href="">Top EAS Experts</a></h4>
-                        <p class="common-para">Integrate EAS experts with domain-centric professionals
-                            to add value to their projects.</p>
-                    </div>
-                </div>
-
-                <div class="col d-flex align-items-stretch mt-lg-0" data-aos="fade-up" data-aos-delay="200">
-                    <div class="icon-box">
-                        <div class="icon easpromiseiticon">
-                            <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_7ghmdeyc.json" background="transparent"
-                              speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
-                          </div>
-                        <h4 class="subtitle"><a href="">Cost-effectiveness</a></h4>
-                        <p class="common-para">Hire EAS talents at a minimal cost for any EAS specialized skills which otherwise with
-                            tradition recruitment process takes time and resources to recruit.</p>
-                    </div>
-                </div>
-
-                <div class="col d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
-                    <div class="icon-box">
-                        <div class="icon easpromiseiticon">
-                            <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_dkhbr8gm.json" background="transparent"
-                              speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
-                          </div>
-                        <h4 class="subtitle"><a href="">Save Time</a></h4>
-                        <p class="common-para">Ready to hire pre-vetted right EAS professionals for every role in less time.</p>
-                    </div>
-                </div>
-
-                <div class="col d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
-                    <div class="icon-box">
-                        <div class="icon easpromiseiticon">
-                            <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_tbhzfws5.json" background="transparent"
-                              speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
-                          </div>
-                        <h4 class="subtitle"><a href="">Maintain oversight & control</a></h4>
-                        <p class="common-para">Integrate into your internal team’s processes, daily/weekly report and participate actively
-                            in daily meetings and progress reports.</p>
-                    </div>
-                </div> -->
             </div>
         </div>
     </section>
@@ -127,39 +72,6 @@
                                 <p>{{list.desc}}</p>
                             </div>
                         </li>
-
-                        <!-- <li class="step-item">
-                            <div class="stepNum">
-                                <span>02</span>
-                            </div>
-                            <div class="step-title">
-                                <h1>Easy Hiring & scalability</h1>
-                                <p>Easily find and hire the specific EAS skill sets needed for each of your projects. No
-                                    need to worry about talent retention & other regular employee trainings.</p>
-                            </div>
-                        </li>
-
-                        <li class="step-item">
-                            <div class="stepNum">
-                                <span>03</span>
-                            </div>
-                            <div class="step-title">
-                                <h1>Faster Productivity</h1>
-                                <p>Smooth out any project road bumps and minimize downtime with the EAS expertise of an
-                                    extended team.</p>
-                            </div>
-                        </li>
-
-                        <li class="step-item">
-                            <div class="stepNum">
-                                <span>04</span>
-                            </div>
-                            <div class="step-title">
-                                <h1>Flexibility & predictable monthly cost</h1>
-                                <p>Increase or decrease the size of your development workforce as needed with on-demand
-                                    talent to complete the project within the budget.</p>
-                            </div>
-                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -179,24 +91,6 @@
                         <h1 class="subtitle text-left"> {{list.question}}</h1>
                         <p class="common-para">{{list.ans}}</p>
                     </div>
-                    <!-- <div class="defaultTitle">
-                        <h1 class="subtitle text-left"> 2. Need reinforce your In-house EAS team</h1>
-                        <p class="common-para">While you have In-house Enterprise Application software developers. For
-                            some new projects you will need current expertise. In this case, strengthen your IT team.
-                        </p>
-                    </div>
-
-                    <div class="defaultTitle">
-                        <h1 class="subtitle text-left"> 3. Short on deadline</h1>
-                        <p class="common-para">The recruitment process takes a lot of time from job advertisement,
-                            interviewing to onboarding. Thoroughly vetted EAS talent provides the quick way to hiring
-                            extra developers.</p>
-                    </div>
-
-                    <div class="defaultTitle">
-                        <h1 class="subtitle text-left"> 4. As a bridge for hire</h1>
-                        <p class="common-para">Short-term employment may turn into longer employee relations.</p>
-                    </div> -->
                 </div>
                 <div *ngIf="vettedIndividuals?.content?.sec_4_img"
                     class="col-lg-6 col-md-6 col-sm-6 order-1 order-lg-2 hero-img" data-aos="fade-up"
@@ -218,10 +112,11 @@
                     How does <span class="spantitlecolor">{{vettedIndividuals.title}}</span> hire work?</h2>
             </div>
             <ng-container *ngFor="let list of vettedIndividuals?.content?.sec_5_title;let i = index;">
-                <div class="row align-items-center" [ngClass]="{'flex-row-reverse':i%2}">
+                <div class="row align-items-center mb-4" [ngClass]="{'flex-row-reverse':i%2}">
                     <div class="col-lg-6 col-md-6 col-12" data-aos="fade-right" data-aos-delay="200">
-                        <div class="how-image">
-                            <img [src]="list.img" class="img-fluid" />
+                        <div class="how-image vettedindimg">
+                            <lottie-player [src]="list.img" background="transparent" speed="1"
+                                style="width: 100%; height: 100%;" loop autoplay></lottie-player>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-12" data-aos="fade-left" data-aos-delay="200">
@@ -232,54 +127,6 @@
                     </div>
                 </div>
             </ng-container>
-            <!-- <div class="row align-items-center flex-row-reverse">
-                <div class="col-lg-6 col-md-6 col-12" data-aos="fade-left" data-aos-delay="200">
-                    <div class="how-image">
-                        <img src="assets/img/how/sourcing.svg" class="img-fluid" />
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-12" data-aos="fade-left" data-aos-delay="200">
-                    <div class="how-Under-content"> 
-                        <h1 class="second-title">Interview talent matches</h1>
-                        <p class="common-para">Interview hand selected and pre-screened EAS talent matches based on your project
-                            requirement,skills,industry experience.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row align-items-center mb-4">
-                <div class="col-lg-6 col-md-6 col-12" data-aos="fade-right" data-aos-delay="200">
-                    <div class="how-image">
-                        <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_ureyqxyw.json"
-                            background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay>
-                        </lottie-player>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-12" data-aos="fade-left" data-aos-delay="200">
-                    <div class="how-Under-content"> 
-                        <h1 class="second-title">Onboarding and work integration</h1>
-                        <p class="common-para">Work with EASWORKS team to settling the terms and conditions, signing contracts and NDAs.
-                            Introduce the new EAS team members into your company, inform them of technical concepts, and
-                            design a work plan cadence.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row align-items-center flex-row-reverse">
-                <div class="col-lg-6 col-md-6 col-12" data-aos="fade-left" data-aos-delay="200">
-                    <div class="how-image h-auto">
-                        <img src="assets/img/how/engagement.svg" class="img-fluid" />
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-12" data-aos="fade-left" data-aos-delay="200">
-                    <div class="how-Under-content"> 
-                        <h1 class="second-title">Managing the process</h1>
-                        <p class="common-para">The last step involves managing the EAS project with your {{vettedIndividuals.title}} EASWORK talent
-                            while learning and relearning various aspects. Make sure the roles are apparent and the
-                            objectives/goals clearly defined including the needed daily/weekly/monthly reports.</p>
-                    </div>
-                </div>
-            </div> -->
         </div>
     </section>
 
