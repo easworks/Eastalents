@@ -416,7 +416,7 @@
                       <li>
                         <div class="pro-com-textedit">
                           <label>Work Skill Assessment (WAS)</label>
-                          <button type="button" class="com-edit"><i class='bx bxs-edit com-edit' (click)="onUpdate('1')"></i></button>
+                          <button type="button" class="com-edit"><i class='bx bxs-edit com-edit' (click)="takeSurveyAgain()"></i></button>
                         </div>
                         <div class="talent-progress-bar">
                           <span class="talent-progress progress-green"></span>
@@ -1153,7 +1153,7 @@
         </div>
         <div class="col-lg-7 col-md-7 col-sm-7 col-12">
           <div class="ws-assessment-btn d-flex justify-content-end">
-            <button type="button" class="btn-get-started">Take Survey Again</button>
+            <button type="button" class="btn-get-started"  (click)="takeSurveyAgain()">Take Survey Again</button>
           </div>
           <div class="ws-assesment">
             <div class="ws-assessment-type">

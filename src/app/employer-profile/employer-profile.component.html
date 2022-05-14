@@ -38,9 +38,9 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="view-res-btngroup mb-2 justify-content-end">
-                        <button type="button" class="resumebtn ml-2">Members</button>
-                        <button type="button" class="resumebtn bgcolor4f4ffc ml-2 mr-2">Start Hiring</button>
-                        <button type="button" class="resumebtn">Dashboard</button>
+                        <button type="button" class="resumebtn ml-2" data-bs-toggle="modal" data-bs-target="#addmembers" (click)="members()">Members</button>
+                        <button type="button" class="resumebtn bgcolor4f4ffc ml-2 mr-2" (click)="startHiring()">Start Hiring</button>
+                        <button type="button" class="resumebtn" (click)="dashboard()">Dashboard</button>
                     </div>
                 </div>
             </div>
@@ -151,7 +151,7 @@
                                 <div class="login-form-group">
                                     <label class="label-text mb-1">Location</label>
                                     <div class="login-form-input">
-                                        <select class="inputview">
+                                        <select class="inputview" readOnly>
                                             <option value="1">Chennai</option>
                                             <option value="2">Kovai</option>
 
@@ -283,6 +283,11 @@
                         <div class="profile-body p-3">
                             <h5 class="emp-smallTile">Enterprise Application Software (EAS)</h5>
                             <ul class="app-soft-type">
+                                <ng-container *ngIf="employerQuestionData && employerQuestionData[2].option">
+                                <ng-container *ngFor="let data of employerQuestionData[2].option">
+                                    <li *ngIf="data.selected === true" class="app-soft-list"> {{data.value}} </li>
+                                </ng-container>
+                                </ng-container>
                                 <li class="app-soft-list"> ERP </li>
                                 <li class="app-soft-list"> PLM </li>
                                 <li class="app-soft-list"> Big Data </li>
@@ -293,6 +298,9 @@
                             </ul>
                             <h5 class="emp-smallTile">Tech Stack</h5>
                             <ul class="app-soft-type">
+                                <li class="app-soft-list" *ngFor="let data of randomTechData">
+                                    {{data.value}}
+                                  </li>
                                 <li class="app-soft-list"> Node Js </li>
                                 <li class="app-soft-list"> CSS </li>
                                 <li class="app-soft-list"> JavaScript </li>

@@ -763,11 +763,11 @@
 
 
                 <div class="quiz-bttn-group border-top pt-3" *ngIf="currentPage<14 && currentPage >0">
-                  <button type="button" class="btn-common-border" [disabled]="currentPage === 1"
-                    (click)="changePage(-1)">Previous</button>
+                  <button *ngIf="!showUpdateButton" type="button" class="btn-common-border" [disabled]="currentPage === 1"
+                    (click)="changePage(-1)" >Previous</button>
                   <div class="next-skip">
-                    <button type="button" class="btn-common-border d-none">Skip</button>
-                    <button type="button" class="btn-common-border nextbtn" [disabled]="disableNextButton"
+                    <button  *ngIf="showUpdateButton" type="button" class="btn-common-border" (click)="onUpdateProfile()" >Update Profile</button>
+                    <button  *ngIf="!showUpdateButton" type="button" class="btn-common-border nextbtn" [disabled]="disableNextButton"
                       (click)="changePage(1)">Next</button>
                   </div>
 

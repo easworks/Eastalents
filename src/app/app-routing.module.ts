@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { GitAuthComponent } from './git-auth/git-auth.component';
+import { ExternalUrlServiceService } from './_services/external-url-service.service';
 // import { AeRolesComponent } from './ae-roles/ae-roles.component';
 // import { ApplicationListComponent } from './application-list/application-list.component';
 // import { ChangePasswordComponent } from './change-password/change-password.component';
@@ -213,6 +215,13 @@ const routes: Routes = [
     loadChildren: () => import('./index/index.module').then(m => m.IndexModule)
     ,
   },
+  {
+    path: 'test',
+    component: GitAuthComponent,
+    resolve: {
+        url: ExternalUrlServiceService
+    }
+},
 ];
 
 @NgModule({

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { pattern } from '../app.settings';
+import { pattern, roles } from '../app.settings';
 import { ApiResponse } from '../_models';
 import { HttpService } from '../_services/http.service';
 import { SessionService } from '../_services/session.service';
@@ -15,7 +15,8 @@ import { ToasterService } from '../_services/toaster.service';
 export class SignInComponent implements OnInit {
   submitted = false;
   signInForm!: FormGroup;
-  githubUserName='skv10';
+  githubLogin:boolean = false;
+  githubUserName ='';
   constructor(private formBuilder: FormBuilder, private toaster: ToasterService,
               private sessionService: SessionService, private httpService: HttpService, private router: Router) { }
 
@@ -48,7 +49,12 @@ export class SignInComponent implements OnInit {
         this.sessionService.setLocalStorageCredentials(response.result.user);
         this.signInForm.reset();
         this.submitted = false;
-        this.router.navigate(['/talentprofilequestion']);
+        if(response.result.user.role === roles.talent){
+          this.router.navigate(['/Talent-Profile-Edit']);
+        }
+        else if(response.result.user.role === roles.employer){
+          this.router.navigate(['/employer-profile']);
+        }
       } else {
         this.toaster.error(`${response.message}`);
       }
@@ -77,15 +83,31 @@ export class SignInComponent implements OnInit {
     });
   }
 
-  onGithubLogin(){
+  showGithubLogin(){
+    this.githubLogin = true;
+    // let data={
+    //    "login":this.githubUserName
+    // }
+    // this.httpService.post('github/getGithubUrl',data).subscribe((response: any) => {
+    //   if(response.status){
+        
+    //   }
+    // });
+  }
+  onSubmit(form: NgForm){
     let data={
-       "login":this.githubUserName
+       "login":form.value.login,
+       "role":"talent"
     }
     this.httpService.post('github/getGithubUrl',data).subscribe((response: any) => {
       if(response.status){
-        
+        console.log(response);
       }
     });
+  }
+
+  backToGmailLogin(){
+   this.githubLogin = false;
   }
 
 }

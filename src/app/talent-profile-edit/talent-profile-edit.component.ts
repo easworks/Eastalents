@@ -41,6 +41,7 @@ videoUrl:any;
     this.getTalentProfile();
     this.getImage();
     this.getPdf();
+    this.getData();
 
   }
 
@@ -151,10 +152,8 @@ videoUrl:any;
   }
 
   getData(){
-    return this.http.get('/assets/talentquestion.json').subscribe( (res:any) =>{
-      this.talentQuestionData.push(...res);
-      console.log(this.talentQuestionData);
-      this.formatData();
+    return this.http.get('/assets/workSkills.json').subscribe( (res:any) =>{
+      console.log(res);
     });
   }
 
@@ -222,5 +221,8 @@ videoUrl:any;
       }
       takeTest(){
         this.router.navigate(['/question-category']);
+      }
+      takeSurveyAgain(){
+        this.router.navigate(['/Work-Skills']);
       }
 }

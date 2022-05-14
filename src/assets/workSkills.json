@@ -1,0 +1,758 @@
+[
+    {
+      "id": "1",
+      "most": "most",
+      "least": "least",
+      "data": [
+        {
+          "label": "Enthusiastic",
+          "mostSelected": "",
+          "leastSelected": ""
+        },
+        {
+          "label": "Daring",
+          "mostSelected": "",
+          "leastSelected": ""
+        },
+        {
+          "label": "Diplomatic",
+          "mostSelected": "",
+          "leastSelected": ""
+        },
+        {
+          "label": "Satisfied",
+          "mostSelected": "",
+          "leastSelected": ""
+        }
+      ]
+    },
+    {
+        "id": "2",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Cautious",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Determined",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Convincing",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Good-natured",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "3",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Calm",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Outspoken",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Accurate",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Friendly",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "4",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Talkative",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Controlled",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Conventional",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Decisive",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "5",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Adventurous",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Insightful",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Outgoing",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Moderate",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "6",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Gentle",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Persuasive",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Humble",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Original",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "7",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Expressive",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Conscientious",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Dominant",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Responsive",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "8",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Poised",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Observant",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Modest",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Impatient",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "9",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Tactful",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Agreeable",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Magnetic",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Insistent",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "10",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Brave",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Inspiring",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Submissive",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Timid",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "11",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Reserved",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Obliging",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Strong-willed",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Cheerful",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "12",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Stimulating",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Kind",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Perceptive",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Independent",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "13",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Competitive",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Considerate",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Joyful",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Private",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "14",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Fussy",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Obedient",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Firm",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Playful",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "15",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Attractive",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Introspective",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Stubborn",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Predictable",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "16",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Logical",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Bold",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Loyal",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Charming",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "17",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Sociable",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Patient",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Self-reliant",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Soft-spoken",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "18",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Willing",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Eager",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Thorough",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "High-spirted",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "19",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Aggressive",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Extroverted",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Amiable",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Fearful",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "20",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Confident",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Sympathetic",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Impartial",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Assertive",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "21",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Well-disciplined",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Generous",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Animated",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Persistent",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "22",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Impulsive",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Introverted",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Forceful",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Easygoing",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "23",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Good mixer",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Refined",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Vigorous",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Lenient",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "24",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Captivating",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Contented",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Demanding",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Compliant",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "25",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Argumentative",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Systematic",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Cooperative",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Light-hearted",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "26",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Jovial",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Precise",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Direct",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Even-tempered",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "27",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Restless",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Neighborly",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Appealing",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Careful",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      },
+      {
+        "id": "28",
+        "most": "most",
+        "least": "least",
+        "data": [
+          {
+            "label": "Respecttul",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Pioneering",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Optimistic",
+            "mostSelected": "",
+            "leastSelected": ""
+          },
+          {
+            "label": "Helpful",
+            "mostSelected": "",
+            "leastSelected": ""
+          }
+        ]
+      }
+  ]

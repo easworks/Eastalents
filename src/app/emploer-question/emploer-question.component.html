@@ -57,8 +57,8 @@
               </div>
   
               <!--Loading -->
-              <div class="top-wizard mb-4" *ngIf="currentIndex<15 && currentIndex >0">
-                <span>{{currentIndex}} of 14 completed</span>
+              <div class="top-wizard mb-4" *ngIf="currentIndex<lastIndex && currentIndex >0">
+                <span>{{currentIndex}} of {{lastIndex - 1}} completed</span>
                 <div class="progress-bar">
                   <div class="ui-progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
                     [style.width]="width+'%'"></div>
@@ -132,6 +132,15 @@
                                           {{option.value}}
                                         </a>
                                       </ng-container>
+                                      <ng-container *ngFor="let subgroup of  enterpriseApplicationSubGroup">
+                                        <ng-container *ngIf="data.id  === 3 && option.subGroup === subgroup && option.group === enterpriseApplicationGroup">
+                                          <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3"
+                                            [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
+                                            (click)="selectOption(option,data.type)">
+                                            {{option.value}}
+                                          </a>
+                                        </ng-container>
+                                        </ng-container>
                                     </li>
                                   </ul>
                                 </div>
@@ -167,8 +176,10 @@
                               </div>
                               <ul class="easeworkssearchList scroll">
                                 <li *ngFor="let opt of data.option | datafilter:filterString">
-                                  <ng-container *ngIf="opt.group === buttonDataFilter"> 
-                                    <a href="javascript:void(0)" (click)="selectOption(opt,data.type)">{{opt.value}}</a>
+                                  <ng-container *ngIf="opt.group.toLowerCase() === buttonDataFilter.toLowerCase()">
+                                    <a href="javascript:void(0)" [ngStyle]=" opt.disable ? {'pointer-events':'none','opacity':'0.6'}:{}"
+                                    (click)="selectOption(opt,data.type)">
+                                    {{opt.value}}</a>
                                   </ng-container>
                                 </li>
                               </ul>
@@ -215,9 +226,10 @@
                               <div class="form-group-wizard d-flex align-items-center">
                                 <label class="qs-label-text">Location</label>
                                 <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
-                                  <select class="inputview" name="location" [(ngModel)]="data.selectData.location">
-                                    <option value="1">india</option>
-                                    <option value="2">US</option>
+                                  <select class="inputview" name='country' [ngModel]="selectedCountry" (ngModelChange)="onSelectCountry($event)">
+                                    <ng-container *ngFor="let country of countries">
+                                      <option value="{{country.code}}">{{country.name}}</option>
+                                    </ng-container>
                                   </select>
                                 </div>
                               </div>
@@ -226,10 +238,12 @@
                               <div class="form-group-wizard d-flex align-items-center">
                                 <label class="qs-label-text">Contact Phone Number</label>
                                 <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
-                                  <input type="text" class="inputview"  name="phonenumber" [(ngModel)]="data.selectData.contactPhone">
+                                  <input type="text" class="inputview"  name="phonenumber" maxlength="10" [(ngModel)]="data.selectData.contactPhone">
                                   <div class="cw-select">
-                                    <select  name="phonenumbercode" [(ngModel)]="data.selectData.phonecode">
-                                      <option value="+91">+91</option>
+                                    <select name="phonecode" [(ngModel)]="data.selectData.phonecode">
+                                      <ng-container *ngFor="let country of countries">
+                                        <option value="{{country.dialcode}}">{{country.dialcode}}</option>
+                                      </ng-container>
                                     </select>
                                   </div>
                                 </div>
@@ -248,8 +262,9 @@
                                 <label class="qs-label-text">Industry Group</label>
                                 <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
                                   <select class="inputview"  name="industryGroup" [(ngModel)]="data.selectData.industryGroup">
-                                    <option value="1">Industry</option>
-                                    <option value="2">Industry</option>
+                                    <ng-container *ngFor="let opt of industryGroup">
+                                      <option value="{{opt.value}}">{{opt.value}}</option>
+                                    </ng-container>
                                   </select>
                                 </div>
                               </div>
@@ -259,8 +274,11 @@
                                 <label class="qs-label-text">Industry</label>
                                 <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
                                   <select class="inputview"  name="industry" [(ngModel)]="data.selectData.industry">
-                                    <option value="1">Industry</option>
-                                    <option value="2">Industry</option>
+                                    <ng-container *ngFor="let opt of industry">
+                                      <ng-container *ngIf="data.selectData.industryGroup === opt.group">
+                                        <option value="{{opt.value}}">{{opt.value}}</option>
+                                      </ng-container>
+                                    </ng-container>
                                   </select>
                                 </div>
                               </div>
@@ -1577,7 +1595,7 @@
                   </div>
   
   
-                  <div class="quiz-bttn-group border-top pt-3" *ngIf="currentIndex >0 && currentIndex<15">
+                  <div class="quiz-bttn-group border-top pt-3" *ngIf="currentIndex >0 && currentIndex<lastIndex">
                     <button type="button" class="btn-common-border" (click)="onChange(-1)">Previous</button>
                     <div class="next-skip">
                       <button type="button" class="btn-common-border d-none">Skip</button>
@@ -1590,7 +1608,7 @@
   
             </div>
   
-            <div class="congrtz-content" *ngIf="currentIndex===15">
+            <div class="congrtz-content" *ngIf="currentIndex===lastIndex">
               <span>
                 <i class='bx bx-check'></i>
               </span>

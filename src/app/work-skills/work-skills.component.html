@@ -40,9 +40,11 @@
           <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_xxsz0pga.json" background="transparent"
             speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
         </div>
-        <h4 class="subtitle text-center">Workstyle Assessment - WSA</h4>
-        <span class="load-count text-center">0 of 15</span>
-        <div class="">
+        <ng-container  *ngIf="currentIndex >0 && currentIndex<29">
+          <h4 class="subtitle text-center">Workstyle Assessment - WSA</h4>
+        <span class="load-count text-center">{{currentIndex}} of 28</span>
+        </ng-container>
+        <div class="" *ngIf="currentIndex === 0">
           <h2 class="workstyletitle mb-0 text-center">INSTRUCTIONS - WORKSTYLE ASSESSMENT (WSA)</h2>
           <p class="common-para mb-2 text-left">The WSA is based on <strong>DISC</strong> based assessment which are
             extensively
@@ -159,22 +161,54 @@
             </div>
           </div>
           <div class="d-flex justify-content-center mt-3">
-            <a href="javascript:void(0)" class="btn-get-started">Get Started</a>
+            <a href="javascript:void(0)" class="btn-get-started" (click)="increaseIndex()">Get Started</a>
           </div>
         </div>
       </div>
-      <div class="row d-none">
+      <div class="row">
         <div class="col-lg-12 col-md-12 col-12">
           <div class="workstyle-slider">
             <div id="form-wrapper">
               <form>
+                <ng-container  *ngIf="currentIndex >0 && currentIndex<29">
                 <h4 class="subtitle text-left">Choose one MOST and one LEAST in each of the 28 groups of words.</h4>
                 <p class="common-para"><strong>REMEMBER:</strong> There are no <strong>right</strong> or <strong>wrong
                     answers</strong> in this Work
                   Skill Assessment & You cannot pass or fail the WSA assessment by answering the questions as it only
                   indicates a person's view or perspective, so just make the best decision you can.</p>
+                </ng-container>
+                  <div class="workstyle-slide" *ngFor="let workskill of workSkillsQuestion; let i=index">
+                    <ng-container *ngIf="currentIndex === i+1">
+                      <table class="ws-table">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th>{{workskill.most}}</th>
+                            <th>{{workskill.least}}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let data of workskill.data"> 
+                            <td>{{data.label}}</td>
+                            <td class="text-center">
+                              <div>
+                                <input type="radio" name="most" id='{{data.label}}' value="{{data.label}}" [(ngModel)]="workskill.mostSelected">
+                                <label for="{{data.label}}"></label>
+                              </div>
+                            </td>
+                            <td class="text-center">
+                              <div >
+                                <input type="radio" name="least" id='{{data.label}}' value="{{data.label}}" [(ngModel)]="workskill.leastSelected">
+                                <label for="{{data.label}}"></label>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </ng-container>
+                  </div>
                 <!--Slide1-->
-                <div class="workstyle-slide ">
+                <div class="workstyle-slide d-none">
                   <table class="ws-table">
                     <thead>
                       <tr>
@@ -2274,10 +2308,10 @@
                 </div>
 
               </form>
-              <div class="quiz-bttn-group mt-4">
-                <button type="button" class="btn-common-border pl-3 pr-3">Previous</button>
+              <div class="quiz-bttn-group mt-4"  *ngIf="currentIndex >0 && currentIndex<29">
+                <button type="button" class="btn-common-border pl-3 pr-3" (click)="decreaseIndex()">Previous</button>
                 <div class="next-skip">
-                  <button type="button" class="btn-common-border nextbtn">Next</button>
+                  <button type="button" class="btn-common-border nextbtn" (click)="increaseIndex()">Next</button>
                 </div>
               </div>
             </div>

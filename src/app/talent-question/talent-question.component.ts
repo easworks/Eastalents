@@ -74,9 +74,11 @@ export class TalentQuestionComponent implements OnInit {
   editMode = true;
   resume='';
   selectedVideo='';
+  showUpdateButton:boolean =false;
   constructor(private httpService: HttpService,
     private router: Router, private route: ActivatedRoute,
-    private talentService: TalentService,private http: HttpClient,private toaster: ToasterService,private sessionService: SessionService) {
+    private talentService: TalentService,private http: HttpClient,
+    private toaster: ToasterService,private sessionService: SessionService) {
       this.talentDataToUpdate = this.router.getCurrentNavigation()?.extras.state;
   }
 
@@ -87,6 +89,7 @@ export class TalentQuestionComponent implements OnInit {
         this.getCountry();
         if(this.idToNavigate){
           this.editMode = false;
+          this.showUpdateButton = true;
           this.talentQuestionData = this.talentDataToUpdate.data;
           this.showProfessionalCodingExperience = this.idToNavigate === 8 || this.idToNavigate === 7  ? true :false;
           this.currentPLM = this.talentQuestionData[11].data.currentPLM;
@@ -324,7 +327,7 @@ export class TalentQuestionComponent implements OnInit {
     console.log(opt);
   this.buttonDataFilter = opt.value;
   }
-  public changePage(index: number): void {
+  changePage(index: number): void {
 
 
     this.currentPage += index;
@@ -343,6 +346,10 @@ export class TalentQuestionComponent implements OnInit {
       this.fieldArray=[];
       this.checkAndShowData();
     }
+  }
+
+  onUpdateProfile(){
+
   }
 
   nextPage(event: string) {

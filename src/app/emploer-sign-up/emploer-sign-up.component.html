@@ -20,14 +20,14 @@
                   <h1 class="login-te-title">Try EASWORKS for free</h1>
                   <p class="login-te-para">We have thousands of qualified candidates waiting for you!</p>
                   <div class="job-firsttabs" id="secondtab">
-                    <form>
+                    <form [formGroup]="signUpForm" novalidate>
                       <div class="row">
                         <div class="col-lg-6 col-md-6 col-12">
                           <div class="login-form-group">
                             <label class="label-text">First Name</label>
                             <div class="login-form-input">
                               <input type="text" placeholder="First Name" class="inputview" formControlName="firstName" />
-                              <span class="error-message d-none" *ngIf="submitted && signUpFormControl.firstName.errors">Please enter your Fullname</span>
+                              <span class="error-message" *ngIf="submitted && signUpFormControl.firstName.errors">Please enter your Fullname</span>
                               <i class='bx bxs-user i-icons'></i>
                             </div>
                           </div>
@@ -37,7 +37,7 @@
                             <label class="label-text">Last Name</label>
                             <div class="login-form-input">
                               <input type="text" placeholder="Last Name" class="inputview" formControlName="lastName" />
-                              <span class="error-message d-none" *ngIf="submitted && signUpFormControl.lastName.errors">Please enter your Lastname</span>
+                              <span class="error-message" *ngIf="submitted && signUpFormControl.lastName.errors">Please enter your Lastname</span>
                               <i class='bx bxs-user i-icons'></i>
                             </div>
                           </div>
@@ -98,7 +98,7 @@
                         <div class="col-lg-12 col-md-12 col-12">
                           <div class="login-form-group">
                             <div class="checkbox-group">
-                              <input type="checkbox" id="terms-condition" />
+                              <input type="checkbox" id="terms-condition" formControlName='acceptTerms' />
                               <label for="terms-condition">You acknowledge that the EASWORKS screening process is
                                 confidential
                                 and that you will not
@@ -107,6 +107,7 @@
                                   href="javascript:void(0)">Privacy Policy</a> and <a href="javascript:void(0)">Cookie
                                   Policy</a></label>
                             </div>
+                            <div *ngIf="submitted && signUpFormControl.acceptTerms.errors" class="error-message">Accept Terms is required</div>
                           </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-12">
