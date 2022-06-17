@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { pattern, roles } from '../app.settings';
 import { ApiResponse } from '../_models';
 import { HttpService } from '../_services/http.service';
@@ -17,8 +17,16 @@ export class SignInComponent implements OnInit {
   signInForm!: FormGroup;
   githubLogin:boolean = false;
   githubUserName ='';
+  emailForRoute='';
+  userDataFromRoute:any;
   constructor(private formBuilder: FormBuilder, private toaster: ToasterService,
-              private sessionService: SessionService, private httpService: HttpService, private router: Router) { }
+              private sessionService: SessionService, private httpService: HttpService, private router: Router,
+              private route: ActivatedRoute) {
+               this.route.queryParams.subscribe((res)=>{
+                this.userDataFromRoute = JSON.parse(res.user);
+                this.emailForRoute = this.userDataFromRoute.email || '';
+               })
+              }
 
   ngOnInit(): void {
     this.initSignInForm();
@@ -26,7 +34,7 @@ export class SignInComponent implements OnInit {
 
   initSignInForm(): void {
     this.signInForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.pattern(pattern.email)]],
+      email: [this.emailForRoute, [Validators.required, Validators.pattern(pattern.email)]],
       password: ['', [Validators.required, Validators.pattern(pattern.password)]],
       acceptTerms: [false, Validators.requiredTrue]
     });
@@ -67,12 +75,15 @@ export class SignInComponent implements OnInit {
   }
 
   onGoogleLogin(){
-    // this.httpService.get('gmail/getGmailUrl').subscribe((response: any) => {
-    //   if(response.status){
-       
-    //   }
-    // });
-    this.router.navigateByUrl('https://eas-works.herokuapp.com/api/gmail/getGmailUrl');
+    let data={
+      "role":"talent"
+   }
+    this.httpService.post('gmail/getGmailUrl',data).subscribe((response: any) => {
+      if(response.status){
+       console.log(response);
+      }
+    });
+    // this.router.navigateByUrl('https://eas-works.herokuapp.com/api/gmail/getGmailUrl');
   }
 
   onLinkedInLogin(){

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { pattern, roles } from '../app.settings';
 import { MustMatch } from '../_helpers/must-match.validator';
 import { ApiResponse, SignUpModel } from '../_models';
@@ -16,17 +16,28 @@ export class SignUpComponent implements OnInit {
 
   submitted = false;
   signUpForm!: FormGroup;
+  emailForRoute='';
+  userDataFromRoute:any;
 
   constructor(private formBuilder: FormBuilder, private toaster: ToasterService,
-              private httpService: HttpService, private router: Router) {
-    this.initSignUpForm();
+              private httpService: HttpService, private router: Router,private route: ActivatedRoute) {
+                this.route.queryParams.subscribe((res)=>{
+                  if(res && res.user){
+                  this.userDataFromRoute = JSON.parse(res.user);
+                  this.emailForRoute = this.userDataFromRoute.email || '';
+                  }
+                 })
    }
+
+   ngOnInit(): void {
+    this.initSignUpForm();
+  }
 
   initSignUpForm(): void {
     this.signUpForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.pattern(pattern.email)]],
+      email: [this.emailForRoute, [Validators.required, Validators.pattern(pattern.email)]],
       password: ['', [Validators.required, Validators.pattern(pattern.password)]],
       confirmPassword: ['', Validators.required],
       acceptTerms: [false, Validators.requiredTrue],
@@ -36,8 +47,7 @@ export class SignUpComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
+ 
 
   // tslint:disable-next-line:typedef
   get signUpFormControl() { return this.signUpForm.controls; }
