@@ -22,9 +22,12 @@ export class SignInComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private toaster: ToasterService,
               private sessionService: SessionService, private httpService: HttpService, private router: Router,
               private route: ActivatedRoute) {
+                
                this.route.queryParams.subscribe((res)=>{
+                if(res && res.user){
                 this.userDataFromRoute = JSON.parse(res.user);
                 this.emailForRoute = this.userDataFromRoute.email || '';
+                }
                })
               }
 

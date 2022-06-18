@@ -349,7 +349,7 @@ export class TalentQuestionComponent implements OnInit {
   }
 
   onUpdateProfile(){
-
+    this.router.navigate(['/Talent-Profile-Edit']);
   }
 
   nextPage(event: string) {

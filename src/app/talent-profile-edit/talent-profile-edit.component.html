@@ -79,8 +79,9 @@
                       </ul>
                       <div class="view-res-btngroup">
                         <button type="button" class="resumebtn" (click)="viewPdf()">View Resume</button>
-                        <button type="button" class="resumebtn update-resume ml-2"><i class='bx bxs-edit'></i>Update
-                          Resume</button>
+                        <input type="file" id="up-files" (change)="onupdatePDF($event)" />
+                        <!-- <button type="button" class="resumebtn update-resume ml-2" (click)="onupdatePDF()"><i class='bx bxs-edit'></i>Update
+                          Resume</button> -->
                       </div>
                     </div>
                   </div>
@@ -648,7 +649,7 @@
             <li>
               <label>Phone Number:</label>
               <span class="pc-text">{{dataToDisplay.phoneNumber}}</span>
-              <i class="bx bxs-edit com-edit" (click)="onUpdate('13')"></i>
+              <i class="bx bxs-edit com-edit" (click)="onUpdate('12')"></i>
             </li>
             <li>
               <label>Works Hours(Your Local Time):</label>

@@ -32,6 +32,7 @@ selectedImage:any;
 public imageBaseUrl = `${environment.imageUrl}`;
 viewResume:any;
 videoUrl:any;
+selectedPDF:any;
 
   constructor(private http: HttpClient,private router: Router,private httpService: HttpService,
     private route: ActivatedRoute,private toaster: ToasterService,private sessionService: SessionService,
@@ -40,15 +41,12 @@ videoUrl:any;
   ngOnInit(): void {
     this.getTalentProfile();
     this.getImage();
-    this.getPdf();
     this.getData();
 
   }
 
   ngAfterViewInit(): void {
     this.getVideo();
-
-
     // this.videoPlayer.nativeElement.onplaying = (event:any) => {
     //   console.log('Video is no longer paused.');
     //   this.videoStarted = true;
@@ -101,8 +99,9 @@ videoUrl:any;
       if (!response.error) {
         // this.toaster.success(`${response.message}`);
         console.log(response);
-        // this.imgUrl = response.userData.file.path;
         this.viewResume =  response.userData;
+        const url = this.imageBaseUrl + this.viewResume.file.path;
+        window.open(url,'_blank');
 
       }
     }, (error) => {
@@ -111,8 +110,26 @@ videoUrl:any;
     });
   }
   viewPdf(){
-    const url = this.imageBaseUrl + this.viewResume.file.path;
-   window.open(url,'_blank');
+    this.getPdf();
+  }
+
+  onupdatePDF(event:any){
+    this.selectedPDF = event.target.files[0];
+    this.uploadPdf();
+  }
+  uploadPdf(){
+    const uploadData = new FormData();
+    uploadData.append('talentProfileResume', this.selectedPDF, this.selectedPDF.name);
+    uploadData.append('userId',this.sessionService.getLocalStorageCredentials()._id);
+    this.httpService.post('talentProfile/setTalentProfileResume',uploadData).subscribe((response: ApiResponse<any>) => {
+      if (!response.error) {
+        this.toaster.success(`${response.message}`);
+        // this.resume = this.selectedPDF.name;
+      }
+    }, (error) => {
+      console.log(error);
+      this.toaster.error(`${error.message}`);
+    });
   }
 
   onImage(event:any){
