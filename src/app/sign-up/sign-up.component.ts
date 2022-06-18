@@ -17,6 +17,8 @@ export class SignUpComponent implements OnInit {
   submitted = false;
   signUpForm!: FormGroup;
   emailForRoute='';
+  firstName='';
+  lastName='';
   userDataFromRoute:any;
 
   constructor(private formBuilder: FormBuilder, private toaster: ToasterService,
@@ -25,6 +27,8 @@ export class SignUpComponent implements OnInit {
                   if(res && res.user){
                   this.userDataFromRoute = JSON.parse(res.user);
                   this.emailForRoute = this.userDataFromRoute.email || '';
+                  this.firstName = this.userDataFromRoute.firstName || '';
+                  this.lastName = this.userDataFromRoute.lastName || '';
                   }
                  })
    }
@@ -35,8 +39,8 @@ export class SignUpComponent implements OnInit {
 
   initSignUpForm(): void {
     this.signUpForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstName: [this.firstName, Validators.required],
+      lastName: [this.lastName, Validators.required],
       email: [this.emailForRoute, [Validators.required, Validators.pattern(pattern.email)]],
       password: ['', [Validators.required, Validators.pattern(pattern.password)]],
       confirmPassword: ['', Validators.required],
