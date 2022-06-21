@@ -63,6 +63,7 @@ export class SignUpComponent implements OnInit {
     }
     this.httpService.post(`users/signup`, this.signUpForm.value).subscribe((response: ApiResponse<any>) => {
       if (!response.error) {
+        this.router.navigate(['/talentprofilequestion']);
         this.toaster.success(`${response.message}`);
         this.signUpForm.reset();
         this.submitted = false;

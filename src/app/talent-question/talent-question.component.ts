@@ -189,7 +189,6 @@ export class TalentQuestionComponent implements OnInit {
   getData(){
     return this.http.get('/assets/talentquestion.json').subscribe( (res:any) =>{
       this.talentQuestionData.push(...res);
-      console.log(this.talentQuestionData);
     });
   }
 
@@ -275,13 +274,11 @@ export class TalentQuestionComponent implements OnInit {
         this.resume = this.selectedPDF.name;
       }
     }, (error) => {
-      console.log(error);
       this.toaster.error(`${error.message}`);
     });
   }
   onVideoUpload(event:any){
     this.selectedVideoFiles = event.target.files[0];
-    console.log(event);
     this.uploadVideo();
   }
   uploadVideo(){
