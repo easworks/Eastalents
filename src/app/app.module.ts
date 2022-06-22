@@ -27,7 +27,7 @@ import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { CommonModule, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -122,7 +122,7 @@ import { GitAuthComponent } from './git-auth/git-auth.component';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpAuthInterceptor, multi: true },
-    {provide :LocationStrategy,useClass:HashLocationStrategy}
+    {provide :LocationStrategy,useClass:PathLocationStrategy}
   ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
