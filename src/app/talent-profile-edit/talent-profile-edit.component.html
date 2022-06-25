@@ -108,7 +108,8 @@
                   <button type="button" class="editbtn" (click)="onUpdate('1')"><i class='bx bxs-edit'></i></button>
                 </div>
                 <div class="profile-body p-3">
-                  <p class="common-para m-0">{{dataToDisplay.profileSummary}}</p>
+                  <textarea [ngStyle]="{'width':'50rem','height':'100px'}" name="summary" readonly >{{dataToDisplay.profileSummary}}</textarea>
+                  <!-- <p class="common-para m-0">{{dataToDisplay.profileSummary}}</p> -->
                 </div>
               </div>
             </div>

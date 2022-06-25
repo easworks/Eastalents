@@ -233,7 +233,9 @@ selectedPDF:any;
   }
 
       onUpdate(opt:any){
+        if(this.talentQuestionData.length){
         this.router.navigate(['/talentprofilequestion'],{state:{data :this.talentQuestionData} ,queryParams: { id: opt } });
+        }
         // this.talentService.invokeTalentData(this.talentQuestionData);
       }
       takeTest(){

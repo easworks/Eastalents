@@ -7852,3 +7852,7 @@ form #debt-amount-slider label {
 .sf-profile-content p{
   margin-bottom: 0px;
 }
+.talent-profile-edit{
+  margin-left: 6px;
+  vertical-align: middle !important;
+}

@@ -75,6 +75,7 @@ export class TalentQuestionComponent implements OnInit {
   resume='';
   selectedVideo='';
   showUpdateButton:boolean =false;
+  showSpinnerbar:boolean = false;
   constructor(private httpService: HttpService,
     private router: Router, private route: ActivatedRoute,
     private talentService: TalentService,private http: HttpClient,
@@ -337,7 +338,21 @@ export class TalentQuestionComponent implements OnInit {
   }
 
   onUpdateProfile(){
-    this.router.navigate(['/Talent-Profile-Edit']);
+    this.showSpinnerbar = true;
+    let talent:any = this.talentQuestionData;
+    let data:any={
+      userId: this.sessionService.getLocalStorageCredentials()._id,
+      steps:JSON.stringify(talent)
+    }
+    this.httpService.post('talentProfile/updateTalentProfile',data).subscribe((response: ApiResponse<any>) => {
+      if (!response.error) {
+        this.showSpinnerbar = false;
+        this.toaster.success(`${response.message}`);
+        this.router.navigate(['/Talent-Profile-Edit']);
+      }
+    }, (error) => {
+      this.toaster.error(`${error.message}`);
+    });
   }
 
   nextPage(event: string) {
@@ -600,6 +615,7 @@ else if(opt.subType === 'multiselect'){
         element.disable = false;
         if(element.value.toLowerCase() === field.value.toLowerCase()){
           element.selected = false;
+          element.noOfYear = element.skill='';
           this.fieldArray = this.fieldArray.filter((item:any) => item.value.toLowerCase() !== field.value.toLowerCase())
         }
   });
@@ -610,6 +626,9 @@ else if(opt.subType === 'multiselect'){
         if(element.value.toLowerCase() === field.value.toLowerCase()){
           element.selected = false;
           element.disable = false;
+          if(this.currentPage != 9){
+          element.noOfYear = element.skill='';
+          }
           this.fieldArray = this.fieldArray.filter((item:any) => item.value.toLowerCase() !== field.value.toLowerCase());
           if(this.currentPage === 6){
             this.jobRole = this.jobRole.filter((item:any) => item.value.toLowerCase() !== field.value.toLowerCase())
@@ -631,6 +650,7 @@ else if(opt.subType === 'multiselect'){
         data.option.forEach((opt:any)=>{
           opt.selected = false;
           opt.disable = false;
+          opt.noOfYear = opt.skill='';
           this.enterpriseApplicationGroup='';
           this.enterpriseApplicationSubGroup=[];
         });
@@ -643,6 +663,7 @@ else if(opt.subType === 'multiselect'){
         data.option.forEach((opt:any)=>{
           opt.selected = false;
           opt.disable = false;
+          opt.noOfYear = opt.skill='';
           this.enterpriseApplicationSubGroup=[];
         });
       }
