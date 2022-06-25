@@ -1182,6 +1182,10 @@
                 "selected": false
             },
             {
+                "value": "Aerospace and Defense (A&D)",
+                "selected": false
+            },
+            {
                 "value": "Agriculture and Farming",
                 "selected": false
             },
@@ -1191,6 +1195,14 @@
             },
             {
                 "value": "Artificial Intelligence",
+                "selected": false
+            },            
+            {
+                "value": "Automotive",
+                "selected": false
+            },
+            {
+                "value": "Banking & Financial Services",
                 "selected": false
             },
             {
@@ -1226,6 +1238,10 @@
                 "selected": false
             },
             {
+                "value": "Distribution",
+                "selected": false
+            },
+            {
                 "value": "Education",
                 "selected": false
             },
@@ -1235,10 +1251,6 @@
             },
             {
                 "value": "Events",
-                "selected": false
-            },
-            {
-                "value": "Banking & Financial Services",
                 "selected": false
             },
             {
@@ -1266,7 +1278,15 @@
                 "selected": false
             },
             {
+                "value": "Insurance",
+                "selected": false
+            },
+            {
                 "value": "Lending and Investments",
+                "selected": false
+            },
+            {
+                "value": "Life science",
                 "selected": false
             },
             {
@@ -1286,11 +1306,11 @@
                 "selected": false
             },
             {
-                "value": "Oil,Gas and Chemicals",
+                "value": "Navigation and Mapping",
                 "selected": false
             },
             {
-                "value": "Navigation and Mapping",
+                "value": "Oil,Gas and Chemicals",
                 "selected": false
             },
             {
@@ -1346,27 +1366,7 @@
                 "selected": false
             },
             {
-                "value": "Insurance",
-                "selected": false
-            },
-            {
-                "value": "Aerospace and Defense (A&D)",
-                "selected": false
-            },
-            {
-                "value": "Automotive",
-                "selected": false
-            },
-            {
-                "value": "Life science",
-                "selected": false
-            },
-            {
                 "value": "Utilities",
-                "selected": false
-            },
-            {
-                "value": "Distribution",
                 "selected": false
             }
         ],
@@ -3372,30 +3372,6 @@
                 "group": "Events"
             },
             {
-                "value": "Retail banking",
-                "selected": false,
-                "disable": false,
-                "Year": "",
-                "skill": "",
-                "group": "Banking & Financial Services"
-            },
-            {
-                "value": "Wholesale banking",
-                "selected": false,
-                "disable": false,
-                "Year": "",
-                "skill": "",
-                "group": "Banking & Financial Services"
-            },
-            {
-                "value": "Wealth management",
-                "selected": false,
-                "disable": false,
-                "Year": "",
-                "skill": "",
-                "group": "Banking & Financial Services"
-            },
-            {
                 "value": "Accounting",
                 "selected": false,
                 "disable": false,
@@ -3708,6 +3684,14 @@
                 "group": "Banking & Financial Services"
             },
             {
+                "value": "Retail banking",
+                "selected": false,
+                "disable": false,
+                "Year": "",
+                "skill": "",
+                "group": "Banking & Financial Services"
+            },
+            {
                 "value": "Stock Exchanges",
                 "selected": false,
                 "disable": false,
@@ -3749,6 +3733,14 @@
             },
             {
                 "value": "Wealth Management",
+                "selected": false,
+                "disable": false,
+                "Year": "",
+                "skill": "",
+                "group": "Banking & Financial Services"
+            },
+            {
+                "value": "Wholesale banking",
                 "selected": false,
                 "disable": false,
                 "Year": "",
@@ -9292,7 +9284,7 @@
                 "group": "Video"
             },
             {
-                "value": "Life insurance",
+                "value": "Car Insurance",
                 "selected": false,
                 "disable": false,
                 "Year": "",
@@ -9324,7 +9316,7 @@
                 "group": "Insurance"
             },
             {
-                "value": "Car Insurance",
+                "value": "Life insurance",
                 "selected": false,
                 "disable": false,
                 "Year": "",
@@ -9364,7 +9356,7 @@
                 "group": "Aerospace and Defense (A&D)"
             },
             {
-                "value": "Unmanned Aerial Systems",
+                "value": "MRO",
                 "selected": false,
                 "disable": false,
                 "Year": "",
@@ -9380,7 +9372,7 @@
                 "group": "Aerospace and Defense (A&D)"
             },
             {
-                "value": "MRO",
+                "value": "Suppliers",
                 "selected": false,
                 "disable": false,
                 "Year": "",
@@ -9388,7 +9380,7 @@
                 "group": "Aerospace and Defense (A&D)"
             },
             {
-                "value": "Suppliers",
+                "value": "Unmanned Aerial Systems",
                 "selected": false,
                 "disable": false,
                 "Year": "",
@@ -9404,15 +9396,7 @@
                 "group": "Aerospace and Defense (A&D)"
             },
             {
-                "value": "Light vehciles",
-                "selected": false,
-                "disable": false,
-                "Year": "",
-                "skill": "",
-                "group": "Automotive"
-            },
-            {
-                "value": "Trucks and buses",
+                "value": "Autonomous vehicles",
                 "selected": false,
                 "disable": false,
                 "Year": "",
@@ -9428,6 +9412,14 @@
                 "group": "Automotive"
             },
             {
+                "value": "Dealers",
+                "selected": false,
+                "disable": false,
+                "Year": "",
+                "skill": "",
+                "group": "Automotive"
+            },
+            {
                 "value": "Electric cars",
                 "selected": false,
                 "disable": false,
@@ -9436,7 +9428,7 @@
                 "group": "Automotive"
             },
             {
-                "value": "Autonomous vehicles",
+                "value": "Light vehciles",
                 "selected": false,
                 "disable": false,
                 "Year": "",
@@ -9445,14 +9437,6 @@
             },
             {
                 "value": "OEM Manufacturers",
-                "selected": false,
-                "disable": false,
-                "Year": "",
-                "skill": "",
-                "group": "Automotive"
-            },
-            {
-                "value": "Dealers",
                 "selected": false,
                 "disable": false,
                 "Year": "",
@@ -9476,7 +9460,7 @@
                 "group": "Automotive"
             },
             {
-                "value": "Others",
+                "value": "Trucks and buses",
                 "selected": false,
                 "disable": false,
                 "Year": "",
@@ -9484,28 +9468,12 @@
                 "group": "Automotive"
             },
             {
-                "value": "Pharmaceuticals",
+                "value": "Others",
                 "selected": false,
                 "disable": false,
                 "Year": "",
                 "skill": "",
-                "group": "Life science"
-            },
-            {
-                "value": "Biotechnology",
-                "selected": false,
-                "disable": false,
-                "Year": "",
-                "skill": "",
-                "group": "Life science"
-            },
-            {
-                "value": "Medical devices",
-                "selected": false,
-                "disable": false,
-                "Year": "",
-                "skill": "",
-                "group": "Life science"
+                "group": "Automotive"
             },
             {
                 "value": "Biomedical technologies",
@@ -9516,7 +9484,7 @@
                 "group": "Life science"
             },
             {
-                "value": "Nutraceuticals",
+                "value": "Biotechnology",
                 "selected": false,
                 "disable": false,
                 "Year": "",
@@ -9533,6 +9501,30 @@
             },
             {
                 "value": "Genetics",
+                "selected": false,
+                "disable": false,
+                "Year": "",
+                "skill": "",
+                "group": "Life science"
+            },
+            {
+                "value": "Medical devices",
+                "selected": false,
+                "disable": false,
+                "Year": "",
+                "skill": "",
+                "group": "Life science"
+            },
+            {
+                "value": "Nutraceuticals",
+                "selected": false,
+                "disable": false,
+                "Year": "",
+                "skill": "",
+                "group": "Life science"
+            },
+            {
+                "value": "Pharmaceuticals",
                 "selected": false,
                 "disable": false,
                 "Year": "",
@@ -9564,30 +9556,6 @@
                 "group": "Utilities"
             },
             {
-                "value": "Retailers",
-                "selected": false,
-                "disable": false,
-                "Year": "",
-                "skill": "",
-                "group": "Distribution"
-            },
-            {
-                "value": "Wholesalers",
-                "selected": false,
-                "disable": false,
-                "Year": "",
-                "skill": "",
-                "group": "Distribution"
-            },
-            {
-                "value": "Distributors",
-                "selected": false,
-                "disable": false,
-                "Year": "",
-                "skill": "",
-                "group": "Distribution"
-            },
-            {
                 "value": "Agents",
                 "selected": false,
                 "disable": false,
@@ -9597,30 +9565,6 @@
             },
             {
                 "value": "Brokers",
-                "selected": false,
-                "disable": false,
-                "Year": "",
-                "skill": "",
-                "group": "Distribution"
-            },
-            {
-                "value": "Internet",
-                "selected": false,
-                "disable": false,
-                "Year": "",
-                "skill": "",
-                "group": "Distribution"
-            },
-            {
-                "value": "Sales team",
-                "selected": false,
-                "disable": false,
-                "Year": "",
-                "skill": "",
-                "group": "Distribution"
-            },
-            {
-                "value": "Resellers",
                 "selected": false,
                 "disable": false,
                 "Year": "",
@@ -9644,7 +9588,7 @@
                 "group": "Distribution"
             },
             {
-                "value": "Indirect Channel",
+                "value": "Distributors",
                 "selected": false,
                 "disable": false,
                 "Year": "",
@@ -9660,6 +9604,22 @@
                 "group": "Distribution"
             },
             {
+                "value": "Indirect Channel",
+                "selected": false,
+                "disable": false,
+                "Year": "",
+                "skill": "",
+                "group": "Distribution"
+            },
+            {
+                "value": "Internet",
+                "selected": false,
+                "disable": false,
+                "Year": "",
+                "skill": "",
+                "group": "Distribution"
+            },
+            {
                 "value": "Logistics",
                 "selected": false,
                 "disable": false,
@@ -9667,6 +9627,39 @@
                 "skill": "",
                 "group": "Distribution"
             },
+            {
+                "value": "Sales team",
+                "selected": false,
+                "disable": false,
+                "Year": "",
+                "skill": "",
+                "group": "Distribution"
+            },
+            {
+                "value": "Resellers",
+                "selected": false,
+                "disable": false,
+                "Year": "",
+                "skill": "",
+                "group": "Distribution"
+            },
+            {
+                "value": "Retailers",
+                "selected": false,
+                "disable": false,
+                "Year": "",
+                "skill": "",
+                "group": "Distribution"
+            },
+            {
+                "value": "Wholesalers",
+                "selected": false,
+                "disable": false,
+                "Year": "",
+                "skill": "",
+                "group": "Distribution"
+            },
+            
             {
                 "value": "Others",
                 "selected": false,
@@ -9699,7 +9692,7 @@
                         {"selected":false,"disable":false,"firstPart":"Freelance or Contact work -","secondPart":"Short Term","thirdPart":"(1-3 Months)","subType":"multiselect"},
                         {"selected":false,"disable":false, "firstPart":"Freelance or Contact work -","secondPart":"Long Term","thirdPart":"(3-36 Months)","subType":"multiselect"},
                         {"selected":false,"disable":false, "firstPart":"Fulltime Salaried Employee","secondPart":"","thirdPart":" ","subType":"multiselect"},
-                        {"selected":false,"disable":false, "firstPart":" Any of the above","secondPart":"","thirdPart":"","subType":"multiselect"}
+                        {"selected":false,"disable":false, "firstPart":"Any of the above","secondPart":"","thirdPart":"","subType":"multiselect"}
                     ]
                 }
             ]

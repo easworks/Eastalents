@@ -351,8 +351,8 @@
 
                             <li class="col-lg-12 col-md-12 col-12" *ngFor="let option of  subValue.option">
                               <a href="javascript:void(0)" class="pl-3 pr-3" (click)="selectOption(option)"
-                                [style.background-color]="option.selected ?'#4949fc' :''"
-                                [style.color]="option.selected ? 'white': ''"
+                                [style.background-color]="option.selected && option.firstPart !='Any of the above' ?'#4949fc' :''"
+                                [style.color]="option.selected && option.firstPart !='Any of the above' ? 'white': ''"
                                 [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}">
                                 <span class="d-block text-uppercase">{{option.firstPart}}</span>
                                 <span *ngIf="option.secondPart">{{option.secondPart}}</span>
@@ -434,10 +434,10 @@
                             <div class="form-input-group position-relative w-50">
                               <select class="inputview" name="weeklyHourlyRate"
                                 [(ngModel)]="data.data.weeklyHourlyRate">
-                                <option value="10hour/week">10hour/week</option>
-                                <option value="20hour/week">20hour/week</option>
-                                <option value="30hour/week">30hour/week</option>
-                                <option value="40hour/week">40hour/week</option>
+                                <option value="10hour/week">10 hour/week</option>
+                                <option value="20hour/week">20 hour/week</option>
+                                <option value="30hour/week">30 hour/week</option>
+                                <option value="40hour/week">40 hour/week</option>
                               </select>
                             </div>
                           </div>
@@ -450,7 +450,8 @@
                         <li class="col-lg-4 col-md-4 col-12" *ngFor="let option of data.startWorkingWithEasyWork">
                           <a href="javascript:void(0)" (click)='selectOption(option)'
                             [style.color]="option.selected ? 'white': ''"
-                            [style.background-color]="option.selected ?'#4949fc' :''">
+                            [style.background-color]="option.selected ?'#4949fc' :''"
+                            [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}">
                             {{option.value}}</a>
                         </li>
                       </ul>
@@ -657,10 +658,64 @@
                               </td>
                               <td>
                                 <div class="d-flex">
-                                  <input type="text" class="inputview mr-1" #name="ngModel"
+                                  <select class="com-select" name="expert{{i}}.startDuration"
+                                  [(ngModel)]="expert.startDuration">
+                                  <option value="0">Select Year</option>
+                                  <option value="2000">2000</option>
+                                  <option value="2001">2001</option>
+                                  <option value="2002">2002</option>
+                                  <option value="2003">2003</option>
+                                  <option value="2004">2004</option>
+                                  <option value="2005">2005</option>
+                                  <option value="2006">2006</option>
+                                  <option value="2007">2007</option>
+                                  <option value="2008">2008</option>
+                                  <option value="2009">2009</option>
+                                  <option value="2010">2010</option>
+                                  <option value="2011">2011</option>
+                                  <option value="2012">2012</option>
+                                  <option value="2013">2013</option>
+                                  <option value="2014">2014</option>
+                                  <option value="2015">2015</option>
+                                  <option value="2016">2016</option>
+                                  <option value="2017">2017</option>
+                                  <option value="2018">2018</option>
+                                  <option value="2019">2019</option>
+                                  <option value="2020">2020</option>
+                                  <option value="2021">2021</option>
+                                  <option value="2022">2022</option>
+                                </select>
+                                <select class="com-select" name="expert{{i}}.endDuration"
+                                [(ngModel)]="expert.endDuration">
+                                <option value="0">Select Year</option>
+                                <option value="2000">2000</option>
+                                <option value="2001">2001</option>
+                                <option value="2002">2002</option>
+                                <option value="2003">2003</option>
+                                <option value="2004">2004</option>
+                                <option value="2005">2005</option>
+                                <option value="2006">2006</option>
+                                <option value="2007">2007</option>
+                                <option value="2008">2008</option>
+                                <option value="2009">2009</option>
+                                <option value="2010">2010</option>
+                                <option value="2011">2011</option>
+                                <option value="2012">2012</option>
+                                <option value="2013">2013</option>
+                                <option value="2014">2014</option>
+                                <option value="2015">2015</option>
+                                <option value="2016">2016</option>
+                                <option value="2017">2017</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                              </select>
+                                  <!-- <input type="text" class="inputview mr-1" #name="ngModel"
                                     name="expert{{i}}.startDuration" [(ngModel)]="expert.startDuration" />
                                   <input type="text" class="inputview" #name="ngModel" name="expert{{i}}.endDuration"
-                                    [(ngModel)]="expert.endDuration" />
+                                    [(ngModel)]="expert.endDuration" /> -->
                                 </div>
                               </td>
                               <td>
@@ -713,10 +768,64 @@
                               </td>
                               <td>
                                 <div class="d-flex">
-                                  <input type="text" class="inputview mr-1" #name="ngModel"
+                                  <select class="com-select" name="education{{i}}.startDuration"
+                                  [(ngModel)]="education.startDuration">
+                                  <option value="0">Select Year</option>
+                                  <option value="2000">2000</option>
+                                  <option value="2001">2001</option>
+                                  <option value="2002">2002</option>
+                                  <option value="2003">2003</option>
+                                  <option value="2004">2004</option>
+                                  <option value="2005">2005</option>
+                                  <option value="2006">2006</option>
+                                  <option value="2007">2007</option>
+                                  <option value="2008">2008</option>
+                                  <option value="2009">2009</option>
+                                  <option value="2010">2010</option>
+                                  <option value="2011">2011</option>
+                                  <option value="2012">2012</option>
+                                  <option value="2013">2013</option>
+                                  <option value="2014">2014</option>
+                                  <option value="2015">2015</option>
+                                  <option value="2016">2016</option>
+                                  <option value="2017">2017</option>
+                                  <option value="2018">2018</option>
+                                  <option value="2019">2019</option>
+                                  <option value="2020">2020</option>
+                                  <option value="2021">2021</option>
+                                  <option value="2022">2022</option>
+                                </select>
+                                <select class="com-select" name="education{{i}}.endDuration"
+                                [(ngModel)]="education.endDuration">
+                                <option value="0">Select Year</option>
+                                <option value="2000">2000</option>
+                                <option value="2001">2001</option>
+                                <option value="2002">2002</option>
+                                <option value="2003">2003</option>
+                                <option value="2004">2004</option>
+                                <option value="2005">2005</option>
+                                <option value="2006">2006</option>
+                                <option value="2007">2007</option>
+                                <option value="2008">2008</option>
+                                <option value="2009">2009</option>
+                                <option value="2010">2010</option>
+                                <option value="2011">2011</option>
+                                <option value="2012">2012</option>
+                                <option value="2013">2013</option>
+                                <option value="2014">2014</option>
+                                <option value="2015">2015</option>
+                                <option value="2016">2016</option>
+                                <option value="2017">2017</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                              </select>
+                                  <!-- <input type="text" class="inputview mr-1" #name="ngModel"
                                     name="education{{i}}.startDuration" [(ngModel)]="education.startDuration" />
                                   <input type="text" class="inputview" #name="ngModel" name="education{{i}}.endDuration"
-                                    [(ngModel)]="education.endDuration" />
+                                    [(ngModel)]="education.endDuration" /> -->
                                 </div>
                               </td>
                               <td>

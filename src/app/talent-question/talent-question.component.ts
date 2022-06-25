@@ -162,13 +162,8 @@ export class TalentQuestionComponent implements OnInit {
           }
         }
         this.talentOption = this.dataKeys;
-        console.log(this.dataKeys)
-        console.log(this.datathree)
-        console.log(this.completeJobs)
-        console.log(this.completeProduct)
       }
     }, (error) => {
-      console.log(error);
     });
   }
 
@@ -291,13 +286,11 @@ export class TalentQuestionComponent implements OnInit {
         this.selectedVideo = this.selectedVideoFiles.name
       }
     }, (error) => {
-      console.log(error);
       this.toaster.error(`${error.message}`);
     });
   }
   onImage(event:any){
     this.selectedImage = event.target.files[0]
-    console.log(this.selectedImage);
     this.uploadImage();
   }
   uploadImage(){
@@ -309,7 +302,6 @@ export class TalentQuestionComponent implements OnInit {
         this.toaster.success(`${response.message}`);
       }
     }, (error) => {
-      console.log(error);
       this.toaster.error(`${error.message}`);
     });
   }
@@ -321,7 +313,6 @@ export class TalentQuestionComponent implements OnInit {
     });
   }
   buttonData(opt:any){
-    console.log(opt);
   this.buttonDataFilter = opt.value;
   }
   changePage(index: number): void {
@@ -391,6 +382,7 @@ export class TalentQuestionComponent implements OnInit {
 
 
   selectOption(opt: any,type?:any) {
+    console.log(this.talentQuestionData);
     if(this.currentPage === 1){ // firstQuestion
 
     }
@@ -456,10 +448,29 @@ export class TalentQuestionComponent implements OnInit {
     this.talentQuestionData[this.currentPage].data[1].visible = false;
   }
 }
+else if(opt.subType === 'multiselect'){
+  this.talentQuestionData[this.currentPage].data.forEach((element:any)=>{
+    if(element.type === 'multiselect'){
+      element.option.forEach((optionData:any)=>{
+        if(opt.firstPart.toLowerCase() === 'Any of the above'.toLowerCase() ){
+          optionData.selected = opt.selected;
+        }
+      });
     }
+});
+}
+}
     else if (this.currentPage === 11){
       if(opt.type === 'startWorkingWithEasyWork'){
         opt.selected = !opt.selected;
+        this.talentQuestionData[this.currentPage].startWorkingWithEasyWork.forEach((optionData:any)=>{
+              if(opt.selected === true && opt.value.toLowerCase() != optionData.value.toLowerCase() ){
+                optionData.disable = true;
+              }
+              else if(opt.selected === false){
+                optionData.disable = false;
+              }
+    });
       }
       else if(type === 'preferredPLM'){
         this.preferredPLM = opt;
@@ -740,7 +751,6 @@ export class TalentQuestionComponent implements OnInit {
         this.router.navigate(['/Talent-Profile-Edit']);
       }
     }, (error) => {
-      console.log(error);
       this.toaster.error(`${error.message}`);
     });
   }
