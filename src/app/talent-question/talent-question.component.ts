@@ -76,6 +76,8 @@ export class TalentQuestionComponent implements OnInit {
   selectedVideo='';
   showUpdateButton:boolean =false;
   showSpinnerbar:boolean = false;
+  videoSpinnerbar:boolean = false;
+  pdfSpinnerbar:boolean = false;
   constructor(private httpService: HttpService,
     private router: Router, private route: ActivatedRoute,
     private talentService: TalentService,private http: HttpClient,
@@ -257,6 +259,7 @@ export class TalentQuestionComponent implements OnInit {
     this.talentQuestionData[this.currentPage].education.splice(i,1);
   }
   onChoosePDF(event:any){
+    this.pdfSpinnerbar = true;
     this.selectedPDF = event.target.files[0];
     this.uploadPdf();
   }
@@ -266,6 +269,7 @@ export class TalentQuestionComponent implements OnInit {
     uploadData.append('userId',this.sessionService.getLocalStorageCredentials()._id);
     this.httpService.post('talentProfile/setTalentProfileResume',uploadData).subscribe((response: ApiResponse<any>) => {
       if (!response.error) {
+        this.pdfSpinnerbar = false;
         this.toaster.success(`${response.message}`);
         this.resume = this.selectedPDF.name;
       }
@@ -274,6 +278,7 @@ export class TalentQuestionComponent implements OnInit {
     });
   }
   onVideoUpload(event:any){
+   this.videoSpinnerbar = true;
     this.selectedVideoFiles = event.target.files[0];
     this.uploadVideo();
   }
@@ -283,6 +288,7 @@ export class TalentQuestionComponent implements OnInit {
     uploadData.append('userId',this.sessionService.getLocalStorageCredentials()._id);
     this.httpService.post('talentProfile/setTalentProfileVideo',uploadData).subscribe((response: ApiResponse<any>) => {
       if (!response.error) {
+        this.videoSpinnerbar = false;
         this.toaster.success(`${response.message}`);
         this.selectedVideo = this.selectedVideoFiles.name
       }

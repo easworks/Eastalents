@@ -5692,6 +5692,7 @@ form #debt-amount-slider label {
 
 .uploadfiles {
   position: relative;
+  display: flex;
 }
 
 .uploadfiles input[type="file"] {
