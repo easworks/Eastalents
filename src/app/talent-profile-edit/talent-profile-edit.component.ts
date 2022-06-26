@@ -157,7 +157,7 @@ selectedPDF:any;
       userId: this.sessionService.getLocalStorageCredentials()._id
     }
     this.httpService.post('talentProfile/getTalentProfile',data).subscribe((response:any) => {
-      if (!response.error) {
+      if (response.status) {
         this.toaster.success(`${response.message}`);
         this.talentQuestionData = response.steps;
         this.formatData();

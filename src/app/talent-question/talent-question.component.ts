@@ -268,7 +268,7 @@ export class TalentQuestionComponent implements OnInit {
     uploadData.append('talentProfileResume', this.selectedPDF, this.selectedPDF.name);
     uploadData.append('userId',this.sessionService.getLocalStorageCredentials()._id);
     this.httpService.post('talentProfile/setTalentProfileResume',uploadData).subscribe((response: ApiResponse<any>) => {
-      if (!response.error) {
+      if (response.status) {
         this.pdfSpinnerbar = false;
         this.toaster.success(`${response.message}`);
         this.resume = this.selectedPDF.name;
@@ -287,7 +287,7 @@ export class TalentQuestionComponent implements OnInit {
     uploadData.append('talentProfileVideo', this.selectedVideoFiles, this.selectedVideoFiles.name);
     uploadData.append('userId',this.sessionService.getLocalStorageCredentials()._id);
     this.httpService.post('talentProfile/setTalentProfileVideo',uploadData).subscribe((response: ApiResponse<any>) => {
-      if (!response.error) {
+      if (response.status) {
         this.videoSpinnerbar = false;
         this.toaster.success(`${response.message}`);
         this.selectedVideo = this.selectedVideoFiles.name
@@ -305,7 +305,7 @@ export class TalentQuestionComponent implements OnInit {
     uploadData.append('talentProfilePhoto', this.selectedImage, this.selectedImage.name);
     uploadData.append('userId',this.sessionService.getLocalStorageCredentials()._id);
     this.httpService.post('talentProfile/setTalentProfilePhoto',uploadData).subscribe((response: ApiResponse<any>) => {
-      if (!response.error) {
+      if (response.status) {
         this.toaster.success(`${response.message}`);
       }
     }, (error) => {
@@ -351,7 +351,7 @@ export class TalentQuestionComponent implements OnInit {
       steps:JSON.stringify(talent)
     }
     this.httpService.post('talentProfile/updateTalentProfile',data).subscribe((response: ApiResponse<any>) => {
-      if (!response.error) {
+      if (response.status) {
         this.showSpinnerbar = false;
         this.toaster.success(`${response.message}`);
         this.router.navigate(['/Talent-Profile-Edit']);
@@ -773,7 +773,7 @@ else if(opt.subType === 'multiselect'){
       steps:JSON.stringify(talent)
     }
     this.httpService.post('talentProfile/createTalentProfile',data).subscribe((response: ApiResponse<any>) => {
-      if (!response.error) {
+      if (response.status) {
         this.toaster.success(`${response.message}`);
         this.router.navigate(['/Talent-Profile-Edit']);
       }

@@ -1192,7 +1192,7 @@
       <div class="row">
         <div class="col-lg-12 col-md-12 col-12">
           <div class="workhistory-table">
-            <button type="button" class="btn-get-started addworkhistorybtn mb-2 d-flex align-items-center ml-auto"><i
+            <button type="button" class="btn-get-started addworkhistorybtn mb-2 d-flex align-items-center ml-auto" (click)="onUpdate('12')"><i
                 class='bx bx-plus-circle'></i> Add Work History</button>
             <div class="apptalent-table-view mb-4">
               <table>
@@ -1202,7 +1202,7 @@
                     <th>Duration</th>
                     <th>Developer Skills</th>
                     <th>Client name</th>
-                    <th>Action</th>
+                    <!-- <th>Action</th> -->
                   </tr>
                 </thead>
                 <tbody >
@@ -1214,9 +1214,9 @@
                       {{data.skills}}
                     </td>
                     <td>{{data.clientName}}</td>
-                    <td>
+                    <!-- <td>
                       <button type="button" class="deletebtn"><i class='bx bxs-trash'></i></button>
-                    </td>
+                    </td> -->
                   </tr>
                   </ng-container>
                 </tbody>
@@ -1232,7 +1232,7 @@
       <div class="row">
         <div class="col-lg-12 col-md-12 col-12">
           <div class="workhistory-table">
-            <button type="button" class="btn-get-started addworkhistorybtn mb-2 d-flex align-items-center ml-auto"><i
+            <button type="button" class="btn-get-started addworkhistorybtn mb-2 d-flex align-items-center ml-auto" (click)="onUpdate('12')"><i
                 class='bx bx-plus-circle'></i> Add Education</button>
             <div class="apptalent-table-view">
               <table>
