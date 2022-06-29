@@ -1,0 +1,12 @@
+.wrap-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-height: 600px;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+.wrap-container li {
+  border: 1px solid gray;
+  padding: 5px;
+}
