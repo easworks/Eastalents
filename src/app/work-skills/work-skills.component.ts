@@ -8,7 +8,7 @@ import { ToasterService } from '../_services/toaster.service';
 @Component({
   selector: 'app-work-skills',
   templateUrl: './work-skills.component.html',
-  styleUrls: []
+  styleUrls: ['./work-skills.component.css']
 })
 export class WorkSkillsComponent implements OnInit {
 

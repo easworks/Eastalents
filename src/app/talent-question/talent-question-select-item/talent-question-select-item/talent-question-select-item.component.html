@@ -3,12 +3,12 @@
   *ngFor="let field of fieldArray; let i = index"
 >
   <div class="multi-select-dropdown">
-    <ul class="multiselectUlLIst p-0">
-      <li class="dropdown-select item-container">
+    <ul class="multiselectUlLIst p-0" style="flex-grow: 1">
+      <li class="dropdown-select item-container" style="padding-right: 20px">
         <label>{{ field.value }}</label>
-        <div>
+        <div style="display: flex">
           <div class="description">
-            <span> No of Years</span>
+            <span> No of Years </span>
             <select
               id="selYear"
               class="select"
@@ -39,7 +39,7 @@
             <!-- <input type="text" class="w-20" appBlockCopyPaste (keypress)="onlyNumber($event)" (ngModelChange)="onInputNoOfYear($event,field)" name="noOfYear" [(ngModel)]="field.noOfYear"> -->
           </div>
           <div class="description">
-            <span>Expertise</span>
+            <span>Expertise </span>
             <select
               id="selExpert"
               class="select"
