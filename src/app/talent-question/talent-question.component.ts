@@ -239,7 +239,7 @@ export class TalentQuestionComponent implements OnInit {
                     subgroup: key2,
                     primaryDomain:
                       this.rootTalentObject.talentProfile[key][
-                        'Primary Domain'
+                      'Primary Domain'
                       ],
                   });
                 }
@@ -258,7 +258,7 @@ export class TalentQuestionComponent implements OnInit {
                     subgroup: key2,
                     primaryDomain:
                       this.rootTalentObject.talentProfile[key][
-                        'Primary Domain'
+                      'Primary Domain'
                       ],
                   });
                 }
@@ -268,7 +268,7 @@ export class TalentQuestionComponent implements OnInit {
           this.talentOption = this.dataKeys;
         }
       },
-      (error) => {}
+      (error) => { }
     );
   }
 
@@ -946,7 +946,7 @@ export class TalentQuestionComponent implements OnInit {
       if (this.talentQuestionData[this.currentPage].startFreelancing) {
         if (
           this.talentQuestionData[this.currentPage].option[0].selected ===
-            true &&
+          true &&
           this.talentQuestionData[this.currentPage].startWorkingProfessionally
         ) {
           this.disableNextButton = false;

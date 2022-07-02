@@ -16,7 +16,7 @@
         ]
      },
      {
-        "question":{"first":"Select the needed EAS - ","second":"software experience"},
+        "question":{"first":"Select the needed EAS - ","second":"software experience for new hiring."},
         "type":"selectBox",
         "id":2,
         "option":[
@@ -24,7 +24,7 @@
         ]
      },
      {
-        "question":{"first":"What ERP -  ","second":"role is you interested in?"},
+        "question":{"first":"What ERP -  ","second":"role are you interested in?"},
         "type":"selectBox",
         "id":3,
         "selectData":"",
@@ -42,7 +42,7 @@
         ]
      },
      {
-        "question":{"first":"Which Tech Skills Should your","second":"Develper have ?"},
+        "question":{"first":"What tech skills should your","second":"Developer have ?"},
         "title":"Technology",
         "id":5,
         "type":"techquestion",
@@ -1192,7 +1192,7 @@
         ]
      },
      {
-        "question":{"first":"Briefly describe the ","second":"project you are hiring for?"},
+        "question":{"first":"What describes the ","second":"project you are hiring for?"},
         "type":"select",
         "id":6,
         "option":[
@@ -1203,7 +1203,7 @@
         ]
     }, 
     {
-        "question":{"first":"What Level of ","second":"Developer experience is you looking for?"},
+        "question":{"first":"What level of ","second":"Developer Experience?"},
         "type":"select",
         "id":7,
         "option":[
@@ -1215,15 +1215,15 @@
         ]
     }, 
     {
-        "question":{"first":" What is the estimated number of hours needed?","second":""},
+        "question":{"first":"","second":"Developer's Estimated number of hours needed?"},
         "type":"select",
         "id":8,
         "option":[
-            {"value":"10hours/week or less" ,"selected":false,"disable":false},
-            {"value":"20hours/week" ,"selected":false,"disable":false},
-            {"value":"30hours/week" ,"selected":false,"disable":false},
-            {"value":"40hours/week" ,"selected":false,"disable":false},
-            {"value":"i am not sure" ,"selected":false,"disable":false}
+            {"value":"10 hours/week or less" ,"selected":false,"disable":false},
+            {"value":"20 hours/week" ,"selected":false,"disable":false},
+            {"value":"30 hours/week" ,"selected":false,"disable":false},
+            {"value":"40 hours/week" ,"selected":false,"disable":false},
+            {"value":"I am not sure" ,"selected":false,"disable":false}
         ]
     },
     {

@@ -19,7 +19,7 @@ export class EmploerQuestionComponent implements OnInit {
     private httpService: HttpService,
     private toaster: ToasterService,
     private sessionService: SessionService
-  ) {}
+  ) { }
   currentIndex: number = 0;
   fieldArray: any = [];
   answers: any = [];
@@ -8659,17 +8659,14 @@ export class EmploerQuestionComponent implements OnInit {
   //   });
   // }
   deleteSelectedOption(field: any) {
-    this.employeeQuestionData[this.currentIndex].option.forEach(
-      (element: any) => {
-        if (element.value.toLowerCase() === field.value.toLowerCase()) {
-          element.selected = false;
-          element.disable = false;
-          this.fieldArray = this.fieldArray.filter(
-            (item: any) =>
-              item.value.toLowerCase() !== field.value.toLowerCase()
-          );
-        }
+    this.employeeQuestionData[this.currentIndex].option.forEach((element: any) => {
+      element.disable = false;
+      if (element.value.toLowerCase() === field.value.toLowerCase()) {
+        element.selected = false;
+        element.disable = false;
+        this.fieldArray = this.fieldArray.filter((item: any) => item.value.toLowerCase() !== field.value.toLowerCase())
       }
+    }
     );
     // this.enableDisableNextButton();
   }
@@ -8841,27 +8838,23 @@ export class EmploerQuestionComponent implements OnInit {
   goToMyProfile() {
     // this.router.navigate(['/employer-profile']);
     console.log(this.employeeQuestionData);
+    this.saveData();
   }
 
   saveData() {
     let employer: any = this.employeeQuestionData;
     let data: any = {
       userId: this.sessionService.getLocalStorageCredentials()._id,
-      steps: JSON.stringify(employer),
-    };
-    this.httpService
-      .post('employerProfile/createEmployerProfile', data)
-      .subscribe(
-        (response: any) => {
-          if (!response.error) {
-            this.toaster.success(`${response.message}`);
-            this.router.navigate(['/employer-profile']);
-          }
-        },
-        (error) => {
-          console.log(error);
-          this.toaster.error(`${error.message}`);
-        }
-      );
+      steps: JSON.stringify(employer)
+    }
+    this.httpService.post('employerProfile/createEmployerProfile', data).subscribe((response: any) => {
+      if (response.status) {
+        this.toaster.success(`${response.message}`);
+        this.router.navigate(['/employer-profile']);
+      }
+    }, (error) => {
+      console.log(error);
+      this.toaster.error(`${error.message}`);
+    });
   }
 }
