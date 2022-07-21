@@ -154,17 +154,12 @@
                               <div aria-labelledby="dropdownMenuButton">
                                 <ul class="wrap-container">
                                   <ng-container *ngFor="let option of data.option | datafilterTalent: filterString">
-                                    <li *ngIf="data.id === 2">
+                                    <li [ngStyle]="data.id ===2 ? {}: {'display': 'none'}">
                                       <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3" [ngStyle]="option.disable ? {'pointer-events': 'none',opacity: '0.6'}: {}" (click)="selectOption(option)">
                                         {{ option.value }}
                                       </a>
                                     </li>
-                                    <li *ngIf="
-                                        data.id === 3 &&
-                                        enterpriseApplicationGroup &&
-                                        option.group ===
-                                          enterpriseApplicationGroup
-                                      ">
+                                    <li  [ngStyle]="data.id ===3 && enterpriseApplicationGroup && option.group === enterpriseApplicationGroup ? {}: {'display': 'none'}">
                                       <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3" [ngStyle]="
                                           option.disable
                                             ? {
@@ -176,15 +171,8 @@
                                         {{ option.value }}
                                       </a>
                                     </li>
-                                    <ng-container *ngFor="
-                                        let subgroup of enterpriseApplicationSubGroup
-                                      ">
-                                      <li *ngIf="
-                                          data.id === 4 &&
-                                          option.subgroup === subgroup &&
-                                          option.primaryDomain ===
-                                            enterpriseApplicationGroup
-                                        ">
+                                    <ng-container *ngFor="let subgroup of enterpriseApplicationSubGroup">
+                                      <li  [ngStyle]="data.id === 4 && option.subgroup === subgroup && option.primaryDomain === enterpriseApplicationGroup ? {}:{'display': 'none'}">
                                         <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3" [ngStyle]="
                                             option.disable
                                               ? {
@@ -197,7 +185,7 @@
                                         </a>
                                       </li>
                                     </ng-container>
-                                    <li *ngIf="data.id === 5">
+                                    <li [ngStyle]="data.id ===5 ? {}: {'display': 'none'}">
                                       <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3" [ngStyle]="
                                           option.disable
                                             ? {
@@ -212,12 +200,7 @@
                                     <ng-container *ngFor="
                                         let subgroup of enterpriseApplicationSubGroup
                                       ">
-                                      <li *ngIf="
-                                          data.id === 6 &&
-                                          option.subgroup === subgroup &&
-                                          option.primaryDomain ===
-                                            enterpriseApplicationGroup
-                                        ">
+                                      <li [ngStyle]="data.id === 6 && option.subgroup === subgroup && option.primaryDomain === enterpriseApplicationGroup ? {} :{'display': 'none'}">
                                         <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3" [ngStyle]="
                                             option.disable
                                               ? {
