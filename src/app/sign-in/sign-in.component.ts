@@ -77,47 +77,9 @@ export class SignInComponent implements OnInit {
     });
   }
 
-  onGoogleLogin(){
-    let data={
-      "role":"talent"
-   }
-    this.httpService.post('gmail/getGmailUrl',data).subscribe((response: any) => {
-      if(response.status){
-       console.log(response);
-      }
-    });
-    // this.router.navigateByUrl('https://eas-works.herokuapp.com/api/gmail/getGmailUrl');
-  }
-
-  onLinkedInLogin(){
-    this.httpService.get('linkedin/getLinkedinUrl').subscribe((response: any) => {
-      if(response.status){
-       
-      }
-    });
-  }
 
   showGithubLogin(){
     this.githubLogin = true;
-    // let data={
-    //    "login":this.githubUserName
-    // }
-    // this.httpService.post('github/getGithubUrl',data).subscribe((response: any) => {
-    //   if(response.status){
-        
-    //   }
-    // });
-  }
-  onSubmit(form: NgForm){
-    let data={
-       "login":form.value.login,
-       "role":"talent"
-    }
-    this.httpService.post('github/getGithubUrl',data).subscribe((response: any) => {
-      if(response.status){
-        console.log(response);
-      }
-    });
   }
 
   backToGmailLogin(){

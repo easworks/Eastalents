@@ -20,6 +20,7 @@ export class SignUpComponent implements OnInit {
   firstName='';
   lastName='';
   userDataFromRoute:any;
+  githubLogin:boolean = false;
 
   constructor(private formBuilder: FormBuilder, private toaster: ToasterService,
               private httpService: HttpService, private router: Router,private route: ActivatedRoute) {
@@ -72,5 +73,14 @@ export class SignUpComponent implements OnInit {
       }
     });
   }
+
+
+  showGithubLogin(){
+    this.githubLogin = true;
+  }
+
+  backToGmailLogin(){
+    this.githubLogin = false;
+   }
 
 }
