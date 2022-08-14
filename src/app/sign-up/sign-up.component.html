@@ -1,133 +1,132 @@
-  <!----- Header ----->
-  <!-- <app-header></app-header> -->
-  <!----- Header ----->
-  <div class="common-space">
+<!----- Header ----->
+<!-- <app-header></app-header> -->
+<!----- Header ----->
+<div class="common-space">
     <div class="login-wraper">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-5 col-md-5 col-12">
-            <div class="login-box">
-              <div class="tabs-view">
-                <ul class="customer-type d-flex">
-                  <li class="customer-list">
-                    <a class="active" [routerLink]="['/signup']">Talent</a>
-                  </li>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-12">
+                    <div class="login-box">
+                        <div class="tabs-view">
+                            <ul class="customer-type d-flex">
+                                <li class="customer-list">
+                                    <a class="active" [routerLink]="['/signup']">Talent</a>
+                                </li>
 
-                  <!-- <li class="customer-list">
+                                <!-- <li class="customer-list">
                     <a [routerLink]="['/Employer-Signup']">Employer</a>
                   </li> -->
-                </ul>
+                            </ul>
 
-                <ul class="social-type">
-                  <li class="social-list">
-                    <a class="facebook-link"  (click)="showGithubLogin()"><i class='bx bxl-github'></i></a>
-                  </li>
-                  <li class="social-list">
-                    <form   #formlinkeddIn  action="https://eas-works.herokuapp.com/api/linkedin/getLinkedinUrl" method="post">
-                      <button class='linked-link' type="submit" (click)="formlinkeddIn.submit()"><i class='bx bxl-linkedin'></i></button> 
-                    </form>
-                    <!-- <a class="linked-link" href='https://eas-works.herokuapp.com/api/linkedin/getLinkedinUrl'><i class='bx bxl-linkedin'></i></a> -->
-                  </li>
-                  <li class="social-list">
-                    <form   #formgoogle  action="https://eas-works.herokuapp.com/api/gmail/getGmailUrl" method="post">
-                      <button class='google-link' type="submit" (click)="formgoogle.submit()"><i class='bx bxl-google'></i></button> 
-                    </form>
-                    <!-- <a class="google-link"  href='https://eas-works.herokuapp.com/api/gmail/getGmailUrl'><i class='bx bxl-google'></i></a> -->
-                  </li>
-                </ul>
+                            <ul class="social-type">
+                                <li class="social-list">
+                                    <a class="facebook-link" (click)="showGithubLogin()"><i class='bx bxl-github'></i></a>
+                                </li>
+                                <li class="social-list">
+                                    <form #formlinkeddIn action="https://eas-works.herokuapp.com/api/linkedin/getLinkedinUrl" method="post">
+                                        <a class='linked-link' (click)="formlinkeddIn.submit()"><i class='bx bxl-linkedin'></i></a>
+                                    </form>
+                                    <!-- <a class="linked-link" href='https://eas-works.herokuapp.com/api/linkedin/getLinkedinUrl'><i class='bx bxl-linkedin'></i></a> -->
+                                </li>
+                                <li class="social-list">
+                                    <form #formgoogle action="https://eas-works.herokuapp.com/api/gmail/getGmailUrl" method="post">
+                                        <a class='google-link' (click)="formgoogle.submit()"><i class='bx bxl-google'></i></a>
+                                    </form>
+                                    <!-- <a class="google-link"  href='https://eas-works.herokuapp.com/api/gmail/getGmailUrl'><i class='bx bxl-google'></i></a> -->
+                                </li>
+                            </ul>
 
-                <div class="job-tabs-body">
-                  <h1 class="login-te-title">Apply to Join</h1>
-                  <p class="login-te-para">The World's Top Talent Enterprise Application Network & work with world's
-                    leading Companies</p>
-                  <div class="job-firsttabs" id="firsttab">
-                    <form [formGroup]="signUpForm" novalidate *ngIf="!githubLogin">
-                      <div class="row">
-                        <div class="col-lg-6 col-md-6 col-12">
-                          <div class="login-form-group">
-                            <label class="label-text">First Name</label>
-                            <div class="login-form-input">
-                              <input type="text" placeholder="First Name" class="inputview" formControlName="firstName" />
-                              <span class="error-message" *ngIf="submitted && signUpFormControl.firstName.errors">Please enter your first name</span>
-                              <i class='bx bxs-user i-icons'></i>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-12">
-                          <div class="login-form-group">
-                            <label class="label-text">Last Name</label>
-                            <div class="login-form-input">
-                              <input type="text" placeholder="Last Name" class="inputview" formControlName="lastName" />
-                              <span class="error-message" *ngIf="submitted && signUpFormControl.lastName.errors">Please enter your last name</span>
-                              <i class='bx bxs-user i-icons'></i>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                          <div class="login-form-group">
-                            <label class="label-text">Email Id</label>
-                            <div class="login-form-input">
-                              <input type="text" placeholder="Email Address" class="inputview" formControlName="email" />
-                              <div *ngIf="submitted && signUpFormControl.email.errors">
-                                  <span class="error-message" *ngIf="signUpFormControl.email.errors.required">Email is required</span>
-                                  <span class="error-message" *ngIf="signUpFormControl.email.errors.pattern">Please enter the valid email address</span>
-                              </div>
-                              <i class='icofont-email i-icons'></i>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                          <div class="login-form-group">
-                            <label class="label-text">Password</label>
-                            <div class="login-form-input">
-                              <input type="password" placeholder="Password" class="inputview" formControlName="password" />
-                              <div *ngIf="submitted && signUpFormControl.password.errors">
-                                <span class="error-message" *ngIf="signUpFormControl.password.errors.required">Please enter the password</span>
-                                <span class="error-message" *ngIf="signUpFormControl.password.errors.pattern">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character:</span>
-                              </div>
-                              <i class='bx bxs-lock-alt i-icons'></i>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                          <div class="login-form-group">
-                            <label class="label-text">Confirm Password</label>
-                            <div class="login-form-input">
-                              <input type="password" placeholder="Confirm Password" class="inputview" formControlName="confirmPassword" />
-                              <div *ngIf="submitted && signUpFormControl.confirmPassword.errors">
-                                <span class="error-message" *ngIf="signUpFormControl.confirmPassword.errors.required">Please enter the confirm password</span>
-                                <span class="error-message" *ngIf="signUpFormControl.confirmPassword.errors.mustMatch">Password must match</span>
-                                <!-- <span class="error-message" *ngIf="signUpFormControl.confirmPassword.errors.pattern">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character:</span> -->
-                              </div>
-                              <i class='bx bxs-lock-alt i-icons'></i>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                          <div class="login-form-group">
-                            <div class="checkbox-group">
-                              <input type="checkbox" id="terms-condition" formControlName='acceptTerms' />
-                              <label for="terms-condition">You acknowledge that the EASWORKS screening process is
+                            <div class="job-tabs-body">
+                                <h1 class="login-te-title">Apply to Join</h1>
+                                <p class="login-te-para">The World's Top Talent Enterprise Application Network & work with world's leading Companies</p>
+                                <div class="job-firsttabs" id="firsttab">
+                                    <form [formGroup]="signUpForm" novalidate *ngIf="!githubLogin">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-12">
+                                                <div class="login-form-group">
+                                                    <label class="label-text">First Name</label>
+                                                    <div class="login-form-input">
+                                                        <input type="text" placeholder="First Name" class="inputview" formControlName="firstName" />
+                                                        <span class="error-message" *ngIf="submitted && signUpFormControl.firstName.errors">Please enter your first name</span>
+                                                        <i class='bx bxs-user i-icons'></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-12">
+                                                <div class="login-form-group">
+                                                    <label class="label-text">Last Name</label>
+                                                    <div class="login-form-input">
+                                                        <input type="text" placeholder="Last Name" class="inputview" formControlName="lastName" />
+                                                        <span class="error-message" *ngIf="submitted && signUpFormControl.lastName.errors">Please enter your last name</span>
+                                                        <i class='bx bxs-user i-icons'></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-12">
+                                                <div class="login-form-group">
+                                                    <label class="label-text">Email Id</label>
+                                                    <div class="login-form-input">
+                                                        <input type="text" placeholder="Email Address" class="inputview" formControlName="email" />
+                                                        <div *ngIf="submitted && signUpFormControl.email.errors">
+                                                            <span class="error-message" *ngIf="signUpFormControl.email.errors.required">Email is required</span>
+                                                            <span class="error-message" *ngIf="signUpFormControl.email.errors.pattern">Please enter the valid email address</span>
+                                                        </div>
+                                                        <i class='icofont-email i-icons'></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-12">
+                                                <div class="login-form-group">
+                                                    <label class="label-text">Password</label>
+                                                    <div class="login-form-input">
+                                                        <input type="password" placeholder="Password" class="inputview" formControlName="password" />
+                                                        <div *ngIf="submitted && signUpFormControl.password.errors">
+                                                            <span class="error-message" *ngIf="signUpFormControl.password.errors.required">Please enter the password</span>
+                                                            <span class="error-message" *ngIf="signUpFormControl.password.errors.pattern">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character:</span>
+                                                        </div>
+                                                        <i class='bx bxs-lock-alt i-icons'></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-12">
+                                                <div class="login-form-group">
+                                                    <label class="label-text">Confirm Password</label>
+                                                    <div class="login-form-input">
+                                                        <input type="password" placeholder="Confirm Password" class="inputview" formControlName="confirmPassword" />
+                                                        <div *ngIf="submitted && signUpFormControl.confirmPassword.errors">
+                                                            <span class="error-message" *ngIf="signUpFormControl.confirmPassword.errors.required">Please enter the confirm password</span>
+                                                            <span class="error-message" *ngIf="signUpFormControl.confirmPassword.errors.mustMatch">Password must match</span>
+                                                            <!-- <span class="error-message" *ngIf="signUpFormControl.confirmPassword.errors.pattern">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character:</span> -->
+                                                        </div>
+                                                        <i class='bx bxs-lock-alt i-icons'></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-12">
+                                                <div class="login-form-group">
+                                                    <div class="checkbox-group">
+                                                        <input type="checkbox" id="terms-condition" formControlName='acceptTerms' />
+                                                        <label for="terms-condition">You acknowledge that the EASWORKS screening process is
                                 confidential
                                 and that you will not
                                 publicly disclose: details about this process. By submitting you acknowledge that you
                                 ilave read an agreed to our<a href="javascript:void(0)">Terms of Use</a> and <a
                                   href="javascript:void(0)">Privacy Policy</a> and <a href="javascript:void(0)">Cookie
                                   Policy</a></label>
-                            </div>
-                            <div *ngIf="submitted && signUpFormControl.acceptTerms.errors" class="error-message">Accept Terms is required</div>
-                          </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                          <div class="login-form-group">
-                            <button type="button" class="loginbtn" (click)="getStarted()">Get Started</button>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
+                                                    </div>
+                                                    <div *ngIf="submitted && signUpFormControl.acceptTerms.errors" class="error-message">Accept Terms is required</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-12">
+                                                <div class="login-form-group">
+                                                    <button type="button" class="loginbtn" (click)="getStarted()">Get Started</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
 
-                    <form   #form *ngIf="githubLogin"  action="https://eas-works.herokuapp.com/api/github/getGithubUrl" method="post">
-                      <!-- <div class="row">
+                                    <form #form *ngIf="githubLogin" action="https://eas-works.herokuapp.com/api/github/getGithubUrl" method="post">
+                                        <!-- <div class="row">
                         <div class="col-lg-12 col-md-12 col-12">
                           <div class="login-form-group">
                             <label class="label-text">Username</label>
@@ -147,35 +146,35 @@
                           </div>
                         </div>
                       </div> -->
-                      <input type="text" placeholder="Enter Your github username" class="inputview" name="login" id="login" ngModel/>
-                      <button type="submit" (click)="form.submit()">Github</button> 
-                       <button (click)="backToGmailLogin()" >Back To Gmail Login</button>
-                    </form>
-                  </div>
+                                        <input type="text" placeholder="Enter Your github username" class="inputview" name="login" id="login" ngModel/>
+                                        <button type="submit" (click)="form.submit()">Github</button>
+                                        <button (click)="backToGmailLogin()">Back To Gmail Login</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="col-lg-7 col-md-7 col-12">
-            <div class="signin-content">
-              <h1>Why Freelancers love EASWORKS</h1>
-              <ul class="twowaysstreet-type mt-3 p-0 mb-0">
-                <li><i class="icofont-tick-mark"></i>Look for the Enterprise Application roles that match what you love to do, where you want to do it.</li>
-                <li><i class="icofont-tick-mark"></i>Expand your network of clients by connecting with industry-leading companies in our network.</li>
-                <li><i class="icofont-tick-mark"></i>A salary that reflects your Enterprise Application expertise and your skill</li>
-                <li><i class="icofont-tick-mark"></i>Rewarding, long-term roles where you can hone your skills and grow your career.</li>
-                <li><i class="icofont-tick-mark"></i>Our anonymous job applications allow clients to focus solely on skills and qualifications.</li>
-                <li><i class="icofont-tick-mark"></i>It’s free!</li>
-              </ul>
-              <h1>We Bring Enterprise Application Job Offers to You</h1>
-              <div class="signup-talent-img">
-                <!-- <img src="assets/img/Talent_Login_image.jpg" /> -->
-                <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_l0l7b2uy.json" background="transparent"  speed="1"  style="width: 100%; height: 100%;" loop autoplay></lottie-player>
-              </div>
+                <div class="col-lg-7 col-md-7 col-12">
+                    <div class="signin-content">
+                        <h1>Why Freelancers love EASWORKS</h1>
+                        <ul class="twowaysstreet-type mt-3 p-0 mb-0">
+                            <li><i class="icofont-tick-mark"></i>Look for the Enterprise Application roles that match what you love to do, where you want to do it.</li>
+                            <li><i class="icofont-tick-mark"></i>Expand your network of clients by connecting with industry-leading companies in our network.</li>
+                            <li><i class="icofont-tick-mark"></i>A salary that reflects your Enterprise Application expertise and your skill</li>
+                            <li><i class="icofont-tick-mark"></i>Rewarding, long-term roles where you can hone your skills and grow your career.</li>
+                            <li><i class="icofont-tick-mark"></i>Our anonymous job applications allow clients to focus solely on skills and qualifications.</li>
+                            <li><i class="icofont-tick-mark"></i>It’s free!</li>
+                        </ul>
+                        <h1>We Bring Enterprise Application Job Offers to You</h1>
+                        <div class="signup-talent-img">
+                            <!-- <img src="assets/img/Talent_Login_image.jpg" /> -->
+                            <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_l0l7b2uy.json" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>

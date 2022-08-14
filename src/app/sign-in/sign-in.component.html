@@ -1,82 +1,82 @@
-  <!----- Header ----->
-  <!-- <app-header></app-header> -->
-  <!----- Header ----->
-  <div class="common-space">
+<!----- Header ----->
+<!-- <app-header></app-header> -->
+<!----- Header ----->
+<div class="common-space">
     <div class="login-wraper">
-      <div class="login-box p-3">
-        <h1 class="text-center">Sign In</h1>
-        <ul class="social-type">
-          <li class="social-list">
-            <a class="facebook-link"  (click)="showGithubLogin()"><i class='bx bxl-github'></i></a>
-          </li>
-          <li class="social-list">
-            <form   #formlinkeddIn  action="https://eas-works.herokuapp.com/api/linkedin/getLinkedinUrl" method="post">
-              <button class='linked-link' type="submit" (click)="formlinkeddIn.submit()"><i class='bx bxl-linkedin'></i></button> 
-            </form>
-            <!-- <a class="linked-link" href='https://eas-works.herokuapp.com/api/linkedin/getLinkedinUrl'><i class='bx bxl-linkedin'></i></a> -->
-          </li>
-          <li class="social-list">
-            <form   #formgoogle  action="https://eas-works.herokuapp.com/api/gmail/getGmailUrl" method="post">
-              <button class='google-link' type="submit" (click)="formgoogle.submit()"><i class='bx bxl-google'></i></button> 
-            </form>
-            <!-- <a class="google-link"  href='https://eas-works.herokuapp.com/api/gmail/getGmailUrl'><i class='bx bxl-google'></i></a> -->
-          </li>
-        </ul>
-        <form [formGroup]="signInForm" novalidate *ngIf="!githubLogin">
-          <div class="row">
-            <div class="col-lg-12 col-md-12 col-12">
-              <div class="login-form-group">
-                <label class="label-text">Email</label>
-                <div class="login-form-input">
-                  <input type="text" placeholder="Enter Your Email id" class="inputview" formControlName="email" />
-                  <div *ngIf="submitted && signInFormControl.email.errors">
-                    <span class="error-message" *ngIf="signInFormControl.email.errors.required">Please enter the email</span>
-                    <span class="error-message" *ngIf="signInFormControl.email.errors.pattern">Please enter the valid email address</span>
-                  </div>
-                  <!-- <span class="error-message d-none">Please enter your work email ID</span> -->
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-12 col-md-12 col-12">
-              <div class="login-form-group">
-                <label class="label-text">Password</label>
-                <div class="login-form-input">
-                  <input type="password" placeholder="Enter Your Password" class="inputview" formControlName="password" />
-                  <div *ngIf="submitted && signInFormControl.password.errors">
-                    <span class="error-message" *ngIf="signInFormControl.password.errors.required">Please enter the password</span>
-                    <span class="error-message" *ngIf="signInFormControl.password.errors.pattern">Please enter the valid password</span>
-                  </div>
-                  <!-- <span class="error-message  d-none">Please enter your Password</span> -->
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-12 col-md-12 col-12">
-              <div class="login-form-group">
-                <div class="checkbox-group">
-                  <input type="checkbox" id="terms-condition" formControlName='acceptTerms' />
-                  <label for="terms-condition">Read our <a href="javascript:void(0)">Terms of Use</a> and <a
+        <div class="login-box p-3">
+            <h1 class="text-center">Sign In</h1>
+            <ul class="social-type">
+                <li class="social-list">
+                    <a class="facebook-link" (click)="showGithubLogin()"><i class='bx bxl-github'></i></a>
+                </li>
+                <li class="social-list">
+                    <form #formlinkeddIn action="https://eas-works.herokuapp.com/api/linkedin/getLinkedinUrl" method="post">
+                        <a class='linked-link' (click)="formlinkeddIn.submit()"><i class='bx bxl-linkedin'></i></a>
+                    </form>
+                    <!-- <a class="linked-link" href='https://eas-works.herokuapp.com/api/linkedin/getLinkedinUrl'><i class='bx bxl-linkedin'></i></a> -->
+                </li>
+                <li class="social-list">
+                    <form #formgoogle action="https://eas-works.herokuapp.com/api/gmail/getGmailUrl" method="post">
+                        <a class='google-link' (click)="formgoogle.submit()"><i class='bx bxl-google'></i></a>
+                    </form>
+                    <!-- <a class="google-link"  href='https://eas-works.herokuapp.com/api/gmail/getGmailUrl'><i class='bx bxl-google'></i></a> -->
+                </li>
+            </ul>
+            <form [formGroup]="signInForm" novalidate *ngIf="!githubLogin">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="login-form-group">
+                            <label class="label-text">Email</label>
+                            <div class="login-form-input">
+                                <input type="text" placeholder="Enter Your Email id" class="inputview" formControlName="email" />
+                                <div *ngIf="submitted && signInFormControl.email.errors">
+                                    <span class="error-message" *ngIf="signInFormControl.email.errors.required">Please enter the email</span>
+                                    <span class="error-message" *ngIf="signInFormControl.email.errors.pattern">Please enter the valid email address</span>
+                                </div>
+                                <!-- <span class="error-message d-none">Please enter your work email ID</span> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="login-form-group">
+                            <label class="label-text">Password</label>
+                            <div class="login-form-input">
+                                <input type="password" placeholder="Enter Your Password" class="inputview" formControlName="password" />
+                                <div *ngIf="submitted && signInFormControl.password.errors">
+                                    <span class="error-message" *ngIf="signInFormControl.password.errors.required">Please enter the password</span>
+                                    <span class="error-message" *ngIf="signInFormControl.password.errors.pattern">Please enter the valid password</span>
+                                </div>
+                                <!-- <span class="error-message  d-none">Please enter your Password</span> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="login-form-group">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="terms-condition" formControlName='acceptTerms' />
+                                <label for="terms-condition">Read our <a href="javascript:void(0)">Terms of Use</a> and <a
                       href="javascript:void(0)">Privacy Policy</a></label>
+                            </div>
+                            <div *ngIf="submitted && signInFormControl.acceptTerms.errors" class="error-message">Please select the terms of use.</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="login-form-group">
+                            <button type="button" class="loginbtn" (click)="onLogin()">Sign In</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <a [routerLink]="['/reset-password']" routerLinkActive="router-link-active" class="resetpwdlink">Reset Your Password</a>
+                        <p class="text-center">
+                            <span>Don't have an account?</span>
+                            <a [routerLink]="['/signup']">Sign up</a>
+                        </p>
+                    </div>
                 </div>
-                <div *ngIf="submitted && signInFormControl.acceptTerms.errors" class="error-message">Please select the terms of use.</div>
-              </div>
-            </div>
-            <div class="col-lg-12 col-md-12 col-12">
-              <div class="login-form-group">
-                <button type="button" class="loginbtn" (click)="onLogin()">Sign In</button>
-              </div>
-            </div>
-            <div class="col-lg-12 col-md-12 col-12">
-              <a [routerLink]="['/reset-password']" routerLinkActive="router-link-active"  class="resetpwdlink">Reset Your Password</a>
-              <p class="text-center">
-                <span>Don't have an account?</span>
-                <a [routerLink]="['/signup']">Sign up</a>
-              </p>
-            </div>
-          </div>
-        </form>
+            </form>
 
-        <form   #form *ngIf="githubLogin"  action="https://eas-works.herokuapp.com/api/github/getGithubUrl" method="post">
-          <!-- <div class="row">
+            <form #form *ngIf="githubLogin" action="https://eas-works.herokuapp.com/api/github/getGithubUrl" method="post">
+                <!-- <div class="row">
             <div class="col-lg-12 col-md-12 col-12">
               <div class="login-form-group">
                 <label class="label-text">Username</label>
@@ -96,10 +96,10 @@
               </div>
             </div>
           </div> -->
-          <input type="text" placeholder="Enter Your github username" class="inputview" name="login" id="login" ngModel/>
-          <button type="submit" (click)="form.submit()">Github</button> 
-           <button (click)="backToGmailLogin()" >Back To Gmail Login</button>
-        </form>
-      </div>
+                <input type="text" placeholder="Enter Your github username" class="inputview" name="login" id="login" ngModel/>
+                <button type="submit" (click)="form.submit()">Github</button>
+                <button (click)="backToGmailLogin()">Back To Gmail Login</button>
+            </form>
+        </div>
     </div>
-  </div>
+</div>
