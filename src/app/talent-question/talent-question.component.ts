@@ -102,8 +102,7 @@ export class TalentQuestionComponent implements OnInit {
   ngOnInit(): void {
     // Defaults to 0 if no query param provided.
     this.idToNavigate = +this.route.snapshot.queryParams['id'] || 0;
-    this.name.firstName =
-      this.sessionService.getLocalStorageCredentials().firstName;
+    this.name.firstName = this.sessionService.getLocalStorageCredentials().firstName;
     this.getCountry();
     if (this.idToNavigate) {
       this.editMode = false;
@@ -284,6 +283,9 @@ export class TalentQuestionComponent implements OnInit {
     this.httpService.get('location/getCountries').subscribe((response: any) => {
       if (response.status) {
         this.countries = response.countries;
+        if (!this.idToNavigate) {
+          this.getCurrentCountryStateCity();
+        }
       }
     });
   }
@@ -294,17 +296,7 @@ export class TalentQuestionComponent implements OnInit {
     this.selectedCountry = opt;
     this.getState(opt);
   }
-  getCity(countryCode: any, stateiso: any) {
-    const data = {
-      countryCode: countryCode,
-      stateCode: stateiso,
-    };
-    this.httpService.post('location/getCities', data).subscribe((res: any) => {
-      if (res.status) {
-        this.cities = res.cities;
-      }
-    });
-  }
+
   getState(countryCode: any) {
     const data = {
       countryCode: countryCode,
@@ -319,18 +311,60 @@ export class TalentQuestionComponent implements OnInit {
   }
 
   onSelectState(opt: any) {
-    this.talentQuestionData[1].state = this.allState.find(
-      (item: any) => item.iso === opt
-    );
+    this.talentQuestionData[1].state = this.allState.find((item: any) => item.iso === opt);
     this.selectedState = opt;
     this.getCity(this.talentQuestionData[1].country.code, opt);
   }
 
+  getCity(countryCode: any, stateiso: any) {
+    const data = {
+      countryCode: countryCode,
+      stateCode: stateiso,
+    };
+    this.httpService.post('location/getCities', data).subscribe((res: any) => {
+      if (res.status) {
+        this.cities = res.cities;
+      }
+    });
+  }
+
   onSelectCity(opt: any) {
-    this.talentQuestionData[1].city = this.cities.find(
-      (item: any) => item === opt
-    );
+    this.talentQuestionData[1].city = this.cities.find((item: any) => item === opt);
     this.selectedCity = opt;
+  }
+
+  getCurrentCountryStateCity(){
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude, longitude } = position.coords;
+      this.getcountryStateCityBasedOnCurrentLocation(latitude,longitude);
+      this.getTimezoneBasedonLatlong(latitude,longitude);
+      // Show a map centered at latitude / longitude.
+    });
+  }
+
+
+  getcountryStateCityBasedOnCurrentLocation(latitude:number,longitude:number){
+    this.httpService.getCountryStateCityBasedOnLocation({latitude:latitude,longitude:longitude}).subscribe((res:any)=>{
+      console.log(res);
+      const currentCountry = res.results[0].address_components[6];
+      this.selectedCountry = currentCountry.short_name;
+      this.getState(this.selectedCountry);
+      const currentState = res.results[0].address_components[5];
+      this.selectedState = currentState.short_name;
+      this.getCity(this.selectedCountry, this.selectedState);
+      const currentCity = res.results[0].address_components[4];
+      this.selectedCity = currentCity.short_name;
+      this.talentQuestionData[1].country = this.countries.find((item: any) => item.code.toLowerCase() === this.selectedCountry.toLowerCase());
+      this.talentQuestionData[12].phoneCode =this.talentQuestionData[12].phoneCode2 = this.talentQuestionData[1].country.dialcode;
+      this.talentQuestionData[1].state =this.allState && this.allState.find((item: any) => item.iso.toLowerCase() === this.selectedState.toLowerCase());
+      this.talentQuestionData[1].city =this.cities &&  this.cities.find((item: any) => item.toLowerCase() === this.selectedCity.toLowerCase());
+    });
+  }
+
+  getTimezoneBasedonLatlong(latitude:number,longitude:number){
+    this.httpService.getTimezoneBasedOnLocation({latitude:latitude,longitude:longitude}).subscribe((res:any)=>{
+      console.log(res);
+    });
   }
 
   onAddExperience() {
@@ -385,6 +419,7 @@ export class TalentQuestionComponent implements OnInit {
           }
         },
         (error) => {
+          this.pdfSpinnerbar = false;
           this.toaster.error(`${error.message}`);
         }
       );
@@ -416,6 +451,7 @@ export class TalentQuestionComponent implements OnInit {
           }
         },
         (error) => {
+          this.videoSpinnerbar = false;
           this.toaster.error(`${error.message}`);
         }
       );

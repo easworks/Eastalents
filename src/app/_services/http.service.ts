@@ -40,4 +40,11 @@ export class HttpService {
         // window.alert(errorMessage);
         return throwError(errorMessage);
     }
+    getCountryStateCityBasedOnLocation(opt:{latitude:number,longitude:number}){
+        return this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${opt.latitude},${opt.longitude}&key=${environment.keyForCurrentlOCATION}`).pipe(catchError(this.handleError));
+    }
+    getTimezoneBasedOnLocation(opt:{latitude:number,longitude:number}){
+        const timestamp = Date.now()/100;
+        return this.http.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${opt.latitude},${opt.longitude}&timestamp=${timestamp}&key=${environment.keyForCurrentlOCATION}`).pipe(catchError(this.handleError));
+    }
 }
