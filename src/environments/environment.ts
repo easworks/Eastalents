@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://eas-works.herokuapp.com/api',
-  imageUrl: 'https://eas-works.herokuapp.com/'
+  apiUrl: 'https://eas-works.onrender.com/api',
+  imageUrl: 'https://eas-works.herokuapp.com/',
 };
 
 /*
