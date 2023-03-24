@@ -102,8 +102,7 @@ export class TalentQuestionComponent implements OnInit {
   ngOnInit(): void {
     // Defaults to 0 if no query param provided.
     this.idToNavigate = +this.route.snapshot.queryParams['id'] || 0;
-    this.name.firstName =
-      this.sessionService.getLocalStorageCredentials().firstName;
+    this.name.firstName = this.sessionService.getLocalStorageCredentials().firstName;
     this.getCountry();
     if (this.idToNavigate) {
       this.editMode = false;
@@ -208,58 +207,19 @@ export class TalentQuestionComponent implements OnInit {
           let dataValues = []; //For values
           for (let key in this.rootTalentObject.talentProfile) {
             dataValues.push(this.rootTalentObject.talentProfile[key]);
-            this.dataKeys.push({
-              value: this.rootTalentObject.talentProfile[key]['Primary Domain'],
-              selected: false,
-              disable: false,
-              noOfYear: '',
-              skill: '',
-            });
+            this.dataKeys.push({value: this.rootTalentObject.talentProfile[key]['Primary Domain'],selected: false, disable: false,noOfYear: '',skill: '',});
             for (let key2 in this.rootTalentObject.talentProfile[key].Modules) {
-              this.datathree.push({
-                value: key2,
-                selected: false,
-                disable: false,
-                noOfYear: '',
-                skill: '',
-                group:
-                  this.rootTalentObject.talentProfile[key]['Primary Domain'],
-              });
-              this.rootTalentObject.talentProfile[key].Modules[key2][
-                'Job roles'
-              ].forEach((jobdata: any) => {
+              this.datathree.push({value: key2,selected: false,disable: false,noOfYear: '',skill: '', group:this.rootTalentObject.talentProfile[key]['Primary Domain']});
+              this.rootTalentObject.talentProfile[key].Modules[key2]['Job roles'].forEach((jobdata: any) => {
                 if (jobdata) {
-                  this.completeJobs.push({
-                    value: jobdata,
-                    selected: false,
-                    disable: false,
-                    noOfYear: '',
-                    skill: '',
-                    group: key,
-                    subgroup: key2,
-                    primaryDomain:
-                      this.rootTalentObject.talentProfile[key][
-                      'Primary Domain'
-                      ],
+                  this.completeJobs.push({value: jobdata,selected: false,disable: false,noOfYear: '',skill: '',group: key,subgroup: key2,primaryDomain:this.rootTalentObject.talentProfile[key]['Primary Domain'],
                   });
                 }
               });
-              this.rootTalentObject.talentProfile[key].Modules[
-                key2
-              ].Product.forEach((productdata: any) => {
+              this.rootTalentObject.talentProfile[key].Modules[key2].Product.forEach((productdata: any) => {
                 if (productdata) {
-                  this.completeProduct.push({
-                    value: productdata.name,
-                    selected: false,
-                    disable: false,
-                    noOfYear: '',
-                    skill: '',
-                    group: key,
-                    subgroup: key2,
-                    primaryDomain:
-                      this.rootTalentObject.talentProfile[key][
-                      'Primary Domain'
-                      ],
+                  this.completeProduct.push({value: productdata.name,selected: false,disable: false,noOfYear: '', skill: '', group: key,subgroup: key2,
+                    primaryDomain:this.rootTalentObject.talentProfile[key]['Primary Domain'],
                   });
                 }
               });
@@ -323,6 +283,9 @@ export class TalentQuestionComponent implements OnInit {
     this.httpService.get('location/getCountries').subscribe((response: any) => {
       if (response.status) {
         this.countries = response.countries;
+        if (!this.idToNavigate) {
+          this.getCurrentCountryStateCity();
+        }
       }
     });
   }
@@ -333,17 +296,7 @@ export class TalentQuestionComponent implements OnInit {
     this.selectedCountry = opt;
     this.getState(opt);
   }
-  getCity(countryCode: any, stateiso: any) {
-    const data = {
-      countryCode: countryCode,
-      stateCode: stateiso,
-    };
-    this.httpService.post('location/getCities', data).subscribe((res: any) => {
-      if (res.status) {
-        this.cities = res.cities;
-      }
-    });
-  }
+
   getState(countryCode: any) {
     const data = {
       countryCode: countryCode,
@@ -358,18 +311,60 @@ export class TalentQuestionComponent implements OnInit {
   }
 
   onSelectState(opt: any) {
-    this.talentQuestionData[1].state = this.allState.find(
-      (item: any) => item.iso === opt
-    );
+    this.talentQuestionData[1].state = this.allState.find((item: any) => item.iso === opt);
     this.selectedState = opt;
     this.getCity(this.talentQuestionData[1].country.code, opt);
   }
 
+  getCity(countryCode: any, stateiso: any) {
+    const data = {
+      countryCode: countryCode,
+      stateCode: stateiso,
+    };
+    this.httpService.post('location/getCities', data).subscribe((res: any) => {
+      if (res.status) {
+        this.cities = res.cities;
+      }
+    });
+  }
+
   onSelectCity(opt: any) {
-    this.talentQuestionData[1].city = this.cities.find(
-      (item: any) => item === opt
-    );
+    this.talentQuestionData[1].city = this.cities.find((item: any) => item === opt);
     this.selectedCity = opt;
+  }
+
+  getCurrentCountryStateCity(){
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude, longitude } = position.coords;
+      this.getcountryStateCityBasedOnCurrentLocation(latitude,longitude);
+      this.getTimezoneBasedonLatlong(latitude,longitude);
+      // Show a map centered at latitude / longitude.
+    });
+  }
+
+
+  getcountryStateCityBasedOnCurrentLocation(latitude:number,longitude:number){
+    this.httpService.getCountryStateCityBasedOnLocation({latitude:latitude,longitude:longitude}).subscribe((res:any)=>{
+      console.log(res);
+      const currentCountry = res.results[0].address_components[6];
+      this.selectedCountry = currentCountry.short_name;
+      this.getState(this.selectedCountry);
+      const currentState = res.results[0].address_components[5];
+      this.selectedState = currentState.short_name;
+      this.getCity(this.selectedCountry, this.selectedState);
+      const currentCity = res.results[0].address_components[4];
+      this.selectedCity = currentCity.short_name;
+      this.talentQuestionData[1].country = this.countries.find((item: any) => item.code.toLowerCase() === this.selectedCountry.toLowerCase());
+      this.talentQuestionData[12].phoneCode =this.talentQuestionData[12].phoneCode2 = this.talentQuestionData[1].country.dialcode;
+      this.talentQuestionData[1].state =this.allState && this.allState.find((item: any) => item.iso.toLowerCase() === this.selectedState.toLowerCase());
+      this.talentQuestionData[1].city =this.cities &&  this.cities.find((item: any) => item.toLowerCase() === this.selectedCity.toLowerCase());
+    });
+  }
+
+  getTimezoneBasedonLatlong(latitude:number,longitude:number){
+    this.httpService.getTimezoneBasedOnLocation({latitude:latitude,longitude:longitude}).subscribe((res:any)=>{
+      console.log(res);
+    });
   }
 
   onAddExperience() {
@@ -424,6 +419,7 @@ export class TalentQuestionComponent implements OnInit {
           }
         },
         (error) => {
+          this.pdfSpinnerbar = false;
           this.toaster.error(`${error.message}`);
         }
       );
@@ -455,6 +451,7 @@ export class TalentQuestionComponent implements OnInit {
           }
         },
         (error) => {
+          this.videoSpinnerbar = false;
           this.toaster.error(`${error.message}`);
         }
       );
@@ -554,38 +551,38 @@ export class TalentQuestionComponent implements OnInit {
     }
   }
 
-  sliceItem(event: string) {
-    this.removeItem(event);
-    if (this.currentPage == 2) {
-      this.dyanmicOption.splice(this.dyanmicOption.indexOf(event), 1);
-    }
-  }
+  // sliceItem(event: string) {
+  //   this.removeItem(event);
+  //   if (this.currentPage == 2) {
+  //     this.dyanmicOption.splice(this.dyanmicOption.indexOf(event), 1);
+  //   }
+  // }
 
-  removeItem(option: any) {
-    if (this.fieldArray.length) {
-      for (var i = 0; i < this.fieldArray.length; i = i + 1) {
-        if (this.fieldArray[i].value === option.value) {
-          this.fieldArray.splice(i, 1);
-        }
-      }
-    }
-    if (this.savePreviousData.length) {
-      for (var i = 0; i < this.savePreviousData.length; i = i + 1) {
-        if (this.savePreviousData[i].value === option.value) {
-          this.savePreviousData.splice(i, 1);
-        }
-      }
-    }
-    let savedData =
-      this.talentProfile.stepObject[this.currentPage - 1].optionObj[0];
-    if (savedData.length) {
-      for (var i = 0; i < savedData.length; i = i + 1) {
-        if (savedData[i].value === option.value) {
-          savedData.splice(i, 1);
-        }
-      }
-    }
-  }
+  // removeItem(option: any) {
+  //   if (this.fieldArray.length) {
+  //     for (var i = 0; i < this.fieldArray.length; i = i + 1) {
+  //       if (this.fieldArray[i].value === option.value) {
+  //         this.fieldArray.splice(i, 1);
+  //       }
+  //     }
+  //   }
+  //   if (this.savePreviousData.length) {
+  //     for (var i = 0; i < this.savePreviousData.length; i = i + 1) {
+  //       if (this.savePreviousData[i].value === option.value) {
+  //         this.savePreviousData.splice(i, 1);
+  //       }
+  //     }
+  //   }
+  //   let savedData =
+  //     this.talentProfile.stepObject[this.currentPage - 1].optionObj[0];
+  //   if (savedData.length) {
+  //     for (var i = 0; i < savedData.length; i = i + 1) {
+  //       if (savedData[i].value === option.value) {
+  //         savedData.splice(i, 1);
+  //       }
+  //     }
+  //   }
+  // }
 
   selectOption(opt: any, type?: any) {
     console.log(this.talentQuestionData);
@@ -596,15 +593,15 @@ export class TalentQuestionComponent implements OnInit {
       this.enterpriseApplicationGroup = opt.value;
       this.disableOtherValues(opt);
       this.getDataForFieldArray(opt);
-    } else if (
-      this.currentPage === 3 ||
-      this.currentPage === 4 ||
-      this.currentPage === 5 ||
-      this.currentPage === 6
-    ) {
-      if (this.currentPage === 3) {
-        this.enterpriseApplicationSubGroup.push(opt.value);
-      }
+
+    }
+     else if(this.currentPage === 3){
+       this.enterpriseApplicationSubGroup.push(opt.value);
+       this.getDisableForQue3(opt);
+       this.getDataForFieldArray(opt);
+
+    }
+    else if (this.currentPage === 4 || this.currentPage === 5 || this.currentPage === 6) {
       opt.selected = true;
       opt.disable = true;
       this.getDataForFieldArray(opt);
@@ -718,7 +715,7 @@ export class TalentQuestionComponent implements OnInit {
   }
 
   disableOtherValues(opt: any) {
-    if (this.currentPage === 2 || this.currentPage === 6) {
+    if (this.currentPage === 2 || this.currentPage === 6 || this.currentPage === 3) {
       this.talentQuestionData[this.currentPage].option.forEach(
         (element: any) => {
           element.disable = true;
@@ -737,9 +734,9 @@ export class TalentQuestionComponent implements OnInit {
     return count;
   }
 
-  deleteFieldValue(option: any) {
-    this.sliceItem(option);
-  }
+  // deleteFieldValue(option: any) {
+  //   this.sliceItem(option);
+  // }
 
   onInputNoOfYear(opt: any) {
     if (this.currentPage === 2) {
@@ -840,60 +837,75 @@ export class TalentQuestionComponent implements OnInit {
   }
   deleteSelectedOption(field: any) {
     if (this.currentPage === 2) {
-      this.talentQuestionData[this.currentPage].option.forEach(
-        (element: any) => {
+      this.talentQuestionData[this.currentPage].option.forEach((element: any) => {
           element.disable = false;
           if (element.value.toLowerCase() === field.value.toLowerCase()) {
             element.selected = false;
             element.noOfYear = element.skill = '';
-            this.fieldArray = this.fieldArray.filter(
-              (item: any) =>
-                item.value.toLowerCase() !== field.value.toLowerCase()
-            );
+            this.fieldArray = this.fieldArray.filter((item: any) =>item.value.toLowerCase() !== field.value.toLowerCase());
           }
         }
       );
       this.disableDependentValuesForPreviousQuestion();
-    } else if (
-      this.currentPage === 3 ||
+    }else if( this.currentPage === 3){
+      let data =['AI (All Modules)','Analytics and BI (All Modules)','Content Management (All Modules)','CRM (All Modules)','Collaboration (All Modules)',
+      'eCommerce (All Modules)','ERP Financial (All Modules)','HCM (All Modules)','IoT Platform (All Modules)',
+      'ITSM (All Modules)','IaaS (All Modules)','PPM (All Modules)','PaaS (All Modules)','SCM (All Modules)','TRM (All Modules)'];
+      let PLM =['PLM (All Modules)'];
+      const plmData =['Bill of Material (BOM) Mgt.','Product Data Management (PDM)','Product Engineering','Document Management',
+      'Change Management','Design Management','Reciepe Management','Program Planning & Project Mgt.','Requirements Management',
+      'Platform Capabilities','Technical Documentation','Reporting','Service Management','Integration & Extensibility',
+      'Manufacturing Process Planning (MPP)','Digital Twin core'
+    ]
+      this.talentQuestionData[this.currentPage].option.forEach((element: any) => {
+       if(data.includes(field.value)){
+          element.disable = false;
+        }
+       else if(PLM.includes(field.value)){
+        const index = plmData.indexOf(element.value);
+        if(index !=-1){
+          element.disable = false;
+        }
+      }
+      else if(element.value.toLowerCase() === field.value.toLowerCase()){
+        element.disable = false;
+      }
+      if (element.value.toLowerCase() === field.value.toLowerCase()) {
+        element.selected = false;
+        element.disable = false;
+        element.noOfYear = element.skill = '';
+        this.fieldArray = this.fieldArray.filter((item: any) => item.value.toLowerCase() !== field.value.toLowerCase());
+      }  
+
+      }
+    );
+      this.disableNextQuesDependentValue();
+    }
+     else if (
       this.currentPage === 4 ||
       this.currentPage === 5 ||
       this.currentPage === 6 ||
       this.currentPage === 8 ||
       this.currentPage === 9
     ) {
-      this.talentQuestionData[this.currentPage].option.forEach(
-        (element: any) => {
+      this.talentQuestionData[this.currentPage].option.forEach((element: any) => {
           if (element.value.toLowerCase() === field.value.toLowerCase()) {
             element.selected = false;
             element.disable = false;
             if (this.currentPage != 9) {
               element.noOfYear = element.skill = '';
             }
-            this.fieldArray = this.fieldArray.filter(
-              (item: any) =>
-                item.value.toLowerCase() !== field.value.toLowerCase()
-            );
+            this.fieldArray = this.fieldArray.filter((item: any) => item.value.toLowerCase() !== field.value.toLowerCase());
             if (this.currentPage === 6) {
-              this.jobRole = this.jobRole.filter(
-                (item: any) =>
-                  item.value.toLowerCase() !== field.value.toLowerCase()
-              );
+              this.jobRole = this.jobRole.filter((item: any) => item.value.toLowerCase() !== field.value.toLowerCase());
             }
           }
 
-          if (
-            this.currentPage === 6 &&
-            this.getCountForSixQuestion() <= 3 &&
-            element.selected === false
-          ) {
+          if (this.currentPage === 6 && this.getCountForSixQuestion() <= 3 && element.selected === false) {
             element.disable = false;
           }
         }
       );
-      if (this.currentPage === 3) {
-        this.disableNextQuesDependentValue();
-      }
     }
   }
   disableDependentValuesForPreviousQuestion() {
@@ -922,6 +934,37 @@ export class TalentQuestionComponent implements OnInit {
     });
   }
 
+  getDisableForQue3(opt:any){
+    let data =['AI (All Modules)','Analytics and BI (All Modules)','Content Management (All Modules)','CRM (All Modules)','Collaboration (All Modules)',
+    'eCommerce (All Modules)','ERP Financial (All Modules)','HCM (All Modules)','IoT Platform (All Modules)',
+    'ITSM (All Modules)','IaaS (All Modules)','PPM (All Modules)','PaaS (All Modules)','SCM (All Modules)','TRM (All Modules)'];
+    let PLM =['PLM (All Modules)'];
+    const plmData =['Bill of Material (BOM) Mgt.','Product Data Management (PDM)','Product Engineering','Document Management',
+    'Change Management','Design Management','Reciepe Management','Program Planning & Project Mgt.','Requirements Management',
+    'Platform Capabilities','Technical Documentation','Reporting','Service Management','Integration & Extensibility',
+    'Manufacturing Process Planning (MPP)','Digital Twin core'
+  ]
+
+    if(data.includes(opt.value)){
+      opt.selected =true;
+      this.disableOtherValues(opt);
+    }
+    else if(PLM.includes(opt.value)){
+     opt.selected =true;
+     opt.disable =true;
+  this.talentQuestionData[this.currentPage].option.forEach((element: any) => {
+  if(plmData.includes(element.value)){
+    element.disable = true;
+  }
+    }
+  );
+    }
+    else{
+      opt.selected = true;
+      opt.disable = true;
+    }
+
+  }
   onlyNumber(evt: any) {
     evt = evt ? evt : window.event;
     var charCode = evt.which ? evt.which : evt.keyCode;

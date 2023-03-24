@@ -154,17 +154,12 @@
                               <div aria-labelledby="dropdownMenuButton">
                                 <ul class="wrap-container">
                                   <ng-container *ngFor="let option of data.option | datafilterTalent: filterString">
-                                    <li *ngIf="data.id === 2">
+                                    <li [ngStyle]="data.id ===2 ? {}: {'display': 'none'}">
                                       <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3" [ngStyle]="option.disable ? {'pointer-events': 'none',opacity: '0.6'}: {}" (click)="selectOption(option)">
                                         {{ option.value }}
                                       </a>
                                     </li>
-                                    <li *ngIf="
-                                        data.id === 3 &&
-                                        enterpriseApplicationGroup &&
-                                        option.group ===
-                                          enterpriseApplicationGroup
-                                      ">
+                                    <li  [ngStyle]="data.id ===3 && enterpriseApplicationGroup && option.group === enterpriseApplicationGroup ? {}: {'display': 'none'}">
                                       <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3" [ngStyle]="
                                           option.disable
                                             ? {
@@ -176,15 +171,8 @@
                                         {{ option.value }}
                                       </a>
                                     </li>
-                                    <ng-container *ngFor="
-                                        let subgroup of enterpriseApplicationSubGroup
-                                      ">
-                                      <li *ngIf="
-                                          data.id === 4 &&
-                                          option.subgroup === subgroup &&
-                                          option.primaryDomain ===
-                                            enterpriseApplicationGroup
-                                        ">
+                                    <ng-container *ngFor="let subgroup of enterpriseApplicationSubGroup">
+                                      <li  [ngStyle]="data.id === 4 && option.subgroup === subgroup && option.primaryDomain === enterpriseApplicationGroup ? {}:{'display': 'none'}">
                                         <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3" [ngStyle]="
                                             option.disable
                                               ? {
@@ -197,7 +185,7 @@
                                         </a>
                                       </li>
                                     </ng-container>
-                                    <li *ngIf="data.id === 5">
+                                    <li [ngStyle]="data.id ===5 ? {}: {'display': 'none'}">
                                       <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3" [ngStyle]="
                                           option.disable
                                             ? {
@@ -212,12 +200,7 @@
                                     <ng-container *ngFor="
                                         let subgroup of enterpriseApplicationSubGroup
                                       ">
-                                      <li *ngIf="
-                                          data.id === 6 &&
-                                          option.subgroup === subgroup &&
-                                          option.primaryDomain ===
-                                            enterpriseApplicationGroup
-                                        ">
+                                      <li [ngStyle]="data.id === 6 && option.subgroup === subgroup && option.primaryDomain === enterpriseApplicationGroup ? {} :{'display': 'none'}">
                                         <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3" [ngStyle]="
                                             option.disable
                                               ? {
@@ -820,7 +803,7 @@
                           <thead>
                             <tr>
                               <th>Roles</th>
-                              <th>Duration</th>
+                              <th [style.width.px]="160">Duration</th>
                               <th>Developer Skills</th>
                               <th>Client Name</th>
                               <th class="text-center">Action</th>
@@ -843,7 +826,7 @@
                               </td>
                               <td>
                                 <div class="d-flex">
-                                  <select class="com-select" name="expert{{ i }}.startDuration"
+                                  <select [ngStyle]="{'margin-right.px': 2,'min-width.px':0}" class="com-select" name="expert{{ i }}.startDuration"
                                     [(ngModel)]="expert.startDuration">
                                     <option value="2000">2000</option>
                                     <option value="2001">2001</option>
@@ -869,7 +852,7 @@
                                     <option value="2021">2021</option>
                                     <option value="2022">2022</option>
                                   </select>
-                                  <select class="com-select" name="expert{{ i }}.endDuration"
+                                  <select [ngStyle]="{'min-width.px':0}" class="com-select" name="expert{{ i }}.endDuration"
                                     [(ngModel)]="expert.endDuration">
                                     <option value="2000">2000</option>
                                     <option value="2001">2001</option>
@@ -935,7 +918,7 @@
                             <tr>
                               <th>Degree</th>
                               <th>Specialization</th>
-                              <th>Duration</th>
+                              <th [style.width.px]="160">Duration</th>
                               <th>School/ College/ University</th>
                               <th>Country/ State/ City</th>
                               <th class="text-center">Action</th>
@@ -956,7 +939,7 @@
                               </td>
                               <td>
                                 <div class="d-flex">
-                                  <select class="com-select" name="education{{ i }}.startDuration"
+                                  <select [ngStyle]="{'margin-right.px': 2,'min-width.px':0}" class="com-select" name="education{{ i }}.startDuration"
                                     [(ngModel)]="education.startDuration">
                                     <option value="2000">2000</option>
                                     <option value="2001">2001</option>
@@ -982,7 +965,7 @@
                                     <option value="2021">2021</option>
                                     <option value="2022">2022</option>
                                   </select>
-                                  <select class="com-select" name="education{{ i }}.endDuration"
+                                  <select [ngStyle]="{'min-width.px':0}" class="com-select" name="education{{ i }}.endDuration"
                                     [(ngModel)]="education.endDuration">
                                     <option value="2000">2000</option>
                                     <option value="2001">2001</option>
