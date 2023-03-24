@@ -3,15 +3,14 @@ import { CommonModule } from '@angular/common';
 import { IndexComponent } from './index.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { GaugeChartModule } from 'angular-gauge-chart';
+// import { GaugeChartModule } from 'angular-gauge-chart';
 import { ToastrModule } from 'ngx-toastr';
 
 const routes: Routes = [
   {
     path: '',
     component: IndexComponent,
-
-  }
+  },
 ];
 
 @NgModule({
@@ -19,11 +18,11 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
-    GaugeChartModule,
+    // GaugeChartModule,
     ReactiveFormsModule,
     ToastrModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class IndexModule { }
+export class IndexModule {}

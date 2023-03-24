@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   apiUrl: 'https://eas-works.onrender.com/api',
   imageUrl: 'https://eas-works.onrender.com/',
+  keyForCurrentlOCATION: '',
 };
 
 /*

@@ -3,15 +3,14 @@ import { CommonModule } from '@angular/common';
 import { VerificationComponent } from './verification.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { GaugeChartModule } from 'angular-gauge-chart';
+// import { GaugeChartModule } from 'angular-gauge-chart';
 import { ToastrModule } from 'ngx-toastr';
 
 const routes: Routes = [
   {
     path: '',
     component: VerificationComponent,
-
-  }
+  },
 ];
 
 @NgModule({
@@ -19,10 +18,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
-    GaugeChartModule,
+    // GaugeChartModule,
     ReactiveFormsModule,
     ToastrModule,
-    RouterModule.forChild(routes)
-  ]
+    RouterModule.forChild(routes),
+  ],
 })
-export class VerificationModule { }
+export class VerificationModule {}

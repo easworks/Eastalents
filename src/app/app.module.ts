@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { GaugeChartModule } from 'angular-gauge-chart';
+// import { GaugeChartModule } from 'angular-gauge-chart';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component'; 
+import { AppComponent } from './app.component';
 // import { AeRolesComponent } from './ae-roles/ae-roles.component';
 // import { EmploerJobpostingEditComponent } from './emploer-jobposting-edit/emploer-jobposting-edit.component';
 // import { EmploerJobpostingViewComponent } from './emploer-jobposting-view/emploer-jobposting-view.component';
@@ -35,7 +35,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { HttpAuthInterceptor } from './_helpers/http-auth.interceptor';
 import { FilterPipe } from './header/filter.pipe';
 // import { FavouriteSavedComponent } from './favourite-saved/favourite-saved.component';
-// import { DashboardComponent } from './dashboard/dashboard.component'; 
+// import { DashboardComponent } from './dashboard/dashboard.component';
 // import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 // import { ChangePasswordComponent } from './change-password/change-password.component';
 // import { TalentQuizQuestionComponent } from './talent-quiz-question/talent-quiz-question.component';
@@ -53,7 +53,7 @@ import { FilterPipe } from './header/filter.pipe';
 // import { BlockCopyPasteDirective } from './block-copy-paste.directive';
 // import { HelpCenterComponent } from './help-center/help-center.component';
 // import { HelpCenterViewComponent } from './help-center-view/help-center-view.component';
-// import { HelpCenterDetailsComponent } from './help-center-details/help-center-details.component'; 
+// import { HelpCenterDetailsComponent } from './help-center-details/help-center-details.component';
 
 @NgModule({
   declarations: [
@@ -115,13 +115,13 @@ import { FilterPipe } from './header/filter.pipe';
     CommonModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    GaugeChartModule,
-    ToastrModule.forRoot()
+    // GaugeChartModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpAuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppModule { }
+export class AppModule {}
