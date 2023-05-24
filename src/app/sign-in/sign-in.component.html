@@ -14,7 +14,7 @@
         <li class="social-list">
           <form
             #formlinkeddIn
-            action="{{ apiUrl }}/api/linkedin/getLinkedinUrl"
+            action="{{ apiUrl }}/linkedin/getLinkedinUrl"
             method="post"
           >
             <a class="linked-link" (click)="formlinkeddIn.submit()"
@@ -26,7 +26,7 @@
         <li class="social-list">
           <form
             #formgoogle
-            action="{{ apiUrl }}/api/gmail/getGmailUrl"
+            action="{{ apiUrl }}/gmail/getGmailUrl"
             method="post"
           >
             <a class="google-link" (click)="formgoogle.submit()"
@@ -136,7 +136,7 @@
       <form
         #form
         *ngIf="githubLogin"
-        action="{{ apiUrl }}/api/github/getGithubUrl"
+        action="{{ apiUrl }}/github/getGithubUrl"
         method="post"
       >
         <!-- <div class="row">
