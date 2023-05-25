@@ -1,0 +1,26 @@
+<div class="fw-input-selectlist">
+  <!--Input-->
+  <div
+    class="multi-select-dropdown border-0 pl-0"
+    *ngIf="fieldArray && fieldArray.length > 0"
+  >
+    <ul class="multiselectUlLIst p-0 d-flex flex-wrap flex-1">
+      <li
+        class="dropdown-select d-block mr-2"
+        *ngFor="let field of fieldArray; let i = index"
+      >
+        <label class="d-flex align-items-center">
+          {{ field.value }}
+          <button
+            type="button"
+            class="closebtn text-white"
+            (click)="deleteOption(i, field)"
+          >
+            <i class="icofont-close"></i>
+          </button>
+        </label>
+      </li>
+    </ul>
+  </div>
+  <!--Input-->
+</div>

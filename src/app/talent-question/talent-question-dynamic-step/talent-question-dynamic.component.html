@@ -3,7 +3,7 @@
   <h2 class="main-question">{{ getQuestion() }}</h2>
   <div class="form-wizard-answer">
     
-    <app-talent-question-select-item [fieldArray]="fieldArray" [isSingleControl]="false"
+    <app-talent-question-select-item [fieldArray]="fieldArray" [savePreviousData]="savePreviousData" [isSingleControl]="false"
     (deleteFieldValue)="deleteFieldValue($event)" ></app-talent-question-select-item>
 
     <ul class="form-wizard-type mt-3 d-flex flex-wrap">

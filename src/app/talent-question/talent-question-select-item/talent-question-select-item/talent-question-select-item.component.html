@@ -1,46 +1,61 @@
-<div *ngIf="!isSingleControl">
-    <div class="fw-input-selectlist" *ngFor="let field of fieldArray; let i = index">
-        <!--Input-->
-        <div class="multi-select-dropdown">
-            <ul class="multiselectUlLIst p-0">
-                <li class="dropdown-select">
-                    <label>{{field}}</label>
-                    <div class="description ml-3">
-                        <span>- No of Years</span>
-                        <input type="text" class="w-20">
-                    </div>
-                    <div class="description ml-3">
-                        <span>Expertise</span>
-                        <select id="selExpert" class="select">
-                            <option id="0" value="Fresher">Fresher</option>
-                            <option id="1" value="intermediate"> intermediate</option>
-                            <option id="2" value="Advanced">Advanced</option>
-                        </select>
-                    </div>
-                </li>
-            </ul>
+<div
+  class="fw-input-selectlist"
+  *ngFor="let field of fieldArray; let i = index"
+>
+  <div class="multi-select-dropdown">
+    <ul class="multiselectUlLIst p-0" style="flex-grow: 1">
+      <li class="dropdown-select item-container" style="padding-right: 20px">
+        <label>{{ field.value }}</label>
+        <div style="display: flex">
+          <div class="description">
+            <span> No of Years </span>
+            <select
+              id="selYear"
+              class="select"
+              (ngModelChange)="onInputNoOfYear($event, field)"
+              [(ngModel)]="field.noOfYear"
+            >
+              <option id="1" value="1">1</option>
+              <option id="2" value="2">2</option>
+              <option id="3" value="3">3</option>
+              <option id="4" value="4">4</option>
+              <option id="5" value="5">5</option>
+              <option id="6" value="6">6</option>
+              <option id="7" value="7">7</option>
+              <option id="8" value="8">8</option>
+              <option id="9" value="9">9</option>
+              <option id="10" value="10">10</option>
+              <option id="11" value="11">11</option>
+              <option id="12" value="12">12</option>
+              <option id="13" value="13">13</option>
+              <option id="14" value="14">14</option>
+              <option id="15" value="15">15</option>
+              <option id="16" value="16">16</option>
+              <option id="17" value="17">17</option>
+              <option id="18" value="18">18</option>
+              <option id="19" value="19">19</option>
+              <option id="20" value="20">20</option>
+            </select>
+            <!-- <input type="text" class="w-20" appBlockCopyPaste (keypress)="onlyNumber($event)" (ngModelChange)="onInputNoOfYear($event,field)" name="noOfYear" [(ngModel)]="field.noOfYear"> -->
+          </div>
+          <div class="description">
+            <span>Expertise </span>
+            <select
+              id="selExpert"
+              class="select"
+              (ngModelChange)="onInputSkill($event, field)"
+              [(ngModel)]="field.skill"
+            >
+              <option id="0" value="Fresher">Fresher</option>
+              <option id="1" value="intermediate">intermediate</option>
+              <option id="2" value="Advanced">Advanced</option>
+            </select>
+          </div>
         </div>
-        <button type="button" class="clearbtn" (click)="deleteOption(i,field)">
-            <i class="icofont-close"></i>
-        </button>
-        <!--Input-->
-    </div>
-</div>
-
-<div *ngIf="isSingleControl">
-    <div class="fw-input-selectlist">
-        <!--Input-->
-        <div class="multi-select-dropdown border-0 pl-0" *ngIf="fieldArray && fieldArray.length > 0">
-            <ul class="multiselectUlLIst p-0 d-flex flex-wrap">
-                <li class="dropdown-select d-block mr-2" *ngFor="let field of fieldArray; let i = index">
-                    <label class="d-flex align-items-center">
-                        {{field}}
-                        <button type="button" class="closebtn text-white" (click)="deleteOption(i,field)"><i
-                                class="icofont-close"></i></button>
-                    </label>
-                </li>
-            </ul>
-        </div>
-        <!--Input-->
-    </div>
+      </li>
+    </ul>
+  </div>
+  <button type="button" class="clearbtn" (click)="deleteOption(i, field)">
+    <i class="icofont-close"></i>
+  </button>
 </div>

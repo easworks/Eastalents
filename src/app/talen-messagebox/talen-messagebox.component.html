@@ -1,0 +1,383 @@
+<!----- Header ----->
+<header id="header" class="fixed-top">
+    <div class="container-fluid d-flex align-items-center">
+        <h1 class="logo mr-auto">
+            <a class="black-logo" [routerLink]="['/index']">
+                <img src="assets/img/white-logo.png" />
+            </a>
+            <a class="white-logo" [routerLink]="['/index']">
+                <img src="assets/img/black-logo.png" />
+            </a>
+        </h1>
+        <nav class="nav-menu profile-creat-nav d-none d-lg-block">
+            <ul>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="workstyle.html">WorkStyle</a></li>
+                <li><a class="" href="yourjobs.html">Your Jobs</a></li>
+                <li><a href="interviewsList.html">Interviews</a></li>
+                <li class="emailNotify">
+                    <a [routerLink]="['/talent-message']">
+                        <i class='bx bxs-envelope' ></i>
+                        <span class="notification-count">2</span>
+                    </a>
+                </li>
+                <li class="emailNotify">
+                    <a [routerLink]="['/notifications']">
+                        <i class='bx bxs-bell'></i>
+                        <span class="notification-count">2</span>
+                    </a>
+                </li>
+                <li class="emailNotify">
+                    <a [routerLink]="['/saved-favourite']">
+                        <i class='bx bxs-heart' ></i>
+                    </a>
+                </li>
+                <li class="user-details dropdown">
+                    <a class="user-icon dropdown-toggle" href="javascript:void(0)" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class='bx bxs-user-circle'></i>
+                    </a>
+                    <div class="user-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="javascript:void(0)"><i class='bx bxs-cog'></i>Settings</a>
+                        <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-help-circle'></i>Help</a>
+                        <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-log-in'></i>Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="common-space">
+    <div class="message-wrapper">
+        <div class="message-sidebar">
+            <div class="m-sidebar-head">
+                <div class="m-searchbox">
+                    <input type="text" placeholder="Search" />
+                    <i class='bx bx-search'></i>
+                </div>
+                <div class="m-toogle-group">
+                    <button type="button" class="tooglebtn"><i class='bx bx-dots-horizontal-rounded'></i></button>
+                </div>
+            </div>
+            <div class="m-userlist">
+                <ul class="m-uset-Type">
+                    <li class="m-user-list active">
+                        <div class="m-user-card">
+                            <div class="m-userIcon">
+                                <span class="m-user-icon">NK</span>
+                                <span class="status green"></span>
+                            </div>
+                            <div class="m-user-details">
+                                <div class="m-user-name">
+                                    <h4 class="textelipse">Nandha Kumar</h4>
+                                    <span class="m-user-timer">01:30 pm</span>
+                                </div>
+                                <p class="textelipse">Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    industry.</p>
+                                <span class="sendmsg-indicate textelipse">You: Lorem Ipsum is simply dummy text</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="m-user-list">
+                        <div class="m-user-card">
+                            <div class="m-userIcon">
+                                <span class="m-user-icon">NK</span>
+                                <span class="status green"></span>
+                            </div>
+                            <div class="m-user-details">
+                                <div class="m-user-name">
+                                    <h4 class="textelipse">Nandha Kumar</h4>
+                                    <span class="m-user-timer">01:30 pm</span>
+                                </div>
+                                <p class="textelipse">Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    industry.</p>
+                                <span class="sendmsg-indicate textelipse">You: Lorem Ipsum is simply dummy text</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="m-user-list">
+                        <div class="m-user-card">
+                            <div class="m-userIcon">
+                                <span class="m-user-icon">SM</span>
+                                <span class="status green"></span>
+                            </div>
+                            <div class="m-user-details">
+                                <div class="m-user-name">
+                                    <h4 class="textelipse">Sameer</h4>
+                                    <span class="m-user-timer">01:30 pm</span>
+                                </div>
+                                <p class="textelipse">Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    industry.</p>
+                                <span class="sendmsg-indicate textelipse">You: Lorem Ipsum is simply dummy text</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="m-user-list">
+                        <div class="m-user-card">
+                            <div class="m-userIcon">
+                                <span class="m-user-icon">HM</span>
+                                <span class="status green"></span>
+                            </div>
+                            <div class="m-user-details">
+                                <div class="m-user-name">
+                                    <h4 class="textelipse">Hameer</h4>
+                                    <span class="m-user-timer">01:30 pm</span>
+                                </div>
+                                <p class="textelipse">Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    industry.</p>
+                                <span class="sendmsg-indicate textelipse">You: Lorem Ipsum is simply dummy text</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="m-user-list">
+                        <div class="m-user-card">
+                            <div class="m-userIcon">
+                                <span class="m-user-icon">DK</span>
+                                <span class="status green"></span>
+                            </div>
+                            <div class="m-user-details">
+                                <div class="m-user-name">
+                                    <h4 class="textelipse">Dhivakar</h4>
+                                    <span class="m-user-timer">01:30 pm</span>
+                                </div>
+                                <p class="textelipse">Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    industry.</p>
+                                <span class="sendmsg-indicate textelipse">You: Lorem Ipsum is simply dummy text</span>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="message-content">
+            <div class="m-userdetail-head">
+                <div class="m-ud-lft">
+                    <div class="m-userIcon">
+                        <span class="m-user-icon">NK</span>
+                        <span class="status green"></span>
+                    </div>
+                    <div class="m-ud-details m-user-details">
+                        <div class="m-user-name">
+                            <h4 class="textelipse">Nandha Kumar</h4>
+                        </div>
+                        <p class="textelipse">Lorem Ipsum is simply dummy text of the printing and typesetting
+                            industry.</p>
+                    </div>
+                </div>
+                <div class="m-ud-rht">
+                    <div class="userSetting m-toogle-group">
+                        <button type="button" class="tooglebtn" id="usersetting"><i class='bx bx-dots-horizontal-rounded'></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="m-user-subhead">
+                <div class="m-user-bttn">
+                    <a href="javascript:void(0)"><i class='bx bx-calendar-event'></i>Schedule a Meeting</a>
+                    <a [routerLink]="['/view-contract-employer-talent']"><i class='bx bxs-contact'></i>View Contract</a>
+                </div>
+            </div>
+
+            <div class="message-content-body">
+                <ul class="chat-Type">
+                    <li>
+                        <div class="currentday">
+                            <span>Today</span>
+                        </div>
+                        <div class="chatcard">
+                            <div class="m-userIcon">
+                                <span class="m-user-icon">NK</span>
+                                <span class="status green"></span>
+                            </div>
+                            <div class="chat-card-cont">
+                                <div class="m-user-name">
+                                    <h4 class="textelipse">Nandha Kumar</h4>
+                                    <span class="m-user-timer">01:30 pm</span>
+                                </div>
+                                <p class="">Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    industry.Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    industry.Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    industry.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="chatcard">
+                            <div class="m-userIcon">
+                                <span class="m-user-icon">NK</span>
+                                <span class="status green"></span>
+                            </div>
+                            <div class="chat-card-cont">
+                                <div class="m-user-name">
+                                    <h4 class="textelipse">Nandha Kumar</h4>
+                                    <span class="m-user-timer">01:30 pm</span>
+                                </div>
+                                <p class="">Lorem Ipsum is simply dummy text</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="chatRight">
+                        <div class="chatcard">
+                            <div class="m-userIcon">
+                                <span class="m-user-icon">NK</span>
+                                <span class="status green"></span>
+                            </div>
+                            <div class="chat-card-cont">
+                                <div class="m-user-name">
+                                    <h4 class="textelipse">Nandha Kumar</h4>
+                                    <span class="m-user-timer">01:30 pm</span>
+                                </div>
+                                <p class="">Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    industry.Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    industry.Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    industry.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="chatRight">
+                        <div class="chatcard">
+                            <div class="m-userIcon">
+                                <span class="m-user-icon">NK</span>
+                                <span class="status green"></span>
+                            </div>
+                            <div class="chat-card-cont">
+                                <div class="m-user-name">
+                                    <h4 class="textelipse">Nandha Kumar</h4>
+                                    <span class="m-user-timer">01:30 pm</span>
+                                </div>
+                                <p class="">Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    industry.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="chatcard">
+                            <div class="m-userIcon">
+                                <span class="m-user-icon">NK</span>
+                                <span class="status green"></span>
+                            </div>
+                            <div class="chat-card-cont">
+                                <div class="m-user-name">
+                                    <h4 class="textelipse">Nandha Kumar</h4>
+                                    <span class="m-user-timer">01:30 pm</span>
+                                </div>
+                                <p class="">Lorem Ipsum is simply dummy text</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="m-message-footer">
+                <div class="message-input">
+                    <input type="text" placeholder="Type a message" />
+                    <div class="attach-btn uploadfile m-toogle-group">
+                        <input type="file" id="file" />
+                        <label for="file"><i class="fa fa-paperclip" aria-hidden="true"></i></label>
+                    </div>
+                    <div class="attach-btn m-toogle-group">
+                        <button type="button" class="tooglebtn"><i class="fa fa-smile-o"
+                                aria-hidden="true"></i></button>
+                    </div>
+                    <button type="button" class="sendbtn">Send <i class='bx bxs-send'></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="message-profile">
+            <div class="m-profile-box">
+                <h1>About Freelancer</h1>
+                <div class="m-profile-icon">
+                    <div class="mprofileImg"><img src="../../assets/img/profile.jpg" alt="profile" /></div>
+                    <div class="mprofiledetails">
+                        <h4>Nandha Kumar</h4>
+                        <div class="rating">
+                            <ul class="rating-type">
+                                <li>
+                                    <a href="javascript:void(0)"><i class='bx bxs-star'></i></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><i class='bx bxs-star'></i></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><i class='bx bxs-star-half'></i></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><i class='bx bx-star'></i></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><i class='bx bx-star'></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-profile-detail">
+                    <div class="row w-100">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="m-prof-formgroup">
+                                <label>Last Seen</label>
+                                <div class="m-prof-input">
+                                    <span>Apr 4, 2022 9:10 PM</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="m-prof-formgroup">
+                                <label>Account</label>
+                                <div class="m-prof-input">
+                                    <span>Individual</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="m-prof-formgroup">
+                                <label>Location</label>
+                                <div class="m-prof-input">
+                                    <span>India</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="m-prof-formgroup">
+                                <label>Local Time</label>
+                                <div class="m-prof-input">
+                                    <span>10:09:10 PM</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sharedFiles">
+                <div class="sharefile-head">
+                    <h4>Files Shared</h4>
+                    <span>08</span>
+                </div>
+                <div class="sharefile-list">
+                    <ul class="sharefile-type">
+                        <li>
+                            <label>02 April, 2022</label>
+                            <div class="downloadfile">
+                                <i class='bx bxs-download'></i><span>File Name.jpg</span>
+                            </div>
+                        </li>
+                        <li>
+                            <label>02 April, 2022</label>
+                            <div class="downloadfile">
+                                <i class='bx bxs-download'></i><span>File Name.jpg</span>
+                            </div>
+                        </li>
+                        <li>
+                            <label>02 April, 2022</label>
+                            <div class="downloadfile">
+                                <i class='bx bxs-download'></i><span>File Name.jpg</span>
+                            </div>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

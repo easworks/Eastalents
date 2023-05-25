@@ -1,4 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { HttpService } from '../_services/http.service';
+import { SessionService } from '../_services/session.service';
 
 @Component({
   selector: 'app-score-analysis',
@@ -6,11 +10,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./score-analysis.component.css']
 })
 export class ScoreAnalysisComponent implements OnInit {
-  public canvasWidth = 300;
+  public canvasWidth = 220;
   public needleValue = 65;
   public centralLabel = '';
   public name = '';
-  public bottomLabel = '65 %';
+  public bottomLabel = '65%';
   public options = {
       hasNeedle: true,
       needleColor: 'black',
@@ -20,9 +24,23 @@ export class ScoreAnalysisComponent implements OnInit {
       rangeLabel: ['0', '100'],
       needleStartValue: 50,
   };
-  constructor() { }
+  countries:any;
+  constructor(private router:Router,private http: HttpClient,private httpService: HttpService,private sessionService: SessionService) { }
 
   ngOnInit(): void {
+    let data:any={
+      userId: this.sessionService.getLocalStorageCredentials()._id,
+    }
+    this.httpService.post('questions/getUserTests',data).subscribe((response: any) => {
+      if(response.status){
+        this.countries = response.countries;
+      }
+    });
   }
+
+  onFeedback(){
+    this.router.navigate(['/feedback']);
+  }
+  
 
 }

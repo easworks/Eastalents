@@ -1,0 +1,227 @@
+<!----- Header ----->
+<app-header (eventForSwitchTenant)="getSwitchTenantEvent($event)"></app-header>
+<!----- Header ----->
+
+<div *ngIf="loadContent" class="common-space">
+    <!--Why AppTalent-->
+    <section class="gethire-wraper banner-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-7 col-md-7 col-sm-7 col-12 pt-5 d-flex flex-column">
+                    <h1 data-aos="fade-up" data-aos-delay="200" class="main-title">
+                        {{useCaseDetails['title']}}
+                        <span class="spantitlecolor">{{useCaseDetails['title_sub']}}</span>
+                    </h1>
+
+                    <p class="common-para mt-4" [innerHTML]="useCaseDetails['description']"></p>
+                    <div class="d-flex mt-2">
+                        <a href="javascript:void(0)" class="btn-get-started mr-3">{{useCaseDetails['btn_text']}}</a>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-5 col-12 hero-img" data-aos="fade-up"
+                    data-aos-delay="600">
+                    <!-- <img [src]="useCaseDetails['img']" class="img-fluid animated" alt=""> -->
+                    <lottie-player *ngIf="useCaseDetails['img']" [src]="useCaseDetails['img']" background="transparent"
+                        speed="1" style="width: 100%; height: 100%;" loop autoplay>
+                    </lottie-player>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Clients section-->
+    <section id="cliens" class="cliens section-bg pt-4 pb-4">
+        <div class="container">
+            <div class="row aos-init" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+                    <img src="assets/img/clients/client-1.png" class="img-fluid clientsimg" alt="" />
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+                    <img src="assets/img/clients/client-2.png" class="img-fluid clientsimg" alt="" />
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+                    <img src="assets/img/clients/client-3.png" class="img-fluid clientsimg" alt="" />
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+                    <img src="assets/img/clients/client-4.png" class="img-fluid clientsimg" alt="" />
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+                    <img src="assets/img/clients/client-5.png" class="img-fluid clientsimg" alt="" />
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+                    <img src="assets/img/clients/client-1.png" class="img-fluid clientsimg" alt="" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Clients section End-->
+
+    <!---Building Enterprise Team in our DNA-->
+    <section class="team-dna ">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="second-title mb-4">Advantages of using <span class="spantitlecolor">EASWORKS</span></h2>
+                <p class="common-para">Our flexible engagement models allow to have access to some of Top Enterprise
+                    Tech Leaders in your
+                    enterprise domain to help and transform your business.</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-12 team-dna d-flex" data-aos="fade-up" data-aos-delay="100">
+                    <div class="ourvalue-grid beteam-dna job-border">
+                        <!-- <img src="assets/img/usecase-fmm.png" /> -->
+                        <div class="gethiredlottie">
+                            <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_749886oc.json"
+                                background="transparent" speed="1" style="width: 100%; height: 100%" loop autoplay>
+                            </lottie-player>
+                        </div>
+                        <div class="beteam-box">
+                            <h2 class="subtitle">Flexible engagement Model</h2>
+                            <p class="common-para text-center"> Talent as a Service or EAS Project, Road map and provide
+                                enterprise
+                                application
+                                Development plan</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12 team-dna d-flex" data-aos="fade-up" data-aos-delay="200">
+                    <div class="ourvalue-grid beteam-dna">
+                        <!-- <img src="assets/img/usecase-techleaders.png" /> -->
+                        <div class="gethiredlottie">
+                            <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_4ufjcjnn.json"
+                                background="transparent" speed="1" style="width: 100%; height: 100%" loop autoplay>
+                            </lottie-player>
+                        </div>
+                        <div class="beteam-box">
+                            <h2 class="subtitle">Top Enterprise Tech Leaders</h2>
+                            <p class="common-para text-center">Opportunity to work with Top Enterprise tech expertise
+                                specific to
+                                your Industry
+                                domain</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12 team-dna d-flex" data-aos="fade-up" data-aos-delay="300">
+                    <div class="ourvalue-grid beteam-dna job-border">
+                        <!-- <img src="assets/img/usecase-enterpriseroadman.png" /> -->
+                        <div class="gethiredlottie">
+                            <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_56ndigqe.json"
+                                background="transparent" speed="1" style="width: 100%; height: 100%" loop autoplay>
+                            </lottie-player>
+                        </div>
+                        <div class="beteam-box">
+                            <h2 class="subtitle">Enterprise Roadmap</h2>
+                            <p class="common-para text-center">Aligning to your enterprise</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Key Difference-->
+    <section class="how-understading-wraper section-bg">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="second-title mb-5">{{useCaseDetails['title_1']}} <span class="spantitlecolor">
+                        {{useCaseDetails['title_1_sub']}}</span></h2>
+            </div>
+
+            <div class="row section align-items-start">
+                <div class="col-lg-6 col-md-6 col-12" data-aos="fade-right" data-aos-delay="300">
+                   
+                    <lottie-player [src]="useCaseDetails['img_1']" background="transparent"
+speed="1" style="width: 100%; height: 100%" loop autoplay></lottie-player>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12" data-aos="fade-left" data-aos-delay="200">
+                    <ul class="stepContent">
+                        <li class="step-item" *ngFor="let list of useCaseDetails['steps']">
+                            <div class="stepNum">
+                                <span>{{list.step}}</span>
+                            </div>
+                            <div class="step-title">
+                                <h1 class="subtitle text-left mt-0">{{list.title}}</h1>
+                                <p class="common-para" [innerHTML]="list.desc"></p>
+                            </div>
+                        </li>
+
+                    </ul>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="apptalent-connect pt-4 pb-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 col-12 order-1 order-lg-2 hero-img text-left">
+                    <div class="apptalent-export-content talktous-content">
+                        <h1 class="text-white text-left">
+                            Come join 20+ companies that are hiring Enterprise Application
+                            software (EAS) Talents On-demand
+                        </h1>
+                        <a href="javascript:void(0)" class="applytojoin-btn whyapp-applytojoin">Hire Now</a>
+                    </div>
+                </div>
+                <div class="
+col-lg-6 col-md-6 col-12
+order-1 order-lg-2
+hero-img
+text-center
+" data-aos="fade-up" data-aos-delay="600">
+<lottie-player src="https://assets9.lottiefiles.com/packages/lf20_i4kj2vtq.json" background="transparent"
+speed="1" style="width: 100%; height: 100%" loop autoplay></lottie-player>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="twowaystreet-wraper section-bg">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="second-title mb-4">The right EAS talent for the job</h2>
+                <p class="common-para">Our Enterprise Application freelancers have years of experience rapidly
+                    {{useCaseDetails['title_2_desc']}}</p>
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-4 col-12" *ngFor="let list of useCaseDetails['profiles']">
+                        <div class="candidate_list">
+                            <div class="candidate-thumb">
+                                <img [src]="list.img" alt="logo" />
+                            </div>
+                            <div class="candidate__content">
+                                <h5>{{list.name}}</h5>
+                                <span>{{list.designation}},{{list.exp}}</span>
+                                <p>{{list.about}}</p>
+                                <div class="candidate_skills">
+                                    <ng-container *ngFor="let skill of list.skills">
+                                        <a href="javascript:void(0)">{{skill}}</a>
+                                    </ng-container>
+                                </div>
+                                <h6>{{list.footer}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<section class="apptalent-connect bgblue-connect">
+    <div class="container">
+        <div class="apptalent-export-content talktous-content text-center">
+            <h1 class="second-title mb-4 text-white">{{useCaseDetails['title_3']}}</h1>
+            <a href="javascript:void(0)"
+                class="applytojoin-btn whyapp-applytojoin text-nowrap d-inline-flex w-auto bg-white text-dark mr-auto ml-auto">{{useCaseDetails['title_3_btn']}}</a>
+        </div>
+    </div>
+</section>
+
+<!--Footer-->
+<!-- <app-footer></app-footer> -->

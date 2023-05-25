@@ -1,6 +1,6 @@
  <!----- Header ----->
  <header id="header" class="fixed-top">
-    <div class="container d-flex align-items-center">
+    <div class="container-fluid d-flex align-items-center">
       <h1 class="logo mr-auto">
         <a class="black-logo" [routerLink]="['/index']">
           <img src="assets/img/white-logo.png" />
@@ -12,19 +12,28 @@
       <nav class="nav-menu profile-creat-nav d-none d-lg-block">
         <ul>
           <li><a href="profile.html">Profile</a></li>
-          <li><a href="workskill.html">Workskill</a></li>
+          <li><a [routerLink]="['/dashboard']">Dashboard</a></li>
           <li><a href="yourjobs.html">Your Jobs</a></li>
           <li><a href="interviewsList.html">Interviews</a></li>
+          <li class="emailNotify">
+            <a [routerLink]="['/talent-message']">
+              <i class='bx bxs-envelope'></i>
+            </a>
+          </li>
+          <li class="emailNotify">
+            <a [routerLink]="['/notifications']">
+              <i class='bx bxs-bell'></i>
+            </a>
+          </li>
+          <li class="emailNotify">
+            <a href="javascript:void(0)">
+              <i class='bx bxs-heart'></i>
+            </a>
+          </li>
           <li class="user-details dropdown">
-            <a class="user-icon dropdown-toggle" href="javascript:void(0)" id="dropdownMenuButton"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="user-icon dropdown-toggle" href="javascript:void(0)">
               <i class='bx bxs-user-circle'></i>
             </a>
-            <div class="user-dropdown dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" href="javascript:void(0)"><i class='bx bxs-cog'></i>Settings</a>
-              <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-help-circle'></i>Help</a>
-              <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-log-in'></i>Logout</a>
-            </div>
           </li>
         </ul>
       </nav>
@@ -393,4 +402,4 @@
   </div>
 
 <!--Footer-->
-<app-footer></app-footer>
+<!-- <app-footer></app-footer> -->

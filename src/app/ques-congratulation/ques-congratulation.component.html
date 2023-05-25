@@ -25,11 +25,11 @@
                     <p>Were the questions easy to understand?</p>
                     <div class="raidobttn-group">
                         <div class="checkbox-group">
-                            <input type="radio" name="radio" id="feedbackyes1" />
+                            <input type="radio" value="yes" name="feedback1" [(ngModel)]="feedback1"  id='feedbackyes1'>
                             <label for="feedbackyes1">Yes</label>
                         </div>
                         <div class="checkbox-group">
-                            <input type="radio" name="radio" id="feedbackno2" />
+                            <input type="radio" value="no" name="feedback1" [(ngModel)]="feedback1"  id ='feedbackno2'>
                             <label for="feedbackno2">No</label>
                         </div>
                     </div>
@@ -39,11 +39,11 @@
                     <p>Were the questions relevant to the test</p>
                     <div class="raidobttn-group">
                         <div class="checkbox-group">
-                            <input type="radio" name="radio" id="feedbackyes3" />
+                            <input type="radio"  value="yes" name="feedback2" [(ngModel)]="feedback2" id="feedbackyes3" />
                             <label for="feedbackyes3">Yes</label>
                         </div>
                         <div class="checkbox-group">
-                            <input type="radio" name="radio" id="feedbackno4" />
+                            <input type="radio"  value="no" name="feedback2" [(ngModel)]="feedback2" id="feedbackno4" />
                             <label for="feedbackno4">No</label>
                         </div>
                     </div>
@@ -53,11 +53,11 @@
                     <p>Was the time allatted to complete the test sufficient?</p>
                     <div class="raidobttn-group">
                         <div class="checkbox-group">
-                            <input type="radio" name="radio" id="feedbackyes5" />
+                            <input type="radio" value="yes" name="feedback3" [(ngModel)]="feedback3" id="feedbackyes5" />
                             <label for="feedbackyes5">Yes</label>
                         </div>
                         <div class="checkbox-group">
-                            <input type="radio" name="radio" id="feedbackno6" />
+                            <input type="radio" value="no" name="feedback3" [(ngModel)]="feedback3" id="feedbackno6" />
                             <label for="feedbackno6">No</label>
                         </div>
                     </div>
@@ -67,11 +67,11 @@
                     <p>Were the instructions before & during the test helpful?</p>
                     <div class="raidobttn-group">
                         <div class="checkbox-group">
-                            <input type="radio" name="radio" id="feedbackyes7" />
+                            <input type="radio" value="yes" name="feedback4" [(ngModel)]="feedback4" id="feedbackyes7" />
                             <label for="feedbackyes7">Yes</label>
                         </div>
                         <div class="checkbox-group">
-                            <input type="radio" name="radio" id="feedbackno8" />
+                            <input type="radio" value="no" name="feedback4" [(ngModel)]="feedback4" id="feedbackno8" />
                             <label for="feedbackno8">No</label>
                         </div>
                     </div>
@@ -81,19 +81,19 @@
                     <p>Did the coding editor mirror your actual programming style?</p>
                     <div class="raidobttn-group">
                         <div class="checkbox-group">
-                            <input type="radio" name="radio" id="feedbackyes9" />
+                            <input type="radio" value="yes" name="feedback5" [(ngModel)]="feedback5" id="feedbackyes9" />
                             <label for="feedbackyes9">Yes</label>
                         </div>
                         <div class="checkbox-group">
-                            <input type="radio" name="radio" id="feedbackno10" />
+                            <input type="radio" value="no" name="feedback5" [(ngModel)]="feedback5" id="feedbackno10" />
                             <label for="feedbackno10">No</label>
                         </div>
                     </div>
                 </li>
             </ul>
             <p class="experienceCont text-left">Before you go, would you like to add something else?</p>
-            <textarea class="inputview textarea"></textarea>
-            <div class="text-center"><button type="button" class="btn-get-started mt-3">Submit Feedback</button></div>
+            <textarea class="inputview textarea" [(ngModel)]="str"></textarea>
+            <div class="text-center"><button type="button" class="btn-get-started mt-3" (click)="onSubmitFeedback()">Submit Feedback</button></div>
         </div>
     </div>
 </div>

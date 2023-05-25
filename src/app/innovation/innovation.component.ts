@@ -10,6 +10,6 @@ export class InnovationComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-  }
+  } 
 
 }

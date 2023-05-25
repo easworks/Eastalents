@@ -1,0 +1,427 @@
+<!----- Header ----->
+<header id="header" class="fixed-top">
+    <div class="container-fluid d-flex align-items-center">
+        <h1 class="logo mr-auto">
+            <a class="black-logo" [routerLink]="['/index']">
+                <img src="assets/img/white-logo.png" />
+            </a>
+            <a class="white-logo" [routerLink]="['/index']">
+                <img src="assets/img/black-logo.png" />
+            </a>
+        </h1>
+        <nav class="nav-menu profile-creat-nav d-none d-lg-block">
+            <ul>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a [routerLink]="['/dashboard']">Dashboard</a></li>
+                <li><a href="workstyle.html">WorkStyle</a></li>
+                <li><a class="" href="yourjobs.html">Your Jobs</a></li>
+                <li><a href="interviewsList.html">Interviews</a></li>
+                <li class="emailNotify">
+                    <a [routerLink]="['/talent-message']">
+                        <i class='bx bxs-envelope'></i>
+                        <span class="notification-count">2</span>
+                    </a>
+                </li>
+                <li class="emailNotify">
+                    <a [routerLink]="['/notifications']">
+                        <i class='bx bxs-bell'></i>
+                        <span class="notification-count">2</span>
+                    </a>
+                </li>
+                <li class="user-details dropdown">
+                    <a class="user-icon dropdown-toggle" href="javascript:void(0)" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class='bx bxs-user-circle'></i>
+                    </a>
+                    <div class="user-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="javascript:void(0)"><i class='bx bxs-cog'></i>Settings</a>
+                        <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-help-circle'></i>Help</a>
+                        <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-log-in'></i>Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="common-space">
+    <section class="dashboard-wrapper pt-3">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="eas-card">
+                        <div class="eas-card-inner">
+                            <div class="eas-card-title">
+                                <h4>My Job Details</h4>
+                            </div>
+                            <div class="eas-chart-body">
+                                <div class="charts-view">
+                                    <img src="../../assets/img/pie-chart-jobDetails.png" />
+                                </div>
+                                <div class="chart-series">
+                                    <div class="chart-value">
+                                        <span class="chart-dot green"></span>
+                                        <span class="c-value">Review</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot blue"></span>
+                                        <span class="c-value">Screen</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot yellow"></span>
+                                        <span class="c-value">Assessment</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot color66ECFF"></span>
+                                        <span class="c-value">Interview</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot red"></span>
+                                        <span class="c-value">Negotiation</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot green"></span>
+                                        <span class="c-value">Offer</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot red"></span>
+                                        <span class="c-value">Hire</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="eas-card">
+                        <div class="eas-card-inner">
+                            <div class="eas-card-title">
+                                <h4>Enterprise Applications - Hiring Details</h4>
+                            </div>
+                            <div class="eas-chart-body">
+                                <div class="barchart">
+                                    <img src="../../assets/img/barChart.PNG" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="eas-card">
+                        <div class="eas-table table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nos</th>
+                                        <th>Job Role</th>
+                                        <th>Job Type</th>
+                                        <th>Enterprise Domain</th>
+                                        <th>EAS</th>
+                                        <th>Duration</th>
+                                        <th>Posted Date</th>
+                                        <th>Status</th>
+                                        <th>No of Position</th>
+                                        <th>Interested Shown</th>
+                                        <th>Short-listed Interview</th>
+                                        <th>Posted By</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>SAP Developer</td>
+                                        <td>Individual</td>
+                                        <td>Enterprise Resource Management</td>
+                                        <td>SAP</td>
+                                        <td>6 month</td>
+                                        <td>05-Jan-2022</td>
+                                        <td>
+                                            <span class="eas-status">In Review</span>
+                                        </td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>Nandha Kumar</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>SAP Developer</td>
+                                        <td>Individual</td>
+                                        <td>Enterprise Resource Management</td>
+                                        <td>SAP</td>
+                                        <td>6 month</td>
+                                        <td>05-Jan-2022</td>
+                                        <td>
+                                            <span class="eas-status color1">Open</span>
+                                        </td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>Nandha Kumar</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>SAP Developer</td>
+                                        <td>Individual</td>
+                                        <td>Enterprise Resource Management</td>
+                                        <td>SAP</td>
+                                        <td>6 month</td>
+                                        <td>05-Jan-2022</td>
+                                        <td>
+                                            <span class="eas-status color2">Applied</span>
+                                        </td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>Nandha Kumar</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>SAP Developer</td>
+                                        <td>Individual</td>
+                                        <td>Enterprise Resource Management</td>
+                                        <td>SAP</td>
+                                        <td>6 month</td>
+                                        <td>05-Jan-2022</td>
+                                        <td>
+                                            <span class="eas-status color3">Screening</span>
+                                        </td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>Nandha Kumar</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>SAP Developer</td>
+                                        <td>Individual</td>
+                                        <td>Enterprise Resource Management</td>
+                                        <td>SAP</td>
+                                        <td>6 month</td>
+                                        <td>05-Jan-2022</td>
+                                        <td>
+                                            <span class="eas-status color4">Interviewing</span>
+                                        </td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>Nandha Kumar</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>SAP Developer</td>
+                                        <td>Individual</td>
+                                        <td>Enterprise Resource Management</td>
+                                        <td>SAP</td>
+                                        <td>6 month</td>
+                                        <td>05-Jan-2022</td>
+                                        <td>
+                                            <span class="eas-status color5">Negotiating</span>
+                                        </td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>Nandha Kumar</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>SAP Developer</td>
+                                        <td>Individual</td>
+                                        <td>Enterprise Resource Management</td>
+                                        <td>SAP</td>
+                                        <td>6 month</td>
+                                        <td>05-Jan-2022</td>
+                                        <td>
+                                            <span class="eas-status color6">Offer</span>
+                                        </td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>Nandha Kumar</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>SAP Developer</td>
+                                        <td>Individual</td>
+                                        <td>Enterprise Resource Management</td>
+                                        <td>SAP</td>
+                                        <td>6 month</td>
+                                        <td>05-Jan-2022</td>
+                                        <td>
+                                            <span class="eas-status color7">Hired</span>
+                                        </td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>Nandha Kumar</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>SAP Developer</td>
+                                        <td>Individual</td>
+                                        <td>Enterprise Resource Management</td>
+                                        <td>SAP</td>
+                                        <td>6 month</td>
+                                        <td>05-Jan-2022</td>
+                                        <td>
+                                            <span class="eas-status color4">Expired</span>
+                                        </td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>Nandha Kumar</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>SAP Developer</td>
+                                        <td>Individual</td>
+                                        <td>Enterprise Resource Management</td>
+                                        <td>SAP</td>
+                                        <td>6 month</td>
+                                        <td>05-Jan-2022</td>
+                                        <td>
+                                            <span class="eas-status color5">On Hold</span>
+                                        </td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>Nandha Kumar</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>SAP Developer</td>
+                                        <td>Individual</td>
+                                        <td>Enterprise Resource Management</td>
+                                        <td>SAP</td>
+                                        <td>6 month</td>
+                                        <td>05-Jan-2022</td>
+                                        <td>
+                                            <span class="eas-status color4">Rejected</span>
+                                        </td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>01</td>
+                                        <td>Nandha Kumar</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="eas-card">
+                        <div class="eas-table table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nos</th>
+                                        <th>Name</th>
+                                        <th>Member Role</th>
+                                        <th>Status</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Ram</td>
+                                        <td>HR</td>
+                                        <td><span class="eas-status color2">Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Ram</td>
+                                        <td>HR</td>
+                                        <td><span class="eas-status color2">Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Ram</td>
+                                        <td>HR</td>
+                                        <td><span class="eas-status color2">Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Ram</td>
+                                        <td>HR</td>
+                                        <td><span class="eas-status color2">Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Ram</td>
+                                        <td>HR</td>
+                                        <td><span class="eas-status color2">Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>Ram</td>
+                                        <td>HR</td>
+                                        <td><span class="eas-status color2">Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>Ram</td>
+                                        <td>HR</td>
+                                        <td><span class="eas-status color2">Active</span></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="eas-card">
+                        <div class="eas-card-inner">
+                            <div class="eas-chart-body">
+                                <div class="charts-view">
+                                    <img src="../../assets/img/pie-chart-jobDetails.png" />
+                                </div>
+                                <div class="chart-series">
+                                    <div class="chart-value">
+                                        <span class="chart-dot green"></span>
+                                        <span class="c-value">San Francisco</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot blue"></span>
+                                        <span class="c-value">London</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot yellow"></span>
+                                        <span class="c-value">Paris</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot color66ECFF"></span>
+                                        <span class="c-value">Dallas</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot red"></span>
+                                        <span class="c-value">New Work</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot green"></span>
+                                        <span class="c-value">Chicago</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot red"></span>
+                                        <span class="c-value">Munich</span>
+                                    </div>
+                                    <div class="chart-value">
+                                        <span class="chart-dot red"></span>
+                                        <span class="c-value">Seoul</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

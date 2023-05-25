@@ -1,0 +1,667 @@
+{
+    "innovation": {
+        "title": "Innovation enabled by",
+        "title_sub": "Design Thinking process",
+        "img": "/assets/localDB/Innovation.json",
+        "btn_text": "Start Innovation-led approach",
+        "description": "EASWORKS enables Innovation led by Design thinking software development with focus on SOLUTION to reinvent your enterprise application portfolio, making use of emerging technology and building with speed and agility to enable you to meet business needs, now and in the future.",
+        "title_1": "How Innovation enabled by",
+        "title_1_sub": "Design Thinking process works ?",
+        "img_1": "https://assets10.lottiefiles.com/packages/lf20_w26e86eb.json",
+        "steps": [
+            {
+                "step": "01",
+                "title": "Problem Analysis from Different Perspective",
+                "desc": "Define the problem, the end goal and work towards the solution to achieve the desired objectives."
+            },
+            {
+                "step": "02",
+                "title": "Determine Its Root Cause",
+                "desc": "Professionals get the chance to explore the problem for themselves from the perspective of Customer’s needs."
+            },
+            {
+                "step": "03",
+                "title": "Encourages Innovative Thinking & Creative Problem Solving",
+                "desc": "The process involves a great deal of brainstorming and formulating new ideas that can help to expand your organization & enables innovation and creativity to solve the problems that customers face daily."
+            },
+            {
+                "step": "04",
+                "title": "Outcome Meet Clients Requirements",
+                "desc": "This involves prototyping with iterative approach that are designed with the design thinking approach will meet the objectives and client expectations."
+            },
+            {
+                "step": "05",
+                "title": "Create Value While Solving Real Problems",
+                "desc": "Innovation enabled by Design Thinking process specifically directed at creating value and solving problems, from small to large, in almost any industry. "
+            }
+        ],
+        "title_2_desc": "Innovation led approaches",
+        "profiles": [
+            {
+                "name": "David Jhon Warner",
+                "img": "assets/img/profile.jpg",
+                "designation": "Web Designer",
+                "exp": "4 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Sketch",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2015"
+            },
+            {
+                "name": "Vinoth Kumar",
+                "img": "assets/img/profile.jpg",
+                "designation": "Product Manager",
+                "exp": "30 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Ux",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2010"
+            }
+        ],
+        "title_3": "Helps you to transform your business with Innovation enabled by Design thinking process and helps to interconnect users, business and technology.",
+        "title_3_btn": "START INNOVATION – LED APPROACH"
+    },
+    "digital_transformation": {
+        "title": "Digital Transformation",
+        "title_sub": "(DX)",
+        "img": "/assets/localDB/DigitalTransformation(DX).json",
+        "btn_text": "Start to Implement Digital Transformation Initiatives",
+        "description": "EASWORKS helps on your Digital continuity & Transformation to transform your business using pioneering enterprise technologies skills to become digitally ready with all legacy applications. EASWORKS proven tech-skills and experience help businesses gain maximum benefits in your digital transformation journey.",
+        "title_1": "How ",
+        "title_1_sub": "Digital continuity & transformation (DX) works ?",
+        "img_1": "https://assets4.lottiefiles.com/packages/lf20_tdxghhik.json",
+        "steps": [
+            {
+                "step": "01",
+                "title": "Identify the problems you want to solve",
+                "desc": "The first step is to start with WHY and clearly define your Digital transformation strategic objectives which may be to expand your business? Is it about keeping up with competitors? Or maybe you just want to improve overall efficiency."
+            },
+            {
+                "step": "02",
+                "title": "Create and foster a digital culture",
+                "desc": "To provide new software onboarding for all your employees to teach them how to use new enterprise application solutions. Continuous support should also be available until they feel comfortable working with these tools."
+            },
+            {
+                "step": "03",
+                "title": "Map and analyze your current business processes",
+                "desc": "Start with a few impactful and concrete initiatives that will show measurable results within the first few months. Mapping and analyzing existing business processes will help you identify inefficiencies and opportunities for improvement."
+            },
+            {
+                "step": "04",
+                "title": "Invest in the right digital solutions",
+                "desc": "Redesign your operating processes to get the most out of the new technologies and start creating business value within few months."
+            },
+            {
+                "step": "05",
+                "title": "Focus on continuous improvement",
+                "desc": "Reach out to customers, partners, employees, and other relevant stakeholders to ask for their feedback. <br/> Digital transformation is not a one-time event. Businesses need to continuously transform to create new value, stay competitive, and thrive in the digital age."
+            }
+        ],
+        "title_2_desc": "in implementing Digital continuity and transformation initiatives",
+        "profiles": [
+            {
+                "name": "David Jhon Warner",
+                "img": "assets/img/profile.jpg",
+                "designation": "Web Designer",
+                "exp": "4 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Sketch",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2015"
+            },
+            {
+                "name": "Vinoth Kumar",
+                "img": "assets/img/profile.jpg",
+                "designation": "Product Manager",
+                "exp": "30 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Ux",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2010"
+            }
+        ],
+        "title_3": "Helps you to Implement and transform your business with Digital continuity & Transformation Initiatives.",
+        "title_3_btn": "START TO IMPLEMENT DIGITAL TRANSFORMATION "
+    },
+    "prototyping": {
+        "title": "", 
+        "title_sub": "Prototyping",
+        "img": "/assets/localDB/Prototyping.json",
+        "btn_text": "Start Prototyping",
+        "description": "EASWORKS helps to generate simple experimental model of a proposed Enterprise Application solution with different technologies & approaches to test or validate ideas, design assumptions and other aspects of its conceptualization quickly and cheaply.",
+        "title_1": "How",
+        "title_1_sub": "Enterprise Application prototyping works ?",
+        "img_1": "https://assets1.lottiefiles.com/packages/lf20_syloy0qc.json",
+        "steps": [
+            {
+                "step": "01",
+                "title": "FEASIBILITY PROTOTYPES ",
+                "desc": "(i) For prototyping new enterprise application or technology. <br/> (ii) Engineer writes just enough code to see if it's feasible. <br/> (iii) Helps understand technical risk, often related to performance."
+            },
+            {
+                "step": "02",
+                "title": "LOW-FIDELITY USER PROTOTYPES",
+                "desc": "(i) Essentially an interactive wireframe (doesn't look real). <br/>(ii)Created by interactive designers to test the workflow. <br/> (iii)Simulates process to identify usability issues early."
+            },
+            {
+                "step": "03",
+                "title": "HIGH-FIDELITY USER PROTOTYPES",
+                "desc": "(i) Realistic looking, working simulation. <br/> (ii)Good for communicating a proposed product to stakeholders. <br/> (iii)Used in defensive user testing, not to see if they'll like it, but to learn if they won't. "
+            },
+            {
+                "step": "04",
+                "title": "LIVE-DATA PROTOTYPES",
+                "desc": "(i) Very limited implementation created by developers to prove it works. <br/> (ii)Has access to real data and is sent real live traffic. <br/> (iii)Hasn't been 'productized' (no test automation, SEO, localization, etc.). "
+            }
+        ],
+        "title_2_desc": "in developing prototypes",
+        "profiles": [
+            {
+                "name": "David Jhon Warner",
+                "img": "assets/img/profile.jpg",
+                "designation": "Web Designer",
+                "exp": "4 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Sketch",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2015"
+            },
+            {
+                "name": "Vinoth Kumar",
+                "img": "assets/img/profile.jpg",
+                "designation": "Product Manager",
+                "exp": "30 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Ux",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2010"
+            }
+        ],
+        "title_3": "Helps you to quickly envision your enterprise application with  prototyping approach.",
+        "title_3_btn": "START PROTOTYPING"
+    },
+    "enterprise_application_design": {
+        "title": "Enterprise Application",
+        "title_sub": "Design",
+        "img": "/assets/localDB/Design.json",
+        "btn_text": "Start UX/UI Designing",
+        "description": "EASWORKS helps to provide effective and efficient Enterprise Application UI Design & Enterprise Software UX Design to streamline business processes, reduce errors, and reduce user frustration to deliver best in class design for your Enterprise Application.",
+        "title_1": "How ",
+        "title_1_sub": "Enterprise Application Designs works ?",
+        "img_1": "https://assets7.lottiefiles.com/packages/lf20_ikbsx61i.json",
+        "steps": [
+            {
+                "step": "01",
+                "title": "UI/UX Design- For End-to-end development",
+                "desc": "EASWORKS partners with you at each step of the process to understand your needs and ensure that our enterprise application solution integrates smoothly into your existing enterprise application software ecosystem while delivering an exceptional experience for your users."
+            },
+            {
+                "step": "02",
+                "title": "Greenfield Design",
+                "desc": "EASWORKS Designers will work closely with the user community to ensure that the UX meets their needs. As the software is developed, they provide critical feedback that will guarantee that the UX of the final product remains focused and productive."
+            },
+            {
+                "step": "03",
+                "title": "Redesign - Legacy Application Support",
+                "desc": "EASWORKS helps to completely redesign an application's UX or help minimize the impact on the application's design while allowing new features to be integrated as Enterprise applications evolve throughout their lifetimes."
+            } 
+        ],
+        "title_2_desc": "in developing best in class UX/UI Designs ",
+        "profiles": [
+            {
+                "name": "David Jhon Warner",
+                "img": "assets/img/profile.jpg",
+                "designation": "Web Designer",
+                "exp": "4 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Sketch",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2015"
+            },
+            {
+                "name": "Vinoth Kumar",
+                "img": "assets/img/profile.jpg",
+                "designation": "Product Manager",
+                "exp": "30 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Ux",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2010"
+            }
+        ],
+        "title_3": "Helps you to Integrate enterprise application to exchange data between systems.",
+        "title_3_btn": "IMPLEMENT ENTERPRISE APPLICATION INTEGRATION"
+    },
+    "business_intelligence_design": {
+        "title": "",
+        "title_sub": "Business Intelligence",
+        "img": "/assets/localDB/BusinessIntelligence.json",
+        "btn_text": "Start using Business Analytics & Business Intelligence tools  ",
+        "description": "EASWORKS helps to use Business Analytics & Business Intelligence technologies used for the data analysis of business information and refers to a range of tools that provide quick, easy-to-digest access to insights of your  organization's current state, based on available data.",
+        "title_1": "How ",
+        "title_1_sub": "Business Analytics (BA) & Business Intelligence (BI) works ?",
+        "img_1": "https://assets8.lottiefiles.com/packages/lf20_u9d7gukw.json",
+        "steps": [
+            {
+                "step": "01",
+                "title": "Choose COTS BA/BI tools or consider a custom solution",
+                "desc": "Choose BA/BI tools for sources of data (ERP ,CRM, PLM, SCM, website analytics, external sources, etc.)"
+            },
+            {
+                "step": "02",
+                "title": "Gather a business intelligence team",
+                "desc": "BI team helps together representatives from different departments to department-specific insights about required data and its sources. <br/> (i) Domain represntatives <br/> (ii) BI-specific roles"
+            },
+            {
+                "step": "03",
+                "title": "Document your BI strategy",
+                "desc": "Start developing a BI strategy and document your strategy using traditional strategic documents such as a product roadmap."
+            },
+            {
+                "step": "04",
+                "title": "Set up data integration tools",
+                "desc": "To connect  with data warehouse with the sources of information by ETL (Extract, Transform, Load) tools or data integration tools. <br/> a) Data extraction : The ETL tool retrieves data from the data sources including ERP, CRM, PLM, SCM , analytics, and spreadsheets. <br/> b) Data transformation : Once extracted, the ETL tool starts data processing. All extracted data is analyzed, have duplicates removed, and then is standardized, sorted, filtered, and verified. <br/> c) Data loading : At this phase, transformed data is uploaded into the warehouse."
+            },
+            {
+                "step": "05",
+                "title": "Configure a data warehouse and choose an architectural approach",
+                "desc": "Warehouses is connected with data sources and ETL systems on one end and reporting tools or dashboard interfaces on the other. This allows for presenting data from various systems via a single interface."
+            },
+            {
+                "step":"06",
+                "title":"Implement the end-user interface: reporting tools and dashboards",
+                "desc":"BI is used to produce interactive dashboards with customizable portions of information. And templated reporting remains the most popular method of data presentation."
+            },
+            {
+                "step":"07",
+                "title":"Conduct training for end users",
+                "desc":"Training sessions to onboard end users like video-hints or interactive onboarding tools that lead users through steps for embedded analytical tool in ERP or CRM or PLM."
+            }
+        ],
+        "title_2_desc": "in analyzing date using Business analytics and Business Intelligence tools",
+        "profiles": [
+            {
+                "name": "David Jhon Warner",
+                "img": "assets/img/profile.jpg",
+                "designation": "Web Designer",
+                "exp": "4 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Sketch",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2015"
+            },
+            {
+                "name": "Vinoth Kumar",
+                "img": "assets/img/profile.jpg",
+                "designation": "Product Manager",
+                "exp": "30 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Ux",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2010"
+            }
+        ],
+        "title_3": "Helps you to best in class UX/UI Enterprise Application Designs by top Designers.",
+        "title_3_btn": "START UX/UI DESIGNING"
+    },
+    "application_modernaization": {
+        "title": "Application modernization",
+        "title_sub": "(Application migration)",
+        "img": "/assets/localDB/ApplicationModernization.json",
+        "btn_text": "Start Application migration",
+        "description": "EASWORKS helps Application migration of moving software applications between different computing environments including languages, frameworks and infrastructure platforms with below different approaches. <br/> (i) Rehost (lift & shift) <br/> (ii) Retain (hybrid) <br/> (iii) Retire <br/> (iv) Repurchase (drop & shop) <br/> (v) Refactoting (rearchitect) <br/> (vi) Replatforming (lift & optimize)",
+        "title_1": "How ",
+        "title_1_sub": "is Application migration performed ?",
+        "img_1": "https://assets2.lottiefiles.com/packages/lf20_wjkdowmi.json",
+        "steps": [
+            {
+                "step": "01",
+                "title": "Migration Assessment",
+                "desc": "Firstly, collect all the information about the enterprise application in terms of tech stack,  scalability, future requirements, etc. Prioritize the application based on the parts you need to migrate."
+            },
+            {
+                "step": "02",
+                "title": "Migration Designing & Planning",
+                "desc": "Choose type of migration environment (hybrid, cloud or on-premises) and work on the design and planning by gaining a 360-degree view of the dependencies of the application."
+            },
+            {
+                "step": "03",
+                "title": "Working on Architecture & Code",
+                "desc": "In the application migration service, there is a need to adjust and update the application code and design as per the new software environment which requires various code conversion tools work on the code and design."
+            },
+            {
+                "step": "04",
+                "title": "Data Migration",
+                "desc": "Creating a script to automate the migration, data preparation, extracting, loading, and shifting to the new environment."
+            },
+            {
+                "step": "05",
+                "title": "Trial Migration",
+                "desc": "Trial application migration step is performed to minimize the risk and perform the final migration in a real-time environment."
+            },
+            {
+                "step": "06",
+                "title": "Final Migration, Testing & Deployment",
+                "desc": "The final migration occurs in this stage after multiple iteration of validating the Trial mock-up results and to set up the new environment, DevOps tools, and migrate the application."
+            }
+        ],
+        "title_2_desc": "in migrating legacy applications",
+        "profiles": [
+            {
+                "name": "David Jhon Warner",
+                "img": "assets/img/profile.jpg",
+                "designation": "Web Designer",
+                "exp": "4 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Sketch",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2015"
+            },
+            {
+                "name": "Vinoth Kumar",
+                "img": "assets/img/profile.jpg",
+                "designation": "Product Manager",
+                "exp": "30 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Ux",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2010"
+            }
+        ],
+        "title_3": "Helps you to migrate legacy Application into modern tech stack by top developers.",
+        "title_3_btn": "START APPLICATION MIGRATION"
+    },
+    "data_migration": {
+        "title": "",
+        "title_sub": "Data Migration",
+        "img": "/assets/localDB/DataMigration.json",
+        "btn_text": "Start Data migration",
+        "description": "EASWORKS provides data migration service to move data between storage systems, applications, or formats with ETL process which would be needed during upgrading of databases, deploying a new application or switching from on-premises to cloud-based storage and applications. <br/> EASWORKS supports different migration types: <br/> (i) Database migration <br/> (ii) Storage migration <br/> (iii) Business process migration <br/> (iv) Application migration <br/> (v) Datacenter migration <br/> (vi) Cloud migration",
+        "title_1": "How ",
+        "title_1_sub": "is Data migration performed ?",
+        "img_1": "https://assets9.lottiefiles.com/packages/lf20_jcf1usol.json",
+        "steps": [
+            {
+                "step": "01",
+                "title": "PLAN",
+                "desc": "This initial phase is to assess and clean the source data, analyze business requirements, risks, assumption and dependencies, develop and test your migration scenarios, and define a formal data migration plan."
+            },
+            {
+                "step": "02",
+                "title": "EXECUTE",
+                "desc": "Data preparation, extraction, transformation, and loading  happens during Execute phase and duration is determined upon data migration approach- big bang  or phase-based approach migration."
+            },
+            {
+                "step": "03",
+                "title": "VERIFY",
+                "desc": "Validate migration: Check whether all the required data is transferred, if there are correct values in the target tables and if there was any data loss. <br/> Retire old systems: The final step in the migration process is to shut down and dispose of the legacy systems which supported your source data."
+            }
+        ],
+        "title_2_desc": "in performing data migration",
+        "profiles": [
+            {
+                "name": "David Jhon Warner",
+                "img": "assets/img/profile.jpg",
+                "designation": "Web Designer",
+                "exp": "4 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Sketch",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2015"
+            },
+            {
+                "name": "Vinoth Kumar",
+                "img": "assets/img/profile.jpg",
+                "designation": "Product Manager",
+                "exp": "30 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Ux",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2010"
+            }
+        ],
+        "title_3": "Helps you to perform various Data migration with different approaches by top developers.",
+        "title_3_btn": "START DATA MIGRATION"
+    },
+    "custom_enterprise_application": {
+        "title": "",
+        "title_sub": "Custom Enterprise Application Development",
+        "img": "/assets/localDB/CustomEnterpriseApplication.json",
+        "btn_text": "Start to develop Custom Enterprise Application",
+        "description": "EASWORKS helps to build Custom Enterprise Application software development which are aimed to serve a particular set of business requirements for your organization which is not possible in Commercial off-the-shelf Applications (COTS).",
+        "title_1": "How ",
+        "title_1_sub": "Custom Enterprise Application Development happens ?",
+        "img_1": "https://assets2.lottiefiles.com/packages/lf20_rjibs4ai.json",
+        "steps": [
+            {
+                "step": "01",
+                "title": "Discovery",
+                "desc": "Drawing up high-level functional and technical requirements to software & Eliciting business needs and concerns regarding the existing and desired business process flows."
+            },
+            {
+                "step": "02",
+                "title": "Enterprise software planning and design",
+                "desc": "Deciding on the architectural style of the new enterprise software system (mostly, point-to-point/event-driven service-based or microservices) and developing its detailed design."
+            },
+            {
+                "step": "03",
+                "title": "UX and UI design",
+                "desc": "UX designers and Business Analysts collaborate on UX research to understand the target audience and UX designers create wireframes that demonstrate basic content layout and functionality."
+            },
+            {
+                "step": "04",
+                "title": "EAS development and testing",
+                "desc": "Front end & Back-end development – to build both client & the server side and APIs of new enterprise software. Testing usually runs in parallel with development."
+            },
+            {
+                "step": "05",
+                "title": "Data conversion and uploading",
+                "desc": "Inspecting the legacy data to migrate  & Deciding on the supported data formats and handling the required conversions by ETL migration process."
+            },
+            {
+                "step": "06",
+                "title": "EAS deployment",
+                "desc": "Enterprise Application Software (EAS) gets deployed and integrated with the required corporate infrastructure through staging and testing environments."
+            },
+            {
+                "step": "07",
+                "title": "Further EAS evolution in iterations",
+                "desc": "The development and delivery of new working software modules continue iteratively until business requirement is met."
+            }
+        ],
+        "title_2_desc": "in developing Custom Enterprise Application software",
+        "profiles": [
+            {
+                "name": "David Jhon Warner",
+                "img": "assets/img/profile.jpg",
+                "designation": "Web Designer",
+                "exp": "4 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Sketch",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2015"
+            },
+            {
+                "name": "Vinoth Kumar",
+                "img": "assets/img/profile.jpg",
+                "designation": "Product Manager",
+                "exp": "30 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Ux",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2010"
+            }
+        ],
+        "title_3": "Helps you to build best in class custom Enterprise Application and delivery within time and budget.",
+        "title_3_btn": "START TO DEVELOPE CUSTOM ENTERPRISE APPLICATION"
+    },
+    "enterprise_application_integration": {
+        "title": "Enterprise Application Integration ",
+        "title_sub": "(EAI)",
+        "img": "/assets/localDB/ApplicationIntegration.json",
+        "btn_text": "Implement Enterprise Application Integration",
+        "description": "EASWORKS  helps data flow freely between applications without significant changes to database configurations or the applications themselves, leading to a streamlined process and increased data availability.",
+        "title_1": "How ",
+        "title_1_sub": "Enterprise Application Integrations (EAI) works ?",
+        "img_1": "https://assets7.lottiefiles.com/packages/lf20_8zmfnsdi.json",
+        "steps": [
+            {
+                "step": "01",
+                "title": "Point-to-point integration",
+                "desc": "Data is taken from one source, perhaps reformatted, and then ingested by the next application which is suited for small workflows and a few tools."
+            },
+            {
+                "step": "02",
+                "title": "Hub-and-spoke integration",
+                "desc": "This approach uses a central program to facilitate the data and steps between the participation applications. The program can handle the data reformatting and keep workflows moving in the event of an application slowdown."
+            },
+            {
+                "step": "03",
+                "title": "Enterprise Bus integration (ESB)",
+                "desc": "In a common bus design, all participating applications use a set of standards to send and receive data or workflows."
+            },
+            {
+                "step": "04",
+                "title": "Middleware integration",
+                "desc": "This involves an intermediary program that sits between the end user and the underlying application. Middleware supports interface integration and may have an underlying hub-and-spoke or bus design."
+            },
+            {
+                "step": "05",
+                "title": "Microservices",
+                "desc": "These can be serverless functions or dedicated apps designed to integrate easily or quickly connect programs. Microservices can often be easily offloaded as cloud workloads."
+            }
+        ],
+        "title_2_desc": "in implementing Enterprise Application Integration (EAI) tools ",
+        "profiles": [
+            {
+                "name": "David Jhon Warner",
+                "img": "assets/img/profile.jpg",
+                "designation": "Web Designer",
+                "exp": "4 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Sketch",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2015"
+            },
+            {
+                "name": "Vinoth Kumar",
+                "img": "assets/img/profile.jpg",
+                "designation": "Product Manager",
+                "exp": "30 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Ux",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2010"
+            }
+        ],
+        "title_3": "Helps you to Integrate enterprise application to exchange data between systems.",
+        "title_3_btn": "IMPLEMENT ENTERPRISE APPLICATION INTEGRATION"
+    },
+    "support_maintenance": {
+        "title": "Enterprise Application Maintenance & Support",
+        "title_sub": "(EAMS)",
+        "img": "/assets/localDB/Support&Maintenance.json",
+        "btn_text": "Start EAS Support",
+        "description": "EASWORKS provides Enterprise Application support and maintenance with different service offerings depending on the type, business criticality, and specific requirements of your applications.",
+        "title_1": "How is",
+        "title_1_sub": "Enterprise Application support and maintenances performed ?",
+        "img_1": "/assets/localDB/Support.gif",
+        "steps": [
+            {
+                "step": "01",
+                "title": "Enterprise Application support",
+                "desc": "EASWORKS provides resolution of identified issues of different complexity (from basic usage problems to application code/database defects). <br/> L0 - Creating and maintaining detailed information for user self-service. <br/> L1 - Solving basic enterprise application usage issues. <br/> L2 - Fixing application configuration and infrastructure issues. <br/> L3 - Resolving enterprise application issues on the code level."
+            },
+            {
+                "step": "02",
+                "title": "Enterprise Application maintenance",
+                "desc": "In support of introducing of new enterprise application features and integrations along with continuous application monitoring and optimization. <br/> (i) Application evolution -upgrade <br/> (ii) Application performance management <br/> (iii) Application security management"
+            }
+        ],
+        "title_2_desc": "in providing enterprise application support and maintainence.",
+        "profiles": [
+            {
+                "name": "David Jhon Warner",
+                "img": "assets/img/profile.jpg",
+                "designation": "Web Designer",
+                "exp": "4 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Sketch",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2015"
+            },
+            {
+                "name": "Vinoth Kumar",
+                "img": "assets/img/profile.jpg",
+                "designation": "Product Manager",
+                "exp": "30 Years",
+                "about": "Co-Founder of YC Startup, EIR at the VR fund",
+                "skills": [
+                    "Photoshop",
+                    "Ux",
+                    "Illustrator"
+                ],
+                "footer": "EASWORKS Since 2010"
+            }
+        ],
+        "title_3": "Helps you to provide tailored Enterprise Application Support and Maintenance Services.",
+        "title_3_btn": "START EAS SUPPORT"
+    }
+}
