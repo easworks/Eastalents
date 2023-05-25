@@ -38,7 +38,7 @@
             <!--Loading -->
             <ng-container *ngIf="editMode">
               <div class="top-wizard mb-4" *ngIf="currentPage < 14 && currentPage > 0">
-                <span>{{ currentPage }} of 13 completed</span>
+                <span>Step {{ currentPage }} of 13</span>
                 <div class="progress-bar">
                   <div class="ui-progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
                        [style.width]="width + '%'"></div>
@@ -151,7 +151,7 @@
                                      class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
                                      aria-haspopup="true" aria-expanded="false" name="filterbasedon"
                                      [(ngModel)]="filterString" />
-                              <div aria-labelledby="dropdownMenuButton">
+                              <div aria-labelledby="dropdownMenuButton" class="dropdown-menu">
                                 <ul class="wrap-container">
                                   <ng-container *ngFor="let option of data.option | datafilterTalent: filterString">
                                     <li [ngStyle]="data.id ===2 ? {}: {'display': 'none'}">
