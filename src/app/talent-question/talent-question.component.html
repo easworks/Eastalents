@@ -7,7 +7,7 @@
             <div class="qlf-imge talentquestionImg">
               <!--<img src="assets/img/Vertical_Enterprise_Application_Talents.png" /> -->
               <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_ureyqxyw.json" background="transparent"
-                speed="1" style="width: 100%; height: 100%" loop autoplay></lottie-player>
+                             speed="1" style="width: 100%; height: 100%" loop autoplay></lottie-player>
             </div>
             <h1 class="text-white">Welcome to EASWORKS</h1>
             <p class="text-white">
@@ -25,7 +25,7 @@
           <div class="quiz-start" *ngIf="currentPage === 0">
             <div class="quiz-logo">
               <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_xxsz0pga.json" background="transparent"
-                speed="1" style="width: 100%; height: 100%" loop autoplay></lottie-player>
+                             speed="1" style="width: 100%; height: 100%" loop autoplay></lottie-player>
             </div>
             <p>Please carefully answer the following questions to complete you Joining Application.</p>
             <button type="button" class="btn-get-started mt-3" (click)="changePage(1)">Get Started</button>
@@ -33,7 +33,7 @@
           <div class="quiz-start-ans" *ngIf="currentPage > 0 && currentPage < 14">
             <div class="quiz-logo">
               <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_xxsz0pga.json" background="transparent"
-                speed="1" style="width: 100%; height: 100%" loop autoplay></lottie-player>
+                             speed="1" style="width: 100%; height: 100%" loop autoplay></lottie-player>
             </div>
             <!--Loading -->
             <ng-container *ngIf="editMode">
@@ -41,7 +41,7 @@
                 <span>{{ currentPage }} of 13 completed</span>
                 <div class="progress-bar">
                   <div class="ui-progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                    [style.width]="width + '%'"></div>
+                       [style.width]="width + '%'"></div>
                 </div>
               </div>
             </ng-container>
@@ -69,7 +69,7 @@
                               <label class="label-text">Country</label>
                               <div class="loc-inputgroup">
                                 <select class="inputview" name="country" [ngModel]="selectedCountry"
-                                  (ngModelChange)="onSelectCountry($event)">
+                                        (ngModelChange)="onSelectCountry($event)">
                                   <ng-container *ngFor="let country of countries">
                                     <option value="{{ country.code }}">
                                       {{ country.name }}
@@ -85,7 +85,7 @@
                               <label class="label-text">State</label>
                               <div class="loc-inputgroup">
                                 <select class="inputview" name="state" [ngModel]="selectedState"
-                                  (ngModelChange)="onSelectState($event)">
+                                        (ngModelChange)="onSelectState($event)">
                                   <ng-container *ngFor="let state of allState">
                                     <option value="{{ state.iso }}">
                                       {{ state.name }}
@@ -101,7 +101,7 @@
                               <label class="label-text">City</label>
                               <div class="loc-inputgroup">
                                 <select class="inputview" name="city" [ngModel]="selectedCity"
-                                  (ngModelChange)="onSelectCity($event)">
+                                        (ngModelChange)="onSelectCity($event)">
                                   <ng-container *ngFor="let city of cities">
                                     <option value="{{ city }}">
                                       {{ city }}
@@ -142,15 +142,15 @@
                       <div class="multiselect-languge">
                         <div class="lang-list-box">
                           <app-talent-question-select-item [fieldArray]="fieldArray"
-                            (inputNoOfYear)="onInputNoOfYear($event)" (inputNoOfSkill)="onInputSkill($event)"
-                            (deleteFieldValue)="deleteSelectedOption($event)">
+                                                           (inputNoOfYear)="onInputNoOfYear($event)" (inputNoOfSkill)="onInputSkill($event)"
+                                                           (deleteFieldValue)="deleteSelectedOption($event)">
                           </app-talent-question-select-item>
                           <div class="language-multiselect-dropdown mt-2">
                             <div class="lm-dropdown dropdown">
                               <input type="text" placeholder="Type the desired skills you need in your project"
-                                class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false" name="filterbasedon"
-                                [(ngModel)]="filterString" />
+                                     class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
+                                     aria-haspopup="true" aria-expanded="false" name="filterbasedon"
+                                     [(ngModel)]="filterString" />
                               <div aria-labelledby="dropdownMenuButton">
                                 <ul class="wrap-container">
                                   <ng-container *ngFor="let option of data.option | datafilterTalent: filterString">
@@ -159,7 +159,7 @@
                                         {{ option.value }}
                                       </a>
                                     </li>
-                                    <li  [ngStyle]="data.id ===3 && enterpriseApplicationGroup && option.group === enterpriseApplicationGroup ? {}: {'display': 'none'}">
+                                    <li [ngStyle]="data.id ===3 && enterpriseApplicationGroup && option.group === enterpriseApplicationGroup ? {}: {'display': 'none'}">
                                       <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3" [ngStyle]="
                                           option.disable
                                             ? {
@@ -172,7 +172,7 @@
                                       </a>
                                     </li>
                                     <ng-container *ngFor="let subgroup of enterpriseApplicationSubGroup">
-                                      <li  [ngStyle]="data.id === 4 && option.subgroup === subgroup && option.primaryDomain === enterpriseApplicationGroup ? {}:{'display': 'none'}">
+                                      <li [ngStyle]="data.id === 4 && option.subgroup === subgroup && option.primaryDomain === enterpriseApplicationGroup ? {}:{'display': 'none'}">
                                         <a class="dropdown-item" href="javascript:void(0)" class="pl-3 pr-3" [ngStyle]="
                                             option.disable
                                               ? {
@@ -307,7 +307,7 @@
                               experience?</label>
                             <div class="form-input-group qs-year">
                               <select class="com-select" name="workingProfessionally"
-                                [(ngModel)]="data.startWorkingProfessionally">
+                                      [(ngModel)]="data.startWorkingProfessionally">
                                 <option value="0">Select Year</option>
                                 <option value="2000">2000</option>
                                 <option value="2001">2001</option>
@@ -353,33 +353,33 @@
                     <div class="form-wizard-answer">
                       <ng-container *ngIf="data.id === 8">
                         <app-talent-question-select-item [fieldArray]="fieldArray"
-                          (inputNoOfYear)="onInputNoOfYear($event)" (inputNoOfSkill)="onInputSkill($event)"
-                          (deleteFieldValue)="deleteSelectedOption($event)">
+                                                         (inputNoOfYear)="onInputNoOfYear($event)" (inputNoOfSkill)="onInputSkill($event)"
+                                                         (deleteFieldValue)="deleteSelectedOption($event)">
                         </app-talent-question-select-item>
                       </ng-container>
                       <ng-container *ngIf="data.id === 9">
                         <app-employer-select-item-talent-question [fieldArray]="fieldArray"
-                          (deleteFieldValue)="deleteSelectedOption($event)">
+                                                                  (deleteFieldValue)="deleteSelectedOption($event)">
                         </app-employer-select-item-talent-question>
                       </ng-container>
                       <div class="sidemenuTabsContent mt-3 p-0">
                         <div class="tabcontentside d-flex align-items-start w-100">
                           <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
-                            aria-orientation="vertical">
+                               aria-orientation="vertical">
                             <h1 class="tabtitle">{{ data.subtitle }}</h1>
                             <button *ngFor="let but of data.button" class="nav-link" id="v-pills-IoT-tab"
-                              data-bs-toggle="pill" data-bs-target="#v-pills-IoT" type="button" role="tab"
-                              aria-controls="v-pills-settings" aria-selected="false" (click)="buttonData(but)">
+                                    data-bs-toggle="pill" data-bs-target="#v-pills-IoT" type="button" role="tab"
+                                    aria-controls="v-pills-settings" aria-selected="false" (click)="buttonData(but)">
                               {{ but.value }}
                             </button>
                           </div>
                           <div class="tab-content" id="v-pills-tabContent">
                             <div class="tab-pane fade show active" id="v-pills-erpaf" role="tabpanel"
-                              aria-labelledby="v-pills-erpaf-tab">
+                                 aria-labelledby="v-pills-erpaf-tab">
                               <div class="rightpanel-easworks">
                                 <div class="easworkSearchbox">
                                   <input type="text" name="filter" placeholder="Type a skill to filter the list below"
-                                    [(ngModel)]="filterString" />
+                                         [(ngModel)]="filterString" />
                                 </div>
                                 <ul class="easeworkssearchList scroll" [style.height.px]="getHeight()">
                                   <li *ngFor="
@@ -422,7 +422,7 @@
                           <ul class="form-wizard-type jss-list selectarea mt-3 row">
                             <li class="col-lg-12 col-md-12 col-12" *ngFor="let option of subValue.option">
                               <a href="javascript:void(0)" class="pl-3 pr-3" (click)="selectOption(option)"
-                                [style.background-color]="
+                                 [style.background-color]="
                                   option.selected &&
                                   option.firstPart != 'Any of the above'
                                     ? '#4949fc'
@@ -469,7 +469,7 @@
                             <label class="qs-label-text">Desired Hourly rate</label>
                             <div class="form-input-group position-relative w-50">
                               <input type="text" name="desiredHourlyRate" class="inputview" appBlockCopyPaste
-                                (keypress)="onlyNumber($event)" [(ngModel)]="data.data.desiredHourlyRate" />
+                                     (keypress)="onlyNumber($event)" [(ngModel)]="data.data.desiredHourlyRate" />
                               <span class="dollar">USD/Hour</span>
                             </div>
                           </div>
@@ -479,7 +479,7 @@
                             <label class="qs-label-text">Monthly rate (Full Time Engagement)</label>
                             <div class="form-input-group position-relative w-50">
                               <input type="text" name="monthlyRate" class="inputview" appBlockCopyPaste
-                                (keypress)="onlyNumber($event)" [(ngModel)]="data.data.monthlyRate" />
+                                     (keypress)="onlyNumber($event)" [(ngModel)]="data.data.monthlyRate" />
                               <span class="dollar">USD/Hour</span>
                             </div>
                           </div>
@@ -489,7 +489,7 @@
                             <label class="qs-label-text">Target Annual Salary</label>
                             <div class="form-input-group position-relative w-50">
                               <input type="text" name="annualSalary" class="inputview" appBlockCopyPaste
-                                (keypress)="onlyNumber($event)" [(ngModel)]="data.data.targetAnnualSalary" />
+                                     (keypress)="onlyNumber($event)" [(ngModel)]="data.data.targetAnnualSalary" />
                               <span class="dollar">USD/Hour</span>
                             </div>
                           </div>
@@ -540,7 +540,7 @@
                             </label>
                             <div class="form-input-group position-relative w-50">
                               <select class="inputview" name="weeklyHourlyRate"
-                                [(ngModel)]="data.data.weeklyHourlyRate">
+                                      [(ngModel)]="data.data.weeklyHourlyRate">
                                 <option value="10hour/week">
                                   10 hour/week
                                 </option>
@@ -566,7 +566,7 @@
                       <ul class="form-wizard-type selectarea mt-4 row">
                         <li class="col-lg-4 col-md-4 col-12" *ngFor="let option of data.startWorkingWithEasyWork">
                           <a href="javascript:void(0)" (click)="selectOption(option)"
-                            [style.color]="option.selected ? 'white' : ''" [style.background-color]="
+                             [style.color]="option.selected ? 'white' : ''" [style.background-color]="
                               option.selected ? '#4949fc' : ''
                             " [ngStyle]="
                               option.disable
@@ -595,7 +595,7 @@
                             <label class="qs-label-text">Contact Phone Number</label>
                             <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
                               <input type="text" class="inputview" appBlockCopyPaste (keypress)="onlyNumber($event)"
-                                maxlength="10" name="phonenumber" [(ngModel)]="data.phonenumber" />
+                                     maxlength="10" name="phonenumber" [(ngModel)]="data.phonenumber" />
                               <div class="cw-select">
                                 <select name="phonecode" [(ngModel)]="data.phoneCode">
                                   <ng-container *ngFor="let country of countries">
@@ -613,7 +613,7 @@
                             <label class="qs-label-text">Whatsapp Number</label>
                             <div class="form-input-group position-relative w-50 d-flex flex-row-reverse">
                               <input type="text" class="inputview" appBlockCopyPaste (keypress)="onlyNumber($event)"
-                                maxlength="10" name="phonenumber2" [(ngModel)]="data.phonenumber2" />
+                                     maxlength="10" name="phonenumber2" [(ngModel)]="data.phonenumber2" />
                               <div class="cw-select">
                                 <select name="phonecode2" [(ngModel)]="data.phoneCode2">
                                   <ng-container *ngFor="let country of countries">
@@ -652,7 +652,7 @@
                                 <input type="file" id="up-files" (change)="onChoosePDF($event)" />
                                 <label for="up-files">Choose PDF</label>
                                 <div *ngIf="pdfSpinnerbar" class="spinner-border text-primary talent-profile-edit"
-                                  role="status">
+                                     role="status">
                                   <span class="visually-hidden"></span>
                                 </div>
                               </div>
@@ -669,7 +669,7 @@
                                 <input type="file" id="up-files-video" (change)="onVideoUpload($event)" />
                                 <label for="up-files-video">Upload Video</label>
                                 <div *ngIf="videoSpinnerbar" class="spinner-border text-primary talent-profile-edit"
-                                  role="status">
+                                     role="status">
                                   <span class="visually-hidden"></span>
                                 </div>
                               </div>
@@ -731,7 +731,7 @@
                             <label class="qs-label-text">Number of years of freelancer experience</label>
                             <div class="form-input-group position-relative w-50">
                               <select class="inputview" name="noOfYearExperience"
-                                [(ngModel)]="data.FreelancingExperience">
+                                      [(ngModel)]="data.FreelancingExperience">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -757,7 +757,7 @@
                               Select your English fluency level</label>
                             <div class="form-input-group position-relative w-50">
                               <select class="inputview" name="englishFluencyLevel"
-                                [(ngModel)]="data.englishFluencyLevel">
+                                      [(ngModel)]="data.englishFluencyLevel">
                                 <option value="NO(N) Practical proficiency (Google translates me)">
                                   NO(N) Practical proficiency (Google translates
                                   me)
@@ -767,18 +767,18 @@
                                   English
                                 </option>
                                 <option
-                                  value="Fluent(F)-I can Read,write,understand,speak & comprehend English with no trouble">
+                                        value="Fluent(F)-I can Read,write,understand,speak & comprehend English with no trouble">
                                   Fluent(F)-I can Read,write,understand,speak &
                                   comprehend English with no trouble
                                 </option>
                                 <option
-                                  value="Professional(P)-I have Advance Level of proficiency  7 can communicate in complex and cognitively demading situation">
+                                        value="Professional(P)-I have Advance Level of proficiency  7 can communicate in complex and cognitively demading situation">
                                   Professional(P)-I have Advance Level of
                                   proficiency 7 can communicate in complex and
                                   cognitively demading situation
                                 </option>
                                 <option
-                                  value="Excellent Native/Billungal(E) - English is my primary and native language">
+                                        value="Excellent Native/Billungal(E) - English is my primary and native language">
                                   Excellent Native/Billungal(E) - English is my
                                   primary and native language
                                 </option>
@@ -793,8 +793,8 @@
                       <div class="d-flex align-items-center">
                         <h2 class="main-question">Work Experience</h2>
                         <button type="button"
-                          class="btn-get-started addworkhistorybtn mb-2 d-flex align-items-center ml-auto"
-                          (click)="onAddExperience()">
+                                class="btn-get-started addworkhistorybtn mb-2 d-flex align-items-center ml-auto"
+                                (click)="onAddExperience()">
                           <i class="bx bx-plus-circle"></i> Add Experience
                         </button>
                       </div>
@@ -816,7 +816,7 @@
                               ">
                               <td>
                                 <select class="inputview" [(ngModel)]="expert.role" #name="ngModel"
-                                  name="expert{{ i }}.role">
+                                        name="expert{{ i }}.role">
                                   <ng-container *ngFor="let role of jobRole">
                                     <option value="{{ role.value }}">
                                       {{ role.value }}
@@ -827,7 +827,7 @@
                               <td>
                                 <div class="d-flex">
                                   <select [ngStyle]="{'margin-right.px': 2,'min-width.px':0}" class="com-select" name="expert{{ i }}.startDuration"
-                                    [(ngModel)]="expert.startDuration">
+                                          [(ngModel)]="expert.startDuration">
                                     <option value="2000">2000</option>
                                     <option value="2001">2001</option>
                                     <option value="2002">2002</option>
@@ -853,7 +853,7 @@
                                     <option value="2022">2022</option>
                                   </select>
                                   <select [ngStyle]="{'min-width.px':0}" class="com-select" name="expert{{ i }}.endDuration"
-                                    [(ngModel)]="expert.endDuration">
+                                          [(ngModel)]="expert.endDuration">
                                     <option value="2000">2000</option>
                                     <option value="2001">2001</option>
                                     <option value="2002">2002</option>
@@ -886,11 +886,11 @@
                               </td>
                               <td>
                                 <input type="text" class="inputview" #name="ngModel" name="expert{{ i }}.skills"
-                                  [(ngModel)]="expert.skills" />
+                                       [(ngModel)]="expert.skills" />
                               </td>
                               <td>
                                 <input type="text" class="inputview" #name="ngModel" name="expert{{ i }}.clientName"
-                                  [(ngModel)]="expert.clientName" />
+                                       [(ngModel)]="expert.clientName" />
                               </td>
                               <td class="text-center">
                                 <button type="button" class="remoebtn" (click)="onRemoveExperience(expert, i)">
@@ -907,8 +907,8 @@
                       <div class="d-flex align-items-center">
                         <h2 class="main-question">Education</h2>
                         <button type="button"
-                          class="btn-get-started addworkhistorybtn mb-2 d-flex align-items-center ml-auto"
-                          (click)="onAddEducation()">
+                                class="btn-get-started addworkhistorybtn mb-2 d-flex align-items-center ml-auto"
+                                (click)="onAddEducation()">
                           <i class="bx bx-plus-circle"></i> Add Education
                         </button>
                       </div>
@@ -931,16 +931,16 @@
                               ">
                               <td>
                                 <input type="text" class="inputview mr-1" #name="ngModel" name="education{{ i }}.degree"
-                                  [(ngModel)]="education.degree" />
+                                       [(ngModel)]="education.degree" />
                               </td>
                               <td>
                                 <input type="text" class="inputview" #name="ngModel"
-                                  name="education{{ i }}.specialization" [(ngModel)]="education.specialization" />
+                                       name="education{{ i }}.specialization" [(ngModel)]="education.specialization" />
                               </td>
                               <td>
                                 <div class="d-flex">
                                   <select [ngStyle]="{'margin-right.px': 2,'min-width.px':0}" class="com-select" name="education{{ i }}.startDuration"
-                                    [(ngModel)]="education.startDuration">
+                                          [(ngModel)]="education.startDuration">
                                     <option value="2000">2000</option>
                                     <option value="2001">2001</option>
                                     <option value="2002">2002</option>
@@ -966,7 +966,7 @@
                                     <option value="2022">2022</option>
                                   </select>
                                   <select [ngStyle]="{'min-width.px':0}" class="com-select" name="education{{ i }}.endDuration"
-                                    [(ngModel)]="education.endDuration">
+                                          [(ngModel)]="education.endDuration">
                                     <option value="2000">2000</option>
                                     <option value="2001">2001</option>
                                     <option value="2002">2002</option>
@@ -999,11 +999,11 @@
                               </td>
                               <td>
                                 <input type="text" class="inputview mr-1" #name="ngModel" name="education{{ i }}.school"
-                                  [(ngModel)]="education.school" />
+                                       [(ngModel)]="education.school" />
                               </td>
                               <td>
                                 <input type="text" class="inputview mr-1" #name="ngModel"
-                                  name="education{{ i }}.address" [(ngModel)]="education.address" />
+                                       name="education{{ i }}.address" [(ngModel)]="education.address" />
                               </td>
                               <td class="text-center">
                                 <button type="button" class="remoebtn" (click)="onRemoveEducation(education, i)">
@@ -1043,19 +1043,19 @@
 
                 <div class="quiz-bttn-group border-top pt-3" *ngIf="currentPage < 14 && currentPage > 0">
                   <button *ngIf="!showUpdateButton" type="button" class="btn-common-border"
-                    [disabled]="currentPage === 1" (click)="changePage(-1)">
+                          [disabled]="currentPage === 1" (click)="changePage(-1)">
                     Previous
                   </button>
                   <div class="next-skip">
                     <button *ngIf="showUpdateButton" type="button" class="btn-common-border"
-                      (click)="onUpdateProfile()">
+                            (click)="onUpdateProfile()">
                       Update Profile
                     </button>
                     <div *ngIf="showSpinnerbar" class="spinner-border text-primary talent-profile-edit" role="status">
                       <span class="visually-hidden"></span>
                     </div>
                     <button *ngIf="!showUpdateButton" type="button" class="btn-common-border nextbtn"
-                      [disabled]="disableNextButton" (click)="changePage(1)">
+                            [disabled]="disableNextButton" (click)="changePage(1)">
                       Next
                     </button>
                   </div>
@@ -1072,32 +1072,32 @@
             <!-- <img class="congts-img" src="assets/img/Congrats_Talent.png" /> -->
             <div class="congrtzLottie">
               <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_8uojpeha.json" background="transparent"
-                speed="1" style="width: 100%; height: 100%" loop autoplay></lottie-player>
+                             speed="1" style="width: 100%; height: 100%" loop autoplay></lottie-player>
             </div>
             <div class="next-step-dashboard border-top pt-3">
               <h4 class="text-center mb-3">Next Steps</h4>
               <ul class="twowaysstreet-type text-center mt-2 row">
                 <li class="col-lg-3 col-md-3 col-12 pr-0 d-block">
                   <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_mcqtv0qr.json"
-                    background="transparent" speed="1" style="width: 100%; height: 100px" loop autoplay>
+                                 background="transparent" speed="1" style="width: 100%; height: 100px" loop autoplay>
                   </lottie-player>
                   <h4>Profile review for completeness and feedback</h4>
                 </li>
                 <li class="col-lg-3 col-md-3 col-12 pl-0 d-block">
                   <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_6ln47dih.json"
-                    background="transparent" speed="1" style="width: 100%; height: 100px" loop autoplay>
+                                 background="transparent" speed="1" style="width: 100%; height: 100px" loop autoplay>
                   </lottie-player>
                   <h4>Profile Approve</h4>
                 </li>
                 <li class="col-lg-3 col-md-3 col-12 pr-0 d-block">
                   <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_mlfv646z.json"
-                    background="transparent" speed="1" style="width: 100%; height: 100px" loop autoplay>
+                                 background="transparent" speed="1" style="width: 100%; height: 100px" loop autoplay>
                   </lottie-player>
                   <h4>Apply for elite companies</h4>
                 </li>
                 <li class="col-lg-3 col-md-3 col-12 d-block">
                   <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_ssmd5ixl.json"
-                    background="transparent" speed="1" style="width: 100%; height: 100px" loop autoplay>
+                                 background="transparent" speed="1" style="width: 100%; height: 100px" loop autoplay>
                   </lottie-player>
                   <h4>Onboard and start working after interview selection</h4>
                 </li>
