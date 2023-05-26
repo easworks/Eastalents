@@ -1,3 +1,16 @@
+.lhs-content {
+  background: #2f2e41;  
+}
+
+.rhs-content {
+}
+
+.lhs-content,
+.rhs-content {
+  height: 100vh;
+  padding-top: 64px; /* this is to allow for the header */
+}
+
 .wrap-container {
   display: flex;
   flex-direction: column;
