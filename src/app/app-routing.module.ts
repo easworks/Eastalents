@@ -78,7 +78,7 @@ const routes: Routes = [
   },
   {
     path: 'employerprofilequestion',
-    loadChildren: () => import('./emploer-question/emploer-question.module').then(m => m.EmploerQuestionModule)
+    loadChildren: () => import('./employer-question/employer-question.module').then(m => m.EmploerQuestionModule)
   },
   {
     path: 'Employer-Signup',

@@ -7,8 +7,8 @@ import { ToasterService } from '../_services/toaster.service';
 
 @Component({
   selector: 'app-emploer-question',
-  templateUrl: './emploer-question.component.html',
-  styleUrls: ['./emploer-question.component.css'],
+  templateUrl: './employer-question.component.html',
+  styleUrls: ['./employer-question.component.css'],
 })
 export class EmploerQuestionComponent implements OnInit {
   constructor(
