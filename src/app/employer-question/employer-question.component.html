@@ -1,4 +1,6 @@
 <div class="container-fluid d-flex flex-wrap p-0">
+
+  <!-- LHS content -->
   <div class="lhs-content col-12 col-lg-4 d-flex align-items-center" style="min-width: min-content;">
     <div class="p-5">
       <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_8nfvjov1.json" background="transparent"
@@ -11,6 +13,8 @@
       </p>
     </div>
   </div>
+
+  <!-- RHS content -->
   <div class="rhs-content col-12 col-lg-8 d-flex flex-column align-items-start">
     <div class="mx-auto mt-4">
       <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_m4gdjtfv.json"
@@ -19,23 +23,21 @@
                      style="width: 6rem; height: 6rem;"></lottie-player>
     </div>
 
-    <div style="flex-grow: 1; width: 100%;">
+    <!-- Stepper container -->
+    <div style="flex-grow: 1; width: 100%;" *ngIf="step$ | async as step">
 
-      <ng-container *ngIf="step$ | async as step">
-
-        <ng-container *ngIf="step === 'start'">
-          <div class="d-flex flex-column h-100 align-items-center justify-content-center">
-            <p>
-              Please carefully answer the following questions to
-              complete you Joining Application.
-            </p>
-            <button type="button" class="btn-get-started mt-3">
-              Get Started
-            </button>
-          </div>
-        </ng-container>
-
+      <ng-container *ngIf="step === 'start'">
+        <div class="d-flex flex-column h-100 align-items-center justify-content-center">
+          <p>
+            Please carefully answer the following questions to
+            complete you Joining Application.
+          </p>
+          <button type="button" class="btn-get-started mt-3">
+            Get Started
+          </button>
+        </div>
       </ng-container>
+
     </div>
   </div>
 
