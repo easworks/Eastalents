@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-type Step = 'start';
+type Step =
+  'start' |
+  'enterprise application domain';
 
 @Component({
   selector: 'employer-question',
@@ -14,4 +16,11 @@ export class EmployerQuestionComponent {
 
   readonly step$ = new BehaviorSubject<Step>('start');
 
+  readonly start = {
+    next: () => this.step$.next('enterprise application domain')
+  } as const;
+
+  readonly entAppDomain = {
+    filterString: '',
+  };
 }

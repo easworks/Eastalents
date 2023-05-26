@@ -15,12 +15,22 @@
   </div>
 
   <!-- RHS content -->
-  <div class="rhs-content col-12 col-lg-8 d-flex flex-column align-items-start">
+  <div class="rhs-content col-12 col-lg-8 p-5 d-flex flex-column align-items-start">
     <div class="mx-auto mt-4">
       <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_m4gdjtfv.json"
                      background="transparent"
                      speed="1" loop autoplay
                      style="width: 6rem; height: 6rem;"></lottie-player>
+    </div>
+
+    <!-- message for all steps -->
+    <div class="toastermessage mx-auto">
+      <div class="toastContent w-100">
+        <p>
+          <span>Let's Learn more about your Product Lifecycle Management
+            (PLM) and Engineering - Teamcenter requirement</span>
+        </p>
+      </div>
     </div>
 
     <!-- Stepper container -->
@@ -32,9 +42,22 @@
             Please carefully answer the following questions to
             complete you Joining Application.
           </p>
-          <button type="button" class="btn-get-started mt-3">
+          <button type="button" class="btn-get-started mt-3" (click)="start.next()">
             Get Started
           </button>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="step === 'enterprise application domain'">
+        <div class="d-flex flex-column">
+          <h2 class="main-question">Select Enterprise Application Domain which requires new hiring</h2>
+
+          <div class="lm-dropdown dropdown">
+            <input type="text" placeholder="Type the desired skills you need in your project"
+                   class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false" name="filterbasedon"
+                   [(ngModel)]="entAppDomain.filterString" />
+          </div>
         </div>
       </ng-container>
 

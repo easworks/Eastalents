@@ -8,7 +8,7 @@
 .lhs-content,
 .rhs-content {
   height: 100vh;
-  padding-top: 64px; /* this is to allow for the header */
+  padding-top: 64px !important; /* this is to allow for the header */
 }
 
 .wrap-container {
