@@ -7,7 +7,7 @@
 
 .lhs-content,
 .rhs-content {
-  height: 100vh;
+  min-height: 100vh;
   padding-top: 64px !important; /* this is to allow for the header */
 }
 
