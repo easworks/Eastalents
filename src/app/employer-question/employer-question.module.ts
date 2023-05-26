@@ -4,20 +4,20 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { GaugeChartModule } from 'angular-gauge-chart';
 import { ToastrModule } from 'ngx-toastr';
-import { EmploerQuestionComponent } from './employer-question.component';
+import { EmployerQuestionComponent } from './employer-question.component';
 import { EmployerSelectItemComponent } from './employer-select-item/employer-select-item.component';
 import { DatafilterPipe } from './datafilter.pipe';
 
 const routes: Routes = [
   {
     path: '',
-    component: EmploerQuestionComponent,
+    component: EmployerQuestionComponent,
   },
 ];
 
 @NgModule({
   declarations: [
-    EmploerQuestionComponent,
+    EmployerQuestionComponent,
     EmployerSelectItemComponent,
     DatafilterPipe,
   ],

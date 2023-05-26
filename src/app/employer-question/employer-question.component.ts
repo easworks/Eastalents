@@ -7,11 +7,11 @@ import { ToasterService } from '../_services/toaster.service';
 import { industry, industryGroup } from './question-data';
 
 @Component({
-  selector: 'app-emploer-question',
+  selector: 'app-employer-question',
   templateUrl: './employer-question.component.html',
   styleUrls: ['./employer-question.component.css'],
 })
-export class EmploerQuestionComponent implements OnInit {
+export class EmployerQuestionComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private ref: ChangeDetectorRef,
