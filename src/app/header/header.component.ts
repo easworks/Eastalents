@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
   public subNavlist: any = [];
   public searchText: any;
   public selectedProduct: any;
-  constructor(public HomeService: HomeService, public router: Router) { 
+  constructor(public HomeService: HomeService, public router: Router) {
   }
   @Output() eventForSwitchTenant = new EventEmitter();
 
@@ -86,9 +86,6 @@ export class HeaderComponent implements OnInit {
           }
           if (i == prefix_suffix.length - 1) {
             this.softwareList = this.primaryDomains[0]['softwate'];
-            console.log(this.softwareList);
-            console.log(this.primaryDomains);
-            console.log(talentprofile);
             this.sideNavList = talentprofile;
             this.sideNavList[0]['selected'] = true;
             this.subNavlist = this.sideNavList[0].Product;
