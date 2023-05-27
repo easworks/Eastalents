@@ -1,0 +1,28 @@
+.lhs-content {
+  background: #2f2e41;
+}
+
+.lhs-content,
+.rhs-content {
+  min-height: 100vh;
+  padding-top: 64px !important;
+  /* this is to allow for the header */
+}
+
+.step-enterprise-application-domain {
+  .options-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+
+    li {
+      outline: none;
+
+      &:focus,
+      &:hover {
+        border: 1px solid gray !important;
+        background: gray;
+        color: white;
+      }
+    }
+  }
+}

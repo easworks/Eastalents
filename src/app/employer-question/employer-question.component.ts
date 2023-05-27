@@ -19,7 +19,7 @@ interface PrimaryDomainOption {
 @Component({
   selector: 'employer-question',
   templateUrl: './employer-question.component.html',
-  styleUrls: ['./employer-question.component.css'],
+  styleUrls: ['./employer-question.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EmployerQuestionComponent implements OnInit {
