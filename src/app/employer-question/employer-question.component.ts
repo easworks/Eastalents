@@ -32,7 +32,6 @@ export class EmployerQuestionComponent implements OnInit {
   readonly loading$ = new LoadingState(new Set<LoadingStates>());
 
   readonly isLoading$ = this.loading$.size$.pipe(map(v => v > 0));
-  readonly isGettingInitialData$ = this.loading$.has$('getting domain options');
 
   readonly start = {
     next: () => this.step$.next('enterprise application domain')
@@ -40,7 +39,8 @@ export class EmployerQuestionComponent implements OnInit {
 
   readonly entAppDomain = {
     filterString: new BehaviorSubject(''),
-    options: new BehaviorSubject<PrimaryDomainOption[]>([])
+    gettingOptions$: this.loading$.has$('getting domain options'),
+    options$: new BehaviorSubject<PrimaryDomainOption[]>([])
   };
 
   private getDomainOptions() {
@@ -59,7 +59,7 @@ export class EmployerQuestionComponent implements OnInit {
               return opt;
             });
 
-            this.entAppDomain.options.next(pdOptions);
+            this.entAppDomain.options$.next(pdOptions);
           }
           else throw new Error('api error - please check network logs');
 

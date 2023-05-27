@@ -40,22 +40,13 @@
     <!-- Stepper container -->
     <div style="flex-grow: 1; width: 100%; position: relative;" *ngIf="step$ | async as step">
 
-      <div *ngIf="isGettingInitialData$ | async"
-           class="d-flex flex-column h-100 align-items-center justify-content-center">
-        <p>Please wait...</p>
-        <div class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-      </div>
-
       <ng-container *ngIf="step === 'start'">
         <div class="d-flex flex-column h-100 align-items-center justify-content-center">
           <p>
             Please carefully answer the following questions to
             complete you Joining Application.
           </p>
-          <button type="button" class="btn-get-started mt-3 disabled" (click)="start.next()"
-                  [disabled]="isLoading$ | async">
+          <button type="button" class="btn-get-started mt-3 disabled" (click)="start.next()">
             Get Started
           </button>
         </div>
@@ -71,12 +62,21 @@
                  aria-haspopup="true" aria-expanded="false" name="filterbasedon"
                  [ngModel]="entAppDomain.filterString | async"
                  (ngModelChange)="entAppDomain.filterString.next($event)" />
-          <div aria-labelledby="dropdownMenuButton" class="dropdown-menu" style="padding: 5px;">
-            <ul class="options-wrapper" *ngIf="entAppDomain.options | async as options">
-              <li *ngFor="let option of options">
-                {{option.short | uppercase}}
-              </li>
-            </ul>
+          <div aria-labelledby="dropdownMenuButton" class="dropdown-menu w-100 p-2">
+            <div *ngIf="entAppDomain.gettingOptions$| async; else optionsLoaded"
+                 class="d-flex flex-column h-100 align-items-center justify-content-center p-2">
+              <p> Fetching data. Please wait... </p>
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+            <ng-template #optionsLoaded>
+              <ul class="options-wrapper" *ngIf="entAppDomain.options$ | async as options">
+                <li *ngFor="let option of options">
+                  {{option.short | uppercase}}
+                </li>
+              </ul>
+            </ng-template>
           </div>
         </div>
       </div>
