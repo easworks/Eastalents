@@ -3,6 +3,11 @@ import { map, shareReplay } from 'rxjs/operators';
 import { ImmutableSet } from './immutable-set';
 
 export class LoadingState<T extends string> extends BehaviorSubject<Set<T>> {
+  readonly size$ = this.pipe(
+    map(v => v.size),
+    shareReplay({ refCount: true, bufferSize: 1 })
+  );
+
   add(value: T) {
     const r = ImmutableSet.add(this.value, value);
     this.next(r);
@@ -21,12 +26,4 @@ export class LoadingState<T extends string> extends BehaviorSubject<Set<T>> {
       shareReplay({ refCount: true, bufferSize: 1 })
     );
   }
-
-  size$() {
-    return this.pipe(
-      map(v => v.size),
-      shareReplay({ refCount: true, bufferSize: 1 })
-    );
-  }
-
 }
