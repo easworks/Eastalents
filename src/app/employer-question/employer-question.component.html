@@ -61,8 +61,9 @@
                  class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
                  aria-haspopup="true" aria-expanded="false" name="filterbasedon"
                  [ngModel]="entAppDomain.filterString | async"
-                 (ngModelChange)="entAppDomain.filterString.next($event)" />
-          <div aria-labelledby="dropdownMenuButton" class="dropdown-menu w-100 p-2">
+                 (ngModelChange)="entAppDomain.filterString.next($event)"
+                 (focus)="triggerDropdownOnFocus($event)" />
+          <div aria-labelledby="dropdownMenuButton" class="dropdown-menu w-100 p-1">
             <div *ngIf="entAppDomain.gettingOptions$| async; else optionsLoaded"
                  class="d-flex flex-column h-100 align-items-center justify-content-center p-2">
               <p> Fetching data. Please wait... </p>
@@ -72,7 +73,9 @@
             </div>
             <ng-template #optionsLoaded>
               <ul class="options-wrapper" *ngIf="entAppDomain.options$ | async as options">
-                <li *ngFor="let option of options">
+                <li *ngFor="let option of options" class="border rounded m-1 py-1 px-2"
+                    [title]="option.long"
+                    role="button" tabindex="0">
                   {{option.short | uppercase}}
                 </li>
               </ul>

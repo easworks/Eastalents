@@ -14,12 +14,17 @@
 .step-enterprise-application-domain .options-wrapper {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-  gap: 5px; /* match outer padding */
 }
 
 .step-enterprise-application-domain .options-wrapper li {
-  border: 1px solid gray;
-  padding: 5px;
+  outline: none;
+}
+
+.step-enterprise-application-domain .options-wrapper li:focus,
+.step-enterprise-application-domain .options-wrapper li:hover {
+  border: 1px solid gray !important;
+  background: gray;
+  color: white;
 }
 
 .wrap-container {

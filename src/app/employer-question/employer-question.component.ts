@@ -70,4 +70,17 @@ export class EmployerQuestionComponent implements OnInit {
   ngOnInit() {
     this.getDomainOptions();
   }
+
+  async triggerDropdownOnFocus(event: FocusEvent) {
+    await new Promise(resolve => setTimeout(resolve, 100));
+    if (event.target) {
+      const el = event.target as HTMLElement;
+      const sib = el.nextElementSibling;
+      if (sib) {
+        const cl = sib.classList;
+        if (cl.contains('dropdown-menu') && !cl.contains('show'))
+          el.click();
+      }
+    }
+  }
 }
