@@ -1,9 +1,20 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { HttpService } from '../_services/http.service';
+import { DomainDictionary } from '../_models/domain';
+import { LoadingState } from '../_helpers/loading-state';
+import { map } from 'rxjs/operators';
 
 type Step =
   'start' |
   'enterprise application domain';
+
+type LoadingStates = 'getting domain options';
+
+interface PrimaryDomainOption {
+  short: string;
+  long: string;
+}
 
 @Component({
   selector: 'employer-question',
@@ -11,16 +22,52 @@ type Step =
   styleUrls: ['./employer-question.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EmployerQuestionComponent {
-  constructor() { }
+export class EmployerQuestionComponent implements OnInit {
+  constructor(
+    private readonly http: HttpService
+  ) { }
 
   readonly step$ = new BehaviorSubject<Step>('start');
+
+  readonly loading$ = new LoadingState(new Set<LoadingStates>());
+
+  readonly isLoading$ = this.loading$.size$.pipe(map(v => v > 0));
+  readonly isGettingInitialData$ = this.loading$.has$('getting domain options');
 
   readonly start = {
     next: () => this.step$.next('enterprise application domain')
   } as const;
 
   readonly entAppDomain = {
-    filterString: '',
+    filterString: new BehaviorSubject(''),
+    options: new BehaviorSubject<PrimaryDomainOption[]>([])
   };
+
+  private getDomainOptions() {
+    this.loading$.add('getting domain options');
+    this.http.get('talentProfile/getTalentProfileSteps')
+      .subscribe(
+        res => {
+          if (res.status === true) {
+            const dict = res.talentProfile as DomainDictionary;
+
+            const pdOptions = Object.keys(dict).map(k => {
+              const opt: PrimaryDomainOption = {
+                short: k,
+                long: dict[k]['Primary Domain']
+              };
+              return opt;
+            });
+
+            this.entAppDomain.options.next(pdOptions);
+          }
+          else throw new Error('api error - please check network logs');
+
+          this.loading$.delete('getting domain options');
+        })
+  }
+
+  ngOnInit() {
+    this.getDomainOptions();
+  }
 }
