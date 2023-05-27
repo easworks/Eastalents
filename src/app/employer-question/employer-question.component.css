@@ -11,6 +11,17 @@
   padding-top: 64px !important; /* this is to allow for the header */
 }
 
+.step-enterprise-application-domain .options-wrapper {
+  display: grid;
+  grid-column: repeat(4, 1fr);
+  gap: 5px; /* match outer padding */
+}
+
+.step-enterprise-application-domain .options-wrapper li {
+  border: 1px solid gray;
+  padding: 5px;
+}
+
 .wrap-container {
   display: flex;
   flex-direction: column;

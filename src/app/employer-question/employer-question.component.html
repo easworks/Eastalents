@@ -38,7 +38,15 @@
     </div>
 
     <!-- Stepper container -->
-    <div style="flex-grow: 1; width: 100%;" *ngIf="step$ | async as step">
+    <div style="flex-grow: 1; width: 100%; position: relative;" *ngIf="step$ | async as step">
+
+      <div *ngIf="isGettingInitialData$ | async"
+           class="d-flex flex-column h-100 align-items-center justify-content-center">
+        <p>Please wait...</p>
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
 
       <ng-container *ngIf="step === 'start'">
         <div class="d-flex flex-column h-100 align-items-center justify-content-center">
@@ -46,24 +54,32 @@
             Please carefully answer the following questions to
             complete you Joining Application.
           </p>
-          <button type="button" class="btn-get-started mt-3" (click)="start.next()">
+          <button type="button" class="btn-get-started mt-3 disabled" (click)="start.next()"
+                  [disabled]="isLoading$ | async">
             Get Started
           </button>
         </div>
       </ng-container>
 
-      <ng-container *ngIf="step === 'enterprise application domain'">
-        <div class="d-flex flex-column">
-          <h2 class="main-question">Select Enterprise Application Domain which requires new hiring</h2>
+      <div *ngIf="step === 'enterprise application domain'"
+           class="step-enterprise-application-domain d-flex flex-column">
+        <h2 class="main-question">Select Enterprise Application Domain which requires new hiring</h2>
 
-          <div class="lm-dropdown dropdown">
-            <input type="text" placeholder="Type the desired skills you need in your project"
-                   class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false" name="filterbasedon"
-                   [(ngModel)]="entAppDomain.filterString" />
+        <div class="lm-dropdown dropdown">
+          <input type="text" placeholder="Type the desired skills you need in your project"
+                 class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
+                 aria-haspopup="true" aria-expanded="false" name="filterbasedon"
+                 [ngModel]="entAppDomain.filterString | async"
+                 (ngModelChange)="entAppDomain.filterString.next($event)" />
+          <div aria-labelledby="dropdownMenuButton" class="dropdown-menu" style="padding: 5px;">
+            <ul class="options-wrapper" *ngIf="entAppDomain.options | async as options">
+              <li *ngFor="let option of options">
+                {{option.short | uppercase}}
+              </li>
+            </ul>
           </div>
         </div>
-      </ng-container>
+      </div>
 
     </div>
   </div>
