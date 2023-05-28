@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { HttpService } from '../_services/http.service';
 import { DomainDictionary } from '../_models/domain';
 import { LoadingState } from '../_helpers/loading-state';
@@ -38,10 +38,25 @@ export class EmployerQuestionComponent implements OnInit {
   } as const;
 
   readonly entAppDomain = {
-    filterString: new BehaviorSubject(''),
+    filterString$: new BehaviorSubject(''),
     gettingOptions$: this.loading$.has$('getting domain options'),
-    options$: new BehaviorSubject<PrimaryDomainOption[]>([])
-  };
+    options$: new BehaviorSubject<PrimaryDomainOption[]>([]),
+    filteredOptions$: new BehaviorSubject<PrimaryDomainOption[]>([]),
+    initFilter: () => {
+      combineLatest([
+        this.entAppDomain.filterString$,
+        this.entAppDomain.options$
+      ]).pipe(
+        map(([filter, options]) => {
+          const f = filter.toLowerCase();
+          return options.filter(opt =>
+            opt.short.toLowerCase().includes(f) ||
+            opt.long.toLowerCase().includes(f)
+          )
+        })
+      ).subscribe(this.entAppDomain.filteredOptions$);
+    }
+  } as const;
 
   private getDomainOptions() {
     this.loading$.add('getting domain options');
@@ -69,6 +84,8 @@ export class EmployerQuestionComponent implements OnInit {
 
   ngOnInit() {
     this.getDomainOptions();
+
+    this.entAppDomain.initFilter();
   }
 
   async triggerDropdownOnFocus(event: FocusEvent) {

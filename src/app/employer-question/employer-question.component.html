@@ -31,8 +31,9 @@
     <div class="toastermessage mx-auto">
       <div class="toastContent w-100">
         <p>
-          <span>Let's Learn more about your Product Lifecycle Management
-            (PLM) and Engineering - Teamcenter requirement</span>
+          Thanks for your interest in hiring through EASWorks!
+          Before we get started, we'd like to ask a few questions to
+          better understand your business needs.
         </p>
       </div>
     </div>
@@ -41,15 +42,10 @@
     <div style="flex-grow: 1; width: 100%; position: relative;" *ngIf="step$ | async as step">
 
       <ng-container *ngIf="step === 'start'">
-        <div class="d-flex flex-column h-100 align-items-center justify-content-center">
-          <p>
-            Please carefully answer the following questions to
-            complete you Joining Application.
-          </p>
-          <button type="button" class="btn-get-started mt-3 disabled" (click)="start.next()">
-            Get Started
-          </button>
-        </div>
+        <button type="button" class="btn-get-started mt-5 mx-auto" style="display: block;"
+                (click)="start.next()">
+          Get Started
+        </button>
       </ng-container>
 
       <div *ngIf="step === 'enterprise application domain'"
@@ -60,8 +56,8 @@
           <input type="text" placeholder="Type the desired skills you need in your project"
                  class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
                  aria-haspopup="true" aria-expanded="false" name="filterbasedon"
-                 [ngModel]="entAppDomain.filterString | async"
-                 (ngModelChange)="entAppDomain.filterString.next($event)"
+                 [ngModel]="entAppDomain.filterString$ | async"
+                 (ngModelChange)="entAppDomain.filterString$.next($event)"
                  (focus)="triggerDropdownOnFocus($event)" />
           <div aria-labelledby="dropdownMenuButton" class="dropdown-menu w-100 p-1">
             <div *ngIf="entAppDomain.gettingOptions$| async; else optionsLoaded"
@@ -72,12 +68,19 @@
               </div>
             </div>
             <ng-template #optionsLoaded>
-              <ul class="options-wrapper" *ngIf="entAppDomain.options$ | async as options">
-                <li *ngFor="let option of options" class="border rounded m-1 py-1 px-2"
-                    [title]="option.long"
-                    role="button" tabindex="0">
-                  {{option.short | uppercase}}
-                </li>
+              <ul class="options-wrapper" *ngIf="entAppDomain.filteredOptions$ | async as options">
+                <ng-container *ngIf="options.length > 0; else noOptions">
+                  <li *ngFor="let option of options" class="border rounded m-1 py-1 px-2"
+                      [title]="option.long"
+                      role="button" tabindex="0">
+                    {{option.short | uppercase}}
+                  </li>
+                </ng-container>
+                <ng-template #noOptions>
+                  <div class="p-2">
+                    No matching options
+                  </div>
+                </ng-template>
               </ul>
             </ng-template>
           </div>
