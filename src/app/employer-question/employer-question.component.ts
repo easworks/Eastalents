@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { HttpService } from '../_services/http.service';
-import { DomainDictionary } from '../_models/domain';
+import { Domain, DomainDictionary } from '../_models/domain';
 import { LoadingState } from '../_helpers/loading-state';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 type Step =
   'start' |
@@ -14,6 +15,7 @@ type LoadingStates = 'getting domain options';
 interface PrimaryDomainOption {
   short: string;
   long: string;
+  selected: boolean;
 }
 
 @Component({
@@ -27,11 +29,15 @@ export class EmployerQuestionComponent implements OnInit {
     private readonly http: HttpService
   ) { }
 
+  private domainDictionary!: DomainDictionary;
+
   readonly step$ = new BehaviorSubject<Step>('start');
 
   readonly loading$ = new LoadingState(new Set<LoadingStates>());
 
-  readonly isLoading$ = this.loading$.size$.pipe(map(v => v > 0));
+  readonly isLoading$ = this.loading$.size$.pipe(map(v => v > 0), shareReplay());
+
+  readonly nextDisbaled$ = new BehaviorSubject(false);
 
   readonly start = {
     next: () => this.step$.next('enterprise application domain')
@@ -42,6 +48,11 @@ export class EmployerQuestionComponent implements OnInit {
     gettingOptions$: this.loading$.has$('getting domain options'),
     options$: new BehaviorSubject<PrimaryDomainOption[]>([]),
     filteredOptions$: new BehaviorSubject<PrimaryDomainOption[]>([]),
+    form: new FormGroup({
+      domain: new FormControl(null, { validators: [Validators.required] }),
+      noOfYears: new FormControl(null, { validators: [Validators.required] }),
+      expertise: new FormControl(null, { validators: [Validators.required] })
+    }),
     initFilter: () => {
       combineLatest([
         this.entAppDomain.filterString$,
@@ -55,6 +66,13 @@ export class EmployerQuestionComponent implements OnInit {
           )
         })
       ).subscribe(this.entAppDomain.filteredOptions$);
+    },
+    select: (value: PrimaryDomainOption) => {
+      const all = this.entAppDomain.options$.value;
+      all.forEach(opt => opt.selected = false);
+      value.selected = true;
+      this.entAppDomain.form.get('domain')!.setValue(value.short);
+      this.entAppDomain.filterString$.next('');
     }
   } as const;
 
@@ -64,12 +82,13 @@ export class EmployerQuestionComponent implements OnInit {
       .subscribe(
         res => {
           if (res.status === true) {
-            const dict = res.talentProfile as DomainDictionary;
+            this.domainDictionary = res.talentProfile as DomainDictionary;
 
-            const pdOptions = Object.keys(dict).map(k => {
+            const pdOptions = Object.keys(this.domainDictionary).map(k => {
               const opt: PrimaryDomainOption = {
                 short: k,
-                long: dict[k]['Primary Domain']
+                long: this.domainDictionary[k]['Primary Domain'],
+                selected: false
               };
               return opt;
             });
@@ -82,9 +101,23 @@ export class EmployerQuestionComponent implements OnInit {
         })
   }
 
+  private disableNextWhenRequired() {
+    combineLatest([
+      this.isLoading$,
+      this.entAppDomain.form.statusChanges
+    ]).pipe(map(([
+      loading,
+      entApptatus,
+    ]) => {
+      return loading ||
+        entApptatus !== 'VALID';
+    })).subscribe(this.nextDisbaled$)
+  }
+
   ngOnInit() {
     this.getDomainOptions();
 
+    this.disableNextWhenRequired();
     this.entAppDomain.initFilter();
   }
 

@@ -17,10 +17,16 @@
     li {
       outline: none;
 
+      &.selected {
+        border-color: black;
+        background-color: black;
+        color: white;
+      }
+
       &:focus,
       &:hover {
-        border: 1px solid gray !important;
-        background: gray;
+        border-color: gray;
+        background-color: gray;
         color: white;
       }
     }

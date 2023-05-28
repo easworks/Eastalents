@@ -52,7 +52,12 @@
            class="step-enterprise-application-domain d-flex flex-column">
         <h2 class="main-question">Select Enterprise Application Domain which requires new hiring</h2>
 
-        <div class="lm-dropdown dropdown">
+        <div *ngIf="entAppDomain.form.get('domain')!.value as domain"
+             class="border rounded d-flex" style="gap: 0.5rem; padding: 0.5rem;">
+          <div class="rounded py-1 px-2">{{domain | uppercase}}</div>
+        </div>
+
+        <div class="lm-dropdown dropdown mt-3">
           <input type="text" placeholder="Type the desired skills you need in your project"
                  class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
                  aria-haspopup="true" aria-expanded="false" name="filterbasedon"
@@ -71,8 +76,10 @@
               <ul class="options-wrapper" *ngIf="entAppDomain.filteredOptions$ | async as options">
                 <ng-container *ngIf="options.length > 0; else noOptions">
                   <li *ngFor="let option of options" class="border rounded m-1 py-1 px-2"
+                      [class.selected]="option.selected"
                       [title]="option.long"
-                      role="button" tabindex="0">
+                      role="button" tabindex="0"
+                      (click)="entAppDomain.select(option)">
                     {{option.short | uppercase}}
                   </li>
                 </ng-container>
