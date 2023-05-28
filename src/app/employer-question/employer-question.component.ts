@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, combineLatest } from 'rxjs';
+import { BehaviorSubject, combineLatest, pipe } from 'rxjs';
 import { first, map, shareReplay, startWith } from 'rxjs/operators';
 import { LoadingState } from '../_helpers/loading-state';
 import { DomainDictionary } from '../_models/domain';
@@ -138,13 +138,24 @@ export class EmployerQuestionComponent implements OnInit {
       }
     },
     application: {
+      filterString$: new BehaviorSubject(''),
+      filteredOptions$: new BehaviorSubject<SelectableOption[]>([]),
       options$: new BehaviorSubject<SelectableOption[]>([])
     },
     init: () => {
       this.entAppSoftware.domain.selected$
         .subscribe(domOption => {
+          this.entAppSoftware.application.filterString$.next('');
           this.entAppSoftware.application.options$.next(domOption?.applications ?? [])
-        })
+        });
+
+      combineLatest([
+        this.entAppSoftware.application.filterString$,
+        this.entAppSoftware.application.options$
+      ]).pipe(map(([filter, options]) => {
+        const f = filter.toLowerCase();
+        return options.filter(opt => opt.label.toLowerCase().includes(f))
+      })).subscribe(this.entAppSoftware.application.filteredOptions$);
     }
   } as const;
 
@@ -230,6 +241,8 @@ export class EmployerQuestionComponent implements OnInit {
 
     await this.isLoading$.pipe(first(l => l === false)).toPromise();
 
+    this.stepper.next.click('start');
+
     const pdo = this.entAppDomain.options$.value;
     const erpDomain = pdo.find(o => o.short === 'ERP');
     if (!erpDomain)
@@ -239,6 +252,7 @@ export class EmployerQuestionComponent implements OnInit {
       yearsOfExperience: 10,
       expertise: 'advanced'
     });
+
     this.stepper.next.click('enterprise application domain');
 
     const domOpts = this.entAppSoftware.domain.options$.value;

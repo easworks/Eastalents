@@ -93,9 +93,11 @@
           <button type="button"><i class="icofont-close"></i></button>
         </form>
 
-        <div class="lm-dropdown mt-3">
+        <div class="mt-3">
           <input type="text" placeholder="Type to filter the list"
                  name="filter"
+                 class="border rounded py-2 px-2 w-100"
+                 style="outline: none;"
                  [ngModel]="entAppDomain.filterString$ | async"
                  (ngModelChange)="entAppDomain.filterString$.next($event)"
                  (focus)="triggerDropdownOnFocus($event)" />
@@ -132,7 +134,7 @@
         <h2 class="main-question">Select specific Enterprise Application Software (EAS) used</h2>
 
         <div class="d-flex" style="gap: 1rem;">
-          <div class="industry-options">
+          <div class="industry-options rounded">
             <ul>
               <li *ngFor="let option of entAppSoftware.domain.options$ | async">
                 <button class="p-2 w-100" [class.selected]="option.selected"
@@ -143,11 +145,21 @@
             </ul>
           </div>
           <div class="software-options">
-            <ul>
-              <li *ngFor="let option of entAppSoftware.application.options$ | async">
-                <button class="p-2 w-100">{{option.label | uppercase}}</button>
-              </li>
-            </ul>
+            <input type="text" placeholder="Type to filter the list"
+                   name="filter"
+                   class="border rounded py-2 px-2 w-100"
+                   style="outline: none;"
+                   [ngModel]="entAppSoftware.application.filterString$ | async"
+                   (ngModelChange)="entAppSoftware.application.filterString$.next($event)"
+                   (focus)="triggerDropdownOnFocus($event)" />
+            <div>
+              <ul class="border rounded">
+                <li *ngFor="let option of entAppSoftware.application.filteredOptions$ | async">
+                  <button class="p-2 w-100">{{option.label | uppercase}}</button>
+                </li>
+              </ul>
+            </div>
+
           </div>
         </div>
       </div>
