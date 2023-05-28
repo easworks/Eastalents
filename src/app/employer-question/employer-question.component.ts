@@ -131,6 +131,9 @@ export class EmployerQuestionComponent implements OnInit {
       selected$: new BehaviorSubject<SoftwareDomainOption | null>(null),
       options$: new BehaviorSubject<SoftwareDomainOption[]>([]),
       select: (value: SoftwareDomainOption) => {
+        const all = this.entAppSoftware.domain.options$.value;
+        all.forEach(o => o.selected = false);
+        value.selected = true;
         this.entAppSoftware.domain.selected$.next(value);
       }
     },
@@ -236,6 +239,14 @@ export class EmployerQuestionComponent implements OnInit {
       yearsOfExperience: 10,
       expertise: 'advanced'
     });
+    this.stepper.next.click('enterprise application domain');
+
+    const domOpts = this.entAppSoftware.domain.options$.value;
+    const erpDomain2 = domOpts.find(o => o.value === 'ERP');
+    if (!erpDomain2)
+      throw new Error(`cannot find domain 'ERP'`);
+
+    this.entAppSoftware.domain.select(erpDomain2);
   }
 
   ngOnInit() {

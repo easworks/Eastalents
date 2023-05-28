@@ -135,7 +135,7 @@
           <div class="industry-options">
             <ul>
               <li *ngFor="let option of entAppSoftware.domain.options$ | async">
-                <button class="p-2 w-100"
+                <button class="p-2 w-100" [class.selected]="option.selected"
                         (click)="entAppSoftware.domain.select(option)">
                   {{option.label | uppercase}}
                 </button>
