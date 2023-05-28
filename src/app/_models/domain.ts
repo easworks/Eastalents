@@ -4,7 +4,7 @@ export interface DomainDictionary {
 
 export interface Domain {
   "Primary Domain": string;
-  Modules: DomainModule[];
+  Modules: { [key: string]: DomainModule };
 }
 
 export interface DomainModule {

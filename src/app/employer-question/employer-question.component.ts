@@ -20,6 +20,18 @@ interface PrimaryDomainOption {
   selected: boolean;
 }
 
+interface SelectableOption {
+  value: string;
+  label: string;
+  title: string;
+  selected: boolean;
+}
+
+
+interface SoftwareDomainOption extends SelectableOption {
+  applications: SelectableOption[];
+}
+
 @Component({
   selector: 'employer-question',
   templateUrl: './employer-question.component.html',
@@ -115,10 +127,20 @@ export class EmployerQuestionComponent implements OnInit {
   } as const;
 
   readonly entAppSoftware = {
+    domain: {
+      selected$: new BehaviorSubject<SoftwareDomainOption | null>(null),
+      options$: new BehaviorSubject<SoftwareDomainOption[]>([]),
+      select: (value: SoftwareDomainOption) => {
+        this.entAppSoftware.domain.selected$.next(value);
+      }
+    },
+    application: {
+      options$: new BehaviorSubject<SelectableOption[]>([])
+    },
     init: () => {
-      this.entAppDomain.form.get('domain')!.valueChanges
-        .subscribe(selected => {
-          console.debug(selected)
+      this.entAppSoftware.domain.selected$
+        .subscribe(domOption => {
+          this.entAppSoftware.application.options$.next(domOption?.applications ?? [])
         })
     }
   } as const;
@@ -140,16 +162,43 @@ export class EmployerQuestionComponent implements OnInit {
           if (res.status === true) {
             this.domainDictionary = res.talentProfile as DomainDictionary;
 
-            const pdOptions = Object.keys(this.domainDictionary).map(k => {
-              const opt: PrimaryDomainOption = {
-                short: k,
-                long: this.domainDictionary[k]['Primary Domain'],
+            const pdOptions: PrimaryDomainOption[] = [];
+            const softDomainOptions: SoftwareDomainOption[] = [];
+
+            Object.keys(this.domainDictionary).forEach(dk => {
+              const domain = this.domainDictionary[dk];
+
+              pdOptions.push({
+                short: dk,
+                long: domain['Primary Domain'],
                 selected: false
-              };
-              return opt;
+              });
+
+              softDomainOptions.push({
+                label: dk,
+                value: dk,
+                title: domain['Primary Domain'],
+                selected: false,
+                applications: Object.keys(domain.Modules)
+                  .map(mk => {
+                    const products = domain.Modules[mk].Product;
+                    return products.map((p, i) => {
+                      if (!p.name)
+                        console.debug('invalid product', p, `${dk}.Modules.${mk}.Product.${i}`);
+
+                      const opt: SelectableOption = { label: p.name, selected: false, title: p.name, value: p.name }
+                      return opt;
+                    })
+                  })
+                  .reduce((p, c) => {
+                    p.push(...c);
+                    return p;
+                  }, [])
+              });
             });
 
             this.entAppDomain.options$.next(pdOptions);
+            this.entAppSoftware.domain.options$.next(softDomainOptions);
           }
           else throw new Error('api error - please check network logs');
 

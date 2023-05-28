@@ -19,7 +19,7 @@
   </div>
 
   <!-- RHS content -->
-  <div class="rhs-content col-12 col-lg-8 px-lg-5 d-flex flex-column align-items-start">
+  <div class="rhs-content mb-5 col-12 col-lg-8 px-lg-5 d-flex flex-column align-items-start">
     <div class="mx-auto mt-4">
       <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_m4gdjtfv.json"
                      background="transparent"
@@ -127,6 +127,25 @@
            class="step-enterprise-application-software">
         <h2 class="main-question">Select specific Enterprise Application Software (EAS) used</h2>
 
+        <div class="d-flex" style="gap: 1rem;">
+          <div class="industry-options">
+            <ul>
+              <li *ngFor="let option of entAppSoftware.domain.options$ | async">
+                <button class="p-2 w-100"
+                        (click)="entAppSoftware.domain.select(option)">
+                  {{option.label | uppercase}}
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div class="software-options">
+            <ul>
+              <li *ngFor="let option of entAppSoftware.application.options$ | async">
+                <button class="p-2 w-100">{{option.label | uppercase}}</button>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div *ngIf="stepper.showControls$ | async" class="stepper-buttons border-top">
