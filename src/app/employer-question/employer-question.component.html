@@ -58,39 +58,36 @@
         </div>
 
         <div class="lm-dropdown dropdown mt-3">
-          <input type="text" placeholder="Type the desired skills you need in your project"
-                 class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
-                 aria-haspopup="true" aria-expanded="false" name="filterbasedon"
+          <input type="text" placeholder="Type to filter the list"
+                 name="filter"
                  [ngModel]="entAppDomain.filterString$ | async"
                  (ngModelChange)="entAppDomain.filterString$.next($event)"
                  (focus)="triggerDropdownOnFocus($event)" />
-          <div aria-labelledby="dropdownMenuButton" class="dropdown-menu w-100 p-1">
-            <div *ngIf="entAppDomain.gettingOptions$| async; else optionsLoaded"
-                 class="d-flex flex-column h-100 align-items-center justify-content-center p-2">
-              <p> Fetching data. Please wait... </p>
-              <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
-              </div>
+          <div *ngIf="entAppDomain.gettingOptions$| async; else optionsLoaded"
+               class="mt-3 p-2 d-flex flex-column h-100 align-items-center justify-content-center">
+            <p> Fetching data. Please wait... </p>
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
             </div>
-            <ng-template #optionsLoaded>
-              <ul class="options-wrapper" *ngIf="entAppDomain.filteredOptions$ | async as options">
-                <ng-container *ngIf="options.length > 0; else noOptions">
-                  <li *ngFor="let option of options" class="border rounded m-1 py-1 px-2"
-                      [class.selected]="option.selected"
-                      [title]="option.long"
-                      role="button" tabindex="0"
-                      (click)="entAppDomain.select(option)">
-                    {{option.short | uppercase}}
-                  </li>
-                </ng-container>
-                <ng-template #noOptions>
-                  <div class="p-2">
-                    No matching options
-                  </div>
-                </ng-template>
-              </ul>
-            </ng-template>
           </div>
+          <ng-template #optionsLoaded>
+            <ul class="options-wrapper mt-3" *ngIf="entAppDomain.filteredOptions$ | async as options">
+              <ng-container *ngIf="options.length > 0; else noOptions">
+                <li *ngFor="let option of options" class="border rounded m-1 py-1 px-2"
+                    [class.selected]="option.selected"
+                    [title]="option.long"
+                    role="button" tabindex="0"
+                    (click)="entAppDomain.select(option)">
+                  {{option.short | uppercase}}
+                </li>
+              </ng-container>
+              <ng-template #noOptions>
+                <div class="mt-3 p-2">
+                  No matching options
+                </div>
+              </ng-template>
+            </ul>
+          </ng-template>
         </div>
       </div>
 
