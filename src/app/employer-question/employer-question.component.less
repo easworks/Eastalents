@@ -35,7 +35,7 @@
 
   .options-wrapper {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
 
     li {
       button {
@@ -59,4 +59,18 @@
       }
     }
   }
+}
+
+.stepper-buttons {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  padding-top: 1rem;
+  justify-content: right;
+
+  .skip {
+    margin-left: auto;
+  }
+
+  .next {}
 }

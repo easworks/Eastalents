@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { HttpService } from '../_services/http.service';
-import { Domain, DomainDictionary } from '../_models/domain';
-import { LoadingState } from '../_helpers/loading-state';
-import { map, shareReplay } from 'rxjs/operators';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
+import { LoadingState } from '../_helpers/loading-state';
+import { DomainDictionary } from '../_models/domain';
+import { HttpService } from '../_services/http.service';
 
 type Step =
   'start' |
@@ -32,6 +32,26 @@ export class EmployerQuestionComponent implements OnInit {
   private domainDictionary!: DomainDictionary;
 
   readonly step$ = new BehaviorSubject<Step>('start');
+
+  readonly stepper = {
+    steps: 2,
+    showControls$: this.step$.pipe(map(s => s !== 'start'), shareReplay(1)),
+    progress$: this.step$.pipe(
+      map(s => {
+        switch (s) {
+          case 'start': return null;
+          case 'enterprise application domain': return 1
+        }
+      }),
+      shareReplay(1)
+    ),
+    previous: {
+      visible$: this.step$.pipe(map(s => false), shareReplay(1))
+    },
+    skip: {
+      visible$: this.step$.pipe(map(s => false), shareReplay(1))
+    }
+  } as const;
 
   readonly loading$ = new LoadingState(new Set<LoadingStates>());
 

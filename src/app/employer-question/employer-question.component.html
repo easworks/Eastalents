@@ -38,8 +38,18 @@
       </div>
     </div>
 
+    <div *ngIf="stepper.showControls$ | async" class="stepper-progress w-100 mt-4">
+      <ng-container *ngIf="stepper.progress$ | async as progress">
+        <span>Step {{progress}} of {{stepper.steps}}</span>
+        <div class="progress-bar">
+          <div class="ui-progress" role="progressbar"
+               [style.width]="(((progress - 1) / stepper.steps) * 100).toString()+'%'"></div>
+        </div>
+      </ng-container>
+    </div>
+
     <!-- Stepper container -->
-    <div style="flex-grow: 1; width: 100%; position: relative;" *ngIf="step$ | async as step">
+    <div class="mt-4" style="flex-grow: 1; width: 100%; position: relative;" *ngIf="step$ | async as step">
 
       <ng-container *ngIf="step === 'start'">
         <button type="button" class="btn-get-started mt-5 mx-auto" style="display: block;"
@@ -99,6 +109,7 @@
                   <button role="button" (click)="entAppDomain.select(option)"
                           class="w-100 h-100 py-1 px-2 border rounded"
                           [class.selected]="option.selected"
+                          [disabled]="option.selected"
                           [title]="option.long">{{option.short | uppercase}}</button>
                 </li>
               </ng-container>
@@ -112,6 +123,13 @@
         </div>
       </div>
 
+      <div *ngIf="stepper.showControls$ | async" class="stepper-buttons border-top">
+        <button type="button" *ngIf="stepper.previous.visible$ | async"
+                class="previous btn-common-border">Previous</button>
+        <button type="button" class="skip btn-common-border"
+                *ngIf="stepper.skip.visible$ | async">Skip</button>
+        <button type="button" class="next btn-common-border nextbtn">Next</button>
+      </div>
     </div>
   </div>
 
