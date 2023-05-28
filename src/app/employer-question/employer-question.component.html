@@ -57,7 +57,7 @@
           <div class="rounded py-1 px-2">{{domain | uppercase}}</div>
         </div>
 
-        <div class="lm-dropdown dropdown mt-3">
+        <div class="lm-dropdown mt-3">
           <input type="text" placeholder="Type to filter the list"
                  name="filter"
                  [ngModel]="entAppDomain.filterString$ | async"
@@ -73,12 +73,11 @@
           <ng-template #optionsLoaded>
             <ul class="options-wrapper mt-3" *ngIf="entAppDomain.filteredOptions$ | async as options">
               <ng-container *ngIf="options.length > 0; else noOptions">
-                <li *ngFor="let option of options" class="border rounded m-1 py-1 px-2"
-                    [class.selected]="option.selected"
-                    [title]="option.long"
-                    role="button" tabindex="0"
-                    (click)="entAppDomain.select(option)">
-                  {{option.short | uppercase}}
+                <li *ngFor="let option of options" class="m-1">
+                  <button role="button" (click)="entAppDomain.select(option)"
+                          class="w-100 h-100 py-1 px-2 border rounded"
+                          [class.selected]="option.selected"
+                          [title]="option.long">{{option.short | uppercase}}</button>
                 </li>
               </ng-container>
               <ng-template #noOptions>

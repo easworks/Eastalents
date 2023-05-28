@@ -15,19 +15,24 @@
     grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
 
     li {
-      outline: none;
+      button {
+        display: block;
+        background-color: transparent;
+        outline: none;
+        color: black;
 
-      &.selected {
-        border-color: black;
-        background-color: black;
-        color: white;
-      }
+        &:focus,
+        &:hover {
+          border-color: lightgray;
+          background-color: lightgray;
+          color: black;
+        }
 
-      &:focus,
-      &:hover {
-        border-color: gray;
-        background-color: gray;
-        color: white;
+        &.selected {
+          border-color: black;
+          background-color: black;
+          color: white;
+        }
       }
     }
   }
