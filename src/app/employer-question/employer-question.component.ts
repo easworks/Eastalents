@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, startWith } from 'rxjs/operators';
 import { LoadingState } from '../_helpers/loading-state';
 import { DomainDictionary } from '../_models/domain';
 import { HttpService } from '../_services/http.service';
@@ -31,10 +31,13 @@ export class EmployerQuestionComponent implements OnInit {
 
   private domainDictionary!: DomainDictionary;
 
+  readonly loading$ = new LoadingState(new Set<LoadingStates>());
+  readonly isLoading$ = this.loading$.size$.pipe(map(v => v > 0), shareReplay(1));
+
   readonly step$ = new BehaviorSubject<Step>('start');
 
   readonly stepper = {
-    steps: 2,
+    totalSteps: 2,
     showControls$: this.step$.pipe(map(s => s !== 'start'), shareReplay(1)),
     progress$: this.step$.pipe(
       map(s => {
@@ -50,14 +53,11 @@ export class EmployerQuestionComponent implements OnInit {
     },
     skip: {
       visible$: this.step$.pipe(map(s => false), shareReplay(1))
+    },
+    next: {
+      disabled$: new BehaviorSubject(false)
     }
   } as const;
-
-  readonly loading$ = new LoadingState(new Set<LoadingStates>());
-
-  readonly isLoading$ = this.loading$.size$.pipe(map(v => v > 0), shareReplay());
-
-  readonly nextDisbaled$ = new BehaviorSubject(false);
 
   readonly start = {
     next: () => this.step$.next('enterprise application domain')
@@ -138,14 +138,14 @@ export class EmployerQuestionComponent implements OnInit {
   private disableNextWhenRequired() {
     combineLatest([
       this.isLoading$,
-      this.entAppDomain.form.statusChanges
+      this.entAppDomain.form.statusChanges.pipe(startWith('INVALID'))
     ]).pipe(map(([
       loading,
       entApptatus,
     ]) => {
       return loading ||
         entApptatus !== 'VALID';
-    })).subscribe(this.nextDisbaled$)
+    })).subscribe(this.stepper.next.disabled$)
   }
 
   ngOnInit() {

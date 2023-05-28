@@ -40,10 +40,10 @@
 
     <div *ngIf="stepper.showControls$ | async" class="stepper-progress w-100 mt-4">
       <ng-container *ngIf="stepper.progress$ | async as progress">
-        <span>Step {{progress}} of {{stepper.steps}}</span>
+        <span>Step {{progress}} of {{stepper.totalSteps}}</span>
         <div class="progress-bar">
           <div class="ui-progress" role="progressbar"
-               [style.width]="(((progress - 1) / stepper.steps) * 100).toString()+'%'"></div>
+               [style.width]="(((progress - 1) / stepper.totalSteps) * 100).toString()+'%'"></div>
         </div>
       </ng-container>
     </div>
@@ -128,7 +128,8 @@
                 class="previous btn-common-border">Previous</button>
         <button type="button" class="skip btn-common-border"
                 *ngIf="stepper.skip.visible$ | async">Skip</button>
-        <button type="button" class="next btn-common-border nextbtn">Next</button>
+        <button type="button" class="next btn-common-border nextbtn"
+                [disabled]="stepper.next.disabled$ | async">Next</button>
       </div>
     </div>
   </div>
