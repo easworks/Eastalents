@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map, shareReplay, startWith } from 'rxjs/operators';
+import { first, map, shareReplay, startWith } from 'rxjs/operators';
 import { LoadingState } from '../_helpers/loading-state';
 import { DomainDictionary } from '../_models/domain';
 import { HttpService } from '../_services/http.service';
+import { environment } from 'src/environments/environment';
 
 type Step =
   'start' |
@@ -169,12 +170,33 @@ export class EmployerQuestionComponent implements OnInit {
     })).subscribe(this.stepper.next.disabled$)
   }
 
+  // this is to pre-fill the form when in dev mode so that
+  // we can skip to later steps easily
+  private async devModeInit() {
+    if (environment.production)
+      return;
+
+    await this.isLoading$.pipe(first(l => l === false)).toPromise();
+
+    const pdo = this.entAppDomain.options$.value;
+    const erpDomain = pdo.find(o => o.short === 'ERP');
+    if (!erpDomain)
+      throw new Error(`cannot find domain 'ERP'`);
+    this.entAppDomain.select(erpDomain);
+    this.entAppDomain.form.patchValue({
+      yearsOfExperience: 10,
+      expertise: 'advanced'
+    });
+  }
+
   ngOnInit() {
     this.getDomainOptions();
 
     this.disableNextWhenRequired();
     this.entAppDomain.init();
     this.entAppSoftware.init();
+
+    this.devModeInit();
   }
 
   async triggerDropdownOnFocus(event: FocusEvent) {
