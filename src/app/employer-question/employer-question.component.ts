@@ -183,8 +183,8 @@ export class EmployerQuestionComponent implements OnInit {
                   .map(mk => {
                     const products = domain.Modules[mk].Product;
                     return products.map((p, i) => {
-                      if (!p.name)
-                        console.debug('invalid product', p, `${dk}.Modules.${mk}.Product.${i}`);
+                      // if (!p.name)
+                      //   console.debug('invalid product', p, `${dk}.Modules.${mk}.Product.${i}`);
 
                       const opt: SelectableOption = { label: p.name, selected: false, title: p.name, value: p.name }
                       return opt;
