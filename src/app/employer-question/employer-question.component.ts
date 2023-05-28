@@ -8,7 +8,8 @@ import { HttpService } from '../_services/http.service';
 
 type Step =
   'start' |
-  'enterprise application domain';
+  'enterprise application domain' |
+  'enterprise application software';
 
 type LoadingStates = 'getting domain options';
 
@@ -42,14 +43,20 @@ export class EmployerQuestionComponent implements OnInit {
     progress$: this.step$.pipe(
       map(s => {
         switch (s) {
-          case 'start': return null;
-          case 'enterprise application domain': return 1
+          case 'enterprise application domain': return 1;
+          case 'enterprise application software': return 2;
+          default: return null;
         }
       }),
       shareReplay(1)
     ),
     previous: {
-      visible$: this.step$.pipe(map(s => false), shareReplay(1))
+      visible$: this.step$.pipe(map(s => s !== 'enterprise application domain'), shareReplay(1)),
+      click: (step: Step) => {
+        switch (step) {
+          case 'enterprise application software': this.step$.next('enterprise application domain'); break;
+        }
+      }
     },
     skip: {
       visible$: this.step$.pipe(map(s => false), shareReplay(1))
@@ -58,8 +65,8 @@ export class EmployerQuestionComponent implements OnInit {
       disabled$: new BehaviorSubject(false),
       click: (step: Step) => {
         switch (step) {
-          case 'start': return this.step$.next('enterprise application domain');
-          case 'enterprise application domain': return this.entAppDomain.next();
+          case 'start': this.step$.next('enterprise application domain'); break;
+          case 'enterprise application domain': this.entAppDomain.next(); break;
         }
       }
     }
@@ -75,7 +82,7 @@ export class EmployerQuestionComponent implements OnInit {
       yearsOfExperience: new FormControl(null, { validators: [Validators.required] }),
       expertise: new FormControl(null, { validators: [Validators.required] })
     }),
-    initFilter: () => {
+    init: () => {
       combineLatest([
         this.entAppDomain.filterString$,
         this.entAppDomain.options$
@@ -102,7 +109,16 @@ export class EmployerQuestionComponent implements OnInit {
       this.entAppDomain.filterString$.next('');
     },
     next: () => {
-      console.debug('next step');
+      this.step$.next('enterprise application software');
+    }
+  } as const;
+
+  readonly entAppSoftware = {
+    init: () => {
+      this.entAppDomain.form.get('domain')!.valueChanges
+        .subscribe(selected => {
+          console.debug(selected)
+        })
     }
   } as const;
 
@@ -157,7 +173,8 @@ export class EmployerQuestionComponent implements OnInit {
     this.getDomainOptions();
 
     this.disableNextWhenRequired();
-    this.entAppDomain.initFilter();
+    this.entAppDomain.init();
+    this.entAppSoftware.init();
   }
 
   async triggerDropdownOnFocus(event: FocusEvent) {
