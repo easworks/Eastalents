@@ -50,7 +50,7 @@ export class EmployerQuestionComponent implements OnInit {
     filteredOptions$: new BehaviorSubject<PrimaryDomainOption[]>([]),
     form: new FormGroup({
       domain: new FormControl(null, { validators: [Validators.required] }),
-      noOfYears: new FormControl(null, { validators: [Validators.required] }),
+      yearsOfExperience: new FormControl(null, { validators: [Validators.required] }),
       expertise: new FormControl(null, { validators: [Validators.required] })
     }),
     initFilter: () => {
@@ -71,9 +71,23 @@ export class EmployerQuestionComponent implements OnInit {
       const all = this.entAppDomain.options$.value;
       all.forEach(opt => opt.selected = false);
       value.selected = true;
-      this.entAppDomain.form.get('domain')!.setValue(value.short);
+
+      this.entAppDomain.form.setValue({
+        domain: value,
+        yearsOfExperience: null,
+        expertise: null
+      });
       this.entAppDomain.filterString$.next('');
-    }
+    },
+  } as const;
+
+  readonly commonOptions = {
+    yearsOfExperience: new Array(20).fill(0).map((_, i) => i + 1),
+    expertise: [
+      { value: 'fresher', label: 'Fresher' },
+      { value: 'intermediate', label: 'Intermediate' },
+      { value: 'advanced', label: 'Advanced' }
+    ]
   } as const;
 
   private getDomainOptions() {

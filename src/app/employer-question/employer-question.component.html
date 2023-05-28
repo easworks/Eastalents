@@ -52,10 +52,32 @@
            class="step-enterprise-application-domain d-flex flex-column">
         <h2 class="main-question">Select Enterprise Application Domain which requires new hiring</h2>
 
-        <div *ngIf="entAppDomain.form.get('domain')!.value as domain"
-             class="border rounded d-flex" style="gap: 0.5rem; padding: 0.5rem;">
-          <div class="rounded py-1 px-2">{{domain | uppercase}}</div>
-        </div>
+        <form *ngIf="entAppDomain.form.get('domain')!.value as domain"
+              [formGroup]="entAppDomain.form"
+              class="selected border rounded d-flex p-2"
+              style="gap: 1rem; flex-wrap: wrap;">
+          <div class="domain rounded py-1 px-2">{{domain.long}}</div>
+
+          <div class="d-flex align-items-center ml-auto" style="gap: 1rem;">
+            <label class="m-0">Years of Experience</label>
+            <select formControlName="yearsOfExperience"
+                    class="h-100 py-1 px-2 border rounded">
+              <option *ngFor="let option of commonOptions.yearsOfExperience"
+                      [value]="option">{{option}}</option>
+            </select>
+          </div>
+
+          <div class="d-flex align-items-center" style="gap: 1rem;">
+            <label class="m-0">Expertise</label>
+            <select formControlName="expertise"
+                    class="h-100 py-1 px-2 border rounded">
+              <option *ngFor="let option of commonOptions.expertise"
+                      [value]="option.value">{{option.label}}</option>
+            </select>
+          </div>
+
+          <button type="button"><i class="icofont-close"></i></button>
+        </form>
 
         <div class="lm-dropdown mt-3">
           <input type="text" placeholder="Type to filter the list"
