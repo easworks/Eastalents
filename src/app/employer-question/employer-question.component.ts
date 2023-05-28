@@ -55,12 +55,14 @@ export class EmployerQuestionComponent implements OnInit {
       visible$: this.step$.pipe(map(s => false), shareReplay(1))
     },
     next: {
-      disabled$: new BehaviorSubject(false)
+      disabled$: new BehaviorSubject(false),
+      click: (step: Step) => {
+        switch (step) {
+          case 'start': return this.step$.next('enterprise application domain');
+          case 'enterprise application domain': return this.entAppDomain.next();
+        }
+      }
     }
-  } as const;
-
-  readonly start = {
-    next: () => this.step$.next('enterprise application domain')
   } as const;
 
   readonly entAppDomain = {
@@ -99,6 +101,9 @@ export class EmployerQuestionComponent implements OnInit {
       });
       this.entAppDomain.filterString$.next('');
     },
+    next: () => {
+      console.debug('next step');
+    }
   } as const;
 
   readonly commonOptions = {

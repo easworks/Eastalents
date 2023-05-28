@@ -53,7 +53,7 @@
 
       <ng-container *ngIf="step === 'start'">
         <button type="button" class="btn-get-started mt-5 mx-auto" style="display: block;"
-                (click)="start.next()">
+                (click)="this.stepper.next.click(step)">
           Get Started
         </button>
       </ng-container>
@@ -129,7 +129,8 @@
         <button type="button" class="skip btn-common-border"
                 *ngIf="stepper.skip.visible$ | async">Skip</button>
         <button type="button" class="next btn-common-border nextbtn"
-                [disabled]="stepper.next.disabled$ | async">Next</button>
+                [disabled]="stepper.next.disabled$ | async"
+                (click)="stepper.next.click(step)">Next</button>
       </div>
     </div>
   </div>
