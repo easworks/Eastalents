@@ -90,11 +90,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
     gettingOptions$: this.loading$.has$('getting domain options'),
     options$: new BehaviorSubject<PrimaryDomainOption[]>([]),
     filteredOptions$: new BehaviorSubject<PrimaryDomainOption[]>([]),
-    form: new FormGroup({
-      domain: new FormControl(null, { validators: [Validators.required] }),
-      yearsOfExperience: new FormControl(null, { validators: [Validators.required] }),
-      expertise: new FormControl(null, { validators: [Validators.required] })
-    }),
+    selected$: new BehaviorSubject<PrimaryDomainOption[]>([]),
     init: () => {
       combineLatest([
         this.entAppDomain.filterString$,
@@ -111,16 +107,20 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       ).subscribe(this.entAppDomain.filteredOptions$);
     },
     select: (value: PrimaryDomainOption) => {
-      const all = this.entAppDomain.options$.value;
-      all.forEach(opt => opt.selected = false);
-      value.selected = true;
+      if (value.selected)
+        return;
 
-      this.entAppDomain.form.setValue({
-        domain: value,
-        yearsOfExperience: null,
-        expertise: null
-      });
+      value.selected = true;
+      const selected = this.entAppDomain.selected$.value;
+      selected.push(value);
+      selected.sort((a, b) => sortString(a.long, b.long));
+      this.entAppDomain.selected$.next(selected);
       this.entAppDomain.filterString$.next('');
+    },
+    remove: (index: number) => {
+      const selected = this.entAppDomain.selected$.value;
+      selected.splice(index, 1);
+      this.entAppDomain.selected$.next(selected);
     },
     next: () => {
       this.step$.next('enterprise application software');
@@ -335,7 +335,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
     combineLatest([
       this.isLoading$,
       this.step$,
-      this.entAppDomain.form.statusChanges.pipe(startWith('INVALID')),
+      this.entAppDomain.selected$,
       this.entAppSoftware.application.selected$,
       this.companyInfo.form.statusChanges.pipe(startWith('INVALID')),
       this.companySize.selected$,
@@ -345,7 +345,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       map(([
         loading,
         step,
-        entApptatus,
+        entAppDomains,
         entAppSoftware,
         companyInfoStatus,
         companySize,
@@ -356,7 +356,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
 
         switch (step) {
           case 'enterprise application domain':
-            return entApptatus !== 'VALID';
+            return entAppDomains.length === 0;
           case 'enterprise application software':
             return entAppSoftware.length === 0;
           case 'company info':
