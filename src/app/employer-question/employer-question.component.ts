@@ -4,12 +4,12 @@ import { BehaviorSubject, combineLatest } from 'rxjs';
 import { first, map, shareReplay, startWith, takeUntil, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { LoadingState } from '../_helpers/loading-state';
+import { sleep } from '../_helpers/sleep';
 import { sortString } from '../_helpers/sort';
 import { SubscribedDirective } from '../_helpers/subscribed-directive';
 import { DomainDictionary } from '../_models/domain';
 import { HttpService } from '../_services/http.service';
 import * as industryData from './industry-data';
-import { sleep } from '../_helpers/sleep';
 
 type Step =
   'start' |
@@ -257,6 +257,10 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
         )
         .subscribe(this.companyInfo.options.industry$)
 
+      this.companyInfo.form.get('logo')?.valueChanges
+        .pipe(takeUntil(this.destroyed$))
+        .subscribe(v => console.debug(v))
+
       this.companyInfo.options.industryGroup$.next(industryGroups);
     }
   } as const;
@@ -349,6 +353,8 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
     if (environment.production)
       return;
 
+    const revert = [] as (() => void)[];
+
     await this.isLoading$.pipe(first(l => l === false)).toPromise();
 
     this.stepper.next.click('start');
@@ -378,6 +384,28 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
     this.entAppSoftware.application.select(softOptions[2]);
 
     this.stepper.next.click('enterprise application software');
+
+    {
+      const logoControl = this.companyInfo.form.get('logo')!;
+      const vald = logoControl.validator;
+      logoControl.setValidators([]);
+      revert.push(() => logoControl.setValidators(vald));
+      this.companyInfo.form.setValue({
+        name: 'Test',
+        summary: 'Test',
+        logo: null,
+        industryGroup: 'Advertising',
+        industry: '',
+        productsAndServices: 'Test'
+      });
+
+      await sleep();
+      this.companyInfo.form.patchValue({
+        industry: 'Ad Network'
+      });
+    }
+
+    revert.forEach(action => action());
   }
 
   ngOnInit() {
