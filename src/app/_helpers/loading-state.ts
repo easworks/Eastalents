@@ -5,7 +5,7 @@ import { ImmutableSet } from './immutable-set';
 export class LoadingState<T extends string> extends BehaviorSubject<Set<T>> {
   readonly size$ = this.pipe(
     map(v => v.size),
-    shareReplay(1)
+    shareReplay({ refCount: true, bufferSize: 1 })
   );
 
   add(value: T) {
@@ -23,7 +23,7 @@ export class LoadingState<T extends string> extends BehaviorSubject<Set<T>> {
   has$(value: T) {
     return this.pipe(
       map(v => v.has(value)),
-      shareReplay(1)
+      shareReplay({ refCount: true, bufferSize: 1 })
     );
   }
 }

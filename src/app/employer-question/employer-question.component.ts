@@ -12,7 +12,8 @@ import { sortString } from '../_helpers/sort';
 type Step =
   'start' |
   'enterprise application domain' |
-  'enterprise application software';
+  'enterprise application software' |
+  'company info';
 
 type LoadingStates = 'getting domain options';
 
@@ -56,40 +57,51 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
   private domainDictionary!: DomainDictionary;
 
   readonly loading$ = new LoadingState(new Set<LoadingStates>());
-  readonly isLoading$ = this.loading$.size$.pipe(map(v => v > 0), shareReplay(1));
+  readonly isLoading$ = this.loading$.size$.pipe(
+    map(v => v > 0),
+    shareReplay({ refCount: true, bufferSize: 1 }));
 
   readonly step$ = new BehaviorSubject<Step>('start');
 
   readonly stepper = {
-    totalSteps: 2,
-    showControls$: this.step$.pipe(map(s => s !== 'start'), shareReplay(1)),
+    totalSteps: 3,
+    showControls$: this.step$.pipe(
+      map(s => s !== 'start'),
+      shareReplay({ refCount: true, bufferSize: 1 })),
     progress$: this.step$.pipe(
       map(s => {
         switch (s) {
           case 'enterprise application domain': return 1;
           case 'enterprise application software': return 2;
+          case 'company info': return 3;
           default: return null;
         }
       }),
-      shareReplay(1)
+      shareReplay({ refCount: true, bufferSize: 1 })
     ),
     previous: {
-      visible$: this.step$.pipe(map(s => s !== 'enterprise application domain'), shareReplay(1)),
+      visible$: this.step$.pipe(
+        map(s => s !== 'enterprise application domain'),
+        shareReplay({ refCount: true, bufferSize: 1 })),
       click: (step: Step) => {
         switch (step) {
           case 'enterprise application software': this.step$.next('enterprise application domain'); break;
+          case 'company info': this.step$.next('enterprise application software'); break;
         }
       }
     },
     skip: {
-      visible$: this.step$.pipe(map(s => false), shareReplay(1))
+      visible$: this.step$.pipe(
+        map(s => false),
+        shareReplay({ refCount: true, bufferSize: 1 }))
     },
     next: {
       disabled$: new BehaviorSubject(false),
-      click: (step: Step) => {
-        switch (step) {
+      click: (currentStep: Step) => {
+        switch (currentStep) {
           case 'start': this.step$.next('enterprise application domain'); break;
           case 'enterprise application domain': this.entAppDomain.next(); break;
+          case 'enterprise application software': this.entAppSoftware.next(); break;
         }
       }
     }
@@ -197,6 +209,9 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
           return options.filter(opt => opt.label.toLowerCase().includes(f))
         }),
       ).subscribe(this.entAppSoftware.application.filteredOptions$);
+    },
+    next: () => {
+      this.step$.next('company info')
     }
   } as const;
 
@@ -307,6 +322,13 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       throw new Error(`cannot find domain 'ERP'`);
 
     this.entAppSoftware.domain.select(erpDomain2);
+
+    const softOptions = this.entAppSoftware.application.options$.value;
+    this.entAppSoftware.application.select(softOptions[0]);
+    this.entAppSoftware.application.select(softOptions[1]);
+    this.entAppSoftware.application.select(softOptions[2]);
+
+    this.stepper.next.click('enterprise application software');
   }
 
   ngOnInit() {

@@ -6,7 +6,8 @@ import { Deferred } from './deferred';
 @Directive()
 export class SubscribedDirective implements OnDestroy {
   private readonly destroyed = new Deferred();
-  protected readonly destroyed$ = from(this.destroyed).pipe(shareReplay(1))
+  protected readonly destroyed$ = from(this.destroyed)
+    .pipe(shareReplay({ refCount: true, bufferSize: 1 }))
 
   ngOnDestroy(): void {
     this.destroyed.resolve();

@@ -187,6 +187,11 @@
         </div>
       </div>
 
+      <div *ngIf="step === 'company info'"
+           class="step-enterprise-application-software">
+        <h2 class="main-question">Tell us about your Company</h2>
+      </div>
+
       <div *ngIf="stepper.showControls$ | async" class="stepper-buttons border-top">
         <button type="button" *ngIf="stepper.previous.visible$ | async"
                 class="previous btn-common-border"
