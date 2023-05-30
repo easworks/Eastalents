@@ -355,35 +355,39 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
 
     const revert = [] as (() => void)[];
 
-    await this.isLoading$.pipe(first(l => l === false)).toPromise();
+    {
+      await this.isLoading$.pipe(first(l => l === false)).toPromise();
+      this.stepper.next.click('start');
+    }
 
-    this.stepper.next.click('start');
+    {
+      const pdo = this.entAppDomain.options$.value;
+      const erpDomain = pdo.find(o => o.short === 'ERP');
+      if (!erpDomain)
+        throw new Error(`cannot find domain 'ERP'`);
+      this.entAppDomain.select(erpDomain);
+      this.entAppDomain.form.patchValue({
+        yearsOfExperience: 10,
+        expertise: 'advanced'
+      });
+      this.stepper.next.click('enterprise application domain');
+    }
 
-    const pdo = this.entAppDomain.options$.value;
-    const erpDomain = pdo.find(o => o.short === 'ERP');
-    if (!erpDomain)
-      throw new Error(`cannot find domain 'ERP'`);
-    this.entAppDomain.select(erpDomain);
-    this.entAppDomain.form.patchValue({
-      yearsOfExperience: 10,
-      expertise: 'advanced'
-    });
+    {
+      const domOpts = this.entAppSoftware.domain.options$.value;
+      const erpDomain2 = domOpts.find(o => o.value === 'ERP');
+      if (!erpDomain2)
+        throw new Error(`cannot find domain 'ERP'`);
 
-    this.stepper.next.click('enterprise application domain');
+      this.entAppSoftware.domain.select(erpDomain2);
 
-    const domOpts = this.entAppSoftware.domain.options$.value;
-    const erpDomain2 = domOpts.find(o => o.value === 'ERP');
-    if (!erpDomain2)
-      throw new Error(`cannot find domain 'ERP'`);
+      const softOptions = this.entAppSoftware.application.options$.value;
+      this.entAppSoftware.application.select(softOptions[0]);
+      this.entAppSoftware.application.select(softOptions[1]);
+      this.entAppSoftware.application.select(softOptions[2]);
 
-    this.entAppSoftware.domain.select(erpDomain2);
-
-    const softOptions = this.entAppSoftware.application.options$.value;
-    this.entAppSoftware.application.select(softOptions[0]);
-    this.entAppSoftware.application.select(softOptions[1]);
-    this.entAppSoftware.application.select(softOptions[2]);
-
-    this.stepper.next.click('enterprise application software');
+      this.stepper.next.click('enterprise application software');
+    }
 
     {
       const logoControl = this.companyInfo.form.get('logo')!;
