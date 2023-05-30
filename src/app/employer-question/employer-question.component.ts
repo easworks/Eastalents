@@ -34,7 +34,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
   readonly step$ = new BehaviorSubject<Step>('start');
 
   readonly stepper = {
-    totalSteps: 3,
+    totalSteps: 4,
     showControls$: this.step$.pipe(
       map(s => s !== 'start'),
       shareReplay({ refCount: true, bufferSize: 1 })),
@@ -44,6 +44,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
           case 'enterprise application domain': return 1;
           case 'enterprise application software': return 2;
           case 'company info': return 3;
+          case 'company size': return 4;
           default: return null;
         }
       }),
@@ -238,6 +239,14 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
     next: () => this.step$.next('company size')
   } as const;
 
+  readonly companySize = {
+    selected$: new BehaviorSubject<CompanySize | null>(null),
+    options: COMPANY_SIZES,
+    select: (value: CompanySize) => {
+      this.companySize.selected$.next(value);
+    }
+  } as const;
+
   readonly commonOptions = {
     yearsOfExperience: new Array(20).fill(0).map((_, i) => i + 1),
     expertise: [
@@ -305,7 +314,8 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       this.step$,
       this.entAppDomain.form.statusChanges.pipe(startWith('INVALID')),
       this.entAppSoftware.application.selected$,
-      this.companyInfo.form.statusChanges.pipe(startWith('INVALID'))
+      this.companyInfo.form.statusChanges.pipe(startWith('INVALID')),
+      this.companySize.selected$
     ]).pipe(
       takeUntil(this.destroyed$),
       map(([
@@ -313,7 +323,8 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
         step,
         entApptatus,
         entAppSoftware,
-        companyInfoStatus
+        companyInfoStatus,
+        companySize
       ]) => {
         if (loading)
           return true;
@@ -325,6 +336,8 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
             return entAppSoftware.length === 0;
           case 'company info':
             return companyInfoStatus !== 'VALID';
+          case 'company size':
+            return companySize === null
           default: return false;
         }
       })).subscribe(this.stepper.next.disabled$)
@@ -458,3 +471,11 @@ interface SelectedSoftware {
   label: string;
 }
 
+const COMPANY_SIZES = [
+  'Less than 10',
+  '11 - 50',
+  '51 - 200',
+  '201 - 1000',
+  'More than 1000'
+] as const;
+type CompanySize = typeof COMPANY_SIZES[number];

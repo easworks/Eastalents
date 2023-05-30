@@ -204,6 +204,30 @@
   }
 }
 
+.step-company-size {
+  .options-container {
+    display: grid;
+    gap: 1rem;
+    justify-content: start;
+
+    button {
+      outline: none;
+      border: none;
+      background-color: #dfdfdf;
+
+      &:hover,
+      &:focus {
+        background-color: #bfbfbf;
+      }
+
+      &.selected {
+        background-color: black;
+        color: white;
+      }
+    }
+  }
+}
+
 .stepper-buttons {
   margin-top: 1rem;
   display: flex;

@@ -237,6 +237,15 @@
       <div *ngIf="step === 'company size'"
            class="step-company-size">
         <h2 class="main-question">How many people are employed in your Company?</h2>
+
+        <div class="options-container" *ngIf="(companySize.selected$ | async) || true as selected">
+          <button *ngFor="let option of companySize.options"
+                  class="rounded py-1 px-2"
+                  [class.selected]="selected === option"
+                  (click)="companySize.select(option)">
+            {{option}}
+          </button>
+        </div>
       </div>
 
       <div *ngIf="stepper.showControls$ | async" class="stepper-buttons border-top">
