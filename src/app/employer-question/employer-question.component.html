@@ -99,8 +99,7 @@
                  class="border rounded py-2 px-2 w-100"
                  style="outline: none;"
                  [ngModel]="entAppDomain.filterString$ | async"
-                 (ngModelChange)="entAppDomain.filterString$.next($event)"
-                 (focus)="triggerDropdownOnFocus($event)" />
+                 (ngModelChange)="entAppDomain.filterString$.next($event)" />
           <div *ngIf="entAppDomain.gettingOptions$| async; else optionsLoaded"
                class="mt-3 p-2 d-flex flex-column h-100 align-items-center justify-content-center">
             <p> Fetching data. Please wait... </p>
@@ -171,8 +170,7 @@
                    class="border rounded py-2 px-2 w-100"
                    style="outline: none;"
                    [ngModel]="entAppSoftware.application.filterString$ | async"
-                   (ngModelChange)="entAppSoftware.application.filterString$.next($event)"
-                   (focus)="triggerDropdownOnFocus($event)" />
+                   (ngModelChange)="entAppSoftware.application.filterString$.next($event)" />
             <div>
               <ul class="border rounded">
                 <li *ngFor="let option of entAppSoftware.application.filteredOptions$ | async">

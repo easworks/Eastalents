@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, combineLatest, from, pipe } from 'rxjs';
-import { first, map, shareReplay, startWith, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { first, map, shareReplay, startWith, takeUntil, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { LoadingState } from '../_helpers/loading-state';
+import { sortString } from '../_helpers/sort';
+import { SubscribedDirective } from '../_helpers/subscribed-directive';
 import { DomainDictionary } from '../_models/domain';
 import { HttpService } from '../_services/http.service';
-import { environment } from 'src/environments/environment';
-import { SubscribedDirective } from '../_helpers/subscribed-directive';
-import { sortString } from '../_helpers/sort';
+import * as industryData from './industry-data';
+import { sleep } from '../_helpers/sleep';
 
 type Step =
   'start' |
@@ -221,14 +223,42 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       summary: new FormControl('', { validators: [Validators.required] }),
       logo: new FormControl(null, { validators: [Validators.required] }),
       industryGroup: new FormControl('', { validators: [Validators.required] }),
-      industry: new FormControl('', { validators: [Validators.required] }),
+      industry: new FormControl({ value: '', disabled: true }, { validators: [Validators.required] }),
       productsAndServices: new FormControl('', { validators: [Validators.required] })
     }),
     options: {
       industryGroup$: new BehaviorSubject<string[]>([]),
       industry$: new BehaviorSubject<string[]>([]),
-      industryGroupMap: new Map<string, string[]>()
     },
+    industryGroupMap: new Map<string, string[]>(),
+    init: () => {
+      const industryGroups = industryData.industryGroup.map(i => i.value);
+      const igMap = this.companyInfo.industryGroupMap;
+      igMap.clear();
+      industryData.industry.forEach(i => {
+        if (!igMap.has(i.group)) {
+          igMap.set(i.group, [])
+        }
+        igMap.get(i.group)?.push(i.value);
+      });
+
+      this.companyInfo.form.get('industryGroup')?.valueChanges
+        .pipe(
+          takeUntil(this.destroyed$),
+          map(v => this.companyInfo.industryGroupMap.get(v)!),
+          tap(async () => {
+            const industry = this.companyInfo.form.get('industry')!;
+            if (industry.disabled)
+              industry.enable();
+            // await next tick
+            await sleep();
+            industry.setValue(null);
+          })
+        )
+        .subscribe(this.companyInfo.options.industry$)
+
+      this.companyInfo.options.industryGroup$.next(industryGroups);
+    }
   } as const;
 
   readonly commonOptions = {
@@ -296,17 +326,20 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
     combineLatest([
       this.isLoading$,
       this.entAppDomain.form.statusChanges.pipe(startWith('INVALID')),
-      this.entAppSoftware.application.selected$
+      this.entAppSoftware.application.selected$,
+      this.companyInfo.form.statusChanges.pipe(startWith('INVALID'))
     ]).pipe(
       takeUntil(this.destroyed$),
       map(([
         loading,
         entApptatus,
-        entAppSoftware
+        entAppSoftware,
+        companyInfoStatus
       ]) => {
         return loading ||
           entApptatus !== 'VALID' ||
-          entAppSoftware.length === 0;
+          entAppSoftware.length === 0 ||
+          companyInfoStatus !== 'VALID';
       })).subscribe(this.stepper.next.disabled$)
   }
 
@@ -353,12 +386,13 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
     this.disableNextWhenRequired();
     this.entAppDomain.init();
     this.entAppSoftware.init();
+    this.companyInfo.init();
 
     this.devModeInit();
   }
 
   async triggerDropdownOnFocus(event: FocusEvent) {
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await sleep();
     if (event.target) {
       const el = event.target as HTMLElement;
       const sib = el.nextElementSibling;
