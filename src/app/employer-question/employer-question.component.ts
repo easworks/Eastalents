@@ -322,6 +322,8 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
               });
             });
 
+            pdOptions.sort((a, b) => sortString(a.short, b.short));
+
             this.entAppDomain.options$.next(pdOptions);
             this.entAppSoftware.domain.options$.next(softDomainOptions);
           }
