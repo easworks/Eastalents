@@ -140,7 +140,26 @@ export class EmployerQuestionComponent implements OnInit {
     application: {
       filterString$: new BehaviorSubject(''),
       filteredOptions$: new BehaviorSubject<SelectableOption[]>([]),
-      options$: new BehaviorSubject<SelectableOption[]>([])
+      options$: new BehaviorSubject<SelectableOption[]>([]),
+      selected$: new BehaviorSubject<{
+        domain: SelectableOption,
+        software: SelectableOption
+      }[]>([]),
+      select: (value: SelectableOption) => {
+        const current = this.entAppSoftware.application.selected$.value;
+        const selectedDomain = this.entAppSoftware.domain.selected$.value;
+        if (!selectedDomain)
+          throw new Error('invalid operation');
+
+        if (!value.selected) {
+          value.selected = true;
+          current.push({
+            domain: selectedDomain,
+            software: value
+          });
+          this.entAppSoftware.application.selected$.next(current);
+        }
+      }
     },
     init: () => {
       this.entAppSoftware.domain.selected$
@@ -223,13 +242,16 @@ export class EmployerQuestionComponent implements OnInit {
   private disableNextWhenRequired() {
     combineLatest([
       this.isLoading$,
-      this.entAppDomain.form.statusChanges.pipe(startWith('INVALID'))
+      this.entAppDomain.form.statusChanges.pipe(startWith('INVALID')),
+      this.entAppSoftware.application.selected$
     ]).pipe(map(([
       loading,
       entApptatus,
+      entAppSoftware
     ]) => {
       return loading ||
-        entApptatus !== 'VALID';
+        entApptatus !== 'VALID' ||
+        entAppSoftware.length === 0;
     })).subscribe(this.stepper.next.disabled$)
   }
 

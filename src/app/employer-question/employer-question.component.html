@@ -133,7 +133,22 @@
            class="step-enterprise-application-software">
         <h2 class="main-question">Select specific Enterprise Application Software (EAS) used</h2>
 
-        <div class="d-flex" style="gap: 1rem;">
+        <ng-container *ngIf="entAppSoftware.application.selected$ | async as selected">
+          <div class="selected-container border rounded p-2">
+            <ng-container *ngIf="selected.length > 0; else noItemsSelected">
+              <div *ngFor="let item of selected" class="item rounded p-2">
+                {{item.domain.value}} - {{item.software.value}}
+              </div>
+            </ng-container>
+            <ng-template #noItemsSelected>
+              <i class="mx-auto">No software applications selected</i>
+            </ng-template>
+          </div>
+
+
+        </ng-container>
+
+        <div class="d-flex mt-4" style="gap: 1rem;">
           <div class="industry-options rounded">
             <ul>
               <li *ngFor="let option of entAppSoftware.domain.options$ | async">
@@ -155,7 +170,8 @@
             <div>
               <ul class="border rounded">
                 <li *ngFor="let option of entAppSoftware.application.filteredOptions$ | async">
-                  <button class="p-2 w-100">{{option.label | uppercase}}</button>
+                  <button class="p-2 w-100"
+                          (click)="entAppSoftware.application.select(option)">{{option.label | uppercase}}</button>
                 </li>
               </ul>
             </div>
