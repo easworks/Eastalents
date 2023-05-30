@@ -34,7 +34,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
   readonly step$ = new BehaviorSubject<Step>('start');
 
   readonly stepper = {
-    totalSteps: 5,
+    totalSteps: 6,
     showControls$: this.step$.pipe(
       map(s => s !== 'start'),
       shareReplay({ refCount: true, bufferSize: 1 })),
@@ -44,8 +44,9 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
           case 'enterprise application domain': return 1;
           case 'enterprise application software': return 2;
           case 'primary role': return 3;
-          case 'project type': return 4;
-          case 'company info': return 5;
+          case 'need dev': return 4;
+          case 'project type': return 5;
+          case 'company info': return 6;
           default: return null;
         }
       }),
@@ -59,6 +60,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
         switch (step) {
           case 'enterprise application software': this.step$.next('enterprise application domain'); break;
           case 'primary role': this.step$.next('enterprise application software'); break;
+          case 'need dev': this.step$.next('primary role'); break;
           case 'company info': this.step$.next('primary role'); break;
         }
         document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
@@ -76,6 +78,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
           case 'start': this.step$.next('enterprise application domain'); break;
           case 'enterprise application domain': this.entAppDomain.next(); break;
           case 'enterprise application software': this.entAppSoftware.next(); break;
+          case 'primary role': this.primaryRole.next(); break;
         }
         document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
       }
@@ -199,7 +202,40 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       this.primaryRole.options.forEach(o => o.selected = false);
       value.selected = true;
       this.primaryRole.selected$.next(value)
+    },
+    next: () => this.step$.next('need dev')
+  } as const;
+
+  readonly devSkills = {
+    need: {
+      selected$: new BehaviorSubject<SelectableOption | null>(null),
+      options: [
+        { value: 'yes', label: 'YES', title: 'YES', selected: false },
+        { value: 'no', label: 'NO', title: 'NO', selected: false }
+      ] as SelectableOption[],
+      select: (value: SelectableOption) => {
+        this.devSkills.need.options.forEach(o => o.selected = false);
+        value.selected = true;
+        this.devSkills.need.selected$.next(value);
+      }
     }
+  }
+
+  readonly projectType = {
+    selected$: new BehaviorSubject<ProjectType | null>(null),
+    select: (value: ProjectType) => {
+      this.projectType.selected$.next(value);
+    },
+    options: [
+      {
+        value: 'new',
+        label: `It's a new project (from scratch)`
+      },
+      {
+        value: 'existing',
+        label: `It's an existing project (looking for additional help)`
+      }
+    ]
   } as const;
 
   readonly companyInfo = {
@@ -248,23 +284,6 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
 
       this.companyInfo.options.industryGroup$.next(industryGroups);
     },
-  } as const;
-
-  readonly projectType = {
-    selected$: new BehaviorSubject<ProjectType | null>(null),
-    select: (value: ProjectType) => {
-      this.projectType.selected$.next(value);
-    },
-    options: [
-      {
-        value: 'new',
-        label: `It's a new project (from scratch)`
-      },
-      {
-        value: 'existing',
-        label: `It's an existing project (looking for additional help)`
-      }
-    ]
   } as const;
 
   readonly commonOptions = {
@@ -436,14 +455,13 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       this.companyInfo.form.patchValue({
         industry: 'Ad Network'
       });
+      const firstOpt = this.primaryRole.options[0];
+      this.primaryRole.select(firstOpt);
 
       this.stepper.next.click('company info');
+      this.stepper.next.click('primary role');
     }
 
-    {
-      this.companySize.select('11 - 50');
-      this.stepper.next.click('company size');
-    }
 
     revert.forEach(action => action());
   }
@@ -478,6 +496,7 @@ type Step =
   'enterprise application domain' |
   'enterprise application software' |
   'primary role' |
+  'need dev' |
   'project type' |
   'company info';
 

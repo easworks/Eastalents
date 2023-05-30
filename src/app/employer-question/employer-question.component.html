@@ -191,6 +191,20 @@
         </ul>
       </div>
 
+      <div *ngIf="step === 'need dev'"
+           class="step-need-dev">
+        <h2 class="main-question">Do you require the person to be experienced?</h2>
+
+        <div class="options-container my-4" *ngIf="(devSkills.need.selected$ | async) || true as selected" style="grid-auto-flow: column;">
+          <button *ngFor="let option of devSkills.need.options"
+                  class="rounded py-2 px-3 w-100 text-left"
+                  [class.selected]="option.selected"
+                  (click)="devSkills.need.select(option)">
+            {{option.label}}
+          </button>
+        </div>
+      </div>
+
       <div *ngIf="step === 'project type'"
            class="step-project-type">
         <h2 class="main-question">Which option best describes the project you are hiring for?</h2>
