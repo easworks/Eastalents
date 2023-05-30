@@ -34,7 +34,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
   readonly step$ = new BehaviorSubject<Step>('start');
 
   readonly stepper = {
-    totalSteps: 6,
+    totalSteps: 8,
     showControls$: this.step$.pipe(
       map(s => s !== 'start'),
       shareReplay({ refCount: true, bufferSize: 1 })),
@@ -45,8 +45,10 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
           case 'enterprise application software': return 2;
           case 'primary role': return 3;
           case 'need dev': return 4;
-          case 'project type': return 5;
-          case 'company info': return 6;
+          case 'dev skills': return 5;
+          case 'dev experience': return 6;
+          case 'project type': return 7;
+          case 'company info': return 8;
           default: return null;
         }
       }),
@@ -61,6 +63,14 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
           case 'enterprise application software': this.step$.next('enterprise application domain'); break;
           case 'primary role': this.step$.next('enterprise application software'); break;
           case 'need dev': this.step$.next('primary role'); break;
+          case 'dev skills': this.step$.next('need dev'); break;
+          case 'dev experience':
+            const need = this.devSkills.need.selected$.value!.value;
+            if (need === 'yes')
+              this.step$.next('dev skills');
+            else
+              this.step$.next('need dev');
+            break;
           case 'company info': this.step$.next('primary role'); break;
         }
         document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
@@ -76,9 +86,15 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       click: async (currentStep: Step) => {
         switch (currentStep) {
           case 'start': this.step$.next('enterprise application domain'); break;
-          case 'enterprise application domain': this.entAppDomain.next(); break;
-          case 'enterprise application software': this.entAppSoftware.next(); break;
-          case 'primary role': this.primaryRole.next(); break;
+          case 'enterprise application domain': this.step$.next('enterprise application software'); break;
+          case 'enterprise application software': this.step$.next('primary role'); break;
+          case 'primary role': this.step$.next('need dev'); break;
+          case 'need dev': const need = this.devSkills.need.selected$.value!.value;
+            if (need === 'yes')
+              this.step$.next('dev skills')
+            else
+              this.step$.next('dev experience');
+            break;
         }
         document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
       }
@@ -123,9 +139,6 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       selected.splice(index, 1);
       v.selected = false;
       this.entAppDomain.selected$.next(selected);
-    },
-    next: () => {
-      this.step$.next('enterprise application software');
     }
   } as const;
 
@@ -189,9 +202,6 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
           return options.filter(opt => opt.label.toLowerCase().includes(f))
         }),
       ).subscribe(this.entAppSoftware.application.filteredOptions$);
-    },
-    next: () => {
-      this.step$.next('primary role')
     }
   } as const;
 
@@ -202,8 +212,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       this.primaryRole.options.forEach(o => o.selected = false);
       value.selected = true;
       this.primaryRole.selected$.next(value)
-    },
-    next: () => this.step$.next('need dev')
+    }
   } as const;
 
   readonly devSkills = {
@@ -360,6 +369,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       this.entAppDomain.selected$,
       this.entAppSoftware.application.selected$,
       this.primaryRole.selected$,
+      this.devSkills.need.selected$,
       this.projectType.selected$,
       this.companyInfo.form.statusChanges.pipe(startWith('INVALID')),
     ]).pipe(
@@ -370,6 +380,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
         entAppDomains,
         entAppSoftware,
         primaryRole,
+        needDev,
         projectType,
         companyInfoStatus,
       ]) => {
@@ -383,6 +394,8 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
             return entAppSoftware.length === 0;
           case 'primary role':
             return primaryRole === null;
+          case 'need dev':
+            return needDev === null;
           case 'project type':
             return projectType === null;
           case 'company info':
@@ -497,6 +510,8 @@ type Step =
   'enterprise application software' |
   'primary role' |
   'need dev' |
+  'dev skills' |
+  'dev experience' |
   'project type' |
   'company info';
 
@@ -543,4 +558,4 @@ const COMPANY_SIZES = [
 ] as const;
 type CompanySize = typeof COMPANY_SIZES[number];
 
-type ProjectType = 'new' | 'existing';
+type ProjectType = 'new' | 'existing' | 'advisory' | 'exploring';
