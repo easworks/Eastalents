@@ -119,7 +119,9 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
     },
     remove: (index: number) => {
       const selected = this.entAppDomain.selected$.value;
+      const v = selected[index]
       selected.splice(index, 1);
+      v.selected = false;
       this.entAppDomain.selected$.next(selected);
     },
     next: () => {
@@ -323,6 +325,10 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
             });
 
             pdOptions.sort((a, b) => sortString(a.short, b.short));
+            softDomainOptions.sort((a, b) => sortString(a.label, b.label));
+            softDomainOptions.forEach(sdo => {
+              sdo.applications.sort((a, b) => sortString(a.label, b.label));
+            });
 
             this.entAppDomain.options$.next(pdOptions);
             this.entAppSoftware.domain.options$.next(softDomainOptions);
@@ -388,23 +394,23 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
     {
       const pdo = this.entAppDomain.options$.value;
       const erpDomain = pdo.find(o => o.short === 'ERP');
+      const aiDomain = pdo.find(o => o.short === 'AI');
       if (!erpDomain)
         throw new Error(`cannot find domain 'ERP'`);
+      if (!aiDomain)
+        throw new Error(`cannot find domain 'AI'`);
       this.entAppDomain.select(erpDomain);
-      this.entAppDomain.form.patchValue({
-        yearsOfExperience: 10,
-        expertise: 'advanced'
-      });
+      this.entAppDomain.select(aiDomain);
       this.stepper.next.click('enterprise application domain');
     }
 
     {
       const domOpts = this.entAppSoftware.domain.options$.value;
-      const erpDomain2 = domOpts.find(o => o.value === 'ERP');
-      if (!erpDomain2)
+      const erpDomain = domOpts.find(o => o.value === 'ERP');
+      if (!erpDomain)
         throw new Error(`cannot find domain 'ERP'`);
 
-      this.entAppSoftware.domain.select(erpDomain2);
+      this.entAppSoftware.domain.select(erpDomain);
 
       const softOptions = this.entAppSoftware.application.options$.value;
       this.entAppSoftware.application.select(softOptions[0]);
