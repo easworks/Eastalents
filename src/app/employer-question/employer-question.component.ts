@@ -11,39 +11,6 @@ import { DomainDictionary } from '../_models/domain';
 import { HttpService } from '../_services/http.service';
 import * as industryData from './industry-data';
 
-type Step =
-  'start' |
-  'enterprise application domain' |
-  'enterprise application software' |
-  'company info' |
-  'company size';
-
-type LoadingStates = 'getting domain options';
-
-interface PrimaryDomainOption {
-  short: string;
-  long: string;
-  selected: boolean;
-}
-
-interface SelectableOption {
-  value: string;
-  label: string;
-  title: string;
-  selected: boolean;
-}
-
-
-interface SoftwareDomainOption extends SelectableOption {
-  applications: SelectableOption[];
-}
-
-interface SelectedSoftware {
-  domain: SoftwareDomainOption;
-  application: SelectableOption;
-  label: string;
-}
-
 @Component({
   selector: 'employer-question',
   templateUrl: './employer-question.component.html',
@@ -457,3 +424,37 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
     }
   }
 }
+
+type Step =
+  'start' |
+  'enterprise application domain' |
+  'enterprise application software' |
+  'company info' |
+  'company size';
+
+type LoadingStates = 'getting domain options';
+
+interface PrimaryDomainOption {
+  short: string;
+  long: string;
+  selected: boolean;
+}
+
+interface SelectableOption {
+  value: string;
+  label: string;
+  title: string;
+  selected: boolean;
+}
+
+
+interface SoftwareDomainOption extends SelectableOption {
+  applications: SelectableOption[];
+}
+
+interface SelectedSoftware {
+  domain: SoftwareDomainOption;
+  application: SelectableOption;
+  label: string;
+}
+
