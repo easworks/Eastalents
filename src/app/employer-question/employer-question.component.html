@@ -240,7 +240,7 @@
 
         <div class="options-container my-4" *ngIf="(companySize.selected$ | async) || true as selected">
           <button *ngFor="let option of companySize.options"
-                  class="rounded py-1 px-2"
+                  class="rounded py-2 px-3 text-left"
                   [class.selected]="selected === option"
                   (click)="companySize.select(option)">
             {{option}}
