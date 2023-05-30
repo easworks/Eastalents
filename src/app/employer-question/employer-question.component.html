@@ -64,7 +64,7 @@
 
       <div *ngIf="step === 'enterprise application domain'"
            class="step-enterprise-application-domain">
-        <h2 class="main-question">Select the Primary Enterprise Application you'd like to hire for</h2>
+        <h2 class="main-question">Select the primary Enterprise Application Domain you'd like to hire for</h2>
 
         <ng-container *ngIf="entAppDomain.selected$ | async as selected">
           <div class="selected-container border rounded p-2">
@@ -122,7 +122,7 @@
 
       <div *ngIf="step === 'enterprise application software'"
            class="step-enterprise-application-software">
-        <h2 class="main-question">Select specific Enterprise Application Software (EAS) used</h2>
+        <h2 class="main-question">Select the specific Enterprise Application Software used</h2>
 
         <ng-container *ngIf="entAppSoftware.application.selected$ | async as selected">
           <div class="selected-container border rounded p-2">
@@ -134,15 +134,13 @@
                 </button>
               </div>
             </ng-container>
+
             <ng-template #noItemsSelected>
               <div class="p-2 mx-auto text-center">
                 <i>Please select from the list below</i>
               </div>
-
             </ng-template>
           </div>
-
-
         </ng-container>
 
         <div class="d-flex mt-4" style="gap: 1rem;">
@@ -175,6 +173,22 @@
 
           </div>
         </div>
+      </div>
+
+      <div *ngIf="step === 'primary role'"
+           class="step-primary-role">
+        <h2 class="main-question">Select the primary Role you are hiring for</h2>
+
+        <ul class="options-container mt-3" *ngIf="primaryRole.options as options">
+          <li *ngFor="let option of options" class="m-1">
+            <button role="button" (click)="primaryRole.select(option)"
+                    class="w-100 h-100 py-1 px-2 border rounded"
+                    [class.selected]="option.selected"
+                    [disabled]="option.selected">
+              {{option.value}}
+            </button>
+          </li>
+        </ul>
       </div>
 
       <div *ngIf="step === 'company info'"

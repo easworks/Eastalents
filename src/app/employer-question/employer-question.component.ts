@@ -34,7 +34,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
   readonly step$ = new BehaviorSubject<Step>('start');
 
   readonly stepper = {
-    totalSteps: 5,
+    totalSteps: 6,
     showControls$: this.step$.pipe(
       map(s => s !== 'start'),
       shareReplay({ refCount: true, bufferSize: 1 })),
@@ -43,9 +43,10 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
         switch (s) {
           case 'enterprise application domain': return 1;
           case 'enterprise application software': return 2;
-          case 'company info': return 3;
-          case 'company size': return 4;
-          case 'project type': return 5;
+          case 'primary role': return 3;
+          case 'company info': return 4;
+          case 'company size': return 5;
+          case 'project type': return 6;
           default: return null;
         }
       }),
@@ -58,7 +59,8 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       click: (step: Step) => {
         switch (step) {
           case 'enterprise application software': this.step$.next('enterprise application domain'); break;
-          case 'company info': this.step$.next('enterprise application software'); break;
+          case 'primary role': this.step$.next('enterprise application software'); break;
+          case 'company info': this.step$.next('primary role'); break;
           case 'company size': this.step$.next('company info'); break;
           case 'project type': this.step$.next('company size'); break;
         }
@@ -191,7 +193,17 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       ).subscribe(this.entAppSoftware.application.filteredOptions$);
     },
     next: () => {
-      this.step$.next('company info')
+      this.step$.next('primary role')
+    }
+  } as const;
+
+  readonly primaryRole = {
+    selected$: new BehaviorSubject<SelectableOption | null>(null),
+    options: SOFTWARE_ROLES.sort(sortString).map(o => ({ value: o, selected: false, label: o, title: o })),
+    select: (value: SelectableOption) => {
+      this.primaryRole.options.forEach(o => o.selected = false);
+      value.selected = true;
+      this.primaryRole.selected$.next(value)
     }
   } as const;
 
@@ -345,6 +357,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       this.step$,
       this.entAppDomain.selected$,
       this.entAppSoftware.application.selected$,
+      this.primaryRole.selected$,
       this.companyInfo.form.statusChanges.pipe(startWith('INVALID')),
       this.companySize.selected$,
       this.projectType.selected$
@@ -355,6 +368,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
         step,
         entAppDomains,
         entAppSoftware,
+        primaryRole,
         companyInfoStatus,
         companySize,
         projectType
@@ -367,6 +381,8 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
             return entAppDomains.length === 0;
           case 'enterprise application software':
             return entAppSoftware.length === 0;
+          case 'primary role':
+            return primaryRole === null;
           case 'company info':
             return companyInfoStatus !== 'VALID';
           case 'company size':
@@ -482,6 +498,7 @@ type Step =
   'start' |
   'enterprise application domain' |
   'enterprise application software' |
+  'primary role' |
   'company info' |
   'company size' |
   'project type';
@@ -511,6 +528,14 @@ interface SelectedSoftware {
   application: SelectableOption;
   label: string;
 }
+
+const SOFTWARE_ROLES = [
+  'Developer',
+  'Solution Architect',
+  'Project Manager',
+  'Enterprise Architect',
+  'Support Analyst'
+];
 
 const COMPANY_SIZES = [
   'Less than 10',

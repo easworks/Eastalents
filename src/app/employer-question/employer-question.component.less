@@ -167,6 +167,35 @@
   }
 }
 
+.step-primary-role {
+  .options-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+
+    li {
+      button {
+        display: block;
+        background-color: transparent;
+        outline: none;
+        color: black;
+
+        &:focus,
+        &:hover {
+          border-color: lightgray;
+          background-color: lightgray;
+          color: black;
+        }
+
+        &.selected {
+          border-color: black;
+          background-color: black;
+          color: white;
+        }
+      }
+    }
+  }
+}
+
 .step-company-info {
   form {
     display: grid;
