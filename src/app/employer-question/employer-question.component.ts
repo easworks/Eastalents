@@ -34,7 +34,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
   readonly step$ = new BehaviorSubject<Step>('start');
 
   readonly stepper = {
-    totalSteps: 4,
+    totalSteps: 5,
     showControls$: this.step$.pipe(
       map(s => s !== 'start'),
       shareReplay({ refCount: true, bufferSize: 1 })),
@@ -45,6 +45,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
           case 'enterprise application software': return 2;
           case 'company info': return 3;
           case 'company size': return 4;
+          case 'project type': return 5;
           default: return null;
         }
       }),
@@ -59,6 +60,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
           case 'enterprise application software': this.step$.next('enterprise application domain'); break;
           case 'company info': this.step$.next('enterprise application software'); break;
           case 'company size': this.step$.next('company info'); break;
+          case 'project type': this.step$.next('company size'); break;
         }
         document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
       }
@@ -76,6 +78,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
           case 'enterprise application domain': this.entAppDomain.next(); break;
           case 'enterprise application software': this.entAppSoftware.next(); break;
           case 'company info': this.companyInfo.next(); break;
+          case 'company size': this.companySize.next(); break;
         }
         document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
       }
@@ -244,7 +247,27 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
     options: COMPANY_SIZES,
     select: (value: CompanySize) => {
       this.companySize.selected$.next(value);
+    },
+    next: () => {
+      this.step$.next('project type')
     }
+  } as const;
+
+  readonly projectType = {
+    selected$: new BehaviorSubject<ProjectType | null>(null),
+    select: (value: ProjectType) => {
+      this.projectType.selected$.next(value);
+    },
+    options: [
+      {
+        value: 'new',
+        label: `It's a new project (from scratch)`
+      },
+      {
+        value: 'existing',
+        label: `It's an existing project (looking for additional help)`
+      }
+    ]
   } as const;
 
   readonly commonOptions = {
@@ -315,7 +338,8 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       this.entAppDomain.form.statusChanges.pipe(startWith('INVALID')),
       this.entAppSoftware.application.selected$,
       this.companyInfo.form.statusChanges.pipe(startWith('INVALID')),
-      this.companySize.selected$
+      this.companySize.selected$,
+      this.projectType.selected$
     ]).pipe(
       takeUntil(this.destroyed$),
       map(([
@@ -324,7 +348,8 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
         entApptatus,
         entAppSoftware,
         companyInfoStatus,
-        companySize
+        companySize,
+        projectType
       ]) => {
         if (loading)
           return true;
@@ -337,7 +362,9 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
           case 'company info':
             return companyInfoStatus !== 'VALID';
           case 'company size':
-            return companySize === null
+            return companySize === null;
+          case 'project type':
+            return projectType === null;
           default: return false;
         }
       })).subscribe(this.stepper.next.disabled$)
@@ -410,6 +437,11 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       this.stepper.next.click('company info');
     }
 
+    {
+      this.companySize.select('11 - 50');
+      this.stepper.next.click('company size');
+    }
+
     revert.forEach(action => action());
   }
 
@@ -443,7 +475,8 @@ type Step =
   'enterprise application domain' |
   'enterprise application software' |
   'company info' |
-  'company size';
+  'company size' |
+  'project type';
 
 type LoadingStates = 'getting domain options';
 
@@ -479,3 +512,5 @@ const COMPANY_SIZES = [
   'More than 1000'
 ] as const;
 type CompanySize = typeof COMPANY_SIZES[number];
+
+type ProjectType = 'new' | 'existing';
