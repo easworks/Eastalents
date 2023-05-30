@@ -191,6 +191,20 @@
         </ul>
       </div>
 
+      <div *ngIf="step === 'project type'"
+           class="step-project-type">
+        <h2 class="main-question">Which option best describes the project you are hiring for?</h2>
+
+        <div class="options-container my-4" *ngIf="(projectType.selected$ | async) || true as selected">
+          <button *ngFor="let option of projectType.options"
+                  class="rounded py-2 px-3 w-100 text-left"
+                  [class.selected]="selected === option.value"
+                  (click)="projectType.select(option.value)">
+            {{option.label}}
+          </button>
+        </div>
+      </div>
+
       <div *ngIf="step === 'company info'"
            class="step-company-info">
         <h2 class="main-question">Tell us about your Company</h2>
@@ -238,34 +252,6 @@
                       class="input-container py-1 px-2 border rounded"></textarea>
           </div>
         </form>
-      </div>
-
-      <div *ngIf="step === 'company size'"
-           class="step-company-size">
-        <h2 class="main-question">How many people are employed in your Company?</h2>
-
-        <div class="options-container my-4" *ngIf="(companySize.selected$ | async) || true as selected">
-          <button *ngFor="let option of companySize.options"
-                  class="rounded py-2 px-3 text-left"
-                  [class.selected]="selected === option"
-                  (click)="companySize.select(option)">
-            {{option}}
-          </button>
-        </div>
-      </div>
-
-      <div *ngIf="step === 'project type'"
-           class="step-project-type">
-        <h2 class="main-question">Which option best describes the project you are hiring for?</h2>
-
-        <div class="options-container my-4" *ngIf="(projectType.selected$ | async) || true as selected">
-          <button *ngFor="let option of projectType.options"
-                  class="rounded py-2 px-3 w-100 text-left"
-                  [class.selected]="selected === option.value"
-                  (click)="projectType.select(option.value)">
-            {{option.label}}
-          </button>
-        </div>
       </div>
 
       <div *ngIf="stepper.showControls$ | async" class="stepper-buttons border-top">

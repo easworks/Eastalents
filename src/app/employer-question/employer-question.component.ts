@@ -34,7 +34,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
   readonly step$ = new BehaviorSubject<Step>('start');
 
   readonly stepper = {
-    totalSteps: 6,
+    totalSteps: 5,
     showControls$: this.step$.pipe(
       map(s => s !== 'start'),
       shareReplay({ refCount: true, bufferSize: 1 })),
@@ -44,9 +44,8 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
           case 'enterprise application domain': return 1;
           case 'enterprise application software': return 2;
           case 'primary role': return 3;
-          case 'company info': return 4;
-          case 'company size': return 5;
-          case 'project type': return 6;
+          case 'project type': return 4;
+          case 'company info': return 5;
           default: return null;
         }
       }),
@@ -61,8 +60,6 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
           case 'enterprise application software': this.step$.next('enterprise application domain'); break;
           case 'primary role': this.step$.next('enterprise application software'); break;
           case 'company info': this.step$.next('primary role'); break;
-          case 'company size': this.step$.next('company info'); break;
-          case 'project type': this.step$.next('company size'); break;
         }
         document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
       }
@@ -79,8 +76,6 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
           case 'start': this.step$.next('enterprise application domain'); break;
           case 'enterprise application domain': this.entAppDomain.next(); break;
           case 'enterprise application software': this.entAppSoftware.next(); break;
-          case 'company info': this.companyInfo.next(); break;
-          case 'company size': this.companySize.next(); break;
         }
         document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
       }
@@ -253,18 +248,6 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
 
       this.companyInfo.options.industryGroup$.next(industryGroups);
     },
-    next: () => this.step$.next('company size')
-  } as const;
-
-  readonly companySize = {
-    selected$: new BehaviorSubject<CompanySize | null>(null),
-    options: COMPANY_SIZES,
-    select: (value: CompanySize) => {
-      this.companySize.selected$.next(value);
-    },
-    next: () => {
-      this.step$.next('project type')
-    }
   } as const;
 
   readonly projectType = {
@@ -358,9 +341,8 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       this.entAppDomain.selected$,
       this.entAppSoftware.application.selected$,
       this.primaryRole.selected$,
+      this.projectType.selected$,
       this.companyInfo.form.statusChanges.pipe(startWith('INVALID')),
-      this.companySize.selected$,
-      this.projectType.selected$
     ]).pipe(
       takeUntil(this.destroyed$),
       map(([
@@ -369,9 +351,8 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
         entAppDomains,
         entAppSoftware,
         primaryRole,
+        projectType,
         companyInfoStatus,
-        companySize,
-        projectType
       ]) => {
         if (loading)
           return true;
@@ -383,12 +364,10 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
             return entAppSoftware.length === 0;
           case 'primary role':
             return primaryRole === null;
-          case 'company info':
-            return companyInfoStatus !== 'VALID';
-          case 'company size':
-            return companySize === null;
           case 'project type':
             return projectType === null;
+          case 'company info':
+            return companyInfoStatus !== 'VALID';
           default: return false;
         }
       })).subscribe(this.stepper.next.disabled$)
@@ -499,9 +478,8 @@ type Step =
   'enterprise application domain' |
   'enterprise application software' |
   'primary role' |
-  'company info' |
-  'company size' |
-  'project type';
+  'project type' |
+  'company info';
 
 type LoadingStates = 'getting domain options';
 

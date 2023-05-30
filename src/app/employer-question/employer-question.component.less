@@ -196,6 +196,30 @@
   }
 }
 
+.step-project-type {
+  .options-container {
+    display: grid;
+    gap: 1rem;
+    justify-content: start;
+
+    button {
+      outline: none;
+      border: none;
+      background-color: #efefef;
+
+      &:hover,
+      &:focus {
+        background-color: #cfcfcf;
+      }
+
+      &.selected {
+        background-color: black;
+        color: white;
+      }
+    }
+  }
+}
+
 .step-company-info {
   form {
     display: grid;
@@ -235,31 +259,6 @@
       &:hover,
       &:focus {
         background-color: #cfcfcf;
-      }
-    }
-  }
-}
-
-.step-company-size,
-.step-project-type {
-  .options-container {
-    display: grid;
-    gap: 1rem;
-    justify-content: start;
-
-    button {
-      outline: none;
-      border: none;
-      background-color: #efefef;
-
-      &:hover,
-      &:focus {
-        background-color: #cfcfcf;
-      }
-
-      &.selected {
-        background-color: black;
-        color: white;
       }
     }
   }
