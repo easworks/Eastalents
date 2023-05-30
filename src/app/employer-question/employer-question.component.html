@@ -188,28 +188,32 @@
       </div>
 
       <div *ngIf="step === 'company info'"
-           class="step-enterprise-application-software">
+           class="step-company-info">
         <h2 class="main-question">Tell us about your Company</h2>
 
-        <form [formGroup]="companyInfo.form">
+        <form [formGroup]="companyInfo.form" class="mt-4">
           <div>
             <label>Company Name</label>
-            <input type="text" formControlName="name">
+            <input type="text" formControlName="name"
+                   class="input-container py-1 px-2 border rounded">
           </div>
 
           <div>
             <label>Company Summary</label>
-            <textarea formControlName="summary"></textarea>
+            <textarea formControlName="summary" rows="7"
+                      class="input-container py-1 px-2 border rounded"></textarea>
           </div>
 
-          <div>
+          <div class="mt-2">
             <label>Company Logo</label>
-            <input type="file" formControlName="logo">
+            <input type="file" formControlName="logo"
+                   class="input-container">
           </div>
 
           <div>
             <label>Industry Group</label>
-            <select formControlName="industryGroup">
+            <select formControlName="industryGroup"
+                    class="input-container py-1 px-2 border rounded">
               <option *ngFor="let option of companyInfo.options.industryGroup$ | async"
                       [value]="option">{{option}}</option>
             </select>
@@ -217,7 +221,8 @@
 
           <div>
             <label>Industry</label>
-            <select formControlName="industry">
+            <select formControlName="industry"
+                    class="input-container py-1 px-2 border rounded">
               <option *ngFor="let option of companyInfo.options.industry$ | async"
                       [value]="option">{{option}}</option>
             </select>
@@ -225,7 +230,8 @@
 
           <div>
             <label>Company Products/Services</label>
-            <textarea formControlName="productsAndServices"></textarea>
+            <textarea formControlName="productsAndServices" rows="5"
+                      class="input-container py-1 px-2 border rounded"></textarea>
           </div>
         </form>
       </div>

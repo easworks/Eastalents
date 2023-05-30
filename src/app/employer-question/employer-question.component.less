@@ -160,6 +160,49 @@
   }
 }
 
+.step-company-info {
+  form {
+    display: grid;
+    gap: 1rem;
+
+    >div {
+      display: flex;
+      gap: 1rem;
+    }
+
+    label {
+      padding: 0.25rem 0.5rem;
+      min-width: 15rem;
+      align-self: self-start;
+    }
+
+    .input-container {
+      width: ~"min(100%, 30rem)";
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    textarea,
+    input {
+      outline: none;
+    }
+
+    input[type=file]::file-selector-button {
+      border-radius: 0.25rem;
+      background-color: #dfdfdf;
+      border: none;
+      padding: 0.25rem 0.5rem;
+
+      &:hover,
+      &:focus {
+        background-color: #bfbfbf;
+      }
+    }
+  }
+}
+
 .stepper-buttons {
   margin-top: 1rem;
   display: flex;

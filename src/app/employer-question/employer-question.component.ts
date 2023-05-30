@@ -222,7 +222,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       logo: new FormControl(null, { validators: [Validators.required] }),
       industryGroup: new FormControl('', { validators: [Validators.required] }),
       industry: new FormControl('', { validators: [Validators.required] }),
-      productAndServices: new FormControl('', { validators: [Validators.required] })
+      productsAndServices: new FormControl('', { validators: [Validators.required] })
     }),
     options: {
       industryGroup$: new BehaviorSubject<string[]>([]),
