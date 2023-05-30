@@ -215,6 +215,22 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
     }
   } as const;
 
+  readonly companyInfo = {
+    form: new FormGroup({
+      name: new FormControl('', { validators: [Validators.required] }),
+      summary: new FormControl('', { validators: [Validators.required] }),
+      logo: new FormControl(null, { validators: [Validators.required] }),
+      industryGroup: new FormControl('', { validators: [Validators.required] }),
+      industry: new FormControl('', { validators: [Validators.required] }),
+      productAndServices: new FormControl('', { validators: [Validators.required] })
+    }),
+    options: {
+      industryGroup$: new BehaviorSubject<string[]>([]),
+      industry$: new BehaviorSubject<string[]>([]),
+      industryGroupMap: new Map<string, string[]>()
+    },
+  } as const;
+
   readonly commonOptions = {
     yearsOfExperience: new Array(20).fill(0).map((_, i) => i + 1),
     expertise: [

@@ -190,6 +190,44 @@
       <div *ngIf="step === 'company info'"
            class="step-enterprise-application-software">
         <h2 class="main-question">Tell us about your Company</h2>
+
+        <form [formGroup]="companyInfo.form">
+          <div>
+            <label>Company Name</label>
+            <input type="text" formControlName="name">
+          </div>
+
+          <div>
+            <label>Company Summary</label>
+            <textarea formControlName="summary"></textarea>
+          </div>
+
+          <div>
+            <label>Company Logo</label>
+            <input type="file" formControlName="logo">
+          </div>
+
+          <div>
+            <label>Industry Group</label>
+            <select formControlName="industryGroup">
+              <option *ngFor="let option of companyInfo.options.industryGroup$ | async"
+                      [value]="option">{{option}}</option>
+            </select>
+          </div>
+
+          <div>
+            <label>Industry</label>
+            <select formControlName="industry">
+              <option *ngFor="let option of companyInfo.options.industry$ | async"
+                      [value]="option">{{option}}</option>
+            </select>
+          </div>
+
+          <div>
+            <label>Company Products/Services</label>
+            <textarea formControlName="productsAndServices"></textarea>
+          </div>
+        </form>
       </div>
 
       <div *ngIf="stepper.showControls$ | async" class="stepper-buttons border-top">
