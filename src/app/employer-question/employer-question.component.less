@@ -65,7 +65,8 @@
   position: relative;
 
   .selected-container {
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
 
     .item {
@@ -129,6 +130,12 @@
       &:hover,
       &:focus {
         background: #efefef;
+        color: black;
+      }
+
+      &:disabled {
+        background: #6f6f6f;
+        color: white;
       }
     }
   }

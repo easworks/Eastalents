@@ -141,7 +141,10 @@
               </div>
             </ng-container>
             <ng-template #noItemsSelected>
-              <i class="mx-auto">No software applications selected</i>
+              <div class="p-2 mx-auto text-center">
+                <i>Please select from the list below</i>
+              </div>
+
             </ng-template>
           </div>
 
@@ -171,6 +174,7 @@
               <ul class="border rounded">
                 <li *ngFor="let option of entAppSoftware.application.filteredOptions$ | async">
                   <button class="p-2 w-100"
+                          [disabled]="option.selected"
                           (click)="entAppSoftware.application.select(option)">{{option.label | uppercase}}</button>
                 </li>
               </ul>

@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, combineLatest, pipe } from 'rxjs';
-import { first, map, shareReplay, startWith } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, from, pipe } from 'rxjs';
+import { first, map, shareReplay, startWith, takeUntil } from 'rxjs/operators';
 import { LoadingState } from '../_helpers/loading-state';
 import { DomainDictionary } from '../_models/domain';
 import { HttpService } from '../_services/http.service';
 import { environment } from 'src/environments/environment';
+import { SubscribedDirective } from '../_helpers/subscribed-directive';
 
 type Step =
   'start' |
@@ -38,10 +39,12 @@ interface SoftwareDomainOption extends SelectableOption {
   styleUrls: ['./employer-question.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EmployerQuestionComponent implements OnInit {
+export class EmployerQuestionComponent extends SubscribedDirective implements OnInit {
   constructor(
     private readonly http: HttpService
-  ) { }
+  ) {
+    super();
+  }
 
   private domainDictionary!: DomainDictionary;
 
@@ -100,6 +103,7 @@ export class EmployerQuestionComponent implements OnInit {
         this.entAppDomain.filterString$,
         this.entAppDomain.options$
       ]).pipe(
+        takeUntil(this.destroyed$),
         map(([filter, options]) => {
           const f = filter.toLowerCase();
           return options.filter(opt =>
@@ -163,6 +167,7 @@ export class EmployerQuestionComponent implements OnInit {
     },
     init: () => {
       this.entAppSoftware.domain.selected$
+        .pipe(takeUntil(this.destroyed$))
         .subscribe(domOption => {
           this.entAppSoftware.application.filterString$.next('');
           this.entAppSoftware.application.options$.next(domOption?.applications ?? [])
@@ -171,10 +176,13 @@ export class EmployerQuestionComponent implements OnInit {
       combineLatest([
         this.entAppSoftware.application.filterString$,
         this.entAppSoftware.application.options$
-      ]).pipe(map(([filter, options]) => {
-        const f = filter.toLowerCase();
-        return options.filter(opt => opt.label.toLowerCase().includes(f))
-      })).subscribe(this.entAppSoftware.application.filteredOptions$);
+      ]).pipe(
+        takeUntil(this.destroyed$),
+        map(([filter, options]) => {
+          const f = filter.toLowerCase();
+          return options.filter(opt => opt.label.toLowerCase().includes(f))
+        }),
+      ).subscribe(this.entAppSoftware.application.filteredOptions$);
     }
   } as const;
 
@@ -244,15 +252,17 @@ export class EmployerQuestionComponent implements OnInit {
       this.isLoading$,
       this.entAppDomain.form.statusChanges.pipe(startWith('INVALID')),
       this.entAppSoftware.application.selected$
-    ]).pipe(map(([
-      loading,
-      entApptatus,
-      entAppSoftware
-    ]) => {
-      return loading ||
-        entApptatus !== 'VALID' ||
-        entAppSoftware.length === 0;
-    })).subscribe(this.stepper.next.disabled$)
+    ]).pipe(
+      takeUntil(this.destroyed$),
+      map(([
+        loading,
+        entApptatus,
+        entAppSoftware
+      ]) => {
+        return loading ||
+          entApptatus !== 'VALID' ||
+          entAppSoftware.length === 0;
+      })).subscribe(this.stepper.next.disabled$)
   }
 
   // this is to pre-fill the form when in dev mode so that
