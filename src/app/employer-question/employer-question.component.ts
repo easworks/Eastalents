@@ -15,7 +15,8 @@ type Step =
   'start' |
   'enterprise application domain' |
   'enterprise application software' |
-  'company info';
+  'company info' |
+  'company size';
 
 type LoadingStates = 'getting domain options';
 
@@ -89,7 +90,9 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
         switch (step) {
           case 'enterprise application software': this.step$.next('enterprise application domain'); break;
           case 'company info': this.step$.next('enterprise application software'); break;
+          case 'company size': this.step$.next('company info'); break;
         }
+        document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
       }
     },
     skip: {
@@ -99,12 +102,14 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
     },
     next: {
       disabled$: new BehaviorSubject(false),
-      click: (currentStep: Step) => {
+      click: async (currentStep: Step) => {
         switch (currentStep) {
           case 'start': this.step$.next('enterprise application domain'); break;
           case 'enterprise application domain': this.entAppDomain.next(); break;
           case 'enterprise application software': this.entAppSoftware.next(); break;
+          case 'company info': this.companyInfo.next(); break;
         }
+        document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
       }
     }
   } as const;
@@ -262,7 +267,8 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
         .subscribe(v => console.debug(v))
 
       this.companyInfo.options.industryGroup$.next(industryGroups);
-    }
+    },
+    next: () => this.step$.next('company size')
   } as const;
 
   readonly commonOptions = {
@@ -329,6 +335,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
   private disableNextWhenRequired() {
     combineLatest([
       this.isLoading$,
+      this.step$,
       this.entAppDomain.form.statusChanges.pipe(startWith('INVALID')),
       this.entAppSoftware.application.selected$,
       this.companyInfo.form.statusChanges.pipe(startWith('INVALID'))
@@ -336,14 +343,23 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       takeUntil(this.destroyed$),
       map(([
         loading,
+        step,
         entApptatus,
         entAppSoftware,
         companyInfoStatus
       ]) => {
-        return loading ||
-          entApptatus !== 'VALID' ||
-          entAppSoftware.length === 0 ||
-          companyInfoStatus !== 'VALID';
+        if (loading)
+          return true;
+
+        switch (step) {
+          case 'enterprise application domain':
+            return entApptatus !== 'VALID';
+          case 'enterprise application software':
+            return entAppSoftware.length === 0;
+          case 'company info':
+            return companyInfoStatus !== 'VALID';
+          default: return false;
+        }
       })).subscribe(this.stepper.next.disabled$)
   }
 
@@ -393,7 +409,10 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       const logoControl = this.companyInfo.form.get('logo')!;
       const vald = logoControl.validator;
       logoControl.setValidators([]);
-      revert.push(() => logoControl.setValidators(vald));
+      revert.push(() => {
+        logoControl.setValidators(vald);
+        logoControl.updateValueAndValidity();
+      });
       this.companyInfo.form.setValue({
         name: 'Test',
         summary: 'Test',
@@ -407,6 +426,8 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       this.companyInfo.form.patchValue({
         industry: 'Ad Network'
       });
+
+      this.stepper.next.click('company info');
     }
 
     revert.forEach(action => action());

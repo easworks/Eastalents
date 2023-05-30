@@ -234,6 +234,11 @@
         </form>
       </div>
 
+      <div *ngIf="step === 'company size'"
+           class="step-company-size">
+        <h2 class="main-question">How many people are employed in your Company?</h2>
+      </div>
+
       <div *ngIf="stepper.showControls$ | async" class="stepper-buttons border-top">
         <button type="button" *ngIf="stepper.previous.visible$ | async"
                 class="previous btn-common-border"
