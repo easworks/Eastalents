@@ -136,8 +136,11 @@
         <ng-container *ngIf="entAppSoftware.application.selected$ | async as selected">
           <div class="selected-container border rounded p-2">
             <ng-container *ngIf="selected.length > 0; else noItemsSelected">
-              <div *ngFor="let item of selected" class="item rounded p-2">
-                {{item.domain.value}} - {{item.software.value}}
+              <div *ngFor="let item of selected; let i = index" class="item rounded p-2">
+                <span>{{item.label}}</span>
+                <button type="button" (click)="entAppSoftware.application.remove(i)">
+                  <i class="icofont-close"></i>
+                </button>
               </div>
             </ng-container>
             <ng-template #noItemsSelected>

@@ -7,6 +7,7 @@ import { DomainDictionary } from '../_models/domain';
 import { HttpService } from '../_services/http.service';
 import { environment } from 'src/environments/environment';
 import { SubscribedDirective } from '../_helpers/subscribed-directive';
+import { sortString } from '../_helpers/sort';
 
 type Step =
   'start' |
@@ -31,6 +32,12 @@ interface SelectableOption {
 
 interface SoftwareDomainOption extends SelectableOption {
   applications: SelectableOption[];
+}
+
+interface SelectedSoftware {
+  domain: SoftwareDomainOption;
+  application: SelectableOption;
+  label: string;
 }
 
 @Component({
@@ -145,10 +152,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       filterString$: new BehaviorSubject(''),
       filteredOptions$: new BehaviorSubject<SelectableOption[]>([]),
       options$: new BehaviorSubject<SelectableOption[]>([]),
-      selected$: new BehaviorSubject<{
-        domain: SelectableOption,
-        software: SelectableOption
-      }[]>([]),
+      selected$: new BehaviorSubject<SelectedSoftware[]>([]),
       select: (value: SelectableOption) => {
         const current = this.entAppSoftware.application.selected$.value;
         const selectedDomain = this.entAppSoftware.domain.selected$.value;
@@ -159,10 +163,20 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
           value.selected = true;
           current.push({
             domain: selectedDomain,
-            software: value
+            application: value,
+            label: `${selectedDomain.value} - ${value.value}`
           });
+          current.sort((a, b) => sortString(a.label, b.label));
           this.entAppSoftware.application.selected$.next(current);
         }
+      },
+      remove: (index: number) => {
+        const current = this.entAppSoftware.application.selected$.value;
+        const opt = current[index]
+        current.splice(index, 1);
+        opt.application.selected = false;
+        current.sort((a, b) => sortString(a.label, b.label));
+        this.entAppSoftware.application.selected$.next(current);
       }
     },
     init: () => {

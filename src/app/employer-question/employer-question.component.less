@@ -72,6 +72,25 @@
     .item {
       background-color: black;
       color: white;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+
+      button {
+        background-color: rgba(#cfcfcf, 0.5);
+        border: none;
+        border-radius: 100%;
+        width: 1.5rem;
+        height: 1.5rem;
+        display: grid;
+        place-content: center;
+        padding: 0;
+
+        &:focus,
+        &:hover {
+          background-color: #cfcfcf;
+        }
+      }
     }
   }
 
