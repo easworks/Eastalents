@@ -1,0 +1,19 @@
+.stepper-buttons {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  padding-top: 1rem;
+  justify-content: right;
+
+  .previous {
+    margin-right: auto;
+  }
+
+  .next {
+    &:disabled {
+      background-color: #cfcfcf;
+      border-color: #cfcfcf;
+      color: #5f5f5f;
+    }
+  }
+}

@@ -41,5 +41,47 @@
       </div>
     </div>
 
+    <div *ngIf="stepper.showControls$ | async" class="stepper-progress w-100 mt-4">
+      <ng-container *ngIf="stepper.progress$ | async as progress">
+        <span>Step {{progress}} of {{stepper.totalSteps}}</span>
+        <div class="progress-bar mt-2">
+          <div class="ui-progress" role="progressbar"
+               [style.width]="(((progress - 1) / stepper.totalSteps) * 100).toString()+'%'"></div>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="mt-4" style="flex-grow: 1; width: 100%; position: relative;" *ngIf="step$ | async as step">
+
+      <ng-container *ngIf="step === 'start'">
+        <button type="button" class="btn-get-started mt-5 mx-auto" style="display: block;"
+                (click)="this.stepper.next.click(step)">
+          Get Started
+        </button>
+      </ng-container>
+
+      <div *ngIf="step === 'organization info'">
+        Org Info
+      </div>
+
+      <div *ngIf="step === 'primary domains'">
+        Primary Domains
+      </div>
+
+      <div *ngIf="step === 'enterprise software'">
+        Enterprise Software
+      </div>
+
+
+      <div *ngIf="stepper.showControls$ | async" class="stepper-buttons border-top">
+        <button type="button" *ngIf="stepper.previous.visible$ | async"
+                class="previous btn-common-border"
+                (click)="stepper.previous.click(step)">Previous</button>
+        <button type="button" class="next btn-common-border nextbtn"
+                [disabled]="stepper.next.disabled$ | async"
+                (click)="stepper.next.click(step)">Next</button>
+      </div>
+    </div>
+
   </div>
 </div>

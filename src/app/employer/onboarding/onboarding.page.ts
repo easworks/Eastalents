@@ -18,12 +18,12 @@ export class EmployerOnboardingComponent extends SubscribedDirective implements 
   readonly stepper = {
     totalSteps: 3,
     showControls$: this.step$.pipe(
-      map(s => s !== 'start'),
+      map(s => s !== 'start' && s !== 'end'),
       shareReplay({ refCount: true, bufferSize: 1 })),
     progress$: this.step$.pipe(
       map(s => {
         switch (s) {
-          case 'company info': return 1;
+          case 'organization info': return 1;
           case 'primary domains': return 2;
           case 'enterprise software': return 3;
           default: return null;
@@ -33,11 +33,11 @@ export class EmployerOnboardingComponent extends SubscribedDirective implements 
     ),
     previous: {
       visible$: this.step$.pipe(
-        map(s => s !== 'company info'),
+        map(s => s !== 'organization info'),
         shareReplay({ refCount: true, bufferSize: 1 })),
       click: (currentStep: Step) => {
         switch (currentStep) {
-          case 'primary domains': this.step$.next('company info'); break;
+          case 'primary domains': this.step$.next('organization info'); break;
           case 'enterprise software': this.step$.next('primary domains'); break;
         }
       }
@@ -46,8 +46,8 @@ export class EmployerOnboardingComponent extends SubscribedDirective implements 
       disabled$: new BehaviorSubject(false),
       click: (currentStep: Step) => {
         switch (currentStep) {
-          case 'start': this.step$.next('company info'); break;
-          case 'company info': this.step$.next('primary domains'); break;
+          case 'start': this.step$.next('organization info'); break;
+          case 'organization info': this.step$.next('primary domains'); break;
           case 'primary domains': this.step$.next('enterprise software'); break;
           case 'enterprise software': this.step$.next('end'); break;
         }
@@ -64,7 +64,7 @@ type LoadingStates = 'getting options data';
 
 type Step =
   'start' |
-  'company info' |
+  'organization info' |
   'primary domains' |
   'enterprise software' |
   'end';
