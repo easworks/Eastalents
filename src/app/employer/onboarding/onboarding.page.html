@@ -68,13 +68,29 @@
           <div>
             <label>Company Name</label>
             <input type="text" formControlName="name"
-                   class="input-container py-1 px-2 border rounded">
+                   class="input-container py-2 px-3 border rounded">
           </div>
 
           <div>
             <label>Company Summary</label>
             <textarea formControlName="summary" rows="7"
-                      class="input-container py-1 px-2 border rounded"></textarea>
+                      class="input-container py-2 px-3 border rounded"></textarea>
+          </div>
+
+          <div>
+            <label>Phone Number</label>
+            <div class="phone-inputs input-container">
+              <select formControlName="phoneCountryCode"
+                      class="py-2 px-3 border rounded">
+                <option *ngFor="let opt of orgInfo.options.dialCodes$ | async"
+                        [value]="opt.value"
+                        [title]="opt.title">
+                  {{opt.label}}
+                </option>
+              </select>
+              <input type="tel" formControlName="phoneNumber"
+                     class="py-2 px-3 border rounded">
+            </div>
           </div>
         </form>
       </div>

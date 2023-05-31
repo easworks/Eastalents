@@ -3,7 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map, shareReplay, startWith, takeUntil } from 'rxjs/operators';
 import { LoadingState } from 'src/app/_helpers/loading-state';
+import { Option } from 'src/app/_helpers/option';
+import { sortString } from 'src/app/_helpers/sort';
 import { SubscribedDirective } from 'src/app/_helpers/subscribed-directive';
+import { HttpService } from 'src/app/_services/http.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -13,6 +16,13 @@ import { environment } from 'src/environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EmployerOnboardingComponent extends SubscribedDirective implements OnInit {
+
+  constructor(
+    private readonly api: HttpService
+  ) {
+    super();
+  }
+
   readonly loading$ = new LoadingState(new Set<LoadingStates>());
   readonly step$ = new BehaviorSubject<Step>('start');
 
@@ -70,8 +80,11 @@ export class EmployerOnboardingComponent extends SubscribedDirective implements 
       industry: new FormControl({ value: '', disabled: true }, { validators: [Validators.required] }),
       category: new FormControl('', { validators: [Validators.required] }),
       employeeCount: new FormControl('', { validators: [Validators.required] })
-    })
-  };
+    }),
+    options: {
+      dialCodes$: new BehaviorSubject<Option[]>([])
+    }
+  } as const;
 
   private disableNextWhenRequired() {
     combineLatest([
@@ -97,6 +110,26 @@ export class EmployerOnboardingComponent extends SubscribedDirective implements 
     ).subscribe(this.stepper.next.disabled$);
   }
 
+  private async getOptionData() {
+    this.loading$.add('getting options data');
+
+    const countries = this.api.get('location/getCountries')
+      .toPromise()
+      .then(res => {
+        if (res.status === true) {
+          const options: Option[] = res.countries.map((c: any) => ({
+            value: c.dialcode,
+            label: c.dialcode,
+            title: c.name
+          }));
+          options.sort((a, b) => sortString(a.value, b.value));
+          this.orgInfo.options.dialCodes$.next(options);
+        }
+      })
+
+    await countries;
+  }
+
   private devModeInit() {
     if (environment.production)
       return;
@@ -107,6 +140,8 @@ export class EmployerOnboardingComponent extends SubscribedDirective implements 
   ngOnInit(): void {
 
     this.disableNextWhenRequired();
+
+    this.getOptionData();
 
     this.devModeInit();
   }
