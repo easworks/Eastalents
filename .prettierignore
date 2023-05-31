@@ -4,6 +4,8 @@ pnpm-lock.yaml
 
 /**/*.ts
 /**/*.html
+/**/*.css
+/**/*.less
 /**/*.scss
 /**/*.mjs
 /**/*.gql
