@@ -19,7 +19,7 @@ import * as industryData from './industry-data';
 })
 export class EmployerQuestionComponent extends SubscribedDirective implements OnInit {
   constructor(
-    private readonly http: HttpService
+    private readonly api: HttpService
   ) {
     super();
   }
@@ -306,7 +306,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
 
   private getDomainOptions() {
     this.loading$.add('getting domain options');
-    this.http.get('talentProfile/getTalentProfileSteps')
+    this.api.get('talentProfile/getTalentProfileSteps')
       .subscribe(
         res => {
           if (res.status === true) {
