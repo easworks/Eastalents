@@ -1,4 +1,7 @@
 {
   "name": "easworks",
-  "scripts": {}
+  "scripts": {},
+  "devDependencies": {
+    "nx": "^16.3.0"
+  }
 }
