@@ -35,6 +35,9 @@ dependencies:
   '@angular/router':
     specifier: 16.0.3
     version: 16.0.3(@angular/common@16.0.3)(@angular/core@16.0.3)(@angular/platform-browser@16.0.3)(rxjs@7.8.1)
+  '@ngrx/component':
+    specifier: ^16.0.0
+    version: 16.0.0(@angular/common@16.0.3)(@angular/core@16.0.3)(rxjs@7.8.1)
   rxjs:
     specifier: 7.8.1
     version: 7.8.1
@@ -4564,6 +4567,19 @@ packages:
     dependencies:
       '@material/feature-targeting': 15.0.0-canary.576d3d2c8.0
       '@material/theme': 15.0.0-canary.576d3d2c8.0
+      tslib: 2.5.2
+    dev: false
+
+  /@ngrx/component@16.0.0(@angular/common@16.0.3)(@angular/core@16.0.3)(rxjs@7.8.1):
+    resolution: {integrity: sha512-wHIpj9spSzYh4yt/wU55zsyEzE+JPVDAewSBoBUCJ0tuQhi5G3Qy36xXxrqNSnlYVC4dSR8ylFcan6gvn3coCw==}
+    peerDependencies:
+      '@angular/common': ^16.0.0
+      '@angular/core': ^16.0.0
+      rxjs: ^6.5.3 || ^7.5.0
+    dependencies:
+      '@angular/common': 16.0.3(@angular/core@16.0.3)(rxjs@7.8.1)
+      '@angular/core': 16.0.3(rxjs@7.8.1)(zone.js@0.13.0)
+      rxjs: 7.8.1
       tslib: 2.5.2
     dev: false
 
