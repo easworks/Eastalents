@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { map, shareReplay, takeUntil } from 'rxjs/operators';
 import { LoadingState } from 'src/app/_helpers/loading-state';
 import { SubscribedDirective } from 'src/app/_helpers/subscribed-directive';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'employer-onboarding-page',
@@ -12,7 +13,6 @@ import { SubscribedDirective } from 'src/app/_helpers/subscribed-directive';
 })
 export class EmployerOnboardingComponent extends SubscribedDirective implements OnInit {
   readonly loading$ = new LoadingState(new Set<LoadingStates>());
-
   readonly step$ = new BehaviorSubject<Step>('start');
 
   readonly stepper = {
@@ -55,8 +55,40 @@ export class EmployerOnboardingComponent extends SubscribedDirective implements 
     }
   } as const;
 
+  private disableNextWhenRequired() {
+    combineLatest([
+      this.loading$.is$,
+      this.step$,
+    ]).pipe(
+      takeUntil(this.destroyed$),
+      map(([
+        loading,
+        step
+      ]) => {
+        if (loading)
+          return true;
+
+        switch (step) {
+          case 'organization info':
+            return true;
+          default: return false
+        }
+      })
+    ).subscribe(this.stepper.next.disabled$);
+  }
+
+  private devModeInit() {
+    if (environment.production)
+      return;
+
+    this.stepper.next.click('start');
+  }
+
   ngOnInit(): void {
 
+    this.disableNextWhenRequired();
+
+    this.devModeInit();
   }
 }
 

@@ -8,6 +8,11 @@ export class LoadingState<T extends string> extends BehaviorSubject<Set<T>> {
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
+  readonly is$ = this.pipe(
+    map(v => v.size > 0),
+    shareReplay({ refCount: true, bufferSize: 1 })
+  );
+
   add(value: T) {
     const r = ImmutableSet.add(this.value, value);
     this.next(r);
