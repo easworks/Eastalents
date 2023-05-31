@@ -10,3 +10,47 @@
   padding-top: 64px !important;
   /* this is to allow for the header */
 }
+
+.step-organization-info {
+  form {
+    display: grid;
+    gap: 1rem;
+
+    >div {
+      display: flex;
+      gap: 1rem;
+    }
+
+    label {
+      padding: 0.25rem 0.5rem;
+      min-width: 15rem;
+      align-self: self-start;
+    }
+
+    .input-container {
+      width: ~"min(100%, 30rem)";
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    textarea,
+    input,
+    select {
+      outline: none;
+    }
+
+    input[type=file]::file-selector-button {
+      border-radius: 0.25rem;
+      background-color: #efefef;
+      border: none;
+      padding: 0.25rem 0.5rem;
+
+      &:hover,
+      &:focus {
+        background-color: #cfcfcf;
+      }
+    }
+  }
+}

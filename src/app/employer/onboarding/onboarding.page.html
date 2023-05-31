@@ -60,8 +60,23 @@
         </button>
       </ng-container>
 
-      <div *ngIf="step === 'organization info'">
-        Org Info
+      <div *ngIf="step === 'organization info'"
+           class="step-organization-info">
+        <h2 class="main-question">Tell us about your Organization</h2>
+
+        <form [formGroup]="orgInfo.form" class="mt-4">
+          <div>
+            <label>Company Name</label>
+            <input type="text" formControlName="name"
+                   class="input-container py-1 px-2 border rounded">
+          </div>
+
+          <div>
+            <label>Company Summary</label>
+            <textarea formControlName="summary" rows="7"
+                      class="input-container py-1 px-2 border rounded"></textarea>
+          </div>
+        </form>
       </div>
 
       <div *ngIf="step === 'primary domains'">

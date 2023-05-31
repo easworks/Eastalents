@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map, shareReplay, takeUntil } from 'rxjs/operators';
+import { map, shareReplay, startWith, takeUntil } from 'rxjs/operators';
 import { LoadingState } from 'src/app/_helpers/loading-state';
 import { SubscribedDirective } from 'src/app/_helpers/subscribed-directive';
 import { environment } from 'src/environments/environment';
@@ -55,22 +56,41 @@ export class EmployerOnboardingComponent extends SubscribedDirective implements 
     }
   } as const;
 
+  readonly orgInfo = {
+    form: new FormGroup({
+      name: new FormControl('', { validators: [Validators.required] }),
+      summary: new FormControl('', { validators: [Validators.required] }),
+      location: new FormControl('', { validators: [Validators.required] }),
+      timeZone: new FormControl('', { validators: [Validators.required] }),
+      phoneCountryCode: new FormControl('', { validators: [Validators.required] }),
+      phoneNumber: new FormControl('', { validators: [Validators.required] }),
+      email: new FormControl('', { validators: [Validators.required, Validators.email] }),
+      website: new FormControl('', { validators: [Validators.required] }),
+      industryGroup: new FormControl('', { validators: [Validators.required] }),
+      industry: new FormControl({ value: '', disabled: true }, { validators: [Validators.required] }),
+      category: new FormControl('', { validators: [Validators.required] }),
+      employeeCount: new FormControl('', { validators: [Validators.required] })
+    })
+  };
+
   private disableNextWhenRequired() {
     combineLatest([
       this.loading$.is$,
       this.step$,
+      this.orgInfo.form.statusChanges.pipe(startWith('INVALID'))
     ]).pipe(
       takeUntil(this.destroyed$),
       map(([
         loading,
-        step
+        step,
+        orgInfo
       ]) => {
         if (loading)
           return true;
 
         switch (step) {
           case 'organization info':
-            return true;
+            return orgInfo !== 'VALID';
           default: return false
         }
       })
