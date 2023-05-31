@@ -460,33 +460,41 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
     }
 
     {
-      const logoControl = this.companyInfo.form.get('logo')!;
-      const vald = logoControl.validator;
-      logoControl.setValidators([]);
-      revert.push(() => {
-        logoControl.setValidators(vald);
-        logoControl.updateValueAndValidity();
-      });
-      this.companyInfo.form.setValue({
-        name: 'Test',
-        summary: 'Test',
-        logo: null,
-        industryGroup: 'Advertising',
-        industry: '',
-        productsAndServices: 'Test'
-      });
-
-      await sleep();
-      this.companyInfo.form.patchValue({
-        industry: 'Ad Network'
-      });
       const firstOpt = this.primaryRole.options[0];
       this.primaryRole.select(firstOpt);
 
-      this.stepper.next.click('company info');
       this.stepper.next.click('primary role');
     }
 
+    // {
+    //   const logoControl = this.companyInfo.form.get('logo')!;
+    //   const vald = logoControl.validator;
+    //   logoControl.setValidators([]);
+    //   revert.push(() => {
+    //     logoControl.setValidators(vald);
+    //     logoControl.updateValueAndValidity();
+    //   });
+    //   this.companyInfo.form.setValue({
+    //     name: 'Test',
+    //     summary: 'Test',
+    //     logo: null,
+    //     industryGroup: 'Advertising',
+    //     industry: '',
+    //     productsAndServices: 'Test'
+    //   });
+
+    //   await sleep();
+    //   this.companyInfo.form.patchValue({
+    //     industry: 'Ad Network'
+    //   });
+
+    //   this.stepper.next.click('company info');
+    // }
+
+    // {
+    //   this.companySize.select('11 - 50');
+    //   this.stepper.next.click('company size');
+    // }
 
     revert.forEach(action => action());
   }
