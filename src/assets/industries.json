@@ -40,6 +40,16 @@
     "Social Media Advertising",
     "Video Advertising"
   ],
+  "Aerospace and Defense (A&D)": [
+    "Commercial Aviation",
+    "General Aviation",
+    "Military Aviation",
+    "MRO",
+    "Others",
+    "Space Systems and Equipment",
+    "Suppliers",
+    "Unmanned Aerial Systems"
+  ],
   "Agriculture and Farming": [
     "Agriculture",
     "AgTech",
@@ -70,6 +80,69 @@
     "Natural Language Processing",
     "Others",
     "Predictive Analytics"
+  ],
+  "Automotive": [
+    "Autonomous vehicles",
+    "Construction and agriculture",
+    "Dealers",
+    "Electric cars",
+    "Light vehciles",
+    "OEM Manufacturers",
+    "Others",
+    "Tier -1 Supplier",
+    "Tier-2 Supplier",
+    "Trucks and buses"
+  ],
+  "Banking & Financial Services": [
+    "Accounting",
+    "Angel Investment",
+    "Asset Management",
+    "Auto Insurance",
+    "Banking",
+    "Bitcoin",
+    "Commercial Insurance",
+    "Commercial Lending",
+    "Consumer Lending",
+    "Credit",
+    "Credit Bureau",
+    "Credit Cards",
+    "Crowdfunding",
+    "Cryptocurrency",
+    "Debit Cards",
+    "Debt Collections",
+    "Finance",
+    "Financial Exchanges",
+    "Financial Services",
+    "FinTech",
+    "Fraud Detection",
+    "Funding Platform",
+    "Gift Card",
+    "Health Insurance",
+    "Hedge Funds",
+    "Impact Investing",
+    "Incubators",
+    "Insurance",
+    "InsurTech",
+    "Leasing",
+    "Lending",
+    "Life Insurance",
+    "Micro Lending",
+    "Mobile Payments",
+    "Others",
+    "Payments",
+    "Personal Finance",
+    "Prediction Markets",
+    "Property Insurance",
+    "Real Estate Investment",
+    "Retail banking",
+    "Stock Exchanges",
+    "Trading Platform",
+    "Transaction Processing",
+    "Venture Capital",
+    "Virtual Currency",
+    "Wealth management",
+    "Wealth Management",
+    "Wholesale banking"
   ],
   "Biotechnology": [
     "Bioinformatics",
@@ -227,6 +300,22 @@
     "UX Design",
     "Web Design"
   ],
+  "Distribution": [
+    "Agents",
+    "Brokers",
+    "Catalog",
+    "Direct Channel",
+    "Distributors",
+    "Hybrid Channel",
+    "Indirect Channel",
+    "Internet",
+    "Logistics",
+    "Others",
+    "Resellers",
+    "Retailers",
+    "Sales team",
+    "Wholesalers"
+  ],
   "Education": [
     "Alumni",
     "Charter Schools",
@@ -280,57 +369,6 @@
     "Others",
     "Reservations",
     "Ticketing"
-  ],
-  "Banking & Financial Services": [
-    "Accounting",
-    "Angel Investment",
-    "Asset Management",
-    "Auto Insurance",
-    "Banking",
-    "Bitcoin",
-    "Commercial Insurance",
-    "Commercial Lending",
-    "Consumer Lending",
-    "Credit",
-    "Credit Bureau",
-    "Credit Cards",
-    "Crowdfunding",
-    "Cryptocurrency",
-    "Debit Cards",
-    "Debt Collections",
-    "Finance",
-    "Financial Exchanges",
-    "Financial Services",
-    "FinTech",
-    "Fraud Detection",
-    "Funding Platform",
-    "Gift Card",
-    "Health Insurance",
-    "Hedge Funds",
-    "Impact Investing",
-    "Incubators",
-    "Insurance",
-    "InsurTech",
-    "Leasing",
-    "Lending",
-    "Life Insurance",
-    "Micro Lending",
-    "Mobile Payments",
-    "Others",
-    "Payments",
-    "Personal Finance",
-    "Prediction Markets",
-    "Property Insurance",
-    "Real Estate Investment",
-    "Retail banking",
-    "Stock Exchanges",
-    "Trading Platform",
-    "Transaction Processing",
-    "Venture Capital",
-    "Virtual Currency",
-    "Wealth management",
-    "Wealth Management",
-    "Wholesale banking"
   ],
   "Food and Beverage": [
     "Bakery",
@@ -506,6 +544,14 @@
     "Virtualization",
     "VoIP"
   ],
+  "Insurance": [
+    "Car Insurance",
+    "Disability income Insurance",
+    "Health Insurance",
+    "Homeowners Insurance",
+    "Life insurance",
+    "Others"
+  ],
   "Internet Services": [
     "Cloud Computing",
     "Cloud Data Services",
@@ -563,6 +609,16 @@
     "Stock Exchanges",
     "Trading Platform",
     "Venture Capital"
+  ],
+  "Life science": [
+    "Biomedical technologies",
+    "Biotechnology",
+    "Cosmeceuticals",
+    "Genetics",
+    "Medical devices",
+    "Nutraceuticals",
+    "Others",
+    "Pharmaceuticals"
   ],
   "Manufacturing": [
     "3D Printing",
@@ -668,6 +724,15 @@
     "Windows Phone",
     "Wireless"
   ],
+  "Navigation and Mapping": [
+    "Geospatial",
+    "GPS",
+    "Indoor Positioning",
+    "Location Based Services",
+    "Mapping Services",
+    "Navigation",
+    "Others"
+  ],
   "Oil,Gas and Chemicals": [
     "Biofuel",
     "Biomass Energy",
@@ -683,15 +748,6 @@
     "Timber",
     "Water",
     "Wind Energy"
-  ],
-  "Navigation and Mapping": [
-    "Geospatial",
-    "GPS",
-    "Indoor Positioning",
-    "Location Based Services",
-    "Mapping Services",
-    "Navigation",
-    "Others"
   ],
   "Other": [
     "",
@@ -1060,6 +1116,10 @@
     "Travel Agency",
     "Vacation Rental"
   ],
+  "Utilities": [
+    "Others",
+    "Utilties"
+  ],
   "Video": [
     "Animation",
     "Broadcasting",
@@ -1074,65 +1134,5 @@
     "Video Editing",
     "Video on Demand",
     "Video Streaming"
-  ],
-  "Insurance": [
-    "Car Insurance",
-    "Disability income Insurance",
-    "Health Insurance",
-    "Homeowners Insurance",
-    "Life insurance",
-    "Others"
-  ],
-  "Aerospace and Defense (A&D)": [
-    "Commercial Aviation",
-    "General Aviation",
-    "Military Aviation",
-    "MRO",
-    "Others",
-    "Space Systems and Equipment",
-    "Suppliers",
-    "Unmanned Aerial Systems"
-  ],
-  "Automotive": [
-    "Autonomous vehicles",
-    "Construction and agriculture",
-    "Dealers",
-    "Electric cars",
-    "Light vehciles",
-    "OEM Manufacturers",
-    "Others",
-    "Tier -1 Supplier",
-    "Tier-2 Supplier",
-    "Trucks and buses"
-  ],
-  "Life science": [
-    "Biomedical technologies",
-    "Biotechnology",
-    "Cosmeceuticals",
-    "Genetics",
-    "Medical devices",
-    "Nutraceuticals",
-    "Others",
-    "Pharmaceuticals"
-  ],
-  "Utilities": [
-    "Others",
-    "Utilties"
-  ],
-  "Distribution": [
-    "Agents",
-    "Brokers",
-    "Catalog",
-    "Direct Channel",
-    "Distributors",
-    "Hybrid Channel",
-    "Indirect Channel",
-    "Internet",
-    "Logistics",
-    "Others",
-    "Resellers",
-    "Retailers",
-    "Sales team",
-    "Wholesalers"
   ]
 }
