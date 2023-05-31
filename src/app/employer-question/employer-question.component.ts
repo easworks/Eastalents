@@ -103,7 +103,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
 
   readonly entAppDomain = {
     filterString$: new BehaviorSubject(''),
-    gettingOptions$: this.loading$.has$('getting domain options'),
+    gettingOptions$: this.loading$.has$('getting option data'),
     options$: new BehaviorSubject<PrimaryDomainOption[]>([]),
     filteredOptions$: new BehaviorSubject<PrimaryDomainOption[]>([]),
     selected$: new BehaviorSubject<PrimaryDomainOption[]>([]),
@@ -304,62 +304,64 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
     ]
   } as const;
 
-  private getDomainOptions() {
-    this.loading$.add('getting domain options');
-    this.api.get('talentProfile/getTalentProfileSteps')
-      .subscribe(
-        res => {
-          if (res.status === true) {
-            this.domainDictionary = res.talentProfile as DomainDictionary;
+  private async getOptionData() {
+    this.loading$.add('getting option data');
 
-            const pdOptions: PrimaryDomainOption[] = [];
-            const softDomainOptions: SoftwareDomainOption[] = [];
+    const talent = this.api.get('talentProfile/getTalentProfileSteps').toPromise()
+      .then(res => {
+        if (res.status === true) {
+          this.domainDictionary = res.talentProfile as DomainDictionary;
 
-            Object.keys(this.domainDictionary).forEach(dk => {
-              const domain = this.domainDictionary[dk];
+          const pdOptions: PrimaryDomainOption[] = [];
+          const softDomainOptions: SoftwareDomainOption[] = [];
 
-              pdOptions.push({
-                short: dk,
-                long: domain['Primary Domain'],
-                selected: false
-              });
+          Object.keys(this.domainDictionary).forEach(dk => {
+            const domain = this.domainDictionary[dk];
 
-              softDomainOptions.push({
-                label: dk,
-                value: dk,
-                title: domain['Primary Domain'],
-                selected: false,
-                applications: Object.keys(domain.Modules)
-                  .map(mk => {
-                    const products = domain.Modules[mk].Product;
-                    return products.map((p, i) => {
-                      // if (!p.name)
-                      //   console.debug('invalid product', p, `${dk}.Modules.${mk}.Product.${i}`);
+            pdOptions.push({
+              short: dk,
+              long: domain['Primary Domain'],
+              selected: false
+            });
 
-                      const opt: SelectableOption = { label: p.name, selected: false, title: p.name, value: p.name }
-                      return opt;
-                    })
+            softDomainOptions.push({
+              label: dk,
+              value: dk,
+              title: domain['Primary Domain'],
+              selected: false,
+              applications: Object.keys(domain.Modules)
+                .map(mk => {
+                  const products = domain.Modules[mk].Product;
+                  return products.map((p, i) => {
+                    // if (!p.name)
+                    //   console.debug('invalid product', p, `${dk}.Modules.${mk}.Product.${i}`);
+
+                    const opt: SelectableOption = { label: p.name, selected: false, title: p.name, value: p.name }
+                    return opt;
                   })
-                  .reduce((p, c) => {
-                    p.push(...c);
-                    return p;
-                  }, [])
-              });
+                })
+                .reduce((p, c) => {
+                  p.push(...c);
+                  return p;
+                }, [])
             });
+          });
 
-            pdOptions.sort((a, b) => sortString(a.short, b.short));
-            softDomainOptions.sort((a, b) => sortString(a.label, b.label));
-            softDomainOptions.forEach(sdo => {
-              sdo.applications.sort((a, b) => sortString(a.label, b.label));
-            });
+          pdOptions.sort((a, b) => sortString(a.short, b.short));
+          softDomainOptions.sort((a, b) => sortString(a.label, b.label));
+          softDomainOptions.forEach(sdo => {
+            sdo.applications.sort((a, b) => sortString(a.label, b.label));
+          });
 
-            this.entAppDomain.options$.next(pdOptions);
-            this.entAppSoftware.domain.options$.next(softDomainOptions);
-          }
-          else throw new Error('api error - please check network logs');
+          this.entAppDomain.options$.next(pdOptions);
+          this.entAppSoftware.domain.options$.next(softDomainOptions);
+        }
+        else throw new Error('api error - please check network logs');
+      });
 
-          this.loading$.delete('getting domain options');
-        })
+    await talent;
+
+    this.loading$.delete('getting option data');
   }
 
   private disableNextWhenRequired() {
@@ -480,7 +482,7 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
   }
 
   ngOnInit() {
-    this.getDomainOptions();
+    this.getOptionData();
 
     this.disableNextWhenRequired();
     this.entAppDomain.init();
@@ -515,7 +517,7 @@ type Step =
   'project type' |
   'company info';
 
-type LoadingStates = 'getting domain options';
+type LoadingStates = 'getting option data';
 
 interface PrimaryDomainOption {
   short: string;
