@@ -82,7 +82,8 @@ export class EmployerOnboardingComponent extends SubscribedDirective implements 
       employeeCount: new FormControl('', { validators: [Validators.required] })
     }),
     options: {
-      dialCodes$: new BehaviorSubject<Option[]>([])
+      dialCodes$: new BehaviorSubject<Option[]>([]),
+      countries$: new BehaviorSubject<Option[]>([])
     }
   } as const;
 
@@ -117,13 +118,20 @@ export class EmployerOnboardingComponent extends SubscribedDirective implements 
       .toPromise()
       .then(res => {
         if (res.status === true) {
-          const options: Option[] = res.countries.map((c: any) => ({
+          const dialCodes: Option[] = res.countries.map((c: any) => ({
             value: c.dialcode,
             label: c.dialcode,
             title: c.name
           }));
-          options.sort((a, b) => sortString(a.value, b.value));
-          this.orgInfo.options.dialCodes$.next(options);
+          dialCodes.sort((a, b) => sortString(a.value, b.value));
+          this.orgInfo.options.dialCodes$.next(dialCodes);
+
+          const countries: Option[] = res.countries.map((c: any) => ({
+            value: c.name,
+            label: c.name
+          }));
+          countries.sort((a, b) => sortString(a.value, b.value));
+          this.orgInfo.options.countries$.next(countries)
         }
       })
 

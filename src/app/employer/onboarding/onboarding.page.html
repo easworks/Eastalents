@@ -92,6 +92,23 @@
                      class="py-2 px-3 border rounded">
             </div>
           </div>
+
+          <div>
+            <label>Email</label>
+            <input type="email" formControlName="email"
+                   class="input-container py-2 px-3 border rounded">
+          </div>
+
+          <div>
+            <label>Location</label>
+            <select formControlName="location"
+                    class="input-container py-2 px-3 border rounded">
+              <option *ngFor="let opt of orgInfo.options.countries$ | async"
+                      [value]="opt.value">
+                {{opt.label}}
+              </option>
+            </select>
+          </div>
         </form>
       </div>
 
