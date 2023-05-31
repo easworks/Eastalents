@@ -4,7 +4,7 @@ import { ActivationEnd, Router } from '@angular/router';
 import { map, takeUntil } from 'rxjs';
 import { SubscribedDirective } from '../utilities';
 
-interface DefaultSeoConfig {
+export interface DefaultSeoConfig {
   /** Site-wide title used to build the page title */
   baseTitle?: string;
   /** Default Page description */
