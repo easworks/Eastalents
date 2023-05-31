@@ -3,6 +3,7 @@
   "scripts": {},
   "devDependencies": {
     "@nx/angular": "^16.3.0",
+    "@nx/workspace": "^16.3.0",
     "nx": "16.3.0",
     "prettier": "^2.8.8"
   }
