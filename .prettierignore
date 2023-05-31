@@ -1,0 +1,12 @@
+.old
+.angular
+pnpm-lock.yaml
+
+/**/*.ts
+/**/*.html
+/**/*.scss
+/**/*.mjs
+/**/*.gql
+/**/*.md
+/**/*.yaml
+/**/tailwind.config.js
