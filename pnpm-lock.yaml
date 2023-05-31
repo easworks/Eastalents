@@ -68,7 +68,7 @@ devDependencies:
     specifier: ~16.0.0
     version: 16.0.0
   '@nx/angular':
-    specifier: ^16.3.0
+    specifier: 16.3.0
     version: 16.3.0(@angular-devkit/build-angular@16.0.3)(@angular-devkit/core@16.0.3)(@angular-devkit/schematics@16.0.3)(@schematics/angular@16.0.3)(@types/node@16.11.7)(cypress@12.11.0)(eslint@8.15.0)(nx@16.3.0)(rxjs@7.8.1)(typescript@5.0.4)
   '@nx/cypress':
     specifier: 16.3.0
@@ -89,7 +89,7 @@ devDependencies:
     specifier: 16.3.0
     version: 16.3.0(nx@16.3.0)(typescript@5.0.4)
   '@nx/workspace':
-    specifier: ^16.3.0
+    specifier: 16.3.0
     version: 16.3.0
   '@schematics/angular':
     specifier: ~16.0.0

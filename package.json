@@ -11,14 +11,14 @@
     "@angular/cli": "~16.0.0",
     "@angular/compiler-cli": "~16.0.0",
     "@angular/language-service": "~16.0.0",
-    "@nx/angular": "^16.3.0",
+    "@nx/angular": "16.3.0",
     "@nx/cypress": "16.3.0",
     "@nx/eslint-plugin": "16.3.0",
     "@nx/jest": "16.3.0",
     "@nx/js": "16.3.0",
     "@nx/linter": "16.3.0",
     "@nx/web": "16.3.0",
-    "@nx/workspace": "^16.3.0",
+    "@nx/workspace": "16.3.0",
     "@schematics/angular": "~16.0.0",
     "@types/jest": "^29.4.0",
     "@types/node": "16.11.7",
@@ -51,3 +51,4 @@
     "zone.js": "~0.13.0"
   }
 }
+
