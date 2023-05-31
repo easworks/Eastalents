@@ -193,7 +193,7 @@
 
       <div *ngIf="step === 'need dev'"
            class="step-need-dev">
-        <h2 class="main-question">Do you require the person to be experienced?</h2>
+        <h2 class="main-question">Do you require the developer to be experienced?</h2>
 
         <div class="options-container my-4" *ngIf="(devSkills.need.selected$ | async) || true as selected" style="grid-auto-flow: column;">
           <button *ngFor="let option of devSkills.need.options"
