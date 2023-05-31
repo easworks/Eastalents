@@ -9,5 +9,9 @@
   },
   "affected": {
     "defaultBase": "master"
+  },
+  "workspaceLayout": {
+    "appsDir": "apps",
+    "libsDir": "libs"
   }
 }
