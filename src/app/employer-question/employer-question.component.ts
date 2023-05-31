@@ -9,7 +9,7 @@ import { sortString } from '../_helpers/sort';
 import { SubscribedDirective } from '../_helpers/subscribed-directive';
 import { DomainDictionary } from '../_models/domain';
 import { HttpService } from '../_services/http.service';
-import * as industryData from './industry-data';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'employer-question',
@@ -19,6 +19,7 @@ import * as industryData from './industry-data';
 })
 export class EmployerQuestionComponent extends SubscribedDirective implements OnInit {
   constructor(
+    private readonly http: HttpClient,
     private readonly api: HttpService
   ) {
     super();
@@ -262,16 +263,6 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
     },
     industryGroupMap: new Map<string, string[]>(),
     init: () => {
-      const industryGroups = industryData.industryGroup.map(i => i.value);
-      const igMap = this.companyInfo.industryGroupMap;
-      igMap.clear();
-      industryData.industry.forEach(i => {
-        if (!igMap.has(i.group)) {
-          igMap.set(i.group, [])
-        }
-        igMap.get(i.group)?.push(i.value);
-      });
-
       this.companyInfo.form.get('industryGroup')?.valueChanges
         .pipe(
           takeUntil(this.destroyed$),
@@ -290,8 +281,6 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
       this.companyInfo.form.get('logo')?.valueChanges
         .pipe(takeUntil(this.destroyed$))
         .subscribe(v => console.debug(v))
-
-      this.companyInfo.options.industryGroup$.next(industryGroups);
     },
   } as const;
 
@@ -307,7 +296,8 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
   private async getOptionData() {
     this.loading$.add('getting option data');
 
-    const talent = this.api.get('talentProfile/getTalentProfileSteps').toPromise()
+    const talent = this.api.get('talentProfile/getTalentProfileSteps')
+      .toPromise()
       .then(res => {
         if (res.status === true) {
           this.domainDictionary = res.talentProfile as DomainDictionary;
@@ -359,7 +349,27 @@ export class EmployerQuestionComponent extends SubscribedDirective implements On
         else throw new Error('api error - please check network logs');
       });
 
+    const tech = this.http.get<Record<string, string[]>>('/assets/tech.json')
+      .toPromise()
+      .then(res => {
+
+      });
+
+    const industries = this.http.get<Record<string, string[]>>('/assets/industries.json')
+      .toPromise()
+      .then(res => {
+        const igMap = this.companyInfo.industryGroupMap;
+        igMap.clear();
+        const groups = Object.keys(res);
+        groups.forEach(k => {
+          igMap.set(k, res[k]);
+        });
+        this.companyInfo.options.industryGroup$.next(groups);
+      });
+
     await talent;
+    await tech;
+    await industries;
 
     this.loading$.delete('getting option data');
   }
