@@ -1,5 +1,7 @@
 {
-  "compilerOptions": {},
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM"]
+  },
   "files": [],
   "include": [],
   "references": [
