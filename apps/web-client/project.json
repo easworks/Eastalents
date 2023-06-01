@@ -24,6 +24,7 @@
           "apps/web-client/src/assets"
         ],
         "styles": [
+          "libs/shared/styles/src/material.scss",
           "libs/shared/styles/src/tailwind.less",
           "libs/shared/styles/src/global.less",
           "apps/web-client/src/styles.less"
