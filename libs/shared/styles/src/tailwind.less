@@ -4,6 +4,10 @@
 @tailwind variants;
 
 @layer components {
+  .page {
+    @apply p-4 sm:px-8 container lg:max-w-screen-lg transition-all;
+  }
+
   .demo-placeholder {
     @apply rounded bg-slate-500 animate-pulse;
   }
