@@ -1,5 +1,11 @@
+<ng-container *ngIf="isVertical$()">
+  <div class="demo-placeholder h-64"></div>
+
+  <mat-divider></mat-divider>
+</ng-container>
+
 <nav class="flex flex-col md:flex-row flex-wrap gap-8 flex-grow">
-  <ul class="mt-2">
+  <ul>
     <li *ngFor="let item of staticMenuItems"
         class="py-1">
       <a [href]="item.link" class="max-w-fit">
@@ -12,7 +18,7 @@
 
 <mat-divider></mat-divider>
 
-<div class="demo-placeholder h-64 w-48"></div>
+<div class="demo-placeholder h-64"></div>
 
 <mat-divider></mat-divider>
 

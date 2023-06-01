@@ -10,11 +10,11 @@ export interface MenuItem {
 
 export const NOOP_CLICK = 'javascript:void(0)';
 
+export type MenuMode = 'horizontal' | 'vertical';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NavMenuState {
-  readonly horizontal$ = signal<MenuItem[]>([]);
-  readonly vertical$ = signal<MenuItem[]>([]);
+  readonly mode$ = signal<MenuMode>('vertical');
 }

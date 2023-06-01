@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, computed, inject } from '@angular/core';
 import { MenuItem, NOOP_CLICK } from './state';
 import { NavMenuState } from './state';
 
@@ -12,7 +12,9 @@ export class AppVerticalMenuComponent {
   @HostBinding()
   private readonly class = 'grid gap-4 p-4';
 
-  protected readonly menuState = inject(NavMenuState);
+  private readonly menuState = inject(NavMenuState);
+
+  protected readonly isVertical$ = computed(() => this.menuState.mode$() === 'vertical')
 
   protected readonly staticMenuItems: MenuItem[] = [
     { name: 'Hire Talent', link: NOOP_CLICK },

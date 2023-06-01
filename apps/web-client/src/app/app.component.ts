@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, computed, inject } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
-import { MenuItem, NOOP_CLICK, NavigationModule } from 'app-shell';
+import { MenuItem, NOOP_CLICK, NavMenuState, NavigationModule } from 'app-shell';
 
 @Component({
   standalone: true,
@@ -25,6 +25,9 @@ import { MenuItem, NOOP_CLICK, NavigationModule } from 'app-shell';
 export class AppComponent {
   @HostBinding()
   private readonly class = 'flex flex-col min-h-screen';
+
+  private readonly menuState = inject(NavMenuState);
+  protected readonly showHorizontalMenu$ = computed(() => this.menuState.mode$() === 'horizontal')
 
   protected readonly footerNav: { group: string, items: MenuItem[] }[] = [
     {
