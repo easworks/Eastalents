@@ -1,3 +1,27 @@
+<nav class="flex flex-col md:flex-row flex-wrap gap-8 flex-grow">
+  <ul class="mt-2">
+    <li *ngFor="let item of staticMenuItems"
+        class="py-1">
+      <a [href]="item.link" class="max-w-fit">
+        <i class="fa-solid fa-angle-right mx-2"></i>
+        <span>{{item.name}}</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+<div class="demo-placeholder h-64 w-48"></div>
+<nav>
+  <p class="text-lg m-0">About Us</p>
+  <ul class="mt-2">
+    <li *ngFor="let item of aboutMenuItems"
+        class="py-1">
+      <a [href]="item.link" class="max-w-fit">
+        <i class="fa-solid fa-angle-right mx-2"></i>
+        <span>{{item.name}}</span>
+      </a>
+    </li>
+  </ul>
+</nav>
 <div>
   <p>Follow Us</p>
   <div class="flex gap-2">

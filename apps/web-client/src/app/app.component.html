@@ -19,12 +19,7 @@
 <mat-sidenav-container class="flex-grow !flex flex-col">
   <mat-sidenav #appSidenav fixedInViewport
                class="!top-16" mode="over" position="end">
-    <div class="grid gap-2 p-2">
-      <div class="demo-placeholder h-48 w-48"></div>
-      <div class="demo-placeholder h-64 w-48"></div>
-      <div class="demo-placeholder h-24 w-48"></div>
-      <app-vertical-menu></app-vertical-menu>
-    </div>
+    <nav vertical-menu></nav>
   </mat-sidenav>
   <mat-sidenav-content class="flex-grow !flex flex-col">
     <router-outlet class="hidden [&_+_*]:flex-1"></router-outlet>

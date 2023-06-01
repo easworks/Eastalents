@@ -1,17 +1,32 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { MenuItem, NOOP_CLICK } from './state';
+import { NavMenuState } from './state';
 
 @Component({
-  selector: 'app-vertical-menu',
+  selector: 'nav[vertical-menu]',
   templateUrl: './vertical-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppVerticalMenuComponent {
-  protected readonly menuItems: MenuItem[] = [
+
+  @HostBinding()
+  private readonly class = 'grid gap-4 p-2';
+
+  protected readonly menuState = inject(NavMenuState);
+
+  protected readonly staticMenuItems: MenuItem[] = [
     { name: 'Hire Talent', link: NOOP_CLICK },
     { name: 'For Enterprises', link: NOOP_CLICK },
     { name: 'Join EASWORKS', link: NOOP_CLICK },
     { name: 'For Freelancers', link: NOOP_CLICK },
+  ];
+
+  protected readonly aboutMenuItems: MenuItem[] = [
+    { name: 'Resources', link: NOOP_CLICK },
+    { name: 'Blog', link: NOOP_CLICK },
+    { name: 'Press Center', link: NOOP_CLICK },
+    { name: 'About Andela', link: NOOP_CLICK },
+    { name: 'Careers', link: NOOP_CLICK },
   ];
 
   protected readonly brandLinks: MenuItem[] = [
