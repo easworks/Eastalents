@@ -4,8 +4,20 @@
 
   <div class="demo-placeholder h-full w-60 mx-auto"></div>
 
-  <div class="demo-placeholder h-full w-60"></div>
-
+  <div class="flex gap-2 items-center">
+    <a href="javascript:void(0)" class="mr-2">Login</a>
+    <button class="shaded-button primary" mat-ripple>
+      Hire Now
+    </button>
+    <button class="icon-button" mat-ripple>
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
 </div>
+
+<mat-sidenav-container>
+  <mat-sidenav></mat-sidenav>
+  <mat-sidenav-content></mat-sidenav-content>
+</mat-sidenav-container>
 
 <router-outlet></router-outlet>

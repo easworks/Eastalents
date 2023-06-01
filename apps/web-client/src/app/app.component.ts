@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatRippleModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
 
@@ -9,7 +10,8 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./app.component.less'],
   imports: [
     RouterModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatRippleModule
   ]
 })
 export class AppComponent {

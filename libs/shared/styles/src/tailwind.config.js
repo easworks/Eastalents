@@ -21,7 +21,7 @@ module.exports = {
       colors: {
         'primary': '#4949fc',
         'primary-text': colors.white,
-        'primary-dark': '#2929dc',
+        'primary-dark': '#3939dc',
         'primary-light': '#6a6afd',
         'divider': colors.gray[300],
         'divider-text': colors.white,
