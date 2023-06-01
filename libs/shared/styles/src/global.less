@@ -1,5 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-html {
-  font-family: 'Roboto', sans-serif;
+@layer components {
+  .page {
+    @apply p-4 md:px-8 container xl:max-w-screen-xl transition-all;
+  }
+
+  .demo-placeholder {
+    @apply rounded bg-slate-500 animate-pulse;
+  }
+
+  .icon-button {
+    @apply grid place-content-center rounded-full 
+      text-2xl w-12 h-12 
+      hover:bg-slate-400/25 focus:bg-slate-400/25
+      transition-all outline-none;
+  }
+
+  .shaded-button {
+    @apply rounded py-2 px-4;
+
+    &.primary {
+      @apply bg-primary text-primary-text
+        hover:bg-primary-dark focus:bg-primary-dark
+        transition-all outline-none;
+    }
+  }
 }
