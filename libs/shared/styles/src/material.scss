@@ -17,3 +17,7 @@ $theme: mat.define-light-theme((
 @include mat.core-theme($theme);
 
 @include mat.sidenav-theme($theme);
+
+.mat-drawer-container {
+  @apply bg-white;
+}

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
@@ -15,5 +15,6 @@ import { RouterModule } from '@angular/router';
   ]
 })
 export class AppComponent {
-  title = 'web-client';
+  @HostBinding()
+  private readonly class = 'flex flex-col min-h-screen';
 }

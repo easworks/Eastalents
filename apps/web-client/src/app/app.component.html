@@ -1,4 +1,4 @@
-<div class="h-16 p-2 flex mat-elevation-z1">
+<div class="h-16 p-2 flex mat-elevation-z1 z-10 relative">
 
   <div class="demo-placeholder h-full w-60"></div>
 
@@ -9,15 +9,24 @@
     <button class="shaded-button primary" mat-ripple>
       Hire Now
     </button>
-    <button class="icon-button" mat-ripple>
+    <button class="icon-button" mat-ripple
+            (click)="appSidenav.toggle()">
       <i class="fa-solid fa-bars"></i>
     </button>
   </div>
 </div>
 
-<mat-sidenav-container>
-  <mat-sidenav></mat-sidenav>
-  <mat-sidenav-content></mat-sidenav-content>
-</mat-sidenav-container>
+<mat-sidenav-container class="flex-grow !flex flex-col">
+  <mat-sidenav #appSidenav fixedInViewport
+               class="!top-16" mode="over" position="end">
+    <div class="grid gap-2 p-2">
+      <div class="demo-placeholder h-48 w-48"></div>
+      <div class="demo-placeholder h-64 w-48"></div>
+      <div class="demo-placeholder h-24 w-48"></div>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content class="flex-grow !flex flex-col">
+    <router-outlet class="hidden [&_+_*]:flex-1"></router-outlet>
 
-<router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
