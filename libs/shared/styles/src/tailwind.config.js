@@ -7,9 +7,9 @@ module.exports = {
       center: true
     },
     screens: {
-      'sm': '37.5rem',
-      'md': '60rem',
-      'lg': '80rem'
+      'md': '37.5rem',
+      'lg': '60rem',
+      'xl': '80rem'
     },
     extend: {
       boxShadowColor: {
