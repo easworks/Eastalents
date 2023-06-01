@@ -1,7 +1,9 @@
 import { Component, HostBinding } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
+import { AppFooterComponent } from './footer.component';
 
 @Component({
   standalone: true,
@@ -11,7 +13,10 @@ import { RouterModule } from '@angular/router';
   imports: [
     RouterModule,
     MatSidenavModule,
-    MatRippleModule
+    MatRippleModule,
+    MatDividerModule,
+
+    AppFooterComponent
   ]
 })
 export class AppComponent {
