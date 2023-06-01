@@ -10,7 +10,7 @@ import { NavMenuState } from './state';
 export class AppVerticalMenuComponent {
 
   @HostBinding()
-  private readonly class = 'grid gap-4 p-2';
+  private readonly class = 'grid gap-4 p-4';
 
   protected readonly menuState = inject(NavMenuState);
 

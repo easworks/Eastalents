@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { AppVerticalMenuComponent } from './vertical-menu.component';
 import { MatRippleModule } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
+import { AppVerticalMenuComponent } from './vertical-menu.component';
 
 @NgModule({
   declarations: [
@@ -9,7 +10,8 @@ import { MatRippleModule } from '@angular/material/core';
   ],
   imports: [
     CommonModule,
-    MatRippleModule
+    MatRippleModule,
+    MatDividerModule
   ],
   exports: [
     AppVerticalMenuComponent
