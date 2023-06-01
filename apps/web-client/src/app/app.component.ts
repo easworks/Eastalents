@@ -1,9 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
-import { AppFooterComponent } from './footer.component';
+import { MenuItem, NOOP_CLICK, NavigationModule } from 'app-shell';
 
 @Component({
   standalone: true,
@@ -12,15 +13,43 @@ import { AppFooterComponent } from './footer.component';
   styleUrls: ['./app.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    CommonModule,
     RouterModule,
     MatSidenavModule,
     MatRippleModule,
     MatDividerModule,
 
-    AppFooterComponent
+    NavigationModule
   ]
 })
 export class AppComponent {
   @HostBinding()
   private readonly class = 'flex flex-col min-h-screen';
+
+  protected readonly footerNav: { group: string, items: MenuItem[] }[] = [
+    {
+      group: 'Customers',
+      items: [
+        { name: 'Hire Developers', link: NOOP_CLICK },
+        { name: 'Book a Call', link: NOOP_CLICK },
+        { name: 'Hire for specific skills', link: NOOP_CLICK }
+      ]
+    },
+    {
+      group: 'Get Hired',
+      items: [
+        { name: 'Apply for Jobs', link: NOOP_CLICK },
+        { name: 'Freelancer Login', link: NOOP_CLICK },
+        { name: 'Apply for specific skills', link: NOOP_CLICK },
+      ]
+    },
+    {
+      group: 'Contact',
+      items: [
+        { name: 'Blog', link: NOOP_CLICK },
+        { name: 'Contact Us', link: NOOP_CLICK },
+        { name: 'Help Center', link: NOOP_CLICK },
+      ]
+    }
+  ];
 }
