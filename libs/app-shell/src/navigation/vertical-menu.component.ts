@@ -13,7 +13,6 @@ export class AppVerticalMenuComponent {
   private readonly class = 'grid gap-4 p-4';
 
   private readonly menuState = inject(NavMenuState);
-
   protected readonly isVertical$ = computed(() => this.menuState.mode$() === 'vertical')
 
   protected readonly staticMenuItems: MenuItem[] = [

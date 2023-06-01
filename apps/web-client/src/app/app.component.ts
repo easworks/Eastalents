@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, computed, effect, inject } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
-import { MenuItem, NOOP_CLICK, NavMenuState, NavigationModule } from 'app-shell';
+import { MenuItem, NOOP_CLICK, NavMenuState, NavigationModule, ScreenSize, UiState } from 'app-shell';
 
 @Component({
   standalone: true,
@@ -23,11 +23,18 @@ import { MenuItem, NOOP_CLICK, NavMenuState, NavigationModule } from 'app-shell'
   ]
 })
 export class AppComponent {
+  constructor() {
+    this.makeMenuLayoutReactive();
+  }
+
   @HostBinding()
   private readonly class = 'flex flex-col min-h-screen';
+  private readonly injector = inject(INJECTOR);
 
   private readonly menuState = inject(NavMenuState);
-  protected readonly showHorizontalMenu$ = computed(() => this.menuState.mode$() === 'horizontal')
+  protected readonly showHorizontalMenu$ = computed(() => this.menuState.mode$() === 'horizontal');
+
+  private readonly uiState = inject(UiState);
 
   protected readonly footerNav: { group: string, items: MenuItem[] }[] = [
     {
@@ -55,4 +62,13 @@ export class AppComponent {
       ]
     }
   ];
+
+  private makeMenuLayoutReactive() {
+    const smallScreenSizes: ScreenSize[] = ['sm', 'md'];
+    const smallScreen$ = computed(() => smallScreenSizes.includes(this.uiState.screenSize$()));
+    effect(() => {
+      const smallScreen = smallScreen$();
+      this.menuState.mode$.set(smallScreen ? 'vertical' : 'horizontal');
+    }, { injector: this.injector, allowSignalWrites: true });
+  }
 }
