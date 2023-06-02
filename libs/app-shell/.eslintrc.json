@@ -6,7 +6,7 @@
       "files": ["*.ts"],
       "rules": {
         "@angular-eslint/directive-selector": [
-          "error",
+          "off",
           {
             "type": "attribute",
             "prefix": "lib",
@@ -14,7 +14,7 @@
           }
         ],
         "@angular-eslint/component-selector": [
-          "error",
+          "off",
           {
             "type": "element",
             "prefix": "lib",

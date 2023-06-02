@@ -4,7 +4,8 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
-import { MenuItem, NOOP_CLICK, NavMenuState, NavigationModule, ScreenSize, UiState } from 'app-shell';
+import { MenuItem, NOOP_CLICK, NavMenuState, NavigationModule, UiState } from 'app-shell';
+import { publicMenu } from './menu-items';
 
 @Component({
   standalone: true,
@@ -24,17 +25,16 @@ import { MenuItem, NOOP_CLICK, NavMenuState, NavigationModule, ScreenSize, UiSta
 })
 export class AppComponent {
   constructor() {
-    this.makeMenuLayoutReactive();
+    this.makeMenuReactive();
   }
 
   @HostBinding()
   private readonly class = 'flex flex-col min-h-screen';
   private readonly injector = inject(INJECTOR);
-
-  private readonly menuState = inject(NavMenuState);
-  protected readonly showHorizontalMenu$ = computed(() => this.menuState.mode$() === 'horizontal');
-
   private readonly uiState = inject(UiState);
+  private readonly menuState = inject(NavMenuState);
+
+  protected readonly showHorizontalMenu$ = computed(() => this.menuState.publicMenu.horizontal$().length > 0);
 
   protected readonly footerNav: { group: string, items: MenuItem[] }[] = [
     {
@@ -63,12 +63,24 @@ export class AppComponent {
     }
   ];
 
-  private makeMenuLayoutReactive() {
-    const smallScreenSizes: ScreenSize[] = ['sm', 'md'];
-    const smallScreen$ = computed(() => smallScreenSizes.includes(this.uiState.screenSize$()));
+  private makeMenuReactive() {
     effect(() => {
-      const smallScreen = smallScreen$();
-      this.menuState.mode$.set(smallScreen ? 'vertical' : 'horizontal');
-    }, { injector: this.injector, allowSignalWrites: true });
+      const screenSize = this.uiState.screenSize$();
+
+      switch (screenSize) {
+        case 'sm':
+        case 'md':
+          this.menuState.publicMenu.horizontal$.set([]);
+          this.menuState.publicMenu.vertical$.set(publicMenu.full());
+          break;
+        case 'lg':
+          this.menuState.publicMenu.horizontal$.set(publicMenu.firstPart());
+          this.menuState.publicMenu.vertical$.set(publicMenu.secondPart());
+          break;
+        case 'xl':
+          this.menuState.publicMenu.horizontal$.set(publicMenu.full());
+          this.menuState.publicMenu.vertical$.set([]);
+      }
+    }, { injector: this.injector, allowSignalWrites: true })
   }
 }

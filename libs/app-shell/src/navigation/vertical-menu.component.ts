@@ -11,9 +11,10 @@ export class AppVerticalMenuComponent {
 
   @HostBinding()
   private readonly class = 'grid gap-4 p-4';
-
   private readonly menuState = inject(NavMenuState);
-  protected readonly isVertical$ = computed(() => this.menuState.mode$() === 'vertical')
+
+  protected readonly showPublicMenu$ = computed(() => this.menuState.publicMenu.vertical$().length > 0);
+  protected readonly publicMenu$ = this.menuState.publicMenu.vertical$;
 
   protected readonly staticMenuItems: MenuItem[] = [
     { name: 'Hire Talent', link: NOOP_CLICK },

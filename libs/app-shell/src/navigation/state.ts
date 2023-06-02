@@ -16,5 +16,8 @@ export type MenuMode = 'horizontal' | 'vertical';
   providedIn: 'root'
 })
 export class NavMenuState {
-  readonly mode$ = signal<MenuMode>('vertical');
+  readonly publicMenu = {
+    horizontal$: signal<MenuItem[]>([]),
+    vertical$: signal<MenuItem[]>([])
+  } as const;
 }
