@@ -1,0 +1,35 @@
+.has-submenu {
+  > ul {
+    @apply absolute bg-white shadow rounded transition-all w-max;
+  }
+
+  &:hover, &:focus, &:focus-within {
+    &~.has-submenu {
+      > ul {
+        @apply !hidden;
+      }
+    }
+  }
+
+  > ul {
+    a {
+      @apply p-2 px-4
+        flex gap-2 items-center
+        hover:bg-slate-500/10 focus:bg-slate-500/10 ;
+
+      span.icon {
+        @apply h-8 w-8 rounded-full grid place-content-center
+          bg-primary text-primary-text;
+      }
+    }
+
+    &.large {
+      @apply p-2 grid-cols-2 gap-2 -translate-x-1/2 left-1/2;
+
+      a {
+        @apply rounded;
+      }
+    }
+  } 
+  
+}

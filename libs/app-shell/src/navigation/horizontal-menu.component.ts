@@ -1,13 +1,16 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, computed, inject } from '@angular/core';
 import { NavMenuState } from './state';
 
 @Component({
   selector: 'nav[horizontal-menu]',
   templateUrl: './horizontal-menu.component.html',
+  styleUrls: ['./horizontal-menu.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppHorizontalMenuComponent {
 
+  @HostBinding()
+  private readonly class = 'flex items-center';
   private readonly menuState = inject(NavMenuState);
 
   protected readonly menuItems$ = computed(() => {
@@ -21,4 +24,7 @@ export class AppHorizontalMenuComponent {
       return [];
   });
 
+  unfocus() {
+    (document.activeElement as HTMLElement).blur();
+  }
 }
