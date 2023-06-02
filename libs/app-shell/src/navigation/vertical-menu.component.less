@@ -1,0 +1,20 @@
+.public-menu {
+  li.has-submenu {
+    > a {
+      > .fa-angle-down {
+        @apply transition-all;
+      }
+    }
+
+    &.open {
+      > a {
+        > .fa-angle-down {
+          @apply rotate-180;
+        }
+      }
+      ul {
+        @apply block;
+      }
+    }
+  }
+}

@@ -1,20 +1,23 @@
-import { ChangeDetectionStrategy, Component, HostBinding, computed, inject } from '@angular/core';
-import { MenuItem, NOOP_CLICK } from './state';
-import { NavMenuState } from './state';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, computed, inject } from '@angular/core';
+import { MenuItem, NOOP_CLICK, NavMenuState } from './state';
 
 @Component({
-  selector: 'nav[vertical-menu]',
+  selector: 'app-vertical-menu',
   templateUrl: './vertical-menu.component.html',
+  styleUrls: ['./vertical-menu.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppVerticalMenuComponent {
 
   @HostBinding()
-  private readonly class = 'grid gap-4 p-4';
+  private readonly class = 'grid gap-4 p-4 w-80';
   private readonly menuState = inject(NavMenuState);
+  private readonly hostElement = inject(ElementRef).nativeElement as HTMLElement;
 
-  protected readonly showPublicMenu$ = computed(() => this.menuState.publicMenu.vertical$().length > 0);
-  protected readonly publicMenu$ = this.menuState.publicMenu.vertical$;
+  protected readonly publicMenu = {
+    show$: computed(() => this.menuState.publicMenu.vertical$().length > 0),
+    items: this.menuState.publicMenu.vertical$,
+  } as const;
 
   protected readonly staticMenuItems: MenuItem[] = [
     { name: 'Hire Talent', link: NOOP_CLICK },
@@ -37,5 +40,17 @@ export class AppVerticalMenuComponent {
     { name: 'instagram', icon: 'instagram', link: NOOP_CLICK },
     { name: 'pinterest', icon: 'pinterest', link: NOOP_CLICK },
     { name: 'youtube', icon: 'youtube', link: NOOP_CLICK },
-  ]
+  ];
+
+  toggleOpen($event: MouseEvent) {
+    const target = $event.target as HTMLElement;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const parent = target.parentElement!;
+    const shouldAdd = !parent.classList.contains('open');
+
+    this.hostElement.querySelector('li.open')?.classList.remove('open');
+    if (shouldAdd) {
+      parent.classList.add('open');
+    }
+  }
 }
