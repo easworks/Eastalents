@@ -4,7 +4,7 @@
     <img src="/assets/brand/black-logo.png">
   </div>
 
-  <nav horizontal-menu *ngIf="showHorizontalMenu$()"></nav>
+  <app-horizontal-menu *ngIf="showHorizontalMenu$()"></app-horizontal-menu>
 
   <div class="flex gap-2 items-center flex-none">
     <a href="javascript:void(0)" class="mr-2">Login</a>
@@ -21,7 +21,7 @@
 <mat-sidenav-container class="flex-grow !flex flex-col">
   <mat-sidenav #appSidenav fixedInViewport
                class="!top-16" mode="over" position="end">
-    <nav vertical-menu></nav>
+    <app-vertical-menu></app-vertical-menu>
   </mat-sidenav>
   <mat-sidenav-content class="flex-grow !flex flex-col">
     <router-outlet class="hidden [&_+_*]:flex-1"></router-outlet>

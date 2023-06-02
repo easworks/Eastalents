@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, computed, inject } fro
 import { NavMenuState } from './state';
 
 @Component({
-  selector: 'nav[horizontal-menu]',
+  selector: 'app-horizontal-menu',
   templateUrl: './horizontal-menu.component.html',
   styleUrls: ['./horizontal-menu.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
