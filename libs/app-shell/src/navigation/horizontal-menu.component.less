@@ -23,11 +23,21 @@
       }
     }
 
+    mat-divider {
+      @apply hidden absolute h-full left-1/2;
+      height: calc(100% - 1rem);
+      margin: 0.5rem 0;
+    }
+
     &.large {
-      @apply p-2 grid-cols-2 gap-2 -translate-x-1/2 left-1/2;
+      @apply p-2 grid-cols-2 gap-2 gap-x-4 -translate-x-1/2 left-1/2;
 
       a {
         @apply rounded;
+      }
+
+      mat-divider {
+        @apply block;
       }
     }
   } 
