@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, HostBinding, computed, inject } from '@angular/core';
+import { ApplicationRef, ChangeDetectionStrategy, Component, ElementRef, HostBinding, computed, inject } from '@angular/core';
 import { NavMenuState } from './state';
+import { sleep } from '../utilities/sleep';
 
 @Component({
   selector: 'app-horizontal-menu',
@@ -8,6 +9,8 @@ import { NavMenuState } from './state';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppHorizontalMenuComponent {
+  private readonly hostElement = inject(ElementRef).nativeElement as HTMLElement;
+  private readonly appRef = inject(ApplicationRef);
 
   @HostBinding()
   private readonly class = 'flex items-center';
@@ -24,7 +27,20 @@ export class AppHorizontalMenuComponent {
       return [];
   });
 
+  private readonly collapseClass = 'collapse-all';
+
   unfocus() {
     (document.activeElement as HTMLElement).blur();
+  }
+
+  collapseAll() {
+    this.hostElement.classList.add(this.collapseClass);
+    // double nesting it to skip one animation frame
+    // skipping one animation frame guarantees that the menu has closed
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.hostElement.classList.remove(this.collapseClass);
+      })
+    });
   }
 }

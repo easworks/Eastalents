@@ -13,7 +13,8 @@ import { AppVerticalMenuComponent } from './vertical-menu.component';
   imports: [
     CommonModule,
     MatRippleModule,
-    MatDividerModule
+    MatDividerModule,
+    MatRippleModule
   ],
   exports: [
     AppVerticalMenuComponent,

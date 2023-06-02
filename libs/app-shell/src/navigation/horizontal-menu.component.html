@@ -7,14 +7,14 @@
             (mouseenter)="unfocus()">
           <a class="p-2 rounded flex gap-2 items-center
               group-hover:bg-slate-500/10 group-focus-within:bg-slate-500/10"
-             [href]="item.link">
+             [href]="item.link" mat-ripple>
             <span>{{item.name}}</span>
             <i class="fa-solid fa-angle-down"></i>
           </a>
           <ul class="hidden group-hover:grid group-focus-within:grid"
               [class.large]="item.children!.length > 4">
             <li *ngFor="let subItem of item.children">
-              <a [href]="subItem.link">
+              <a [href]="subItem.link" (click)="collapseAll()">
                 <span *ngIf="subItem.icon" class="icon">
                   <i class="fa-solid {{subItem.icon}}"></i>
                 </span>
@@ -27,8 +27,8 @@
 
       <ng-template #noChildren>
         <li>
-          <a class="p-2 rounded hover:bg-slate-500/10 focus:bg-slate-500/10"
-             [href]="item.link">
+          <a class="p-2 block rounded hover:bg-slate-500/10 focus:bg-slate-500/10"
+             [href]="item.link" mat-ripple>
             {{item.name}}
           </a>
         </li>
