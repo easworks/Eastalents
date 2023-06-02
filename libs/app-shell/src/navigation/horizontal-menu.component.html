@@ -1,7 +1,7 @@
-<ng-container *ngIf="public$()">
-  <a *ngFor="let item of publicMenu$()"
+<ul class="flex gap-2 items-center">
+  <a *ngFor="let item of menuItems$()"
      class="p-2 rounded hover:bg-slate-500/10 focus:bg-slate-500/10"
      [href]="item.link">
     {{item.name}}
   </a>
-</ng-container>
+</ul>
