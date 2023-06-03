@@ -3,3 +3,4 @@ export * from './subscribed-directive';
 export * from './sort';
 export * from './sleep';
 export * from './options';
+export * from './form-field.directive';
