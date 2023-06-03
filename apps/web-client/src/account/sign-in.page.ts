@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { FormImports, ImportsModule } from '@easworks/app-shell';
 
 @Component({
@@ -10,7 +11,8 @@ import { FormImports, ImportsModule } from '@easworks/app-shell';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
-    FormImports
+    FormImports,
+    RouterModule
   ]
 })
 export class AccountSignInPageComponent {
