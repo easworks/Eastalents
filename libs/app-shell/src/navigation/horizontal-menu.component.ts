@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, computed, inject } from '@angular/core';
-import { NavMenuState } from './state';
-import { UiState } from '../state';
+import { NavMenuState, UiState } from '../state';
 
 @Component({
   selector: 'app-horizontal-menu',

@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, computed, effect, inject, signal } from '@angular/core';
-import { Domain, DomainState } from '../state';
+import { Domain, DomainState, MenuItem, NOOP_CLICK, NavMenuState } from '../state';
 import { SelectableOption, sortString } from '../utilities';
-import { MenuItem, NOOP_CLICK, NavMenuState } from './state';
 
 @Component({
   selector: 'app-vertical-menu',
