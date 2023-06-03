@@ -6,7 +6,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LetDirective } from '@ngrx/component';
 import { FormFieldDirective } from './utilities/form-field.directive';
-import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   imports: [
@@ -25,6 +24,5 @@ export class ImportsModule { }
 export const FormImports = [
   FormsModule,
   ReactiveFormsModule,
-  FormFieldDirective,
-  MatFormFieldModule
+  FormFieldDirective
 ];
