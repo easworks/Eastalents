@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { ImportsModule } from '@easworks/app-shell';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormImports, ImportsModule } from '@easworks/app-shell';
 
 @Component({
   selector: 'account-sign-in-page',
@@ -8,10 +9,24 @@ import { ImportsModule } from '@easworks/app-shell';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    ImportsModule
+    ImportsModule,
+    FormImports
   ]
 })
 export class AccountSignInPageComponent {
   @HostBinding()
-  private readonly class = 'page grid place-content-center';
+  private readonly class = 'page grid';
+
+  protected readonly emailLogin = {
+    form: new FormGroup({
+      email: new FormControl('', {
+        validators: [Validators.required, Validators.email],
+        nonNullable: true
+      }),
+      password: new FormControl('', {
+        validators: [Validators.required],
+        nonNullable: true
+      })
+    }, { updateOn: 'submit' })
+  }
 }

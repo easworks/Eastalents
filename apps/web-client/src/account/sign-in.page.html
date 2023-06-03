@@ -13,3 +13,30 @@
     <span>Google</span>
   </button>
 </div>
+
+<div class="flex items-center gap-2 my-4">
+  <mat-divider class="flex-grow"></mat-divider>
+  <div class="px-4 text-slate-400 italic">OR</div>
+  <mat-divider class="flex-grow"></mat-divider>
+</div>
+
+<h2 class="text-center text-lg">Sign In With Email</h2>
+<div class="email-sign-in bg-white rounded p-4 mat-elevation-z1 mt-4">
+
+  <form [formGroup]="emailLogin.form">
+
+    <div *ngrxLet="emailLogin.form.controls.email as control"
+         [formFieldControl]="control">
+      <label>Email</label>
+      <input type="text" [formControl]="control" placeholder="Enter your Email ID">
+    </div>
+
+    <div *ngrxLet="emailLogin.form.controls.password as control"
+         [formFieldControl]="control">
+      <label>Password</label>
+      <input type="password" [formControl]="control" placeholder="Enter your Password">
+    </div>
+
+  </form>
+
+</div>

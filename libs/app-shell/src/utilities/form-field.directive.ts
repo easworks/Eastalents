@@ -9,7 +9,7 @@ export class FormFieldDirective {
 
   @Input({ required: true, alias: 'formFieldControl' }) public control!: FormControl;
 
-  @HostBinding('class') private get class() {
+  @HostBinding() private get class() {
     return [
       'form-field',
       this.control.invalid ? 'invalid' : undefined,
