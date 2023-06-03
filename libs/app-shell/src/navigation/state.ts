@@ -8,7 +8,7 @@ export interface MenuItem {
   children?: MenuItem[];
 }
 
-export const NOOP_CLICK = 'javascript:void(0)';
+export const NOOP_CLICK = 'javascript:void(0)' as const;
 
 export type MenuMode = 'horizontal' | 'vertical';
 

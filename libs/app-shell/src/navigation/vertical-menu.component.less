@@ -18,3 +18,40 @@
     }
   }
 }
+
+.domain-selector {
+  @apply flex rounded border overflow-hidden w-max;
+
+  .domains {
+    @apply border-r;
+    button {
+      @apply block w-full p-2 px-3 text-left text-sm
+      hover:bg-slate-500/20 focus:bg-slate-500/20 transition-all;
+
+      &.selected {
+        @apply bg-primary text-primary-text;
+      }
+    }
+  }
+
+  .products {
+    @apply flex flex-col;
+
+    input {
+      @apply text-sm m-2 w-auto;
+    }
+
+    .filtered {
+      @apply flex-1 relative;
+
+      > div {
+        @apply absolute w-full h-full overflow-auto;
+      }
+    }
+
+    a {
+      @apply block p-2 px-3 text-sm
+      hover:bg-slate-500/20 focus:bg-slate-500/20 transition-all;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, computed, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, computed, effect, inject } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -30,7 +30,6 @@ export class AppComponent {
 
   @HostBinding()
   private readonly class = 'flex flex-col min-h-screen';
-  private readonly injector = inject(INJECTOR);
   private readonly uiState = inject(UiState);
   private readonly menuState = inject(NavMenuState);
 
@@ -81,6 +80,6 @@ export class AppComponent {
           this.menuState.publicMenu.horizontal$.set(publicMenu.full());
           this.menuState.publicMenu.vertical$.set([]);
       }
-    }, { injector: this.injector, allowSignalWrites: true })
+    }, { allowSignalWrites: true })
   }
 }

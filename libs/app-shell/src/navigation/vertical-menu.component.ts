@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, computed, effect, inject, signal } from '@angular/core';
+import { Domain, DomainState } from '../state';
+import { SelectableOption, sortString } from '../utilities';
 import { MenuItem, NOOP_CLICK, NavMenuState } from './state';
 
 @Component({
@@ -10,9 +12,11 @@ import { MenuItem, NOOP_CLICK, NavMenuState } from './state';
 export class AppVerticalMenuComponent {
 
   @HostBinding()
-  private readonly class = 'grid gap-4 p-4 w-80';
+  private readonly class = 'grid gap-4 p-4 max-w-[100vw]';
   private readonly menuState = inject(NavMenuState);
-  private readonly hostElement = inject(ElementRef).nativeElement as HTMLElement;
+  private readonly domainState = inject(DomainState);
+
+  protected readonly domains = this.initDomainSection();
 
   protected readonly publicMenu = {
     show$: computed(() => this.menuState.publicMenu.vertical$().length > 0),
@@ -41,6 +45,57 @@ export class AppVerticalMenuComponent {
     { name: 'pinterest', icon: 'pinterest', link: NOOP_CLICK },
     { name: 'youtube', icon: 'youtube', link: NOOP_CLICK },
   ];
+
+  private initDomainSection() {
+    const selected$ = signal<SelectableOption<Domain> | null>(null);
+    const domains$ = computed(() => this.domainState.domains$().map(d => ({
+      value: d,
+      selected: false
+    } satisfies SelectableOption<Domain>)));
+
+    const selectDomain = (value: SelectableOption<Domain>) => {
+      const selected = selected$();
+      if (selected)
+        selected.selected = false;
+      value.selected = true;
+      selected$.set(value);
+    };
+
+    const filter$ = signal('');
+
+    const products$ = computed(() => {
+      const selected = selected$();
+      if (!selected)
+        return [];
+      const products = selected.value.modules
+        .map(m => m.products)
+        .flat();
+      return products.sort((a, b) => sortString(a.name, b.name));
+    });
+
+    const filteredProducts$ = computed(() => {
+      const filter = filter$().toLowerCase();
+      return products$()
+        .filter(p => p.name.toLowerCase().includes(filter))
+        .map(p => Object.assign(p, { link: NOOP_CLICK }));
+    });
+
+    const eff = effect(() => {
+      if (!this.domainState.loading$()) {
+        selectDomain(domains$()[0]);
+        eff.destroy()
+      }
+    }, { allowSignalWrites: true });
+
+    return {
+      loading$: this.domainState.loading$,
+      selected$,
+      domains$,
+      filter$,
+      filteredProducts$,
+      selectDomain
+    } as const;
+  }
 
   toggleOpen($event: MouseEvent) {
     const target = $event.target as HTMLElement;

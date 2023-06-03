@@ -1,4 +1,4 @@
-import { ApplicationRef, ChangeDetectionStrategy, Component, ElementRef, HostBinding, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, computed, inject } from '@angular/core';
 import { NavMenuState } from './state';
 
 @Component({
@@ -9,7 +9,6 @@ import { NavMenuState } from './state';
 })
 export class AppHorizontalMenuComponent {
   private readonly hostElement = inject(ElementRef).nativeElement as HTMLElement;
-  private readonly appRef = inject(ApplicationRef);
 
   @HostBinding()
   private readonly class = 'flex items-center';
