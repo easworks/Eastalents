@@ -11,7 +11,7 @@ import { SelectableOption, sortString } from '../utilities';
 export class AppVerticalMenuComponent {
 
   @HostBinding()
-  private readonly class = 'grid gap-4 p-4 max-w-[100vw]';
+  private readonly class = 'grid gap-4 p-4';
   private readonly menuState = inject(NavMenuState);
   private readonly domainState = inject(DomainState);
 

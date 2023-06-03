@@ -67,7 +67,7 @@
       </button>
     </div>
     <div class="products">
-      <input type="text" [ngModel]="domains.filter$()" (ngModelChange)="domains.filter$.set($event)" placeholder="Type to search">
+      <input type="text" [ngModel]="domains.filter$()" (ngModelChange)="domains.filter$.set($event)" placeholder="Type to search products">
       <div class="filtered">
         <div>
           <a [href]="product.link" *ngFor="let product of domains.filteredProducts$()">{{product.name | uppercase}}</a>

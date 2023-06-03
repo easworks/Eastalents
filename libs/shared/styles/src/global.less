@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+@layer base {
+  body {
+    min-width: 22.5rem;
+  }
+}
+
 @layer components {
   .page {
     @apply p-4 md:px-8 container xl:max-w-screen-xl transition-all;
@@ -41,7 +47,7 @@
   input[type=numeric],
   textarea {
     @apply block w-full rounded p-2
-        bg-slate-500/10 placeholder:text-slate-500
+        bg-slate-400/10 placeholder:text-slate-500
          outline-none
         ring-inset focus:ring-2 focus:ring-primary-light
         transition-all;

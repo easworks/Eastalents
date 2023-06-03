@@ -20,13 +20,13 @@
 }
 
 .domain-selector {
-  @apply flex rounded border overflow-hidden w-max;
+  @apply flex rounded border overflow-hidden;
 
   .domains {
     @apply border-r;
     button {
       @apply block w-full p-2 px-3 text-left text-sm
-      hover:bg-slate-500/20 focus:bg-slate-500/20 transition-all;
+      hover:bg-slate-500/10 focus:bg-slate-500/10 transition-all;
 
       &.selected {
         @apply bg-primary text-primary-text;
@@ -35,7 +35,7 @@
   }
 
   .products {
-    @apply flex flex-col md:w-64 transition-all;
+    @apply flex flex-col md:w-96 transition-all;
 
     input {
       @apply text-sm m-2 w-auto;
@@ -51,7 +51,7 @@
 
     a {
       @apply block p-2 px-3 text-sm
-      hover:bg-slate-500/20 focus:bg-slate-500/20 transition-all;
+      hover:bg-slate-500/10 focus:bg-slate-500/10 transition-all;
     }
   }
 }
