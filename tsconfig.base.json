@@ -24,6 +24,7 @@
     "skipDefaultLibCheck": true,
     "paths": {
       "@easworks/app-shell": ["libs/app-shell/src/index.ts"]
+      "@easworks/models": ["libs/models/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"],
