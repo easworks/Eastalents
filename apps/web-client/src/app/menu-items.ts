@@ -1,4 +1,4 @@
-import { MenuItem, NOOP_CLICK } from 'app-shell';
+import { MenuItem, NOOP_CLICK } from '@easworks/app-shell';
 
 export const publicMenu = {
   firstPart: () => [

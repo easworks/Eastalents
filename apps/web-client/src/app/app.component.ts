@@ -4,7 +4,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
-import { MenuItem, NOOP_CLICK, NavMenuState, NavigationModule, UiState } from 'app-shell';
+import { MenuItem, NOOP_CLICK, NavMenuState, NavigationModule, UiState } from '@easworks/app-shell';
 import { publicMenu } from './menu-items';
 
 @Component({

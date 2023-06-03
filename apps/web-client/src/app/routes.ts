@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { NotFoundPageComponent } from 'app-shell';
+import { NotFoundPageComponent } from '@easworks/app-shell';
 
 
 export const routes: Routes = [

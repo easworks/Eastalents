@@ -23,7 +23,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "paths": {
-      "app-shell": ["libs/app-shell/src/index.ts"]
+      "@easworks/app-shell": ["libs/app-shell/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"],
