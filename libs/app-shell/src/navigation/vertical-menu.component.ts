@@ -48,9 +48,11 @@ export class AppVerticalMenuComponent {
     const parent = target.parentElement!;
     const shouldAdd = !parent.classList.contains('open');
 
-    this.hostElement.querySelector('li.open')?.classList.remove('open');
     if (shouldAdd) {
       parent.classList.add('open');
+    }
+    else {
+      parent.classList.remove('open');
     }
   }
 }

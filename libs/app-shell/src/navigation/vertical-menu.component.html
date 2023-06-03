@@ -15,7 +15,7 @@
             </a>
             <ul class="hidden overflow-hidden">
               <li *ngFor="let subItem of item.children">
-                <a class="p-2 px-4 pl-6 rounded hover:bg-slate-500/10 focus:bg-slate-500/10
+                <a class="p-2 px-4 pl-8 rounded hover:bg-slate-500/10 focus:bg-slate-500/10
                                 flex justify-between items-center"
                    [href]="subItem.link" mat-ripple>
                   <span>{{subItem.name}}</span>
@@ -42,12 +42,11 @@
   <mat-divider></mat-divider>
 </ng-container>
 
-<nav class="flex flex-col md:flex-row flex-wrap gap-8 flex-grow">
+<nav>
   <ul>
-    <li *ngFor="let item of staticMenuItems"
-        class="py-1">
-      <a [href]="item.link" class="max-w-fit">
-        <i class="fa-solid fa-angle-right mx-2"></i>
+    <li *ngFor="let item of staticMenuItems">
+      <a class="p-2 px-4 block rounded hover:bg-slate-500/10 focus:bg-slate-500/10"
+         [href]="item.link">
         <span>{{item.name}}</span>
       </a>
     </li>
@@ -63,10 +62,9 @@
 <nav>
   <p class="text-lg m-0">About Us</p>
   <ul class="mt-2">
-    <li *ngFor="let item of aboutMenuItems"
-        class="py-1">
-      <a [href]="item.link" class="max-w-fit">
-        <i class="fa-solid fa-angle-right mx-2"></i>
+    <li *ngFor="let item of aboutMenuItems">
+      <a class="p-2 px-4 block rounded hover:bg-slate-500/10 focus:bg-slate-500/10"
+         [href]="item.link">
         <span>{{item.name}}</span>
       </a>
     </li>
