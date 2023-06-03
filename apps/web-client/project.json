@@ -13,7 +13,7 @@
         "outputPath": "dist/apps/web-client",
         "index": "apps/web-client/src/index.html",
         "main": "apps/web-client/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": ["zone.js", "@lottiefiles/lottie-player"],
         "tsConfig": "apps/web-client/tsconfig.app.json",
         "assets": [
           {
