@@ -1,9 +1,5 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MatRippleModule } from '@angular/material/core';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FormImports, ImportsModule } from '../imports.module';
 import { AppHorizontalMenuComponent } from './horizontal-menu.component';
 import { AppVerticalMenuComponent } from './vertical-menu.component';
 
@@ -13,12 +9,8 @@ import { AppVerticalMenuComponent } from './vertical-menu.component';
     AppHorizontalMenuComponent
   ],
   imports: [
-    CommonModule,
-    MatRippleModule,
-    MatDividerModule,
-    MatRippleModule,
-    MatProgressSpinnerModule,
-    FormsModule
+    ImportsModule,
+    FormImports
   ],
   exports: [
     AppVerticalMenuComponent,

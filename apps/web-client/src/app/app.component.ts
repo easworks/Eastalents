@@ -1,10 +1,7 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, computed, effect, inject } from '@angular/core';
-import { MatRippleModule } from '@angular/material/core';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
-import { MenuItem, NOOP_CLICK, NavMenuState, NavigationModule, UiState } from '@easworks/app-shell';
+import { ImportsModule, MenuItem, NOOP_CLICK, NavMenuState, NavigationModule, UiState } from '@easworks/app-shell';
 import { publicMenu } from './menu-items';
 
 @Component({
@@ -14,11 +11,9 @@ import { publicMenu } from './menu-items';
   styleUrls: ['./app.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
+    ImportsModule,
     RouterModule,
     MatSidenavModule,
-    MatRippleModule,
-    MatDividerModule,
 
     NavigationModule
   ]
