@@ -17,7 +17,12 @@ $theme: mat.define-light-theme((
 @include mat.core-theme($theme);
 
 @include mat.sidenav-theme($theme);
+@include mat.progress-spinner-theme($theme);
 
 .mat-drawer-container {
   @apply bg-white;
+}
+
+.mat-mdc-progress-spinner {
+  --mdc-circular-progress-active-indicator-color: theme('colors.primary');
 }
