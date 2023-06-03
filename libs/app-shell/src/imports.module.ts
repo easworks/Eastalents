@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatRippleModule } from '@angular/material/core';
 import { LetDirective } from '@ngrx/component';
 
 @NgModule({
@@ -9,7 +10,8 @@ import { LetDirective } from '@ngrx/component';
   ],
   exports: [
     CommonModule,
-    LetDirective
+    LetDirective,
+    MatRippleModule
   ]
 })
 export class ImportsModule { }
