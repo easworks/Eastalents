@@ -55,7 +55,7 @@
 
 <mat-divider></mat-divider>
 
-<mat-progress-spinner mode="indeterminate" *ngIf="domains.loading$(); else $domainsLoaded"></mat-progress-spinner>
+<mat-progress-spinner class="mx-auto" diameter="32" mode="indeterminate" *ngIf="domains.loading$(); else $domainsLoaded"></mat-progress-spinner>
 
 <ng-template #$domainsLoaded>
   <div class="domain-selector">
