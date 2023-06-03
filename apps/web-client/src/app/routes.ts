@@ -35,6 +35,16 @@ export const routes: Routes = [
             title: () => 'Sign In'
           }
         }
+      },
+      {
+        path: 'reset-password',
+        pathMatch: 'full',
+        loadComponent: () => import('../account/password-reset.page').then(m => m.AccountPasswordResetPageComponent),
+        data: {
+          seo: {
+            title: () => 'Reset Password'
+          }
+        }
       }
     ]
   },
