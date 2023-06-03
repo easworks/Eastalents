@@ -1,6 +1,7 @@
 {
   "name": "@easworks/app-shell",
   "version": "0.0.1",
+  "type": "module",
   "peerDependencies": {
     "@angular/common": "^16.0.0",
     "@angular/core": "^16.0.0"

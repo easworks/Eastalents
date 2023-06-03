@@ -63,6 +63,10 @@
     },
     "serve": {
       "executor": "@nx/angular:webpack-dev-server",
+      "options": {
+        "liveReload": true,
+        "hmr": true
+      },
       "configurations": {
         "production": {
           "browserTarget": "web-client:build:production"
