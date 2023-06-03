@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, computed, inject } from '@angular/core';
 import { NavMenuState } from './state';
+import { UiState } from '../state';
 
 @Component({
   selector: 'app-horizontal-menu',
@@ -13,6 +14,7 @@ export class AppHorizontalMenuComponent {
   @HostBinding()
   private readonly class = 'flex items-center';
   private readonly menuState = inject(NavMenuState);
+  protected readonly uiState = inject(UiState);
 
   protected readonly menuItems$ = computed(() => {
     // TODO: make this react to auth changes
@@ -28,6 +30,7 @@ export class AppHorizontalMenuComponent {
   private readonly collapseClass = 'collapse-all';
 
   unfocus() {
+    this.uiState.updateTouchDetection();
     (document.activeElement as HTMLElement).blur();
   }
 

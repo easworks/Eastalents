@@ -11,8 +11,9 @@
             <span>{{item.name}}</span>
             <i class="fa-solid fa-angle-down"></i>
           </a>
-          <ul class="hidden group-hover:grid group-focus-within:grid"
-              [class.large]="item.children!.length > 4">
+          <ul class="hidden group-focus-within:grid"
+              [class.large]="item.children!.length > 4"
+              [class.group-hover:grid]="!(uiState.isTouchDevice$())">
             <li *ngFor="let subItem of item.children">
               <a [href]="subItem.link" (click)="collapseAll()">
                 <span *ngIf="subItem.icon" class="icon">

@@ -1,5 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map, shareReplay } from 'rxjs';
 import { SubscribedDirective } from '../utilities/subscribed-directive';
@@ -28,6 +28,8 @@ export class UiState extends SubscribedDirective {
 
   private readonly bo = inject(BreakpointObserver);
 
+  readonly isTouchDevice$ = signal(isTouchDevice());
+
   private readonly searchable = [
     'md', 'lg', 'xl'
   ] as const satisfies readonly ScreenSize[];
@@ -55,4 +57,13 @@ export class UiState extends SubscribedDirective {
         shareReplay({ refCount: true, bufferSize: 1 })
       )
   }
+
+  updateTouchDetection() {
+    this.isTouchDevice$.set(isTouchDevice());
+  }
+}
+
+function isTouchDevice() {
+  return (('ontouchstart' in window) ||
+    (navigator.maxTouchPoints > 0));
 }
