@@ -11,6 +11,7 @@
     "@angular/cli": "16.0.3",
     "@angular/compiler-cli": "16.0.3",
     "@angular/language-service": "16.0.3",
+    "@nrwl/js": "^16.3.2",
     "@nx/angular": "16.3.0",
     "@nx/cypress": "16.3.0",
     "@nx/eslint-plugin": "16.3.0",
