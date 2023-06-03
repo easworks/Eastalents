@@ -1,11 +1,14 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { throwError } from 'rxjs';
+import { ENVIRONMENT } from '../environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+
 export class ApiService {
-  handleError(error: any) {
+  protected readonly http = inject(HttpClient);
+  protected readonly apiUrl = inject(ENVIRONMENT).apiUrl;
+
+  protected handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       // Get client-side error
