@@ -68,12 +68,12 @@
       @apply block mb-1 text-sm;
     }
 
-    > mat-hint {
-      @apply absolute block text-sm px-2 mt-1 text-gray-500;
+    > .hint {
+      @apply absolute block text-xs px-2 mt-1 text-gray-500;
     }
 
     > .error {
-      @apply absolute hidden text-sm px-2 mt-1;
+      @apply absolute hidden text-xs px-2 mt-1;
     }
   }
 
@@ -91,13 +91,13 @@
       }
 
       > .error {
-        @apply block text-warn text-xs;
+        @apply block text-warn;
 
         &:not(:first-of-type) {
           @apply hidden;
         }
 
-        & ~ mat-hint {
+        & ~ .hint {
           @apply hidden;
         }
       }

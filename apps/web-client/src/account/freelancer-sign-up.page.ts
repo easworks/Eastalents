@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormImports, ImportsModule, LottiePlayerDirective } from '@easworks/app-shell';
+import { pattern } from '@easworks/models';
 
 @Component({
   selector: 'account-freelancer-sign-up-page',
@@ -30,11 +31,11 @@ export class FreelancerSignUpPageComponent {
       nonNullable: true
     }),
     email: new FormControl('', {
-      validators: [Validators.required, Validators.email],
+      validators: [Validators.required, Validators.pattern(pattern.email)],
       nonNullable: true
     }),
     password: new FormControl('', {
-      validators: [Validators.required],
+      validators: [Validators.required, Validators.pattern(pattern.password)],
       nonNullable: true
     }),
     confirmPassword: new FormControl('', {

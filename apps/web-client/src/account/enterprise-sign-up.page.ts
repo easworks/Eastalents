@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angula
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AccountApi, FormImports, ImportsModule } from '@easworks/app-shell';
+import { pattern } from '@easworks/models';
 
 @Component({
   selector: 'account-enterprise-sign-up-page',
@@ -38,7 +39,7 @@ export class EnterpriseSignUpPageComponent {
       nonNullable: true
     }),
     email: new FormControl('', {
-      validators: [Validators.required, Validators.email],
+      validators: [Validators.required, Validators.pattern(pattern.email)],
       asyncValidators: [
         async (c) => {
           const value = c.value as string;
@@ -51,7 +52,7 @@ export class EnterpriseSignUpPageComponent {
       nonNullable: true
     }),
     password: new FormControl('', {
-      validators: [Validators.required],
+      validators: [Validators.required, Validators.pattern(pattern.password)],
       nonNullable: true
     }),
     confirmPassword: new FormControl('', {

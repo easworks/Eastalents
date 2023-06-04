@@ -40,7 +40,6 @@
       <label>Company</label>
       <input type="text" [formControl]="control" placeholder="Company Name">
       <span class="error" *ngIf="control.hasError('required')">Required</span>
-      <span class="error" *ngIf="control.hasError('email')">Invalid email</span>
     </div>
 
     <div *ngrxLet="form.controls.email as control"
@@ -48,17 +47,19 @@
       <label>Work Email</label>
       <input type="email" [formControl]="control" placeholder="Email Address">
       <span class="error" *ngIf="control.hasError('required')">Required</span>
-      <span class="error" *ngIf="control.hasError('email')">Invalid email</span>
+      <span class="error" *ngIf="control.hasError('pattern')">Invalid email</span>
       <span class="error" *ngIf="control.hasError('blacklisted')">Please enter a business email</span>
     </div>
 
     <div *ngrxLet="form.controls.password as control"
-         [formFieldControl]="control">
+         [formFieldControl]="control" class="mb-12">
       <label>Password</label>
       <input type="password" [formControl]="control" [crossValidate]="['passwordMismatch']"
              placeholder="Enter your Password">
       <span class="error" *ngIf="control.hasError('required')">Required</span>
+      <span class="error" *ngIf="control.hasError('pattern')">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character</span>
       <span class="error" *ngIf="control.hasError('passwordMismatch')">Passwords do not match</span>
+      <span class="hint">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character</span>
     </div>
 
     <div *ngrxLet="form.controls.confirmPassword as control"
