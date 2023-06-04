@@ -49,10 +49,14 @@ export class CrossValidationDirective extends SubscribedDirective implements OnI
   private propagateErrors(): void {
     const a = this.cvErrors;
     if (a.length > 0) {
-      a.forEach(cv => this.control.setErrors({ [cv]: this.parent.errors?.[cv] }));
+      const existingErrors = this.control.errors ?? {};
+      a.forEach(e => {
+        existingErrors[e] = this.parent.errors?.[e];
+      });
+      this.control.setErrors(existingErrors);
     }
     else if (!this.control.valid) {
-      if (Object.keys(this.control.errors ?? {}).some(key => this.crossValidate.some(cv => cv === key))) {
+      if (Object.keys(this.control.errors ?? {}).some(key => this.crossValidate.includes(key))) {
         this.control.updateValueAndValidity();
       }
     }
