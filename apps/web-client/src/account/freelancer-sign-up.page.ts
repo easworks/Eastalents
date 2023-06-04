@@ -18,7 +18,7 @@ import { FormImports, ImportsModule, LottiePlayerDirective } from '@easworks/app
 })
 export class FreelancerSignUpPageComponent {
   @HostBinding()
-  private readonly class = 'page grid lg:flex gap-4 justify-center';
+  private readonly class = 'page grid grid-cols-10 gap-4';
 
   protected readonly form = new FormGroup({
     firstName: new FormControl('', {

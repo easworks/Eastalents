@@ -17,6 +17,74 @@
       <span>Google</span>
     </button>
   </div>
+
+  <form [formGroup]="form" class="mt-8">
+    <div class="grid grid-flow-col gap-4">
+      <div *ngrxLet="form.controls.firstName as control"
+           [formFieldControl]="control">
+        <label>First Name</label>
+        <input type="text" [formControl]="control" placeholder="First Name">
+        <span class="error" *ngIf="control.hasError('required')">Required</span>
+      </div>
+
+      <div *ngrxLet="form.controls.lastName as control"
+           [formFieldControl]="control">
+        <label>Last Name</label>
+        <input type="text" [formControl]="control" placeholder="Last Name">
+        <span class="error" *ngIf="control.hasError('required')">Required</span>
+      </div>
+    </div>
+
+    <div *ngrxLet="form.controls.company as control"
+         [formFieldControl]="control">
+      <label>Company</label>
+      <input type="text" [formControl]="control" placeholder="Company Name">
+      <span class="error" *ngIf="control.hasError('required')">Required</span>
+      <span class="error" *ngIf="control.hasError('email')">Invalid email</span>
+    </div>
+
+    <div *ngrxLet="form.controls.email as control"
+         [formFieldControl]="control">
+      <label>Work Email</label>
+      <input type="email" [formControl]="control" placeholder="Email Address">
+      <span class="error" *ngIf="control.hasError('required')">Required</span>
+      <span class="error" *ngIf="control.hasError('email')">Invalid email</span>
+    </div>
+
+    <div *ngrxLet="form.controls.password as control"
+         [formFieldControl]="control">
+      <label>Password</label>
+      <input type="password" [formControl]="control" [crossValidate]="['passwordMismatch']"
+             placeholder="Enter your Password">
+      <span class="error" *ngIf="control.hasError('required')">Required</span>
+      <span class="error" *ngIf="control.hasError('passwordMismatch')">Passwords do not match</span>
+    </div>
+
+    <div *ngrxLet="form.controls.confirmPassword as control"
+         [formFieldControl]="control">
+      <label>Confirm Password</label>
+      <input type="password" [formControl]="control" [crossValidate]="['passwordMismatch']"
+             placeholder="Confirm your Password">
+      <span class="error" *ngIf="control.hasError('required')">Required</span>
+      <span class="error" *ngIf="control.hasError('passwordMismatch')">Passwords do not match</span>
+    </div>
+
+    <div class="border rounded p-2 flex gap-2">
+      <mat-checkbox [formControl]="form.controls.tncAgreement"></mat-checkbox>
+      <p class="flex-grow text-sm w-min">
+        You acknowledge that the EASWORKS screening process is confidential and that you will not publicly disclose details about this process.
+        By submitting this form, you acknowledge that you have read and agreed to our
+        <a class="text-primary">Terms of Use</a>,
+        <a class="text-primary">Privacy Policy</a> and
+        <a class="text-primary">Cookie Policy</a>.
+      </p>
+    </div>
+
+    <button type="submit"
+            class="shaded-button primary w-full mt-6 font-medium">
+      Get Started
+    </button>
+  </form>
 </div>
 
 <div class="info mat-elevation-z1">
