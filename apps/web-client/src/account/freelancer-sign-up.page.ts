@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormImports, ImportsModule, LottiePlayerDirective } from '@easworks/app-shell';
+import { AuthService, FormImports, ImportsModule, LottiePlayerDirective } from '@easworks/app-shell';
 import { pattern } from '@easworks/models';
 
 @Component({
@@ -18,6 +18,8 @@ import { pattern } from '@easworks/models';
   ]
 })
 export class FreelancerSignUpPageComponent {
+  protected readonly auth = inject(AuthService);
+
   @HostBinding()
   private readonly class = 'page grid grid-cols-10 gap-4';
 

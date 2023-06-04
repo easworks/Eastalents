@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { FormImports, ImportsModule } from '@easworks/app-shell';
+import { AuthService, FormImports, ImportsModule } from '@easworks/app-shell';
 import { pattern } from '@easworks/models';
 
 @Component({
@@ -17,6 +17,8 @@ import { pattern } from '@easworks/models';
   ]
 })
 export class AccountSignInPageComponent {
+  protected readonly auth = inject(AuthService);
+
   @HostBinding()
   private readonly class = 'page grid';
 

@@ -4,15 +4,15 @@
 
   <div class="social">
     <h2 class="text-center col-span-2">Sign Up With</h2>
-    <button mat-ripple>
+    <button mat-ripple (click)="auth.signin.github()">
       <img src="/assets/github/github-mark.svg">
       <span>GitHub</span>
     </button>
-    <button mat-ripple>
+    <button mat-ripple (click)="auth.signin.linkedIn()">
       <img src="/assets/linkedin/LI-In-Bug.png">
       <span>LinkedIn</span>
     </button>
-    <button mat-ripple>
+    <button mat-ripple (click)="auth.signin.google()">
       <img src="/assets/google/colored.svg">
       <span>Google</span>
     </button>

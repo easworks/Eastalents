@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { AccountApi, FormImports, ImportsModule } from '@easworks/app-shell';
+import { AccountApi, AuthService, FormImports, ImportsModule } from '@easworks/app-shell';
 import { pattern } from '@easworks/models';
 
 @Component({
@@ -17,7 +17,7 @@ import { pattern } from '@easworks/models';
   ]
 })
 export class EnterpriseSignUpPageComponent {
-
+  protected readonly auth = inject(AuthService);
   private readonly api = {
     account: inject(AccountApi)
   };
