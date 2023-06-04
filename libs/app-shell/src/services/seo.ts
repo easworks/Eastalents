@@ -1,8 +1,8 @@
 import { Injectable, InjectionToken, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Title } from '@angular/platform-browser';
 import { ActivationEnd, Router } from '@angular/router';
-import { map, takeUntil } from 'rxjs';
-import { SubscribedDirective } from '../utilities';
+import { map } from 'rxjs';
 
 export interface DefaultSeoConfig {
   /** Site-wide title used to build the page title */
@@ -16,17 +16,15 @@ export const SEO_DEFAULT_CONFIG = new InjectionToken<DefaultSeoConfig>('SEO_DEFA
 @Injectable({
   providedIn: 'root'
 })
-export class SEOService extends SubscribedDirective {
+export class SEOService {
 
   private readonly defaultConfig = inject(SEO_DEFAULT_CONFIG, { optional: true });
   private readonly platformTitle = inject(Title);
   private readonly router = inject(Router);
 
   constructor() {
-    super();
-
     this.router.events.pipe(
-      takeUntil(this.destroyed),
+      takeUntilDestroyed(),
       map(event => {
         if (event instanceof ActivationEnd) {
           const snap = (event as ActivationEnd).snapshot;

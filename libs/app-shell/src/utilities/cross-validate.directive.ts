@@ -1,13 +1,14 @@
-import { Directive, Input, OnInit, inject } from '@angular/core';
+import { DestroyRef, Directive, Input, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormControlDirective } from '@angular/forms';
-import { startWith, takeUntil } from 'rxjs';
-import { SubscribedDirective } from './subscribed-directive';
+import { startWith } from 'rxjs';
 
 @Directive({
   standalone: true,
   selector: '[formControl][crossValidate]'
 })
-export class CrossValidationDirective extends SubscribedDirective implements OnInit {
+export class CrossValidationDirective implements OnInit {
+  private readonly dRef = inject(DestroyRef);
 
   private readonly fcngd = inject(FormControlDirective);
 
@@ -31,7 +32,7 @@ export class CrossValidationDirective extends SubscribedDirective implements OnI
     this.parent.valueChanges
       // run this logic once during initialisation as well
       .pipe(
-        takeUntil(this.destroyed),
+        takeUntilDestroyed(this.dRef),
         startWith([null]),
       )
       .subscribe(() => {

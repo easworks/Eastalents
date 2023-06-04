@@ -1,8 +1,7 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map, shareReplay } from 'rxjs';
-import { SubscribedDirective } from '../utilities/subscribed-directive';
 
 // mimic the breakpoints we configured in tailwind
 export const screenSizes = [
@@ -24,7 +23,7 @@ const Breakpoints = {
 @Injectable({
   providedIn: 'root'
 })
-export class UiState extends SubscribedDirective {
+export class UiState {
 
   private readonly bo = inject(BreakpointObserver);
 
