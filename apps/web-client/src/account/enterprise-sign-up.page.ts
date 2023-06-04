@@ -10,5 +10,5 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 })
 export class EnterpriseSignUpPageComponent {
   @HostBinding()
-  private readonly class = 'page';
+  private readonly class = 'page grid lg:flex gap-4 justify-center flex-row-reverse';
 }

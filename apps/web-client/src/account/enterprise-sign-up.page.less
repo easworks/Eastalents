@@ -1,3 +1,7 @@
+.sign-up-form {
+  @apply rounded bg-white p-4 md:py-6 md:px-8 transition-all;
+}
+
 .info {
   @apply rounded bg-white p-4 md:py-6 md:px-8 transition-all;
 
@@ -14,6 +18,20 @@
       .svg-inline--fa {
         @apply pt-1 text-blue-400 font-bold;
       }
+    }
+  }
+}
+
+.social {
+  @apply grid grid-cols-2 gap-4 mx-auto mt-4 w-max;
+
+  button {
+    @apply rounded border p-2 px-4 flex gap-4 items-center
+    bg-white font-medium
+    hover:bg-slate-100 focus:bg-slate-100 transition-all;
+
+    img {
+      @apply block h-6 w-6 object-contain;
     }
   }
 }
