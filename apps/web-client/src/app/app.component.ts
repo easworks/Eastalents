@@ -30,6 +30,7 @@ export class AppComponent {
 
   protected readonly showHorizontalMenu$ = computed(() => this.menuState.publicMenu.horizontal$().length > 0);
 
+  protected readonly NOOP_CLICK = NOOP_CLICK;
   protected readonly footerNav: { group: string, items: MenuItem[] }[] = [
     {
       group: 'Customers',

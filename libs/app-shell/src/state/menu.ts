@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, isDevMode, signal } from '@angular/core';
 
 export interface MenuItem {
   name: string;
@@ -8,7 +8,7 @@ export interface MenuItem {
   children?: MenuItem[];
 }
 
-export const NOOP_CLICK = 'javascript:void(0)' as const;
+export const NOOP_CLICK = isDevMode() ? '/broken-link' : 'javascript:void(0)' as const;
 
 export type MenuMode = 'horizontal' | 'vertical';
 

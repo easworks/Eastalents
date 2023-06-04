@@ -7,7 +7,7 @@
   <app-horizontal-menu *ngIf="showHorizontalMenu$()"></app-horizontal-menu>
 
   <div class="flex gap-2 items-center flex-none">
-    <a href="javascript:void(0)" class="mr-2">Login</a>
+    <a [href]="NOOP_CLICK" class="mr-2">Login</a>
     <button class="shaded-button primary" mat-ripple>
       Hire Now
     </button>
