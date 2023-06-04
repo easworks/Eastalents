@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormImports, ImportsModule } from '@easworks/app-shell';
+import { AccountApi, FormImports, ImportsModule } from '@easworks/app-shell';
 
 @Component({
   selector: 'account-enterprise-sign-up-page',
@@ -16,6 +16,11 @@ import { FormImports, ImportsModule } from '@easworks/app-shell';
   ]
 })
 export class EnterpriseSignUpPageComponent {
+
+  private readonly api = {
+    account: inject(AccountApi)
+  };
+
   @HostBinding()
   private readonly class = 'page grid grid-cols-10 gap-4';
 
@@ -34,6 +39,15 @@ export class EnterpriseSignUpPageComponent {
     }),
     email: new FormControl('', {
       validators: [Validators.required, Validators.email],
+      asyncValidators: [
+        async (c) => {
+          const value = c.value as string;
+          const blacklisted = await this.api.account.blackListedDomains();
+          if (blacklisted.some(d => value.endsWith(d)))
+            return { blacklisted: true };
+          return null;
+        }
+      ],
       nonNullable: true
     }),
     password: new FormControl('', {
@@ -60,4 +74,5 @@ export class EnterpriseSignUpPageComponent {
     ],
     updateOn: 'submit'
   });
+
 }

@@ -49,6 +49,7 @@
       <input type="email" [formControl]="control" placeholder="Email Address">
       <span class="error" *ngIf="control.hasError('required')">Required</span>
       <span class="error" *ngIf="control.hasError('email')">Invalid email</span>
+      <span class="error" *ngIf="control.hasError('blacklisted')">Please enter a business email</span>
     </div>
 
     <div *ngrxLet="form.controls.password as control"
