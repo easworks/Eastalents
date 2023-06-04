@@ -1,3 +1,11 @@
+const ROLES = [
+  'freelancer',
+  'employer',
+  'admin'
+] as const;
+
+export type Role = typeof ROLES[number];
+
 export interface User {
   firstName?: string;
   lastName?: string;
