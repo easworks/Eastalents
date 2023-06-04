@@ -5,3 +5,4 @@ export * from './provide-root-services';
 export * from './sleep';
 export * from './sort';
 export * from './subscribed-directive';
+export * from './cross-validate.directive';
