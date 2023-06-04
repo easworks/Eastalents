@@ -1,12 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { AccountApi } from '../api';
+
+export const RETURN_URL_KEY = 'returnUrl';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor() {
-    console.debug('auth service initialized');
-  }
+
+  private readonly api = {
+    account: inject(AccountApi)
+  } as const;
 
   readonly signin = {
     github: () => {
@@ -15,11 +20,28 @@ export class AuthService {
     linkedIn: () => {
       console.debug('[SIGN IN] LinkedIn');
     },
-    google: () => {
+    google: (returnUrl?: string) => {
       console.debug('[SIGN IN] Google');
+      const authUrl = constructGoogleAuthUrl();
+      const state = JSON.stringify({
+        provider: 'google',
+        returnUrl
+      });
+      authUrl.searchParams.set('state', state);
+
+      console.debug(authUrl.href);
     },
     email: () => {
       console.debug('[SIGN IN] Email');
     }
   } as const;
+}
+
+function constructGoogleAuthUrl() {
+  const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
+  authUrl.searchParams.set('response_type', 'code');
+  authUrl.searchParams.set('redirect_uri', `https://eas-works.onrender.com/api/gmail/callback`);
+  authUrl.searchParams.set('client_id', '375730135906-ue24tu42t280a93645tb9r68sfe03jme.apps.googleusercontent.com');
+  authUrl.searchParams.set('scope', 'email profile');
+  return authUrl;
 }
