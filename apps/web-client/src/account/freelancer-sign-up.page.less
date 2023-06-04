@@ -21,3 +21,18 @@
     }
   }
 }
+
+
+.social {
+  @apply grid gap-2 mx-auto mt-4 w-max;
+
+  button {
+    @apply rounded border p-2 px-4 flex gap-4 items-center
+    bg-white font-medium
+    hover:bg-slate-100 focus:bg-slate-100 transition-all;
+
+    img {
+      @apply block h-6 w-6 object-contain;
+    }
+  }
+}
