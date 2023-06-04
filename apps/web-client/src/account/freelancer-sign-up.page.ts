@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormImports, ImportsModule, LottiePlayerDirective } from '@easworks/app-shell';
 
 @Component({
@@ -11,7 +12,8 @@ import { FormImports, ImportsModule, LottiePlayerDirective } from '@easworks/app
   imports: [
     ImportsModule,
     LottiePlayerDirective,
-    FormImports
+    FormImports,
+    MatCheckboxModule
   ]
 })
 export class FreelancerSignUpPageComponent {
@@ -39,6 +41,10 @@ export class FreelancerSignUpPageComponent {
       validators: [Validators.required],
       nonNullable: true
     }),
+    tncAgreement: new FormControl(false, {
+      validators: [Validators.requiredTrue],
+      nonNullable: true
+    })
   }, {
     validators: [
       (c) => {

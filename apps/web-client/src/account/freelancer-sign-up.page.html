@@ -48,8 +48,19 @@
       <span class="error" *ngIf="control.hasError('passwordMismatch')">Passwords do not match</span>
     </div>
 
+    <div class="border rounded p-2 flex gap-2">
+      <mat-checkbox [formControl]="form.controls.tncAgreement"></mat-checkbox>
+      <p class="flex-grow text-sm max-w-xl">
+        You acknowledge that the EASWORKS screening process is confidential and that you will not publicly disclose details about this process.
+        By submitting this form, you acknowledge that you have read and agreed to our
+        <a class="text-primary">Terms of Use</a>,
+        <a class="text-primary">Privacy Policy</a> and
+        <a class="text-primary">Cookie Policy</a>.
+      </p>
+    </div>
+
     <button type="submit"
-            class="shaded-button primary">
+            class="shaded-button primary w-full mt-6 font-medium">
       Sign Up
     </button>
   </form>
