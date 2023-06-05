@@ -1,7 +1,10 @@
 export const RETURN_URL_KEY = 'returnUrl';
 
-export interface GoogleAuthRequest {
-  code: string
+export type SocialIdp = 'google' | 'linkedin' | 'github';
+
+export interface SocialAuthRequest {
+  provider: SocialIdp;
+  code: string;
 }
 
 export interface EmailAuthRequest {
@@ -9,11 +12,12 @@ export interface EmailAuthRequest {
   password: string;
 }
 
-
+/** User was found and token was returned */
 export interface AuthSuccess {
   token: string;
 }
 
+/** Auth Code was exchanged succesfully, but email is not in our DB */
 export interface AuthNotFound {
   firstName?: string;
   lastName?: string;

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
+import { AuthNotFound, GoogleCallbackState, SocialCallbackState } from '@easworks/models';
 import { AccountApi } from '../api';
 
-export const RETURN_URL_KEY = 'returnUrl';
 
 
 @Injectable({
@@ -39,17 +39,13 @@ export class AuthService {
   handleSignIn(token: string, returnUrl?: string) {
     console.debug(token);
   }
+
+  handlePartialSocialSignIn(provider: SocialCallbackState['provider'], data: AuthNotFound) {
+    // 
+  }
 }
 
-interface SocialCallbackStateBase {
-  [RETURN_URL_KEY]?: string;
-}
 
-interface GoogleCallbackState extends SocialCallbackStateBase {
-  provider: 'google',
-}
-
-export type SocialCallbackState = GoogleCallbackState;
 
 
 function constructGoogleAuthUrl() {
