@@ -7,12 +7,15 @@ const ROLES = [
 export type Role = typeof ROLES[number];
 
 export interface User {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  password?: string;
-  role?: string;
-  token?: string;
-  activate?: number;
-  _id?: string;
+  _id: string;
+  role: Role;
+  verified: boolean;
+  active: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
+export interface UserWithToken extends User {
+  token: string;
 }
