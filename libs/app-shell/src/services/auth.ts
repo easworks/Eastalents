@@ -26,7 +26,7 @@ export class AuthService {
       const state = JSON.stringify({
         provider: 'google',
         returnUrl
-      });
+      } satisfies GoogleCallbackState);
       authUrl.searchParams.set('state', state);
 
       console.debug(authUrl.href);
@@ -35,7 +35,22 @@ export class AuthService {
       console.debug('[SIGN IN] Email');
     }
   } as const;
+
+  handleSignIn(token: string, returnUrl?: string) {
+    console.debug(token);
+  }
 }
+
+interface SocialCallbackStateBase {
+  [RETURN_URL_KEY]?: string;
+}
+
+interface GoogleCallbackState extends SocialCallbackStateBase {
+  provider: 'google',
+}
+
+export type SocialCallbackState = GoogleCallbackState;
+
 
 function constructGoogleAuthUrl() {
   const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');

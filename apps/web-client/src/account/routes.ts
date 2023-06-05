@@ -1,4 +1,6 @@
 import { Route } from '@angular/router';
+import { NotFoundPageComponent } from '@easworks/app-shell';
+import { socialCallback } from './social-callback';
 
 export const ACCOUNT_ROUTES: Route = {
   path: 'account',
@@ -42,6 +44,12 @@ export const ACCOUNT_ROUTES: Route = {
           title: () => 'Reset Password'
         }
       }
+    },
+    {
+      path: 'social/callback',
+      pathMatch: 'full',
+      canActivate: [socialCallback],
+      loadComponent: () => NotFoundPageComponent,
     }
   ]
 };

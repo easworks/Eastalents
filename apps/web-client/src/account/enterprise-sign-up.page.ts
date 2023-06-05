@@ -43,7 +43,7 @@ export class EnterpriseSignUpPageComponent {
       asyncValidators: [
         async (c) => {
           const value = c.value as string;
-          const blacklisted = await this.api.account.blackListedDomains();
+          const blacklisted = await this.api.account.blackListedEmailDomains();
           if (blacklisted.some(d => value.endsWith(d)))
             return { blacklisted: true };
           return null;
