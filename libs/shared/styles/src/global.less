@@ -30,20 +30,25 @@
   .shaded-button {
     @apply rounded py-2 px-4;
 
+    &:disabled {
+      @apply bg-slate-300 text-slate-500;
+    }
+
     &.primary {
       @apply bg-primary text-primary-text
-        hover:bg-primary-dark focus:bg-primary-dark
+        enabled:hover:bg-primary-dark enabled:focus:bg-primary-dark
         transition-all outline-none;
+    }
+
+    &:disabled {
+      @apply bg-slate-300 text-slate-500;
     }
   }
 
   // links
   a:link {
-    @apply transition-all outline-none;
-
-    &:hover, &:focus {
-      @apply text-primary;
-    }
+    @apply transition-all outline-none
+    enabled:hover:text-primary enabled:focus:text-primary;
   }
 
   input[type=text],
