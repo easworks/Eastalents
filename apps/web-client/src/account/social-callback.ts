@@ -18,12 +18,12 @@ export const socialCallback: CanActivateFn = (route) => {
     const result = api.signIn.social({ provider: state.provider, code });
 
     const auth = inject(AuthService);
-    if ('token' in result) {
-      auth.handleSignIn(result.token, state[RETURN_URL_KEY]);
-    }
-    else {
-      auth.handlePartialSocialSignIn(state.provider, result);
-    }
+    // if ('token' in result) {
+    //   auth.handleSignIn(result.token, state[RETURN_URL_KEY]);
+    // }
+    // else {
+    // auth.handlePartialSocialSignIn(state.provider, result);
+    // }
   }
   catch (e) {
     console.error(e);

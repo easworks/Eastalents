@@ -1,17 +1,24 @@
 import { Injectable, inject } from '@angular/core';
-import { AuthNotFound, GoogleCallbackState, SocialCallbackState, SocialIdp } from '@easworks/models';
+import { EmailAuthRequest, GoogleCallbackState, RETURN_URL_KEY, SocialIdp, UserWithToken } from '@easworks/models';
+import { Subject, map } from 'rxjs';
 import { AccountApi } from '../api';
+import { AuthState } from '../state';
 
-
+export interface SignInMeta {
+  isNewUser: boolean;
+  [RETURN_URL_KEY]?: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
+  private readonly state = inject(AuthState);
   private readonly api = {
     account: inject(AccountApi)
   } as const;
+
+  readonly afterSignIn$ = new Subject<SignInMeta>();
 
   readonly signin = {
     github: () => {
@@ -31,17 +38,16 @@ export class AuthService {
 
       console.debug(authUrl.href);
     },
-    email: () => {
-      console.debug('[SIGN IN] Email');
-    }
+    email: (input: EmailAuthRequest, meta: SignInMeta) =>
+      this.api.account.signIn.email(input)
+        .pipe(map(r => {
+          this.handleSignIn(r, meta);
+        }))
   } as const;
 
-  handleSignIn(token: string, returnUrl?: string) {
-    console.debug(token);
-  }
-
-  handlePartialSocialSignIn(provider: SocialCallbackState['provider'], data: AuthNotFound) {
-    // 
+  handleSignIn(user: UserWithToken, meta: SignInMeta) {
+    this.state.user$.set(user);
+    this.afterSignIn$.next(meta);
   }
 }
 
