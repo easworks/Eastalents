@@ -1,9 +1,9 @@
 // TODO: get better typings
 // by using unions / discriminated unions
-export interface ApiResponse<T = unknown> {
+export interface ApiResponse<T = any> {
   error?: boolean;
   status?: boolean;
   message?: string;
   result?: T;
-  [key: string]: unknown;
+  [key: string]: any;
 }
