@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AuthNotFound, AuthSuccess, SocialAuthRequest } from '@easworks/models';
-import { firstValueFrom } from 'rxjs';
+import { ApiResponse, AuthNotFound, AuthSuccess, EmailAuthRequest, SocialAuthRequest } from '@easworks/models';
+import { catchError, firstValueFrom, map } from 'rxjs';
 import { ApiService } from './api';
 
 @Injectable({
@@ -22,7 +22,12 @@ export class AccountApi extends ApiService {
       // FOR NOW, choose any one to test and develop
       return mock.social.authSucces();
       // return mock.signIn.google.authNotFound();
-    }
+    },
+    email: (input: EmailAuthRequest) =>
+      this.http.post<ApiResponse>(`${this.apiUrl}/users/login`, input)
+        .pipe(
+          map(r => r.result?.user),
+          catchError(this.handleError))
   } as const;
 }
 

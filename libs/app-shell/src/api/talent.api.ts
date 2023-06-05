@@ -10,12 +10,7 @@ export class TalentApi extends ApiService {
   readonly profileSteps = () => this.http.get<ApiResponse>(
     `${this.apiUrl}/talentProfile/getTalentProfileSteps`
   ).pipe(
-    map(r => {
-      if (r.status === true) {
-        return r['talentProfile'] as DomainDictionaryDto;
-      }
-      else throw new Error(r.message)
-    }),
+    map(r => r['talentProfile'] as DomainDictionaryDto),
     catchError(this.handleError)
   );
 }
