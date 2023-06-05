@@ -5,11 +5,12 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LetDirective } from '@ngrx/component';
-import { CrossValidationDirective, FormFieldDirective } from './common';
+import { CrossValidationDirective, FormFieldDirective, ReplaceSpinnerComponent } from './common';
 
 @NgModule({
   imports: [
-    LetDirective
+    LetDirective,
+    ReplaceSpinnerComponent
   ],
   exports: [
     CommonModule,
@@ -17,6 +18,7 @@ import { CrossValidationDirective, FormFieldDirective } from './common';
     MatDividerModule,
     MatRippleModule,
     MatProgressSpinnerModule,
+    ReplaceSpinnerComponent
   ]
 })
 export class ImportsModule { }
