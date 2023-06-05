@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { AuthService, FormImports, ImportsModule } from '@easworks/app-shell';
+import { AuthService, FormImports, ImportsModule, generateLoadingState } from '@easworks/app-shell';
 import { pattern } from '@easworks/models';
 
 @Component({
@@ -19,6 +19,8 @@ import { pattern } from '@easworks/models';
 export class AccountSignInPageComponent {
   protected readonly auth = inject(AuthService);
 
+  protected readonly loading = generateLoadingState<['signing in']>();
+
   @HostBinding()
   private readonly class = 'page grid';
 
@@ -32,6 +34,16 @@ export class AccountSignInPageComponent {
         validators: [Validators.required],
         nonNullable: true
       })
-    }, { updateOn: 'submit' })
-  }
+    }, { updateOn: 'submit' }),
+    submit: () => {
+      if (!this.emailLogin.form.valid)
+        return;
+
+      this.loading.add('signing in');
+      this.auth.signin.email(this.emailLogin.form.getRawValue())
+        .subscribe({
+          complete: () => this.loading.delete('signing in')
+        });
+    }
+  } as const;
 }

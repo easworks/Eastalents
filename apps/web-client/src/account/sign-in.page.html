@@ -26,7 +26,8 @@
 <h2 class="text-center text-lg">Sign In With Email</h2>
 <div class="email-sign-in bg-white rounded p-4 mat-elevation-z1 mt-4">
 
-  <form [formGroup]="emailLogin.form">
+  <form [formGroup]="emailLogin.form"
+        (ngSubmit)="emailLogin.submit()">
 
     <div *ngrxLet="emailLogin.form.controls.email as control"
          [formFieldControl]="control">
@@ -45,8 +46,11 @@
 
     <button type="submit"
             class="shaded-button primary w-full font-medium mt-4"
-            mat-ripple>
-      Sign In
+            mat-ripple
+            [disabled]="loading.any$()">
+      <replace-spinner [showSpinner]="loading.any$()">
+        Sign In
+      </replace-spinner>
     </button>
 
   </form>
