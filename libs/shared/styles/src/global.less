@@ -22,34 +22,51 @@
   }
   
   .icon-button {
-    @apply grid place-content-center rounded-full 
-      text-2xl w-12 h-12 
-      hover:bg-slate-400/25 focus:bg-slate-400/25
-      transition-all outline-none;
+    @apply grid place-content-center rounded-full
+      text-xl w-12 h-12 
+      transition-all;
+      
+      &:enabled, &[href] {
+        @apply hover:bg-slate-400/25 focus:bg-slate-400/25;
+      }
+
   }
 
   .shaded-button {
-    @apply rounded py-2 px-4;
-
-    &:disabled {
-      @apply bg-slate-300 text-slate-500;
-    }
+    @apply rounded py-2 px-4 transition-all;
 
     &.primary {
-      @apply bg-primary text-primary-text
-        enabled:hover:bg-primary-dark enabled:focus:bg-primary-dark
-        transition-all outline-none;
+      @apply bg-primary text-primary-text;
+
+      &:enabled, &[href] {
+        @apply hover:bg-primary-dark focus:bg-primary-dark;
+      }
     }
 
     &:disabled {
       @apply bg-slate-300 text-slate-500;
+    }
+  }
+
+  .highlight-button {
+    @apply block rounded py-2 px-4  transition-all;
+
+    &:enabled, &[href] {
+      @apply hover:bg-slate-500/10 focus:bg-slate-500/10;
+    }
+
+    &:disabled {
+      @apply text-slate-500;
     }
   }
 
   // links
-  a:link {
-    @apply transition-all outline-none
-    enabled:hover:text-primary enabled:focus:text-primary;
+  a[href] {
+    @apply transition-all outline-none;
+    
+    &:hover, &:focus {
+      @apply text-primary;
+    }
   }
 
   input[type=text],
