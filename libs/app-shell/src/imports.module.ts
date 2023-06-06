@@ -6,7 +6,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LetDirective } from '@ngrx/component';
-import { CrossValidationDirective, FormFieldDirective, ReplaceSpinnerComponent } from './common';
+import { CrossValidationDirective, FormFieldDirective, ReplaceSpinnerComponent, ResubmitIfPendingDirective } from './common';
 
 @NgModule({
   imports: [
@@ -29,5 +29,6 @@ export const FormImports = [
   FormsModule,
   ReactiveFormsModule,
   FormFieldDirective,
-  CrossValidationDirective
+  CrossValidationDirective,
+  ResubmitIfPendingDirective
 ];
