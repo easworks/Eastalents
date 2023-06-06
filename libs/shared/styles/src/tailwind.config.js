@@ -17,10 +17,10 @@ module.exports = {
         'sans': ['Roboto', ...defaultTheme.fontFamily.sans]
       },
       boxShadowColor: {
-        DEFAULT: colors.gray[500]
+        DEFAULT: colors.slate[500]
       },
       borderColor: {
-        DEFAULT: colors.gray[300]
+        DEFAULT: colors.slate[300]
       },
       colors: {
         'primary': '#4949fc',
@@ -29,7 +29,7 @@ module.exports = {
         'primary-light': '#6a6afd',
         'secondary': '#0f0f0f',
         'secondary-text': colors.white,
-        'divider': colors.gray[300],
+        'divider': colors.slate[300],
         'divider-text': colors.white,
         'warn': colors.red[600]
       }

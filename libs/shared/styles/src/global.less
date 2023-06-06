@@ -81,6 +81,10 @@
         @apply bg-slate-500/10 ;
       }
     }
+
+    &:disabled {
+      @apply bg-slate-300 text-slate-500;
+    }
   }
 
   // links
@@ -115,7 +119,7 @@
     }
 
     > .hint {
-      @apply absolute block text-xs px-2 mt-1 text-gray-500;
+      @apply absolute block text-xs px-2 mt-1 text-slate-500;
     }
 
     > .error {
