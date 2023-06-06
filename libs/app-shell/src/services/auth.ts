@@ -1,12 +1,12 @@
-import { Injectable, inject } from '@angular/core';
+import { DestroyRef, Injectable, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { EmailAuthRequest, GoogleCallbackState, RETURN_URL_KEY, SocialIdp, UserWithToken } from '@easworks/models';
 import { Subject, firstValueFrom, fromEvent } from 'rxjs';
 import { AccountApi } from '../api';
 import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '../notification';
 import { AuthState } from '../state';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router } from '@angular/router';
 import { Deferred } from '../utilities';
 
 @Injectable({
@@ -17,6 +17,7 @@ export class AuthService {
     this.reactToLocalStorage();
   }
 
+  private readonly dRef = inject(DestroyRef);
   private readonly state = inject(AuthState);
   private readonly api = {
     account: inject(AccountApi)
@@ -75,7 +76,7 @@ export class AuthService {
     });
   }
 
-  private reactToLocalStorage() {
+  private async reactToLocalStorage() {
     const storedUser = localStorage.getItem(CURRENT_USER_KEY);
     if (storedUser) {
       const cu = JSON.parse(storedUser) as UserWithToken;
@@ -84,7 +85,7 @@ export class AuthService {
     this.ready.resolve();
 
     fromEvent<StorageEvent>(window, 'storage')
-      .pipe(takeUntilDestroyed())
+      .pipe(takeUntilDestroyed(this.dRef))
       .subscribe(ev => {
         if (ev.key === CURRENT_USER_KEY) {
           const newUser = ev.newValue ? JSON.parse(ev.newValue) as UserWithToken : null;
