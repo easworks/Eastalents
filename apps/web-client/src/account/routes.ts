@@ -17,7 +17,7 @@ const redirectUser: CanActivateFn = () => {
 }
 
 
-export const ACCOUNT_ROUTES: Route = {
+export const ACCOUNT_ROUTE: Route = {
   path: 'account',
   children: [
     {
