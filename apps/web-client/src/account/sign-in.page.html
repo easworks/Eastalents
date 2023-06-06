@@ -65,11 +65,11 @@
         <span class="error" *ngIf="control.hasError('required')">Required</span>
       </div>
 
-      <button type="submit"
+      <button type="submit" *ngrxLet="loading.any$() as loading"
               class="shaded-button primary w-full font-medium mt-4"
               mat-ripple
-              [disabled]="loading.any$()">
-        <replace-spinner [showSpinner]="loading.any$()">
+              [disabled]="loading">
+        <replace-spinner [showSpinner]="loading">
           Sign In
         </replace-spinner>
       </button>
