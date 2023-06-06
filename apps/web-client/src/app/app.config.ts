@@ -1,5 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     },
     importProvidersFrom([
       MatSnackBarModule,
+      MatDialogModule
     ]),
     {
       provide: APP_INITIALIZER,
