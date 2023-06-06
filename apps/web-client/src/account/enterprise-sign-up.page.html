@@ -18,7 +18,8 @@
     </button>
   </div>
 
-  <form [formGroup]="form" class="mt-8">
+  <form [formGroup]="form" class="mt-8"
+        (ngSubmit)="submit()" resubmitIfPending>
     <div class="grid grid-flow-col gap-4">
       <div *ngrxLet="form.controls.firstName as control"
            [formFieldControl]="control">
@@ -82,9 +83,12 @@
       </p>
     </div>
 
-    <button type="submit"
-            class="shaded-button primary w-full mt-6 font-medium">
-      Get Started
+    <button type="submit" *ngrxLet="loading.any$() as loading"
+            class="shaded-button primary w-full mt-6 font-medium"
+            [disabled]="loading">
+      <replace-spinner [showSpinner]="loading">
+        Get Started
+      </replace-spinner>
     </button>
   </form>
 </div>

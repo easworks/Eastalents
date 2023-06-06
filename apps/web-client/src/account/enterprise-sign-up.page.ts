@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { AccountApi, AuthService, FormImports, ImportsModule } from '@easworks/app-shell';
-import { pattern } from '@easworks/models';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AccountApi, AuthService, ErrorSnackbarDefaults, FormImports, ImportsModule, SnackbarComponent, generateLoadingState } from '@easworks/app-shell';
+import { SignUpRequest, pattern } from '@easworks/models';
 
 @Component({
   selector: 'account-enterprise-sign-up-page',
@@ -21,9 +22,14 @@ export class EnterpriseSignUpPageComponent {
   private readonly api = {
     account: inject(AccountApi)
   };
+  private readonly snackbar = inject(MatSnackBar);
 
   @HostBinding()
   private readonly class = 'page grid grid-cols-10 gap-4';
+  protected readonly loading = generateLoadingState<[
+    'signing up',
+    'validating email'
+  ]>();
 
   protected readonly form = new FormGroup({
     firstName: new FormControl('', {
@@ -42,11 +48,18 @@ export class EnterpriseSignUpPageComponent {
       validators: [Validators.required, Validators.pattern(pattern.email)],
       asyncValidators: [
         async (c) => {
+          this.loading.add('validating email')
           const value = c.value as string;
           const blacklisted = await this.api.account.blackListedEmailDomains();
+
+          let result;
           if (blacklisted.some(d => value.endsWith(d)))
-            return { blacklisted: true };
-          return null;
+            result = { blacklisted: true };
+          else
+            result = null;
+
+          this.loading.delete('validating email');
+          return result;
         }
       ],
       nonNullable: true
@@ -76,4 +89,31 @@ export class EnterpriseSignUpPageComponent {
     updateOn: 'submit'
   });
 
+  submit() {
+    if (!this.form.valid)
+      return;
+
+    const { email, firstName, lastName, password } = this.form.getRawValue();
+
+    const input: SignUpRequest = {
+      provider: null,
+      email,
+      firstName,
+      lastName,
+      password,
+      role: 'employer'
+    };
+
+    this.loading.add('signing up');
+    this.api.account.signUp(input)
+      .subscribe({
+        next: () => {
+          this.loading.delete('signing up')
+        },
+        error: () => {
+          this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
+          this.loading.delete('signing up');
+        }
+      });
+  }
 }

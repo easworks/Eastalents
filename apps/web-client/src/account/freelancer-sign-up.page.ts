@@ -93,8 +93,6 @@ export class FreelancerSignUpPageComponent {
           this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
           this.loading.delete('signing up');
         }
-      })
-
-    this.loading.delete('signing up');
+      });
   }
 }
