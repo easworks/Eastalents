@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiResponse, AuthNotFound, AuthSuccess, EmailAuthRequest, SocialAuthRequest, UserWithToken } from '@easworks/models';
+import { ApiResponse, AuthNotFound, AuthSuccess, EmailAuthRequest, SignUpRequest, SocialAuthRequest, UserWithToken } from '@easworks/models';
 import { catchError, firstValueFrom, map } from 'rxjs';
 import { ApiService } from './api';
 
@@ -29,6 +29,12 @@ export class AccountApi extends ApiService {
           map(r => r.result?.user as UserWithToken),
           catchError(this.handleError))
   } as const;
+
+  readonly signUp = (input: SignUpRequest) =>
+    this.http.post<ApiResponse>(`${this.apiUrl}/users/signup`, input)
+      .pipe(
+        map(r => r.result?.user as UserWithToken),
+        catchError(this.handleError))
 }
 
 const mock = {

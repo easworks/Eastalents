@@ -1,3 +1,5 @@
+import { Role } from './user';
+
 export const RETURN_URL_KEY = 'returnUrl';
 
 export type SocialIdp = 'google' | 'linkedin' | 'github';
@@ -35,3 +37,12 @@ export interface GoogleCallbackState extends SocialCallbackStateBase {
 }
 
 export type SocialCallbackState = GoogleCallbackState;
+
+export interface SignUpRequest {
+  provider: SocialIdp | null;
+  role: Role;
+  firstName: string | null;
+  lastName: string | null;
+  email: string;
+  password: string | null;
+}
