@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatRippleModule } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatMenuModule } from '@angular/material/menu';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService, AuthState } from '@easworks/app-shell';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'account-widget',
@@ -16,8 +15,8 @@ import { Router } from '@angular/router';
     CommonModule,
     MatMenuModule,
     MatDividerModule,
-    MatIconModule,
-    MatRippleModule
+    MatRippleModule,
+    RouterModule
   ]
 })
 export class AccountWidgetComponent {
@@ -27,10 +26,6 @@ export class AccountWidgetComponent {
   private readonly router = inject(Router);
 
   protected readonly user$ = this.state.user$;
-
-  protected signIn() {
-    this.router.navigateByUrl('/account/sign-in');
-  }
 
   protected signOut() {
     this.auth.signOut();
