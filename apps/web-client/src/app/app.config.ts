@@ -1,12 +1,12 @@
 import { provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
-import { AuthService, DefaultSeoConfig, SEOService, SEO_DEFAULT_CONFIG, provideRootServices } from '@easworks/app-shell';
+import { AuthService, DefaultSeoConfig, SEOService, SEO_DEFAULT_CONFIG } from '@easworks/app-shell';
+import { SignInEffects } from '../account/sign-in.effects';
 import { provideEnvironment } from './environment';
 import { routes } from './routes';
-import { SignInEffects } from '../account/sign-in.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,11 +23,17 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom([
       MatSnackBarModule,
     ]),
-    provideRootServices(
-      AuthService,
-      SEOService,
-      SignInEffects,
-      MatSnackBarModule,
-    )
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (auth: AuthService) => async () => {
+        await auth.ready;
+      },
+      deps: [
+        AuthService,
+        SEOService,
+        SignInEffects
+      ],
+      multi: true
+    }
   ],
 };
