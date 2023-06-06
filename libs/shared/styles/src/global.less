@@ -23,11 +23,11 @@
   
   .icon-button {
     @apply grid place-content-center rounded-full
-      text-xl w-12 h-12 
+      text-2xl w-12 h-12
       transition-all;
       
       &:enabled, &[href] {
-        @apply hover:bg-slate-400/25 focus:bg-slate-400/25;
+        @apply hover:bg-slate-500/10 focus:bg-slate-500/10;
       }
 
   }
@@ -51,7 +51,7 @@
   }
 
   .highlight-button {
-    @apply block rounded py-2 px-4  transition-all;
+    @apply block rounded py-2 px-4 transition-all;
 
     &:enabled, &[href] {
       &:hover, &:focus {
@@ -69,6 +69,16 @@
 
     &:disabled {
       @apply text-slate-500;
+    }
+  }
+
+  .stroked-button {
+    @apply block border rounded py-2 px-4 transition-all;
+
+    &:enabled, &[href] {
+      &:hover, &:focus {
+        @apply bg-slate-500/10 ;
+      }
     }
   }
 

@@ -1,7 +1,7 @@
 <ng-container *ngIf="user$() as user; else $noUser">
-  <button mat-ripple class="icon-button text-green-400"
+  <button mat-ripple class="icon-button text-emerald-300"
           [matMenuTriggerFor]="WidgetMenu">
-    <i class="fa-solid fa-user"></i>
+    <i class="fa-solid fa-circle-user"></i>
   </button>
   <mat-menu #WidgetMenu="matMenu">
     <div class="px-4 py-2 !h-auto !leading-normal"
@@ -11,7 +11,7 @@
     <mat-divider></mat-divider>
     <div class="grid place-content-center py-4"
          (click)="$event.stopImmediatePropagation()">
-      <button class="stroked-button"
+      <button class="stroked-button" mat-ripple
               (click)="signOut()">
         Sign Out
       </button>

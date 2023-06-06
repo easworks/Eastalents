@@ -19,6 +19,7 @@ $theme: mat.define-light-theme((
 @include mat.sidenav-theme($theme);
 @include mat.progress-spinner-theme($theme);
 @include mat.checkbox-theme($theme);
+@include mat.menu-theme($theme);
 
 .mat-drawer-container {
   @apply bg-white;
@@ -45,4 +46,8 @@ html {
   --mdc-checkbox-unselected-focus-state-layer-color: black;
   --mdc-checkbox-unselected-hover-state-layer-color: black;
   --mdc-checkbox-unselected-pressed-state-layer-color: black;
+}
+
+.mat-mdc-menu-content {
+  @apply p-0 #{!important};
 }
