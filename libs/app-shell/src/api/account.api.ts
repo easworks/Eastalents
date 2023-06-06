@@ -37,10 +37,14 @@ export class AccountApi extends ApiService {
         catchError(this.handleError));
 
   readonly resetPassword = {
-    sendLink: (input: { email: string }) =>
-      this.http.post<ApiResponse>(`${this.apiUrl}/users/forgotPassword`, input)
+    sendLink: (email: string) =>
+      this.http.post<ApiResponse>(`${this.apiUrl}/users/forgotPassword`, { email })
         .pipe(catchError(this.handleError))
   } as const;
+
+  readonly verifyEmail = (token: string) =>
+    this.http.post<ApiResponse>(`${this.apiUrl}/users/verification`, { token })
+      .pipe(catchError(this.handleError))
 }
 
 const mock = {

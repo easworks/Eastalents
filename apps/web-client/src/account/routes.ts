@@ -2,6 +2,7 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Route, Router } from '@angular/router';
 import { AuthState, NotFoundPageComponent } from '@easworks/app-shell';
 import { socialCallbackGuard } from './social-callback';
+import { emailVerificationGuard } from './verification-callback';
 
 const redirectUser: CanActivateFn = () => {
   const user = inject(AuthState).user$();
@@ -64,7 +65,8 @@ export const ACCOUNT_ROUTES: Route = {
     {
       path: 'email-verification',
       pathMatch: 'full',
-      loadComponent: () => import('./verification.page').then(m => m.AcountEmailVerificationPageComponent)
+      canActivate: [emailVerificationGuard],
+      loadComponent: () => NotFoundPageComponent
     },
     {
       path: 'social/callback',

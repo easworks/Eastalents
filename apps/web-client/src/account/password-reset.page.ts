@@ -39,7 +39,7 @@ export class AccountPasswordResetPageComponent {
 
       this.loading.add('sending link')
       const { email } = this.sendLink.form.getRawValue();
-      this.api.account.resetPassword.sendLink({ email })
+      this.api.account.resetPassword.sendLink(email)
         .subscribe({
           next: () => {
             this.sendLink.sent$.set(true);
