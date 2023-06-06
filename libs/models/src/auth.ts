@@ -4,6 +4,14 @@ export const RETURN_URL_KEY = 'returnUrl';
 
 export type SocialIdp = 'google' | 'linkedin' | 'github';
 
+export function socialIdpName(idp: SocialIdp) {
+  switch (idp) {
+    case 'google': return 'Google';
+    case 'linkedin': return 'LinkedIn';
+    case 'github': return 'GitHub';
+  }
+}
+
 export interface SocialAuthRequest {
   provider: SocialIdp;
   code: string;
