@@ -1,0 +1,26 @@
+<ng-container *ngIf="user$() as user; else $noUser">
+  <button mat-ripple class="icon-button text-green-400"
+          [matMenuTriggerFor]="WidgetMenu">
+    <i class="fa-solid fa-user"></i>
+  </button>
+  <mat-menu #WidgetMenu="matMenu">
+    <div class="px-4 py-2 !h-auto !leading-normal"
+         (click)="$event.stopImmediatePropagation()">
+      <div>{{user.firstName}} {{user.lastName}}</div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="grid place-content-center py-4"
+         (click)="$event.stopImmediatePropagation()">
+      <button class="stroked-button"
+              (click)="signOut()">
+        Sign Out
+      </button>
+    </div>
+  </mat-menu>
+</ng-container>
+
+<ng-template #$noUser>
+  <button mat-ripple (click)="signIn()">
+    Sign In
+  </button>
+</ng-template>

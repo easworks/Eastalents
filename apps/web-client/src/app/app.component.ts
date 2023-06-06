@@ -3,6 +3,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
 import { ImportsModule, MenuItem, NOOP_CLICK, NavMenuState, NavigationModule, UiState } from '@easworks/app-shell';
 import { publicMenu } from './menu-items';
+import { AccountWidgetComponent } from '../account/account.widget';
 
 @Component({
   standalone: true,
@@ -15,7 +16,8 @@ import { publicMenu } from './menu-items';
     RouterModule,
     MatSidenavModule,
 
-    NavigationModule
+    NavigationModule,
+    AccountWidgetComponent
   ]
 })
 export class AppComponent {
