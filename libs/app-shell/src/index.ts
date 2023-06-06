@@ -3,6 +3,7 @@ export * from './utilities';
 export * from './common';
 export * from './services';
 export * from './navigation';
+export * from './notification';
 export * from './state';
 export * from './api';
 export * from './imports.module';

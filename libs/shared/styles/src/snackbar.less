@@ -1,0 +1,21 @@
+@layer components {
+  mat-snack-bar-container {
+    &.success-snackbar {
+      .mdc-snackbar__surface {
+        @apply bg-green-400;
+      }
+      .mdc-snackbar__label {
+        @apply text-black;
+      }
+    }
+
+    &.error-snackbar {
+      .mdc-snackbar__surface {
+        @apply bg-red-400;
+      }
+      .mdc-snackbar__label {
+        @apply text-black;
+      }
+    }
+  }
+}
