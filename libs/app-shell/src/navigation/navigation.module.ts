@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormImports, ImportsModule } from '../imports.module';
 import { AppHorizontalMenuComponent } from './horizontal-menu.component';
 import { AppVerticalMenuComponent } from './vertical-menu.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import { AppVerticalMenuComponent } from './vertical-menu.component';
   ],
   imports: [
     ImportsModule,
-    FormImports
+    FormImports,
+    RouterModule
   ],
   exports: [
     AppVerticalMenuComponent,

@@ -8,7 +8,7 @@
           <li class="has-submenu">
             <a class="p-2 px-4 rounded hover:bg-slate-500/10 focus:bg-slate-500/10
                 flex justify-between items-center"
-               [href]="item.link" mat-ripple
+               [routerLink]="item.link" mat-ripple
                (click)="toggleOpen($event)">
               <span>{{item.name}}</span>
               <i class="fa-solid fa-angle-down"></i>
@@ -17,7 +17,7 @@
               <li *ngFor="let subItem of item.children">
                 <a class="p-2 px-4 pl-8 rounded hover:bg-slate-500/10 focus:bg-slate-500/10
                                 flex justify-between items-center"
-                   [href]="subItem.link" mat-ripple>
+                   [routerLink]="subItem.link" mat-ripple>
                   <span>{{subItem.name}}</span>
                 </a>
               </li>
@@ -28,7 +28,7 @@
         <ng-template #$noChildren>
           <li>
             <a class="p-2 px-4 block rounded hover:bg-slate-500/10 focus:bg-slate-500/10"
-               [href]="item.link" mat-ripple>
+               [routerLink]="item.link" mat-ripple>
               {{item.name}}
             </a>
           </li>
@@ -46,7 +46,7 @@
   <ul>
     <li *ngFor="let item of staticMenuItems">
       <a class="p-2 px-4 block rounded hover:bg-slate-500/10 focus:bg-slate-500/10"
-         [href]="item.link">
+         [routerLink]="item.link">
         <span>{{item.name}}</span>
       </a>
     </li>
@@ -70,7 +70,7 @@
       <input type="text" [ngModel]="domains.filter$()" (ngModelChange)="domains.filter$.set($event)" placeholder="Type to search products">
       <div class="filtered">
         <div>
-          <a [href]="product.link" *ngFor="let product of domains.filteredProducts$()">{{product.name | uppercase}}</a>
+          <a [routerLink]="product.link" *ngFor="let product of domains.filteredProducts$()">{{product.name | uppercase}}</a>
         </div>
       </div>
     </div>
@@ -84,7 +84,7 @@
   <ul class="mt-2">
     <li *ngFor="let item of aboutMenuItems">
       <a class="p-2 px-4 block rounded hover:bg-slate-500/10 focus:bg-slate-500/10"
-         [href]="item.link">
+         [routerLink]="item.link">
         <span>{{item.name}}</span>
       </a>
     </li>

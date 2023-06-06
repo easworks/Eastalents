@@ -35,6 +35,6 @@ export const publicMenu = {
         { name: 'Support & Maintenance', link: NOOP_CLICK, icon: 'fa-headset' },
       ]
     },
-    applyAsFreelancer: { name: 'Apply as Freelancer', link: NOOP_CLICK }
+    applyAsFreelancer: { name: 'Apply as Freelancer', link: '/account/sign-up/freelancer' }
   } satisfies { readonly [key: string]: MenuItem }
 } as const;
