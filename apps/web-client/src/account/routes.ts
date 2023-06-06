@@ -62,6 +62,11 @@ export const ACCOUNT_ROUTES: Route = {
       }
     },
     {
+      path: 'email-verification',
+      pathMatch: 'full',
+      loadComponent: () => import('./verification.page').then(m => m.AcountEmailVerificationPageComponent)
+    },
+    {
       path: 'social/callback',
       pathMatch: 'full',
       canActivate: [socialCallbackGuard],
