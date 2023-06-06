@@ -5,8 +5,9 @@
       <p class="my-1">
         Signed in as:
       </p>
+      <p class="italic mb-2">{{user.role | uppercase}}</p>
       <p>{{user.firstName}} {{user.lastName}}</p>
-      <p class="italic">{{user.email}}</p>
+      <p>({{user.email}})</p>
     </div>
 
     <button mat-ripple
