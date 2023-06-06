@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { AuthService, FormImports, ImportsModule, generateLoadingState } from '@easworks/app-shell';
+import { AuthService, AuthState, FormImports, ImportsModule, generateLoadingState } from '@easworks/app-shell';
 import { RETURN_URL_KEY, pattern } from '@easworks/models';
 
 @Component({
@@ -19,12 +19,14 @@ import { RETURN_URL_KEY, pattern } from '@easworks/models';
 export class AccountSignInPageComponent {
   protected readonly auth = inject(AuthService);
 
+  protected readonly state = inject(AuthState);
+
   protected readonly loading = generateLoadingState<['signing in']>();
 
   private readonly returnUrl = inject(ActivatedRoute).snapshot.queryParamMap.get(RETURN_URL_KEY) || undefined;
 
   @HostBinding()
-  private readonly class = 'page grid';
+  private readonly class = 'page grid content-center';
 
   protected readonly emailLogin = {
     form: new FormGroup({
@@ -48,4 +50,8 @@ export class AccountSignInPageComponent {
       ).finally(() => this.loading.delete('signing in'));
     }
   } as const;
+
+  protected signOut() {
+    this.auth.signOut();
+  }
 }
