@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiResponse, AuthNotFound, AuthSuccess, EmailAuthRequest, SocialAuthRequest, User, UserWithToken } from '@easworks/models';
+import { ApiResponse, AuthNotFound, AuthSuccess, EmailAuthRequest, SocialAuthRequest, UserWithToken } from '@easworks/models';
 import { catchError, firstValueFrom, map } from 'rxjs';
 import { ApiService } from './api';
 

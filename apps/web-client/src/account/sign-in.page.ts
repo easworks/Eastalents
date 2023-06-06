@@ -37,17 +37,15 @@ export class AccountSignInPageComponent {
         nonNullable: true
       })
     }, { updateOn: 'submit' }),
-    submit: () => {
+    submit: async () => {
       if (!this.emailLogin.form.valid)
         return;
 
       this.loading.add('signing in');
-      this.auth.signin.email(
+      await this.auth.signin.email(
         this.emailLogin.form.getRawValue(),
         { isNewUser: false, returnUrl: this.returnUrl }
-      ).subscribe({
-        complete: () => this.loading.delete('signing in')
-      });
+      ).finally(() => this.loading.delete('signing in'));
     }
   } as const;
 }

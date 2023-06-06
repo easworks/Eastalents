@@ -1,7 +1,9 @@
 import { Injectable, inject } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { EmailAuthRequest, GoogleCallbackState, RETURN_URL_KEY, SocialIdp, UserWithToken } from '@easworks/models';
-import { Subject, map } from 'rxjs';
+import { Subject, firstValueFrom } from 'rxjs';
 import { AccountApi } from '../api';
+import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '../notification';
 import { AuthState } from '../state';
 
 export interface SignInMeta {
@@ -17,6 +19,7 @@ export class AuthService {
   private readonly api = {
     account: inject(AccountApi)
   } as const;
+  private readonly snackbar = inject(MatSnackBar);
 
   readonly afterSignIn$ = new Subject<SignInMeta>();
 
@@ -39,15 +42,27 @@ export class AuthService {
       console.debug(authUrl.href);
     },
     email: (input: EmailAuthRequest, meta: SignInMeta) =>
-      this.api.account.signIn.email(input)
-        .pipe(map(r => {
+      firstValueFrom(this.api.account.signIn.email(input))
+        .then(r => {
           this.handleSignIn(r, meta);
-        }))
+        })
+        .catch(e => {
+          this.snackbar.openFromComponent(SnackbarComponent, {
+            ...ErrorSnackbarDefaults
+          });
+          throw e;
+        })
   } as const;
 
   handleSignIn(user: UserWithToken, meta: SignInMeta) {
     this.state.user$.set(user);
     this.afterSignIn$.next(meta);
+    this.snackbar.openFromComponent(SnackbarComponent, {
+      ...SuccessSnackbarDefaults,
+      data: {
+        message: 'Sign In Successful!'
+      }
+    });
   }
 }
 
