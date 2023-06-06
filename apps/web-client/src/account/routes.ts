@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Route, Router } from '@angular/router';
 import { AuthState, NotFoundPageComponent } from '@easworks/app-shell';
-import { socialCallback } from './social-callback';
+import { socialCallbackGuard } from './social-callback';
 
 const redirectUser: CanActivateFn = () => {
   const user = inject(AuthState).user$();
@@ -64,8 +64,8 @@ export const ACCOUNT_ROUTES: Route = {
     {
       path: 'social/callback',
       pathMatch: 'full',
-      canActivate: [socialCallback],
-      loadComponent: () => NotFoundPageComponent,
+      canActivate: [socialCallbackGuard],
+      loadComponent: () => NotFoundPageComponent
     }
   ]
 };

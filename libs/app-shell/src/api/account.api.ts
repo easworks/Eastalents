@@ -20,8 +20,8 @@ export class AccountApi extends ApiService {
   readonly signIn = {
     social: (input: SocialAuthRequest) => {
       // FOR NOW, choose any one to test and develop
-      return mock.social.authSucces();
-      // return mock.signIn.google.authNotFound();
+      // return mock.social.authSucces();
+      return mock.social.authNotFound();
     },
     email: (input: EmailAuthRequest) =>
       this.http.post<ApiResponse>(`${this.apiUrl}/users/login`, input)
