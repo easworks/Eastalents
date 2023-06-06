@@ -20,15 +20,17 @@ $theme: mat.define-light-theme((
 @include mat.progress-spinner-theme($theme);
 @include mat.checkbox-theme($theme);
 @include mat.menu-theme($theme);
+@include mat.progress-bar-theme($theme);
 
 .mat-drawer-container {
   @apply bg-white;
 }
 
-html {
+.mat-mdc-progress-spinner {
   --mdc-circular-progress-active-indicator-color: theme('colors.primary');
+}
 
-
+.mat-mdc-chekbox {
   --mdc-checkbox-disabled-selected-icon-color: theme('colors.black / 40');
   --mdc-checkbox-disabled-unselected-icon-color: theme('colors.black / 40');
   --mdc-checkbox-selected-checkmark-color: theme('colors.white');
@@ -46,6 +48,10 @@ html {
   --mdc-checkbox-unselected-focus-state-layer-color: black;
   --mdc-checkbox-unselected-hover-state-layer-color: black;
   --mdc-checkbox-unselected-pressed-state-layer-color: black;
+}
+
+.mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: theme('colors.primary-light');
 }
 
 .mat-mdc-menu-content {
