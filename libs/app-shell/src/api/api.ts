@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { inject, isDevMode } from '@angular/core';
 import { throwError } from 'rxjs';
 import { ENVIRONMENT } from '../environment';
 
@@ -7,17 +7,19 @@ import { ENVIRONMENT } from '../environment';
 export class ApiService {
   protected readonly http = inject(HttpClient);
   protected readonly apiUrl = inject(ENVIRONMENT).apiUrl;
+  private readonly devMode = isDevMode();
 
-  protected handleError(error: any) {
+  protected readonly handleError = (error: any) => {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
-      // Get client-side error
+      if (this.devMode)
+        console.error('client error', error);
       errorMessage = error.error.message;
     } else {
-      // Get server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      if (this.devMode)
+        console.error('server error', error);
+      errorMessage = error.error.message || error.error.status || error.status;
     }
-    // window.alert(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
 }

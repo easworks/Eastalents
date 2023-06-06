@@ -34,7 +34,13 @@ export class AccountApi extends ApiService {
     this.http.post<ApiResponse>(`${this.apiUrl}/users/signup`, input)
       .pipe(
         map(r => r.result?.user as UserWithToken),
-        catchError(this.handleError))
+        catchError(this.handleError));
+
+  readonly resetPassword = {
+    sendLink: (input: { email: string }) =>
+      this.http.post<ApiResponse>(`${this.apiUrl}/users/forgotPassword`, input)
+        .pipe(catchError(this.handleError))
+  } as const;
 }
 
 const mock = {
