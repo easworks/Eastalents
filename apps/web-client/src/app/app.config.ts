@@ -6,7 +6,7 @@ import { provideRouter } from '@angular/router';
 import { AuthService, DefaultSeoConfig, SEOService, SEO_DEFAULT_CONFIG, provideRootServices } from '@easworks/app-shell';
 import { provideEnvironment } from './environment';
 import { routes } from './routes';
-import { SignInEffects } from './sign-in.effects';
+import { SignInEffects } from '../account/sign-in.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
