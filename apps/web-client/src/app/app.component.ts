@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, HostBinding, computed, effect, inject, signal } from '@angular/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { ChangeDetectionStrategy, Component, HostBinding, ViewChild, computed, effect, inject, signal } from '@angular/core';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { EventType, Router, RouterModule } from '@angular/router';
 import { ImportsModule, MenuItem, NOOP_CLICK, NavMenuState, NavigationModule, UiState } from '@easworks/app-shell';
 import { publicMenu } from './menu-items';
@@ -31,6 +31,7 @@ export class AppComponent {
   private readonly class = 'flex flex-col min-h-screen';
   private readonly uiState = inject(UiState);
   private readonly menuState = inject(NavMenuState);
+  @ViewChild('appSidenav', { static: true }) private readonly appSideNav!: MatSidenav;
 
   protected readonly navigating$ = signal(false);
   protected readonly showHorizontalMenu$ = computed(() => this.menuState.publicMenu.horizontal$().length > 0);
@@ -81,6 +82,11 @@ export class AppComponent {
           this.menuState.publicMenu.vertical$.set([]);
       }
     }, { allowSignalWrites: true })
+
+    effect(() => {
+      this.navigating$();
+      this.appSideNav.close();
+    })
   }
 
   private processRouterEvents() {
