@@ -16,6 +16,11 @@
       <i class="fa-solid fa-bars"></i>
     </button>
   </div>
+
+  <mat-progress-bar *ngIf="navigating$()"
+                    class="!absolute bottom-0 left-0"
+                    mode="indeterminate">
+  </mat-progress-bar>
 </div>
 
 <mat-sidenav-container class="flex-grow !flex flex-col">

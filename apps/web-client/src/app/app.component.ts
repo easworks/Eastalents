@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, HostBinding, computed, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, computed, effect, inject, signal } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { RouterModule } from '@angular/router';
+import { EventType, Router, RouterModule } from '@angular/router';
 import { ImportsModule, MenuItem, NOOP_CLICK, NavMenuState, NavigationModule, UiState } from '@easworks/app-shell';
 import { publicMenu } from './menu-items';
 import { AccountWidgetComponent } from '../account/account.widget';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -22,6 +23,7 @@ import { AccountWidgetComponent } from '../account/account.widget';
 })
 export class AppComponent {
   constructor() {
+    this.processRouterEvents();
     this.makeMenuReactive();
   }
 
@@ -30,6 +32,7 @@ export class AppComponent {
   private readonly uiState = inject(UiState);
   private readonly menuState = inject(NavMenuState);
 
+  protected readonly navigating$ = signal(false);
   protected readonly showHorizontalMenu$ = computed(() => this.menuState.publicMenu.horizontal$().length > 0);
 
   protected readonly footerNav: { group: string, items: MenuItem[] }[] = [
@@ -78,5 +81,24 @@ export class AppComponent {
           this.menuState.publicMenu.vertical$.set([]);
       }
     }, { allowSignalWrites: true })
+  }
+
+  private processRouterEvents() {
+    const router = inject(Router);
+
+    router.events.pipe(takeUntilDestroyed()).subscribe(
+      event => {
+        switch (event.type) {
+          case EventType.NavigationStart: {
+            this.navigating$.set(true);
+          } break;
+          case EventType.NavigationEnd:
+          case EventType.NavigationCancel:
+          case EventType.NavigationError: {
+            this.navigating$.set(false);
+          } break;
+        }
+      }
+    )
   }
 }
