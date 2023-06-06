@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { EmailAuthRequest, GoogleCallbackState, RETURN_URL_KEY, SocialIdp, UserWithToken } from '@easworks/models';
-import { Subject, firstValueFrom, fromEvent } from 'rxjs';
+import { Subject, catchError, firstValueFrom, fromEvent, map, throwError } from 'rxjs';
 import { AccountApi } from '../api';
 import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '../notification';
 import { AuthState } from '../state';
@@ -47,16 +47,18 @@ export class AuthService {
       console.debug(authUrl.href);
     },
     email: (input: EmailAuthRequest, meta: SignInMeta) =>
-      firstValueFrom(this.api.account.signIn.email(input))
-        .then(r => {
-          this.handleSignIn(r, meta);
-        })
-        .catch(e => {
-          this.snackbar.openFromComponent(SnackbarComponent, {
-            ...ErrorSnackbarDefaults
-          });
-          throw e;
-        })
+      this.api.account.signIn.email(input)
+        .pipe(
+          map(r => {
+            this.handleSignIn(r, meta)
+          }),
+          catchError((e) => {
+            this.snackbar.openFromComponent(SnackbarComponent, {
+              ...ErrorSnackbarDefaults
+            });
+            throw e;
+          })
+        )
   } as const;
 
   signOut() {
