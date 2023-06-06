@@ -56,6 +56,11 @@ export class AuthService {
         })
   } as const;
 
+  signOut() {
+    this.state.user$.set(null);
+    localStorage.removeItem(CURRENT_USER_KEY);
+  }
+
   handleSignIn(user: UserWithToken, meta: SignInMeta) {
     this.state.user$.set(user);
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
