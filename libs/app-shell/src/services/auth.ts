@@ -7,6 +7,7 @@ import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } fro
 import { AuthState } from '../state';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { Deferred } from '../utilities';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class AuthService {
   } as const;
   private readonly snackbar = inject(MatSnackBar);
   private readonly router = inject(Router);
+  readonly ready = new Deferred();
 
   readonly afterSignIn$ = new Subject<SignInMeta>();
 
@@ -74,6 +76,13 @@ export class AuthService {
   }
 
   private reactToLocalStorage() {
+    const storedUser = localStorage.getItem(CURRENT_USER_KEY);
+    if (storedUser) {
+      const cu = JSON.parse(storedUser) as UserWithToken;
+      this.state.user$.set(cu);
+    }
+    this.ready.resolve();
+
     fromEvent<StorageEvent>(window, 'storage')
       .pipe(takeUntilDestroyed())
       .subscribe(ev => {
