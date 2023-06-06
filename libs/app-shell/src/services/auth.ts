@@ -1,25 +1,27 @@
 import { Injectable, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EmailAuthRequest, GoogleCallbackState, RETURN_URL_KEY, SocialIdp, UserWithToken } from '@easworks/models';
-import { Subject, firstValueFrom } from 'rxjs';
+import { Subject, firstValueFrom, fromEvent } from 'rxjs';
 import { AccountApi } from '../api';
 import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '../notification';
 import { AuthState } from '../state';
-
-export interface SignInMeta {
-  isNewUser: boolean;
-  [RETURN_URL_KEY]?: string;
-}
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  constructor() {
+    this.reactToLocalStorage();
+  }
+
   private readonly state = inject(AuthState);
   private readonly api = {
     account: inject(AccountApi)
   } as const;
   private readonly snackbar = inject(MatSnackBar);
+  private readonly router = inject(Router);
 
   readonly afterSignIn$ = new Subject<SignInMeta>();
 
@@ -56,6 +58,7 @@ export class AuthService {
 
   handleSignIn(user: UserWithToken, meta: SignInMeta) {
     this.state.user$.set(user);
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
     this.afterSignIn$.next(meta);
     this.snackbar.openFromComponent(SnackbarComponent, {
       ...SuccessSnackbarDefaults,
@@ -63,6 +66,24 @@ export class AuthService {
         message: 'Sign In Successful!'
       }
     });
+  }
+
+  private reactToLocalStorage() {
+    fromEvent<StorageEvent>(window, 'storage')
+      .pipe(takeUntilDestroyed())
+      .subscribe(ev => {
+        if (ev.key === CURRENT_USER_KEY) {
+          const newUser = ev.newValue ? JSON.parse(ev.newValue) as UserWithToken : null;
+          const returnUrl = window.location.pathname + window.location.search;
+          if (newUser) {
+            this.handleSignIn(newUser, { isNewUser: false, returnUrl })
+          }
+          else {
+            this.state.user$.set(null);
+            this.router.navigateByUrl(returnUrl);
+          }
+        }
+      });
   }
 }
 
@@ -110,4 +131,11 @@ class AuthRedirect {
       authUrl.searchParams.set('scope', config.scope);
     return authUrl;
   }
+}
+
+const CURRENT_USER_KEY = 'currentUser' as const;
+
+export interface SignInMeta {
+  isNewUser: boolean;
+  [RETURN_URL_KEY]?: string;
 }
