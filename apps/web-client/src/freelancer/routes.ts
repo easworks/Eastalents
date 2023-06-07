@@ -11,6 +11,10 @@ export const FREELANCER_ROUTE: Route = {
     {
       path: 'dashboard',
       loadComponent: () => import('./dashboard.page').then(m => m.FreelancerDashboardComponent)
+    },
+    {
+      path: 'profile',
+      loadComponent: () => import('./profile.page').then(m => m.FreelancerProfilePageComponent)
     }
   ]
 }
