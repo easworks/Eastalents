@@ -209,6 +209,10 @@ const routes: Routes = [
     loadChildren: () => import('./favourite-saved/favourite-saved.module').then(m => m.FavouriteSavedModule)
   },
   {
+    path: 'company-type',
+    loadChildren: () => import('./company-type/company-type.module').then(m => m.CompanyTypeModule)
+  },
+  {
     path: '',
     loadChildren: () => import('./index/index.module').then(m => m.IndexModule)
     ,
