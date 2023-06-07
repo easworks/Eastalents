@@ -90,15 +90,7 @@ export class AuthService {
       .pipe(takeUntilDestroyed(this.dRef))
       .subscribe(ev => {
         if (ev.key === CURRENT_USER_KEY) {
-          const newUser = ev.newValue ? JSON.parse(ev.newValue) as UserWithToken : null;
-          const returnUrl = window.location.pathname + window.location.search;
-          if (newUser) {
-            this.handleSignIn(newUser, { isNewUser: false, returnUrl })
-          }
-          else {
-            this.state.user$.set(null);
-            this.router.navigateByUrl(returnUrl);
-          }
+          location.reload();
         }
       });
   }
@@ -122,7 +114,7 @@ export class AuthGuard {
 
   async canMatch(route: Route, segments: UrlSegment[]) {
     const result = await this.check(route);
-    return this.processResult(result, segments.map(s => s.path).join('/'));
+    return this.processResult(result, '/' + segments.map(s => s.path).join('/'));
   }
 
   private async check(route: Route | ActivatedRouteSnapshot) {

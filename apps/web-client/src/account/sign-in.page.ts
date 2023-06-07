@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService, AuthState, FormImports, ImportsModule, generateLoadingState } from '@easworks/app-shell';
 import { RETURN_URL_KEY, pattern } from '@easworks/models';
 
@@ -17,13 +17,22 @@ import { RETURN_URL_KEY, pattern } from '@easworks/models';
   ]
 })
 export class AccountSignInPageComponent {
+  constructor() {
+    if (this.state.user$() && this.returnUrl) {
+      const currentPath = window.location.pathname;
+      if (!this.returnUrl.startsWith(currentPath))
+        this.router.navigateByUrl(this.returnUrl);
+    }
+  }
+
   protected readonly auth = inject(AuthService);
 
   protected readonly state = inject(AuthState);
 
   protected readonly loading = generateLoadingState<['signing in']>();
-
-  private readonly returnUrl = inject(ActivatedRoute).snapshot.queryParamMap.get(RETURN_URL_KEY) || undefined;
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly returnUrl = this.route.snapshot.queryParamMap.get(RETURN_URL_KEY) || undefined;
 
   @HostBinding()
   private readonly class = 'page grid content-center';
