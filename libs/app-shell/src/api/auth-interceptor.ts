@@ -13,7 +13,6 @@ export class AuthInterceptor {
   private readonly apiUrl = inject(ENVIRONMENT).apiUrl;
 
   private readonly intercept: HttpInterceptorFn = (req, next) => {
-    console.debug('intercepting', req.urlWithParams);
     const isApiUrl = req.url.startsWith(this.apiUrl);
     return from(this.auth.token).pipe(
       concatMap(token => {
