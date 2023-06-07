@@ -1,4 +1,4 @@
-import { DestroyRef, Injectable, inject } from '@angular/core';
+import { DestroyRef, Injectable, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRouteSnapshot, Route, Router, UrlSegment } from '@angular/router';
@@ -25,6 +25,10 @@ export class AuthService {
   private readonly snackbar = inject(MatSnackBar);
   private readonly router = inject(Router);
   readonly ready = new Deferred();
+  get token() {
+    return this.ready
+      .then(() => this.state.user$()?.token || null);
+  }
 
   readonly afterSignIn$ = new Subject<SignInMeta>();
 

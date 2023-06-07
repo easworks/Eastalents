@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { SocialIdp, User, AuthNotFound } from '@easworks/models';
+import { AuthNotFound, SocialIdp, UserWithToken } from '@easworks/models';
 
 interface PartialSocialSignup extends AuthNotFound {
   provider: SocialIdp
@@ -9,6 +9,6 @@ interface PartialSocialSignup extends AuthNotFound {
   providedIn: 'root'
 })
 export class AuthState {
-  readonly user$ = signal<User | null>(null);
+  readonly user$ = signal<UserWithToken | null>(null);
   readonly partialSocialSignIn$ = signal<PartialSocialSignup | null>(null);
 }
