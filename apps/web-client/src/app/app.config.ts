@@ -1,17 +1,21 @@
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
-import { AuthService, DefaultSeoConfig, SEOService, SEO_DEFAULT_CONFIG } from '@easworks/app-shell';
+import { AuthInterceptor, AuthService, DefaultSeoConfig, SEOService, SEO_DEFAULT_CONFIG } from '@easworks/app-shell';
 import { SignInEffects } from '../account/sign-in.effects';
 import { provideEnvironment } from './environment';
 import { routes } from './routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([
+        AuthInterceptor.asFunction
+      ])
+    ),
     provideAnimations(),
     provideRouter(routes),
     provideEnvironment(),
