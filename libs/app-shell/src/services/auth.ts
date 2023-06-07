@@ -1,9 +1,9 @@
 import { DestroyRef, Injectable, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { EmailAuthRequest, GoogleCallbackState, RETURN_URL_KEY, SocialIdp, UserWithToken } from '@easworks/models';
-import { Subject, catchError, firstValueFrom, fromEvent, map, throwError } from 'rxjs';
+import { ActivatedRouteSnapshot, Route, Router, UrlSegment } from '@angular/router';
+import { EmailAuthRequest, GoogleCallbackState, RETURN_URL_KEY, Role, SocialIdp, User, UserWithToken } from '@easworks/models';
+import { Subject, catchError, fromEvent, map } from 'rxjs';
 import { AccountApi } from '../api';
 import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '../notification';
 import { AuthState } from '../state';
@@ -103,6 +103,75 @@ export class AuthService {
       });
   }
 }
+
+type AuthGuardResult = 'Does Not Exist' | 'Authorized' | 'Unauthorized';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard {
+  private readonly auth = inject(AuthService);
+  private readonly authState = inject(AuthState);
+  private readonly router = inject(Router);
+
+  static async asFunction(route: Route, segments: UrlSegment[]) {
+    const auth = inject(AuthGuard);
+    return auth.canMatch(route, segments);
+  }
+
+  async canMatch(route: Route, segments: UrlSegment[]) {
+    const result = await this.check(route);
+    return this.processResult(result, segments.map(s => s.path).join('/'));
+  }
+
+  private async check(route: Route | ActivatedRouteSnapshot) {
+    await this.auth.ready;
+    const user = this.authState.user$();
+
+    if (user) {
+      const authCheck = route.data?.['auth'];
+      if (authCheck) {
+        const isAuthorized = authCheck(user);
+        if (isAuthorized === true)
+          return 'Authorized';
+        else {
+          const message = typeof isAuthorized === 'string' ? isAuthorized : 'Not Authorized';
+          this.handleFailure(message);
+          return 'Unauthorized';
+        }
+      }
+      else
+        return 'Authorized';
+    }
+    else {
+      this.handleFailure('Please sign in');
+      return 'Does Not Exist';
+    }
+  }
+
+  private async processResult(result: AuthGuardResult, returnUrl: string) {
+    switch (result) {
+      case 'Does Not Exist':
+        return this.router.navigate(['/account/sign-in'], {
+          queryParams: {
+            [RETURN_URL_KEY]: returnUrl
+          }
+        });
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      case 'Authorized': return true;
+      case 'Unauthorized': return false;
+    }
+  }
+
+  private handleFailure(message: string) {
+    console.error('auth check failed', message);
+  }
+}
+
+export const AUTH_GUARD_CHECKS = {
+  isInRole: (role: Role) => (user: User) => user.role === role
+} as const;
 
 
 interface AuthRedirectConfig {
