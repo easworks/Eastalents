@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'freelancer-profile-page',
@@ -6,4 +6,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FreelancerProfilePageComponent { }
+export class FreelancerProfilePageComponent {
+  @HostBinding() private readonly class = 'page';
+}
