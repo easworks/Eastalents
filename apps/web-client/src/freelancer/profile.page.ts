@@ -28,6 +28,7 @@ export class FreelancerProfilePageComponent {
   protected readonly loading = generateLoadingState<[
     'loading profile'
   ]>();
+  protected readonly isLoadingProfile$ = this.loading.has('loading profile');
 
   private getProfile() {
     this.loading.add('loading profile');
