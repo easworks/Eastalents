@@ -66,8 +66,9 @@ export class FreelancerProfilePageComponent {
           country: step[1].country,
           state: step[1].state,
           city: step[1].city,
-        }
+        },
 
+        profileCompletion: null as unknown as FreelancerProfile['profileCompletion']
       }
 
       this.useDummyData(p);
@@ -108,5 +109,22 @@ export class FreelancerProfilePageComponent {
       flag: "🇮🇳"
     };
 
+    profile.profileCompletion = {
+      about: Math.random(),
+      easExperience: Math.random(),
+      easSystemPhases: Math.random(),
+      experience: Math.random(),
+      jobRole: Math.random(),
+      jobSearchStatus: Math.random(),
+      overall: 0,
+      rates: Math.random(),
+      social: Math.random(),
+      summary: Math.random(),
+      techStacks: Math.random(),
+      wsa: Math.random()
+    };
+
+    profile.profileCompletion.overall = Object.values(profile.profileCompletion)
+      .reduce((p, c) => p + c, 0) / 11
   }
 }
