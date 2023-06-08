@@ -37,8 +37,9 @@
 
     </div>
 
-    <div class="demo-placeholder col-span-4 lg:col-span-1 transition-all">
-      Profile Completion Pie
+    <div class="demo-placeholder col-span-4 lg:col-span-1 transition-all"
+         *ngIf="data.profileCompletionPie$() as config">
+      <canvas chart-js [config]="config"></canvas>
     </div>
     <div class="grid gap-4 col-span-4 lg:col-span-1 lg:col-start-4 lg:row-start-1 lg:row-end-[9] transition-all">
       <div class="demo-placeholder">

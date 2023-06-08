@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
-import { AuthState, ImportsModule, TalentApi, generateLoadingState } from '@easworks/app-shell';
+import { AuthState, ChartJsDirective, ImportsModule, TalentApi, generateLoadingState } from '@easworks/app-shell';
 import { FreelancerProfile, FreelancerProfileQuestionDto } from '@easworks/models';
+import { ChartConfiguration } from 'chart.js';
 
 @Component({
   selector: 'freelancer-profile-page',
@@ -8,7 +9,8 @@ import { FreelancerProfile, FreelancerProfileQuestionDto } from '@easworks/model
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    ImportsModule
+    ImportsModule,
+    ChartJsDirective
   ]
 })
 export class FreelancerProfilePageComponent {
@@ -93,6 +95,26 @@ export class FreelancerProfilePageComponent {
           location: `${p.location.city}, ${p.location.state.name}, ${p.location.country.name}`,
           preferredRole: p.preferredRole,
         }
+      }),
+      profileCompletionPie$: computed(() => {
+        const p = profile$();
+        if (!p)
+          return null;
+
+        const completed = p.profileCompletion.overall;
+
+        const config: ChartConfiguration = {
+          type: 'pie',
+          data: {
+            labels: ['Completed', 'Incomplete'],
+            datasets: [
+              {
+                data: [completed, 1 - completed]
+              },
+            ]
+          }
+        };
+        return config;
       })
     } as const;
   }
