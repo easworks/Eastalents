@@ -32,8 +32,8 @@ export class CrossValidationDirective implements OnInit {
     this.parent.valueChanges
       // run this logic once during initialisation as well
       .pipe(
-        takeUntilDestroyed(this.dRef),
         startWith([null]),
+        takeUntilDestroyed(this.dRef),
       )
       .subscribe(() => {
         if (this.parent.valid) {

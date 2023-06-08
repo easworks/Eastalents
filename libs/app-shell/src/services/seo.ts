@@ -24,7 +24,6 @@ export class SEOService {
 
   constructor() {
     this.router.events.pipe(
-      takeUntilDestroyed(),
       map(event => {
         if (event instanceof ActivationEnd) {
           const snap = (event as ActivationEnd).snapshot;
@@ -38,7 +37,8 @@ export class SEOService {
             this.description = config?.description?.(snap) || null;
           }
         }
-      })
+      }),
+      takeUntilDestroyed(),
     ).subscribe();
   }
 

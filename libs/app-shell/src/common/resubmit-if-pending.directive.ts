@@ -21,8 +21,8 @@ export class ResubmitIfPendingDirective implements OnInit {
         if (this.fgd.control.pending) {
           this.resubmissionSub = this.fgd.control.statusChanges
             .pipe(
-              takeUntilDestroyed(this.dRef),
-              first(s => s !== 'PENDING'))
+              first(s => s !== 'PENDING'),
+              takeUntilDestroyed(this.dRef))
             .subscribe(() => this.fgd.ngSubmit.emit());
         }
       })
