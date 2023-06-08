@@ -59,6 +59,7 @@
     "@fortawesome/fontawesome-free": "^6.4.0",
     "@lottiefiles/lottie-player": "^1.7.1",
     "@ngrx/component": "^16.0.0",
+    "chart.js": "^4.3.0",
     "rxjs": "7.8.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
