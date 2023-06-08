@@ -1,3 +1,4 @@
-import { PieController, ArcElement, Chart } from 'chart.js';
+import { ArcElement, Chart, PieController } from 'chart.js';
 
-Chart.register(PieController, ArcElement);
+Chart.registry.addControllers(PieController);
+Chart.registry.addElements(ArcElement);

@@ -11,6 +11,7 @@ export class ChartJsDirective implements OnChanges {
   private chart?: Chart;
 
   async ngOnChanges() {
+    await import('./base');
     switch (this.config.type) {
       case 'pie':
         await import('./pie');
