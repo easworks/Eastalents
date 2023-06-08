@@ -1,3 +1,6 @@
+// the following types define the response that we currently get for the 
+// consolidated list of domains / modules / product / jobs
+
 export interface DomainDictionaryDto {
   [key: string]: DomainDto;
 }

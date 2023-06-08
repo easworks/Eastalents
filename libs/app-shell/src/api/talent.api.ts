@@ -13,4 +13,11 @@ export class TalentApi extends ApiService {
     map(r => r['talentProfile'] as DomainDictionaryDto),
     catchError(this.handleError)
   );
+
+  readonly getTalentProfile = (userId: string) =>
+    this.http.post<ApiResponse>(`${this.apiUrl}/talentProfile/getTalentProfile`, { userId })
+      .pipe(
+        map(r => r['steps']),
+        catchError(this.handleError)
+      );
 }
