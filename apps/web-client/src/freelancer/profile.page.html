@@ -1,7 +1,39 @@
 <div class="grid grid-cols-4 gap-4 transition-all">
-  <div class="demo-placeholder col-span-4 lg:col-span-2 transition-all">
-    Name/Picture
+
+  <div class="col-span-4 lg:col-span-2 transition-all
+    rounded mat-elevation-z1 p-2 bg-white
+    flex flex-wrap gap-4"
+       *ngIf="data.basic$() as basic">
+    <div class="h-32 w-32 rounded bg-divider grid place-content-center">
+      <img *ngIf="basic.image as image; else $noImage" [src]="image">
+      <ng-template #$noImage>
+        <i class="fa-solid fa-user text-white text-8xl"></i>
+      </ng-template>
+    </div>
+
+    <div class="grid content-start
+          gap-1 gap-x-2 flex-grow
+          text-sm md:text-base"
+         style="grid-template-columns: auto 1fr auto;">
+      <div class="col-span-3 font-semibold text-xl">
+        {{basic.name}}
+      </div>
+
+      <label>Current Role:</label>
+      <div>{{basic.currentRole}}</div>
+      <i class="fa-solid fa-pen-to-square mt-[0.05rem]"></i>
+
+      <label>Location:</label>
+      <div>{{basic.location}}</div>
+      <i class="fa-solid fa-pen-to-square mt-[0.05rem]"></i>
+
+      <label>Preferred Role:</label>
+      <div>{{basic.preferredRole}}</div>
+      <i class="fa-solid fa-pen-to-square mt-[0.05rem]"></i>
+    </div>
+
   </div>
+
   <div class="demo-placeholder col-span-4 lg:col-span-1 transition-all">
     Profile Completion Pie
   </div>
