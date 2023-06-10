@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
 import { AuthState, ChartJsDirective, FormImports, ImportsModule, TalentApi, generateLoadingState, getTailwindColor } from '@easworks/app-shell';
-import { FreelancerProfile, FreelancerProfileQuestionDto } from '@easworks/models';
+import { FreelancerProfile } from '@easworks/models';
 import { ChartConfiguration } from 'chart.js';
 
 @Component({
@@ -43,8 +43,7 @@ export class FreelancerProfilePageComponent {
     this.api.talent.getTalentProfile(user._id)
       .subscribe({
         next: (r) => {
-          console.debug(r);
-          this.data.step$.set(r);
+          this.data.profile$.set(r);
           this.loading.delete('loading profile');
         },
         error: () => this.loading.delete('loading profile')
@@ -52,47 +51,9 @@ export class FreelancerProfilePageComponent {
   }
 
   private initData() {
-    const step$ = signal<FreelancerProfileQuestionDto | null>(null);
-
-    const profile$ = computed(() => {
-      const step = step$();
-
-      if (!step)
-        return null;
-
-      const pdo = step[2].option.find((o: any) => o.selected);
-
-      const p: FreelancerProfile = {
-        image: null,
-
-        currentRole: step[11].data.currentPLM,
-        preferredRole: step[11].data.preferredPLM,
-
-        location: {
-          country: step[1].country,
-          state: step[1].state,
-          city: step[1].city,
-        },
-
-        summary: step[1].profileSummary,
-        primaryDomainExperience: {
-          name: pdo.value,
-          years: Number.parseInt(pdo.noOfYear),
-          skill: pdo.skill
-        },
-
-        enterpriseSoftwareExperience: [],
-
-        profileCompletion: null as unknown as FreelancerProfile['profileCompletion']
-      }
-
-      this.useDummyData(p);
-
-      return p;
-    });
+    const profile$ = signal<FreelancerProfile | null>(null);
 
     return {
-      step$,
       profile$,
       basic$: computed(() => {
         const p = profile$();
@@ -166,34 +127,5 @@ export class FreelancerProfilePageComponent {
     } as const;
   }
 
-  // THIS FUNCTION IS MEANT TO BE REMOVED
-  private useDummyData(profile: FreelancerProfile) {
-    profile.location.city = 'Kolkata';
-    profile.location.state = { name: 'West Bengal', iso: 'WB' };
-    profile.location.country = {
-      name: 'India',
-      code: 'IN',
-      dialcode: '+91',
-      currency: 'INR',
-      flag: "🇮🇳"
-    };
 
-    profile.profileCompletion = {
-      about: Math.random(),
-      easExperience: Math.random(),
-      easSystemPhases: Math.random(),
-      experience: Math.random(),
-      jobRole: Math.random(),
-      jobSearchStatus: Math.random(),
-      overall: 0,
-      rates: Math.random(),
-      social: Math.random(),
-      summary: Math.random(),
-      techStacks: Math.random(),
-      wsa: Math.random()
-    };
-
-    profile.profileCompletion.overall = Object.values(profile.profileCompletion)
-      .reduce((p, c) => p + c, 0) / 11
-  }
 }

@@ -3,10 +3,10 @@
 <ng-container *ngIf="data.profile$() as profile">
   <div class="grid grid-cols-4 gap-4 transition-all">
 
-    <section class="col-span-4 lg:col-span-2 transition-all
-      section mat-elevation-z1 p-2 
-      flex flex-wrap gap-4"
-             *ngIf="data.basic$() as basic">
+    <section *ngrxLet="data.basic$()! as basic"
+             class="col-span-4 lg:col-span-2 transition-all
+              section mat-elevation-z1 p-2 
+              flex flex-wrap gap-4">
       <div class="h-32 w-32 rounded bg-divider grid place-content-center mx-auto">
         <img *ngIf="basic.image as image; else $noImage" [src]="image">
         <ng-template #$noImage>
@@ -37,9 +37,9 @@
 
     </section>
 
-    <section class="col-span-4 lg:col-span-1 transition-all
-      section mat-elevation-z1"
-             *ngIf="data.profileCompletionPie$() as completed">
+    <section *ngrxLet="data.profileCompletionPie$()! as completed"
+             class="col-span-4 lg:col-span-1 transition-all
+              section mat-elevation-z1">
       <div class="header">Profile Strength</div>
       <mat-divider></mat-divider>
       <div class="p-4 flex flex-wrap gap-4 justify-center items-center">
@@ -83,8 +83,8 @@
       <div class="header">Primary Enterprise Application Domain</div>
       <mat-divider></mat-divider>
       <div class="p-4 flex justify-start">
-        <div class="exp-data"
-             *ngrxLet="profile.primaryDomainExperience as exp">
+        <div *ngrxLet="profile.primaryDomainExperience as exp"
+             class="exp-data">
           <div class="label">{{exp.name}}</div>
           <div class="data">
             <span>{{exp.years}}</span>
@@ -99,8 +99,8 @@
       <div class="header">Enterprise Application Softaware Experience</div>
       <mat-divider></mat-divider>
       <div class="p-4 flex justify-start">
-        <div class="exp-data"
-             *ngrxLet="profile.primaryDomainExperience as exp">
+        <div *ngrxLet="profile.primaryDomainExperience as exp"
+             class="exp-data">
           <div class="label">{{exp.name}}</div>
           <div class="data">
             <span>{{exp.years}}</span>
