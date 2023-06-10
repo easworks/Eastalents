@@ -14,7 +14,8 @@ export interface FreelancerProfile {
 
   summary: string;
 
-  primaryDomain: ExperienceData;
+  primaryDomainExperience: ExperienceData;
+  enterpriseSoftwareExperience: ExperienceData[];
 
   // DISCUSS: for the profile completion, the value could be
   // 1. decimals between 0 and 1 (inclusive), OR

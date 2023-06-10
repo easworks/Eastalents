@@ -82,9 +82,9 @@
         section mat-elevation-z1">
       <div class="header">Primary Enterprise Application Domain</div>
       <mat-divider></mat-divider>
-      <div class="p-2 flex justify-start">
+      <div class="p-4 flex justify-start">
         <div class="exp-data"
-             *ngrxLet="profile.primaryDomain as exp">
+             *ngrxLet="profile.primaryDomainExperience as exp">
           <div class="label">{{exp.name}}</div>
           <div class="data">
             <span>{{exp.years}}</span>
@@ -94,8 +94,20 @@
       </div>
     </div>
 
-    <div class="demo-placeholder col-span-4 lg:col-span-3 transition-all">
-      Top EAS Experience
+    <div class="col-span-4 lg:col-span-3 transition-all
+        section mat-elevation-z1">
+      <div class="header">Enterprise Application Softaware Experience</div>
+      <mat-divider></mat-divider>
+      <div class="p-4 flex justify-start">
+        <div class="exp-data"
+             *ngrxLet="profile.primaryDomainExperience as exp">
+          <div class="label">{{exp.name}}</div>
+          <div class="data">
+            <span>{{exp.years}}</span>
+            <span>{{exp.skill.charAt(0)}}</span>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="demo-placeholder col-span-4 lg:col-span-3 transition-all">
       Top Modules Experience

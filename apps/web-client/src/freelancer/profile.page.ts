@@ -75,11 +75,13 @@ export class FreelancerProfilePageComponent {
         },
 
         summary: step[1].profileSummary,
-        primaryDomain: {
+        primaryDomainExperience: {
           name: pdo.value,
           years: Number.parseInt(pdo.noOfYear),
           skill: pdo.skill
         },
+
+        enterpriseSoftwareExperience: [],
 
         profileCompletion: null as unknown as FreelancerProfile['profileCompletion']
       }
