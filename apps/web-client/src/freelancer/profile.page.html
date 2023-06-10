@@ -3,10 +3,10 @@
 <ng-container *ngIf="data.profile$() as profile">
   <div class="grid grid-cols-4 gap-4 transition-all">
 
-    <div class="col-span-4 lg:col-span-2 transition-all
-      rounded mat-elevation-z1 p-2 bg-white
+    <section class="col-span-4 lg:col-span-2 transition-all
+      section mat-elevation-z1 p-2 
       flex flex-wrap gap-4"
-         *ngIf="data.basic$() as basic">
+             *ngIf="data.basic$() as basic">
       <div class="h-32 w-32 rounded bg-divider grid place-content-center mx-auto">
         <img *ngIf="basic.image as image; else $noImage" [src]="image">
         <ng-template #$noImage>
@@ -35,21 +35,32 @@
         <i class="fa-solid fa-pen-to-square mt-[0.05rem]"></i>
       </div>
 
-    </div>
+    </section>
 
-    <div class="col-span-4 lg:col-span-1 transition-all
-      rounded p-2 bg-white mat-elevation-z1
-      flex flex-wrap gap-4 justify-center items-center"
-         *ngIf="data.profileCompletionPie$() as completed">
-      <canvas chart-js [config]="completed.config"
-              class="!w-40 !h-40"></canvas>
-      <p class="text-center">
-        Your profile is {{completed.percentage | number: '0.0-0'}}% complete
-      </p>
-    </div>
+    <section class="col-span-4 lg:col-span-1 transition-all
+      section mat-elevation-z1"
+             *ngIf="data.profileCompletionPie$() as completed">
+      <div class="header">Profile Strength</div>
+      <mat-divider></mat-divider>
+      <div class="p-4 flex flex-wrap gap-4 justify-center items-center">
+        <canvas chart-js [config]="completed.config"
+                class="!w-40 !h-40"></canvas>
+        <p class="text-center">
+          Your profile is {{completed.percentage | number: '0.0-0'}}% complete
+        </p>
+      </div>
+    </section>
+
     <div class="grid gap-4 col-span-4 lg:col-span-1 lg:col-start-4 lg:row-start-1 lg:row-end-[9] transition-all">
-      <div class="demo-placeholder">
-        Profile completeness
+      <div class="section mat-elevation-z1" *ngIf="data.profileCompletionBars$() as indicators">
+        <div class="header">Profile Completeness</div>
+        <mat-divider></mat-divider>
+        <div class="profile-indicator-bars">
+          <div *ngFor="let pci of indicators">
+            <label>{{pci.label}}</label>
+            <mat-progress-bar [value]="pci.percentage" class="rounded"></mat-progress-bar>
+          </div>
+        </div>
       </div>
       <div class="demo-placeholder">
         Contact Info

@@ -6,6 +6,7 @@ import { ChartConfiguration } from 'chart.js';
 @Component({
   selector: 'freelancer-profile-page',
   templateUrl: './profile.page.html',
+  styleUrls: ['./profile.page.less'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -124,6 +125,31 @@ export class FreelancerProfilePageComponent {
         const percentage = completed * 100
 
         return { percentage, config } as const;
+      }),
+      profileCompletionBars$: computed(() => {
+        const p = profile$();
+        if (!p)
+          return null;
+
+        const completion = p.profileCompletion;
+
+        const data: [string, number][] = [
+          ['Profile Summary', completion.summary],
+          ['Top EAS Experience', completion.easExperience],
+          ['EAS System Phases Worked', completion.easSystemPhases],
+          ['Job Role', completion.jobRole],
+          ['Experience', completion.experience],
+          ['Technology Stacks', completion.techStacks],
+          ['Job Search Status', completion.jobSearchStatus],
+          ['Rates', completion.rates],
+          ['About Yourself', completion.about],
+          ['Social Media Links', completion.social],
+          ['Work Skill Assessment (WSA]', completion.wsa]
+        ];
+
+        const indicators = data.map(([label, percentage]) => ({ label, percentage }))
+        indicators.forEach(i => i.percentage = i.percentage * 100);
+        return indicators;
       })
     } as const;
   }
