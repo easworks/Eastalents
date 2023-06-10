@@ -37,9 +37,15 @@
 
     </div>
 
-    <div class="demo-placeholder col-span-4 lg:col-span-1 transition-all"
-         *ngIf="data.profileCompletionPie$() as config">
-      <canvas chart-js [config]="config"></canvas>
+    <div class="col-span-4 lg:col-span-1 transition-all
+      rounded p-2 bg-white mat-elevation-z1
+      flex flex-wrap gap-4 justify-center items-center"
+         *ngIf="data.profileCompletionPie$() as completed">
+      <canvas chart-js [config]="completed.config"
+              class="!w-40 !h-40"></canvas>
+      <p class="text-center">
+        Your profile is {{completed.percentage | number: '0.0-0'}}% complete
+      </p>
     </div>
     <div class="grid gap-4 col-span-4 lg:col-span-1 lg:col-start-4 lg:row-start-1 lg:row-end-[9] transition-all">
       <div class="demo-placeholder">

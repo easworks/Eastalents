@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
-import { AuthState, ChartJsDirective, ImportsModule, TalentApi, generateLoadingState } from '@easworks/app-shell';
+import { AuthState, ChartJsDirective, ImportsModule, TalentApi, generateLoadingState, getTailwindColor } from '@easworks/app-shell';
 import { FreelancerProfile, FreelancerProfileQuestionDto } from '@easworks/models';
 import { ChartConfiguration } from 'chart.js';
 
@@ -105,16 +105,25 @@ export class FreelancerProfilePageComponent {
 
         const config: ChartConfiguration = {
           type: 'pie',
+          plugins: [],
+          options: {
+            plugins: { datalabels: { display: false } }
+          },
           data: {
-            labels: ['Completed', 'Incomplete'],
-            datasets: [
-              {
-                data: [completed, 1 - completed]
-              },
-            ]
+            datasets: [{
+              data: [1 - completed, completed],
+              backgroundColor: [
+                getTailwindColor('bg-divider'),
+                getTailwindColor('bg-primary')
+              ],
+              hoverOffset: 4
+            }]
           }
         };
-        return config;
+
+        const percentage = completed * 100
+
+        return { percentage, config } as const;
       })
     } as const;
   }
