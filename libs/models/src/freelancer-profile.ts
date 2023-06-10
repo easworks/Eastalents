@@ -1,3 +1,4 @@
+import { ExperienceData } from './expertise';
 import { Country, Province } from './location';
 
 export interface FreelancerProfile {
@@ -12,6 +13,8 @@ export interface FreelancerProfile {
   };
 
   summary: string;
+
+  primaryDomain: ExperienceData;
 
   // DISCUSS: for the profile completion, the value could be
   // 1. decimals between 0 and 1 (inclusive), OR
@@ -37,3 +40,4 @@ export interface FreelancerProfile {
 // the following types define the response that we currently get for the 
 // freelancer profile
 export type FreelancerProfileQuestionDto = any[];
+

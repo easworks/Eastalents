@@ -60,6 +60,8 @@ export class FreelancerProfilePageComponent {
       if (!step)
         return null;
 
+      const pdo = step[2].option.find((o: any) => o.selected);
+
       const p: FreelancerProfile = {
         image: null,
 
@@ -73,6 +75,11 @@ export class FreelancerProfilePageComponent {
         },
 
         summary: step[1].profileSummary,
+        primaryDomain: {
+          name: pdo.value,
+          years: Number.parseInt(pdo.noOfYear),
+          skill: pdo.skill
+        },
 
         profileCompletion: null as unknown as FreelancerProfile['profileCompletion']
       }

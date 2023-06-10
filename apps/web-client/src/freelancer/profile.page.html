@@ -66,6 +66,7 @@
         Contact Info
       </div>
     </div>
+
     <div class=" col-span-4 lg:col-span-3 transition-all 
         section mat-elevation-z1">
       <div class="header">Profile Summary</div>
@@ -76,9 +77,24 @@
                   class="h-40 resize-none"></textarea>
       </div>
     </div>
-    <div class="demo-placeholder col-span-4 lg:col-span-3 transition-all">
-      Top Enterprise Application Domain Experience
+
+    <div class="col-span-4 lg:col-span-3 transition-all
+        section mat-elevation-z1">
+      <div class="header">Primary Enterprise Application Domain</div>
+      <mat-divider></mat-divider>
+      <div class="p-2 flex justify-start">
+        <div class="flex gap-2 flex-col text-sm"
+             *ngrxLet="profile.primaryDomain as exp">
+          <div class="rounded border border-dashed border-blue-500 p-2 px-4
+            grid place-content-center text-center">{{exp.name}}</div>
+          <div class="flex rounded overflow-hidden text-xs">
+            <span class="flex-grow p-1 text-center bg-black text-white">{{exp.years}}</span>
+            <span class="flex-grow p-1 text-center bg-slate-300 text-black">{{exp.skill.charAt(0)}}</span>
+          </div>
+        </div>
+      </div>
     </div>
+
     <div class="demo-placeholder col-span-4 lg:col-span-3 transition-all">
       Top EAS Experience
     </div>
