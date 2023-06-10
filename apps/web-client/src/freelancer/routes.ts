@@ -10,11 +10,18 @@ export const FREELANCER_ROUTE: Route = {
   children: [
     {
       path: 'dashboard',
+      pathMatch: 'full',
       loadComponent: () => import('./dashboard.page').then(m => m.FreelancerDashboardComponent)
     },
     {
       path: 'profile',
+      pathMatch: 'full',
       loadComponent: () => import('./profile.page').then(m => m.FreelancerProfilePageComponent)
+    },
+    {
+      path: 'profile/edit',
+      pathMatch: 'full',
+      loadComponent: () => import('./profile-edit.page').then(m => m.FreelancerProfileEditPageComponent)
     }
   ]
 }
