@@ -12,16 +12,6 @@ export function socialIdpName(idp: SocialIdp) {
   }
 }
 
-export interface SocialAuthRequest {
-  provider: SocialIdp;
-  code: string;
-}
-
-export interface EmailAuthRequest {
-  email: string;
-  password: string;
-}
-
 /** User was found and token was returned */
 export interface AuthSuccess {
   token: string;
@@ -36,21 +26,36 @@ export interface AuthNotFound {
 
 export type AuthResponse = AuthSuccess | AuthNotFound;
 
-export interface SocialCallbackStateBase {
-  [RETURN_URL_KEY]?: string;
-}
-
-export interface GoogleCallbackState extends SocialCallbackStateBase {
-  provider: 'google',
-}
-
-export type SocialCallbackState = GoogleCallbackState;
-
-export interface SignUpRequest {
-  provider: SocialIdp | null;
+interface SignUpRequestBase {
   role: Role;
   firstName: string | null;
   lastName: string | null;
   email: string;
-  password: string | null;
+}
+
+interface SocialAuthRequestBase {
+  code: string;
+  provider: SocialIdp;
+}
+
+export interface SocialSignUpRequest extends SocialAuthRequestBase, SignUpRequestBase {
+  authType: 'signup'
+}
+
+export interface SocialSignInRequest extends SocialAuthRequestBase {
+  authType: 'signin';
+}
+
+export interface EmailSignUpRequest extends SignUpRequestBase {
+  password: string;
+}
+
+export interface EmailSignInRequest {
+  email: string;
+  password: string;
+}
+
+export interface SocialCallbackState {
+  [RETURN_URL_KEY]?: string;
+  request: SocialSignUpRequest | SocialSignInRequest;
 }

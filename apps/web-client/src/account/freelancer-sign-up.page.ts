@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AccountApi, AuthService, ErrorSnackbarDefaults, FormImports, ImportsModule, LottiePlayerDirective, SnackbarComponent, generateLoadingState } from '@easworks/app-shell';
-import { SignUpRequest, pattern } from '@easworks/models';
+import { EmailSignUpRequest, pattern } from '@easworks/models';
 
 @Component({
   selector: 'account-freelancer-sign-up-page',
@@ -74,8 +74,7 @@ export class FreelancerSignUpPageComponent {
 
     const { email, firstName, lastName, password } = this.form.getRawValue();
 
-    const input: SignUpRequest = {
-      provider: null,
+    const input: EmailSignUpRequest = {
       email,
       firstName,
       lastName,
@@ -84,7 +83,7 @@ export class FreelancerSignUpPageComponent {
     };
 
     this.loading.add('signing up');
-    this.api.account.signUp(input)
+    this.api.account.signup(input)
       .subscribe({
         next: () => {
           this.loading.delete('signing up')

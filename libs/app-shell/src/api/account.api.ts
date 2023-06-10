@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ApiResponse, AuthNotFound, AuthSuccess, EmailAuthRequest, SignUpRequest, SocialAuthRequest, UserWithToken } from '@easworks/models';
 import { catchError, firstValueFrom, map } from 'rxjs';
 import { ApiService } from './api';
+import { ApiResponse, EmailSignInRequest, EmailSignUpRequest, SocialSignInRequest, SocialSignUpRequest, UserWithToken } from '@easworks/models';
 
 @Injectable({
   providedIn: 'root'
@@ -17,24 +17,21 @@ export class AccountApi extends ApiService {
     return this._bled!;
   }
 
-  readonly signIn = {
-    social: (input: SocialAuthRequest) => {
-      // FOR NOW, choose any one to test and develop
-      // return mock.social.authSucces();
-      return mock.social.authNotFound();
-    },
-    email: (input: EmailAuthRequest) =>
-      this.http.post<ApiResponse>(`${this.apiUrl}/users/login`, input)
-        .pipe(
-          map(r => r.result?.user as UserWithToken),
-          catchError(this.handleError))
-  } as const;
+  readonly socialLogin = (input: SocialSignInRequest | SocialSignUpRequest) =>
+    this.http.post<ApiResponse>(`${this.apiUrl}/social-login`, input)
+      .pipe(catchError(this.handleError));
 
-  readonly signUp = (input: SignUpRequest) =>
+  readonly signup = (input: EmailSignUpRequest) =>
     this.http.post<ApiResponse>(`${this.apiUrl}/users/signup`, input)
       .pipe(
         map(r => r.result?.user as UserWithToken),
         catchError(this.handleError));
+
+  readonly signin = (input: EmailSignInRequest) =>
+    this.http.post<ApiResponse>(`${this.apiUrl}/users/login`, input)
+      .pipe(
+        map(r => r.result?.user as UserWithToken),
+        catchError(this.handleError))
 
   readonly resetPassword = {
     sendLink: (email: string) =>
@@ -46,18 +43,3 @@ export class AccountApi extends ApiService {
     this.http.post<ApiResponse>(`${this.apiUrl}/users/verification`, { token })
       .pipe(catchError(this.handleError))
 }
-
-const mock = {
-  social: {
-    authSucces: (): AuthSuccess => ({
-      token: [{}, mock.social.authNotFound(), {}]
-        .map(o => btoa(JSON.stringify(o)))
-        .join('.')
-    }),
-    authNotFound: (): AuthNotFound => ({
-      email: 'dd@gmail.com',
-      firstName: 'dd',
-      lastName: 'dd'
-    })
-  },
-} as const;

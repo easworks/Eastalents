@@ -2,7 +2,7 @@ import { DestroyRef, Injectable, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRouteSnapshot, Route, Router, UrlSegment } from '@angular/router';
-import { EmailAuthRequest, GoogleCallbackState, RETURN_URL_KEY, Role, SocialIdp, User, UserWithToken } from '@easworks/models';
+import { EmailSignInRequest, RETURN_URL_KEY, Role, SocialCallbackState, SocialIdp, User, UserWithToken } from '@easworks/models';
 import { Subject, catchError, fromEvent, map } from 'rxjs';
 import { AccountApi } from '../api';
 import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '../notification';
@@ -32,6 +32,28 @@ export class AuthService {
 
   readonly afterSignIn$ = new Subject<SignInMeta>();
 
+  readonly socialCallback = {
+    set: (state: SocialCallbackState) => {
+      state.request.code = [...crypto.getRandomValues(new Uint8Array(16))]
+        .map(i => i.toString(16))
+        .join('');
+
+      localStorage.setItem(`socialCallback`, JSON.stringify(state));
+
+      return state.request.code;
+    },
+    get: () => {
+      const saved = localStorage.getItem(`socialCallback`)
+      if (saved)
+        return JSON.parse(saved) as SocialCallbackState;
+      else
+        return null;
+    },
+    clear: () => {
+      localStorage.removeItem('socialCallback');
+    }
+  };
+
   readonly signin = {
     github: () => {
       console.debug('[SIGN IN] Github');
@@ -41,17 +63,19 @@ export class AuthService {
     },
     google: (returnUrl?: string) => {
       console.debug('[SIGN IN] Google');
-      const authUrl = AuthRedirect.getUrl('google');
-      const state = JSON.stringify({
-        provider: 'google',
+      const state = this.socialCallback.set({
+        request: {
+          authType: 'signin',
+          provider: 'google',
+          code: ''
+        },
         returnUrl
-      } satisfies GoogleCallbackState);
-      authUrl.searchParams.set('state', state);
-
+      });
+      const authUrl = AuthRedirect.getUrl('google', state);
       console.debug(authUrl.href);
     },
-    email: (input: EmailAuthRequest, meta: SignInMeta) =>
-      this.api.account.signIn.email(input)
+    email: (input: EmailSignInRequest, meta: SignInMeta) =>
+      this.api.account.signin(input)
         .pipe(
           map(r => {
             this.handleSignIn(r, meta)
@@ -203,7 +227,7 @@ class AuthRedirect {
     }
   };
 
-  static getUrl(provider: SocialIdp) {
+  static getUrl(provider: SocialIdp, state?: string) {
     const config = this.configs[provider];
     const authUrl = new URL(config.url);
     authUrl.searchParams.set('response_type', config.response_type);
@@ -211,6 +235,8 @@ class AuthRedirect {
     authUrl.searchParams.set('client_id', config.client_id);
     if (config.scope)
       authUrl.searchParams.set('scope', config.scope);
+    if (state)
+      authUrl.searchParams.set('state', state);
     return authUrl;
   }
 }
