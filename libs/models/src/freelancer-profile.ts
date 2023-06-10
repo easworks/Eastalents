@@ -11,6 +11,8 @@ export interface FreelancerProfile {
     city: string;
   };
 
+  summary: string;
+
   // DISCUSS: for the profile completion, the value could be
   // 1. decimals between 0 and 1 (inclusive), OR
   // 2. integers between 0 and 100 (inclusive)

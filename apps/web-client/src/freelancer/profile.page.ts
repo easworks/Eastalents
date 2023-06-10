@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
-import { AuthState, ChartJsDirective, ImportsModule, TalentApi, generateLoadingState, getTailwindColor } from '@easworks/app-shell';
+import { AuthState, ChartJsDirective, FormImports, ImportsModule, TalentApi, generateLoadingState, getTailwindColor } from '@easworks/app-shell';
 import { FreelancerProfile, FreelancerProfileQuestionDto } from '@easworks/models';
 import { ChartConfiguration } from 'chart.js';
 
@@ -11,7 +11,8 @@ import { ChartConfiguration } from 'chart.js';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
-    ChartJsDirective
+    ChartJsDirective,
+    FormImports
   ]
 })
 export class FreelancerProfilePageComponent {
@@ -70,6 +71,8 @@ export class FreelancerProfilePageComponent {
           state: step[1].state,
           city: step[1].city,
         },
+
+        summary: step[1].profileSummary,
 
         profileCompletion: null as unknown as FreelancerProfile['profileCompletion']
       }
