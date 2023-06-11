@@ -23,15 +23,16 @@
   </mat-progress-bar>
 </div>
 
-<mat-sidenav-container class="flex-grow !flex flex-col">
+<mat-sidenav-container class="flex-grow !flex flex-col !overflow-visible">
   <mat-sidenav #appSidenav fixedInViewport
                class="!top-16" mode="over" position="end">
     <app-vertical-menu></app-vertical-menu>
   </mat-sidenav>
-  <mat-sidenav-content class="flex-grow !flex flex-col bg-slate-950/5">
+  <mat-sidenav-content class="flex-grow !flex flex-col !overflow-visible
+                      bg-slate-950/5">
     <router-outlet class="hidden [&_+_*]:flex-1"></router-outlet>
 
-    <mat-divider class="!my-4"></mat-divider>
+    <mat-divider class="!mb-4"></mat-divider>
 
 
     <div class="page flex flex-wrap gap-8">
