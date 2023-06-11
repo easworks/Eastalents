@@ -33,7 +33,7 @@ export class DomainState {
     talent: inject(TalentApi)
   } as const;
 
-  readonly loading$ = signal(true);
+  readonly loading$ = signal(false);
   readonly domains$ = signal<Domain[]>([]);
 
   private readonly dummyServices = new Array(10)
