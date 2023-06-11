@@ -5,13 +5,13 @@ import { sortString } from '../utilities';
 export interface Domain {
   shortName: string;
   longName: string;
-
+  services: string[];
   modules: DomainModule[];
 }
 
 export interface DomainModule {
   name: string;
-  jobRoles: string[];
+  roles: string[];
   products: DomainProduct[];
 }
 
@@ -36,7 +36,14 @@ export class DomainState {
   readonly loading$ = signal(true);
   readonly domains$ = signal<Domain[]>([]);
 
+  private readonly dummyServices = new Array(10)
+    .fill(0)
+    .map((_, i) => `Dummy Service ${i}`);
+
   private getDomains() {
+    if (this.loading$())
+      return;
+
     this.loading$.set(true);
     this.api.talent.profileSteps()
       .subscribe(r => {
@@ -44,10 +51,11 @@ export class DomainState {
           const d: Domain = {
             shortName: dk,
             longName: r[dk]['Primary Domain'],
+            services: this.dummyServices,
             modules: Object.entries(r[dk].Modules).map(([mk, v]) => {
               const m: DomainModule = {
                 name: mk,
-                jobRoles: v['Job roles'],
+                roles: v['Job roles'],
                 products: v.Product
               };
               return m;
