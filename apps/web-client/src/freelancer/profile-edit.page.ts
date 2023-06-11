@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit, computed, inject, isDevMode, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ImportsModule, LottiePlayerDirective, generateLoadingState } from '@easworks/app-shell';
+import { FormImports, ImportsModule, LottiePlayerDirective, generateLoadingState } from '@easworks/app-shell';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'freelancer-profile-edit-page',
@@ -11,10 +13,12 @@ import { ImportsModule, LottiePlayerDirective, generateLoadingState } from '@eas
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
-    LottiePlayerDirective
+    LottiePlayerDirective,
+    FormImports,
+    MatSelectModule
   ]
 })
-export class FreelancerProfileEditPageComponent {
+export class FreelancerProfileEditPageComponent implements OnInit {
 
   private readonly route = inject(ActivatedRoute);
 
@@ -25,16 +29,18 @@ export class FreelancerProfileEditPageComponent {
   ]>();
   protected readonly isNew = this.route.snapshot.queryParamMap.has('new');
   private readonly section = this.initSection();
-  protected readonly stepper = this.initStepper();
+
 
   protected readonly profileSummary = {
     form: new FormGroup({
       summary: new FormControl('', [Validators.required]),
       country: new FormControl('', [Validators.required]),
-      state: new FormControl('', [Validators.required]),
-      city: new FormControl('', [Validators.required])
+      province: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required]),
+      timezone: new FormControl('', [Validators.required])
     })
   } as const;
+  protected readonly stepper = this.initStepper();
 
   private initStepper() {
     const step$ = signal<Step>(this.section ?? 'start');
@@ -56,7 +62,16 @@ export class FreelancerProfileEditPageComponent {
       }
     });
 
-    const nextDisabled$ = signal(true);
+
+    const inputs = {
+      summary: toSignal(this.profileSummary.form.statusChanges)
+    } as const;
+
+    const nextDisabled$ = computed(() => {
+      const step = step$();
+      return this.loading.any$() ||
+        (step === 'summary' && inputs.summary() !== 'VALID');
+    });
 
     return {
       totalSteps,
@@ -71,7 +86,7 @@ export class FreelancerProfileEditPageComponent {
       }),
       next: {
         visible$: computed(() => step$() !== 'social'),
-        disabled$: nextDisabled$.asReadonly(),
+        disabled$: nextDisabled$,
         click: () => {
           switch (step$()) {
             case 'start': return step$.set('summary');
@@ -85,7 +100,7 @@ export class FreelancerProfileEditPageComponent {
         }
       },
       submit: {
-        disabled$: nextDisabled$.asReadonly(),
+        disabled$: nextDisabled$,
         visible$: computed(() => step$() === 'social'),
         click: () => {
           // 
@@ -102,6 +117,19 @@ export class FreelancerProfileEditPageComponent {
     const allowed: Step[] = [];
 
     return allowed.find(i => i === param) ?? null;
+  }
+
+  private async devModeInit() {
+    if (!isDevMode())
+      return;
+
+    {
+      this.stepper.next.click();
+    }
+  }
+
+  ngOnInit(): void {
+    this.devModeInit();
   }
 }
 
