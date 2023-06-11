@@ -5,6 +5,7 @@ import { sortString } from '../utilities';
 export interface Domain {
   shortName: string;
   longName: string;
+  prefix: string;
   services: string[];
   modules: DomainModule[];
 }
@@ -51,6 +52,7 @@ export class DomainState {
           const d: Domain = {
             shortName: dk,
             longName: r[dk]['Primary Domain'],
+            prefix: '',
             services: this.dummyServices,
             modules: Object.entries(r[dk].Modules).map(([mk, v]) => {
               const m: DomainModule = {
