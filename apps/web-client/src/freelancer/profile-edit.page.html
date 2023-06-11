@@ -34,20 +34,57 @@
     </lottie-player>
   </div>
 
+  <div *ngIf="stepper.showStepControls$()" class="stepper-progress w-100 mt-4">
+    <ng-container *ngrxLet="stepper.progress$() as progress">
+      <span>{{progress.label}}</span>
+      <mat-progress-bar [value]="progress.percent" class="mt-2 rounded-full"></mat-progress-bar>
+    </ng-container>
+  </div>
+
 
   <!-- Stepper container -->
   <div class="relative mt-8" *ngrxLet="stepper.step$() as step">
 
     <div *ngIf="step === 'start'">
       <p class="text-center">
-        Please answer the following questions to complete you EASWorks Freelancer Profile.
+        Please answer the following questions to complete your EASWorks Freelancer Profile.
       </p>
-      <button type="button" class="shaded-button primary mt-4 mx-auto" style="display: block;"
-              (click)="this.stepper.step$.set('end')">
+      <button type="button" class="highlight-button primary mt-4 mx-auto" style="display: block;"
+              (click)="this.stepper.next.click()">
         Get Started
       </button>
     </div>
 
+    <form *ngIf="step === 'summary'">
+      Summary Form
+    </form>
 
   </div>
+
+  <!-- Button Container -->
+  <ng-container *ngIf="stepper.showStepControls$()">
+    <mat-divider class="!my-4"></mat-divider>
+    <div class="flex">
+      <button *ngIf="stepper.prev.visible$()"
+              type="button" class="stroked-button mr-auto"
+              (click)="this.stepper.prev.click()">
+        Previous
+      </button>
+
+      <button *ngIf="stepper.next.visible$()"
+              type="button" class="stroked-button ml-auto"
+              [disabled]="stepper.next.disabled$()"
+              (click)="this.stepper.next.click()">
+        Next
+      </button>
+
+      <button *ngIf="stepper.submit.visible$()"
+              type="button" class="shaded-button ml-auto"
+              [disabled]="stepper.submit.disabled$()"
+              (click)="this.stepper.submit.click()">
+        Submit
+      </button>
+    </div>
+  </ng-container>
+
 </div>

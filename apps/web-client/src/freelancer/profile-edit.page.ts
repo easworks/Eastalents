@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ImportsModule, LottiePlayerDirective, generateLoadingState } from '@easworks/app-shell';
 
@@ -26,6 +27,15 @@ export class FreelancerProfileEditPageComponent {
   private readonly section = this.initSection();
   protected readonly stepper = this.initStepper();
 
+  protected readonly profileSummary = {
+    form: new FormGroup({
+      summary: new FormControl('', [Validators.required]),
+      country: new FormControl('', [Validators.required]),
+      state: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required])
+    })
+  } as const;
+
   private initStepper() {
     const step$ = signal<Step>(this.section ?? 'start');
 
@@ -41,9 +51,12 @@ export class FreelancerProfileEditPageComponent {
     const totalSteps = 1;
     const stepProgress$ = computed(() => {
       switch (step$()) {
+        case 'summary': return 1;
         default: return 0;
       }
     });
+
+    const nextDisabled$ = signal(true);
 
     return {
       totalSteps,
@@ -53,9 +66,31 @@ export class FreelancerProfileEditPageComponent {
         const p = stepProgress$();
         return {
           label: `Step ${p} of ${totalSteps}`,
-          percent: (p / totalSteps) * 100
+          percent: ((p - 1) / totalSteps) * 100
         }
-      })
+      }),
+      next: {
+        visible$: computed(() => step$() !== 'social'),
+        disabled$: nextDisabled$.asReadonly(),
+        click: () => {
+          switch (step$()) {
+            case 'start': return step$.set('summary');
+          }
+        }
+      },
+      prev: {
+        visible$: computed(() => step$() !== 'summary'),
+        click: () => {
+          // 
+        }
+      },
+      submit: {
+        disabled$: nextDisabled$.asReadonly(),
+        visible$: computed(() => step$() === 'social'),
+        click: () => {
+          // 
+        }
+      }
     } as const;
   }
 
@@ -72,4 +107,16 @@ export class FreelancerProfileEditPageComponent {
 
 type Step =
   'start' |
+  'summary' |
+  'primary-domain' |
+  'services' |
+  'modules' |
+  'software' |
+  'roles' |
+  'technology-stack' |
+  'industry' |
+  'job-search-status' |
+  'expectations' |
+  'about' |
+  'social' |
   'end';

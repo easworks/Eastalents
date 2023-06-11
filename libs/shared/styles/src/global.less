@@ -54,15 +54,19 @@
     @apply block rounded py-2 px-4 transition-all;
 
     &:enabled, &[href] {
+      @apply bg-slate-500/10;
+
       &:hover, &:focus {
-        @apply bg-slate-500/10 ;
+        @apply bg-slate-500/20;
       }
     }
 
     &.primary {
       &:enabled, &[href] {
+        @apply bg-primary/10 text-primary;
+
         &:hover, &:focus {
-          @apply bg-primary/10 ;
+          @apply bg-primary/20 text-primary-dark;
         }
       }
     }
