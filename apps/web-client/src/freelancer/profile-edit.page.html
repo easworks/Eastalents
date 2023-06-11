@@ -27,6 +27,27 @@
 
 </div>
 
-<div class="min-w-min demo-placeholder page">
-  Stepper stuff
+<div class="min-w-min page">
+  <div class="mx-auto w-24 h-24">
+    <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_m4gdjtfv.json"
+                   loop autoplay>
+    </lottie-player>
+  </div>
+
+
+  <!-- Stepper container -->
+  <div class="relative mt-8" *ngrxLet="stepper.step$() as step">
+
+    <div *ngIf="step === 'start'">
+      <p class="text-center">
+        Please answer the following questions to complete you EASWorks Freelancer Profile.
+      </p>
+      <button type="button" class="shaded-button primary mt-4 mx-auto" style="display: block;"
+              (click)="this.stepper.step$.set('end')">
+        Get Started
+      </button>
+    </div>
+
+
+  </div>
 </div>
