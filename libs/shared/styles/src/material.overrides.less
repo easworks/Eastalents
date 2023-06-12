@@ -51,3 +51,15 @@
 .mat-mdc-option {
   @apply !min-h-0 !p-2 !px-4;
 }
+
+.mdc-list-item {
+  &--selected, &--activated {
+    .mdc-list-item__primary-text {
+      @apply text-primary;
+    }
+
+    .mat-pseudo-checkbox-checked::after {
+      @apply text-secondary;
+    }
+  }
+}
