@@ -55,7 +55,8 @@
       </button>
     </div>
 
-    <ng-container *ngIf="step === 'professional-summary'">
+    <div *ngIf="step === 'professional-summary'"
+         class="rounded bg-white mat-elevation-z1 p-4">
       <form *ngrxLet="professionalSummary.form as form"
             [formGroup]="form">
 
@@ -122,13 +123,12 @@
           </div>
         </div>
       </form>
-    </ng-container>
+    </div>
   </div>
 
   <!-- Button Container -->
   <ng-container *ngIf="stepper.showStepControls$()">
-    <mat-divider class="!my-4"></mat-divider>
-    <div class="flex">
+    <div class="flex mt-4">
       <button *ngIf="stepper.prev.visible$()"
               type="button" class="stroked-button mr-auto"
               (click)="this.stepper.prev.click()">
