@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnInit, computed, inject, isDevMode, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { FormImports, ImportsModule, LottiePlayerDirective, generateLoadingState } from '@easworks/app-shell';
+import { FormImports, GeoLocationService, ImportsModule, LottiePlayerDirective, generateLoadingState } from '@easworks/app-shell';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
@@ -19,27 +19,53 @@ import { MatSelectModule } from '@angular/material/select';
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
-
+  private readonly injector = inject(INJECTOR);
   private readonly route = inject(ActivatedRoute);
+  private readonly geo = inject(GeoLocationService);
 
   @HostBinding() private readonly class = 'flex flex-col lg:flex-row';
 
   private readonly loading = generateLoadingState<[
-    'getting profile data'
+    'getting profile data' |
+    'getting geolocation' |
+    'getting countries' |
+    'getting states' |
+    'getting cities' |
+    'getting timezone'
   ]>();
   protected readonly isNew = this.route.snapshot.queryParamMap.has('new');
   private readonly section = this.initSection();
 
 
-  protected readonly profileSummary = {
+  protected readonly professionalSummary = {
     form: new FormGroup({
       summary: new FormControl('', [Validators.required]),
       country: new FormControl('', [Validators.required]),
       province: new FormControl('', [Validators.required]),
       city: new FormControl('', [Validators.required]),
       timezone: new FormControl('', [Validators.required])
-    })
+    }),
+    loading: {
+      geo$: this.loading.has('getting geolocation'),
+      countries$: this.loading.has('getting countries'),
+      states$: this.loading.has('getting states'),
+      cities$: this.loading.has('getting states'),
+      timezone$: this.loading.has('getting timezone')
+    },
+    useCurrentLocation: async () => {
+      const pos = await this.geo.get();
+
+      // now that we have gotten the coords
+      // or gotten null
+      // we have to send these off to the api to
+      // figure out where the user is
+      // then populate the form with those values
+
+      throw new Error('not implemented');
+
+    }
   } as const;
+
   protected readonly stepper = this.initStepper();
 
   private initStepper() {
@@ -57,20 +83,20 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const totalSteps = 1;
     const stepProgress$ = computed(() => {
       switch (step$()) {
-        case 'summary': return 1;
+        case 'professional-summary': return 1;
         default: return 0;
       }
     });
 
 
     const inputs = {
-      summary: toSignal(this.profileSummary.form.statusChanges)
+      summary: toSignal(this.professionalSummary.form.statusChanges)
     } as const;
 
     const nextDisabled$ = computed(() => {
       const step = step$();
       return this.loading.any$() ||
-        (step === 'summary' && inputs.summary() !== 'VALID');
+        (step === 'professional-summary' && inputs.summary() !== 'VALID');
     });
 
     return {
@@ -89,12 +115,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         disabled$: nextDisabled$,
         click: () => {
           switch (step$()) {
-            case 'start': return step$.set('summary');
+            case 'start': return step$.set('professional-summary');
           }
         }
       },
       prev: {
-        visible$: computed(() => step$() !== 'summary'),
+        visible$: computed(() => step$() !== 'professional-summary'),
         click: () => {
           // 
         }
@@ -135,7 +161,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
 type Step =
   'start' |
-  'summary' |
+  'professional-summary' |
   'primary-domain' |
   'services' |
   'modules' |
