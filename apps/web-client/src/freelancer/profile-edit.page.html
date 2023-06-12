@@ -84,22 +84,19 @@
                    [formFieldControl]="control"
                    [class.show-spinner]="professionalSummary.loading.showSpinner.country$()">
                 <label>Country</label>
-                <mat-select [formControl]="control">
-                  <mat-select-trigger>
-                    <div *ngIf="control.value as country"
-                         class="block overflow-hidden text-ellipsis">
-                      <span class="font-emoji mr-2">{{country.flag}}</span>
-                      <span>{{country.name}}</span>
-                    </div>
-                  </mat-select-trigger>
-                  <mat-option *ngFor="let country of professionalSummary.options.country$()"
+                <span class="font-emoji absolute left-2 top-8" *ngIf="control.value as value">{{value.flag}}</span>
+                <input type="text" [formControl]="control" [matAutocomplete]="countryOptions"
+                       class="transition-all" [class.!pl-10]="control.valid">
+                <mat-autocomplete #countryOptions [displayWith]="professionalSummary.displayWith.country"
+                                  (optionSelected)="professionalSummary.options.select.country()">
+                  <mat-option *ngFor="let country of professionalSummary.options.filtered.country$(); trackBy: professionalSummary.trackBy.country"
                               [value]="country">
                     <div class="flex gap-4 items-center">
                       <span class="font-emoji">{{country.flag}}</span>
                       <span>{{country.name}}</span>
                     </div>
                   </mat-option>
-                </mat-select>
+                </mat-autocomplete>
                 <mat-progress-spinner class="field-spinner right-6 top-8"
                                       mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>
@@ -108,12 +105,14 @@
                    [formFieldControl]="control"
                    [class.show-spinner]="professionalSummary.loading.showSpinner.province$()">
                 <label>Province</label>
-                <mat-select [formControl]="control">
-                  <mat-option *ngFor="let province of professionalSummary.options.province$()"
+                <input type="text" [formControl]="control" [matAutocomplete]="provinceOptions">
+                <mat-autocomplete #provinceOptions [displayWith]="professionalSummary.displayWith.province"
+                                  (optionSelected)="professionalSummary.options.select.province()">
+                  <mat-option *ngFor="let province of professionalSummary.options.filtered.province$(); trackBy: professionalSummary.trackBy.province"
                               [value]="province">
                     {{province.name}}
                   </mat-option>
-                </mat-select>
+                </mat-autocomplete>
                 <mat-progress-spinner class="field-spinner right-6 top-8"
                                       mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>
@@ -122,12 +121,13 @@
                    [formFieldControl]="control"
                    [class.show-spinner]="professionalSummary.loading.showSpinner.city$()">
                 <label>City</label>
-                <mat-select [formControl]="control">
-                  <mat-option *ngFor="let city of professionalSummary.options.city$()"
+                <input type="text" [formControl]="control" [matAutocomplete]="cityOptions">
+                <mat-autocomplete #cityOptions>
+                  <mat-option *ngFor="let city of professionalSummary.options.filtered.city$()"
                               [value]="city">
                     {{city}}
                   </mat-option>
-                </mat-select>
+                </mat-autocomplete>
                 <mat-progress-spinner class="field-spinner right-6 top-8"
                                       mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>
