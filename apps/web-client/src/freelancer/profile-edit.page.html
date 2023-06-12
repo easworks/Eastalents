@@ -82,10 +82,9 @@
             <div class="grid grid-cols-2 gap-x-4 md:gap-x-8 transition-all">
               <div *ngrxLet="form.controls.country as control"
                    [formFieldControl]="control"
-                   class="relative"
                    [class.show-spinner]="professionalSummary.loading.showSpinner.country$()">
                 <label>Country</label>
-                <mat-select [formControl]="control" class="transition-all">
+                <mat-select [formControl]="control">
                   <mat-select-trigger>
                     <div *ngIf="control.value as country"
                          class="block overflow-hidden text-ellipsis">
@@ -103,37 +102,46 @@
                 </mat-select>
                 <mat-progress-spinner class="field-spinner right-6 top-8"
                                       mode="indeterminate" diameter="24"></mat-progress-spinner>
-
               </div>
 
               <div *ngrxLet="form.controls.province as control"
-                   [formFieldControl]="control">
+                   [formFieldControl]="control"
+                   [class.show-spinner]="professionalSummary.loading.showSpinner.province$()">
                 <label>Province</label>
                 <mat-select [formControl]="control">
-                  <mat-option>Tim Cook</mat-option>
-                  <mat-option>Steve Jobs</mat-option>
-                  <mat-option>Bill Gates</mat-option>
+                  <mat-option *ngFor="let province of professionalSummary.options.province$()"
+                              [value]="province">
+                    {{province.name}}
+                  </mat-option>
                 </mat-select>
+                <mat-progress-spinner class="field-spinner right-6 top-8"
+                                      mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>
 
               <div *ngrxLet="form.controls.city as control"
-                   [formFieldControl]="control">
+                   [formFieldControl]="control"
+                   [class.show-spinner]="professionalSummary.loading.showSpinner.city$()">
                 <label>City</label>
                 <mat-select [formControl]="control">
-                  <mat-option>Tim Cook</mat-option>
-                  <mat-option>Steve Jobs</mat-option>
-                  <mat-option>Bill Gates</mat-option>
+                  <mat-option *ngFor="let city of professionalSummary.options.city$()"
+                              [value]="city">
+                    {{city}}
+                  </mat-option>
                 </mat-select>
+                <mat-progress-spinner class="field-spinner right-6 top-8"
+                                      mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>
 
               <div *ngrxLet="form.controls.timezone as control"
                    [formFieldControl]="control">
                 <label>Time Zone</label>
-                <mat-select [formControl]="control">
-                  <mat-option>Tim Cook</mat-option>
-                  <mat-option>Steve Jobs</mat-option>
-                  <mat-option>Bill Gates</mat-option>
-                </mat-select>
+                <input type="text" readonly [formControl]="control">
+              </div>
+
+              <div class="col-span-2 rounded bg-warn/10 p-2 px-4 text-center text-warn">
+                DISCUSS <br>
+                How to get current location <br>
+                How to fetch time zone
               </div>
             </div>
           </div>
@@ -145,14 +153,14 @@
   <!-- Button Container -->
   <ng-container *ngIf="stepper.showStepControls$()">
     <div class="flex mt-4">
-      <button *ngIf="stepper.prev.visible$()"
-              type="button" class="stroked-button mr-auto"
+      <button *ngIf="stepper.prev.visible$()" mat-ripple
+              type="button" class="stroked-button mr-auto enabled:bg-white enabled:border-0 mat-elevation-z1 disabled:shadow-none"
               (click)="this.stepper.prev.click()">
         Previous
       </button>
 
-      <button *ngIf="stepper.next.visible$()"
-              type="button" class="stroked-button ml-auto"
+      <button *ngIf="stepper.next.visible$()" mat-ripple
+              type="button" class="stroked-button ml-auto enabled:bg-white enabled:border-0 mat-elevation-z1 disabled:shadow-none"
               [disabled]="stepper.next.disabled$()"
               (click)="this.stepper.next.click()">
         Next

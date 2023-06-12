@@ -4,13 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
 import { FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, generateLoadingState } from '@easworks/app-shell';
-import { Country } from '@easworks/models';
-
-const dummyOptions = [
-  'Tim Cook',
-  'Steve Jobs',
-  'Bill Gates'
-];
+import { Country, Province } from '@easworks/models';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'freelancer-profile-edit-page',
@@ -98,12 +93,16 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         click: () => {
           switch (step$()) {
             case 'start': return step$.set('professional-summary');
+            case 'professional-summary': return step$.set('primary-domains');
           }
         }
       },
       prev: {
         visible$: computed(() => step$() !== 'professional-summary'),
         click: () => {
+          switch (step$()) {
+            case 'primary-domains': return step$.set('professional-summary');
+          }
           // 
         }
       },
@@ -128,15 +127,19 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   private initProfessionaSummary() {
+    const systemTimeZone = DateTime.now().zoneName;
     const form = new FormGroup({
       summary: new FormControl('', [Validators.required]),
       country: new FormControl<Country>(null as unknown as Country, {
         validators: [Validators.required],
         nonNullable: true
       }),
-      province: new FormControl('', [Validators.required]),
+      province: new FormControl<Province>(null as unknown as Province, {
+        validators: [Validators.required],
+        nonNullable: true
+      }),
       city: new FormControl('', [Validators.required]),
-      timezone: new FormControl('', [Validators.required])
+      timezone: new FormControl(systemTimeZone, [Validators.required])
     });
 
     const loading = {
@@ -159,19 +162,26 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       province: toSignal(form.controls.province.statusChanges),
     }
 
+    const values = {
+      country: toSignal(form.controls.country.valueChanges),
+      province: toSignal(form.controls.province.valueChanges)
+    }
+
 
     const disabled = {
       country$: computed(() => showSpinner.country$()),
       province$: computed(() => showSpinner.province$() || validity.country() !== 'VALID'),
       city$: computed(() => showSpinner.city$() || validity.province() !== 'VALID'),
-      timezone$: computed(() => showSpinner.timezone$() || validity.country() !== 'VALID'),
+      // timezone$: computed(() => showSpinner.timezone$() || validity.country() !== 'VALID'),
     }
+
     const options = {
       country$: signal<Country[]>([]),
-      province$: signal(dummyOptions),
-      city$: signal(dummyOptions),
-      timezone$: signal(dummyOptions)
+      province$: signal<Province[]>([]),
+      city$: signal<string[]>([]),
+      timezone$: signal<string[]>([])
     } as const;
+
 
     effect(() => {
       const step = this.stepper.step$();
@@ -182,14 +192,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       if (shouldFetch) {
         this.getCountries();
       }
-
-      disabled.country$() ? form.controls.country.disable() : form.controls.country.enable();
-      disabled.province$() ? form.controls.province.disable() : form.controls.province.enable();
-      disabled.city$() ? form.controls.city.disable() : form.controls.city.enable();
-      disabled.timezone$() ? form.controls.timezone.disable() : form.controls.timezone.enable();
-
-
     }, { allowSignalWrites: true });
+    effect(() => disabled.country$() ? form.controls.country.disable() : form.controls.country.enable(), { allowSignalWrites: true });
+    effect(() => disabled.province$() ? form.controls.province.disable() : form.controls.province.enable(), { allowSignalWrites: true });
+    effect(() => disabled.city$() ? form.controls.city.disable() : form.controls.city.enable(), { allowSignalWrites: true });
+    // effect(() => disabled.timezone$() ? form.controls.timezone.disable() : form.controls.timezone.enable(), { allowSignalWrites: true });
+
+    effect(() => this.getProvinces(values.country()), { allowSignalWrites: true });
+    effect(() => this.getCities(values.country(), values.province()), { allowSignalWrites: true })
 
     return {
       form,
@@ -200,7 +210,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       options,
       useCurrentLocation: async () => {
         this.loading.add('getting geolocation');
-        const pos = await this.geo.get();
+        // const pos = await this.geo.get();
 
         // now that we have gotten the coords
         // or gotten null
@@ -219,9 +229,31 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     if (!isDevMode())
       return;
 
+    const revert = [] as (() => void)[];
+
     {
       this.stepper.next.click();
     }
+
+    {
+      const form = this.professionalSummary.form;
+      const keys = Object.keys(form.controls) as (keyof typeof this.professionalSummary.form.controls)[]
+
+      const validators = keys.map(key => [
+        key,
+        form.controls[key].validator
+      ] as const);
+
+      keys.forEach(key => form.controls[key].clearValidators());
+
+      revert.push(() => {
+        validators.forEach(([key, validator]) => form.controls[key].validator = validator);
+      });
+
+      this.stepper.next.click();
+    }
+
+    revert.forEach(r => r());
   }
 
   private getCountries() {
@@ -233,8 +265,51 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           this.professionalSummary.options.country$.set(c);
           this.loading.delete('getting countries');
         },
-        error: e => {
+        error: () => {
           this.loading.delete('getting countries');
+        }
+      })
+  }
+
+  private getProvinces(country: Country | undefined) {
+    this.professionalSummary.form.patchValue({
+      province: null as unknown as Province,
+      city: null,
+    });
+
+    if (!country)
+      return;
+
+    this.loading.add('getting provinces');
+    this.api.location.provinces(country.code)
+      .subscribe({
+        next: p => {
+          this.professionalSummary.options.province$.set(p);
+          this.loading.delete('getting provinces');
+        },
+        error: () => {
+          this.loading.delete('getting provinces');
+        }
+      })
+  }
+
+  private getCities(country?: Country, province?: Province) {
+    this.professionalSummary.form.patchValue({
+      city: null,
+    });
+
+    if (!country || !province)
+      return;
+
+    this.loading.add('getting cities');
+    this.api.location.cities(country.code, province.iso)
+      .subscribe({
+        next: c => {
+          this.professionalSummary.options.city$.set(c);
+          this.loading.delete('getting cities');
+        },
+        error: () => {
+          this.loading.delete('getting cities');
         }
       })
   }
@@ -247,7 +322,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 type Step =
   'start' |
   'professional-summary' |
-  'primary-domain' |
+  'primary-domains' |
   'services' |
   'modules' |
   'software' |
