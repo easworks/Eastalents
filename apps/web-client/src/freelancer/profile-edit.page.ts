@@ -1,9 +1,16 @@
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { FormImports, GeoLocationService, ImportsModule, LottiePlayerDirective, generateLoadingState } from '@easworks/app-shell';
 import { MatSelectModule } from '@angular/material/select';
+import { ActivatedRoute } from '@angular/router';
+import { FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, generateLoadingState } from '@easworks/app-shell';
+import { Country } from '@easworks/models';
+
+const dummyOptions = [
+  'Tim Cook',
+  'Steve Jobs',
+  'Bill Gates'
+];
 
 @Component({
   selector: 'freelancer-profile-edit-page',
@@ -22,6 +29,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private readonly injector = inject(INJECTOR);
   private readonly route = inject(ActivatedRoute);
   private readonly geo = inject(GeoLocationService);
+  private readonly api = {
+    location: inject(LocationApi)
+  } as const;
 
   @HostBinding() private readonly class = 'flex flex-col lg:flex-row';
 
@@ -29,42 +39,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     'getting profile data' |
     'getting geolocation' |
     'getting countries' |
-    'getting states' |
+    'getting provinces' |
     'getting cities' |
     'getting timezone'
   ]>();
   protected readonly isNew = this.route.snapshot.queryParamMap.has('new');
   private readonly section = this.initSection();
 
-
-  protected readonly professionalSummary = {
-    form: new FormGroup({
-      summary: new FormControl('', [Validators.required]),
-      country: new FormControl('', [Validators.required]),
-      province: new FormControl('', [Validators.required]),
-      city: new FormControl('', [Validators.required]),
-      timezone: new FormControl('', [Validators.required])
-    }),
-    loading: {
-      geo$: this.loading.has('getting geolocation'),
-      countries$: this.loading.has('getting countries'),
-      states$: this.loading.has('getting states'),
-      cities$: this.loading.has('getting states'),
-      timezone$: this.loading.has('getting timezone')
-    },
-    useCurrentLocation: async () => {
-      const pos = await this.geo.get();
-
-      // now that we have gotten the coords
-      // or gotten null
-      // we have to send these off to the api to
-      // figure out where the user is
-      // then populate the form with those values
-
-      throw new Error('not implemented');
-
-    }
-  } as const;
+  protected readonly professionalSummary = this.initProfessionaSummary();
 
   protected readonly stepper = this.initStepper();
 
@@ -145,6 +127,94 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     return allowed.find(i => i === param) ?? null;
   }
 
+  private initProfessionaSummary() {
+    const form = new FormGroup({
+      summary: new FormControl('', [Validators.required]),
+      country: new FormControl<Country>(null as unknown as Country, {
+        validators: [Validators.required],
+        nonNullable: true
+      }),
+      province: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required]),
+      timezone: new FormControl('', [Validators.required])
+    });
+
+    const loading = {
+      geo: this.loading.has('getting geolocation'),
+      countries: this.loading.has('getting countries'),
+      provinces: this.loading.has('getting provinces'),
+      cities: this.loading.has('getting cities'),
+      timezone: this.loading.has('getting timezone'),
+    };
+
+    const showSpinner = {
+      country$: computed(() => loading.geo() || loading.countries()),
+      province$: computed(() => loading.geo() || loading.provinces()),
+      city$: computed(() => loading.geo() || loading.cities()),
+      timezone$: computed(() => loading.geo() || loading.timezone()),
+    }
+
+    const validity = {
+      country: toSignal(form.controls.country.statusChanges),
+      province: toSignal(form.controls.province.statusChanges),
+    }
+
+
+    const disabled = {
+      country$: computed(() => showSpinner.country$()),
+      province$: computed(() => showSpinner.province$() || validity.country() !== 'VALID'),
+      city$: computed(() => showSpinner.city$() || validity.province() !== 'VALID'),
+      timezone$: computed(() => showSpinner.timezone$() || validity.country() !== 'VALID'),
+    }
+    const options = {
+      country$: signal<Country[]>([]),
+      province$: signal(dummyOptions),
+      city$: signal(dummyOptions),
+      timezone$: signal(dummyOptions)
+    } as const;
+
+    effect(() => {
+      const step = this.stepper.step$();
+      if (step !== 'professional-summary')
+        return;
+
+      const shouldFetch = options.country$().length === 0;
+      if (shouldFetch) {
+        this.getCountries();
+      }
+
+      disabled.country$() ? form.controls.country.disable() : form.controls.country.enable();
+      disabled.province$() ? form.controls.province.disable() : form.controls.province.enable();
+      disabled.city$() ? form.controls.city.disable() : form.controls.city.enable();
+      disabled.timezone$() ? form.controls.timezone.disable() : form.controls.timezone.enable();
+
+
+    }, { allowSignalWrites: true });
+
+    return {
+      form,
+      loading: {
+        showSpinner,
+        disabled
+      },
+      options,
+      useCurrentLocation: async () => {
+        this.loading.add('getting geolocation');
+        const pos = await this.geo.get();
+
+        // now that we have gotten the coords
+        // or gotten null
+        // we have to send these off to the api to
+        // figure out where the user is
+        // then populate the form with those values
+
+        throw new Error('not implemented');
+
+      },
+    } as const;
+  }
+
+
   private async devModeInit() {
     if (!isDevMode())
       return;
@@ -152,6 +222,21 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     {
       this.stepper.next.click();
     }
+  }
+
+  private getCountries() {
+    this.loading.add('getting countries');
+
+    this.api.location.countries()
+      .subscribe({
+        next: c => {
+          this.professionalSummary.options.country$.set(c);
+          this.loading.delete('getting countries');
+        },
+        error: e => {
+          this.loading.delete('getting countries');
+        }
+      })
   }
 
   ngOnInit(): void {

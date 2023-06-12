@@ -81,13 +81,29 @@
           <div class="mt-4">
             <div class="grid grid-cols-2 gap-x-4 md:gap-x-8 transition-all">
               <div *ngrxLet="form.controls.country as control"
-                   [formFieldControl]="control">
+                   [formFieldControl]="control"
+                   class="relative"
+                   [class.show-spinner]="professionalSummary.loading.showSpinner.country$()">
                 <label>Country</label>
-                <mat-select [formControl]="control">
-                  <mat-option>Tim Cook</mat-option>
-                  <mat-option>Steve Jobs</mat-option>
-                  <mat-option>Bill Gates</mat-option>
+                <mat-select [formControl]="control" class="transition-all">
+                  <mat-select-trigger>
+                    <div *ngIf="control.value as country"
+                         class="block overflow-hidden text-ellipsis">
+                      <span class="font-emoji mr-2">{{country.flag}}</span>
+                      <span>{{country.name}}</span>
+                    </div>
+                  </mat-select-trigger>
+                  <mat-option *ngFor="let country of professionalSummary.options.country$()"
+                              [value]="country">
+                    <div class="flex gap-4 items-center">
+                      <span class="font-emoji">{{country.flag}}</span>
+                      <span>{{country.name}}</span>
+                    </div>
+                  </mat-option>
                 </mat-select>
+                <mat-progress-spinner class="field-spinner right-6 top-8"
+                                      mode="indeterminate" diameter="24"></mat-progress-spinner>
+
               </div>
 
               <div *ngrxLet="form.controls.province as control"
