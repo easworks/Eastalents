@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
-import { FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, generateLoadingState } from '@easworks/app-shell';
+import { Domain, FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, generateLoadingState } from '@easworks/app-shell';
 import { Country, Province } from '@easworks/models';
 import { DateTime } from 'luxon';
 
@@ -42,6 +42,17 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private readonly section = this.initSection();
 
   protected readonly professionalSummary = this.initProfessionaSummary();
+  protected readonly primaryDomains = {
+    form: new FormArray<FormGroup<{
+      domain: FormControl<Domain>,
+      years: FormControl<number>
+    }>>([], {
+      validators: [
+        Validators.minLength(1),
+        Validators.maxLength(3)
+      ]
+    })
+  }
 
   protected readonly stepper = this.initStepper();
 
