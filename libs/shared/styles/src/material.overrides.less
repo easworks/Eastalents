@@ -32,6 +32,10 @@
 
 .mat-mdc-select {
   @apply field;
+
+  &:not(.mat-mdc-select-disabled) {
+    @apply field-interactive;
+  }
 }
 
 .mat-mdc-select-panel {

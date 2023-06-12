@@ -14,7 +14,8 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        'sans': ['Roboto', ...defaultTheme.fontFamily.sans]
+        'sans': ['Roboto', ...defaultTheme.fontFamily.sans],
+        'emoji': ['Noto Color Emoji']
       },
       boxShadowColor: {
         DEFAULT: colors.slate[500]
