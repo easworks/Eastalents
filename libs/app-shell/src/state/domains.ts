@@ -21,6 +21,11 @@ export interface DomainProduct {
   imageUrl: string;
 }
 
+export interface HomePageDomainDto {
+  name: string;
+  software: string[];
+}
+
 
 @Injectable({
   providedIn: 'root'
