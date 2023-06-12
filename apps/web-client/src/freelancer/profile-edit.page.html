@@ -86,6 +86,7 @@
                 <label>Country</label>
                 <span class="font-emoji absolute left-2 top-8" *ngIf="control.value as value">{{value.flag}}</span>
                 <input type="text" [formControl]="control" [matAutocomplete]="countryOptions"
+                       placeholder="Type to filter"
                        class="transition-all" [class.!pl-10]="control.valid">
                 <mat-autocomplete #countryOptions [displayWith]="professionalSummary.displayWith.country"
                                   (optionSelected)="professionalSummary.options.select.country()">
@@ -105,7 +106,8 @@
                    [formFieldControl]="control"
                    [class.show-spinner]="professionalSummary.loading.showSpinner.province$()">
                 <label>Province</label>
-                <input type="text" [formControl]="control" [matAutocomplete]="provinceOptions">
+                <input type="text" [formControl]="control" [matAutocomplete]="provinceOptions"
+                       placeholder="Type to filter">
                 <mat-autocomplete #provinceOptions [displayWith]="professionalSummary.displayWith.province"
                                   (optionSelected)="professionalSummary.options.select.province()">
                   <mat-option *ngFor="let province of professionalSummary.options.filtered.province$(); trackBy: professionalSummary.trackBy.province"
@@ -121,7 +123,8 @@
                    [formFieldControl]="control"
                    [class.show-spinner]="professionalSummary.loading.showSpinner.city$()">
                 <label>City</label>
-                <input type="text" [formControl]="control" [matAutocomplete]="cityOptions">
+                <input type="text" [formControl]="control" [matAutocomplete]="cityOptions"
+                       placeholder="Type to filter">
                 <mat-autocomplete #cityOptions>
                   <mat-option *ngFor="let city of professionalSummary.options.filtered.city$()"
                               [value]="city">
@@ -151,6 +154,66 @@
 
     <div *ngIf="step === 'primary-domains'"
          class="rounded bg-white mat-elevation-z1 p-4">
+
+      <form *ngrxLet="primaryDomains.form as array">
+        <label class="text-lg">Select Your Primary Enterprise Application Domain(s)</label>
+
+        <ng-container *ngIf="array.controls.length; else noItemsSelected">
+          <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+            <div *ngFor="let form of array.controls; let i = index; trackBy: primaryDomains.trackBy.controls"
+                 class="border rounded p-2 pl-4 flex gap-2 items-stretch">
+
+              <div class="flex-grow flex flex-col gap-4">
+                <span class="flex-grow pt-2">{{form.value.domain?.value?.longName}}</span>
+                <div *ngrxLet="form.controls.years as control" [formFieldControl]="control">
+                  <input type="number" [formControl]="control" placeholder="Years of Experience"
+                         min="1" max="30">
+                  <span class="hint">1-30</span>
+                </div>
+              </div>
+
+              <button class="icon-button h-10 w-10 flex-none text-warn/80" mat-ripple
+                      type="button" (click)="primaryDomains.remove(i)"
+                      title="Remove">
+                <i class="fas fa-circle-minus"></i>
+              </button>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #noItemsSelected>
+          <div class="mt-4 border rounded p-2 mx-auto text-center">
+            <i>Please select from the list below</i>
+          </div>
+        </ng-template>
+      </form>
+
+      <div class="mt-4" *ngIf="primaryDomains.options.visible$()">
+        <input type="text" placeholder="Type to filter"
+               [ngModel]="primaryDomains.options.filterText$()"
+               (ngModelChange)="primaryDomains.options.filterText$.set($event)">
+
+        <div *ngIf="primaryDomains.options.loading$(); else optionsLoaded"
+             class="mt-4 p-2 grid gap-4 justify-items-center">
+          <p> Fetching data. Please wait... </p>
+          <mat-progress-spinner mode="indeterminate" diameter="32"></mat-progress-spinner>
+        </div>
+        <ng-template #optionsLoaded>
+          <ul class="mt-4 grid gap-4 primary-domain-options"
+              style="grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));">
+            <li *ngFor="let option of primaryDomains.options.filtered$(); trackBy: primaryDomains.trackBy.options">
+              <button class="stroked-button w-full" mat-ripple
+                      [title]="option.title"
+                      [class.selected]="option.selected"
+                      [disabled]="option.selected"
+                      (click)="primaryDomains.select(option)">
+                {{option.label}}
+              </button>
+            </li>
+          </ul>
+
+        </ng-template>
+      </div>
     </div>
   </div>
 

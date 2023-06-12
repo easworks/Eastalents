@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, computed, effect, inject, isDevMode, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ActivatedRoute } from '@angular/router';
-import { Domain, FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, generateLoadingState } from '@easworks/app-shell';
+import { Domain, DomainState, FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, SelectableOption, generateLoadingState, sortString } from '@easworks/app-shell';
 import { Country, Province } from '@easworks/models';
 import { DateTime } from 'luxon';
+import { filter, firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'freelancer-profile-edit-page',
@@ -25,8 +26,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly geo = inject(GeoLocationService);
   private readonly api = {
-    location: inject(LocationApi)
+    location: inject(LocationApi),
   } as const;
+  private readonly domains = inject(DomainState)
 
   @HostBinding() private readonly class = 'flex flex-col lg:flex-row';
 
@@ -36,23 +38,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     'getting countries' |
     'getting provinces' |
     'getting cities' |
-    'getting timezone'
+    'getting timezone' |
+    'getting primary domains'
   ]>();
   protected readonly isNew = this.route.snapshot.queryParamMap.has('new');
   private readonly section = this.initSection();
 
   protected readonly professionalSummary = this.initProfessionaSummary();
-  protected readonly primaryDomains = {
-    form: new FormArray<FormGroup<{
-      domain: FormControl<Domain>,
-      years: FormControl<number>
-    }>>([], {
-      validators: [
-        Validators.minLength(1),
-        Validators.maxLength(3)
-      ]
-    })
-  }
+  protected readonly primaryDomains = this.initPrimaryDomains();
 
   protected readonly stepper = this.initStepper();
 
@@ -68,23 +61,27 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     });
 
 
-    const totalSteps = 1;
+    const totalSteps = 3;
     const stepProgress$ = computed(() => {
       switch (step$()) {
         case 'professional-summary': return 1;
+        case 'primary-domains': return 2;
+        case 'services': return 3;
         default: return 0;
       }
     });
 
 
-    const inputs = {
-      summary: toSignal(this.professionalSummary.form.statusChanges)
+    const status = {
+      summary: toSignal(this.professionalSummary.form.statusChanges),
+      primaryDomains: toSignal(this.primaryDomains.form.statusChanges)
     } as const;
 
     const nextDisabled$ = computed(() => {
       const step = step$();
       return this.loading.any$() ||
-        (step === 'professional-summary' && inputs.summary() !== 'VALID');
+        (step === 'professional-summary' && status.summary() !== 'VALID') ||
+        (step === 'primary-domains' && status.primaryDomains() !== 'VALID');
     });
 
     return {
@@ -105,6 +102,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           switch (step$()) {
             case 'start': return step$.set('professional-summary');
             case 'professional-summary': return step$.set('primary-domains');
+            case 'primary-domains': return step$.set('services')
           }
         }
       },
@@ -113,6 +111,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         click: () => {
           switch (step$()) {
             case 'primary-domains': return step$.set('professional-summary');
+            case 'services': return step$.set('primary-domains');
           }
           // 
         }
@@ -279,8 +278,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       if (step !== 'professional-summary')
         return;
 
-      const shouldFetch = allOptions.country$().length === 0;
-      if (shouldFetch) {
+      if (allOptions.country$().length === 0) {
         this.getCountries();
       }
     }, { allowSignalWrites: true });
@@ -318,10 +316,94 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     } as const;
   }
 
+  private initPrimaryDomains() {
+    type FormType = FormGroup<{
+      domain: FormControl<SelectableOption<Domain>>,
+      years: FormControl<number>
+    }>
+    const form = new FormArray<FormType>([], {
+      validators: [
+        Validators.minLength(1),
+        Validators.maxLength(3)
+      ]
+    });
+
+    const values = toSignal(form.valueChanges);
+    const length$ = computed(() => {
+      values();
+      return form.length;
+    });
+
+    const filterText$ = signal('');
+    const options$ = computed(() => this.domains.domains$().map(d => {
+      const opt: SelectableOption<Domain> = {
+        selected: false,
+        value: d,
+        label: d.shortName,
+        title: d.longName,
+      }
+      return opt;
+    }));
+    const filtered$ = computed(() => {
+      const filter = filterText$().toLowerCase();
+      const all = options$();
+      if (filter)
+        return all.filter(i =>
+          i.value.shortName.toLowerCase().includes(filter) ||
+          i.value.longName.toLowerCase().includes(filter));
+      return all;
+    });
+
+    return {
+      form,
+      options: {
+        filterText$,
+        all$: options$,
+        filtered$,
+        loading$: this.domains.loading$,
+        visible$: computed(() => length$() < 3)
+      },
+      trackBy: {
+        controls: (_: number, form: FormType) => form.value.domain?.value.shortName,
+        options: (_: number, opt: SelectableOption<Domain>) => opt.value.shortName
+      },
+      select: (option: SelectableOption<Domain>) => {
+        option.selected = true;
+
+        form.push(new FormGroup({
+          domain: new FormControl(option, {
+            validators: [Validators.required],
+            nonNullable: true
+          }),
+          years: new FormControl(null as unknown as number, {
+            validators: [
+              Validators.required,
+              Validators.min(1),
+              Validators.max(30)
+            ],
+            nonNullable: true
+          }),
+        }));
+
+        form.controls.sort((a, b) =>
+          sortString(
+            a.value.domain?.value.longName ?? '',
+            b.value.domain?.value.longName ?? ''
+          ));
+      },
+      remove: (i: number) => {
+        const value = form.at(i).getRawValue();
+        value.domain.selected = false;
+        form.removeAt(i);
+      }
+    } as const;
+  }
 
   private async devModeInit() {
     if (!isDevMode())
       return;
+
+    const injector = this.injector;
 
     const revert = [] as (() => void)[];
 
@@ -343,6 +425,19 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       revert.push(() => {
         validators.forEach(([key, validator]) => form.controls[key].validator = validator);
       });
+
+      this.stepper.next.click();
+    }
+
+    {
+      const all = await firstValueFrom(toObservable(this.primaryDomains.options.all$, { injector })
+        .pipe(filter(all => all.length > 0)));
+
+      this.primaryDomains.select(all[0]);
+      this.primaryDomains.select(all[1]);
+
+      this.primaryDomains.form.at(0).controls.years.setValue(2);
+      this.primaryDomains.form.at(1).controls.years.setValue(3);
 
       this.stepper.next.click();
     }
