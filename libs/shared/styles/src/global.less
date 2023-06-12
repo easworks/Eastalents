@@ -164,9 +164,8 @@
     }
   }
 
-  form.ng-submitted .form-field {
-  // might need to investigate the correct time to enable this line
-  // .form-field.dirty {
+  form.ng-submitted .form-field,
+  form.ng-dirty .form-field.dirty {
     &.invalid {
       label {
         @apply text-warn;
