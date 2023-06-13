@@ -3,43 +3,44 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService, AuthState, ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell';
-import { RETURN_URL_KEY, Role, SocialUserNotInDB } from '@easworks/models';
+import { RETURN_URL_KEY, Role } from '@easworks/models';
 import { firstValueFrom } from 'rxjs';
 
 export const socialCallbackGuard: CanActivateFn = async (route) => {
-  const challenge = route.queryParamMap.get('state');
-  if (!challenge)
-    throw new Error(`'state' query parameter was expected but not found`);
-
-  const code = route.queryParamMap.get('code');
-  if (!code)
-    throw new Error(`'code' query parameter was expected but not found`);
-
   const auth = inject(AuthService);
-
-  const state = auth.socialCallback.get();
-
-  if (!state || state.challenge !== challenge)
-    throw new Error('error during social login');
-
-  state.request.code = code;
-
-  const snackbar = inject(MatSnackBar);
-  const router = inject(Router);
   const dialog = inject(MatDialog);
   const authState = inject(AuthState);
+  const snackbar = inject(MatSnackBar);
+  const router = inject(Router);
 
   try {
+    const challenge = route.queryParamMap.get('state');
+    if (!challenge)
+      throw new Error(`'state' query parameter was expected but not found`);
+
+    const code = route.queryParamMap.get('code');
+    if (!code)
+      throw new Error(`'code' query parameter was expected but not found`);
+
+
+    const state = auth.socialCallback.get();
+
+    if (!state || state.challenge !== challenge)
+      throw new Error('error during social login');
+
+    state.request.code = code;
+
+
     const result = await firstValueFrom(auth.socialCallback.getToken(state.request, {
       isNewUser: state.request.authType === 'signup',
       returnUrl: state[RETURN_URL_KEY]
     }))
-      // TODO: THIS CATCH CHAIN IS TEMPORARY AND SHOULD BE REMOVED
-      .catch(() => ({
-        email: 'test@gmail.com',
-        firstName: 'test',
-        lastName: 'test',
-      } as SocialUserNotInDB))
+    // TODO: THIS CATCH CHAIN IS TEMPORARY AND SHOULD BE REMOVED
+    // .catch(() => ({
+    //   email: 'test@gmail.com',
+    //   firstName: 'test',
+    //   lastName: 'test',
+    // } as SocialUserNotInDB))
 
     console.debug(authState.user$());
 
