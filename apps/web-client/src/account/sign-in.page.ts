@@ -56,7 +56,7 @@ export class AccountSignInPageComponent {
 
       this.auth.signin.email(
         this.emailLogin.form.getRawValue(),
-        { isNewUser: false, returnUrl: this.returnUrl }
+        this.returnUrl
       ).subscribe({
         next: () => this.loading.delete('signing in'),
         error: () => this.loading.delete('signing in')

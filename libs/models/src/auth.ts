@@ -1,4 +1,4 @@
-import { Role } from './user';
+import { Role, UserWithToken } from './user';
 
 export const RETURN_URL_KEY = 'returnUrl';
 
@@ -12,41 +12,14 @@ export function socialIdpName(idp: SocialIdp) {
   }
 }
 
-/** User was found and token was returned */
-export interface AuthSuccess {
-  token: string;
-}
-
-/** Auth Code was exchanged succesfully, but email is not in our DB */
-export interface AuthNotFound {
-  firstName?: string;
-  lastName?: string;
+interface SignUpDetails {
+  firstName: string;
+  lastName: string;
   email: string;
 }
 
-export type AuthResponse = AuthSuccess | AuthNotFound;
-
-interface SignUpRequestBase {
+export interface EmailSignUpRequest extends SignUpDetails {
   role: Role;
-  firstName: string | null;
-  lastName: string | null;
-  email: string;
-}
-
-interface SocialAuthRequestBase {
-  code: string;
-  provider: SocialIdp;
-}
-
-export interface SocialSignUpRequest extends SocialAuthRequestBase, SignUpRequestBase {
-  authType: 'signup'
-}
-
-export interface SocialSignInRequest extends SocialAuthRequestBase {
-  authType: 'signin';
-}
-
-export interface EmailSignUpRequest extends SignUpRequestBase {
   password: string;
 }
 
@@ -55,7 +28,40 @@ export interface EmailSignInRequest {
   password: string;
 }
 
+interface SocialCodeParams {
+  code: string;
+  provider: SocialIdp;
+}
+
+
+interface SocialSignUpBase {
+  authType: 'signup',
+  role: Role;
+}
+
+export type SocialSignUpWithCode = SocialSignUpBase & SocialCodeParams;
+export type SocialSignUpWithDetails = SocialSignUpBase & SignUpDetails;
+
+export type SocialSignUpRequest = SocialSignUpWithCode | SocialSignUpWithDetails;
+
+export interface SocialSignInRequest {
+  authType: 'signin';
+  code: string;
+  provider: SocialIdp;
+}
+
+
 export interface SocialCallbackState {
   [RETURN_URL_KEY]?: string;
-  request: SocialSignUpRequest | SocialSignInRequest;
+  request: SocialSignUpWithCode | SocialSignInRequest;
+  challenge?: string;
 }
+
+/** Auth Code was exchanged succesfully, but email is not in our DB */
+export interface SocialUserNotInDB {
+  firstName?: string;
+  lastName?: string;
+  email: string;
+}
+
+export type SocialAuthResponse = UserWithToken | SocialUserNotInDB;

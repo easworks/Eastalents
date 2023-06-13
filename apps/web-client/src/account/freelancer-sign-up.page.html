@@ -2,21 +2,31 @@
   <h2 class="text-xl font-bold text-center">Apply To Join</h2>
   <p class="text-center mt-2 text-sm">The World's Top Talent Enterprise Application Network & work with the world's leading Companies.</p>
 
-  <div class="social">
-    <h2 class="text-center col-span-2">Sign Up With</h2>
-    <button mat-ripple (click)="auth.signin.github()">
-      <img src="/assets/github/github-mark.svg">
-      <span>GitHub</span>
-    </button>
-    <button mat-ripple (click)="auth.signin.linkedIn()">
-      <img src="/assets/linkedin/LI-In-Bug.png">
-      <span>LinkedIn</span>
-    </button>
-    <button mat-ripple (click)="auth.signin.google()">
-      <img src="/assets/google/colored.svg">
-      <span>Google</span>
-    </button>
+  <div *ngIf="partial; else $social"
+       class="mt-4 rounded p-2 bg-emerald-200/10 text-sm text-center text-emerald-500">
+    We have pre-filled your social login details. You can edit them if needed, except for the email.
+    We shall sign you up once you have given your consent.
   </div>
+
+  <ng-template #$social>
+    <div class="social">
+      <h2 class="text-center col-span-2">Sign Up With</h2>
+      <button mat-ripple (click)="auth.signup.social('github','freelancer')">
+        <img src="/assets/github/github-mark.svg">
+        <span>GitHub</span>
+      </button>
+      <button mat-ripple (click)="auth.signup.social('linkedin','freelancer')">
+        <img src="/assets/linkedin/LI-In-Bug.png">
+        <span>LinkedIn</span>
+      </button>
+      <button mat-ripple (click)="auth.signup.social('google','freelancer')">
+        <img src="/assets/google/colored.svg">
+        <span>Google</span>
+      </button>
+    </div>
+  </ng-template>
+
+
 
   <form [formGroup]="form" class="mt-8"
         (ngSubmit)="submit()">
@@ -41,30 +51,32 @@
     <div *ngrxLet="form.controls.email as control"
          [formFieldControl]="control">
       <label>Email</label>
-      <input type="email" [formControl]="control" placeholder="Email Address">
+      <input type="email" [formControl]="control" placeholder="Email Address" [readOnly]="partial">
       <span class="error" *ngIf="control.hasError('required')">Required</span>
       <span class="error" *ngIf="control.hasError('pattern')">Invalid email</span>
     </div>
 
-    <div *ngrxLet="form.controls.password as control"
-         [formFieldControl]="control" class="mb-12">
-      <label>Password</label>
-      <input type="password" [formControl]="control" [crossValidate]="['passwordMismatch']"
-             placeholder="Enter your Password">
-      <span class="error" *ngIf="control.hasError('required')">Required</span>
-      <span class="error" *ngIf="control.hasError('pattern')">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character</span>
-      <span class="error" *ngIf="control.hasError('passwordMismatch')">Passwords do not match</span>
-      <span class="hint">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character</span>
-    </div>
+    <ng-container *ngIf="form.controls.password.enabled">
+      <div *ngrxLet="form.controls.password as control"
+           [formFieldControl]="control" class="mb-12">
+        <label>Password</label>
+        <input type="password" [formControl]="control" [crossValidate]="['passwordMismatch']"
+               placeholder="Enter your Password">
+        <span class="error" *ngIf="control.hasError('required')">Required</span>
+        <span class="error" *ngIf="control.hasError('pattern')">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character</span>
+        <span class="error" *ngIf="control.hasError('passwordMismatch')">Passwords do not match</span>
+        <span class="hint">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character</span>
+      </div>
 
-    <div *ngrxLet="form.controls.confirmPassword as control"
-         [formFieldControl]="control">
-      <label>Confirm Password</label>
-      <input type="password" [formControl]="control" [crossValidate]="['passwordMismatch']"
-             placeholder="Confirm your Password">
-      <span class="error" *ngIf="control.hasError('required')">Required</span>
-      <span class="error" *ngIf="control.hasError('passwordMismatch')">Passwords do not match</span>
-    </div>
+      <div *ngrxLet="form.controls.confirmPassword as control"
+           [formFieldControl]="control">
+        <label>Confirm Password</label>
+        <input type="password" [formControl]="control" [crossValidate]="['passwordMismatch']"
+               placeholder="Confirm your Password">
+        <span class="error" *ngIf="control.hasError('required')">Required</span>
+        <span class="error" *ngIf="control.hasError('passwordMismatch')">Passwords do not match</span>
+      </div>
+    </ng-container>
 
     <div class="border rounded p-2 flex gap-2">
       <mat-checkbox [formControl]="form.controls.tncAgreement"></mat-checkbox>

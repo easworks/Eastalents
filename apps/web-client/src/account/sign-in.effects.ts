@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { AuthService } from '@easworks/app-shell';
+import { AuthService, AuthState } from '@easworks/app-shell';
 
 const noRedirects = [
   '/account/sign-in',
@@ -23,11 +23,16 @@ export class SignInEffects {
           this.router.navigateByUrl(meta.returnUrl);
         }
         else {
-          console.debug('redirect to dashboard')
+          const role = this.state.user$()?.role;
+          if (role === 'freelancer')
+            this.router.navigateByUrl('/freelancer');
+          else if (role === 'employer')
+            this.router.navigateByUrl('/enterprise');
         }
       })
   }
 
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly state = inject(AuthState);
 }

@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angula
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AccountApi, AuthService, ErrorSnackbarDefaults, FormImports, ImportsModule, LottiePlayerDirective, SnackbarComponent, generateLoadingState } from '@easworks/app-shell';
-import { EmailSignUpRequest, pattern } from '@easworks/models';
+import { AuthService, AuthState, ErrorSnackbarDefaults, FormImports, ImportsModule, LottiePlayerDirective, SnackbarComponent, generateLoadingState } from '@easworks/app-shell';
+import { pattern } from '@easworks/models';
 
 @Component({
   selector: 'account-freelancer-sign-up-page',
@@ -19,10 +19,21 @@ import { EmailSignUpRequest, pattern } from '@easworks/models';
   ]
 })
 export class FreelancerSignUpPageComponent {
+  constructor() {
+    const state = inject(AuthState);
+    this.partial = state.partialSocialSignIn$();
+    state.partialSocialSignIn$.set(null);
+
+    if (this.partial) {
+      this.form.reset(this.partial);
+      this.form.controls.password.disable();
+      this.form.controls.confirmPassword.disable();
+    }
+  }
+
   protected readonly auth = inject(AuthService);
-  protected readonly api = {
-    account: inject(AccountApi)
-  } as const;
+  protected readonly partial;
+
   private readonly snackbar = inject(MatSnackBar);
 
   @HostBinding()
@@ -73,25 +84,23 @@ export class FreelancerSignUpPageComponent {
       return;
 
     const { email, firstName, lastName, password } = this.form.getRawValue();
-
-    const input: EmailSignUpRequest = {
-      email,
-      firstName,
-      lastName,
-      password,
-      role: 'freelancer'
-    };
-
     this.loading.add('signing up');
-    this.api.account.signup(input)
-      .subscribe({
-        next: () => {
-          this.loading.delete('signing up')
-        },
-        error: () => {
-          this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
-          this.loading.delete('signing up');
-        }
-      });
+
+    const query$ = this.partial ?
+      this.auth.socialCallback.getToken(
+        { authType: 'signup', role: 'freelancer', email, firstName, lastName, },
+        { isNewUser: true }
+      ) :
+      this.auth.signup.email({ email, firstName, lastName, password, role: 'freelancer' });
+
+    query$.subscribe({
+      next: () => {
+        this.loading.delete('signing up')
+      },
+      error: () => {
+        this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
+        this.loading.delete('signing up');
+      }
+    });
   }
 }

@@ -1,13 +1,14 @@
-import { Inject, inject } from '@angular/core';
+import { inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CanActivateFn } from '@angular/router';
-import { AccountApi, AuthService, AuthState } from '@easworks/app-shell';
-import { SocialCallbackState, SocialSignInRequest, SocialSignUpRequest } from '@easworks/models';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CanActivateFn, Router } from '@angular/router';
+import { AuthService, AuthState, ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell';
+import { RETURN_URL_KEY, Role, SocialUserNotInDB } from '@easworks/models';
 import { firstValueFrom } from 'rxjs';
 
 export const socialCallbackGuard: CanActivateFn = async (route) => {
-  const csrf = route.queryParamMap.get('state');
-  if (!csrf)
+  const challenge = route.queryParamMap.get('state');
+  if (!challenge)
     throw new Error(`'state' query parameter was expected but not found`);
 
   const code = route.queryParamMap.get('code');
@@ -18,37 +19,53 @@ export const socialCallbackGuard: CanActivateFn = async (route) => {
 
   const state = auth.socialCallback.get();
 
-  if (!state || state.request.code !== csrf)
+  if (!state || state.challenge !== challenge)
     throw new Error('error during social login');
 
   state.request.code = code;
 
-  const result = await firstValueFrom(inject(AccountApi)
-    .socialLogin(state.request))
-  //   .signIn.social({ provider: state.provider, code });
+  const snackbar = inject(MatSnackBar);
+  const router = inject(Router);
+  const dialog = inject(MatDialog);
+  const authState = inject(AuthState);
 
-  // if ('token' in result) {
-  //   // const auth = inject(AuthService);
-  //   // auth.handleSignIn(result.token, state[RETURN_URL_KEY]);
-  //   return false;
-  // }
-  // else {
-  //   inject(AuthState).partialSocialSignIn$.set({
-  //     provider: state.provider,
-  //     ...result
-  //   });
-  //   const dialog = inject(MatDialog);
+  try {
+    const result = await firstValueFrom(auth.socialCallback.getToken(state.request, {
+      isNewUser: state.request.authType === 'signup',
+      returnUrl: state[RETURN_URL_KEY]
+    }))
+      // TODO: THIS CATCH CHAIN IS TEMPORARY AND SHOULD BE REMOVED
+      .catch(() => ({
+        email: 'test@gmail.com',
+        firstName: 'test',
+        lastName: 'test',
+      } as SocialUserNotInDB))
 
-  //   const comp = await import('./social-callback.dialog')
-  //     .then(m => m.SociallCallbackDialogComponent);
+    console.debug(authState.user$());
 
+    // We got back a token and a user
+    if ('token' in result) {
+      return false;
+    }
+    // user has not signed up yet. take his choice of role and sign him up
+    else {
+      authState.partialSocialSignIn$.set(result);
 
-  //   const dialogRef = dialog.open(comp, {
-  //     closeOnNavigation: true,
-  //     disableClose: true
-  //   });
+      const comp = await import('./social-callback.dialog')
+        .then(m => m.SociallCallbackDialogComponent);
 
-  //   await firstValueFrom(dialogRef.afterClosed())
+      const dialogRef = dialog.open(comp, {
+        closeOnNavigation: true,
+        disableClose: true
+      });
+
+      await firstValueFrom<Role>(dialogRef.afterClosed())
+    }
+  }
+  catch (e) {
+    snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
+    router.navigateByUrl('/account/sign-in');
+  }
 
   return true;
 }

@@ -2,7 +2,7 @@ import { DestroyRef, Injectable, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRouteSnapshot, Route, Router, UrlSegment } from '@angular/router';
-import { EmailSignInRequest, RETURN_URL_KEY, Role, SocialCallbackState, SocialIdp, User, UserWithToken } from '@easworks/models';
+import { EmailSignInRequest, EmailSignUpRequest, RETURN_URL_KEY, Role, SocialCallbackState, SocialIdp, SocialSignInRequest, SocialSignUpRequest, User, UserWithToken } from '@easworks/models';
 import { Subject, catchError, fromEvent, map } from 'rxjs';
 import { AccountApi } from '../api';
 import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '../notification';
@@ -34,56 +34,82 @@ export class AuthService {
 
   readonly socialCallback = {
     set: (state: SocialCallbackState) => {
-      state.request.code = [...crypto.getRandomValues(new Uint8Array(16))]
+      state.challenge = [...crypto.getRandomValues(new Uint8Array(16))]
         .map(i => i.toString(16))
         .join('');
 
       localStorage.setItem(`socialCallback`, JSON.stringify(state));
 
-      return state.request.code;
+      return state.challenge;
     },
     get: () => {
       const saved = localStorage.getItem(`socialCallback`)
-      if (saved)
+      if (saved) {
+        localStorage.removeItem(`socialCallback`);
         return JSON.parse(saved) as SocialCallbackState;
+      }
       else
         return null;
     },
-    clear: () => {
-      localStorage.removeItem('socialCallback');
-    }
+    getToken: (input: SocialSignInRequest | SocialSignUpRequest, meta: SignInMeta) =>
+      this.api.account.socialLogin(input)
+        .pipe(map(r => {
+          if ('token' in r) {
+            this.handleSignIn(r, meta)
+          }
+          return r;
+        }))
   };
 
+  readonly signup = {
+    social: (provider: SocialIdp, role: Role) => {
+      const state = this.socialCallback.set({
+        request: {
+          authType: 'signup',
+          role,
+          code: '',
+          provider
+        },
+      });
+      const authUrl = AuthRedirect.getUrl(provider, state);
+      location.href = authUrl.toString();
+    },
+    email: (input: EmailSignUpRequest) =>
+      this.api.account.signup(input)
+        .pipe(
+          map(r => {
+            this.handleSignIn(r, { isNewUser: true });
+            return r;
+          }),
+          catchError((e) => {
+            this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
+            throw e;
+          })
+        )
+  } as const;
+
   readonly signin = {
-    github: () => {
-      console.debug('[SIGN IN] Github');
-    },
-    linkedIn: () => {
-      console.debug('[SIGN IN] LinkedIn');
-    },
-    google: (returnUrl?: string) => {
-      console.debug('[SIGN IN] Google');
+    social: (provider: SocialIdp, returnUrl?: string) => {
       const state = this.socialCallback.set({
         request: {
           authType: 'signin',
-          provider: 'google',
+          provider,
           code: ''
         },
         returnUrl
       });
-      const authUrl = AuthRedirect.getUrl('google', state);
-      console.debug(authUrl.href);
+      const authUrl = AuthRedirect.getUrl(provider, state);
+      location.href = authUrl.toString();
     },
-    email: (input: EmailSignInRequest, meta: SignInMeta) =>
+    email: (input: EmailSignInRequest, returnUrl?: string) =>
       this.api.account.signin(input)
         .pipe(
           map(r => {
-            this.handleSignIn(r, meta)
+            this.handleSignIn(r, { isNewUser: false, returnUrl });
+            return r;
           }),
           catchError((e) => {
-            this.snackbar.openFromComponent(SnackbarComponent, {
-              ...ErrorSnackbarDefaults
-            });
+            this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
             throw e;
           })
         )
@@ -208,7 +234,7 @@ class AuthRedirect {
       url: 'https://accounts.google.com/o/oauth2/v2/auth',
       response_type: 'code',
       redirect_uri: `${window.location.origin}/account/social/callback`,
-      client_id: '375730135906-ue24tu42t280a93645tb9r68sfe03jme.apps.googleusercontent.com',
+      client_id: '243499270913-h4645hc46b9dqvg6ejaidpch2g6q863r.apps.googleusercontent.com',
       scope: 'email profile'
     },
     linkedin: {
