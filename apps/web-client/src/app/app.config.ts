@@ -3,7 +3,7 @@ import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angula
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { AuthInterceptor, AuthService, DefaultSeoConfig, SEOService, SEO_DEFAULT_CONFIG } from '@easworks/app-shell';
 import { SignInEffects } from '../account/sign-in.effects';
 import { provideEnvironment } from './environment';
@@ -17,7 +17,9 @@ export const appConfig: ApplicationConfig = {
       ])
     ),
     provideAnimations(),
-    provideRouter(routes),
+    provideRouter(routes,
+      withComponentInputBinding()
+    ),
     provideEnvironment(),
     {
       provide: SEO_DEFAULT_CONFIG, useValue: {

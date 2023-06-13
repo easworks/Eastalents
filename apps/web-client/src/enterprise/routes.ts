@@ -10,7 +10,13 @@ export const ENTERPRISE_ROUTE: Route = {
   children: [
     {
       path: 'dashboard',
+      pathMatch: 'full',
       loadComponent: () => import('./dashboard.page').then(m => m.EnterpriseDashboardComponent)
+    },
+    {
+      path: '',
+      pathMatch: 'full',
+      redirectTo: 'dashboard'
     }
   ]
 }

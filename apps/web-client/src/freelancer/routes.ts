@@ -22,6 +22,11 @@ export const FREELANCER_ROUTE: Route = {
       path: 'profile/edit',
       pathMatch: 'full',
       loadComponent: () => import('./profile-edit.page').then(m => m.FreelancerProfileEditPageComponent)
+    },
+    {
+      path: '',
+      pathMatch: 'full',
+      redirectTo: 'dashboard'
     }
   ]
 }
