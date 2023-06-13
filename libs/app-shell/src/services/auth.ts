@@ -241,15 +241,15 @@ class AuthRedirect {
       url: 'https://www.linkedin.com/oauth/v2/authorization',
       response_type: 'code',
       redirect_uri: `${window.location.origin}/account/social/callback`,
-      client_id: '375730135906-ue24tu42t280a93645tb9r68sfe03jme.apps.googleusercontent.com',
-      scope: 'email profile'
+      client_id: '77xht7uizkpzsm',
+      scope: 'r_emailaddress r_liteprofile'
     },
     github: {
       url: 'https://github.com/login/oauth/authorize',
       response_type: 'code',
       redirect_uri: `${window.location.origin}/account/social/callback`,
-      client_id: '375730135906-ue24tu42t280a93645tb9r68sfe03jme.apps.googleusercontent.com',
-      scope: 'user:read'
+      client_id: '7ee1b0a43b73c473e120',
+      scope: 'email profile'
     }
   };
 
