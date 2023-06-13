@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, computed, effect, inject, isDevMode, signal } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ActivatedRoute } from '@angular/router';
-import { Domain, DomainState, FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, SelectableOption, generateLoadingState, sortString } from '@easworks/app-shell';
+import { Domain, DomainState, FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, SelectableOption, generateLoadingState, sortString, statusSignal, valueSignal } from '@easworks/app-shell';
 import { Country, Province } from '@easworks/models';
 import { DateTime } from 'luxon';
 import { filter, firstValueFrom } from 'rxjs';
@@ -73,8 +73,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
 
     const status = {
-      summary: toSignal(this.professionalSummary.form.statusChanges),
-      primaryDomains: toSignal(this.primaryDomains.form.statusChanges)
+      summary: statusSignal(this.professionalSummary.form),
+      primaryDomains: statusSignal(this.primaryDomains.form)
     } as const;
 
     const nextDisabled$ = computed(() => {
@@ -202,14 +202,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     }
 
     const validity = {
-      country: toSignal(form.controls.country.statusChanges),
-      province: toSignal(form.controls.province.statusChanges),
+      country: statusSignal(form.controls.country),
+      province: statusSignal(form.controls.province),
     }
 
     const values = {
-      country: toSignal(form.controls.country.valueChanges),
-      province: toSignal(form.controls.province.valueChanges),
-      city: toSignal(form.controls.city.valueChanges)
+      country: valueSignal(form.controls.country),
+      province: valueSignal(form.controls.province),
+      city: valueSignal(form.controls.city)
     }
 
     const filteredOptions = {
@@ -328,7 +328,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       ]
     });
 
-    const values = toSignal(form.valueChanges);
+    const values = valueSignal(form);
     const length$ = computed(() => {
       values();
       return form.length;
