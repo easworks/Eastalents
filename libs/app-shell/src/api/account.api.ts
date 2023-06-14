@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiResponse, EmailSignInRequest, EmailSignUpRequest, SocialAuthResponse, SocialSignInRequest, SocialSignUpRequest, UserWithToken } from '@easworks/models';
+import { ApiResponse, EmailSignInRequest, EmailSignUpRequest, SocialSignInRequest, SocialSignUpRequest, SocialUserNotInDB, UserWithToken } from '@easworks/models';
 import { catchError, firstValueFrom, map } from 'rxjs';
 import { ApiService } from './api';
 
@@ -18,9 +18,12 @@ export class AccountApi extends ApiService {
   }
 
   readonly socialLogin = (input: SocialSignInRequest | SocialSignUpRequest) =>
-    this.http.post<ApiResponse>(`${this.apiUrl}/social-login`, input)
+    this.http.post<ApiResponse | UserWithToken>(`${this.apiUrl}/social-login`, input)
       .pipe(
-        map(r => r.result as SocialAuthResponse),
+        map((r): UserWithToken | SocialUserNotInDB => {
+          if ('token' in r) return r as UserWithToken;
+          else return r['user'];
+        }),
         catchError(this.handleError)
       );
 

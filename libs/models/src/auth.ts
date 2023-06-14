@@ -63,5 +63,3 @@ export interface SocialUserNotInDB {
   lastName?: string;
   email: string;
 }
-
-export type SocialAuthResponse = UserWithToken | SocialUserNotInDB;
