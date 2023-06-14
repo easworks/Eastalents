@@ -6,8 +6,8 @@ const devMode = isDevMode();
 
 const env: Environment = devMode ?
   {
-    apiUrl: 'https://eas-works.onrender.com/api',
-    imageUrl: 'https://eas-works.onrender.com',
+    apiUrl: 'http://localhost:3334/api',
+    imageUrl: 'http://localhost:3334',
   } :
   {
     apiUrl: 'https://eas-works.onrender.com/api',
