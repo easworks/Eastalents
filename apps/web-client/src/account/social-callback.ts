@@ -42,8 +42,6 @@ export const socialCallbackGuard: CanActivateFn = async (route) => {
     //   lastName: 'test',
     // } as SocialUserNotInDB))
 
-    console.debug(authState.user$());
-
     // We got back a token and a user
     if ('token' in result) {
       return false;
@@ -64,6 +62,7 @@ export const socialCallbackGuard: CanActivateFn = async (route) => {
     }
   }
   catch (e) {
+    console.error(e);
     snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
     router.navigateByUrl('/account/sign-in');
   }

@@ -18,14 +18,8 @@ export class AccountApi extends ApiService {
   }
 
   readonly socialLogin = (input: SocialSignInRequest | SocialSignUpRequest) =>
-    this.http.post<ApiResponse | UserWithToken>(`${this.apiUrl}/social-login`, input)
-      .pipe(
-        map((r): UserWithToken | SocialUserNotInDB => {
-          if ('token' in r) return r as UserWithToken;
-          else return r['user'];
-        }),
-        catchError(this.handleError)
-      );
+    this.http.post<UserWithToken | SocialUserNotInDB>(`${this.apiUrl}/social-login`, input)
+      .pipe(catchError(this.handleError));
 
   readonly signup = (input: EmailSignUpRequest) =>
     this.http.post<ApiResponse>(`${this.apiUrl}/users/signup`, input)
