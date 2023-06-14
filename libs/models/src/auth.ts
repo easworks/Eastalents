@@ -1,4 +1,4 @@
-import { Role, UserWithToken } from './user';
+import { Role } from './user';
 
 export const RETURN_URL_KEY = 'returnUrl';
 
@@ -36,7 +36,7 @@ interface SocialCodeParams {
 
 interface SocialSignUpBase {
   authType: 'signup',
-  role: Role;
+  userRole: Role;
 }
 
 export type SocialSignUpWithCode = SocialSignUpBase & SocialCodeParams;

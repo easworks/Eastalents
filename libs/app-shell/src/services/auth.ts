@@ -66,7 +66,7 @@ export class AuthService {
       const state = this.socialCallback.set({
         request: {
           authType: 'signup',
-          role,
+          userRole: role,
           code: '',
           provider
         },

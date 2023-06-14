@@ -106,7 +106,7 @@ export class EnterpriseSignUpPageComponent {
 
     const query$ = partial ?
       this.auth.socialCallback.getToken(
-        { authType: 'signup', role: 'employer', email, firstName, lastName },
+        { authType: 'signup', userRole: 'employer', email, firstName, lastName },
         { isNewUser: true }
       ) :
       this.auth.signup.email({ email, firstName, lastName, password, role: 'employer' });

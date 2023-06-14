@@ -88,7 +88,7 @@ export class FreelancerSignUpPageComponent {
 
     const query$ = this.partial ?
       this.auth.socialCallback.getToken(
-        { authType: 'signup', role: 'freelancer', email, firstName, lastName, },
+        { authType: 'signup', userRole: 'freelancer', email, firstName, lastName, },
         { isNewUser: true }
       ) :
       this.auth.signup.email({ email, firstName, lastName, password, role: 'freelancer' });
