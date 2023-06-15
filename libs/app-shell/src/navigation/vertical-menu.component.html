@@ -63,7 +63,7 @@
       <button *ngFor="let domain of domains.domains$()"
               (click)="domains.selectDomain(domain)"
               [class.selected]="domain.selected">
-        {{domain.value.shortName | uppercase}}
+        {{domain.value.key | uppercase}}
       </button>
     </div>
     <div class="products">

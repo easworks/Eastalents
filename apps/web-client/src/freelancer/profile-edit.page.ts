@@ -356,7 +356,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       const opt: SelectableOption<Domain> = {
         selected: false,
         value: d,
-        label: d.shortName,
+        label: d.key,
         title: d.longName,
       }
       return opt;
@@ -366,7 +366,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       const all = options$();
       if (filter)
         return all.filter(i =>
-          i.value.shortName.toLowerCase().includes(filter) ||
+          i.value.key.toLowerCase().includes(filter) ||
           i.value.longName.toLowerCase().includes(filter));
       return all;
     });
@@ -381,8 +381,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         visible$: computed(() => length$() < 3)
       },
       trackBy: {
-        controls: (_: number, form: FormType) => form.value.domain?.value.shortName,
-        options: (_: number, opt: SelectableOption<Domain>) => opt.value.shortName
+        controls: (_: number, form: FormType) => form.value.domain?.value.key,
+        options: (_: number, opt: SelectableOption<Domain>) => opt.value.key
       },
       select: (option: SelectableOption<Domain>) => {
         option.selected = true;

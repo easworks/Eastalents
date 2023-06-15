@@ -3,7 +3,7 @@ import { TalentApi } from '../api';
 import { sortString } from '../utilities';
 
 export interface Domain {
-  shortName: string;
+  key: string;
   longName: string;
   prefix?: string;
   services: string[];
@@ -55,7 +55,7 @@ export class DomainState {
       .subscribe(r => {
         const domains = Object.keys(r).map(dk => {
           const d: Domain = {
-            shortName: dk,
+            key: dk,
             longName: r[dk]['Primary Domain'],
             services: this.dummyServices,
             modules: Object.entries(r[dk].Modules).map(([mk, v]) => {
@@ -69,7 +69,7 @@ export class DomainState {
           };
           return d;
         });
-        domains.sort((a, b) => sortString(a.shortName, b.shortName));
+        domains.sort((a, b) => sortString(a.key, b.key));
 
         this.domains$.set(domains);
 
