@@ -62,10 +62,14 @@
 
         <div *ngrxLet="form.controls.summary as control"
              [formFieldControl]="control">
-          <label class="!text-lg">Professional Summary</label>
+          <label class="!text-lg">
+            Professional Summary
+            <span class="text-warn">*</span>
+          </label>
           <textarea [formControl]="control"
                     placeholder="Please tell us about yourself"
                     class="h-64 resize-none mt-2"></textarea>
+          <span class="error">Required</span>
         </div>
 
         <div>
@@ -82,14 +86,16 @@
             <div class="grid grid-cols-2 gap-x-4 md:gap-x-8 transition-all">
               <div *ngrxLet="form.controls.country as control"
                    [formFieldControl]="control"
-                   [class.show-spinner]="professionalSummary.loading.showSpinner.country$()">
-                <label>Country</label>
+                   [class.show-spinner]="professionalSummary.loading.geo$()">
+                <label>
+                  Country
+                  <span class="text-warn" *ngIf="control.enabled">*</span>
+                </label>
                 <span class="font-emoji absolute left-2 top-8" *ngIf="control.value as value">{{value.flag}}</span>
                 <input type="text" [formControl]="control" [matAutocomplete]="countryOptions"
                        placeholder="Type to filter"
-                       class="transition-all" [class.!pl-10]="control.valid">
-                <mat-autocomplete #countryOptions [displayWith]="professionalSummary.displayWith.country"
-                                  (optionSelected)="professionalSummary.options.select.country()">
+                       class="transition-all" [class.!pl-10]="professionalSummary.showFlag$()">
+                <mat-autocomplete #countryOptions [displayWith]="professionalSummary.displayWith.country">
                   <mat-option *ngFor="let country of professionalSummary.options.filtered.country$(); trackBy: professionalSummary.trackBy.country"
                               [value]="country">
                     <div class="flex gap-4 items-center">
@@ -102,33 +108,43 @@
                                       mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>
 
-              <div *ngrxLet="form.controls.province as control"
+              <div *ngrxLet="form.controls.state as control"
                    [formFieldControl]="control"
-                   [class.show-spinner]="professionalSummary.loading.showSpinner.province$()">
-                <label>Province</label>
-                <input type="text" [formControl]="control" [matAutocomplete]="provinceOptions"
+                   [class.show-spinner]="professionalSummary.loading.geo$()">
+                <label>
+                  State/Province
+                  <span class="text-warn" *ngIf="control.enabled">*</span>
+                </label>
+
+                <input type="text" [formControl]="control" [matAutocomplete]="stateOptions"
                        placeholder="Type to filter">
-                <mat-autocomplete #provinceOptions [displayWith]="professionalSummary.displayWith.province"
-                                  (optionSelected)="professionalSummary.options.select.province()">
-                  <mat-option *ngFor="let province of professionalSummary.options.filtered.province$(); trackBy: professionalSummary.trackBy.province"
-                              [value]="province">
-                    {{province.name}}
+                <mat-autocomplete #stateOptions [displayWith]="professionalSummary.displayWith.state">
+                  <mat-option *ngFor="let state of professionalSummary.options.filtered.state$(); trackBy: professionalSummary.trackBy.state"
+                              [value]="state">
+                    {{state.name}}
                   </mat-option>
                 </mat-autocomplete>
+                <span class="error" *ngIf="control.hasError('required')">Required</span>
+                <span class="error" *ngIf="control.hasError('invalid')">Invalid</span>
+
+
                 <mat-progress-spinner class="field-spinner right-6 top-8"
                                       mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>
 
               <div *ngrxLet="form.controls.city as control"
                    [formFieldControl]="control"
-                   [class.show-spinner]="professionalSummary.loading.showSpinner.city$()">
-                <label>City</label>
+                   [class.show-spinner]="professionalSummary.loading.geo$()">
+                <label>
+                  City/Area
+                  <span class="text-warn" *ngIf="control.enabled">*</span>
+                </label>
                 <input type="text" [formControl]="control" [matAutocomplete]="cityOptions"
                        placeholder="Type to filter">
-                <mat-autocomplete #cityOptions>
+                <mat-autocomplete #cityOptions [displayWith]="professionalSummary.displayWith.city">
                   <mat-option *ngFor="let city of professionalSummary.options.filtered.city$()"
                               [value]="city">
-                    {{city}}
+                    {{city.name}}
                   </mat-option>
                 </mat-autocomplete>
                 <mat-progress-spinner class="field-spinner right-6 top-8"
@@ -136,15 +152,26 @@
               </div>
 
               <div *ngrxLet="form.controls.timezone as control"
-                   [formFieldControl]="control">
-                <label>Time Zone</label>
-                <input type="text" readonly [formControl]="control">
+                   [formFieldControl]="control"
+                   [class.show-spinner]="professionalSummary.loading.geo$()">
+                <label>
+                  Time Zone
+                  <span class="text-warn" *ngIf="control.enabled">*</span>
+                </label>
+                <input type="text" [formControl]="control" [matAutocomplete]="tzOptions"
+                       placeholder="Type to filter">
+                <mat-autocomplete #tzOptions [displayWith]="professionalSummary.displayWith.timezone">
+                  <mat-option *ngFor="let tz of professionalSummary.options.filtered.timezone$()"
+                              [value]="tz">
+                    {{tz.zoneName}}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-progress-spinner class="field-spinner right-6 top-8"
+                                      mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>
 
               <div class="col-span-2 rounded bg-warn/10 p-2 px-4 text-center text-warn">
-                DISCUSS <br>
-                How to get current location <br>
-                How to fetch time zone
+                Need to integrate the Google API as well
               </div>
             </div>
           </div>
@@ -221,13 +248,13 @@
   <ng-container *ngIf="stepper.showStepControls$()">
     <div class="flex mt-4">
       <button *ngIf="stepper.prev.visible$()" mat-ripple
-              type="button" class="stroked-button mr-auto enabled:bg-white enabled:border-0 mat-elevation-z1 disabled:shadow-none"
+              type="button" class="stroked-button mr-auto enabled:bg-white enabled:border-transparent mat-elevation-z1 disabled:shadow-none"
               (click)="this.stepper.prev.click()">
         Previous
       </button>
 
       <button *ngIf="stepper.next.visible$()" mat-ripple
-              type="button" class="stroked-button ml-auto enabled:bg-white enabled:border-0 mat-elevation-z1 disabled:shadow-none"
+              type="button" class="stroked-button ml-auto enabled:bg-white enabled:border-transparent mat-elevation-z1 disabled:shadow-none"
               [disabled]="stepper.next.disabled$()"
               (click)="this.stepper.next.click()">
         Next
