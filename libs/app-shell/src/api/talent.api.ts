@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiResponse, DomainDictionaryDto, FreelancerProfile, FreelancerProfileQuestionDto } from '@easworks/models';
 import { catchError, map } from 'rxjs';
 import { ApiService } from './api';
+import { City, Country, State } from 'country-state-city';
 
 @Injectable({
   providedIn: 'root'
@@ -56,15 +57,17 @@ export class TalentApi extends ApiService {
 
   // THIS FUNCTION IS MEANT TO BE REMOVED
   private useDummyData(profile: FreelancerProfile) {
-    profile.location.city = 'Kolkata';
-    profile.location.state = { name: 'West Bengal', iso: 'WB' };
-    profile.location.country = {
-      name: 'India',
-      code: 'IN',
-      dialcode: '+91',
-      currency: 'INR',
-      flag: "🇮🇳"
-    };
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const country = Country.getCountryByCode('IN')!;
+    const state = country && State.getStateByCodeAndCountry('WB', country.isoCode);
+    const city = state && City.getCitiesOfState(state.countryCode, state.isoCode)
+      .find(c => c.name === 'Kolkata');
+
+    profile.location = {
+      country: country,
+      state: state,
+      city: city
+    }
 
     profile.profileCompletion = {
       about: Math.random(),

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiResponse, Country, Province } from '@easworks/models';
+import { ApiResponse, } from '@easworks/models';
 import { catchError, map } from 'rxjs';
 import { sortString } from '../utilities';
 import { ApiService } from './api';
@@ -13,17 +13,17 @@ export class LocationApi extends ApiService {
     this.http.get<ApiResponse>(`${this.apiUrl}/location/getCountries`)
       .pipe(
         map(r => {
-          const countries = r['countries'] as Country[];
+          const countries = r['countries'] as any[];
           countries.sort((a, b) => sortString(a.name, b.name));
           return countries;
         }),
         catchError(this.handleError)
       );
 
-  readonly provinces = (countryCode: string) =>
+  readonly states = (countryCode: string) =>
     this.http.post<ApiResponse>(`${this.apiUrl}/location/getStates`, { countryCode })
       .pipe(
-        map(r => r['states'] as Province[]),
+        map(r => r['states'] as any[]),
         catchError(this.handleError)
       );
 

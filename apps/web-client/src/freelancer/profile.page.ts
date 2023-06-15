@@ -66,7 +66,7 @@ export class FreelancerProfilePageComponent {
           name: `${u.firstName} ${u.lastName}`,
           image: p.image,
           currentRole: p.currentRole,
-          location: `${p.location.city}, ${p.location.state.name}, ${p.location.country.name}`,
+          location: `${p.location.city}, ${p.location.state}, ${p.location.country}`,
           preferredRole: p.preferredRole,
         }
       }),
