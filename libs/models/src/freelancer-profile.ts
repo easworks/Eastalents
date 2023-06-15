@@ -1,5 +1,5 @@
+import { ICity, ICountry, IState } from 'country-state-city';
 import { ExperienceData } from './expertise';
-import { Country, Province } from './location';
 
 export interface FreelancerProfile {
   image: string | null;
@@ -7,9 +7,9 @@ export interface FreelancerProfile {
   preferredRole: string;
 
   location: {
-    country: Country;
-    state: Province;
-    city: string;
+    country: ICountry;
+    state?: IState;
+    city?: ICity;
   };
 
   summary: string;
