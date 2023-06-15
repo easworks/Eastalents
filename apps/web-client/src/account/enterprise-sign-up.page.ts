@@ -20,6 +20,7 @@ import { first, interval, map } from 'rxjs';
   ]
 })
 export class EnterpriseSignUpPageComponent {
+  // TODO: see if destroyRef and cdRef can be removed from this component
   private readonly dRef = inject(DestroyRef);
   private readonly cdRef = inject(ChangeDetectorRef);
   protected readonly auth = inject(AuthService);

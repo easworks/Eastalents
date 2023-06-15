@@ -1,7 +1,7 @@
-import { Directive, HostBinding, Input } from '@angular/core';
+import { Directive, HostBinding, Input, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl } from '@angular/forms';
-import { startWith } from 'rxjs';
+import { Observable, startWith } from 'rxjs';
 
 @Directive({
   standalone: true,
@@ -13,23 +13,26 @@ export class FormFieldDirective {
   @HostBinding() private get class() {
     return [
       'form-field',
-      this.control.invalid ? 'invalid' : undefined,
-      this.control.dirty ? 'dirty' : undefined
+      this.control.invalid ? 'invalid' : '',
+      this.control.dirty ? 'dirty' : '',
+      this.control.disabled ? 'disabled' : ''
     ];
   }
 }
 
+type TRawValue<C> = C extends AbstractControl<unknown, infer R> ? R : never;
+
 export function statusChangesWithCurrent(control: AbstractControl) {
   return control.statusChanges.pipe(startWith(control.status));
 }
-export function valueChangesWithCurrent(control: AbstractControl) {
-  return control.valueChanges.pipe(startWith(control.value))
+export function valueChangesWithCurrent<C extends AbstractControl>(control: C): Observable<TRawValue<C>> {
+  return control.valueChanges.pipe(startWith(control.value));
 }
 
 export function statusSignal(control: AbstractControl) {
-  return toSignal(statusChangesWithCurrent(control));
+  return toSignal(statusChangesWithCurrent(control), { requireSync: true });
 }
 
-export function valueSignal(control: AbstractControl) {
-  return toSignal(valueChangesWithCurrent(control));
+export function valueSignal<C extends AbstractControl>(control: C): Signal<TRawValue<C>> {
+  return toSignal(valueChangesWithCurrent(control), { requireSync: true });
 }

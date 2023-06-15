@@ -1,7 +1,7 @@
 import { DestroyRef, Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroupDirective } from '@angular/forms';
-import { Subscription, first, startWith } from 'rxjs';
+import { Subscription, first } from 'rxjs';
 import { statusChangesWithCurrent } from './form-field.directive';
 
 @Directive({
