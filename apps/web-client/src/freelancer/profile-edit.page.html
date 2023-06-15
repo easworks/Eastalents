@@ -227,9 +227,9 @@
         </div>
         <ng-template #optionsLoaded>
           <ul class="mt-4 grid gap-4 primary-domain-options"
-              style="grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));">
+              style="grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));">
             <li *ngFor="let option of primaryDomains.options.filtered$(); trackBy: primaryDomains.trackBy.options">
-              <button class="stroked-button w-full" mat-ripple
+              <button class="stroked-button w-full h-full" mat-ripple
                       [title]="option.title"
                       [class.selected]="option.selected"
                       [disabled]="option.selected"
