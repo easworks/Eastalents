@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, computed, effect, inject, isDevMode, signal } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, WritableSignal, computed, effect, inject, isDevMode, signal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ActivatedRoute } from '@angular/router';
-import { Domain, DomainState, FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, SelectableOption, generateLoadingState, sleep, sortString, statusSignal, valueSignal } from '@easworks/app-shell';
+import { Ctrl, Domain, DomainState, FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, SelectableOption, generateLoadingState, sleep, sortString, statusSignal, valueChangesWithCurrent, valueSignal } from '@easworks/app-shell';
 import { City, Country, ICity, ICountry, IState, State } from 'country-state-city';
 import { Timezones } from 'country-state-city/lib/interface';
-import { filter, firstValueFrom } from 'rxjs';
+import { Observable, filter, firstValueFrom, map } from 'rxjs';
 
 @Component({
   selector: 'freelancer-profile-edit-page',
@@ -22,7 +22,6 @@ import { filter, firstValueFrom } from 'rxjs';
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
-  // TODO: see if the injector can be removed from this component
   private readonly injector = inject(INJECTOR);
   private readonly route = inject(ActivatedRoute);
   private readonly geo = inject(GeoLocationService);
@@ -43,6 +42,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
   protected readonly professionalSummary = this.initProfessionaSummary();
   protected readonly primaryDomains = this.initPrimaryDomains();
+  protected readonly services = this.initServices();
 
   protected readonly stepper = this.initStepper();
 
@@ -68,17 +68,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       }
     });
 
-
-    const status = {
-      summary: statusSignal(this.professionalSummary.form),
-      primaryDomains: statusSignal(this.primaryDomains.form)
-    } as const;
-
     const nextDisabled$ = computed(() => {
       const step = step$();
       return this.loading.any$() ||
-        (step === 'professional-summary' && status.summary() !== 'VALID') ||
-        (step === 'primary-domains' && status.primaryDomains() !== 'VALID');
+        (step === 'professional-summary' && this.professionalSummary.status$() !== 'VALID') ||
+        (step === 'primary-domains' && this.primaryDomains.status$() !== 'VALID') ||
+        (step === 'services' && this.services.$().status$() !== 'VALID');
     });
 
     return {
@@ -301,9 +296,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         form.controls.timezone.reset(all[0]);
     }, { allowSignalWrites: true })
 
-
+    const status$ = statusSignal(form);
     return {
       form,
+      status$,
       loading: {
         geo$: loadingGeo$,
       },
@@ -371,8 +367,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       return all;
     });
 
+    const status$ = statusSignal(form);
     return {
       form,
+      status$,
       options: {
         filterText$,
         all$: options$,
@@ -400,13 +398,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             ],
             nonNullable: true
           }),
-        }));
+        }), { emitEvent: false });
 
         form.controls.sort((a, b) =>
           sortString(
             a.value.domain?.value.longName ?? '',
             b.value.domain?.value.longName ?? ''
           ));
+        form.updateValueAndValidity();
       },
       remove: (i: number) => {
         const value = form.at(i).getRawValue();
@@ -414,6 +413,149 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         form.removeAt(i);
       }
     } as const;
+  }
+
+  private initServices() {
+    const injector = this.injector;
+
+    const form$ = valueChangesWithCurrent(this.primaryDomains.form)
+      .pipe(
+        filter(() => this.primaryDomains.form.valid),
+        map(selected => {
+          const exists = this.services ? this.services.$() : undefined;
+
+          const domains = this.primaryDomains.form.valid ?
+            selected.map(s => s.domain.value) :
+            [];
+
+          const mapped = domains.map(d => {
+            if (exists) {
+              const found = exists.form.controls.findIndex(c => c.value.domain?.key === d.key);
+
+              if (found >= 0) {
+                const group = exists.form.controls[found] as FormGroup<{
+                  domain: FormControl<Domain>;
+                  services: FormArray<FormGroup<{
+                    service: FormControl<SelectableOption<string>>;
+                    years: FormControl<number>;
+                  }>>;
+                }>;
+                const options = exists.options[found] as {
+                  visible$: Signal<boolean>;
+                  add: (option: SelectableOption<string>) => Promise<void>;
+                  remove: (i: number) => void;
+                  query$: WritableSignal<string>;
+                  filtered$: Signal<{
+                    selected: false;
+                    value: string;
+                  }[]>;
+                };
+
+                return { group, options };
+              }
+            }
+
+
+            const services = d.services.map(s => ({
+              selected: false,
+              value: s
+            } satisfies SelectableOption<string>));
+
+            const serviceForms = new FormArray<FormGroup<{
+              service: FormControl<SelectableOption<string>>,
+              years: FormControl<number>
+            }>>([],);
+            const values = valueSignal(serviceForms, injector);
+            const servicesLength = computed(() => values().length);
+            const showInput = computed(() => servicesLength() < 7);
+
+            const group = new FormGroup({
+              domain: new FormControl(d, { nonNullable: true }),
+              services: serviceForms
+            });
+
+            const serviceFilter$ = signal('');
+            const filtered$ = computed(() => {
+              const length = servicesLength();
+              const value = serviceFilter$();
+              const filter = typeof value === 'string' ? value.trim().toLowerCase() : '';
+              if (filter || length) {
+                return services.filter(s =>
+                  !s.selected &&
+                  (!filter || s.value.toLowerCase().includes(filter)));
+              }
+              return services;
+            });
+
+            const handlers = {
+              add: async (option: SelectableOption<string>) => {
+                option.selected = true;
+
+                serviceForms.push(new FormGroup({
+                  service: new FormControl(option, { nonNullable: true }),
+                  years: new FormControl(null as unknown as number, {
+                    validators: [Validators.required, Validators.min(1), Validators.max(30)],
+                    nonNullable: true
+                  })
+                }), { emitEvent: false });
+
+                serviceForms.controls.sort((a, b) =>
+                  sortString(
+                    a.controls.service.value.value,
+                    b.controls.service.value.value
+                  ));
+                serviceForms.updateValueAndValidity();
+
+              },
+              remove: (i: number) => {
+                const control = serviceForms.at(i);
+                control.getRawValue().service.selected = false;
+                serviceForms.removeAt(i);
+              }
+            } as const;
+
+            return {
+              group,
+              options: {
+                query$: serviceFilter$,
+                filtered$,
+                ...handlers,
+                visible$: showInput
+              }
+            }
+          })
+
+          const form = new FormArray(mapped.map(m => m.group));
+          const status$ = statusSignal(form, injector);
+
+          return {
+            form,
+            options: mapped.map(m => m.options),
+            status$
+          }
+        }));
+
+    const displayWith = {
+      none: () => ''
+    } as const;
+
+    type ObsType = typeof form$ extends Observable<infer T> ? T : never;
+    type FormType = ObsType['form'];
+
+    const trackBy = {
+      domains: (_: number, control: Ctrl<FormType>) => control.value.domain?.key,
+      controls: (_: number, control: Ctrl<Ctrl<Ctrl<FormType>>['services']>) =>
+        control.value.service?.value,
+      service: (_: number, option: SelectableOption<string>) => option.value
+    } as const;
+
+    const $ = toSignal(form$, { requireSync: true });
+
+    return {
+      $,
+      displayWith,
+      trackBy,
+    }
   }
 
   private async devModeInit() {
