@@ -136,8 +136,20 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       return { required: true };
     };
 
+    const summaryWords$ = signal(0);
+
     const form = new FormGroup({
-      summary: new FormControl('', [Validators.required]),
+      summary: new FormControl('', [
+        Validators.required,
+        (c) => {
+          const v = c.value as string;
+          const w = v && v.length && v.split(/\s+\b/).length || 0;
+          summaryWords$.set(w);
+          if (w > 250)
+            return { wordlength: true }
+          return null;
+        }
+      ]),
       country: new FormControl(null as unknown as ICountry, {
         validators: [isObject],
         nonNullable: true
@@ -157,6 +169,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     });
 
     const values = {
+      summary: valueSignal(form.controls.summary),
       country: valueSignal(form.controls.country),
       state: valueSignal(form.controls.state),
       city: valueSignal(form.controls.city),
@@ -325,7 +338,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       showFlag$: computed(() => {
         const v = values.country();
         return !!v && typeof v !== 'string';
-      })
+      }),
+      summaryWords$
     } as const;
   }
 
@@ -601,6 +615,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       this.primaryDomains.form.at(1).controls.years.setValue(3);
 
       this.stepper.next.click();
+    }
+
+    {
+      // 
     }
 
     revert.forEach(r => r());

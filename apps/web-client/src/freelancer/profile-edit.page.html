@@ -56,9 +56,12 @@
     </div>
 
     <div *ngIf="step === 'professional-summary'"
-         class="rounded bg-white mat-elevation-z1 p-4">
+         class="rounded bg-white mat-elevation-z1">
+      <h2 class="p-4 text-xl font-semibold">Profile Summary with Enterprise Application Software (EAS) Details</h2>
+      <mat-divider></mat-divider>
       <form *ngrxLet="professionalSummary.form as form"
-            [formGroup]="form">
+            [formGroup]="form"
+            class="p-4 grid gap-4">
 
         <div *ngrxLet="form.controls.summary as control"
              [formFieldControl]="control">
@@ -66,10 +69,14 @@
             Professional Summary
             <span class="text-warn">*</span>
           </label>
-          <textarea [formControl]="control"
-                    placeholder="Please tell us about yourself"
-                    class="h-64 resize-none mt-2"></textarea>
-          <span class="error">Required</span>
+          <div class="field field-interactive h-64">
+            <textarea [formControl]="control"
+                      placeholder="Please provide a summary of your professional background and experience in the field"
+                      class="resize-none"></textarea>
+          </div>
+          <span class="error" *ngIf="control.hasError('required')">Required</span>
+          <span class="error" *ngIf="control.hasError('wordlength')">{{professionalSummary.summaryWords$()}}/250 words</span>
+          <span class="hint">{{professionalSummary.summaryWords$()}}/250 words</span>
         </div>
 
         <div>
