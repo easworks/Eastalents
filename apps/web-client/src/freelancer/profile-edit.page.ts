@@ -8,7 +8,7 @@ import { Ctrl, Domain, DomainState, FormImports, GeoLocationService, ImportsModu
 import { FreelancerProfile, OVERALL_EXPERIENCE_OPTIONS } from '@easworks/models';
 import { City, Country, ICity, ICountry, IState, State } from 'country-state-city';
 import { Timezones } from 'country-state-city/lib/interface';
-import { Observable, filter, firstValueFrom, map } from 'rxjs';
+import { Observable, filter, firstValueFrom, map, shareReplay, startWith } from 'rxjs';
 
 @Component({
   selector: 'freelancer-profile-edit-page',
@@ -358,7 +358,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     }>
     const form = new FormArray<FormType>([], {
       validators: [
-        Validators.minLength(1),
+        Validators.required,
         Validators.maxLength(3)
       ]
     });
@@ -390,6 +390,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     });
 
     const status$ = statusSignal(form);
+
+    const selected$ = valueChangesWithCurrent(form)
+      .pipe(filter(() => form.valid), startWith([]));
+
     return {
       form,
       status$,
@@ -433,16 +437,16 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         const value = form.at(i).getRawValue();
         value.domain.selected = false;
         form.removeAt(i);
-      }
+      },
+      selected$
     } as const;
   }
 
   private initServices() {
     const injector = this.injector;
 
-    const form$ = valueChangesWithCurrent(this.primaryDomains.form)
+    const form$ = this.primaryDomains.selected$
       .pipe(
-        filter(() => this.primaryDomains.form.valid),
         map(selected => {
           const exists = this.services ? this.services.$() : undefined;
 
@@ -464,7 +468,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 }>;
                 const options = exists.options[found] as {
                   visible$: Signal<boolean>;
-                  add: (option: SelectableOption<string>) => Promise<void>;
+                  add: (option: SelectableOption<string>) => void;
                   remove: (i: number) => void;
                   query$: WritableSignal<string>;
                   filtered$: Signal<{
@@ -486,10 +490,13 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             const serviceForms = new FormArray<FormGroup<{
               service: FormControl<SelectableOption<string>>,
               years: FormControl<number>
-            }>>([],);
+            }>>([], {
+              validators: [Validators.required]
+            });
             const values = valueSignal(serviceForms, injector);
             const servicesLength = computed(() => values().length);
-            const showInput = computed(() => servicesLength() < 7);
+            const totalLength = services.length
+            const showInput = computed(() => servicesLength() < totalLength);
 
             const group = new FormGroup({
               domain: new FormControl(d, { nonNullable: true }),
@@ -510,7 +517,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             });
 
             const handlers = {
-              add: async (option: SelectableOption<string>) => {
+              add: (option: SelectableOption<string>) => {
                 option.selected = true;
 
                 serviceForms.push(new FormGroup({
@@ -549,11 +556,13 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
           const form = new FormArray(mapped.map(m => m.group));
           const status$ = statusSignal(form, injector);
+          const domainLabel = (form.length === 1 && form.value[0].domain?.longName) || 'Domain';
 
           return {
             form,
             options: mapped.map(m => m.options),
-            status$
+            status$,
+            domainLabel
           }
         }));
 
@@ -629,7 +638,22 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     }
 
     {
-      // 
+      const { options, form } = this.services.$();
+
+      const [s0o0, s0o1] = options[0].filtered$();
+      options[0].add(s0o0);
+      options[0].add(s0o1);
+
+      const [s1o0, s1o1] = options[1].filtered$();
+      options[1].add(s1o0);
+      options[1].add(s1o1);
+
+      form.at(0).controls.services.at(0).controls.years.setValue(2);
+      form.at(0).controls.services.at(1).controls.years.setValue(2);
+      form.at(1).controls.services.at(0).controls.years.setValue(2);
+      form.at(1).controls.services.at(1).controls.years.setValue(2);
+
+      this.stepper.next.click();
     }
 
     revert.forEach(r => r());
