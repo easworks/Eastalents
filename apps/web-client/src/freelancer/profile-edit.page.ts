@@ -4,11 +4,11 @@ import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
-import { Ctrl, Domain, DomainState, FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, SelectableOption, generateLoadingState, sleep, sortString, statusSignal, valueChangesWithCurrent, valueSignal } from '@easworks/app-shell';
+import { Ctrl, Domain, DomainModule, DomainState, FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, SelectableOption, generateLoadingState, sleep, sortString, statusSignal, valueChangesWithCurrent, valueSignal } from '@easworks/app-shell';
 import { FreelancerProfile, OVERALL_EXPERIENCE_OPTIONS } from '@easworks/models';
 import { City, Country, ICity, ICountry, IState, State } from 'country-state-city';
 import { Timezones } from 'country-state-city/lib/interface';
-import { Observable, filter, firstValueFrom, map, shareReplay, startWith } from 'rxjs';
+import { Observable, filter, firstValueFrom, map, startWith } from 'rxjs';
 
 @Component({
   selector: 'freelancer-profile-edit-page',
@@ -46,6 +46,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly professionalSummary = this.initProfessionaSummary();
   protected readonly primaryDomains = this.initPrimaryDomains();
   protected readonly services = this.initServices();
+  protected readonly modules = this.initModules();
 
   protected readonly stepper = this.initStepper();
 
@@ -61,12 +62,13 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     });
 
 
-    const totalSteps = 3;
+    const totalSteps = 4;
     const stepProgress$ = computed(() => {
       switch (step$()) {
         case 'professional-summary': return 1;
         case 'primary-domains': return 2;
         case 'services': return 3;
+        case 'modules': return 4;
         default: return 0;
       }
     });
@@ -76,7 +78,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       return this.loading.any$() ||
         (step === 'professional-summary' && this.professionalSummary.status$() !== 'VALID') ||
         (step === 'primary-domains' && this.primaryDomains.status$() !== 'VALID') ||
-        (step === 'services' && this.services.$().status$() !== 'VALID');
+        (step === 'services' && this.services.$().status$() !== 'VALID') ||
+        (step === 'modules' && this.modules.$().status$() !== 'VALID');
     });
 
     return {
@@ -97,7 +100,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           switch (step$()) {
             case 'start': return step$.set('professional-summary');
             case 'professional-summary': return step$.set('primary-domains');
-            case 'primary-domains': return step$.set('services')
+            case 'primary-domains': return step$.set('services');
+            case 'services': return step$.set('modules');
           }
         }
       },
@@ -107,8 +111,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           switch (step$()) {
             case 'primary-domains': return step$.set('professional-summary');
             case 'services': return step$.set('primary-domains');
+            case 'modules': return step$.set('services');
           }
-          // 
         }
       },
       submit: {
@@ -392,7 +396,11 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const status$ = statusSignal(form);
 
     const selected$ = valueChangesWithCurrent(form)
-      .pipe(filter(() => form.valid), startWith([]));
+      .pipe(
+        filter(() => form.valid),
+        startWith([]),
+        map(selected => selected.map(s => s.domain.value))
+      );
 
     return {
       form,
@@ -448,13 +456,11 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const form$ = this.primaryDomains.selected$
       .pipe(
         map(selected => {
-          const exists = this.services ? this.services.$() : undefined;
+          const exists = this.services && this.services.$();
 
-          const domains = this.primaryDomains.form.valid ?
-            selected.map(s => s.domain.value) :
-            [];
+          const domainLabel = (selected.length === 1 && selected[0].longName) || 'Domain';
 
-          const mapped = domains.map(d => {
+          const mapped = selected.map(d => {
             if (exists) {
               const found = exists.form.controls.findIndex(c => c.value.domain?.key === d.key);
 
@@ -556,7 +562,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
           const form = new FormArray(mapped.map(m => m.group));
           const status$ = statusSignal(form, injector);
-          const domainLabel = (form.length === 1 && form.value[0].domain?.longName) || 'Domain';
 
           return {
             form,
@@ -574,7 +579,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     type FormType = ObsType['form'];
 
     const trackBy = {
-      domains: (_: number, control: Ctrl<FormType>) => control.value.domain?.key,
+      domain: (_: number, control: Ctrl<FormType>) => control.value.domain?.key,
       controls: (_: number, control: Ctrl<Ctrl<Ctrl<FormType>>['services']>) =>
         control.value.service?.value,
       service: (_: number, option: SelectableOption<string>) => option.value
@@ -587,6 +592,137 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       displayWith,
       trackBy,
     }
+  }
+
+  private initModules() {
+    const injector = this.injector;
+
+    const form$ = this.primaryDomains.selected$
+      .pipe(
+        map(selected => {
+          const exists = this.modules && this.modules.$();
+          const domainLabel = (selected.length === 1 && selected[0].longName) || 'Domain';
+
+          const mapped = selected.map(d => {
+            if (exists) {
+              const found = exists.form.controls.findIndex(c => c.value.domain?.key === d.key);
+              if (found >= 0) {
+                const group = exists.form.controls[found] as FormGroup<{
+                  domain: FormControl<Domain>;
+                  modules: FormArray<FormControl<SelectableOption<DomainModule>>>;
+                }>;
+                const options = exists.options[found] as {
+                  visible$: Signal<boolean>;
+                  add: (option: SelectableOption<DomainModule>) => void;
+                  remove: (i: number) => void;
+                  query$: WritableSignal<string>;
+                  filtered$: Signal<{
+                    selected: false;
+                    value: DomainModule;
+                    label: string;
+                  }[]>;
+                };
+
+                return { group, options };
+              }
+            }
+
+
+            const modules = d.modules.map(m => ({
+              selected: false,
+              value: m,
+              label: m.name
+            } satisfies SelectableOption<DomainModule>));
+
+            const moduleForms = new FormArray<FormControl<SelectableOption<DomainModule>>>(
+              [],
+              { validators: [Validators.required, Validators.maxLength(7)] }
+            );
+
+            const values = valueSignal(moduleForms, injector);
+            const modulesLength = computed(() => values().length);
+            const totalLength = modules.length
+            const showInput = computed(() => {
+              const l = modulesLength();
+              return l < totalLength && l < 7;
+            });
+
+            const group = new FormGroup({
+              domain: new FormControl(d, { nonNullable: true }),
+              modules: moduleForms
+            });
+
+            const moduleFilter$ = signal('');
+            const filtered$ = computed(() => {
+              const length = modulesLength();
+              const value = moduleFilter$();
+              const filter = typeof value === 'string' ? value.trim().toLowerCase() : '';
+              if (filter || length) {
+                return modules.filter(m =>
+                  !m.selected &&
+                  (!filter || m.value.name.toLowerCase().includes(filter)));
+              }
+              return modules;
+            });
+
+            const handlers = {
+              add: (option: SelectableOption<DomainModule>) => {
+                option.selected = true;
+
+                moduleForms.push(new FormControl(option, { nonNullable: true }), { emitEvent: false });
+                moduleForms.controls.sort((a, b) => sortString(a.value.value.name, b.value.value.name));
+                moduleForms.updateValueAndValidity();
+              },
+              remove: (i: number) => {
+                const control = moduleForms.at(i);
+                control.getRawValue().selected = false;
+                moduleForms.removeAt(i);
+              }
+            } as const;
+
+            return {
+              group,
+              options: {
+                query$: moduleFilter$,
+                filtered$,
+                ...handlers,
+                visible$: showInput
+              }
+            }
+          });
+
+          const form = new FormArray(mapped.map(m => m.group));
+          const status$ = statusSignal(form, injector);
+
+          return {
+            form,
+            options: mapped.map(m => m.options),
+            status$,
+            domainLabel
+          } as const;
+        })
+      );
+
+    type ObsType = typeof form$ extends Observable<infer T> ? T : never;
+    type FormType = ObsType['form'];
+
+    const displayWith = {
+      none: () => ''
+    } as const;
+
+    const trackBy = {
+      domain: (_: number, control: Ctrl<FormType>) => control.value.domain?.key,
+      controls: (_: number, control: Ctrl<Ctrl<Ctrl<FormType>>['modules']>) => control.value.value.name,
+      module: (_: number, option: SelectableOption<DomainModule>) => option.value.name
+    } as const;
+
+    const $ = toSignal(form$, { requireSync: true });
+
+    return {
+      $,
+      displayWith,
+      trackBy
+    } as const;
   }
 
   private async devModeInit() {
@@ -652,6 +788,20 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       form.at(0).controls.services.at(1).controls.years.setValue(2);
       form.at(1).controls.services.at(0).controls.years.setValue(2);
       form.at(1).controls.services.at(1).controls.years.setValue(2);
+
+      this.stepper.next.click();
+    }
+
+    {
+      const { options, form } = this.modules.$();
+
+      const [s0o0, s0o1] = options[0].filtered$();
+      options[0].add(s0o0);
+      options[0].add(s0o1);
+
+      const [s1o0, s1o1] = options[1].filtered$();
+      options[1].add(s1o0);
+      options[1].add(s1o1);
 
       this.stepper.next.click();
     }

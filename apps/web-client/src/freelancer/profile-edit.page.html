@@ -275,7 +275,7 @@
 
         <form *ngrxLet="services$.form as array" class="grid">
 
-          <ng-container *ngFor="let domain of array.controls; let di = index; let last = last; trackBy: services.trackBy.domains">
+          <ng-container *ngFor="let domain of array.controls; let di = index; let last = last; trackBy: services.trackBy.domain">
             <div class="grid gap-4 p-4">
               <label>Please specify your areas of expertise within {{domain.value.domain?.longName}}</label>
               <div *ngrxLet="domain.controls.services as array">
@@ -325,6 +325,58 @@
             <mat-divider *ngIf="!last"></mat-divider>
           </ng-container>
 
+        </form>
+      </ng-container>
+    </div>
+
+    <div *ngIf="step === 'modules'"
+         class="rounded bg-white mat-elevation-z1">
+      <ng-container *ngrxLet="modules.$() as modules$">
+        <h2 class="p-4 text-xl font-semibold">{{modules$.domainLabel}} Modules Expertise</h2>
+        <mat-divider></mat-divider>
+        <form *ngrxLet="modules$.form as array" class="grid">
+          <ng-container *ngFor="let domain of array.controls; let di = index; let last = last; trackBy: modules.trackBy.domain">
+            <div class="grid gap-4 p-4">
+              <label>Indicate the {{domain.value.domain?.longName}} modules you are proficient in.</label>
+
+              <div *ngrxLet="domain.controls.modules as array">
+
+                <div *ngIf="array.length; else noItemsSelected"
+                     class="grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+                  <div *ngFor="let module of array.controls; let mi = index; trackBy: modules.trackBy.controls"
+                       class="border rounded p-2 pl-4 flex gap-2 items-stretch">
+                    <span class="flex-grow pt-2">{{module.value.value.name}}</span>
+
+                    <button class="icon-button h-10 w-10 flex-none text-warn/80" mat-ripple
+                            type="button" (click)="modules$.options[di].remove(mi)"
+                            title="Remove">
+                      <i class="fas fa-circle-minus"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <ng-template #noItemsSelected>
+                  <div class="border rounded p-2 mx-auto text-center">
+                    <i>Please select from the list below</i>
+                  </div>
+                </ng-template>
+              </div>
+
+              <div *ngIf="modules$.options[di].visible$()">
+                <input type="text" placeholder="Type to filter"
+                       [ngModel]="modules$.options[di].query$()"
+                       (ngModelChange)="modules$.options[di].query$.set($event)"
+                       [ngModelOptions]="{ standalone: true }"
+                       [matAutocomplete]="moduleOptions">
+
+                <mat-autocomplete #moduleOptions [displayWith]="modules.displayWith.none"
+                                  (optionSelected)="modules$.options[di].add($event.option.value)">
+                  <mat-option *ngFor="let module of modules$.options[di].filtered$(); trackBy: modules.trackBy.module" [value]="module">{{module.label}}</mat-option>
+                </mat-autocomplete>
+              </div>
+            </div>
+            <mat-divider *ngIf="!last"></mat-divider>
+          </ng-container>
         </form>
       </ng-container>
     </div>
