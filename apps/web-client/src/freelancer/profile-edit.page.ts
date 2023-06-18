@@ -2,8 +2,10 @@ import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Sign
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
 import { Ctrl, Domain, DomainState, FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, SelectableOption, generateLoadingState, sleep, sortString, statusSignal, valueChangesWithCurrent, valueSignal } from '@easworks/app-shell';
+import { FreelancerProfile, OVERALL_EXPERIENCE_OPTIONS } from '@easworks/models';
 import { City, Country, ICity, ICountry, IState, State } from 'country-state-city';
 import { Timezones } from 'country-state-city/lib/interface';
 import { Observable, filter, firstValueFrom, map } from 'rxjs';
@@ -18,7 +20,8 @@ import { Observable, filter, firstValueFrom, map } from 'rxjs';
     ImportsModule,
     LottiePlayerDirective,
     FormImports,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSelectModule
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
@@ -150,6 +153,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           return null;
         }
       ]),
+      experience: new FormControl(null as unknown as FreelancerProfile['overallExperience'], {
+        validators: [Validators.required],
+        nonNullable: true
+      }),
       country: new FormControl(null as unknown as ICountry, {
         validators: [isObject],
         nonNullable: true
@@ -188,6 +195,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       state$: signal<IState[]>([]),
       city$: signal<ICity[]>([]),
       timezone$: signal<Timezones[]>([]),
+      experience: OVERALL_EXPERIENCE_OPTIONS
     };
 
     const filteredOptions = {
@@ -586,7 +594,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     {
       const form = this.professionalSummary.form;
-      form.controls.summary.reset('some professional summary');
+      form.reset({
+        summary: 'some professional summary',
+        experience: '2 to 5 years'
+      })
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const country = Country.getCountryByCode('IN')!;

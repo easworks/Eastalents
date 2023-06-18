@@ -69,7 +69,7 @@
             Professional Summary
             <span class="text-warn">*</span>
           </label>
-          <div class="field field-interactive h-64">
+          <div class="field field-interactive h-64 mt-2">
             <textarea [formControl]="control"
                       placeholder="Please provide a summary of your professional background and experience in the field"
                       class="resize-none"></textarea>
@@ -77,6 +77,20 @@
           <span class="error" *ngIf="control.hasError('required')">Required</span>
           <span class="error" *ngIf="control.hasError('wordlength')">{{professionalSummary.summaryWords$()}}/250 words</span>
           <span class="hint">{{professionalSummary.summaryWords$()}}/250 words</span>
+          <p class="p-2 px-4 rounded text-sm bg-emerald-400/5 text-emerald-500 mt-8">The Professional Summary will remain confidential and visible exclusively to the EASWORKS screening team.</p>
+        </div>
+
+        <div *ngrxLet="form.controls.experience as control"
+             [formFieldControl]="control">
+          <label class="!text-lg">
+            Overall Experience
+            <span class="text-warn">*</span>
+          </label>
+          <p class="text-sm">Select the range that best represents your overall experience</p>
+          <mat-select class="mt-2" [formControl]="control">
+            <mat-option *ngFor="let opt of professionalSummary.options.all.experience"
+                        [value]="opt">{{opt}}</mat-option>
+          </mat-select>
         </div>
 
         <div>

@@ -1,10 +1,19 @@
 import { ICity, ICountry, IState } from 'country-state-city';
 import { ExperienceData } from './expertise';
 
+export const OVERALL_EXPERIENCE_OPTIONS = [
+  'Less than 2 years',
+  '2 to 5 years',
+  '5 - 10 years',
+  'More than 10 years'
+] as const;
+
 export interface FreelancerProfile {
   image: string | null;
   currentRole: string;
   preferredRole: string;
+
+  overallExperience: typeof OVERALL_EXPERIENCE_OPTIONS[number]
 
   location: {
     country: ICountry;
