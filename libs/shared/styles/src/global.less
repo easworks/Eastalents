@@ -111,7 +111,11 @@
       transition-all;
 
     &-interactive {
-      @apply hover:ring-1 focus:ring-2;
+      @apply hover:ring-1;
+    }
+
+    &-interactive {
+      @apply focus:ring-2 focus-within:ring-2;
     }
   }
 
@@ -120,12 +124,32 @@
   input[type=numeric],
   input[type=password],
   input[type=email],
-  textarea,
   select {
     @apply field;
 
     &:not(:disabled) {
       @apply field-interactive;
+    }
+  }
+
+  textarea {
+    @apply bg-transparent w-full h-full outline-none placeholder:text-sm;
+
+    &::-webkit-scrollbar {
+      @apply absolute h-1 w-1 rounded-full;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      @apply rounded bg-black;
+    }
+
+    &::-webkit-scrollbar-track {
+      @apply rounded bg-divider;
+    }
+
+    &::-webkit-scrollbar,
+    &::-webkit-scrollbar-corner {
+      @apply bg-divider;
     }
   }
 
@@ -175,12 +199,12 @@
     &.invalid {
       label {
         @apply text-warn;
-      }  
+      } 
 
-      input, textarea {
-        &.ng-invalid {
-          @apply ring-1 ring-warn/80 focus:ring-2;
-        }
+      input.ng-invalid,
+      .field {
+        @apply ring-1 ring-warn/80
+          focus:ring-2 focus-within:ring-2;
       }
 
       > .error {

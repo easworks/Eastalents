@@ -72,9 +72,11 @@
       <div class="header">Profile Summary</div>
       <mat-divider></mat-divider>
       <div class="p-2">
-        <textarea [(ngModel)]="profile.summary"
-                  placeholder="Profile Summary"
-                  class="h-40 resize-none"></textarea>
+        <div class="field field-interactive">
+          <textarea [(ngModel)]="profile.summary"
+                    placeholder="Profile Summary"
+                    class="h-40 resize-none"></textarea>
+        </div>
       </div>
     </div>
 
