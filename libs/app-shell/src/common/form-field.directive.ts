@@ -1,7 +1,6 @@
-import { Directive, HostBinding, Injector, Input, Signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Directive, HostBinding, Input } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
-import { Observable, shareReplay, startWith } from 'rxjs';
+import { Observable, filter, shareReplay, startWith } from 'rxjs';
 
 @Directive({
   standalone: true,
@@ -22,19 +21,16 @@ export class FormFieldDirective {
 
 type TRawValue<C> = C extends AbstractControl<unknown, infer R> ? R : never;
 
-export function statusChangesWithCurrent(control: AbstractControl) {
+export function controlStatus$(control: AbstractControl) {
   return control.statusChanges.pipe(startWith(control.status), shareReplay({ refCount: true, bufferSize: 1 }));
 }
-export function valueChangesWithCurrent<C extends AbstractControl>(control: C): Observable<TRawValue<C>> {
-  return control.valueChanges.pipe(startWith(control.value), shareReplay({ refCount: true, bufferSize: 1 }));
-}
 
-export function statusSignal(control: AbstractControl, injector?: Injector) {
-  return toSignal(statusChangesWithCurrent(control), { requireSync: true, injector });
-}
-
-export function valueSignal<C extends AbstractControl>(control: C, injector?: Injector): Signal<TRawValue<C>> {
-  return toSignal(valueChangesWithCurrent(control), { requireSync: true, injector });
+export function controlValue$<C extends AbstractControl>(control: C, validOnly = false): Observable<TRawValue<C>> {
+  let v$ = control.valueChanges;
+  v$ = v$.pipe(startWith(control.value))
+  if (validOnly)
+    v$ = v$.pipe(filter(() => control.valid));
+  return v$.pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 }
 
 export type Ctrl<T extends FormGroup | FormArray> = T extends FormGroup ? T['controls'] : T['controls'][number];

@@ -2,7 +2,7 @@ import { DestroyRef, Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroupDirective } from '@angular/forms';
 import { Subscription, first } from 'rxjs';
-import { statusChangesWithCurrent } from './form-field.directive';
+import { controlStatus$ } from './form-field.directive';
 
 @Directive({
   standalone: true,
@@ -20,7 +20,7 @@ export class ResubmitIfPendingDirective implements OnInit {
       .subscribe(() => {
         this.resubmissionSub?.unsubscribe();
         if (this.fgd.control.pending) {
-          this.resubmissionSub = statusChangesWithCurrent(this.fgd.control)
+          this.resubmissionSub = controlStatus$(this.fgd.control)
             .pipe(
               first(s => s !== 'PENDING'),
               takeUntilDestroyed(this.dRef))

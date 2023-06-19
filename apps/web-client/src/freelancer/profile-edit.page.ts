@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, WritableSignal, computed, effect, inject, isDevMode, signal } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
-import { Ctrl, Domain, DomainModule, DomainProduct, DomainState, FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, SelectableOption, generateLoadingState, sleep, sortString, statusSignal, valueChangesWithCurrent, valueSignal } from '@easworks/app-shell';
+import { Ctrl, Domain, DomainModule, DomainProduct, DomainState, FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, SelectableOption, controlStatus$, controlValue$, generateLoadingState, sleep, sortString, toPromise } from '@easworks/app-shell';
 import { FreelancerProfile, OVERALL_EXPERIENCE_OPTIONS } from '@easworks/models';
 import { City, Country, ICity, ICountry, IState, State } from 'country-state-city';
 import { Timezones } from 'country-state-city/lib/interface';
-import { Observable, filter, firstValueFrom, map, shareReplay, switchMap } from 'rxjs';
+import { Observable, map, shareReplay, switchMap } from 'rxjs';
 
 @Component({
   selector: 'freelancer-profile-edit-page',
@@ -151,17 +151,20 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const summaryWords$ = signal(0);
 
     const form = new FormGroup({
-      summary: new FormControl('', [
-        Validators.required,
-        (c) => {
-          const v = c.value as string;
-          const w = v && v.length && v.split(/\s+\b/).length || 0;
-          summaryWords$.set(w);
-          if (w > 250)
-            return { wordlength: true }
-          return null;
-        }
-      ]),
+      summary: new FormControl('', {
+        validators: [
+          Validators.required,
+          (c) => {
+            const v = c.value as string;
+            const w = v && v.length && v.split(/\s+\b/).length || 0;
+            summaryWords$.set(w);
+            if (w > 250)
+              return { wordlength: true }
+            return null;
+          }
+        ],
+        nonNullable: true
+      }),
       experience: new FormControl(null as unknown as FreelancerProfile['overallExperience'], {
         validators: [Validators.required],
         nonNullable: true
@@ -185,16 +188,16 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     });
 
     const values = {
-      summary: valueSignal(form.controls.summary),
-      country: valueSignal(form.controls.country),
-      state: valueSignal(form.controls.state),
-      city: valueSignal(form.controls.city),
-      timezone: valueSignal(form.controls.timezone)
+      summary: toSignal(controlValue$(form.controls.summary), { requireSync: true }),
+      country: toSignal(controlValue$(form.controls.country), { requireSync: true }),
+      state: toSignal(controlValue$(form.controls.state), { requireSync: true }),
+      city: toSignal(controlValue$(form.controls.city), { requireSync: true }),
+      timezone: toSignal(controlValue$(form.controls.timezone), { requireSync: true })
     }
 
     const status = {
-      country: statusSignal(form.controls.country),
-      state: statusSignal(form.controls.state),
+      country: toSignal(controlStatus$(form.controls.country), { requireSync: true }),
+      state: toSignal(controlStatus$(form.controls.state), { requireSync: true }),
     }
 
     const loadingGeo$ = this.loading.has('getting geolocation');
@@ -326,7 +329,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         form.controls.timezone.reset(all[0]);
     }, { allowSignalWrites: true })
 
-    const status$ = statusSignal(form);
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
     return {
       form,
       status$,
@@ -372,7 +375,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       ]
     });
 
-    const values = valueSignal(form);
+    const values = toSignal(controlValue$(form), { requireSync: true });
     const length$ = computed(() => {
       values();
       return form.length;
@@ -398,13 +401,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       return all;
     });
 
-    const status$ = statusSignal(form);
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
-    const selected$ = valueChangesWithCurrent(form)
+    const selected$ = controlValue$(form, true)
       .pipe(
-        filter(() => form.valid),
-        map(selected => selected.map(s => s.domain.value))
-      );
+        map(v => v.map(s => s.domain.value)),
+        shareReplay({ refCount: true, bufferSize: 1 }));
 
     return {
       form,
@@ -457,7 +459,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private initServices() {
     const injector = this.injector;
 
-    const form$ = this.primaryDomains.selected$
+    const obs$ = this.primaryDomains.selected$
       .pipe(
         map(selected => {
           const exists = this.services && this.services.$();
@@ -484,7 +486,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                   filtered$: Signal<SelectableOption<string>[]>;
                 };
 
-                return { group, options };
+                return { group, options } as const;
               }
             }
 
@@ -500,7 +502,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
               years: FormControl<number>
             }>>([], { validators: [Validators.required] });
 
-            const values = valueSignal(serviceForms, injector);
+            const values = toSignal(controlValue$(serviceForms), { requireSync: true, injector });
             const servicesLength = computed(() => values().length);
             const totalLength = services.length
             const showInput = computed(() => servicesLength() < totalLength);
@@ -558,26 +560,24 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 ...handlers,
                 visible$: showInput
               }
-            }
-          })
+            } as const;
+          });
 
           const form = new FormArray(mapped.map(m => m.group));
-          const status$ = statusSignal(form, injector);
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+          const options = mapped.map(m => m.options);
 
-          return {
-            form,
-            options: mapped.map(m => m.options),
-            status$,
-            domainLabel
-          }
+          return { form, status$, options, domainLabel } as const;
         }),
         shareReplay({ refCount: true, bufferSize: 1 }));
+
+    const $ = toSignal(obs$);
 
     const displayWith = {
       none: () => ''
     } as const;
 
-    type ObsType = typeof form$ extends Observable<infer T> ? T : never;
+    type ObsType = typeof obs$ extends Observable<infer T> ? T : never;
     type FormType = ObsType['form'];
 
     const trackBy = {
@@ -587,19 +587,13 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       service: (_: number, option: SelectableOption<string>) => option.value
     } as const;
 
-    const $ = toSignal(form$);
-
-    return {
-      $,
-      displayWith,
-      trackBy,
-    }
+    return { $, displayWith, trackBy } as const;
   }
 
   private initModules() {
     const injector = this.injector;
 
-    const form$ = this.primaryDomains.selected$
+    const obs$ = this.primaryDomains.selected$
       .pipe(
         map(selected => {
           const exists = this.modules && this.modules.$();
@@ -617,14 +611,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                   visible$: Signal<boolean>;
                   add: (option: SelectableOption<DomainModule>) => void;
                   remove: (i: number) => void;
-                  query$: WritableSignal<string>;
+                  query$: WritableSignal<string>
                   filtered$: Signal<SelectableOption<DomainModule>[]>;
-                };
-
-                return { group, options };
+                }
+                return { group, options } as const;
               }
             }
-
 
             const modules = d.modules.map((m): SelectableOption<DomainModule> => ({
               selected: false,
@@ -637,7 +629,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
               { validators: [Validators.required, Validators.maxLength(7)] }
             );
 
-            const values = valueSignal(moduleForms, injector);
+            const values = toSignal(controlValue$(moduleForms), { requireSync: true, injector });
             const modulesLength = computed(() => values().length);
             const totalLength = modules.length
             const showInput = computed(() => {
@@ -690,30 +682,26 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           });
 
           const form = new FormArray(mapped.map(m => m.group));
-          const status$ = statusSignal(form, injector);
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+          const options = mapped.map(m => m.options);
+          const selected$ = controlValue$(form, true);
 
-          const selected$ = valueChangesWithCurrent(form)
-            .pipe(
-              filter(() => form.valid),
-            );
-
-          return {
-            form,
-            status$,
-            selected$,
-            options: mapped.map(m => m.options),
-            domainLabel,
-          } as const;
+          return { form, status$, options, domainLabel, selected$ } as const;
         }),
-        shareReplay({ refCount: true, bufferSize: 1 }),
+        shareReplay({ refCount: true, bufferSize: 1 })
       );
 
-    type ObsType = typeof form$ extends Observable<infer T> ? T : never;
-    type FormType = ObsType['form'];
+    const $ = toSignal(obs$);
+    const selected$ = obs$.pipe(
+      switchMap(o => o.selected$),
+      shareReplay({ refCount: true, bufferSize: 1 }));
 
     const displayWith = {
       none: () => ''
     } as const;
+
+    type ObsType = typeof obs$ extends Observable<infer T> ? T : never;
+    type FormType = ObsType['form'];
 
     const trackBy = {
       domain: (_: number, control: Ctrl<FormType>) => control.value.domain?.key,
@@ -721,21 +709,13 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       module: (_: number, option: SelectableOption<DomainModule>) => option.value.name
     } as const;
 
-    const $ = toSignal(form$);
-    const selected$ = form$.pipe(switchMap(f => f.selected$));
-
-    return {
-      $,
-      selected$,
-      displayWith,
-      trackBy
-    } as const;
+    return { $, displayWith, trackBy, selected$ } as const;
   }
 
   private initSoftware() {
     const injector = this.injector;
 
-    const form$ = this.modules.selected$
+    const obs$ = this.modules.selected$
       .pipe(
         map(selected => {
           const exists = this.software && this.software.$();
@@ -782,7 +762,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
               years: FormControl<number>
             }>>([], { validators: [Validators.required, Validators.maxLength(5)] })
 
-            const values = valueSignal(softwareForms, injector);
+            const values = toSignal(controlValue$(softwareForms), { requireSync: true, injector });
             const softwareLength = computed(() => values().length);
             const totalLength = software.length;
             const showInput = computed(() => {
@@ -844,23 +824,21 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           });
 
           const form = new FormArray(mapped.map(m => m.group));
-          const status$ = statusSignal(form, injector);
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+          const options = mapped.map(m => m.options);
 
-          return {
-            form,
-            options: mapped.map(m => m.options),
-            status$,
-            domainLabel
-          }
+          return { form, options, status$, domainLabel } as const;
         }),
         shareReplay({ refCount: true, bufferSize: 1 }),
       );
+
+    const $ = toSignal(obs$);
 
     const displayWith = {
       none: () => ''
     } as const;
 
-    type ObsType = typeof form$ extends Observable<infer T> ? T : never;
+    type ObsType = typeof obs$ extends Observable<infer T> ? T : never;
     type FormType = ObsType['form'];
 
     const trackBy = {
@@ -869,8 +847,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         control.value.software?.value.name,
       software: (_: number, option: SelectableOption<DomainProduct>) => option.value.name
     } as const;
-
-    const $ = toSignal(form$);
 
     return { $, displayWith, trackBy } as const;
   }
@@ -911,8 +887,11 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     }
 
     {
-      const all = await firstValueFrom(toObservable(this.primaryDomains.options.all$, { injector })
-        .pipe(filter(all => all.length > 0)));
+      const all = await toPromise(
+        this.primaryDomains.options.all$,
+        all => all.length > 0,
+        injector
+      );
 
       this.primaryDomains.select(all[0]);
       this.primaryDomains.select(all[1]);
