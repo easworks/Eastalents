@@ -61,15 +61,14 @@ export class DomainState {
             modules: Object.entries(r[dk].Modules).map(([mk, v]) => {
               const m: DomainModule = {
                 name: mk,
-                roles: v['Job roles'],
-                products: v.Product
+                roles: v['Job roles'].sort(sortString),
+                products: v.Product.sort((a, b) => sortString(a.name, b.name))
               };
               return m;
-            })
+            }).sort((a, b) => sortString(a.name, b.name))
           };
           return d;
-        });
-        domains.sort((a, b) => sortString(a.key, b.key));
+        }).sort((a, b) => sortString(a.key, b.key));
 
         this.domains$.set(domains);
 
