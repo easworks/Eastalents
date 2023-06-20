@@ -498,7 +498,10 @@
       <ng-container *ngIf="!loadingData$(); else $dataLoading">
 
         <ng-container *ngIf="techExp.showInput$()">
-          <div class="p-4 pb-8">
+          <div class="p-4">
+            <div *ngIf="!techExp.form.length" class="rounded mb-4 p-2 px-4 bg-emerald-400/5 text-emerald-500">
+              <button class="underline" (click)="stepper.next.click()">Skip this question</button> if it is irrelevant to your enterprise application experience and skills.
+            </div>
             <label>Please choose the tech stack you have expertise in</label>
             <div class="tech-selector">
               <div class="groups">
@@ -530,8 +533,8 @@
           </div>
         </ng-container>
 
-        <form *ngrxLet="techExp.form as array">
-          <ng-container *ngIf="array.length; else noItemsSelected">
+        <ng-container *ngrxLet="techExp.form as array">
+          <form *ngIf="array.length" class="mt-4">
             <ng-container *ngFor="let group of array.controls; let gi = index; let last = last; trackBy: techExp.trackBy.group">
               <mat-divider></mat-divider>
               <div class="p-4">
@@ -559,16 +562,8 @@
                 </div>
               </div>
             </ng-container>
-          </ng-container>
-
-          <ng-template #noItemsSelected>
-            <div class="p-4">
-              <div class="border rounded p-2 text-center">
-                <i>Please select from the list above</i>
-              </div>
-            </div>
-          </ng-template>
-        </form>
+          </form>
+        </ng-container>
       </ng-container>
     </div>
   </div>
