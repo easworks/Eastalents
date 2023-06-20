@@ -7,6 +7,7 @@ export interface DomainDictionaryDto {
 
 export interface DomainDto {
   'Primary Domain': string;
+  'Role-Prefix and Product-Suffix': string | null;
   Modules: { [key: string]: DomainModuleDto };
 }
 

@@ -55,6 +55,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly software = this.initSoftware();
   protected readonly roles = this.initRoles();
   protected readonly techExp = this.initTechExp();
+  protected readonly industries = this.initIndustries();
 
   protected readonly stepper = this.initStepper();
 
@@ -70,7 +71,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     });
 
 
-    const totalSteps = 7;
+    const totalSteps = 8;
     const stepProgress$ = computed(() => {
       switch (step$()) {
         case 'professional-summary': return 1;
@@ -80,6 +81,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         case 'software': return 5;
         case 'roles': return 6;
         case 'technology-stack': return 7;
+        case 'industry': return 8;
         default: return 0;
       }
     });
@@ -93,7 +95,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         (step === 'modules' && this.modules.$()?.status$() !== 'VALID') ||
         (step === 'software' && this.software.$()?.status$() !== 'VALID') ||
         (step === 'roles' && this.roles.$()?.status$() !== 'VALID') ||
-        (step === 'technology-stack' && this.techExp.status$() !== 'VALID');
+        (step === 'technology-stack' && this.techExp.status$() !== 'VALID') ||
+        (step === 'industry' && this.industries.status$() !== 'VALID');
     });
 
     return {
@@ -119,6 +122,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'modules': return step$.set('software');
             case 'software': return step$.set('roles');
             case 'roles': return step$.set('technology-stack');
+            case 'technology-stack': return step$.set('industry');
           }
         }
       },
@@ -132,6 +136,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'software': return step$.set('modules');
             case 'roles': return step$.set('software');
             case 'technology-stack': return step$.set('roles');
+            case 'industry': return step$.set('technology-stack');
           }
         }
       },
@@ -891,7 +896,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
               ?.form.value.find(v => v.domain?.key === d.domain.key)
               ?.modules?.map(m => m.value);
             if (!modules)
-              throw new Error();
+              throw new Error('invalid operation');
             modules.forEach(m => m.roles
               .forEach(r => roleMap.set(r, {
                 selected: false,
@@ -1080,7 +1085,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             return;
           const group = selectedGroup$()?.value;
           if (!group)
-            throw new Error();
+            throw new Error('invalid operation');
           tech.selected = true;
           let groupControl = form.controls.find(c => c.value.group === group);
           if (!groupControl) {
@@ -1145,9 +1150,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       .then(groups => handlers.group.select(groups[0]))
 
     const trackBy = {
-      group: (_: number, c: FormType) => c.value.group,
-      controls: (_: number, c: Ctrl<Ctrl<FormType>['tech']>) => c.value.tech?.value,
-      tech: (_: number, o: SelectableOption<string>) => o.value
+      groupControl: (_: number, c: FormType) => c.value.group,
+      techControl: (_: number, c: Ctrl<Ctrl<FormType>['tech']>) => c.value.tech?.value,
+      stringOption: (_: number, o: SelectableOption<string>) => o.value,
     } as const;
 
     return {
@@ -1163,6 +1168,132 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         query$: filter$,
         filtered$: tech$,
         ...handlers.tech
+      },
+      showInput$,
+      trackBy
+    } as const;
+  }
+
+  private initIndustries() {
+    const data$ = computed(() => {
+      const industries = this.domains.industries$();
+      const industrySize = industries.reduce((p, c) => p + c.industries.length, 0);
+
+      const groupMap = new Map<string, SelectableOption<string>[]>();
+
+      const groups = industries.map(g => {
+        const gOpt: SelectableOption<string> = {
+          selected: false,
+          value: g.name,
+          label: g.name
+        };
+
+        const tOpts = g.industries.map(i => {
+          const opt: SelectableOption<string> = {
+            selected: false,
+            value: i,
+          }
+          return opt;
+        });
+
+        groupMap.set(g.name, tOpts);
+
+        return gOpt;
+      });
+
+      return { groupMap, groups, industrySize };
+    });
+
+    const groups$ = computed(() => data$().groups);
+    const selectedGroup$ = signal<SelectableOption<string> | null>(null);
+    const filter$ = signal('');
+    const industries$ = computed(() => {
+      const g = selectedGroup$();
+      const all = g && data$().groupMap.get(g.value) || [];
+      const filter = filter$().trim().toLowerCase();
+      return filter && all.filter(o => o.value.toLowerCase().includes(filter)) || all;
+    });
+
+    type FormType = FormGroup<{
+      group: FormControl<string>,
+      industry: FormControl<SelectableOption<string>>,
+    }>;
+
+    const form = new FormArray<FormType>([], {
+      validators: [Validators.maxLength(5)]
+    });
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
+    const values = toSignal(controlValue$(form), { requireSync: true });
+    const showInput$ = computed(() => {
+      const l = values().length;
+      return l < data$().industrySize && l < 5;
+    });
+
+    const handlers = {
+      industry: {
+        add: (industry: SelectableOption<string>) => {
+          if (industry.selected)
+            return;
+          const group = selectedGroup$()?.value;
+          if (!group)
+            throw new Error('invalid operation');
+          industry.selected = true;
+          form.push(new FormGroup({
+            group: new FormControl(group, { nonNullable: true }),
+            industry: new FormControl(industry, { nonNullable: true })
+          }), { emitEvent: false });
+          form.controls.sort((a, b) => sortString(
+            `${a.value.group}${a.value.industry?.value}`,
+            `${b.value.group}${b.value.industry?.value}`
+          ));
+          form.updateValueAndValidity();
+        },
+        remove: (i: number) => {
+          const control = form.at(i);
+          control.getRawValue().industry.selected = false;
+          form.removeAt(i);
+        }
+      },
+      group: {
+        select: (option: SelectableOption<string>) => {
+          if (option.selected)
+            return;
+          const current = selectedGroup$();
+          if (current)
+            current.selected = false;
+          option.selected = true;
+          selectedGroup$.set(option);
+          filter$.set('');
+        }
+      }
+    } as const;
+
+    const selectedDomains = toSignal(this.primaryDomains.selected$, { initialValue: [] });
+    const prefixAppLabel$ = computed(() => selectedDomains()
+      .map(d => `${d.prefix && `${d.prefix} - ` || ''}${d.longName}`)
+      .join(' / '))
+
+    toPromise(groups$, g => g.length > 0)
+      .then(groups => handlers.group.select(groups[0]));
+
+    const trackBy = {
+      control: (_: number, c: FormType) => `${c.value.group}/${c.value.industry}`,
+      stringOption: (_: number, o: SelectableOption<string>) => o.value
+    } as const;
+
+    return {
+      form,
+      status$,
+      prefixAppLabel$,
+      group: {
+        all$: groups$,
+        selected$: selectedGroup$,
+        ...handlers.group
+      },
+      industry: {
+        query$: filter$,
+        filtered$: industries$,
+        ...handlers.industry
       },
       showInput$,
       trackBy
@@ -1308,6 +1439,23 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         }
       }
       select(groups[0]);
+
+      this.stepper.next.click();
+    }
+
+    {
+      const select = this.industries.group.select;
+      const add = this.industries.industry.add;
+      const groups = this.industries.group.all$();
+      for (let gi = 0; gi < 5; gi++) {
+        const g = groups[gi];
+        select(g);
+        const ind = this.industries.industry.filtered$();
+        add(ind[0]);
+      }
+      select(groups[0]);
+
+      this.stepper.next.click();
     }
 
     revert.forEach(r => r());
@@ -1319,6 +1467,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     if (!this.section || this.section === 'technology-stack') {
       this.domains.getTech();
+    }
+
+    if (!this.section || this.section === 'industry') {
+      this.domains.getIndustries();
     }
 
     toDo.push(toPromise(this.domains.loading.any$, v => !v));

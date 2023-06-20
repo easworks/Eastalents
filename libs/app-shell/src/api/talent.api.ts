@@ -36,6 +36,7 @@ export class TalentApi extends ApiService {
         const d: Domain = {
           key: dk,
           longName: dto[dk]['Primary Domain'],
+          prefix: dto[dk]['Role-Prefix and Product-Suffix'],
           services: this.dummyServices,
           modules: Object.entries(dto[dk].Modules).map(([mk, v]) => {
             const m: DomainModule = {
@@ -134,7 +135,7 @@ export class TalentApi extends ApiService {
 export interface Domain {
   key: string;
   longName: string;
-  prefix?: string;
+  prefix: string | null;
   services: string[];
   modules: DomainModule[];
 }

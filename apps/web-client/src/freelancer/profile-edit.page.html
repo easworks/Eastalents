@@ -493,7 +493,8 @@
 
     <div *ngIf="step === 'technology-stack'"
          class="rounded bg-white mat-elevation-z1">
-      <h2 class="p-4 text-xl font-semibold">Technical Software Experience</h2>
+      <h2 class="p-4 text-xl font-semibold">{{techExp.softwareLabel$()}} Technical Experience</h2>
+      <!-- <h2 class="p-4 text-xl font-semibold">Technical Software Experience</h2> -->
       <mat-divider></mat-divider>
       <ng-container *ngIf="!loadingData$(); else $dataLoading">
 
@@ -502,17 +503,18 @@
             <div *ngIf="!techExp.form.length" class="rounded mb-4 p-2 px-4 bg-emerald-400/5 text-emerald-500">
               <button class="underline" (click)="stepper.next.click()">Skip this question</button> if it is irrelevant to your enterprise application experience and skills.
             </div>
-            <label>Please choose the tech stack you have expertise in</label>
-            <div class="tech-selector">
+            <label>Please choose the tech stack you have expertise in {{techExp.softwareLabel$()}}</label>
+            <!-- <label>Please choose the tech stack you have expertise in</label> -->
+            <div class="grouped-selector">
               <div class="groups">
-                <button *ngFor="let group of techExp.group.all$()"
+                <button *ngFor="let group of techExp.group.all$(); trackBy: techExp.trackBy.stringOption"
                         type="button"
                         (click)="techExp.group.select(group)"
                         [class.selected]="group.selected">
                   {{group.value}}
                 </button>
               </div>
-              <div class="tech">
+              <div class="items">
                 <div class="p-2">
                   <input type="text" placeholder="Type to search products"
                          [ngModel]="techExp.tech.query$()"
@@ -522,7 +524,7 @@
 
                 <div class="filtered">
                   <div>
-                    <button *ngFor="let tech of techExp.tech.filtered$(); trackBy: techExp.trackBy.tech"
+                    <button *ngFor="let tech of techExp.tech.filtered$(); trackBy: techExp.trackBy.stringOption"
                             type="button"
                             [class.selected]="tech.selected"
                             (click)="techExp.tech.add(tech)">{{tech.value}}</button>
@@ -531,17 +533,17 @@
               </div>
             </div>
           </div>
+          <mat-divider *ngIf="techExp.form.length"></mat-divider>
         </ng-container>
 
         <ng-container *ngrxLet="techExp.form as array">
-          <form *ngIf="array.length" class="mt-4">
-            <ng-container *ngFor="let group of array.controls; let gi = index; let last = last; trackBy: techExp.trackBy.group">
-              <mat-divider></mat-divider>
+          <form>
+            <ng-container *ngFor="let group of array.controls; let gi = index; let last = last; trackBy: techExp.trackBy.groupControl">
               <div class="p-4">
                 <label>{{group.value.group}}</label>
                 <div class="grid gap-2 my-4" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
 
-                  <div *ngFor="let tech of group.controls.tech.controls; let ti = index; trackBy: techExp.trackBy.controls"
+                  <div *ngFor="let tech of group.controls.tech.controls; let ti = index; trackBy: techExp.trackBy.techControl"
                        class="border rounded p-2 pl-4 flex gap-2 items-stretch">
                     <div class="flex-grow flex flex-col gap-4">
                       <span class="flex-grow pt-2">{{tech.value.tech?.value}}</span>
@@ -561,10 +563,74 @@
 
                 </div>
               </div>
+              <mat-divider *ngIf="!last"></mat-divider>
             </ng-container>
           </form>
         </ng-container>
       </ng-container>
+    </div>
+
+    <div *ngIf="step === 'industry'"
+         class="rounded bg-white mat-elevation-z1">
+      <h2 class="p-4 text-xl font-semibold">Industry-specific {{industries.prefixAppLabel$()}} Experience</h2>
+      <!-- <h2 class="p-4 text-xl font-semibold">Industry-specific Experience</h2> -->
+      <mat-divider></mat-divider>
+      <div *ngIf="!loadingData$(); else $dataLoading" class="p-4 grid gap-4">
+        <label>Select specific industry experience related to {{industries.prefixAppLabel$()}}</label>
+        <form *ngrxLet="industries.form as array">
+          <div *ngIf="array.length; else noItemsSelected"
+               class="grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+            <div *ngFor="let group of array.controls; let i = index; let last = last; trackBy: industries.trackBy.control"
+                 class="border rounded p-2 pl-4 flex gap-2 items-stretch">
+              <span class="flex-grow py-2">{{group.value.group}}: {{group.value.industry?.value}}</span>
+
+              <button class="icon-button h-10 w-10 flex-none text-warn/80" mat-ripple
+                      type="button" (click)="industries.industry.remove(i)"
+                      title="Remove">
+                <i class="fas fa-circle-minus"></i>
+              </button>
+            </div>
+          </div>
+
+          <ng-template #noItemsSelected>
+            <div class="border rounded p-2 mx-auto text-center">
+              <i>Please select from the list below</i>
+            </div>
+          </ng-template>
+        </form>
+
+        <div *ngIf="industries.showInput$()">
+          <!-- <label>Select specific industry experience related to your selected domains</label> -->
+          <div class="grouped-selector">
+            <div class="groups">
+              <button *ngFor="let group of industries.group.all$(); trackBy: industries.trackBy.stringOption"
+                      type="button"
+                      (click)="industries.group.select(group)"
+                      [class.selected]="group.selected">
+                {{group.value}}
+              </button>
+            </div>
+            <div class="items">
+              <div class="p-2">
+                <input type="text" placeholder="Type to search industries"
+                       [ngModel]="industries.industry.query$()"
+                       (ngModelChange)="industries.industry.query$.set($event)"
+                       [ngModelOptions]="{ standalone: true }">
+              </div>
+
+              <div class="filtered">
+                <div>
+                  <button *ngFor="let industry of industries.industry.filtered$(); trackBy: industries.trackBy.stringOption"
+                          type="button"
+                          [class.selected]="industry.selected"
+                          (click)="industries.industry.add(industry)">{{industry.value}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
