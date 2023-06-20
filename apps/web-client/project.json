@@ -24,6 +24,7 @@
           "apps/web-client/src/assets"
         ],
         "styles": [
+          "libs/shared/styles/src/fonts.css",
           "libs/shared/styles/src/material.scss",
           "apps/web-client/src/styles.less"
         ],
