@@ -244,26 +244,19 @@
                [ngModel]="primaryDomains.options.filterText$()"
                (ngModelChange)="primaryDomains.options.filterText$.set($event)">
 
-        <div *ngIf="primaryDomains.options.loading$(); else optionsLoaded"
-             class="mt-4 p-2 grid gap-4 justify-items-center">
-          <p> Fetching data. Please wait... </p>
-          <mat-progress-spinner mode="indeterminate" diameter="32"></mat-progress-spinner>
-        </div>
-        <ng-template #optionsLoaded>
-          <ul class="mt-4 grid gap-4 primary-domain-options"
-              style="grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));">
-            <li *ngFor="let option of primaryDomains.options.filtered$(); trackBy: primaryDomains.trackBy.options">
-              <button class="stroked-button w-full h-full" mat-ripple
-                      [title]="option.title"
-                      [class.selected]="option.selected"
-                      [disabled]="option.selected"
-                      (click)="primaryDomains.select(option)">
-                {{option.label}}
-              </button>
-            </li>
-          </ul>
-
-        </ng-template>
+        <ul *ngIf="!loadingData$(); else $dataLoading"
+            class="mt-4 grid gap-4 primary-domain-options"
+            style="grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));">
+          <li *ngFor="let option of primaryDomains.options.filtered$(); trackBy: primaryDomains.trackBy.options">
+            <button class="stroked-button w-full h-full" mat-ripple
+                    [title]="option.title"
+                    [class.selected]="option.selected"
+                    [disabled]="option.selected"
+                    (click)="primaryDomains.select(option)">
+              {{option.label}}
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
 
@@ -498,6 +491,86 @@
       </ng-container>
     </div>
 
+    <div *ngIf="step === 'technology-stack'"
+         class="rounded bg-white mat-elevation-z1">
+      <h2 class="p-4 text-xl font-semibold">Technical Software Experience</h2>
+      <mat-divider></mat-divider>
+      <ng-container *ngIf="!loadingData$(); else $dataLoading">
+
+        <ng-container *ngIf="techExp.showInput$()">
+          <div class="p-4 pb-8">
+            <label>Please choose the tech stack you have expertise in</label>
+            <div class="tech-selector">
+              <div class="groups">
+                <button *ngFor="let group of techExp.group.all$()"
+                        type="button"
+                        (click)="techExp.group.select(group)"
+                        [class.selected]="group.selected">
+                  {{group.value}}
+                </button>
+              </div>
+              <div class="tech">
+                <div class="p-2">
+                  <input type="text" placeholder="Type to search products"
+                         [ngModel]="techExp.tech.query$()"
+                         (ngModelChange)="techExp.tech.query$.set($event)"
+                         [ngModelOptions]="{ standalone: true }">
+                </div>
+
+                <div class="filtered">
+                  <div>
+                    <button *ngFor="let tech of techExp.tech.filtered$(); trackBy: techExp.trackBy.tech"
+                            type="button"
+                            [class.selected]="tech.selected"
+                            (click)="techExp.tech.add(tech)">{{tech.value}}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <form *ngrxLet="techExp.form as array">
+          <ng-container *ngIf="array.length; else noItemsSelected">
+            <ng-container *ngFor="let group of array.controls; let gi = index; let last = last; trackBy: techExp.trackBy.group">
+              <mat-divider></mat-divider>
+              <div class="p-4">
+                <label>{{group.value.group}}</label>
+                <div class="grid gap-2 my-4" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+
+                  <div *ngFor="let tech of group.controls.tech.controls; let ti = index; trackBy: techExp.trackBy.controls"
+                       class="border rounded p-2 pl-4 flex gap-2 items-stretch">
+                    <div class="flex-grow flex flex-col gap-4">
+                      <span class="flex-grow pt-2">{{tech.value.tech?.value}}</span>
+                      <div *ngrxLet="tech.controls.years as control" [formFieldControl]="control">
+                        <input type="number" [formControl]="control" placeholder="Years of Experience"
+                               min="1" max="30">
+                        <span class="hint">1-30</span>
+                      </div>
+                    </div>
+
+                    <button class="icon-button h-10 w-10 flex-none text-warn/80" mat-ripple
+                            type="button" (click)="techExp.tech.remove(gi,ti)"
+                            title="Remove">
+                      <i class="fas fa-circle-minus"></i>
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+
+          <ng-template #noItemsSelected>
+            <div class="p-4">
+              <div class="border rounded p-2 text-center">
+                <i>Please select from the list above</i>
+              </div>
+            </div>
+          </ng-template>
+        </form>
+      </ng-container>
+    </div>
   </div>
 
   <!-- Button Container -->
@@ -526,3 +599,10 @@
   </ng-container>
 
 </div>
+
+<ng-template #$dataLoading>
+  <div class="mt-4 p-2 grid gap-4 justify-items-center">
+    <p> Fetching data. Please wait... </p>
+    <mat-progress-spinner mode="indeterminate" diameter="32"></mat-progress-spinner>
+  </div>
+</ng-template>

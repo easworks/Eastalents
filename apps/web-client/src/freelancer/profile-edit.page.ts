@@ -25,6 +25,10 @@ import { Observable, map, shareReplay, switchMap } from 'rxjs';
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
+  constructor() {
+    this.getData()
+  }
+
   private readonly injector = inject(INJECTOR);
   private readonly route = inject(ActivatedRoute);
   private readonly geo = inject(GeoLocationService);
@@ -38,9 +42,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private readonly loading = generateLoadingState<[
     'getting profile data' |
     'getting geolocation' |
-    'getting primary domains'
+    'getting data'
   ]>();
   protected readonly isNew = this.route.snapshot.queryParamMap.has('new');
+  protected readonly loadingData$ = this.loading.has('getting data');
   private readonly section = this.initSection();
 
   protected readonly professionalSummary = this.initProfessionaSummary();
@@ -49,6 +54,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly modules = this.initModules();
   protected readonly software = this.initSoftware();
   protected readonly roles = this.initRoles();
+  protected readonly techExp = this.initTechExp();
 
   protected readonly stepper = this.initStepper();
 
@@ -64,7 +70,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     });
 
 
-    const totalSteps = 6;
+    const totalSteps = 7;
     const stepProgress$ = computed(() => {
       switch (step$()) {
         case 'professional-summary': return 1;
@@ -73,6 +79,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         case 'modules': return 4;
         case 'software': return 5;
         case 'roles': return 6;
+        case 'technology-stack': return 7;
         default: return 0;
       }
     });
@@ -85,7 +92,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         (step === 'services' && this.services.$()?.status$() !== 'VALID') ||
         (step === 'modules' && this.modules.$()?.status$() !== 'VALID') ||
         (step === 'software' && this.software.$()?.status$() !== 'VALID') ||
-        (step === 'roles' && this.roles.$()?.status$() !== 'VALID');
+        (step === 'roles' && this.roles.$()?.status$() !== 'VALID') ||
+        (step === 'technology-stack' && this.techExp.status$() !== 'VALID');
     });
 
     return {
@@ -110,6 +118,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'services': return step$.set('modules');
             case 'modules': return step$.set('software');
             case 'software': return step$.set('roles');
+            case 'roles': return step$.set('technology-stack');
           }
         }
       },
@@ -122,6 +131,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'modules': return step$.set('services');
             case 'software': return step$.set('modules');
             case 'roles': return step$.set('software');
+            case 'technology-stack': return step$.set('roles');
           }
         }
       },
@@ -421,7 +431,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         filterText$,
         all$: options$,
         filtered$,
-        loading$: this.domains.loading$,
         visible$: computed(() => length$() < 3)
       },
       trackBy: {
@@ -491,6 +500,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 found.services.forEach(s => {
                   const fs = serviceMap.get(s.service.value);
                   if (fs) {
+                    fs.selected = true;
                     serviceForms.push(new FormGroup({
                       service: new FormControl(fs, { nonNullable: true }),
                       years: new FormControl(s.years, {
@@ -622,6 +632,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 found.modules.forEach(m => {
                   const fm = moduleMap.get(m.value.name);
                   if (fm) {
+                    fm.selected = true;
                     moduleForms.push(
                       new FormControl(fm, { nonNullable: true }),
                       { emitEvent: false })
@@ -747,6 +758,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 found.software.forEach(v => {
                   const fs = softwareMap.get(v.software.value.name);
                   if (fs) {
+                    fs.selected = true;
                     softwareForms.push(
                       new FormGroup({
                         software: new FormControl(fs, { nonNullable: true }),
@@ -872,7 +884,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
           const mapped = selected.map(d => {
 
-            const softwareLabel = d.software.map(s => s.name).join('/') || 'Software';
+            const softwareLabel = d.software.map(s => s.name).join(' / ') || 'Software';
 
             const roleMap = new Map<string, SelectableOption<string>>();
             const modules = this.modules.$()
@@ -898,6 +910,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 found.roles.forEach(v => {
                   const fr = roleMap.get(v.role.value);
                   if (fr) {
+                    fr.selected = true;
                     roleForms.push(new FormGroup({
                       role: new FormControl(fr, { nonNullable: true }),
                       years: new FormControl(v.years, {
@@ -1001,6 +1014,159 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     } as const;
 
     return { $, displayWith, trackBy } as const;
+  }
+
+  private initTechExp() {
+    const data$ = computed(() => {
+      const tech = this.domains.tech$();
+      const techSize = tech.reduce((p, c) => p + c.tech.length, 0)
+
+      const groupMap = new Map<string, SelectableOption<string>[]>();
+
+      const groups = tech.map(g => {
+        const gOpt: SelectableOption<string> = {
+          selected: false,
+          value: g.name,
+          label: g.name
+        };
+        const tOpts = g.tech.map(t => {
+          const opt: SelectableOption<string> = {
+            selected: false,
+            value: t,
+          }
+          return opt;
+        });
+
+        groupMap.set(g.name, tOpts);
+
+        return gOpt;
+      });
+
+      return { groupMap, groups, techSize } as const;
+    });
+
+    const groups$ = computed(() => data$().groups);
+    const selectedGroup$ = signal<SelectableOption<string> | null>(null);
+    const filter$ = signal('');
+    const tech$ = computed(() => {
+      const g = selectedGroup$();
+      const all = g && data$().groupMap.get(g.value) || [];
+      const filter = filter$().trim().toLowerCase();
+      return filter && all.filter(o => o.value.toLowerCase().includes(filter)) || all;
+    });
+
+    type FormType = FormGroup<{
+      group: FormControl<string>,
+      tech: FormArray<FormGroup<{
+        tech: FormControl<SelectableOption<string>>,
+        years: FormControl<number>
+      }>>
+    }>;
+
+    const form = new FormArray<FormType>([]);
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    const values = toSignal(controlValue$(form), { requireSync: true });
+    const showInput$ = computed(() => {
+      const v = values();
+      const l = v.reduce((p, c) => p + c.tech.length, 0);
+      return l < data$().techSize;
+    })
+
+    const handlers = {
+      tech: {
+        add: (tech: SelectableOption<string>) => {
+          if (tech.selected)
+            return;
+          const group = selectedGroup$()?.value;
+          if (!group)
+            throw new Error();
+          tech.selected = true;
+          let groupControl = form.controls.find(c => c.value.group === group);
+          if (!groupControl) {
+            groupControl = new FormGroup({
+              group: new FormControl(group, { nonNullable: true }),
+              tech: new FormArray<FormGroup<{
+                tech: FormControl<SelectableOption<string>>,
+                years: FormControl<number>
+              }>>([])
+            });
+            form.push(groupControl, { emitEvent: false });
+            form.controls.sort((a, b) => sortString(
+              a.controls.group.value,
+              b.controls.group.value));
+          }
+
+          const techControls = groupControl.controls.tech;
+
+          techControls.push(new FormGroup({
+            tech: new FormControl(tech, { nonNullable: true }),
+            years: new FormControl(null as unknown as number, {
+              validators: [Validators.required, Validators.min(1), Validators.max(30)],
+              nonNullable: true
+            })
+          }), { emitEvent: false });
+          techControls.controls.sort((a, b) => sortString(
+            a.controls.tech.value.value,
+            b.controls.tech.value.value));
+          techControls.updateValueAndValidity();
+        },
+        remove: (group: number, tech: number) => {
+          const groupControl = form.at(group);
+          const techControl = groupControl.controls.tech.at(tech);
+          techControl.getRawValue().tech.selected = false;
+          groupControl.controls.tech.removeAt(tech);
+          if (!groupControl.value.tech?.length)
+            form.removeAt(group);
+        },
+      },
+      group: {
+        select: (option: SelectableOption<string>) => {
+          if (option.selected)
+            return;
+          const current = selectedGroup$();
+          if (current)
+            current.selected = false;
+          option.selected = true;
+          selectedGroup$.set(option);
+          filter$.set('');
+        }
+      }
+    } as const;
+
+    const selectedSoftware = toSignal(this.software.selected$, { initialValue: [] });
+    const softwareLabel$ = computed(() => selectedSoftware()
+      .map(s => s.software)
+      .flat()
+      .map(s => s.name)
+      .join(' / '));
+
+    toPromise(groups$, g => g.length > 0)
+      .then(groups => handlers.group.select(groups[0]))
+
+    const trackBy = {
+      group: (_: number, c: FormType) => c.value.group,
+      controls: (_: number, c: Ctrl<Ctrl<FormType>['tech']>) => c.value.tech?.value,
+      tech: (_: number, o: SelectableOption<string>) => o.value
+    } as const;
+
+    return {
+      form,
+      status$,
+      softwareLabel$,
+      group: {
+        all$: groups$,
+        selected$: selectedGroup$,
+        ...handlers.group
+      },
+      tech: {
+        query$: filter$,
+        filtered$: tech$,
+        ...handlers.tech
+      },
+      showInput$,
+      trackBy
+    } as const;
   }
 
   private async devModeInit() {
@@ -1127,7 +1293,38 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       this.stepper.next.click();
     }
 
+    {
+      const form = this.techExp.form;
+      const select = this.techExp.group.select
+      const add = this.techExp.tech.add;
+      const groups = this.techExp.group.all$();
+      for (let gi = 0; gi < 3; gi++) {
+        const g = groups[gi];
+        select(g);
+        const tech = this.techExp.tech.filtered$();
+        for (let ti = 0; ti < 3; ti++) {
+          add(tech[ti]);
+          form.at(gi).controls.tech.at(ti).controls.years.setValue(gi + ti + 1);
+        }
+      }
+      select(groups[0]);
+    }
+
     revert.forEach(r => r());
+  }
+
+  private async getData() {
+    this.loading.add('getting data');
+    const toDo = [] as Promise<unknown>[];
+
+    if (!this.section || this.section === 'technology-stack') {
+      this.domains.getTech();
+    }
+
+    toDo.push(toPromise(this.domains.loading.any$, v => !v));
+
+    await Promise.all(toDo);
+    this.loading.delete('getting data');
   }
 
   ngOnInit(): void {
