@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, WritableSignal, computed, effect, inject, isDevMode, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -48,6 +48,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly services = this.initServices();
   protected readonly modules = this.initModules();
   protected readonly software = this.initSoftware();
+  protected readonly roles = this.initRoles();
 
   protected readonly stepper = this.initStepper();
 
@@ -63,7 +64,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     });
 
 
-    const totalSteps = 5;
+    const totalSteps = 6;
     const stepProgress$ = computed(() => {
       switch (step$()) {
         case 'professional-summary': return 1;
@@ -71,6 +72,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         case 'services': return 3;
         case 'modules': return 4;
         case 'software': return 5;
+        case 'roles': return 6;
         default: return 0;
       }
     });
@@ -82,7 +84,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         (step === 'primary-domains' && this.primaryDomains.status$() !== 'VALID') ||
         (step === 'services' && this.services.$()?.status$() !== 'VALID') ||
         (step === 'modules' && this.modules.$()?.status$() !== 'VALID') ||
-        (step === 'software' && this.software.$()?.status$() !== 'VALID');
+        (step === 'software' && this.software.$()?.status$() !== 'VALID') ||
+        (step === 'roles' && this.roles.$()?.status$() !== 'VALID');
     });
 
     return {
@@ -106,6 +109,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'primary-domains': return step$.set('services');
             case 'services': return step$.set('modules');
             case 'modules': return step$.set('software');
+            case 'software': return step$.set('roles');
           }
         }
       },
@@ -117,6 +121,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'services': return step$.set('primary-domains');
             case 'modules': return step$.set('services');
             case 'software': return step$.set('modules');
+            case 'roles': return step$.set('software');
           }
         }
       },
@@ -462,36 +467,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const obs$ = this.primaryDomains.selected$
       .pipe(
         map(selected => {
-          const exists = this.services && this.services.$();
+          const exists = this.services?.$()?.form.getRawValue();
 
           const domainLabel = (selected.length === 1 && selected[0].longName) || 'Domain';
 
           const mapped = selected.map(d => {
-            if (exists) {
-              const found = exists.form.controls.findIndex(c => c.value.domain?.key === d.key);
 
-              if (found >= 0) {
-                const group = exists.form.controls[found] as FormGroup<{
-                  domain: FormControl<Domain>;
-                  services: FormArray<FormGroup<{
-                    service: FormControl<SelectableOption<string>>;
-                    years: FormControl<number>;
-                  }>>;
-                }>;
-                const options = exists.options[found] as {
-                  visible$: Signal<boolean>;
-                  add: (option: SelectableOption<string>) => void;
-                  remove: (i: number) => void;
-                  query$: WritableSignal<string>;
-                  filtered$: Signal<SelectableOption<string>[]>;
-                };
-
-                return { group, options } as const;
-              }
-            }
-
-
-            const services = d.services.map((s): SelectableOption<string> => ({
+            const serviceMap = new Map<string, SelectableOption<string>>();
+            d.services.forEach(s => serviceMap.set(s, {
               selected: false,
               value: s,
               label: s
@@ -502,6 +485,26 @@ export class FreelancerProfileEditPageComponent implements OnInit {
               years: FormControl<number>
             }>>([], { validators: [Validators.required] });
 
+            if (exists) {
+              const found = exists.find(v => v.domain.key === d.key);
+              if (found) {
+                found.services.forEach(s => {
+                  const fs = serviceMap.get(s.service.value);
+                  if (fs) {
+                    serviceForms.push(new FormGroup({
+                      service: new FormControl(fs, { nonNullable: true }),
+                      years: new FormControl(s.years, {
+                        validators: [Validators.required, Validators.min(1), Validators.max(30)],
+                        nonNullable: true
+                      })
+                    }), { emitEvent: false });
+                  }
+                });
+                serviceForms.updateValueAndValidity();
+              }
+            }
+
+            const services = [...serviceMap.values()];
             const values = toSignal(controlValue$(serviceForms), { requireSync: true, injector });
             const servicesLength = computed(() => values().length);
             const totalLength = services.length
@@ -596,39 +599,39 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const obs$ = this.primaryDomains.selected$
       .pipe(
         map(selected => {
-          const exists = this.modules && this.modules.$();
+          const exists = this.modules?.$()?.form.getRawValue();
+
           const domainLabel = (selected.length === 1 && selected[0].longName) || 'Domain';
 
           const mapped = selected.map(d => {
-            if (exists) {
-              const found = exists.form.controls.findIndex(c => c.value.domain?.key === d.key);
-              if (found >= 0) {
-                const group = exists.form.controls[found] as FormGroup<{
-                  domain: FormControl<Domain>;
-                  modules: FormArray<FormControl<SelectableOption<DomainModule>>>;
-                }>;
-                const options = exists.options[found] as {
-                  visible$: Signal<boolean>;
-                  add: (option: SelectableOption<DomainModule>) => void;
-                  remove: (i: number) => void;
-                  query$: WritableSignal<string>
-                  filtered$: Signal<SelectableOption<DomainModule>[]>;
-                }
-                return { group, options } as const;
-              }
-            }
 
-            const modules = d.modules.map((m): SelectableOption<DomainModule> => ({
+            const moduleMap = new Map<string, SelectableOption<DomainModule>>();
+            d.modules.forEach(m => moduleMap.set(m.name, {
               selected: false,
               value: m,
               label: m.name,
             }));
 
-            const moduleForms = new FormArray<FormControl<SelectableOption<DomainModule>>>(
-              [],
-              { validators: [Validators.required, Validators.maxLength(7)] }
-            );
+            const moduleForms = new FormArray<FormControl<
+              SelectableOption<DomainModule>
+            >>([], { validators: [Validators.required, Validators.maxLength(7)] });
 
+            if (exists) {
+              const found = exists.find(v => v.domain.key === d.key);
+              if (found) {
+                found.modules.forEach(m => {
+                  const fm = moduleMap.get(m.value.name);
+                  if (fm) {
+                    moduleForms.push(
+                      new FormControl(fm, { nonNullable: true }),
+                      { emitEvent: false })
+                  }
+                });
+                moduleForms.updateValueAndValidity();
+              }
+            }
+
+            const modules = [...moduleMap.values()];
             const values = toSignal(controlValue$(moduleForms), { requireSync: true, injector });
             const modulesLength = computed(() => values().length);
             const totalLength = modules.length
@@ -718,50 +721,50 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const obs$ = this.modules.selected$
       .pipe(
         map(selected => {
-          const exists = this.software && this.software.$();
+          const exists = this.software?.$()?.form.getRawValue();
 
           const domainLabel = (selected.length === 1 && selected[0].domain.longName) || 'Domain';
 
           const mapped = selected.map(d => {
-            if (exists) {
-              const found = exists.form.controls.findIndex(c => c.value.domain?.key === d.domain.key);
-              if (found >= 0) {
-                const group = exists.form.controls[found] as FormGroup<{
-                  domain: FormControl<Domain>;
-                  software: FormArray<FormGroup<{
-                    software: FormControl<SelectableOption<DomainProduct>>;
-                    years: FormControl<number>;
-                  }>>;
-                }>;
-                const options = exists.options[found] as {
-                  visible$: Signal<boolean>;
-                  add: (option: SelectableOption<DomainProduct>) => void;
-                  remove: (i: number) => void;
-                  query$: WritableSignal<string>;
-                  filtered$: Signal<SelectableOption<DomainProduct>[]>;
-                };
-                return { group, options };
-              }
-            }
 
-            const softwareMap = new Map<string, DomainProduct>();
+            const softwareMap = new Map<string, SelectableOption<DomainProduct>>();
             d.modules
               .forEach(m => m.value.products
-                .forEach(p => softwareMap.set(p.name, p)))
-
-            const software = [...softwareMap.values()]
-              .map((s): SelectableOption<DomainProduct> => ({
-                selected: false,
-                value: s,
-                label: s.name
-              }));
-
+                .forEach(p => softwareMap.set(p.name, {
+                  selected: false,
+                  value: p,
+                  label: p.name
+                })));
 
             const softwareForms = new FormArray<FormGroup<{
               software: FormControl<SelectableOption<DomainProduct>>,
               years: FormControl<number>
             }>>([], { validators: [Validators.required, Validators.maxLength(5)] })
 
+            if (exists) {
+              const found = exists.find(v => v.domain.key === d.domain.key);
+              if (found) {
+                found.software.forEach(v => {
+                  const fs = softwareMap.get(v.software.value.name);
+                  if (fs) {
+                    softwareForms.push(
+                      new FormGroup({
+                        software: new FormControl(fs, { nonNullable: true }),
+                        years: new FormControl(v.years, {
+                          validators: [Validators.required, Validators.min(1), Validators.max(30)],
+                          nonNullable: true
+                        })
+                      }),
+                      { emitEvent: false }
+                    )
+                  }
+                });
+                softwareForms.updateValueAndValidity();
+              }
+            }
+
+            const software = [...softwareMap.values()]
+              .sort((a, b) => sortString(a.value.name, b.value.name));
             const values = toSignal(controlValue$(softwareForms), { requireSync: true, injector });
             const softwareLength = computed(() => values().length);
             const totalLength = software.length;
@@ -826,13 +829,21 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           const form = new FormArray(mapped.map(m => m.group));
           const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
           const options = mapped.map(m => m.options);
+          const selected$ = controlValue$(form, true);
 
-          return { form, options, status$, domainLabel } as const;
+          return { form, options, status$, domainLabel, selected$ } as const;
         }),
         shareReplay({ refCount: true, bufferSize: 1 }),
       );
 
     const $ = toSignal(obs$);
+    const selected$ = obs$.pipe(
+      switchMap(o => o.selected$),
+      map(v => v.map(d => ({
+        domain: d.domain,
+        software: d.software.map(s => s.software.value)
+      }))),
+      shareReplay({ refCount: true, bufferSize: 1 }));
 
     const displayWith = {
       none: () => ''
@@ -846,6 +857,147 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       controls: (_: number, control: Ctrl<Ctrl<Ctrl<FormType>>['software']>) =>
         control.value.software?.value.name,
       software: (_: number, option: SelectableOption<DomainProduct>) => option.value.name
+    } as const;
+
+    return { $, displayWith, trackBy, selected$ } as const;
+  }
+
+  private initRoles() {
+    const injector = this.injector;
+
+    const obs$ = this.software.selected$
+      .pipe(
+        map(selected => {
+          const exists = this.roles?.$()?.form.getRawValue();
+
+          const mapped = selected.map(d => {
+
+            const softwareLabel = d.software.map(s => s.name).join('/') || 'Software';
+
+            const roleMap = new Map<string, SelectableOption<string>>();
+            const modules = this.modules.$()
+              ?.form.value.find(v => v.domain?.key === d.domain.key)
+              ?.modules?.map(m => m.value);
+            if (!modules)
+              throw new Error();
+            modules.forEach(m => m.roles
+              .forEach(r => roleMap.set(r, {
+                selected: false,
+                value: r,
+                label: r
+              })));
+
+            const roleForms = new FormArray<FormGroup<{
+              role: FormControl<SelectableOption<string>>;
+              years: FormControl<number>
+            }>>([], { validators: [Validators.required, Validators.maxLength(5)] });
+
+            if (exists) {
+              const found = exists.find(v => v.domain.key === d.domain.key);
+              if (found) {
+                found.roles.forEach(v => {
+                  const fr = roleMap.get(v.role.value);
+                  if (fr) {
+                    roleForms.push(new FormGroup({
+                      role: new FormControl(fr, { nonNullable: true }),
+                      years: new FormControl(v.years, {
+                        validators: [Validators.required, Validators.min(1), Validators.max(30)],
+                        nonNullable: true
+                      })
+                    }), { emitEvent: false });
+                  }
+                });
+                roleForms.updateValueAndValidity();
+              }
+            }
+
+            const roles = [...roleMap.values()]
+              .sort((a, b) => sortString(a.value, b.value));
+            const values = toSignal(controlValue$(roleForms), { requireSync: true, injector });
+            const roleLength = computed(() => values().length);
+            const totalLength = roles.length;
+            const showInput = computed(() => {
+              const l = roleLength();
+              return l < totalLength && l < 5
+            });
+
+            const group = new FormGroup({
+              domain: new FormControl(d.domain, { nonNullable: true }),
+              roles: roleForms
+            });
+
+            const roleFilter$ = signal('');
+            const filtered$ = computed(() => {
+              const length = roleLength();
+              const value = roleFilter$();
+              const filter = typeof value === 'string' && value.trim().toLowerCase() || '';
+              if (filter || length) {
+                return roles.filter(r =>
+                  !r.selected &&
+                  (!filter || r.value.toLowerCase().includes(filter)));
+              }
+              return roles;
+            });
+
+            const handlers = {
+              add: (option: SelectableOption<string>) => {
+                option.selected = true;
+
+                roleForms.push(new FormGroup({
+                  role: new FormControl(option, { nonNullable: true }),
+                  years: new FormControl(null as unknown as number, {
+                    validators: [Validators.required, Validators.min(1), Validators.max(30)],
+                    nonNullable: true,
+                  })
+                }), { emitEvent: false });
+                roleForms.controls.sort((a, b) => sortString(
+                  a.controls.role.value.value,
+                  b.controls.role.value.value
+                ));
+                roleForms.updateValueAndValidity();
+              },
+              remove: (i: number) => {
+                const control = roleForms.at(i);
+                control.getRawValue().role.selected = false;
+                roleForms.removeAt(i);
+              }
+            } as const;
+
+            return {
+              group,
+              options: {
+                query$: roleFilter$,
+                filtered$,
+                ...handlers,
+                visible$: showInput
+              },
+              label: softwareLabel
+            } as const;
+          });
+
+          const form = new FormArray(mapped.map(m => m.group));
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+          const options = mapped.map(m => m.options);
+          const labels = mapped.map(m => m.label);
+
+          return { form, options, status$, labels } as const;
+        }),
+        shareReplay({ refCount: true, bufferSize: 1 }));
+
+    const $ = toSignal(obs$);
+
+    const displayWith = {
+      none: () => ''
+    } as const;
+
+    type ObsType = typeof obs$ extends Observable<infer T> ? T : never;
+    type FormType = ObsType['form'];
+
+    const trackBy = {
+      domain: (_: number, control: Ctrl<FormType>) => control.value.domain?.key,
+      controls: (_: number, control: Ctrl<Ctrl<Ctrl<FormType>>['roles']>) =>
+        control.value.role?.value,
+      role: (_: number, option: SelectableOption<string>) => option.value
     } as const;
 
     return { $, displayWith, trackBy } as const;
@@ -951,6 +1103,26 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       form.at(0).controls.software.at(0).controls.years.setValue(2);
       form.at(0).controls.software.at(1).controls.years.setValue(2);
       form.at(1).controls.software.at(0).controls.years.setValue(2);
+
+      this.stepper.next.click();
+    }
+
+    {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { options, form } = this.roles.$()!;
+
+      const [s0o0, s0o1] = options[0].filtered$();
+      options[0].add(s0o0);
+      options[0].add(s0o1);
+
+      const [s1o0, s1o1] = options[1].filtered$();
+      options[1].add(s1o0);
+      options[1].add(s1o1);
+
+      form.at(0).controls.roles.at(0).controls.years.setValue(2);
+      form.at(0).controls.roles.at(1).controls.years.setValue(2);
+      form.at(1).controls.roles.at(0).controls.years.setValue(2);
+      form.at(1).controls.roles.at(1).controls.years.setValue(2);
 
       this.stepper.next.click();
     }

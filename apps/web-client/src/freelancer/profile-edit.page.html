@@ -439,6 +439,65 @@
       </ng-container>
 
     </div>
+
+    <div *ngIf="step === 'roles'"
+         class="rounded bg-white mat-elevation-z1">
+      <ng-container *ngIf="roles.$() as roles$">
+        <h2 class="p-4 text-xl font-semibold">Roles</h2>
+        <mat-divider></mat-divider>
+        <form *ngrxLet="roles$.form as array" class="grid">
+          <ng-container *ngFor="let domain of array.controls; let di = index; let last = last; trackBy: roles.trackBy.domain">
+            <div class="grid gap-4 p-4">
+              <label>Please select the {{roles$.labels[di]}} roles you have worked in</label>
+              <div *ngrxLet="domain.controls.roles as array">
+
+                <div *ngIf="array.length; else noItemsSelected"
+                     class="grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+                  <div *ngFor="let role of array.controls; let ri = index; trackBy: roles.trackBy.controls"
+                       class="border rounded p-2 pl-4 flex gap-2 items-stretch">
+                    <div class="flex-grow flex flex-col gap-4">
+                      <span class="flex-grow pt-2">{{role.value.role?.value}}</span>
+                      <div *ngrxLet="role.controls.years as control" [formFieldControl]="control">
+                        <input type="number" [formControl]="control" placeholder="Years of Experience"
+                               min="1" max="30">
+                        <span class="hint">1-30</span>
+                      </div>
+                    </div>
+
+                    <button class="icon-button h-10 w-10 flex-none text-warn/80" mat-ripple
+                            type="button" (click)="roles$.options[di].remove(ri)"
+                            title="Remove">
+                      <i class="fas fa-circle-minus"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <ng-template #noItemsSelected>
+                  <div class="border rounded p-2 mx-auto text-center">
+                    <i>Please select from the list below</i>
+                  </div>
+                </ng-template>
+              </div>
+
+              <div *ngIf="roles$.options[di].visible$()">
+                <input type="text" placeholder="Type to filter"
+                       [ngModel]="roles$.options[di].query$()"
+                       (ngModelChange)="roles$.options[di].query$.set($event)"
+                       [ngModelOptions]="{ standalone: true }"
+                       [matAutocomplete]="roleOptions">
+
+                <mat-autocomplete #roleOptions [displayWith]="roles.displayWith.none"
+                                  (optionSelected)="roles$.options[di].add($event.option.value)">
+                  <mat-option *ngFor="let role of roles$.options[di].filtered$(); trackBy: roles.trackBy.role" [value]="role">{{role.label}}</mat-option>
+                </mat-autocomplete>
+              </div>
+            </div>
+            <mat-divider *ngIf="!last"></mat-divider>
+          </ng-container>
+        </form>
+      </ng-container>
+    </div>
+
   </div>
 
   <!-- Button Container -->
