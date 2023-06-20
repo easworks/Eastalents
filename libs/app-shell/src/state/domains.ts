@@ -32,6 +32,11 @@ export interface TechGroup {
   tech: string[];
 }
 
+export interface IndustryGroup {
+  name: string;
+  industries: string[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -46,11 +51,13 @@ export class DomainState {
 
   readonly loading = generateLoadingState<[
     'domains',
-    'tech'
+    'tech',
+    'industries'
   ]>();
 
   readonly domains$ = signal<Domain[]>([]);
   readonly tech$ = signal<TechGroup[]>([]);
+  readonly industries$ = signal<IndustryGroup[]>([]);
 
   private readonly dummyServices = new Array(10)
     .fill(0)
@@ -99,6 +106,22 @@ export class DomainState {
             tech: r[key]
           })));
         this.loading.delete('tech');
+      })
+  }
+
+  getIndustries() {
+    if (this.loading.set$().has('industries') || this.industries$().length)
+      return;
+
+    this.loading.add('industries');
+    this.api.talent.industryGroups()
+      .subscribe(r => {
+        this.industries$.set(Object.keys(r)
+          .map(key => ({
+            name: key,
+            industries: r[key]
+          })));
+        this.loading.delete('industries');
       })
   }
 }

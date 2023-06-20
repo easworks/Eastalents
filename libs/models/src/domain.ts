@@ -23,3 +23,7 @@ export interface DomainProductDto {
 export interface TechGroupDto {
   [key: string]: string[]
 }
+
+export interface IndustryGroupDto {
+  [key: string]: string[]
+}

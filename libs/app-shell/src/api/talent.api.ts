@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiResponse, DomainDictionaryDto, FreelancerProfile, FreelancerProfileQuestionDto, TechGroupDto } from '@easworks/models';
+import { ApiResponse, DomainDictionaryDto, FreelancerProfile, FreelancerProfileQuestionDto, IndustryGroupDto, TechGroupDto } from '@easworks/models';
 import { City, Country, State } from 'country-state-city';
 import { catchError, map } from 'rxjs';
 import { ApiService } from './api';
@@ -9,6 +9,7 @@ import { ApiService } from './api';
 })
 export class TalentApi extends ApiService {
   readonly techGroups = () => this.http.get<TechGroupDto>('/assets/utils/tech.json');
+  readonly industryGroups = () => this.http.get<IndustryGroupDto>('/assets/utils/industries.json');
 
   readonly profileSteps = () => this.http.get<ApiResponse>(
     `${this.apiUrl}/talentProfile/getTalentProfileSteps`
