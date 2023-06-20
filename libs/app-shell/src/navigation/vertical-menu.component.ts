@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, HostBinding, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
 import { Domain, DomainState, MenuItem, NOOP_CLICK, NavMenuState } from '../state';
-import { SelectableOption, sortString } from '../utilities';
+import { SelectableOption, sortString, toPromise } from '../utilities';
 
 @Component({
   selector: 'app-vertical-menu',
@@ -79,15 +79,11 @@ export class AppVerticalMenuComponent {
         .map(p => Object.assign(p, { link: NOOP_CLICK }));
     });
 
-    const eff = effect(() => {
-      if (!this.domainState.loading$()) {
-        selectDomain(domains$()[0]);
-        eff.destroy()
-      }
-    }, { allowSignalWrites: true });
+    toPromise(this.domainState.loading.set$, s => !s.has('domains'))
+      .then(() => selectDomain(domains$()[0]));
 
     return {
-      loading$: this.domainState.loading$,
+      loading$: this.domainState.loading.has('domains'),
       selected$,
       domains$,
       filter$,

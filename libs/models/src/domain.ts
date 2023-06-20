@@ -19,3 +19,7 @@ export interface DomainProductDto {
   name: string;
   imageUrl: string;
 }
+
+export interface TechGroupDto {
+  [key: string]: string[]
+}

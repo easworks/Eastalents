@@ -1,6 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TalentApi } from '../api';
 import { sortString } from '../utilities';
+import { generateLoadingState } from './loading';
 
 export interface Domain {
   key: string;
@@ -26,6 +27,10 @@ export interface HomePageDomainDto {
   software: string[];
 }
 
+export interface TechGroup {
+  name: string;
+  tech: string[];
+}
 
 @Injectable({
   providedIn: 'root'
@@ -39,18 +44,23 @@ export class DomainState {
     talent: inject(TalentApi)
   } as const;
 
-  readonly loading$ = signal(false);
+  readonly loading = generateLoadingState<[
+    'domains',
+    'tech'
+  ]>();
+
   readonly domains$ = signal<Domain[]>([]);
+  readonly tech$ = signal<TechGroup[]>([]);
 
   private readonly dummyServices = new Array(10)
     .fill(0)
     .map((_, i) => `Dummy Service ${i}`);
 
   private getDomains() {
-    if (this.loading$())
+    if (this.loading.set$().has('domains') || this.domains$().length)
       return;
 
-    this.loading$.set(true);
+    this.loading.add('domains');
     this.api.talent.profileSteps()
       .subscribe(r => {
         const domains = Object.keys(r).map(dk => {
@@ -72,8 +82,23 @@ export class DomainState {
 
         this.domains$.set(domains);
 
-        this.loading$.set(false);
+        this.loading.delete('domains');
       })
   }
 
+  getTech() {
+    if (this.loading.set$().has('tech') || this.tech$().length)
+      return;
+
+    this.loading.add('tech');
+    this.api.talent.techGroups()
+      .subscribe(r => {
+        this.tech$.set(Object.keys(r)
+          .map(key => ({
+            name: key,
+            tech: r[key]
+          })));
+        this.loading.delete('tech');
+      })
+  }
 }

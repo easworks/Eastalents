@@ -8,7 +8,7 @@ import { ApiService } from './api';
 })
 export class AccountApi extends ApiService {
   /** black-listed email domains */
-  private _bled: Promise<string[]> | null = null;
+  private _bled?: Promise<string[]>;
   readonly blackListedEmailDomains = async () => {
     if (!this._bled) {
       this._bled = firstValueFrom(this.http.get<string[]>('/assets/utils/free-email-providers.json'))
