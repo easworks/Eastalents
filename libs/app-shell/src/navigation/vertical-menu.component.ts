@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
-import { Domain, DomainState, MenuItem, NOOP_CLICK, NavMenuState } from '../state';
+import { Domain } from '../api';
+import { DomainState, MenuItem, NOOP_CLICK, NavMenuState } from '../state';
 import { SelectableOption, sortString, toPromise } from '../utilities';
 
 @Component({

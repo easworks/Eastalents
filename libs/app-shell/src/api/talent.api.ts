@@ -2,19 +2,53 @@ import { Injectable } from '@angular/core';
 import { ApiResponse, DomainDictionaryDto, FreelancerProfile, FreelancerProfileQuestionDto, IndustryGroupDto, TechGroupDto } from '@easworks/models';
 import { City, Country, State } from 'country-state-city';
 import { catchError, map } from 'rxjs';
+import { sortString } from '../utilities';
 import { ApiService } from './api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TalentApi extends ApiService {
-  readonly techGroups = () => this.http.get<TechGroupDto>('/assets/utils/tech.json');
-  readonly industryGroups = () => this.http.get<IndustryGroupDto>('/assets/utils/industries.json');
+  readonly techGroups = () => this.http.get<TechGroupDto>('/assets/utils/tech.json')
+    .pipe(
+      map(r => Object.keys(r).map<TechGroup>(key => ({
+        name: key,
+        tech: r[key]
+      }))),
+      catchError(this.handleError)
+    );
+  readonly industryGroups = () => this.http.get<IndustryGroupDto>('/assets/utils/industries.json')
+    .pipe(
+      map(r => Object.keys(r).map<IndustryGroup>(key => ({
+        name: key,
+        industries: r[key]
+      }))),
+      catchError(this.handleError)
+    );
 
   readonly profileSteps = () => this.http.get<ApiResponse>(
     `${this.apiUrl}/talentProfile/getTalentProfileSteps`
   ).pipe(
-    map(r => r['talentProfile'] as DomainDictionaryDto),
+    map(r => {
+      const dto = r['talentProfile'] as DomainDictionaryDto
+
+      return Object.keys(dto).map(dk => {
+        const d: Domain = {
+          key: dk,
+          longName: dto[dk]['Primary Domain'],
+          services: this.dummyServices,
+          modules: Object.entries(dto[dk].Modules).map(([mk, v]) => {
+            const m: DomainModule = {
+              name: mk,
+              roles: v['Job roles'].sort(sortString),
+              products: v.Product.sort((a, b) => sortString(a.name, b.name))
+            };
+            return m;
+          }).sort((a, b) => sortString(a.name, b.name))
+        };
+        return d;
+      }).sort((a, b) => sortString(a.key, b.key))
+    }),
     catchError(this.handleError)
   );
 
@@ -60,6 +94,10 @@ export class TalentApi extends ApiService {
       );
 
   // THIS FUNCTION IS MEANT TO BE REMOVED
+  private readonly dummyServices = new Array(10)
+    .fill(0)
+    .map((_, i) => `Dummy Service ${i}`);
+
   private useDummyData(profile: FreelancerProfile) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const country = Country.getCountryByCode('IN')!;
@@ -91,4 +129,33 @@ export class TalentApi extends ApiService {
     profile.profileCompletion.overall = Object.values(profile.profileCompletion)
       .reduce((p, c) => p + c, 0) / 11
   }
+}
+
+export interface Domain {
+  key: string;
+  longName: string;
+  prefix?: string;
+  services: string[];
+  modules: DomainModule[];
+}
+
+export interface DomainModule {
+  name: string;
+  roles: string[];
+  products: DomainProduct[];
+}
+
+export interface DomainProduct {
+  name: string;
+  imageUrl: string;
+}
+
+export interface TechGroup {
+  name: string;
+  tech: string[];
+}
+
+export interface IndustryGroup {
+  name: string;
+  industries: string[];
 }
