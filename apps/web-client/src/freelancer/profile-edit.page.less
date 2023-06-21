@@ -1,5 +1,6 @@
 .primary-domain-option,
-.service-option {
+.service-option,
+.module-option {
   @apply transition-all;
 
   &.selected {
@@ -12,6 +13,10 @@
   }
   &.disabled {
     @apply text-divider transition-all;
+
+    > * {
+      @apply cursor-default;
+    }
   }
 
   .hint {

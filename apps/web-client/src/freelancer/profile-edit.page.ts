@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, computed, effect, inject, isDevMode, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormArray, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -54,7 +54,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly professionalSummary = this.initProfessionaSummary();
   protected readonly primaryDomains = this.initPrimaryDomains();
   protected readonly services = this.initServices();
-  // protected readonly modules = this.initModules();
+  protected readonly modules = this.initModules();
   // protected readonly software = this.initSoftware();
   // protected readonly roles = this.initRoles();
   // protected readonly techExp = this.initTechExp();
@@ -65,6 +65,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly trackBy = {
     domain: (_: number, d: Domain) => d.key,
     domainOption: (_: number, d: SelectableOption<Domain>) => d.value.key,
+    moduleOption: (_: number, d: SelectableOption<DomainModule>) => d.value.name,
     stringOption: (_: number, s: SelectableOption<string>) => s.value
   } as const;
 
@@ -101,7 +102,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         (step === 'professional-summary' && this.professionalSummary.status$() !== 'VALID') ||
         (step === 'primary-domains' && this.primaryDomains.status$() !== 'VALID') ||
         (step === 'services' && this.services.$()?.status$() !== 'VALID') ||
-        // (step === 'modules' && this.modules.$()?.status$() !== 'VALID') ||
+        (step === 'modules' && this.modules.$()?.status$() !== 'VALID') ||
         // (step === 'software' && this.software.$()?.status$() !== 'VALID') ||
         // (step === 'roles' && this.roles.$()?.status$() !== 'VALID') ||
         // (step === 'technology-stack' && this.techExp.status$() !== 'VALID') ||
@@ -515,7 +516,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
           options[d.key] = {
             all,
-            toggle: (option: SelectableOption<string>) => {
+            toggle: (option) => {
               if (option.selected) {
                 option.selected = false;
                 serviceForm.removeControl(option.value);
@@ -546,6 +547,130 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         form.updateValueAndValidity();
 
         return { form, status$, options, domains } as const;
+      }));
+
+    const $ = toSignal(obs$);
+
+    return { $, stepLabel$ } as const;
+  }
+
+  private initModules() {
+    const injector = this.injector;
+
+    const stepLabel$ = toSignal(this.primaryDomains.selected$
+      .pipe(map(selected => (selected.length === 1 && selected[0].longName) || 'Enterprise Application')),
+      { initialValue: 'Enterprise Application' });
+
+    const obs$ = this.primaryDomains.selected$
+      .pipe(map(domains => {
+        const exists = this.modules?.$()?.form.getRawValue();
+
+        const form = new FormRecord<FormControl<Set<DomainModule>>>({});
+        const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+
+        const options: Record<string, {
+          all: SelectableOption<DomainModule>[],
+          toggle: (option: SelectableOption<DomainModule>) => void,
+          stopInput$: Signal<boolean>,
+          selectAll: {
+            visible: boolean,
+            value: boolean,
+            toggle: () => void
+          }
+        }> = {};
+
+        const map = new Map<string, SelectableOption<DomainModule>>();
+        domains.forEach(d => {
+          const size$ = signal(0);
+          const stopInput$ = computed(() => size$() >= 7);
+
+          const moduleForm = new FormControl<Set<DomainModule>>(new Set(), {
+            validators: [
+              c => {
+                const v = c.value as Set<string>;
+                size$.set(v.size);
+                if (v.size < 1)
+                  return { minlength: 1 };
+                if (v.size > 7)
+                  return { maxlength: 7 };
+                return null;
+              }
+            ],
+            nonNullable: true
+          });
+
+          const all = d.modules.map(m => {
+            const opt: SelectableOption<DomainModule> = {
+              selected: false,
+              value: m,
+              label: m.name
+            };
+            map.set(`${d.key}/${m.name}`, opt);
+            return opt;
+          });
+
+          form.addControl(d.key, moduleForm, { emitEvent: false });
+
+          options[d.key] = {
+            all,
+            stopInput$,
+            toggle: (option) => {
+              const v = moduleForm.getRawValue()
+              if (option.selected) {
+                option.selected = false;
+                v.delete(option.value);
+              }
+              else {
+                option.selected = true;
+                v.add(option.value);
+              }
+              moduleForm.setValue(v);
+              options[d.key].selectAll.value = v.size === all.length;
+            },
+            selectAll: {
+              visible: all.length <= 7,
+              value: false,
+              toggle: () => {
+                const v = moduleForm.getRawValue();
+                const selected = !options[d.key].selectAll.value;
+                if (selected) {
+                  all.forEach(o => {
+                    o.selected = true;
+                    v.add(o.value);
+                  });
+                }
+                else {
+                  all.forEach(o => {
+                    o.selected = false;
+                    v.clear();
+                  });
+                }
+                moduleForm.setValue(v);
+                options[d.key].selectAll.value = selected;
+              }
+            }
+          }
+        });
+
+        if (exists) {
+          Object.keys(exists).forEach(domain => {
+            const moduleForm = form.controls[domain];
+            if (moduleForm) {
+              exists[domain].forEach(module => {
+                const option = map.get(`${domain}/${module.name}`);
+                if (!option)
+                  throw new Error('invalid operation');
+                option.selected = true;
+                moduleForm.value.add(module);
+              });
+            }
+          });
+        }
+
+        form.updateValueAndValidity();
+
+        return { form, status$, options, domains } as const;
+
       }));
 
     const $ = toSignal(obs$);
@@ -605,15 +730,29 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const section = this.services.$()!;
+      const { form, options, domains } = this.services.$()!;
 
-      section.domains.forEach(d => {
-        const all = section.options[d.key].all;
-        section.options[d.key].toggle(all[0]);
-        section.options[d.key].toggle(all[1]);
+      domains.forEach(d => {
+        const all = options[d.key].all;
+        options[d.key].toggle(all[0]);
+        options[d.key].toggle(all[1]);
 
-        section.form.controls[d.key].controls[all[0].value].setValue(2);
-        section.form.controls[d.key].controls[all[1].value].setValue(3);
+        form.controls[d.key].controls[all[0].value].setValue(2);
+        form.controls[d.key].controls[all[1].value].setValue(3);
+      });
+
+      this.stepper.next.click();
+    }
+
+    {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { form, options, domains } = this.modules.$()!;
+
+      domains.forEach(d => {
+        const all = options[d.key].all;
+
+        options[d.key].toggle(all[0]);
+        options[d.key].toggle(all[1]);
       });
 
       this.stepper.next.click();
