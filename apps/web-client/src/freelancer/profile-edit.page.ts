@@ -398,17 +398,17 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
   private initPrimaryDomains() {
     const domains$ = computed(() => {
-      const map = new Map<string, SelectableOption<Domain>>();
+      const optionMap = new Map<string, SelectableOption<Domain>>();
       const options = this.domains.domains$().map(d => {
         const opt: SelectableOption<Domain> = {
           selected: false,
           value: d,
           label: d.longName,
         };
-        map.set(d.key, opt);
+        optionMap.set(d.key, opt);
         return opt;
       });
-      return { options, map } as const;
+      return { options, map: optionMap } as const;
     });
     const map$ = computed(() => domains$().map);
     const options$ = computed(() => domains$().options);
@@ -478,76 +478,79 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       { initialValue: 'Enterprise Application' });
 
     const obs$ = this.primaryDomains.selected$
-      .pipe(map(domains => {
-        const exists = this.services?.$()?.form.getRawValue();
+      .pipe(
+        map(domains => {
+          const exists = this.services?.$()?.form.getRawValue();
 
-        const form = new FormRecord<FormRecord<FormControl<number>>>({});
-        const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+          const form = new FormRecord<FormRecord<FormControl<number>>>({});
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
 
-        const options: Record<string, {
-          all: SelectableOption<string>[],
-          toggle: (option: SelectableOption<string>) => void
-        }> = {};
+          const options: Record<string, {
+            all: SelectableOption<string>[],
+            toggle: (option: SelectableOption<string>) => void
+          }> = {};
 
-        const map = new Map<string, SelectableOption<string>>();
-        domains.forEach(d => {
-          const serviceForm = new FormRecord<FormControl<number>>({}, {
-            validators: [
-              c => {
-                const size = Object.keys(c.value).length;
-                if (size < 1)
-                  return { minlength: 1 }
-                return null;
-              }
-            ]
-          });
+          const optionMap = new Map<string, SelectableOption<string>>();
+          domains.forEach(d => {
+            const serviceForm = new FormRecord<FormControl<number>>({}, {
+              validators: [
+                c => {
+                  const size = Object.keys(c.value).length;
+                  if (size < 1)
+                    return { minlength: 1 }
+                  return null;
+                }
+              ]
+            });
 
-          const all = d.services.map(s => {
-            const opt: SelectableOption<string> = {
-              selected: false,
-              value: s,
-              label: s
-            };
-            map.set(`${d.key}/${s}`, opt);
-            return opt;
-          });
+            const all = d.services.map(s => {
+              const opt: SelectableOption<string> = {
+                selected: false,
+                value: s,
+                label: s
+              };
+              optionMap.set(`${d.key}/${s}`, opt);
+              return opt;
+            });
 
-          form.addControl(d.key, serviceForm, { emitEvent: false });
+            form.addControl(d.key, serviceForm, { emitEvent: false });
 
-          options[d.key] = {
-            all,
-            toggle: (option) => {
-              if (option.selected) {
-                option.selected = false;
-                serviceForm.removeControl(option.value);
-              }
-              else {
-                option.selected = true;
-                serviceForm.addControl(option.value, createYearControl());
+            options[d.key] = {
+              all,
+              toggle: (option) => {
+                if (option.selected) {
+                  option.selected = false;
+                  serviceForm.removeControl(option.value);
+                }
+                else {
+                  option.selected = true;
+                  serviceForm.addControl(option.value, createYearControl());
+                }
               }
             }
+          });
+
+          if (exists) {
+            Object.keys(exists).forEach(domain => {
+              const serviceForm = form.controls[domain];
+              if (serviceForm) {
+                Object.keys(exists[domain]).forEach(service => {
+                  const option = optionMap.get(`${domain}/${service}`);
+                  if (!option)
+                    throw new Error('invalid operation');
+                  option.selected = true;
+                  serviceForm.addControl(service, createYearControl(exists[domain][service]), { emitEvent: false });
+                })
+              }
+            })
           }
-        });
 
-        if (exists) {
-          Object.keys(exists).forEach(domain => {
-            const serviceForm = form.controls[domain];
-            if (serviceForm) {
-              Object.keys(exists[domain]).forEach(service => {
-                const option = map.get(`${domain}/${service}`);
-                if (!option)
-                  throw new Error('invalid operation');
-                option.selected = true;
-                serviceForm.addControl(service, createYearControl(exists[domain][service]), { emitEvent: false });
-              })
-            }
-          })
-        }
+          form.updateValueAndValidity();
 
-        form.updateValueAndValidity();
-
-        return { form, status$, options, domains } as const;
-      }));
+          return { form, status$, options, domains } as const;
+        }),
+        shareReplay({ refCount: true, bufferSize: 1 })
+      );
 
     const $ = toSignal(obs$);
 
@@ -562,121 +565,134 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       { initialValue: 'Enterprise Application' });
 
     const obs$ = this.primaryDomains.selected$
-      .pipe(map(domains => {
-        const exists = this.modules?.$()?.form.getRawValue();
+      .pipe(
+        map(domains => {
+          const exists = this.modules?.$()?.form.getRawValue();
 
-        const form = new FormRecord<FormControl<Set<DomainModule>>>({});
-        const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+          const form = new FormRecord<FormControl<Set<DomainModule>>>({});
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+          const selected$ = controlValue$(form, true)
+            .pipe(
+              map(v => domains.map(d => ({
+                domain: d,
+                modules: v[d.key]
+              }))
+              ),
+              shareReplay({ refCount: true, bufferSize: 1 })
+            );
 
-        const options: Record<string, {
-          all: SelectableOption<DomainModule>[],
-          toggle: (option: SelectableOption<DomainModule>) => void,
-          stopInput$: Signal<boolean>,
-          selectAll: {
-            visible: boolean,
-            value: boolean,
-            toggle: () => void
-          }
-        }> = {};
-
-        const map = new Map<string, SelectableOption<DomainModule>>();
-        domains.forEach(d => {
-          const size$ = signal(0);
-          const stopInput$ = computed(() => size$() >= 7);
-
-          const moduleForm = new FormControl<Set<DomainModule>>(new Set(), {
-            validators: [
-              c => {
-                const v = c.value as Set<string>;
-                size$.set(v.size);
-                if (v.size < 1)
-                  return { minlength: 1 };
-                if (v.size > 7)
-                  return { maxlength: 7 };
-                return null;
-              }
-            ],
-            nonNullable: true
-          });
-
-          const all = d.modules.map(m => {
-            const opt: SelectableOption<DomainModule> = {
-              selected: false,
-              value: m,
-              label: m.name
-            };
-            map.set(`${d.key}/${m.name}`, opt);
-            return opt;
-          });
-
-          form.addControl(d.key, moduleForm, { emitEvent: false });
-
-          options[d.key] = {
-            all,
-            stopInput$,
-            toggle: (option) => {
-              const v = moduleForm.getRawValue()
-              if (option.selected) {
-                option.selected = false;
-                v.delete(option.value);
-              }
-              else {
-                option.selected = true;
-                v.add(option.value);
-              }
-              moduleForm.setValue(v);
-              options[d.key].selectAll.value = v.size === all.length;
-            },
+          const options: Record<string, {
+            all: SelectableOption<DomainModule>[],
+            toggle: (option: SelectableOption<DomainModule>) => void,
+            stopInput$: Signal<boolean>,
             selectAll: {
-              visible: all.length <= 7,
-              value: false,
-              toggle: () => {
-                const v = moduleForm.getRawValue();
-                const selected = !options[d.key].selectAll.value;
-                if (selected) {
-                  all.forEach(o => {
-                    o.selected = true;
-                    v.add(o.value);
-                  });
+              visible: boolean,
+              value: boolean,
+              toggle: () => void
+            }
+          }> = {};
+
+          const optionMap = new Map<string, SelectableOption<DomainModule>>();
+          domains.forEach(d => {
+            const size$ = signal(0);
+            const stopInput$ = computed(() => size$() >= 7);
+
+            const moduleForm = new FormControl<Set<DomainModule>>(new Set(), {
+              validators: [
+                c => {
+                  const v = c.value as Set<string>;
+                  size$.set(v.size);
+                  if (v.size < 1)
+                    return { minlength: 1 };
+                  if (v.size > 7)
+                    return { maxlength: 7 };
+                  return null;
+                }
+              ],
+              nonNullable: true
+            });
+
+            const all = d.modules.map(m => {
+              const opt: SelectableOption<DomainModule> = {
+                selected: false,
+                value: m,
+                label: m.name
+              };
+              optionMap.set(`${d.key}/${m.name}`, opt);
+              return opt;
+            });
+
+            form.addControl(d.key, moduleForm, { emitEvent: false });
+
+            options[d.key] = {
+              all,
+              stopInput$,
+              toggle: (option) => {
+                const v = moduleForm.getRawValue()
+                if (option.selected) {
+                  option.selected = false;
+                  v.delete(option.value);
                 }
                 else {
-                  all.forEach(o => {
-                    o.selected = false;
-                    v.clear();
-                  });
+                  option.selected = true;
+                  v.add(option.value);
                 }
                 moduleForm.setValue(v);
-                options[d.key].selectAll.value = selected;
+                options[d.key].selectAll.value = v.size === all.length;
+              },
+              selectAll: {
+                visible: all.length <= 7,
+                value: false,
+                toggle: () => {
+                  const v = moduleForm.getRawValue();
+                  const selected = !options[d.key].selectAll.value;
+                  if (selected) {
+                    all.forEach(o => {
+                      o.selected = true;
+                      v.add(o.value);
+                    });
+                  }
+                  else {
+                    all.forEach(o => {
+                      o.selected = false;
+                      v.clear();
+                    });
+                  }
+                  moduleForm.setValue(v);
+                  options[d.key].selectAll.value = selected;
+                }
               }
             }
-          }
-        });
-
-        if (exists) {
-          Object.keys(exists).forEach(domain => {
-            const moduleForm = form.controls[domain];
-            if (moduleForm) {
-              exists[domain].forEach(module => {
-                const option = map.get(`${domain}/${module.name}`);
-                if (!option)
-                  throw new Error('invalid operation');
-                option.selected = true;
-                moduleForm.value.add(module);
-              });
-            }
           });
-        }
 
-        form.updateValueAndValidity();
+          if (exists) {
+            Object.keys(exists).forEach(domain => {
+              const moduleForm = form.controls[domain];
+              if (moduleForm) {
+                exists[domain].forEach(module => {
+                  const option = optionMap.get(`${domain}/${module.name}`);
+                  if (!option)
+                    throw new Error('invalid operation');
+                  option.selected = true;
+                  moduleForm.value.add(module);
+                });
+              }
+            });
+          }
 
-        return { form, status$, options, domains } as const;
+          form.updateValueAndValidity();
 
-      }));
+          return { form, status$, options, domains, selected$ } as const;
+
+        }),
+        shareReplay({ refCount: true, bufferSize: 1 })
+      );
 
     const $ = toSignal(obs$);
 
     return { $, stepLabel$ } as const;
   }
+
 
   private async devModeInit() {
     if (!isDevMode())
