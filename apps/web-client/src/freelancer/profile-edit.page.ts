@@ -115,29 +115,31 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         disabled$: nextDisabled$,
         click: () => {
           switch (step$()) {
-            case 'start': return step$.set('professional-summary');
-            case 'professional-summary': return step$.set('primary-domains');
-            case 'primary-domains': return step$.set('services');
-            case 'services': return step$.set('modules');
-            case 'modules': return step$.set('software');
-            case 'software': return step$.set('roles');
-            case 'roles': return step$.set('technology-stack');
-            case 'technology-stack': return step$.set('industry');
+            case 'start': step$.set('professional-summary'); break;
+            case 'professional-summary': step$.set('primary-domains'); break;
+            case 'primary-domains': step$.set('services'); break;
+            case 'services': step$.set('modules'); break;
+            case 'modules': step$.set('software'); break;
+            case 'software': step$.set('roles'); break;
+            case 'roles': step$.set('technology-stack'); break;
+            case 'technology-stack': step$.set('industry'); break;
           }
+          document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
         }
       },
       prev: {
         visible$: computed(() => step$() !== 'professional-summary'),
         click: () => {
           switch (step$()) {
-            case 'primary-domains': return step$.set('professional-summary');
-            case 'services': return step$.set('primary-domains');
-            case 'modules': return step$.set('services');
-            case 'software': return step$.set('modules');
-            case 'roles': return step$.set('software');
-            case 'technology-stack': return step$.set('roles');
-            case 'industry': return step$.set('technology-stack');
+            case 'primary-domains': step$.set('professional-summary'); break;
+            case 'services': step$.set('primary-domains'); break;
+            case 'modules': step$.set('services'); break;
+            case 'software': step$.set('modules'); break;
+            case 'roles': step$.set('software'); break;
+            case 'technology-stack': step$.set('roles'); break;
+            case 'industry': step$.set('technology-stack'); break;
           }
+          document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
         }
       },
       submit: {
@@ -478,12 +480,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private initServices() {
     const injector = this.injector;
 
+    const stepLabel$ = toSignal(this.primaryDomains.selected$
+      .pipe(map(selected => (selected.length === 1 && selected[0].longName) || 'Enterprise Application')),
+      { initialValue: 'Enterprise Application' });
+
     const obs$ = this.primaryDomains.selected$
       .pipe(
         map(selected => {
           const exists = this.services?.$()?.form.getRawValue();
-
-          const domainLabel = (selected.length === 1 && selected[0].longName) || 'Domain';
 
           const mapped = selected.map(d => {
 
@@ -585,7 +589,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
           const options = mapped.map(m => m.options);
 
-          return { form, status$, options, domainLabel } as const;
+          return { form, status$, options } as const;
         }),
         shareReplay({ refCount: true, bufferSize: 1 }));
 
@@ -605,7 +609,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       service: (_: number, option: SelectableOption<string>) => option.value
     } as const;
 
-    return { $, displayWith, trackBy } as const;
+    return { $, displayWith, trackBy, stepLabel$ } as const;
   }
 
   private initModules() {
