@@ -1,8 +1,21 @@
-.primary-domain-option {
-  @apply border rounded flex flex-col gap-2 justify-between;
+.primary-domain-option,
+.service-option {
+  @apply transition-all;
 
+  &.selected {
+    @apply bg-primary-light/10 border-transparent text-primary;
+
+    input {
+      @apply bg-primary-light/10 placeholder:text-primary/75;
+    }
+
+  }
   &.disabled {
     @apply text-divider transition-all;
+  }
+
+  .hint {
+    @apply text-primary/75;
   }
 }
 

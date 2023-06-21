@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, computed, effect, inject, isDevMode, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormArray, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
@@ -8,7 +8,7 @@ import { Ctrl, Domain, DomainModule, DomainProduct, DomainState, FormImports, Ge
 import { FreelancerProfile, OVERALL_EXPERIENCE_OPTIONS } from '@easworks/models';
 import { City, Country, ICity, ICountry, IState, State } from 'country-state-city';
 import { Timezones } from 'country-state-city/lib/interface';
-import { Observable, map, shareReplay, switchMap } from 'rxjs';
+import { Observable, map, shareReplay, switchMap, tap } from 'rxjs';
 import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
@@ -53,7 +53,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
   protected readonly professionalSummary = this.initProfessionaSummary();
   protected readonly primaryDomains = this.initPrimaryDomains();
-  // protected readonly services = this.initServices();
+  protected readonly services = this.initServices();
   // protected readonly modules = this.initModules();
   // protected readonly software = this.initSoftware();
   // protected readonly roles = this.initRoles();
@@ -63,7 +63,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly stepper = this.initStepper();
 
   protected readonly trackBy = {
-    domainOptions: (_: number, d: SelectableOption<Domain>) => d.value.key,
+    domain: (_: number, d: Domain) => d.key,
+    domainOption: (_: number, d: SelectableOption<Domain>) => d.value.key,
+    stringOption: (_: number, s: SelectableOption<string>) => s.value
   } as const;
 
   private initStepper() {
@@ -98,7 +100,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       return this.loading.any$() ||
         (step === 'professional-summary' && this.professionalSummary.status$() !== 'VALID') ||
         (step === 'primary-domains' && this.primaryDomains.status$() !== 'VALID') ||
-        // (step === 'services' && this.services.$()?.status$() !== 'VALID') ||
+        (step === 'services' && this.services.$()?.status$() !== 'VALID') ||
         // (step === 'modules' && this.modules.$()?.status$() !== 'VALID') ||
         // (step === 'software' && this.software.$()?.status$() !== 'VALID') ||
         // (step === 'roles' && this.roles.$()?.status$() !== 'VALID') ||
@@ -411,10 +413,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const options$ = computed(() => domains$().options);
 
     const size$ = signal(0);
+    const stopInput$ = computed(() => size$() >= 3);
+
     const form = new FormRecord<FormControl<number>>({}, {
       validators: [
         c => {
-          const size = [...Object.keys(c.value)].length;
+          const size = Object.keys(c.value).length;
           size$.set(size);
           if (size < 1)
             return { minlength: 1 }
@@ -429,12 +433,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       .pipe(
         map(v => {
           const map = map$();
-          return [...Object.keys(v)].map(k => {
-            const o = map.get(k);
-            if (!o)
-              throw new Error('invalid operation');
-            return o.value;
-          });
+          return Object.keys(v)
+            .sort(sortString)
+            .map(k => {
+              const o = map.get(k);
+              if (!o)
+                throw new Error('invalid operation');
+              return o.value;
+            });
         }),
         shareReplay({ refCount: true, bufferSize: 1 })
       );
@@ -447,13 +453,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         }
         else {
           option.selected = true;
-          form.addControl(option.value.key, new FormControl(
-            null as unknown as number,
-            {
-              validators: [Validators.required, Validators.min(1), Validators.max(30)],
-              nonNullable: true
-            }
-          ))
+          form.addControl(option.value.key, createYearControl())
         }
       }
     } as const;
@@ -463,10 +463,94 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       form,
       status$,
       selected$,
-      stopInput$: computed(() => size$() >= 3),
+      stopInput$,
       options$,
       ...handlers
     } as const;
+  }
+
+  private initServices() {
+    const injector = this.injector;
+
+    const stepLabel$ = toSignal(this.primaryDomains.selected$
+      .pipe(map(selected => (selected.length === 1 && selected[0].longName) || 'Enterprise Application')),
+      { initialValue: 'Enterprise Application' });
+
+    const obs$ = this.primaryDomains.selected$
+      .pipe(map(domains => {
+        const exists = this.services?.$()?.form.getRawValue();
+
+        const form = new FormRecord<FormRecord<FormControl<number>>>({});
+        const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+
+        const options: Record<string, {
+          all: SelectableOption<string>[],
+          toggle: (option: SelectableOption<string>) => void
+        }> = {};
+
+        const map = new Map<string, SelectableOption<string>>();
+        domains.forEach(d => {
+          const serviceForm = new FormRecord<FormControl<number>>({}, {
+            validators: [
+              c => {
+                const size = Object.keys(c.value).length;
+                if (size < 1)
+                  return { minlength: 1 }
+                return null;
+              }
+            ]
+          });
+
+          const all = d.services.map(s => {
+            const opt: SelectableOption<string> = {
+              selected: false,
+              value: s,
+              label: s
+            };
+            map.set(`${d.key}/${s}`, opt);
+            return opt;
+          });
+
+          form.addControl(d.key, serviceForm, { emitEvent: false });
+
+          options[d.key] = {
+            all,
+            toggle: (option: SelectableOption<string>) => {
+              if (option.selected) {
+                option.selected = false;
+                serviceForm.removeControl(option.value);
+              }
+              else {
+                option.selected = true;
+                serviceForm.addControl(option.value, createYearControl());
+              }
+            }
+          }
+        });
+
+        if (exists) {
+          Object.keys(exists).forEach(domain => {
+            const serviceForm = form.controls[domain];
+            if (serviceForm) {
+              Object.keys(exists[domain]).forEach(service => {
+                const option = map.get(`${domain}/${service}`);
+                if (!option)
+                  throw new Error('invalid operation');
+                option.selected = true;
+                serviceForm.addControl(service, createYearControl(exists[domain][service]), { emitEvent: false });
+              })
+            }
+          })
+        }
+
+        form.updateValueAndValidity();
+
+        return { form, status$, options, domains } as const;
+      }));
+
+    const $ = toSignal(obs$);
+
+    return { $, stepLabel$ } as const;
   }
 
   private async devModeInit() {
@@ -519,6 +603,22 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       this.stepper.next.click();
     }
 
+    {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const section = this.services.$()!;
+
+      section.domains.forEach(d => {
+        const all = section.options[d.key].all;
+        section.options[d.key].toggle(all[0]);
+        section.options[d.key].toggle(all[1]);
+
+        section.form.controls[d.key].controls[all[0].value].setValue(2);
+        section.form.controls[d.key].controls[all[1].value].setValue(3);
+      });
+
+      this.stepper.next.click();
+    }
+
     revert.forEach(r => r());
   }
 
@@ -543,6 +643,16 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   ngOnInit(): void {
     this.devModeInit();
   }
+}
+
+function createYearControl(initialValue = null as unknown as number) {
+  return new FormControl(
+    initialValue,
+    {
+      validators: [Validators.required, Validators.min(1), Validators.max(30)],
+      nonNullable: true
+    }
+  );
 }
 
 type Step =
