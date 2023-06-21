@@ -9,6 +9,7 @@ export interface DomainDto {
   'Primary Domain': string;
   'Role-Prefix and Product-Suffix': string | null;
   Modules: { [key: string]: DomainModuleDto };
+  Services: string[];
 }
 
 export interface DomainModuleDto {

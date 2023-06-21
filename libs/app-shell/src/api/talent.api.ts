@@ -37,7 +37,7 @@ export class TalentApi extends ApiService {
           key: dk,
           longName: dto[dk]['Primary Domain'],
           prefix: dto[dk]['Role-Prefix and Product-Suffix'],
-          services: this.dummyServices,
+          services: dto[dk].Services,
           modules: Object.entries(dto[dk].Modules).map(([mk, v]) => {
             const m: DomainModule = {
               name: mk,
@@ -95,10 +95,6 @@ export class TalentApi extends ApiService {
       );
 
   // THIS FUNCTION IS MEANT TO BE REMOVED
-  private readonly dummyServices = new Array(10)
-    .fill(0)
-    .map((_, i) => `Dummy Service ${i}`);
-
   private useDummyData(profile: FreelancerProfile) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const country = Country.getCountryByCode('IN')!;
