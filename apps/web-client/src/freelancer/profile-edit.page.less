@@ -1,6 +1,8 @@
-.primary-domain-options {
-  .selected {
-    @apply bg-secondary border-secondary text-secondary-text;
+.primary-domain-option {
+  @apply border rounded flex flex-col gap-2 justify-between;
+
+  &.disabled {
+    @apply text-divider transition-all;
   }
 }
 
