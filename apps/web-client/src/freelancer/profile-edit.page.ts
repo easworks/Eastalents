@@ -55,7 +55,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly primaryDomains = this.initPrimaryDomains();
   protected readonly services = this.initServices();
   protected readonly modules = this.initModules();
-  // protected readonly software = this.initSoftware();
+  protected readonly software = this.initSoftware();
   // protected readonly roles = this.initRoles();
   // protected readonly techExp = this.initTechExp();
   // protected readonly industries = this.initIndustries();
@@ -65,7 +65,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly trackBy = {
     domain: (_: number, d: Domain) => d.key,
     domainOption: (_: number, d: SelectableOption<Domain>) => d.value.key,
-    moduleOption: (_: number, d: SelectableOption<DomainModule>) => d.value.name,
+    moduleOption: (_: number, m: SelectableOption<DomainModule>) => m.value.name,
+    softwareOption: (_: number, s: SelectableOption<DomainProduct>) => s.value.name,
     stringOption: (_: number, s: SelectableOption<string>) => s.value
   } as const;
 
@@ -103,7 +104,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         (step === 'primary-domains' && this.primaryDomains.status$() !== 'VALID') ||
         (step === 'services' && this.services.$()?.status$() !== 'VALID') ||
         (step === 'modules' && this.modules.$()?.status$() !== 'VALID') ||
-        // (step === 'software' && this.software.$()?.status$() !== 'VALID') ||
+        (step === 'software' && this.software.$()?.status$() !== 'VALID') ||
         // (step === 'roles' && this.roles.$()?.status$() !== 'VALID') ||
         // (step === 'technology-stack' && this.techExp.status$() !== 'VALID') ||
         // (step === 'industry' && this.industries.status$() !== 'VALID');
@@ -575,7 +576,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             .pipe(
               map(v => domains.map(d => ({
                 domain: d,
-                modules: v[d.key]
+                modules: [...v[d.key]]
               }))
               ),
               shareReplay({ refCount: true, bufferSize: 1 })
@@ -641,7 +642,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 options[d.key].selectAll.value = v.size === all.length;
               },
               selectAll: {
-                visible: all.length <= 7,
+                visible: all.length > 1 && all.length <= 7,
                 value: false,
                 toggle: () => {
                   const v = moduleForm.getRawValue();
@@ -689,11 +690,123 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       );
 
     const $ = toSignal(obs$);
+    const selected$ = obs$.pipe(
+      switchMap(o => o.selected$),
+      shareReplay({ refCount: true, bufferSize: 1 })
+    );
 
-    return { $, stepLabel$ } as const;
+    return { $, stepLabel$, selected$ } as const;
   }
 
+  private initSoftware() {
+    const injector = this.injector;
 
+    const stepLabel$ = toSignal(this.primaryDomains.selected$
+      .pipe(map(selected => (selected.length === 1 && selected[0].longName) || 'Enterprise Application')),
+      { initialValue: 'Enterprise Application' });
+
+    const obs$ = this.modules.selected$
+      .pipe(
+        map(selected => {
+          const exists = this.software?.$()?.form.getRawValue();
+
+          const form = new FormRecord<FormRecord<FormControl<number>>>({});
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+
+          const options: Record<string, {
+            all: SelectableOption<DomainProduct>[],
+            stopInput$: Signal<boolean>,
+            toggle: (option: SelectableOption<DomainProduct>) => void
+          }> = {};
+
+          const optionMap = new Map<string, SelectableOption<DomainProduct>>();
+          selected.forEach(s => {
+            const size$ = signal(0);
+            const stopInput$ = computed(() => size$() >= 5);
+
+            const softwareForm = new FormRecord<FormControl<number>>({}, {
+              validators: [
+                c => {
+                  const size = Object.keys(c.value).length;
+                  size$.set(size);
+                  if (size < 1)
+                    return { minlength: 1 };
+                  if (size > 5)
+                    return { maxlength: 5 };
+                  return null;
+                }
+              ]
+            });
+
+            const softSet = new Set<string>();
+
+            s.modules.forEach(m => {
+              m.products.forEach(p => {
+                const opt: SelectableOption<DomainProduct> = {
+                  selected: false,
+                  value: p,
+                  label: p.name
+                };
+                softSet.add(p.name);
+                optionMap.set(`${s.domain.key}/${p.name}`, opt);
+              });
+            });
+
+            const all = [...softSet]
+              .sort(sortString)
+              .map(p => {
+                const opt = optionMap.get(`${s.domain.key}/${p}`);
+                if (!opt)
+                  throw new Error('invalid operation');
+                return opt;
+              });
+
+            form.addControl(s.domain.key, softwareForm, { emitEvent: false });
+
+            options[s.domain.key] = {
+              all,
+              stopInput$,
+              toggle: (option) => {
+                if (option.selected) {
+                  option.selected = false;
+                  softwareForm.removeControl(option.value.name);
+                }
+                else {
+                  option.selected = true;
+                  softwareForm.addControl(option.value.name, createYearControl());
+                }
+              }
+            };
+          });
+
+          if (exists) {
+            Object.keys(exists).forEach(domain => {
+              const softwareForm = form.controls[domain];
+              if (softwareForm) {
+                Object.keys(exists[domain]).forEach(software => {
+                  const option = optionMap.get(`${domain}/${software}`);
+                  if (!option)
+                    throw new Error('invalid operation');
+                  option.selected = true;
+                  softwareForm.addControl(software, createYearControl(exists[domain][software]), { emitEvent: false });
+                })
+              }
+            });
+          }
+
+          form.updateValueAndValidity();
+          const domains = selected.map(s => s.domain);
+
+          return { form, status$, domains, options } as const;
+        }),
+        shareReplay({ refCount: true, bufferSize: 1 })
+      );
+
+    const $ = toSignal(obs$);
+
+    return { $, stepLabel$ } as const;
+
+  }
   private async devModeInit() {
     if (!isDevMode())
       return;
@@ -762,7 +875,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const { form, options, domains } = this.modules.$()!;
+      const { options, domains } = this.modules.$()!;
 
       domains.forEach(d => {
         const all = options[d.key].all;
@@ -770,6 +883,23 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         options[d.key].toggle(all[0]);
         options[d.key].toggle(all[1]);
       });
+
+      this.stepper.next.click();
+    }
+
+    {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { form, options, domains } = this.software.$()!;
+
+      domains.forEach(d => {
+        const all = options[d.key].all;
+
+        options[d.key].toggle(all[0]);
+        options[d.key].toggle(all[1]);
+
+        form.controls[d.key].controls[all[0].value.name].setValue(2);
+        form.controls[d.key].controls[all[1].value.name].setValue(3);
+      })
 
       this.stepper.next.click();
     }

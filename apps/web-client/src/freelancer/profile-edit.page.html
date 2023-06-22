@@ -249,7 +249,7 @@
         <mat-divider></mat-divider>
 
         <form *ngrxLet="service$.form as form" [formGroup]="form">
-          <ng-container *ngFor="let domain of service$.domains; let di = index; let first = first; let last = last; trackBy: trackBy.domain">
+          <ng-container *ngFor="let domain of service$.domains; let last = last; trackBy: trackBy.domain">
             <div class="p-4" *ngrxLet="service$.options[domain.key] as options">
               <label class="block py-2">
                 <span class="font-medium">Please specify your areas of expertise within <span class="text-primary">{{domain.longName}}</span></span>
@@ -295,7 +295,7 @@
         <mat-divider></mat-divider>
 
         <form *ngrxLet="modules$.form as form" [formGroup]="form">
-          <ng-container *ngFor="let domain of modules$.domains; let di = index; let first = first; let last = last; trackBy: trackBy.domain">
+          <ng-container *ngFor="let domain of modules$.domains; let last = last; trackBy: trackBy.domain">
             <div class="p-4" *ngrxLet="modules$.options[domain.key] as options">
               <label class="block py-2">
                 <span class="font-medium">Indicate the <span class="text-primary">{{domain.longName}}</span> modules you are proficient in</span>
@@ -338,66 +338,56 @@
       </ng-container>
     </div>
 
-    <!-- 
     <div *ngIf="step === 'software'"
          class="rounded bg-white mat-elevation-z1">
       <ng-container *ngIf="software.$() as software$">
-        <h2 class="p-4 text-xl font-semibold">Proficiency in {{software$.domainLabel}} Software</h2>
+        <h2 class="p-4 text-xl font-semibold">Proficiency in {{software.stepLabel$()}} Software</h2>
         <mat-divider></mat-divider>
-        <form *ngrxLet="software$.form as array" class="grid">
-          <ng-container *ngFor="let domain of array.controls; let di = index; let last = last; trackBy: software.trackBy.domain">
-            <div class="grid gap-4 p-4">
-              <label>Please indicate your proficiency level in {{domain.value.domain?.longName}} software</label>
-              <div *ngrxLet="domain.controls.software as array">
 
-                <div *ngIf="array.length; else noItemsSelected"
-                     class="grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-                  <div *ngFor="let software of array.controls; let si = index; trackBy: software.trackBy.controls"
-                       class="border rounded p-2 pl-4 flex gap-2 items-stretch">
-                    <div class="flex-grow flex flex-col gap-4">
-                      <span class="flex-grow pt-2">{{software.value.software?.value?.name}}</span>
-                      <div *ngrxLet="software.controls.years as control" [formFieldControl]="control">
-                        <input type="number" [formControl]="control" placeholder="Years of Experience"
-                               min="1" max="30">
-                        <span class="hint">1-30</span>
-                      </div>
+        <form *ngrxLet="software$.form as form" [formGroup]="form">
+          <ng-container *ngFor="let domain of software$.domains; let last = last; trackBy: trackBy.domain">
+            <div class="p-4" *ngrxLet="software$.options[domain.key] as options">
+              <label class="block py-2">
+                <span class="font-medium">Please indicate your proficiency level in <span class="text-primary">{{domain.longName}}</span> software</span>
+                <br>
+                <span class="mt-1 text-slate-400">[1 to 5]</span>
+              </label>
+
+              <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+                <ng-container *ngFor="let softOption of options.all; trackBy: trackBy.softwareOption">
+                  <div *ngrxLet="options.stopInput$() && !softOption.selected as disabled"
+                       class="software-option border rounded flex flex-col gap-2"
+                       [class.selected]="softOption.selected"
+                       [class.disabled]="disabled">
+                    <div class="flex flex-grow cursor-pointer"
+                         (click)="!disabled && options.toggle(softOption)">
+                      <mat-checkbox class="primary"
+                                    [ngModel]="softOption.selected"
+                                    [ngModelOptions]="{ standalone: true }"
+                                    [disabled]="disabled">
+                      </mat-checkbox>
+                      <div class="flex-grow p-2">{{softOption.label}}</div>
                     </div>
-
-                    <button class="icon-button h-10 w-10 flex-none text-warn/80" mat-ripple
-                            type="button" (click)="software$.options[di].remove(si)"
-                            title="Remove">
-                      <i class="fas fa-circle-minus"></i>
-                    </button>
+                    <div *ngIf="softOption.selected && form.controls[domain.key].controls[softOption.value.name] as control"
+                         [formFieldControl]="control" class="px-2">
+                      <input type="number" [formControl]="control" placeholder="Years of Experience *"
+                             min="1" max="30">
+                      <span class="error">1-30</span>
+                      <span class="hint">1-30</span>
+                    </div>
                   </div>
-                </div>
+                </ng-container>
 
-                <ng-template #noItemsSelected>
-                  <div class="border rounded p-2 mx-auto text-center">
-                    <i>Please select from the list below</i>
-                  </div>
-                </ng-template>
-              </div>
-
-              <div *ngIf="software$.options[di].visible$()">
-                <input type="text" placeholder="Type to filter"
-                       [ngModel]="software$.options[di].query$()"
-                       (ngModelChange)="software$.options[di].query$.set($event)"
-                       [ngModelOptions]="{ standalone: true }"
-                       [matAutocomplete]="softwareOptions">
-
-                <mat-autocomplete #softwareOptions [displayWith]="services.displayWith.none"
-                                  (optionSelected)="software$.options[di].add($event.option.value)">
-                  <mat-option *ngFor="let software of software$.options[di].filtered$(); trackBy: software.trackBy.software" [value]="software">{{software.label}}</mat-option>
-                </mat-autocomplete>
               </div>
             </div>
+
             <mat-divider *ngIf="!last"></mat-divider>
           </ng-container>
         </form>
       </ng-container>
-
     </div>
 
+    <!-- 
     <div *ngIf="step === 'roles'"
          class="rounded bg-white mat-elevation-z1">
       <ng-container *ngIf="roles.$() as roles$">
