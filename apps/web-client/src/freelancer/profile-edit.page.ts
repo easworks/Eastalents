@@ -466,6 +466,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       status$,
       selected$,
       stopInput$,
+      size$,
       options$,
       ...handlers
     } as const;
@@ -488,15 +489,18 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
           const options: Record<string, {
             all: SelectableOption<string>[],
+            size$: Signal<number>,
             toggle: (option: SelectableOption<string>) => void
           }> = {};
 
           const optionMap = new Map<string, SelectableOption<string>>();
           domains.forEach(d => {
+            const size$ = signal(0);
             const serviceForm = new FormRecord<FormControl<number>>({}, {
               validators: [
                 c => {
                   const size = Object.keys(c.value).length;
+                  size$.set(size);
                   if (size < 1)
                     return { minlength: 1 }
                   return null;
@@ -527,7 +531,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                   option.selected = true;
                   serviceForm.addControl(option.value, createYearControl());
                 }
-              }
+              },
+              size$
             }
           });
 
@@ -586,6 +591,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             all: SelectableOption<DomainModule>[],
             toggle: (option: SelectableOption<DomainModule>) => void,
             stopInput$: Signal<boolean>,
+            size$: Signal<number>,
             selectAll: {
               visible: boolean,
               value: boolean,
@@ -627,6 +633,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
             options[d.key] = {
               all,
+              size$,
               stopInput$,
               toggle: (option) => {
                 const v = moduleForm.getRawValue()
@@ -715,6 +722,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
           const options: Record<string, {
             all: SelectableOption<DomainProduct>[],
+            size$: Signal<number>,
             stopInput$: Signal<boolean>,
             toggle: (option: SelectableOption<DomainProduct>) => void
           }> = {};
@@ -765,6 +773,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
             options[s.domain.key] = {
               all,
+              size$,
               stopInput$,
               toggle: (option) => {
                 if (option.selected) {

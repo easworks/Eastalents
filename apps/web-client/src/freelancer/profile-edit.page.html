@@ -207,10 +207,13 @@
 
       <form *ngrxLet="primaryDomains.form as form"
             [formGroup]="form" class="p-4">
-        <label>
-          <span class="font-medium">Please select your domain of expertise in enterprise applications</span>
-          <br>
-          <span class="mt-1 text-slate-400">[1 to 3]</span>
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-2 lg:items-center transition-all">
+          <span class="font-medium"> Please select your domain of expertise in enterprise applications </span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center">
+            <span class="fa-solid fa-circle-info text-lg"></span>
+            <span>Select up to 3</span>
+            <span class="border rounded p-1 px-2">{{primaryDomains.size$()}} of 3 selected</span>
+          </span>
         </label>
         <div *ngIf="!loadingData$(); else $dataLoading"
              class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
@@ -251,10 +254,13 @@
         <form *ngrxLet="service$.form as form" [formGroup]="form">
           <ng-container *ngFor="let domain of service$.domains; let last = last; trackBy: trackBy.domain">
             <div class="p-4" *ngrxLet="service$.options[domain.key] as options">
-              <label class="block py-2">
+              <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-2 lg:items-center transition-all">
                 <span class="font-medium">Please specify your areas of expertise within <span class="text-primary">{{domain.longName}}</span></span>
-                <br>
-                <span class="mt-1 text-slate-400">[at least 1]</span>
+                <span class="flex-none flex gap-2 text-slate-500 items-center">
+                  <span class="fa-solid fa-circle-info text-lg"></span>
+                  <span>Select at least 1</span>
+                  <span class="border rounded p-1 px-2">{{options.size$()}} of {{options.all.length}} selected</span>
+                </span>
               </label>
 
               <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
@@ -297,14 +303,17 @@
         <form *ngrxLet="modules$.form as form" [formGroup]="form">
           <ng-container *ngFor="let domain of modules$.domains; let last = last; trackBy: trackBy.domain">
             <div class="p-4" *ngrxLet="modules$.options[domain.key] as options">
-              <label class="block py-2">
+              <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-2 lg:items-center transition-all">
                 <span class="font-medium">Indicate the <span class="text-primary">{{domain.longName}}</span> modules you are proficient in</span>
-                <br>
-                <span class="mt-1 text-slate-400">[1 to 7]</span>
+                <span class="flex-none flex gap-2 text-slate-500 items-center">
+                  <span class="fa-solid fa-circle-info text-lg"></span>
+                  <span>Select up to 7</span>
+                  <span class="border rounded p-1 px-2">{{options.size$()}} of {{options.all.length}} selected</span>
+                </span>
               </label>
 
               <div *ngIf="options.selectAll.visible"
-                   class="border rounded flex max-w-max pr-4 cursor-pointer"
+                   class="border rounded flex max-w-max pr-4 cursor-pointer mt-4 lg:mt-2 transition-all"
                    (click)="options.selectAll.toggle()">
                 <mat-checkbox class="primary"
                               [ngModel]="options.selectAll.value"
@@ -347,10 +356,13 @@
         <form *ngrxLet="software$.form as form" [formGroup]="form">
           <ng-container *ngFor="let domain of software$.domains; let last = last; trackBy: trackBy.domain">
             <div class="p-4" *ngrxLet="software$.options[domain.key] as options">
-              <label class="block py-2">
+              <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-2 lg:items-center transition-all">
                 <span class="font-medium">Please indicate your proficiency level in <span class="text-primary">{{domain.longName}}</span> software</span>
-                <br>
-                <span class="mt-1 text-slate-400">[1 to 5]</span>
+                <span class="flex-none flex gap-2 text-slate-500 items-center">
+                  <span class="fa-solid fa-circle-info text-lg"></span>
+                  <span>Select up to 5</span>
+                  <span class="border rounded p-1 px-2">{{options.size$()}} of {{options.all.length}} selected</span>
+                </span>
               </label>
 
               <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
