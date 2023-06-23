@@ -2,7 +2,8 @@
 .service-option,
 .module-option,
 .software-option,
-.role-option {
+.role-option,
+.tech-option {
   @apply transition-all;
 
   &.selected {
@@ -23,6 +24,24 @@
 
   .hint {
     @apply text-primary/75;
+  }
+}
+
+.tech-step {
+  .mat-expansion-panel-header {
+    @apply h-auto py-2;
+
+    ::ng-deep .mat-content {
+      @apply block pr-4;
+    }
+  }
+}
+
+.selection-counter {
+  @apply border rounded p-1 px-2 transition-all;
+
+  &.selected {
+    @apply bg-primary/5 text-primary border-transparent;
   }
 }
 

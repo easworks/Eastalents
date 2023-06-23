@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, computed, effect, inject, isDevMode, signal } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormArray, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
@@ -11,6 +11,7 @@ import { Timezones } from 'country-state-city/lib/interface';
 import { Observable, map, shareReplay, switchMap, tap } from 'rxjs';
 import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatExpansionModule } from '@angular/material/expansion'
 
 @Component({
   selector: 'freelancer-profile-edit-page',
@@ -24,7 +25,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     FormImports,
     MatAutocompleteModule,
     MatSelectModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatExpansionModule
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
@@ -57,7 +59,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly modules = this.initModules();
   protected readonly software = this.initSoftware();
   protected readonly roles = this.initRoles();
-  // protected readonly techExp = this.initTechExp();
+  protected readonly techExp = this.initTechExp();
   // protected readonly industries = this.initIndustries();
 
   protected readonly stepper = this.initStepper();
@@ -106,7 +108,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         (step === 'modules' && this.modules.$()?.status$() !== 'VALID') ||
         (step === 'software' && this.software.$()?.status$() !== 'VALID') ||
         (step === 'roles' && this.roles.$()?.status$() !== 'VALID') ||
-        // (step === 'technology-stack' && this.techExp.status$() !== 'VALID') ||
+        (step === 'technology-stack' && this.techExp.$()?.status$() !== 'VALID') ||
         // (step === 'industry' && this.industries.status$() !== 'VALID');
         false;
     });
@@ -908,7 +910,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
               },
               record
             }
-          })
+          });
 
           if (exists) {
             Object.keys(exists).forEach(domain => {
@@ -935,6 +937,118 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const $ = toSignal(obs$);
 
     return { $ } as const;
+  }
+
+  private initTechExp() {
+    const injector = this.injector;
+
+    const stepLabel$ = computed(() => this.roles.$()?.stepLabel);
+
+    const obs$ = toObservable(this.domains.tech$)
+      .pipe(
+        map((tech) => {
+          const exists = this.techExp?.$()?.form.getRawValue();
+
+          const form = new FormRecord<FormControl<Set<string>>>({});
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+
+          const options: Record<string, {
+            list: SelectableOption<string>[],
+            record: Record<string, SelectableOption<string>>,
+            size$: Signal<number>,
+            toggle: (option: SelectableOption<string>) => void,
+            clear: () => void
+          }> = {};
+
+
+          const totalSize$ = signal(0);
+          tech.forEach(category => {
+            const techForm = new FormControl<Set<string>>(new Set(), {
+              nonNullable: true,
+            });
+            const value$ = toSignal(controlValue$(techForm), { requireSync: true, injector });
+            const size$ = computed(() => value$().size);
+
+            const record: Record<string, SelectableOption<string>> = {};
+            const list = category.tech.map(t => {
+              const opt: SelectableOption<string> = {
+                selected: false,
+                value: t,
+                label: t
+              };
+              record[t] = opt;
+              return opt;
+            });
+
+            form.addControl(category.name, techForm, { emitEvent: false });
+
+            options[category.name] = {
+              list,
+              record,
+              size$,
+              toggle: (option) => {
+                if (option.selected) {
+                  option.selected = false;
+                  techForm.value.delete(option.value);
+                  techForm.updateValueAndValidity();
+                  totalSize$.update(t => --t);
+                }
+                else {
+                  option.selected = true;
+                  techForm.value.add(option.value);
+                  techForm.updateValueAndValidity();
+                  totalSize$.update(t => ++t);
+                }
+              },
+              clear: () => {
+                const size = size$();
+                list.forEach(o => {
+                  if (o.selected) {
+                    o.selected = false;
+                    techForm.value.delete(o.value);
+                  }
+                });
+                totalSize$.update(t => t - size);
+                techForm.updateValueAndValidity();
+              }
+            }
+          });
+
+          if (exists) {
+            Object.keys(exists).forEach(cat => {
+              const techForm = form.controls[cat];
+              Object.keys(exists[cat]).forEach(tech => {
+                const option = options[cat].record[tech];
+                option.selected = true;
+                techForm.value.add(tech);
+              });
+              techForm.updateValueAndValidity({ onlySelf: true });
+              totalSize$.update(t => t + techForm.value.size);
+            });
+          }
+
+          form.updateValueAndValidity();
+
+          const skippable$ = computed(() => totalSize$() === 0);
+
+          return { form, status$, skippable$, tech, options } as const;
+        }),
+        shareReplay({ refCount: true, bufferSize: 1 })
+      );
+
+    const $ = toSignal(obs$);
+
+    const skip = () => {
+      const step = $();
+      if (step) {
+        Object.values(step.options).forEach(category => {
+          category.clear();
+        });
+      }
+      this.stepper.next.click();
+    }
+
+    return { $, stepLabel$, skip };
   }
 
   private async devModeInit() {
