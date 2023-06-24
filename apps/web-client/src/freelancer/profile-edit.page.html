@@ -212,7 +212,10 @@
           <span class="flex-none flex gap-2 text-slate-500 items-center">
             <span class="fa-solid fa-circle-info text-lg"></span>
             <span>Select up to 3</span>
-            <span class="border rounded p-1 px-2">{{primaryDomains.size$()}} of 3 selected</span>
+            <span *ngrxLet="primaryDomains.size$() as size"
+                  class="selection-counter" [class.selected]="size > 0">
+              {{size}} selected
+            </span>
           </span>
         </label>
         <div *ngIf="!loadingData$(); else $dataLoading"
@@ -259,7 +262,10 @@
                 <span class="flex-none flex gap-2 text-slate-500 items-center">
                   <span class="fa-solid fa-circle-info text-lg"></span>
                   <span>Select at least 1</span>
-                  <span class="border rounded p-1 px-2">{{options.size$()}} of {{options.all.length}} selected</span>
+                  <span *ngrxLet="options.size$() as size"
+                        class="selection-counter" [class.selected]="size > 0">
+                    {{size}} selected
+                  </span>
                 </span>
               </label>
 
@@ -308,11 +314,14 @@
                 <span class="flex-none flex gap-2 text-slate-500 items-center">
                   <span class="fa-solid fa-circle-info text-lg"></span>
                   <span>Select up to 7</span>
-                  <span class="border rounded p-1 px-2">{{options.size$()}} of {{options.all.length < 7 ? options.all.length : 7}} selected</span>
+                  <span *ngrxLet="options.size$() as size"
+                        class="selection-counter" [class.selected]="size > 0">
+                    {{size}} selected
                   </span>
+                </span>
               </label>
 
-              <div *ngIf="options.selectAll.visible"
+              <!-- <div *ngIf="options.selectAll.visible"
                    class="border rounded flex max-w-max pr-4 cursor-pointer mt-4 lg:mt-2 transition-all"
                    (click)="options.selectAll.toggle()">
                 <mat-checkbox class="primary"
@@ -320,7 +329,7 @@
                               [ngModelOptions]="{ standalone: true }">
                 </mat-checkbox>
                 <div class="flex-grow p-2">Select All</div>
-              </div>
+              </div> -->
 
               <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
                 <ng-container *ngFor="let module of options.all; trackBy: trackBy.moduleOption">
@@ -361,8 +370,11 @@
                 <span class="flex-none flex gap-2 text-slate-500 items-center">
                   <span class="fa-solid fa-circle-info text-lg"></span>
                   <span>Select up to 5</span>
-                  <span class="border rounded p-1 px-2">{{options.size$()}} of {{options.all.length < 5 ? options.all.length : 5}} selected</span>
+                  <span *ngrxLet="options.size$() as size"
+                        class="selection-counter" [class.selected]="size > 0">
+                    {{size}} selected
                   </span>
+                </span>
               </label>
 
               <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
@@ -413,8 +425,11 @@
                 <span class="flex-none flex gap-2 text-slate-500 items-center">
                   <span class="fa-solid fa-circle-info text-lg"></span>
                   <span>Select up to 5</span>
-                  <span class="border rounded p-1 px-2">{{options.size$()}} of {{options.list.length < 5 ? options.list.length : 5}} selected</span>
+                  <span *ngrxLet="options.size$() as size"
+                        class="selection-counter" [class.selected]="size > 0">
+                    {{size}} selected
                   </span>
+                </span>
               </label>
 
               <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
