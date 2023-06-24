@@ -12,6 +12,8 @@ import { Observable, map, shareReplay, switchMap, tap } from 'rxjs';
 import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion'
+import { ScrollingModule, CdkVirtualForOf } from '@angular/cdk/scrolling';
+import { ScrollingModule as ExpScrollingModule, CdkAutoSizeVirtualScroll } from '@angular/cdk-experimental/scrolling';
 
 @Component({
   selector: 'freelancer-profile-edit-page',
@@ -26,7 +28,9 @@ import { MatExpansionModule } from '@angular/material/expansion'
     MatAutocompleteModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatExpansionModule
+    MatExpansionModule,
+    ScrollingModule,
+    ExpScrollingModule,
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
@@ -60,16 +64,27 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly software = this.initSoftware();
   protected readonly roles = this.initRoles();
   protected readonly techExp = this.initTechExp();
-  // protected readonly industries = this.initIndustries();
+  protected readonly industries = this.initIndustries();
 
   protected readonly stepper = this.initStepper();
 
   protected readonly trackBy = {
+    country: (_: number, c: ICountry) => c.isoCode,
+    state: (_: number, s: IState) => s.isoCode,
     domain: (_: number, d: Domain) => d.key,
     domainOption: (_: number, d: SelectableOption<Domain>) => d.value.key,
     moduleOption: (_: number, m: SelectableOption<DomainModule>) => m.value.name,
     softwareOption: (_: number, s: SelectableOption<DomainProduct>) => s.value.name,
-    stringOption: (_: number, s: SelectableOption<string>) => s.value
+    stringOption: (_: number, s: SelectableOption<string>) => s.value,
+    name: (_: number, i: { name: string }) => i.name
+  } as const;
+
+  protected readonly displayWith = {
+    country: (c?: ICountry) => c?.name || '',
+    state: (s?: IState) => s?.name || '',
+    city: (c?: ICity) => c?.name || '',
+    timezone: (t?: Timezones) => t?.zoneName || '',
+    none: () => ''
   } as const;
 
   private initStepper() {
@@ -109,8 +124,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         (step === 'software' && this.software.$()?.status$() !== 'VALID') ||
         (step === 'roles' && this.roles.$()?.status$() !== 'VALID') ||
         (step === 'technology-stack' && this.techExp.$()?.status$() !== 'VALID') ||
-        // (step === 'industry' && this.industries.status$() !== 'VALID');
-        false;
+        (step === 'industry' && this.industries.status$() !== 'VALID');
     });
 
     return {
@@ -286,18 +300,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       })
     }
 
-    const displayWith = {
-      country: (c?: ICountry) => c?.name || '',
-      state: (s?: IState) => s?.name || '',
-      city: (c?: ICity) => c?.name || '',
-      timezone: (t?: Timezones) => t?.zoneName || ''
-    }
-
-    const trackBy = {
-      country: (_: number, c: ICountry) => c.isoCode,
-      state: (_: number, s: IState) => s.isoCode,
-    }
-
     const disabled = {
       country$: computed(() => loadingGeo$()),
       state$: computed(() => loadingGeo$() || status.country() !== 'VALID' || allOptions.state$().length === 0),
@@ -389,8 +391,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         throw new Error('not implemented');
 
       },
-      displayWith,
-      trackBy,
       showFlag$: computed(() => {
         const v = values.country();
         return !!v && typeof v !== 'string';
@@ -858,7 +858,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           const labels: Record<string, string> = {};
 
           selected.forEach(s => {
-            labels[s.domain.key] = s.software.length === 1 ? s.software[0].name : s.domain.longName;
+            labels[s.domain.key] = s.domain.longName;
 
             const size$ = signal(0);
             const stopInput$ = computed(() => size$() >= 5);
@@ -990,15 +990,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 if (option.selected) {
                   option.selected = false;
                   techForm.value.delete(option.value);
-                  techForm.updateValueAndValidity();
                   totalSize$.update(t => --t);
                 }
                 else {
                   option.selected = true;
                   techForm.value.add(option.value);
-                  techForm.updateValueAndValidity();
                   totalSize$.update(t => ++t);
                 }
+                techForm.updateValueAndValidity();
               },
               clear: () => {
                 const size = size$();
@@ -1017,12 +1016,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           if (exists) {
             Object.keys(exists).forEach(cat => {
               const techForm = form.controls[cat];
-              Object.keys(exists[cat]).forEach(tech => {
-                const option = options[cat].record[tech];
-                option.selected = true;
-                techForm.value.add(tech);
-              });
-              techForm.updateValueAndValidity({ onlySelf: true });
+              techForm.setValue(exists[cat], { onlySelf: true });
               totalSize$.update(t => t + techForm.value.size);
             });
           }
@@ -1031,24 +1025,128 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
           const skippable$ = computed(() => totalSize$() === 0);
 
-          return { form, status$, skippable$, tech, options } as const;
+          const skip = () => {
+            Object.values(options).forEach(category => {
+              category.clear();
+            });
+            this.stepper.next.click();
+          }
+
+          return { form, status$, skippable$, tech, options, skip } as const;
         }),
         shareReplay({ refCount: true, bufferSize: 1 })
       );
 
     const $ = toSignal(obs$);
 
-    const skip = () => {
-      const step = $();
-      if (step) {
-        Object.values(step.options).forEach(category => {
-          category.clear();
-        });
-      }
-      this.stepper.next.click();
-    }
+    return { $, stepLabel$ };
+  }
 
-    return { $, stepLabel$, skip };
+  private initIndustries() {
+    const stepLabel$ = toSignal(this.primaryDomains.selected$
+      .pipe(map(s => s.length === 1 ? s[0].longName : 'Enterprise Application')));
+
+    const form = new FormRecord<FormControl<Set<SelectableOption<string>>>>({});
+    const value$ = toSignal(controlValue$(form), { requireSync: true });
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    const size$ = signal(0);
+    const stopInput$ = computed(() => size$() >= 5);
+
+    form.addValidators((c) => {
+      const v = c.value as Record<string, Set<SelectableOption<string>>>;
+      const size = Object.values(v)
+        .reduce((p, c) => p + c.size, 0);
+      size$.set(size);
+      if (size === 0)
+        return { minlength: 1 };
+      if (size > 5)
+        return { maxlength: 5 };
+      return null;
+    });
+
+    const query$ = signal<string | object>('');
+
+    type OptionGroup = {
+      name: string;
+      industries: SelectableOption<string>[];
+    };
+
+
+    const all$ = computed(() => this.domains.industries$()
+      .map<OptionGroup>(g => ({
+        name: g.name,
+        industries: g.industries
+          .map(i => ({
+            selected: false,
+            value: i,
+            label: i
+          }))
+      })));
+
+
+    const filtered$ = computed(() => {
+      const q = query$();
+      const all = all$();
+
+      const filter = typeof q === 'string' && q.trim().toLowerCase();
+
+      const filtered = all
+        .map(g => {
+          const matchGroup = filter && g.name.toLowerCase().includes(filter);
+          if (matchGroup)
+            return {
+              name: g.name,
+              industries: g.industries.filter(i => !i.selected)
+            };
+          return {
+            name: g.name,
+            industries: g.industries
+              .filter(i => !i.selected && (!filter || i.value.toLowerCase().includes(filter)))
+          };
+        })
+        .filter(g => g.industries.length);
+      return filtered;
+    });
+
+    const handlers = {
+      add: (group: string, option: SelectableOption<string>) => {
+        option.selected = true;
+        let control = form.controls[group];
+        if (!control) {
+          control = new FormControl(new Set<SelectableOption<string>>(), { nonNullable: true });
+          form.addControl(group, control);
+        }
+        control.value.add(option);
+        control.updateValueAndValidity();
+        query$.mutate(v => v);
+      },
+      remove: (group: string, option: SelectableOption<string>) => {
+        option.selected = false;
+        const control = form.controls[group];
+        if (!control)
+          throw new Error('invalid operation');
+        control.value.delete(option);
+        if (control.value.size)
+          control.updateValueAndValidity();
+        else
+          form.removeControl(group);
+      }
+    } as const;
+
+    form.updateValueAndValidity();
+
+    return {
+      form,
+      value$,
+      status$,
+      query$,
+      filtered$,
+      stepLabel$,
+      size$,
+      stopInput$,
+      ...handlers
+    } as const;
   }
 
   private async devModeInit() {
@@ -1161,6 +1259,22 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         form.controls[d.key].controls[list[0].value].setValue(2);
         form.controls[d.key].controls[list[1].value].setValue(3);
       });
+
+      this.stepper.next.click();
+    }
+
+    {
+      this.stepper.next.click();
+    }
+
+    {
+      const { filtered$, add } = this.industries;
+      const f = filtered$();
+
+      add(f[0].name, f[0].industries[0]);
+      add(f[0].name, f[0].industries[1]);
+      add(f[0].name, f[0].industries[2]);
+      add(f[1].name, f[1].industries[0]);
 
       this.stepper.next.click();
     }
