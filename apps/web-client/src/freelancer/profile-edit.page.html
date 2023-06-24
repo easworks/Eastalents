@@ -465,58 +465,65 @@
       </ng-container>
     </div>
 
-    <div *ngIf="step === 'technology-stack' && techExp.$() as techExp$"
-         class="tech-step">
-      <div class="rounded bg-white mat-elevation-z1">
-        <h2 class="p-4 text-xl font-semibold">{{techExp.stepLabel$()}} Technical Experience</h2>
-        <mat-divider></mat-divider>
-        <div class="p-4">
-          <label class="font-medium">Please choose the tech stack you have expertise in</label>
-          <div class="rounded mt-4 p-2 px-4 bg-emerald-400/5 text-emerald-500">
-            <button class="underline" (click)="techExp$.skip()">Skip this question</button> if it is irrelevant to your enterprise application experience and skills.
+    <div *ngIf="step === 'technology-stack'"
+         class="rounded bg-white mat-elevation-z1">
+      <h2 class="p-4 text-xl font-semibold">{{techExp.stepLabel$()}} Technical Experience</h2>
+      <mat-divider></mat-divider>
+      <div class="p-4">
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Please choose the tech stack you have expertise in</span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center">
+            <span *ngrxLet="techExp.size$() as size"
+                  class="selection-counter"
+                  [class.selected]="size > 0">
+              {{size}} selected
+            </span>
+          </span>
+        </label>
+
+        <div *ngIf="techExp.size$() > 0"
+             class="grid gap-4 mt-4">
+          <div *ngFor="let entry of techExp.value$() | keyvalue">
+            <label class="font-medium">{{entry.key}}</label>
+            <!-- <div class="mt-2 flex flex-wrap gap-2"> -->
+            <div class="mt-2 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+              <div *ngFor="let option of entry.value" class="border rounded flex gap-2 justify-between">
+                <span class="px-4 py-2">{{option.value}}</span>
+                <button class="icon-button h-10 w-10 flex-none text-slate-500/80 hover:text-warn focus:text-warn transition-all" mat-ripple
+                        type="button" (click)="techExp.remove(entry.key, option)"
+                        title="Remove">
+                  <i class="fas fa-square-xmark"></i>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <form *ngrxLet="techExp$.form as form" [formGroup]="form" class="mt-4">
-        <mat-accordion>
-          <ng-container *ngFor="let category of techExp$.tech">
-            <mat-expansion-panel *ngrxLet="techExp$.options[category.name] as options">
-              <mat-expansion-panel-header>
-                <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start
-                        cursor-pointer transition-all">
-                  <span class="font-medium lg:pt-1 transition-all">{{category.name}}</span>
-                  <span *ngrxLet="options.size$() as size" class="selection-counter"
-                        [class.selected]="size > 0">
-                    {{size}} selected
-                  </span>
-                </label>
-              </mat-expansion-panel-header>
+      <div *ngIf="!techExp.stopInput$()" class="p-4">
+        <div class="form-field !mb-0">
+          <input type="text" placeholder="Type to filter"
+                 [ngModel]="techExp.query$()"
+                 (ngModelChange)="techExp.query$.set($event)"
+                 [matAutocomplete]="techOptions">
+          <span class="hint !relative">If the query matches a category, all items in the category will be shown, otherwise only matching items will be shown.</span>
+          <span class="hint !relative">Selected items will be removed from suggestions.</span>
+        </div>
 
-              <ng-template matExpansionPanelContent>
-                <button class="stroked-button p-1 px-2" mat-ripple
-                        (click)="options.clear()">
-                  Clear
-                </button>
-                <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-                  <div *ngFor="let tech of options.list; trackBy: trackBy.stringOption"
-                       class="tech-option border rounded flex flex-col gap-2"
-                       [class.selected]="tech.selected">
-                    <div class="flex cursor-pointer flex-grow"
-                         (click)="options.toggle(tech)">
-                      <mat-checkbox class="primary"
-                                    [ngModel]="tech.selected"
-                                    [ngModelOptions]="{ standalone: true }">
-                      </mat-checkbox>
-                      <div class="flex-grow p-2">{{tech.label}}</div>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-expansion-panel>
+        <mat-autocomplete #techOptions class="!p-0"
+                          cdkVirtualScrollingElement>
+          <ng-container *ngFor="let group of techExp.filtered$(); let last = last; trackBy: trackBy.name">
+            <mat-optgroup [label]="group.name" class="block pt-2">
+              <mat-option *ngFor="let option of group.tech; trackBy: trackBy.stringOption"
+                          [value]="techExp.query$()"
+                          (onSelectionChange)="techExp.add(group.name, option)">
+                {{option.label}}
+              </mat-option>
+            </mat-optgroup>
+            <mat-divider *ngIf="!last"></mat-divider>
           </ng-container>
-        </mat-accordion>
-      </form>
+        </mat-autocomplete>
+      </div>
     </div>
 
     <div *ngIf="step === 'industry'"
@@ -525,7 +532,7 @@
       <mat-divider></mat-divider>
       <div class="p-4">
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all">Please select the industries you have worked in.</span>
+          <span class="font-medium lg:pt-1 transition-all">Please select the industries you have worked in</span>
           <span class="flex-none flex gap-2 text-slate-500 items-center">
             <span class="fa-solid fa-circle-info text-lg"></span>
             <span>Select up to 5</span>

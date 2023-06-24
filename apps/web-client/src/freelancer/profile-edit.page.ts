@@ -1,19 +1,15 @@
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, computed, effect, inject, isDevMode, signal } from '@angular/core';
-import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { AbstractControl, FormArray, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { AbstractControl, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
-import { Ctrl, Domain, DomainModule, DomainProduct, DomainState, FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, SelectableOption, controlStatus$, controlValue$, generateLoadingState, sleep, sortString, toPromise } from '@easworks/app-shell';
+import { Domain, DomainModule, DomainProduct, DomainState, FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, SelectableOption, controlStatus$, controlValue$, generateLoadingState, sleep, sortString, toPromise } from '@easworks/app-shell';
 import { FreelancerProfile, OVERALL_EXPERIENCE_OPTIONS } from '@easworks/models';
 import { City, Country, ICity, ICountry, IState, State } from 'country-state-city';
 import { Timezones } from 'country-state-city/lib/interface';
-import { Observable, map, shareReplay, switchMap, tap } from 'rxjs';
-import { MatListModule } from '@angular/material/list';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatExpansionModule } from '@angular/material/expansion'
-import { ScrollingModule, CdkVirtualForOf } from '@angular/cdk/scrolling';
-import { ScrollingModule as ExpScrollingModule, CdkAutoSizeVirtualScroll } from '@angular/cdk-experimental/scrolling';
+import { map, shareReplay, switchMap } from 'rxjs';
 
 @Component({
   selector: 'freelancer-profile-edit-page',
@@ -27,8 +23,7 @@ import { ScrollingModule as ExpScrollingModule, CdkAutoSizeVirtualScroll } from 
     FormImports,
     MatAutocompleteModule,
     MatSelectModule,
-    MatCheckboxModule,
-    MatExpansionModule
+    MatCheckboxModule
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
@@ -121,7 +116,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         (step === 'modules' && this.modules.$()?.status$() !== 'VALID') ||
         (step === 'software' && this.software.$()?.status$() !== 'VALID') ||
         (step === 'roles' && this.roles.$()?.status$() !== 'VALID') ||
-        (step === 'technology-stack' && this.techExp.$()?.status$() !== 'VALID') ||
+        (step === 'technology-stack' && this.techExp.status$() !== 'VALID') ||
         (step === 'industry' && this.industries.status$() !== 'VALID');
     });
 
@@ -928,106 +923,108 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   private initTechExp() {
-    const injector = this.injector;
-
     const stepLabel$ = this.services.stepLabel$;
 
-    const obs$ = toObservable(this.domains.tech$)
-      .pipe(
-        map((tech) => {
-          const exists = this.techExp?.$()?.form.getRawValue();
+    const form = new FormRecord<FormControl<Set<SelectableOption<string>>>>({});
+    const value$ = toSignal(controlValue$(form), { requireSync: true });
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
-          const form = new FormRecord<FormControl<Set<string>>>({});
-          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+    const size$ = signal(0);
+    const fullSize$ = computed(() => this.domains.tech$().reduce((p, c) => p + c.tech.length, 0));
+    const stopInput$ = computed(() => size$() >= fullSize$());
 
-          const options: Record<string, {
-            list: SelectableOption<string>[],
-            record: Record<string, SelectableOption<string>>,
-            size$: Signal<number>,
-            toggle: (option: SelectableOption<string>) => void,
-            clear: () => void
-          }> = {};
+    form.addValidators((c) => {
+      const v = c.value as Record<string, Set<SelectableOption<string>>>;
+      const size = Object.values(v)
+        .reduce((p, c) => p + c.size, 0);
+      size$.set(size);
+      if (size === 0)
+        return { minlength: 1 };
+      if (size > 5)
+        return { maxlength: 5 };
+      return null;
+    });
+
+    const query$ = signal<string | object>('');
+
+    type OptionGroup = {
+      name: string;
+      tech: SelectableOption<string>[];
+    };
+    const all$ = computed(() => this.domains.tech$()
+      .map<OptionGroup>(g => ({
+        name: g.name,
+        tech: g.tech
+          .map(t => ({
+            selected: false,
+            value: t,
+            label: t
+          }))
+      })));
 
 
-          const totalSize$ = signal(0);
-          tech.forEach(category => {
-            const techForm = new FormControl<Set<string>>(new Set(), {
-              nonNullable: true,
-            });
-            const value$ = toSignal(controlValue$(techForm), { requireSync: true, injector });
-            const size$ = computed(() => value$().size);
+    const filtered$ = computed(() => {
+      const q = query$();
+      const all = all$();
 
-            const record: Record<string, SelectableOption<string>> = {};
-            const list = category.tech.map(t => {
-              const opt: SelectableOption<string> = {
-                selected: false,
-                value: t,
-                label: t
-              };
-              record[t] = opt;
-              return opt;
-            });
+      const filter = typeof q === 'string' && q.trim().toLowerCase();
 
-            form.addControl(category.name, techForm, { emitEvent: false });
+      const filtered = all
+        .map(g => {
+          const matchGroup = filter && g.name.toLowerCase().includes(filter);
+          if (matchGroup)
+            return {
+              name: g.name,
+              tech: g.tech.filter(t => !t.selected)
+            };
+          return {
+            name: g.name,
+            tech: g.tech
+              .filter(t => !t.selected && (!filter || t.value.toLowerCase().includes(filter)))
+          };
+        })
+        .filter(g => g.tech.length);
+      return filtered;
+    });
 
-            options[category.name] = {
-              list,
-              record,
-              size$,
-              toggle: (option) => {
-                if (option.selected) {
-                  option.selected = false;
-                  techForm.value.delete(option.value);
-                  totalSize$.update(t => --t);
-                }
-                else {
-                  option.selected = true;
-                  techForm.value.add(option.value);
-                  totalSize$.update(t => ++t);
-                }
-                techForm.updateValueAndValidity();
-              },
-              clear: () => {
-                const size = size$();
-                list.forEach(o => {
-                  if (o.selected) {
-                    o.selected = false;
-                    techForm.value.delete(o.value);
-                  }
-                });
-                totalSize$.update(t => t - size);
-                techForm.updateValueAndValidity();
-              }
-            }
-          });
+    const handlers = {
+      add: (group: string, option: SelectableOption<string>) => {
+        option.selected = true;
+        let control = form.controls[group];
+        if (!control) {
+          control = new FormControl(new Set<SelectableOption<string>>(), { nonNullable: true });
+          form.addControl(group, control);
+        }
+        control.value.add(option);
+        control.updateValueAndValidity();
+        query$.mutate(v => v);
+      },
+      remove: (group: string, option: SelectableOption<string>) => {
+        option.selected = false;
+        const control = form.controls[group];
+        if (!control)
+          throw new Error('invalid operation');
+        control.value.delete(option);
+        if (control.value.size)
+          control.updateValueAndValidity();
+        else
+          form.removeControl(group);
+      }
+    } as const;
 
-          if (exists) {
-            Object.keys(exists).forEach(cat => {
-              const techForm = form.controls[cat];
-              techForm.setValue(exists[cat], { onlySelf: true });
-              totalSize$.update(t => t + techForm.value.size);
-            });
-          }
+    form.updateValueAndValidity();
 
-          form.updateValueAndValidity();
-
-          const skippable$ = computed(() => totalSize$() === 0);
-
-          const skip = () => {
-            Object.values(options).forEach(category => {
-              category.clear();
-            });
-            this.stepper.next.click();
-          }
-
-          return { form, status$, skippable$, tech, options, skip } as const;
-        }),
-        shareReplay({ refCount: true, bufferSize: 1 })
-      );
-
-    const $ = toSignal(obs$);
-
-    return { $, stepLabel$ };
+    return {
+      form,
+      value$,
+      status$,
+      query$,
+      filtered$,
+      stepLabel$,
+      size$,
+      stopInput$,
+      ...handlers
+    } as const;
   }
 
   private initIndustries() {

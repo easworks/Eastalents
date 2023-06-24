@@ -2,8 +2,7 @@
 .service-option,
 .module-option,
 .software-option,
-.role-option,
-.tech-option {
+.role-option {
   @apply transition-all;
 
   &.selected {
@@ -27,63 +26,10 @@
   }
 }
 
-.tech-step {
-  .mat-expansion-panel-header {
-    @apply h-auto py-2;
-
-    ::ng-deep .mat-content {
-      @apply block pr-4;
-    }
-  }
-}
-
 .selection-counter {
   @apply ml-auto border rounded p-1 px-2 transition-all;
 
   &.selected {
     @apply bg-primary/5 text-primary border-transparent;
-  }
-}
-
-.grouped-selector {
-  @apply flex rounded border overflow-hidden mt-4;
-
-  .groups {
-    @apply border-r flex-shrink;
-    button {
-      @apply block w-full p-2 px-3 text-left
-      text-xs md:text-sm
-      hover:bg-slate-500/10 focus:bg-slate-500/10 transition-all;
-
-      &.selected {
-        @apply bg-primary text-primary-text;
-      }
-    }
-  }
-
-  .items {
-    @apply flex-grow flex flex-col md:w-96 transition-all;
-
-    input {
-      @apply text-xs md:text-sm transition-all;
-    }
-
-    .filtered {
-      @apply flex-1 relative;
-
-      > div {
-        @apply absolute w-full h-full overflow-auto;
-      }
-    }
-
-    button {
-      @apply block p-2 px-3 w-full text-left
-      text-xs md:text-sm
-      hover:bg-slate-500/10 focus:bg-slate-500/10 transition-all;
-
-      &.selected {
-        @apply bg-secondary/80 text-secondary-text;
-      }
-    }
   }
 }
