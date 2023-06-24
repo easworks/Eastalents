@@ -414,14 +414,14 @@
     <div *ngIf="step === 'roles'"
          class="rounded bg-white mat-elevation-z1">
       <ng-container *ngIf="roles.$() as roles$">
-        <h2 class="p-4 text-xl font-semibold">{{roles$.stepLabel}} Roles</h2>
+        <h2 class="p-4 text-xl font-semibold">{{roles.stepLabel$()}} Roles</h2>
         <mat-divider></mat-divider>
 
         <form *ngrxLet="roles$.form as form" [formGroup]="form">
           <ng-container *ngFor="let domain of roles$.domains; let last = last; trackBy: trackBy.domain">
             <div class="p-4" *ngrxLet="roles$.options[domain.key] as options">
               <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-                <span class="font-medium lg:pt-1 transition-all">Please select the <span class="text-primary">{{roles$.labels[domain.key]}}</span> roles you have worked in</span>
+                <span class="font-medium lg:pt-1 transition-all">Please select the <span class="text-primary">{{domain.longName}}</span> roles you have worked in</span>
                 <span class="flex-none flex gap-2 text-slate-500 items-center">
                   <span class="fa-solid fa-circle-info text-lg"></span>
                   <span>Select up to 5</span>

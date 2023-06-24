@@ -28,9 +28,7 @@ import { ScrollingModule as ExpScrollingModule, CdkAutoSizeVirtualScroll } from 
     MatAutocompleteModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatExpansionModule,
-    ScrollingModule,
-    ExpScrollingModule,
+    MatExpansionModule
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
@@ -568,9 +566,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private initModules() {
     const injector = this.injector;
 
-    const stepLabel$ = toSignal(this.primaryDomains.selected$
-      .pipe(map(selected => (selected.length === 1 && selected[0].longName) || 'Enterprise Application')),
-      { initialValue: 'Enterprise Application' });
+    const stepLabel$ = this.services.stepLabel$;
 
     const obs$ = this.primaryDomains.selected$
       .pipe(
@@ -713,9 +709,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private initSoftware() {
     const injector = this.injector;
 
-    const stepLabel$ = toSignal(this.primaryDomains.selected$
-      .pipe(map(selected => (selected.length === 1 && selected[0].longName) || 'Enterprise Application')),
-      { initialValue: 'Enterprise Application' });
+    const stepLabel$ = this.services.stepLabel$;
 
     const obs$ = this.modules.selected$
       .pipe(
@@ -834,15 +828,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private initRoles() {
     const injector = this.injector;
 
+    const stepLabel$ = this.services.stepLabel$;
+
     const obs$ = this.software.selected$
       .pipe(
         map(selected => {
           const exists = this.roles?.$()?.form.getRawValue();
-
-          const stepLabel = selected.length === 1 ?
-            (selected[0].software.length === 1 ? selected[0].software[0].name : selected[0].domain.longName) :
-            'Enterprise Application';
-
 
           const form = new FormRecord<FormRecord<FormControl<number>>>({});
           const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
@@ -855,10 +846,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             toggle: (option: SelectableOption<string>) => void,
           }> = {};
 
-          const labels: Record<string, string> = {};
-
           selected.forEach(s => {
-            labels[s.domain.key] = s.domain.longName;
 
             const size$ = signal(0);
             const stopInput$ = computed(() => size$() >= 5);
@@ -929,20 +917,20 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
           const domains = selected.map(s => s.domain);
 
-          return { form, status$, options, domains, stepLabel, labels } as const;
+          return { form, status$, options, domains } as const;
         }),
         shareReplay({ refCount: true, bufferSize: 1 })
       );
 
     const $ = toSignal(obs$);
 
-    return { $ } as const;
+    return { $, stepLabel$ } as const;
   }
 
   private initTechExp() {
     const injector = this.injector;
 
-    const stepLabel$ = computed(() => this.roles.$()?.stepLabel);
+    const stepLabel$ = this.services.stepLabel$;
 
     const obs$ = toObservable(this.domains.tech$)
       .pipe(
@@ -1043,8 +1031,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   private initIndustries() {
-    const stepLabel$ = toSignal(this.primaryDomains.selected$
-      .pipe(map(s => s.length === 1 ? s[0].longName : 'Enterprise Application')));
+    const stepLabel$ = this.services.stepLabel$;
 
     const form = new FormRecord<FormControl<Set<SelectableOption<string>>>>({});
     const value$ = toSignal(controlValue$(form), { requireSync: true });
