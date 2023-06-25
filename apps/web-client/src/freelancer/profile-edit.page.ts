@@ -1,3 +1,4 @@
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
@@ -23,7 +24,8 @@ import { map, shareReplay, switchMap } from 'rxjs';
     FormImports,
     MatAutocompleteModule,
     MatSelectModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    ScrollingModule
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
@@ -929,21 +931,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const value$ = toSignal(controlValue$(form), { requireSync: true });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
-    const size$ = signal(0);
+    const size$ = computed(() => Object.values(value$()).reduce((p, c) => p + c.size, 0));
+    const skippable$ = computed(() => size$() === 0);
     const fullSize$ = computed(() => this.domains.tech$().reduce((p, c) => p + c.tech.length, 0));
     const stopInput$ = computed(() => size$() >= fullSize$());
-
-    form.addValidators((c) => {
-      const v = c.value as Record<string, Set<SelectableOption<string>>>;
-      const size = Object.values(v)
-        .reduce((p, c) => p + c.size, 0);
-      size$.set(size);
-      if (size === 0)
-        return { minlength: 1 };
-      if (size > 5)
-        return { maxlength: 5 };
-      return null;
-    });
 
     const query$ = signal<string | object>('');
 
@@ -1009,6 +1000,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           control.updateValueAndValidity();
         else
           form.removeControl(group);
+        query$.mutate(v => v);
+      },
+      skip: () => {
+        Object.keys(form.controls).forEach(k => form.removeControl(k, { emitEvent: false }));
+        form.updateValueAndValidity();
+        this.stepper.next.click();
       }
     } as const;
 
@@ -1023,6 +1020,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       stepLabel$,
       size$,
       stopInput$,
+      skippable$,
       ...handlers
     } as const;
   }
@@ -1115,6 +1113,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           control.updateValueAndValidity();
         else
           form.removeControl(group);
+        query$.mutate(v => v);
       }
     } as const;
 

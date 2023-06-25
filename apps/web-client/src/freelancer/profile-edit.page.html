@@ -480,6 +480,10 @@
             </span>
           </span>
         </label>
+        <div *ngIf="techExp.skippable$()"
+             class="rounded mt-4 p-2 px-4 bg-emerald-400/5 text-emerald-500">
+          <button class="underline" (click)="techExp.skip()">Skip this question</button> if it is irrelevant to your enterprise application experience and skills.
+        </div>
 
         <div *ngIf="techExp.size$() > 0"
              class="grid gap-4 mt-4">
@@ -487,9 +491,9 @@
             <label class="font-medium">{{entry.key}}</label>
             <!-- <div class="mt-2 flex flex-wrap gap-2"> -->
             <div class="mt-2 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-              <div *ngFor="let option of entry.value" class="border rounded flex gap-2 justify-between">
+              <div *ngFor="let option of entry.value" class="bg-primary/5 text-primary rounded flex gap-2 justify-between">
                 <span class="px-4 py-2">{{option.value}}</span>
-                <button class="icon-button h-10 w-10 flex-none text-slate-500/80 hover:text-warn focus:text-warn transition-all" mat-ripple
+                <button class="icon-button h-10 w-10 flex-none text-primary/80 hover:text-warn focus:text-warn transition-all" mat-ripple
                         type="button" (click)="techExp.remove(entry.key, option)"
                         title="Remove">
                   <i class="fas fa-square-xmark"></i>
@@ -510,18 +514,20 @@
           <span class="hint !relative">Selected items will be removed from suggestions.</span>
         </div>
 
-        <mat-autocomplete #techOptions class="!p-0"
-                          cdkVirtualScrollingElement>
-          <ng-container *ngFor="let group of techExp.filtered$(); let last = last; trackBy: trackBy.name">
-            <mat-optgroup [label]="group.name" class="block pt-2">
-              <mat-option *ngFor="let option of group.tech; trackBy: trackBy.stringOption"
-                          [value]="techExp.query$()"
-                          (onSelectionChange)="techExp.add(group.name, option)">
-                {{option.label}}
-              </mat-option>
-            </mat-optgroup>
-            <mat-divider *ngIf="!last"></mat-divider>
-          </ng-container>
+        <mat-autocomplete #techOptions class="!p-0" cdkVirtualScrollingElement>
+          <cdk-virtual-scroll-viewport itemSize="40">
+            <ng-container *cdkVirtualFor="let group of techExp.filtered$(); let last = last; trackBy: trackBy.name">
+              <mat-optgroup [label]="group.name" class="block pt-2">
+                <mat-option *ngFor="let option of group.tech; trackBy: trackBy.stringOption"
+                            [value]="techExp.query$()"
+                            (onSelectionChange)="techExp.add(group.name, option);">
+                  {{option.label}}
+                </mat-option>
+              </mat-optgroup>
+              <mat-divider *ngIf="!last"></mat-divider>
+            </ng-container>
+          </cdk-virtual-scroll-viewport>
+
         </mat-autocomplete>
       </div>
     </div>
@@ -550,9 +556,9 @@
             <label class="font-medium">{{entry.key}}</label>
             <!-- <div class="mt-2 flex flex-wrap gap-2"> -->
             <div class="mt-2 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-              <div *ngFor="let option of entry.value" class="border rounded flex gap-2 justify-between">
+              <div *ngFor="let option of entry.value" class="bg-primary/5 text-primary rounded flex gap-2 justify-between">
                 <span class="px-4 py-2">{{option.value}}</span>
-                <button class="icon-button h-10 w-10 flex-none text-slate-500/80 hover:text-warn focus:text-warn transition-all" mat-ripple
+                <button class="icon-button h-10 w-10 flex-none text-primary/80 hover:text-warn focus:text-warn transition-all" mat-ripple
                         type="button" (click)="industries.remove(entry.key, option)"
                         title="Remove">
                   <i class="fas fa-square-xmark"></i>
@@ -573,18 +579,19 @@
           <span class="hint !relative">Selected items will be removed from suggestions.</span>
         </div>
 
-        <mat-autocomplete #industryOptions class="!p-0"
-                          cdkVirtualScrollingElement>
-          <ng-container *ngFor="let group of industries.filtered$(); let last = last; trackBy: trackBy.name">
-            <mat-optgroup [label]="group.name" class="block pt-2">
-              <mat-option *ngFor="let option of group.industries; trackBy: trackBy.stringOption"
-                          [value]="industries.query$()"
-                          (onSelectionChange)="industries.add(group.name, option)">
-                {{option.label}}
-              </mat-option>
-            </mat-optgroup>
-            <mat-divider *ngIf="!last"></mat-divider>
-          </ng-container>
+        <mat-autocomplete #industryOptions class="!p-0" cdkVirtualScrollingElement>
+          <cdk-virtual-scroll-viewport itemSize="40">
+            <ng-container *cdkVirtualFor="let group of industries.filtered$(); let last = last; trackBy: trackBy.name">
+              <mat-optgroup [label]="group.name" class="block pt-2">
+                <mat-option *ngFor="let option of group.industries; trackBy: trackBy.stringOption"
+                            [value]="industries.query$()"
+                            (onSelectionChange)="industries.add(group.name, option);">
+                  {{option.label}}
+                </mat-option>
+              </mat-optgroup>
+              <mat-divider *ngIf="!last"></mat-divider>
+            </ng-container>
+          </cdk-virtual-scroll-viewport>
         </mat-autocomplete>
       </div>
     </div>
