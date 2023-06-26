@@ -12,10 +12,17 @@
         "platform": "node",
         "outputPath": "dist/apps/data-validator",
         "format": ["esm"],
-        "bundle": false,
+        "bundle": true,
+        "thirdParty": true,
         "main": "apps/data-validator/src/main.ts",
         "tsConfig": "apps/data-validator/tsconfig.app.json",
-        "assets": ["apps/data-validator/src/assets"],
+        "assets": [
+          {
+            "glob": "{tech,software}.json",
+            "input": "libs/shared/assets/src/utils",
+            "output": ""
+          }
+        ],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
