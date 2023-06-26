@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ApiResponse, DomainDictionaryDto, FreelancerProfile, FreelancerProfileQuestionDto, IndustryGroupDto, TechGroupDto } from '@easworks/models';
-import { City, Country, State } from 'country-state-city';
 import { catchError, map } from 'rxjs';
 import { sortString } from '../utilities';
 import { ApiService } from './api';
@@ -95,7 +94,8 @@ export class TalentApi extends ApiService {
       );
 
   // THIS FUNCTION IS MEANT TO BE REMOVED
-  private useDummyData(profile: FreelancerProfile) {
+  private async useDummyData(profile: FreelancerProfile) {
+    const { Country, State, City } = await import('country-state-city');
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const country = Country.getCountryByCode('IN')!;
     const state = country && State.getStateByCodeAndCountry('WB', country.isoCode);
