@@ -11,7 +11,7 @@
       "options": {
         "platform": "node",
         "outputPath": "dist/apps/data-validator",
-        "format": ["cjs"],
+        "format": ["esm"],
         "bundle": false,
         "main": "apps/data-validator/src/main.ts",
         "tsConfig": "apps/data-validator/tsconfig.app.json",
