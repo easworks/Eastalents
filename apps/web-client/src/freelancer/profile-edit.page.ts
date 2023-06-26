@@ -1,4 +1,3 @@
-import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
@@ -6,10 +5,22 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
-import { Domain, DomainModule, DomainProduct, DomainState, FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, SelectableOption, controlStatus$, controlValue$, generateLoadingState, sleep, sortString, toPromise } from '@easworks/app-shell';
+import { LocationApi } from '@easworks/app-shell/api/location';
+import { Domain, DomainModule, DomainProduct } from '@easworks/app-shell/api/talent.api';
+import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
+import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
+import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
+import { DomainState } from '@easworks/app-shell/state/domains';
+import { generateLoadingState } from '@easworks/app-shell/state/loading';
+import { SelectableOption } from '@easworks/app-shell/utilities/options';
+import { sleep } from '@easworks/app-shell/utilities/sleep';
+import { sortString } from '@easworks/app-shell/utilities/sort';
+import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { FreelancerProfile, OVERALL_EXPERIENCE_OPTIONS } from '@easworks/models';
-import { City, Country, ICity, ICountry, IState, State } from 'country-state-city';
-import { Timezones } from 'country-state-city/lib/interface';
+import { City, Country, State } from 'country-state-city';
+import { ICity, ICountry, IState, Timezones } from 'country-state-city/lib/interface';
 import { map, shareReplay, switchMap } from 'rxjs';
 
 @Component({
@@ -21,11 +32,10 @@ import { map, shareReplay, switchMap } from 'rxjs';
   imports: [
     ImportsModule,
     LottiePlayerDirective,
-    FormImports,
+    FormImportsModule,
     MatAutocompleteModule,
     MatSelectModule,
     MatCheckboxModule,
-    ScrollingModule
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
@@ -933,7 +943,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     const size$ = computed(() => Object.values(value$()).reduce((p, c) => p + c.size, 0));
     const skippable$ = computed(() => size$() === 0);
-    const fullSize$ = computed(() => this.domains.tech$().reduce((p, c) => p + c.tech.length, 0));
+    const fullSize$ = computed(() => this.domains.tech$().reduce((p, c) => p + c.items.size, 0));
     const stopInput$ = computed(() => size$() >= fullSize$());
 
     const query$ = signal<string | object>('');
@@ -945,7 +955,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const all$ = computed(() => this.domains.tech$()
       .map<OptionGroup>(g => ({
         name: g.name,
-        tech: g.tech
+        tech: [...g.items]
           .map(t => ({
             selected: false,
             value: t,

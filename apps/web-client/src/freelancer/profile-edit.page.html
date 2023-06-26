@@ -514,20 +514,17 @@
           <span class="hint !relative">Selected items will be removed from suggestions.</span>
         </div>
 
-        <mat-autocomplete #techOptions class="!p-0" cdkVirtualScrollingElement>
-          <cdk-virtual-scroll-viewport itemSize="40">
-            <ng-container *cdkVirtualFor="let group of techExp.filtered$(); let last = last; trackBy: trackBy.name">
-              <mat-optgroup [label]="group.name" class="block pt-2">
-                <mat-option *ngFor="let option of group.tech; trackBy: trackBy.stringOption"
-                            [value]="techExp.query$()"
-                            (onSelectionChange)="techExp.add(group.name, option);">
-                  {{option.label}}
-                </mat-option>
-              </mat-optgroup>
-              <mat-divider *ngIf="!last"></mat-divider>
-            </ng-container>
-          </cdk-virtual-scroll-viewport>
-
+        <mat-autocomplete #techOptions class="!p-0">
+          <ng-container *ngFor="let group of techExp.filtered$(); let last = last; trackBy: trackBy.name">
+            <mat-optgroup [label]="group.name" class="block pt-2">
+              <mat-option *ngFor="let option of group.tech; trackBy: trackBy.stringOption"
+                          [value]="techExp.query$()"
+                          (onSelectionChange)="techExp.add(group.name, option);">
+                {{option.label}}
+              </mat-option>
+            </mat-optgroup>
+            <mat-divider *ngIf="!last"></mat-divider>
+          </ng-container>
         </mat-autocomplete>
       </div>
     </div>
@@ -579,19 +576,17 @@
           <span class="hint !relative">Selected items will be removed from suggestions.</span>
         </div>
 
-        <mat-autocomplete #industryOptions class="!p-0" cdkVirtualScrollingElement>
-          <cdk-virtual-scroll-viewport itemSize="40">
-            <ng-container *cdkVirtualFor="let group of industries.filtered$(); let last = last; trackBy: trackBy.name">
-              <mat-optgroup [label]="group.name" class="block pt-2">
-                <mat-option *ngFor="let option of group.industries; trackBy: trackBy.stringOption"
-                            [value]="industries.query$()"
-                            (onSelectionChange)="industries.add(group.name, option);">
-                  {{option.label}}
-                </mat-option>
-              </mat-optgroup>
-              <mat-divider *ngIf="!last"></mat-divider>
-            </ng-container>
-          </cdk-virtual-scroll-viewport>
+        <mat-autocomplete #industryOptions class="!p-0">
+          <ng-container *ngFor="let group of industries.filtered$(); let last = last; trackBy: trackBy.name">
+            <mat-optgroup [label]="group.name" class="block pt-2">
+              <mat-option *ngFor="let option of group.industries; trackBy: trackBy.stringOption"
+                          [value]="industries.query$()"
+                          (onSelectionChange)="industries.add(group.name, option);">
+                {{option.label}}
+              </mat-option>
+            </mat-optgroup>
+            <mat-divider *ngIf="!last"></mat-divider>
+          </ng-container>
         </mat-autocomplete>
       </div>
     </div>
