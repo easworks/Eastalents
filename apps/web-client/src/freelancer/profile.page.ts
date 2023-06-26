@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
-import { AuthState, ChartJsDirective, FormImports, ImportsModule, TalentApi, generateLoadingState, getTailwindColor } from '@easworks/app-shell';
+import { TalentApi } from '@easworks/app-shell/api/talent.api';
+import { ChartJsDirective } from '@easworks/app-shell/common/chart-js/chart-js.directive';
+import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
+import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { AuthState } from '@easworks/app-shell/state/auth';
+import { generateLoadingState } from '@easworks/app-shell/state/loading';
+import { getTailwindColor } from '@easworks/app-shell/utilities/get-runtime-color';
 import { FreelancerProfile } from '@easworks/models';
 import { ChartConfiguration } from 'chart.js';
 
@@ -12,7 +18,7 @@ import { ChartConfiguration } from 'chart.js';
   imports: [
     ImportsModule,
     ChartJsDirective,
-    FormImports
+    FormImportsModule
   ]
 })
 export class FreelancerProfilePageComponent {

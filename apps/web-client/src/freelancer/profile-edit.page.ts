@@ -1,14 +1,27 @@
-import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, computed, effect, inject, isDevMode, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
-import { Ctrl, Domain, DomainModule, DomainProduct, DomainState, FormImports, GeoLocationService, ImportsModule, LocationApi, LottiePlayerDirective, SelectableOption, controlStatus$, controlValue$, generateLoadingState, sleep, sortString, toPromise } from '@easworks/app-shell';
+import { LocationApi } from '@easworks/app-shell/api/location';
+import { Domain, DomainModule, DomainProduct } from '@easworks/app-shell/api/talent.api';
+import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
+import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
+import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
+import { DomainState } from '@easworks/app-shell/state/domains';
+import { generateLoadingState } from '@easworks/app-shell/state/loading';
+import { SelectableOption } from '@easworks/app-shell/utilities/options';
+import { sleep } from '@easworks/app-shell/utilities/sleep';
+import { sortString } from '@easworks/app-shell/utilities/sort';
+import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { FreelancerProfile, OVERALL_EXPERIENCE_OPTIONS } from '@easworks/models';
-import { City, Country, ICity, ICountry, IState, State } from 'country-state-city';
-import { Timezones } from 'country-state-city/lib/interface';
-import { Observable, map, shareReplay, switchMap } from 'rxjs';
+import { City, Country, State } from 'country-state-city';
+import { ICity, ICountry, IState, Timezones } from 'country-state-city/lib/interface';
+import { map, shareReplay, switchMap } from 'rxjs';
 
 @Component({
   selector: 'freelancer-profile-edit-page',
@@ -19,9 +32,10 @@ import { Observable, map, shareReplay, switchMap } from 'rxjs';
   imports: [
     ImportsModule,
     LottiePlayerDirective,
-    FormImports,
+    FormImportsModule,
     MatAutocompleteModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCheckboxModule,
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
@@ -58,6 +72,25 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly industries = this.initIndustries();
 
   protected readonly stepper = this.initStepper();
+
+  protected readonly trackBy = {
+    country: (_: number, c: ICountry) => c.isoCode,
+    state: (_: number, s: IState) => s.isoCode,
+    domain: (_: number, d: Domain) => d.key,
+    domainOption: (_: number, d: SelectableOption<Domain>) => d.value.key,
+    moduleOption: (_: number, m: SelectableOption<DomainModule>) => m.value.name,
+    softwareOption: (_: number, s: SelectableOption<DomainProduct>) => s.value.name,
+    stringOption: (_: number, s: SelectableOption<string>) => s.value,
+    name: (_: number, i: { name: string }) => i.name
+  } as const;
+
+  protected readonly displayWith = {
+    country: (c?: ICountry) => c?.name || '',
+    state: (s?: IState) => s?.name || '',
+    city: (c?: ICity) => c?.name || '',
+    timezone: (t?: Timezones) => t?.zoneName || '',
+    none: () => ''
+  } as const;
 
   private initStepper() {
     const step$ = signal<Step>(this.section ?? 'start');
@@ -272,18 +305,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       })
     }
 
-    const displayWith = {
-      country: (c?: ICountry) => c?.name || '',
-      state: (s?: IState) => s?.name || '',
-      city: (c?: ICity) => c?.name || '',
-      timezone: (t?: Timezones) => t?.zoneName || ''
-    }
-
-    const trackBy = {
-      country: (_: number, c: ICountry) => c.isoCode,
-      state: (_: number, s: IState) => s.isoCode,
-    }
-
     const disabled = {
       country$: computed(() => loadingGeo$()),
       state$: computed(() => loadingGeo$() || status.country() !== 'VALID' || allOptions.state$().length === 0),
@@ -375,8 +396,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         throw new Error('not implemented');
 
       },
-      displayWith,
-      trackBy,
       showFlag$: computed(() => {
         const v = values.country();
         return !!v && typeof v !== 'string';
@@ -386,94 +405,77 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   private initPrimaryDomains() {
-    type FormType = FormGroup<{
-      domain: FormControl<SelectableOption<Domain>>,
-      years: FormControl<number>
-    }>
-    const form = new FormArray<FormType>([], {
+    const domains$ = computed(() => {
+      const optionMap = new Map<string, SelectableOption<Domain>>();
+      const options = this.domains.domains$().map(d => {
+        const opt: SelectableOption<Domain> = {
+          selected: false,
+          value: d,
+          label: d.longName,
+        };
+        optionMap.set(d.key, opt);
+        return opt;
+      });
+      return { options, map: optionMap } as const;
+    });
+    const map$ = computed(() => domains$().map);
+    const options$ = computed(() => domains$().options);
+
+    const size$ = signal(0);
+    const stopInput$ = computed(() => size$() >= 3);
+
+    const form = new FormRecord<FormControl<number>>({}, {
       validators: [
-        Validators.required,
-        Validators.maxLength(3)
+        c => {
+          const size = Object.keys(c.value).length;
+          size$.set(size);
+          if (size < 1)
+            return { minlength: 1 }
+          if (size > 3)
+            return { maxlength: 3 }
+          return null;
+        }
       ]
     });
-
-    const values = toSignal(controlValue$(form), { requireSync: true });
-    const length$ = computed(() => {
-      values();
-      return form.length;
-    });
-
-    const filterText$ = signal('');
-    const options$ = computed(() => this.domains.domains$().map(d => {
-      const opt: SelectableOption<Domain> = {
-        selected: false,
-        value: d,
-        label: d.key,
-        title: d.longName,
-      }
-      return opt;
-    }));
-    const filtered$ = computed(() => {
-      const filter = filterText$().toLowerCase();
-      const all = options$();
-      if (filter)
-        return all.filter(i =>
-          i.value.key.toLowerCase().includes(filter) ||
-          i.value.longName.toLowerCase().includes(filter));
-      return all;
-    });
-
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
-
     const selected$ = controlValue$(form, true)
       .pipe(
-        map(v => v.map(s => s.domain.value)),
-        shareReplay({ refCount: true, bufferSize: 1 }));
+        map(v => {
+          const map = map$();
+          return Object.keys(v)
+            .sort(sortString)
+            .map(k => {
+              const o = map.get(k);
+              if (!o)
+                throw new Error('invalid operation');
+              return o.value;
+            });
+        }),
+        shareReplay({ refCount: true, bufferSize: 1 })
+      );
+
+    const handlers = {
+      toggle: (option: SelectableOption<Domain>) => {
+        if (option.selected) {
+          option.selected = false;
+          form.removeControl(option.value.key);
+        }
+        else {
+          option.selected = true;
+          form.addControl(option.value.key, createYearControl())
+        }
+      }
+    } as const;
+
 
     return {
       form,
       status$,
       selected$,
-      options: {
-        filterText$,
-        all$: options$,
-        filtered$,
-        visible$: computed(() => length$() < 3)
-      },
-      trackBy: {
-        controls: (_: number, form: FormType) => form.value.domain?.value.key,
-        options: (_: number, opt: SelectableOption<Domain>) => opt.value.key
-      },
-      select: (option: SelectableOption<Domain>) => {
-        option.selected = true;
-
-        form.push(new FormGroup({
-          domain: new FormControl(option, {
-            validators: [Validators.required],
-            nonNullable: true
-          }),
-          years: new FormControl(null as unknown as number, {
-            validators: [
-              Validators.required,
-              Validators.min(1),
-              Validators.max(30)
-            ],
-            nonNullable: true
-          }),
-        }), { emitEvent: false });
-
-        form.controls.sort((a, b) =>
-          sortString(
-            a.value.domain?.value.longName ?? '',
-            b.value.domain?.value.longName ?? ''
-          ));
-        form.updateValueAndValidity();
-      },
-      remove: (i: number) => {
-        const value = form.at(i).getRawValue();
-        value.domain.selected = false;
-        form.removeAt(i);
-      },
+      stopInput$,
+      size$,
+      options$,
+      ...handlers
     } as const;
   }
 
@@ -486,230 +488,218 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     const obs$ = this.primaryDomains.selected$
       .pipe(
-        map(selected => {
+        map(domains => {
           const exists = this.services?.$()?.form.getRawValue();
 
-          const mapped = selected.map(d => {
+          const form = new FormRecord<FormRecord<FormControl<number>>>({});
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
 
-            const serviceMap = new Map<string, SelectableOption<string>>();
-            d.services.forEach(s => serviceMap.set(s, {
-              selected: false,
-              value: s,
-              label: s
-            }));
+          const options: Record<string, {
+            all: SelectableOption<string>[],
+            size$: Signal<number>,
+            toggle: (option: SelectableOption<string>) => void
+          }> = {};
 
-            const serviceForms = new FormArray<FormGroup<{
-              service: FormControl<SelectableOption<string>>,
-              years: FormControl<number>
-            }>>([], { validators: [Validators.required] });
-
-            if (exists) {
-              const found = exists.find(v => v.domain.key === d.key);
-              if (found) {
-                found.services.forEach(s => {
-                  const fs = serviceMap.get(s.service.value);
-                  if (fs) {
-                    fs.selected = true;
-                    serviceForms.push(new FormGroup({
-                      service: new FormControl(fs, { nonNullable: true }),
-                      years: new FormControl(s.years, {
-                        validators: [Validators.required, Validators.min(1), Validators.max(30)],
-                        nonNullable: true
-                      })
-                    }), { emitEvent: false });
-                  }
-                });
-                serviceForms.updateValueAndValidity();
-              }
-            }
-
-            const services = [...serviceMap.values()];
-            const values = toSignal(controlValue$(serviceForms), { requireSync: true, injector });
-            const servicesLength = computed(() => values().length);
-            const totalLength = services.length
-            const showInput = computed(() => servicesLength() < totalLength);
-
-            const group = new FormGroup({
-              domain: new FormControl(d, { nonNullable: true }),
-              services: serviceForms
+          const optionMap = new Map<string, SelectableOption<string>>();
+          domains.forEach(d => {
+            const size$ = signal(0);
+            const serviceForm = new FormRecord<FormControl<number>>({}, {
+              validators: [
+                c => {
+                  const size = Object.keys(c.value).length;
+                  size$.set(size);
+                  if (size < 1)
+                    return { minlength: 1 }
+                  return null;
+                }
+              ]
             });
 
-            const serviceFilter$ = signal('');
-            const filtered$ = computed(() => {
-              const length = servicesLength();
-              const value = serviceFilter$();
-              const filter = typeof value === 'string' && value.trim().toLowerCase() || '';
-              if (filter || length) {
-                return services.filter(s =>
-                  !s.selected &&
-                  (!filter || s.value.toLowerCase().includes(filter)));
-              }
-              return services;
+            const all = d.services.map(s => {
+              const opt: SelectableOption<string> = {
+                selected: false,
+                value: s,
+                label: s
+              };
+              optionMap.set(`${d.key}/${s}`, opt);
+              return opt;
             });
 
-            const handlers = {
-              add: (option: SelectableOption<string>) => {
-                option.selected = true;
+            form.addControl(d.key, serviceForm, { emitEvent: false });
 
-                serviceForms.push(new FormGroup({
-                  service: new FormControl(option, { nonNullable: true }),
-                  years: new FormControl(null as unknown as number, {
-                    validators: [Validators.required, Validators.min(1), Validators.max(30)],
-                    nonNullable: true
-                  })
-                }), { emitEvent: false });
-
-                serviceForms.controls.sort((a, b) =>
-                  sortString(
-                    a.controls.service.value.value,
-                    b.controls.service.value.value
-                  ));
-                serviceForms.updateValueAndValidity();
-
+            options[d.key] = {
+              all,
+              toggle: (option) => {
+                if (option.selected) {
+                  option.selected = false;
+                  serviceForm.removeControl(option.value);
+                }
+                else {
+                  option.selected = true;
+                  serviceForm.addControl(option.value, createYearControl());
+                }
               },
-              remove: (i: number) => {
-                const control = serviceForms.at(i);
-                control.getRawValue().service.selected = false;
-                serviceForms.removeAt(i);
-              }
-            } as const;
-
-            return {
-              group,
-              options: {
-                query$: serviceFilter$,
-                filtered$,
-                ...handlers,
-                visible$: showInput
-              }
-            } as const;
+              size$
+            }
           });
 
-          const form = new FormArray(mapped.map(m => m.group));
-          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
-          const options = mapped.map(m => m.options);
+          if (exists) {
+            Object.keys(exists).forEach(domain => {
+              const serviceForm = form.controls[domain];
+              if (serviceForm) {
+                Object.keys(exists[domain]).forEach(service => {
+                  const option = optionMap.get(`${domain}/${service}`);
+                  if (!option)
+                    throw new Error('invalid operation');
+                  option.selected = true;
+                  serviceForm.addControl(service, createYearControl(exists[domain][service]), { emitEvent: false });
+                })
+              }
+            })
+          }
 
-          return { form, status$, options } as const;
+          form.updateValueAndValidity();
+
+          return { form, status$, options, domains } as const;
         }),
-        shareReplay({ refCount: true, bufferSize: 1 }));
+        shareReplay({ refCount: true, bufferSize: 1 })
+      );
 
     const $ = toSignal(obs$);
 
-    const displayWith = {
-      none: () => ''
-    } as const;
-
-    type ObsType = typeof obs$ extends Observable<infer T> ? T : never;
-    type FormType = ObsType['form'];
-
-    const trackBy = {
-      domain: (_: number, control: Ctrl<FormType>) => control.value.domain?.key,
-      controls: (_: number, control: Ctrl<Ctrl<Ctrl<FormType>>['services']>) =>
-        control.value.service?.value,
-      service: (_: number, option: SelectableOption<string>) => option.value
-    } as const;
-
-    return { $, displayWith, trackBy, stepLabel$ } as const;
+    return { $, stepLabel$ } as const;
   }
 
   private initModules() {
     const injector = this.injector;
 
+    const stepLabel$ = this.services.stepLabel$;
+
     const obs$ = this.primaryDomains.selected$
       .pipe(
-        map(selected => {
+        map(domains => {
           const exists = this.modules?.$()?.form.getRawValue();
 
-          const domainLabel = (selected.length === 1 && selected[0].longName) || 'Domain';
+          const form = new FormRecord<FormControl<Set<DomainModule>>>({});
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
 
-          const mapped = selected.map(d => {
-
-            const moduleMap = new Map<string, SelectableOption<DomainModule>>();
-            d.modules.forEach(m => moduleMap.set(m.name, {
-              selected: false,
-              value: m,
-              label: m.name,
-            }));
-
-            const moduleForms = new FormArray<FormControl<
-              SelectableOption<DomainModule>
-            >>([], { validators: [Validators.required, Validators.maxLength(7)] });
-
-            if (exists) {
-              const found = exists.find(v => v.domain.key === d.key);
-              if (found) {
-                found.modules.forEach(m => {
-                  const fm = moduleMap.get(m.value.name);
-                  if (fm) {
-                    fm.selected = true;
-                    moduleForms.push(
-                      new FormControl(fm, { nonNullable: true }),
-                      { emitEvent: false })
-                  }
-                });
-                moduleForms.updateValueAndValidity();
-              }
+          const options: Record<string, {
+            all: SelectableOption<DomainModule>[],
+            toggle: (option: SelectableOption<DomainModule>) => void,
+            stopInput$: Signal<boolean>,
+            size$: Signal<number>,
+            selectAll: {
+              visible: boolean,
+              value: boolean,
+              toggle: () => void
             }
+          }> = {};
 
-            const modules = [...moduleMap.values()];
-            const values = toSignal(controlValue$(moduleForms), { requireSync: true, injector });
-            const modulesLength = computed(() => values().length);
-            const totalLength = modules.length
-            const showInput = computed(() => {
-              const l = modulesLength();
-              return l < totalLength && l < 7;
+          const optionMap = new Map<string, SelectableOption<DomainModule>>();
+          domains.forEach(d => {
+            const size$ = signal(0);
+            const stopInput$ = computed(() => size$() >= 7);
+
+            const moduleForm = new FormControl<Set<DomainModule>>(new Set(), {
+              validators: [
+                c => {
+                  const v = c.value as Set<string>;
+                  size$.set(v.size);
+                  if (v.size < 1)
+                    return { minlength: 1 };
+                  if (v.size > 7)
+                    return { maxlength: 7 };
+                  return null;
+                }
+              ],
+              nonNullable: true
             });
 
-            const group = new FormGroup({
-              domain: new FormControl(d, { nonNullable: true }),
-              modules: moduleForms
+            const all = d.modules.map(m => {
+              const opt: SelectableOption<DomainModule> = {
+                selected: false,
+                value: m,
+                label: m.name
+              };
+              optionMap.set(`${d.key}/${m.name}`, opt);
+              return opt;
             });
 
-            const moduleFilter$ = signal('');
-            const filtered$ = computed(() => {
-              const length = modulesLength();
-              const value = moduleFilter$();
-              const filter = typeof value === 'string' ? value.trim().toLowerCase() : '';
-              if (filter || length) {
-                return modules.filter(m =>
-                  !m.selected &&
-                  (!filter || m.value.name.toLowerCase().includes(filter)));
-              }
-              return modules;
-            });
+            form.addControl(d.key, moduleForm, { emitEvent: false });
 
-            const handlers = {
-              add: (option: SelectableOption<DomainModule>) => {
-                option.selected = true;
-
-                moduleForms.push(new FormControl(option, { nonNullable: true }), { emitEvent: false });
-                moduleForms.controls.sort((a, b) => sortString(a.value.value.name, b.value.value.name));
-                moduleForms.updateValueAndValidity();
+            options[d.key] = {
+              all,
+              size$,
+              stopInput$,
+              toggle: (option) => {
+                const v = moduleForm.getRawValue()
+                if (option.selected) {
+                  option.selected = false;
+                  v.delete(option.value);
+                }
+                else {
+                  option.selected = true;
+                  v.add(option.value);
+                }
+                moduleForm.setValue(v);
+                options[d.key].selectAll.value = v.size === all.length;
               },
-              remove: (i: number) => {
-                const control = moduleForms.at(i);
-                control.getRawValue().selected = false;
-                moduleForms.removeAt(i);
-              }
-            } as const;
-
-            return {
-              group,
-              options: {
-                query$: moduleFilter$,
-                filtered$,
-                ...handlers,
-                visible$: showInput
+              selectAll: {
+                visible: all.length > 1 && all.length <= 7,
+                value: false,
+                toggle: () => {
+                  const v = moduleForm.getRawValue();
+                  const selected = !options[d.key].selectAll.value;
+                  if (selected) {
+                    all.forEach(o => {
+                      o.selected = true;
+                      v.add(o.value);
+                    });
+                  }
+                  else {
+                    all.forEach(o => {
+                      o.selected = false;
+                      v.clear();
+                    });
+                  }
+                  moduleForm.setValue(v);
+                  options[d.key].selectAll.value = selected;
+                }
               }
             }
           });
 
-          const form = new FormArray(mapped.map(m => m.group));
-          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
-          const options = mapped.map(m => m.options);
-          const selected$ = controlValue$(form, true);
+          if (exists) {
+            Object.keys(exists).forEach(domain => {
+              const moduleForm = form.controls[domain];
+              if (moduleForm) {
+                exists[domain].forEach(module => {
+                  const option = optionMap.get(`${domain}/${module.name}`);
+                  if (!option)
+                    throw new Error('invalid operation');
+                  option.selected = true;
+                  moduleForm.value.add(module);
+                });
+                moduleForm.updateValueAndValidity({ onlySelf: true })
+                options[domain].selectAll.value = moduleForm.value.size === options[domain].all.length;
+              }
+            });
+          }
 
-          return { form, status$, options, domainLabel, selected$ } as const;
+          form.updateValueAndValidity();
+
+          const selected$ = controlValue$(form, true)
+            .pipe(
+              map(v => domains.map(d => ({
+                domain: d,
+                modules: [...v[d.key]]
+              }))
+              ),
+              shareReplay({ refCount: true, bufferSize: 1 })
+            );
+
+          return { form, status$, options, domains, selected$ } as const;
+
         }),
         shareReplay({ refCount: true, bufferSize: 1 })
       );
@@ -717,590 +707,438 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const $ = toSignal(obs$);
     const selected$ = obs$.pipe(
       switchMap(o => o.selected$),
-      shareReplay({ refCount: true, bufferSize: 1 }));
+      shareReplay({ refCount: true, bufferSize: 1 })
+    );
 
-    const displayWith = {
-      none: () => ''
-    } as const;
-
-    type ObsType = typeof obs$ extends Observable<infer T> ? T : never;
-    type FormType = ObsType['form'];
-
-    const trackBy = {
-      domain: (_: number, control: Ctrl<FormType>) => control.value.domain?.key,
-      controls: (_: number, control: Ctrl<Ctrl<Ctrl<FormType>>['modules']>) => control.value.value.name,
-      module: (_: number, option: SelectableOption<DomainModule>) => option.value.name
-    } as const;
-
-    return { $, displayWith, trackBy, selected$ } as const;
+    return { $, stepLabel$, selected$ } as const;
   }
 
   private initSoftware() {
     const injector = this.injector;
+
+    const stepLabel$ = this.services.stepLabel$;
 
     const obs$ = this.modules.selected$
       .pipe(
         map(selected => {
           const exists = this.software?.$()?.form.getRawValue();
 
-          const domainLabel = (selected.length === 1 && selected[0].domain.longName) || 'Domain';
+          const form = new FormRecord<FormRecord<FormControl<number>>>({});
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
 
-          const mapped = selected.map(d => {
+          const options: Record<string, {
+            all: SelectableOption<DomainProduct>[],
+            size$: Signal<number>,
+            stopInput$: Signal<boolean>,
+            toggle: (option: SelectableOption<DomainProduct>) => void,
+            record: Record<string, SelectableOption<DomainProduct>>
+          }> = {};
 
-            const softwareMap = new Map<string, SelectableOption<DomainProduct>>();
-            d.modules
-              .forEach(m => m.value.products
-                .forEach(p => softwareMap.set(p.name, {
+          selected.forEach(s => {
+            const size$ = signal(0);
+            const stopInput$ = computed(() => size$() >= 5);
+
+            const softwareForm = new FormRecord<FormControl<number>>({}, {
+              validators: [
+                c => {
+                  const size = Object.keys(c.value).length;
+                  size$.set(size);
+                  if (size < 1)
+                    return { minlength: 1 };
+                  if (size > 5)
+                    return { maxlength: 5 };
+                  return null;
+                }
+              ]
+            });
+
+            const record: Record<string, SelectableOption<DomainProduct>> = {};
+            s.modules.forEach(m => {
+              m.products.forEach(p => {
+                const opt: SelectableOption<DomainProduct> = {
                   selected: false,
                   value: p,
                   label: p.name
-                })));
+                };
+                record[p.name] = opt;
+              });
+            });
 
-            const softwareForms = new FormArray<FormGroup<{
-              software: FormControl<SelectableOption<DomainProduct>>,
-              years: FormControl<number>
-            }>>([], { validators: [Validators.required, Validators.maxLength(5)] })
-
-            if (exists) {
-              const found = exists.find(v => v.domain.key === d.domain.key);
-              if (found) {
-                found.software.forEach(v => {
-                  const fs = softwareMap.get(v.software.value.name);
-                  if (fs) {
-                    fs.selected = true;
-                    softwareForms.push(
-                      new FormGroup({
-                        software: new FormControl(fs, { nonNullable: true }),
-                        years: new FormControl(v.years, {
-                          validators: [Validators.required, Validators.min(1), Validators.max(30)],
-                          nonNullable: true
-                        })
-                      }),
-                      { emitEvent: false }
-                    )
-                  }
-                });
-                softwareForms.updateValueAndValidity();
-              }
-            }
-
-            const software = [...softwareMap.values()]
+            const all = Object.values(record)
               .sort((a, b) => sortString(a.value.name, b.value.name));
-            const values = toSignal(controlValue$(softwareForms), { requireSync: true, injector });
-            const softwareLength = computed(() => values().length);
-            const totalLength = software.length;
-            const showInput = computed(() => {
-              const l = softwareLength();
-              return l < totalLength && l < 5
-            });
 
-            const group = new FormGroup({
-              domain: new FormControl(d.domain, { nonNullable: true }),
-              software: softwareForms
-            });
+            form.addControl(s.domain.key, softwareForm, { emitEvent: false });
 
-            const softwareFilter$ = signal('');
-            const filtered$ = computed(() => {
-              const length = softwareLength();
-              const value = softwareFilter$();
-              const filter = typeof value === 'string' && value.trim().toLowerCase() || '';
-              if (filter || length) {
-                return software.filter(s =>
-                  !s.selected &&
-                  (!filter || s.value.name.toLowerCase().includes(filter)));
-              }
-              return software;
-            });
-
-            const handlers = {
-              add: (option: SelectableOption<DomainProduct>) => {
-                option.selected = true;
-
-                softwareForms.push(new FormGroup({
-                  software: new FormControl(option, { nonNullable: true }),
-                  years: new FormControl(null as unknown as number, {
-                    validators: [Validators.required, Validators.min(1), Validators.max(30)],
-                    nonNullable: true
-                  })
-                }), { emitEvent: false });
-                softwareForms.controls.sort((a, b) => sortString(
-                  a.controls.software.value.value.name,
-                  b.controls.software.value.value.name
-                ));
-                softwareForms.updateValueAndValidity();
+            options[s.domain.key] = {
+              all,
+              size$,
+              stopInput$,
+              toggle: (option) => {
+                if (option.selected) {
+                  option.selected = false;
+                  softwareForm.removeControl(option.value.name);
+                }
+                else {
+                  option.selected = true;
+                  softwareForm.addControl(option.value.name, createYearControl());
+                }
               },
-              remove: (i: number) => {
-                const control = softwareForms.at(i);
-                control.getRawValue().software.selected = false;
-                softwareForms.removeAt(i);
-              }
-            } as const;
-
-            return {
-              group,
-              options: {
-                query$: softwareFilter$,
-                filtered$,
-                ...handlers,
-                visible$: showInput
-              }
-            }
+              record
+            };
           });
 
-          const form = new FormArray(mapped.map(m => m.group));
-          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
-          const options = mapped.map(m => m.options);
-          const selected$ = controlValue$(form, true);
+          if (exists) {
+            Object.keys(exists).forEach(domain => {
+              const softwareForm = form.controls[domain];
+              if (softwareForm) {
+                Object.keys(exists[domain]).forEach(software => {
+                  const option = options[domain].record[software];
+                  option.selected = true;
+                  softwareForm.addControl(software, createYearControl(exists[domain][software]), { emitEvent: false });
+                });
+              }
+            });
+          }
 
-          return { form, options, status$, domainLabel, selected$ } as const;
+          form.updateValueAndValidity();
+
+          const selected$ = controlValue$(form, true)
+            .pipe(
+              map((v) => selected.map(s => {
+                const domain = s.domain;
+                const modules = s.modules;
+                const software = Object.keys(v[domain.key])
+                  .map(s => options[domain.key].record[s].value)
+                return { domain, modules, software };
+              })
+              ),
+              shareReplay({ refCount: true, bufferSize: 1 })
+            );
+
+          const domains = selected.map(s => s.domain);
+
+          return { form, status$, domains, options, selected$ } as const;
         }),
-        shareReplay({ refCount: true, bufferSize: 1 }),
+        shareReplay({ refCount: true, bufferSize: 1 })
       );
 
     const $ = toSignal(obs$);
     const selected$ = obs$.pipe(
-      switchMap(o => o.selected$),
-      map(v => v.map(d => ({
-        domain: d.domain,
-        software: d.software.map(s => s.software.value)
-      }))),
-      shareReplay({ refCount: true, bufferSize: 1 }));
+      switchMap(f => f.selected$),
+      shareReplay({ refCount: true, bufferSize: 1 })
+    )
 
-    const displayWith = {
-      none: () => ''
-    } as const;
+    return { $, stepLabel$, selected$ } as const;
 
-    type ObsType = typeof obs$ extends Observable<infer T> ? T : never;
-    type FormType = ObsType['form'];
-
-    const trackBy = {
-      domain: (_: number, control: Ctrl<FormType>) => control.value.domain?.key,
-      controls: (_: number, control: Ctrl<Ctrl<Ctrl<FormType>>['software']>) =>
-        control.value.software?.value.name,
-      software: (_: number, option: SelectableOption<DomainProduct>) => option.value.name
-    } as const;
-
-    return { $, displayWith, trackBy, selected$ } as const;
   }
 
   private initRoles() {
     const injector = this.injector;
+
+    const stepLabel$ = this.services.stepLabel$;
 
     const obs$ = this.software.selected$
       .pipe(
         map(selected => {
           const exists = this.roles?.$()?.form.getRawValue();
 
-          const mapped = selected.map(d => {
+          const form = new FormRecord<FormRecord<FormControl<number>>>({});
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
 
-            const softwareLabel = d.software.map(s => s.name).join(' / ') || 'Software';
+          const options: Record<string, {
+            list: SelectableOption<string>[],
+            record: Record<string, SelectableOption<string>>
+            size$: Signal<number>,
+            stopInput$: Signal<boolean>,
+            toggle: (option: SelectableOption<string>) => void,
+          }> = {};
 
-            const roleMap = new Map<string, SelectableOption<string>>();
-            const modules = this.modules.$()
-              ?.form.value.find(v => v.domain?.key === d.domain.key)
-              ?.modules?.map(m => m.value);
-            if (!modules)
-              throw new Error('invalid operation');
-            modules.forEach(m => m.roles
-              .forEach(r => roleMap.set(r, {
-                selected: false,
-                value: r,
-                label: r
-              })));
+          selected.forEach(s => {
 
-            const roleForms = new FormArray<FormGroup<{
-              role: FormControl<SelectableOption<string>>;
-              years: FormControl<number>
-            }>>([], { validators: [Validators.required, Validators.maxLength(5)] });
+            const size$ = signal(0);
+            const stopInput$ = computed(() => size$() >= 5);
 
-            if (exists) {
-              const found = exists.find(v => v.domain.key === d.domain.key);
-              if (found) {
-                found.roles.forEach(v => {
-                  const fr = roleMap.get(v.role.value);
-                  if (fr) {
-                    fr.selected = true;
-                    roleForms.push(new FormGroup({
-                      role: new FormControl(fr, { nonNullable: true }),
-                      years: new FormControl(v.years, {
-                        validators: [Validators.required, Validators.min(1), Validators.max(30)],
-                        nonNullable: true
-                      })
-                    }), { emitEvent: false });
-                  }
-                });
-                roleForms.updateValueAndValidity();
-              }
-            }
+            const roleForm = new FormRecord<FormControl<number>>({}, {
+              validators: [
+                c => {
+                  const size = Object.keys(c.value).length;
+                  size$.set(size);
+                  if (size < 1)
+                    return { minlength: 1 };
+                  if (size > 5)
+                    return { maxlength: 5 };
+                  return null;
+                }
+              ]
+            });
 
-            const roles = [...roleMap.values()]
+            const record: Record<string, SelectableOption<string>> = {};
+            s.modules.forEach(m => {
+              m.roles.forEach(r => {
+                const opt: SelectableOption<string> = {
+                  selected: false,
+                  value: r,
+                  label: r
+                };
+                record[r] = opt;
+              });
+            });
+
+            const list = Object.values(record)
               .sort((a, b) => sortString(a.value, b.value));
-            const values = toSignal(controlValue$(roleForms), { requireSync: true, injector });
-            const roleLength = computed(() => values().length);
-            const totalLength = roles.length;
-            const showInput = computed(() => {
-              const l = roleLength();
-              return l < totalLength && l < 5
-            });
 
-            const group = new FormGroup({
-              domain: new FormControl(d.domain, { nonNullable: true }),
-              roles: roleForms
-            });
+            form.addControl(s.domain.key, roleForm, { emitEvent: false });
 
-            const roleFilter$ = signal('');
-            const filtered$ = computed(() => {
-              const length = roleLength();
-              const value = roleFilter$();
-              const filter = typeof value === 'string' && value.trim().toLowerCase() || '';
-              if (filter || length) {
-                return roles.filter(r =>
-                  !r.selected &&
-                  (!filter || r.value.toLowerCase().includes(filter)));
-              }
-              return roles;
-            });
-
-            const handlers = {
-              add: (option: SelectableOption<string>) => {
-                option.selected = true;
-
-                roleForms.push(new FormGroup({
-                  role: new FormControl(option, { nonNullable: true }),
-                  years: new FormControl(null as unknown as number, {
-                    validators: [Validators.required, Validators.min(1), Validators.max(30)],
-                    nonNullable: true,
-                  })
-                }), { emitEvent: false });
-                roleForms.controls.sort((a, b) => sortString(
-                  a.controls.role.value.value,
-                  b.controls.role.value.value
-                ));
-                roleForms.updateValueAndValidity();
+            options[s.domain.key] = {
+              list,
+              size$,
+              stopInput$,
+              toggle: (option) => {
+                if (option.selected) {
+                  option.selected = false;
+                  roleForm.removeControl(option.value);
+                }
+                else {
+                  option.selected = true;
+                  roleForm.addControl(option.value, createYearControl());
+                }
               },
-              remove: (i: number) => {
-                const control = roleForms.at(i);
-                control.getRawValue().role.selected = false;
-                roleForms.removeAt(i);
-              }
-            } as const;
-
-            return {
-              group,
-              options: {
-                query$: roleFilter$,
-                filtered$,
-                ...handlers,
-                visible$: showInput
-              },
-              label: softwareLabel
-            } as const;
+              record
+            }
           });
 
-          const form = new FormArray(mapped.map(m => m.group));
-          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
-          const options = mapped.map(m => m.options);
-          const labels = mapped.map(m => m.label);
+          if (exists) {
+            Object.keys(exists).forEach(domain => {
+              const roleForm = form.controls[domain];
+              if (roleForm) {
+                Object.keys(exists[domain]).forEach(role => {
+                  const option = options[domain].record[role];
+                  option.selected = true;
+                  roleForm.addControl(role, createYearControl(exists[domain][role]), { emitEvent: false });
+                });
+              }
+            });
+          }
 
-          return { form, options, status$, labels } as const;
+          form.updateValueAndValidity();
+
+          const domains = selected.map(s => s.domain);
+
+          return { form, status$, options, domains } as const;
         }),
-        shareReplay({ refCount: true, bufferSize: 1 }));
+        shareReplay({ refCount: true, bufferSize: 1 })
+      );
 
     const $ = toSignal(obs$);
 
-    const displayWith = {
-      none: () => ''
-    } as const;
-
-    type ObsType = typeof obs$ extends Observable<infer T> ? T : never;
-    type FormType = ObsType['form'];
-
-    const trackBy = {
-      domain: (_: number, control: Ctrl<FormType>) => control.value.domain?.key,
-      controls: (_: number, control: Ctrl<Ctrl<Ctrl<FormType>>['roles']>) =>
-        control.value.role?.value,
-      role: (_: number, option: SelectableOption<string>) => option.value
-    } as const;
-
-    return { $, displayWith, trackBy } as const;
+    return { $, stepLabel$ } as const;
   }
 
   private initTechExp() {
-    const data$ = computed(() => {
-      const tech = this.domains.tech$();
-      const techSize = tech.reduce((p, c) => p + c.tech.length, 0)
+    const stepLabel$ = this.services.stepLabel$;
 
-      const groupMap = new Map<string, SelectableOption<string>[]>();
-
-      const groups = tech.map(g => {
-        const gOpt: SelectableOption<string> = {
-          selected: false,
-          value: g.name,
-          label: g.name
-        };
-        const tOpts = g.tech.map(t => {
-          const opt: SelectableOption<string> = {
-            selected: false,
-            value: t,
-          }
-          return opt;
-        });
-
-        groupMap.set(g.name, tOpts);
-
-        return gOpt;
-      });
-
-      return { groupMap, groups, techSize } as const;
-    });
-
-    const groups$ = computed(() => data$().groups);
-    const selectedGroup$ = signal<SelectableOption<string> | null>(null);
-    const filter$ = signal('');
-    const tech$ = computed(() => {
-      const g = selectedGroup$();
-      const all = g && data$().groupMap.get(g.value) || [];
-      const filter = filter$().trim().toLowerCase();
-      return filter && all.filter(o => o.value.toLowerCase().includes(filter)) || all;
-    });
-
-    type FormType = FormGroup<{
-      group: FormControl<string>,
-      tech: FormArray<FormGroup<{
-        tech: FormControl<SelectableOption<string>>,
-        years: FormControl<number>
-      }>>
-    }>;
-
-    const form = new FormArray<FormType>([]);
+    const form = new FormRecord<FormControl<Set<SelectableOption<string>>>>({});
+    const value$ = toSignal(controlValue$(form), { requireSync: true });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
-    const values = toSignal(controlValue$(form), { requireSync: true });
-    const showInput$ = computed(() => {
-      const v = values();
-      const l = v.reduce((p, c) => p + c.tech.length, 0);
-      return l < data$().techSize;
-    })
+    const size$ = computed(() => Object.values(value$()).reduce((p, c) => p + c.size, 0));
+    const skippable$ = computed(() => size$() === 0);
+    const fullSize$ = computed(() => this.domains.tech$().reduce((p, c) => p + c.items.size, 0));
+    const stopInput$ = computed(() => size$() >= fullSize$());
+
+    const query$ = signal<string | object>('');
+
+    type OptionGroup = {
+      name: string;
+      tech: SelectableOption<string>[];
+    };
+    const all$ = computed(() => this.domains.tech$()
+      .map<OptionGroup>(g => ({
+        name: g.name,
+        tech: [...g.items]
+          .map(t => ({
+            selected: false,
+            value: t,
+            label: t
+          }))
+      })));
+
+
+    const filtered$ = computed(() => {
+      const q = query$();
+      const all = all$();
+
+      const filter = typeof q === 'string' && q.trim().toLowerCase();
+
+      const filtered = all
+        .map(g => {
+          const matchGroup = filter && g.name.toLowerCase().includes(filter);
+          if (matchGroup)
+            return {
+              name: g.name,
+              tech: g.tech.filter(t => !t.selected)
+            };
+          return {
+            name: g.name,
+            tech: g.tech
+              .filter(t => !t.selected && (!filter || t.value.toLowerCase().includes(filter)))
+          };
+        })
+        .filter(g => g.tech.length);
+      return filtered;
+    });
 
     const handlers = {
-      tech: {
-        add: (tech: SelectableOption<string>) => {
-          if (tech.selected)
-            return;
-          const group = selectedGroup$()?.value;
-          if (!group)
-            throw new Error('invalid operation');
-          tech.selected = true;
-          let groupControl = form.controls.find(c => c.value.group === group);
-          if (!groupControl) {
-            groupControl = new FormGroup({
-              group: new FormControl(group, { nonNullable: true }),
-              tech: new FormArray<FormGroup<{
-                tech: FormControl<SelectableOption<string>>,
-                years: FormControl<number>
-              }>>([])
-            });
-            form.push(groupControl, { emitEvent: false });
-            form.controls.sort((a, b) => sortString(
-              a.controls.group.value,
-              b.controls.group.value));
-          }
-
-          const techControls = groupControl.controls.tech;
-
-          techControls.push(new FormGroup({
-            tech: new FormControl(tech, { nonNullable: true }),
-            years: new FormControl(null as unknown as number, {
-              validators: [Validators.required, Validators.min(1), Validators.max(30)],
-              nonNullable: true
-            })
-          }), { emitEvent: false });
-          techControls.controls.sort((a, b) => sortString(
-            a.controls.tech.value.value,
-            b.controls.tech.value.value));
-          techControls.updateValueAndValidity();
-        },
-        remove: (group: number, tech: number) => {
-          const groupControl = form.at(group);
-          const techControl = groupControl.controls.tech.at(tech);
-          techControl.getRawValue().tech.selected = false;
-          groupControl.controls.tech.removeAt(tech);
-          if (!groupControl.value.tech?.length)
-            form.removeAt(group);
-        },
-      },
-      group: {
-        select: (option: SelectableOption<string>) => {
-          if (option.selected)
-            return;
-          const current = selectedGroup$();
-          if (current)
-            current.selected = false;
-          option.selected = true;
-          selectedGroup$.set(option);
-          filter$.set('');
+      add: (group: string, option: SelectableOption<string>) => {
+        option.selected = true;
+        let control = form.controls[group];
+        if (!control) {
+          control = new FormControl(new Set<SelectableOption<string>>(), { nonNullable: true });
+          form.addControl(group, control);
         }
+        control.value.add(option);
+        control.updateValueAndValidity();
+        query$.mutate(v => v);
+      },
+      remove: (group: string, option: SelectableOption<string>) => {
+        option.selected = false;
+        const control = form.controls[group];
+        if (!control)
+          throw new Error('invalid operation');
+        control.value.delete(option);
+        if (control.value.size)
+          control.updateValueAndValidity();
+        else
+          form.removeControl(group);
+        query$.mutate(v => v);
+      },
+      skip: () => {
+        Object.keys(form.controls).forEach(k => form.removeControl(k, { emitEvent: false }));
+        form.updateValueAndValidity();
+        this.stepper.next.click();
       }
     } as const;
 
-    const selectedSoftware = toSignal(this.software.selected$, { initialValue: [] });
-    const softwareLabel$ = computed(() => selectedSoftware()
-      .map(s => s.software)
-      .flat()
-      .map(s => s.name)
-      .join(' / '));
-
-    toPromise(groups$, g => g.length > 0)
-      .then(groups => handlers.group.select(groups[0]))
-
-    const trackBy = {
-      groupControl: (_: number, c: FormType) => c.value.group,
-      techControl: (_: number, c: Ctrl<Ctrl<FormType>['tech']>) => c.value.tech?.value,
-      stringOption: (_: number, o: SelectableOption<string>) => o.value,
-    } as const;
+    form.updateValueAndValidity();
 
     return {
       form,
+      value$,
       status$,
-      softwareLabel$,
-      group: {
-        all$: groups$,
-        selected$: selectedGroup$,
-        ...handlers.group
-      },
-      tech: {
-        query$: filter$,
-        filtered$: tech$,
-        ...handlers.tech
-      },
-      showInput$,
-      trackBy
+      query$,
+      filtered$,
+      stepLabel$,
+      size$,
+      stopInput$,
+      skippable$,
+      ...handlers
     } as const;
   }
 
   private initIndustries() {
-    const data$ = computed(() => {
-      const industries = this.domains.industries$();
-      const industrySize = industries.reduce((p, c) => p + c.industries.length, 0);
+    const stepLabel$ = this.services.stepLabel$;
 
-      const groupMap = new Map<string, SelectableOption<string>[]>();
+    const form = new FormRecord<FormControl<Set<SelectableOption<string>>>>({});
+    const value$ = toSignal(controlValue$(form), { requireSync: true });
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
-      const groups = industries.map(g => {
-        const gOpt: SelectableOption<string> = {
-          selected: false,
-          value: g.name,
-          label: g.name
-        };
+    const size$ = signal(0);
+    const stopInput$ = computed(() => size$() >= 5);
 
-        const tOpts = g.industries.map(i => {
-          const opt: SelectableOption<string> = {
+    form.addValidators((c) => {
+      const v = c.value as Record<string, Set<SelectableOption<string>>>;
+      const size = Object.values(v)
+        .reduce((p, c) => p + c.size, 0);
+      size$.set(size);
+      if (size === 0)
+        return { minlength: 1 };
+      if (size > 5)
+        return { maxlength: 5 };
+      return null;
+    });
+
+    const query$ = signal<string | object>('');
+
+    type OptionGroup = {
+      name: string;
+      industries: SelectableOption<string>[];
+    };
+
+
+    const all$ = computed(() => this.domains.industries$()
+      .map<OptionGroup>(g => ({
+        name: g.name,
+        industries: g.industries
+          .map(i => ({
             selected: false,
             value: i,
-          }
-          return opt;
-        });
+            label: i
+          }))
+      })));
 
-        groupMap.set(g.name, tOpts);
 
-        return gOpt;
-      });
+    const filtered$ = computed(() => {
+      const q = query$();
+      const all = all$();
 
-      return { groupMap, groups, industrySize };
-    });
+      const filter = typeof q === 'string' && q.trim().toLowerCase();
 
-    const groups$ = computed(() => data$().groups);
-    const selectedGroup$ = signal<SelectableOption<string> | null>(null);
-    const filter$ = signal('');
-    const industries$ = computed(() => {
-      const g = selectedGroup$();
-      const all = g && data$().groupMap.get(g.value) || [];
-      const filter = filter$().trim().toLowerCase();
-      return filter && all.filter(o => o.value.toLowerCase().includes(filter)) || all;
-    });
-
-    type FormType = FormGroup<{
-      group: FormControl<string>,
-      industry: FormControl<SelectableOption<string>>,
-    }>;
-
-    const form = new FormArray<FormType>([], {
-      validators: [Validators.maxLength(5)]
-    });
-    const status$ = toSignal(controlStatus$(form), { requireSync: true });
-    const values = toSignal(controlValue$(form), { requireSync: true });
-    const showInput$ = computed(() => {
-      const l = values().length;
-      return l < data$().industrySize && l < 5;
+      const filtered = all
+        .map(g => {
+          const matchGroup = filter && g.name.toLowerCase().includes(filter);
+          if (matchGroup)
+            return {
+              name: g.name,
+              industries: g.industries.filter(i => !i.selected)
+            };
+          return {
+            name: g.name,
+            industries: g.industries
+              .filter(i => !i.selected && (!filter || i.value.toLowerCase().includes(filter)))
+          };
+        })
+        .filter(g => g.industries.length);
+      return filtered;
     });
 
     const handlers = {
-      industry: {
-        add: (industry: SelectableOption<string>) => {
-          if (industry.selected)
-            return;
-          const group = selectedGroup$()?.value;
-          if (!group)
-            throw new Error('invalid operation');
-          industry.selected = true;
-          form.push(new FormGroup({
-            group: new FormControl(group, { nonNullable: true }),
-            industry: new FormControl(industry, { nonNullable: true })
-          }), { emitEvent: false });
-          form.controls.sort((a, b) => sortString(
-            `${a.value.group}${a.value.industry?.value}`,
-            `${b.value.group}${b.value.industry?.value}`
-          ));
-          form.updateValueAndValidity();
-        },
-        remove: (i: number) => {
-          const control = form.at(i);
-          control.getRawValue().industry.selected = false;
-          form.removeAt(i);
+      add: (group: string, option: SelectableOption<string>) => {
+        option.selected = true;
+        let control = form.controls[group];
+        if (!control) {
+          control = new FormControl(new Set<SelectableOption<string>>(), { nonNullable: true });
+          form.addControl(group, control);
         }
+        control.value.add(option);
+        control.updateValueAndValidity();
+        query$.mutate(v => v);
       },
-      group: {
-        select: (option: SelectableOption<string>) => {
-          if (option.selected)
-            return;
-          const current = selectedGroup$();
-          if (current)
-            current.selected = false;
-          option.selected = true;
-          selectedGroup$.set(option);
-          filter$.set('');
-        }
+      remove: (group: string, option: SelectableOption<string>) => {
+        option.selected = false;
+        const control = form.controls[group];
+        if (!control)
+          throw new Error('invalid operation');
+        control.value.delete(option);
+        if (control.value.size)
+          control.updateValueAndValidity();
+        else
+          form.removeControl(group);
+        query$.mutate(v => v);
       }
     } as const;
 
-    const selectedDomains = toSignal(this.primaryDomains.selected$, { initialValue: [] });
-    const prefixAppLabel$ = computed(() => selectedDomains()
-      .map(d => `${d.prefix && `${d.prefix} - ` || ''}${d.longName}`)
-      .join(' / '))
-
-    toPromise(groups$, g => g.length > 0)
-      .then(groups => handlers.group.select(groups[0]));
-
-    const trackBy = {
-      control: (_: number, c: FormType) => `${c.value.group}/${c.value.industry}`,
-      stringOption: (_: number, o: SelectableOption<string>) => o.value
-    } as const;
+    form.updateValueAndValidity();
 
     return {
       form,
+      value$,
       status$,
-      prefixAppLabel$,
-      group: {
-        all$: groups$,
-        selected$: selectedGroup$,
-        ...handlers.group
-      },
-      industry: {
-        query$: filter$,
-        filtered$: industries$,
-        ...handlers.industry
-      },
-      showInput$,
-      trackBy
+      query$,
+      filtered$,
+      stepLabel$,
+      size$,
+      stopInput$,
+      ...handlers
     } as const;
   }
 
@@ -1341,123 +1179,95 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     {
       const all = await toPromise(
-        this.primaryDomains.options.all$,
+        this.primaryDomains.options$,
         all => all.length > 0,
         injector
       );
 
-      this.primaryDomains.select(all[0]);
-      this.primaryDomains.select(all[1]);
-
-      this.primaryDomains.form.at(0).controls.years.setValue(2);
-      this.primaryDomains.form.at(1).controls.years.setValue(3);
-
-      this.stepper.next.click();
-    }
-
-    {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const { options, form } = this.services.$()!;
-
-      const [s0o0, s0o1] = options[0].filtered$();
-      options[0].add(s0o0);
-      options[0].add(s0o1);
-
-      const [s1o0, s1o1] = options[1].filtered$();
-      options[1].add(s1o0);
-      options[1].add(s1o1);
-
-      form.at(0).controls.services.at(0).controls.years.setValue(2);
-      form.at(0).controls.services.at(1).controls.years.setValue(2);
-      form.at(1).controls.services.at(0).controls.years.setValue(2);
-      form.at(1).controls.services.at(1).controls.years.setValue(2);
+      this.primaryDomains.toggle(all[0]);
+      this.primaryDomains.toggle(all[1]);
+      this.primaryDomains.form.get(all[0].value.key)?.setValue(2);
+      this.primaryDomains.form.get(all[1].value.key)?.setValue(2);
 
       this.stepper.next.click();
     }
 
     {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const { options } = this.modules.$()!;
+      const { form, options, domains } = this.services.$()!;
 
-      const [s0o0, s0o1] = options[0].filtered$();
-      options[0].add(s0o0);
-      options[0].add(s0o1);
+      domains.forEach(d => {
+        const all = options[d.key].all;
+        options[d.key].toggle(all[0]);
+        options[d.key].toggle(all[1]);
 
-      const [s1o0, s1o1] = options[1].filtered$();
-      options[1].add(s1o0);
-      options[1].add(s1o1);
-
-      this.stepper.next.click();
-    }
-
-    {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const { options, form } = this.software.$()!;
-
-      const [s0o0, s0o1] = options[0].filtered$();
-      options[0].add(s0o0);
-      options[0].add(s0o1);
-
-      const [s1o0] = options[1].filtered$();
-      options[1].add(s1o0);
-
-      form.at(0).controls.software.at(0).controls.years.setValue(2);
-      form.at(0).controls.software.at(1).controls.years.setValue(2);
-      form.at(1).controls.software.at(0).controls.years.setValue(2);
+        form.controls[d.key].controls[all[0].value].setValue(2);
+        form.controls[d.key].controls[all[1].value].setValue(3);
+      });
 
       this.stepper.next.click();
     }
 
     {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const { options, form } = this.roles.$()!;
+      const { options, domains } = this.modules.$()!;
 
-      const [s0o0, s0o1] = options[0].filtered$();
-      options[0].add(s0o0);
-      options[0].add(s0o1);
+      domains.forEach(d => {
+        const all = options[d.key].all;
 
-      const [s1o0, s1o1] = options[1].filtered$();
-      options[1].add(s1o0);
-      options[1].add(s1o1);
-
-      form.at(0).controls.roles.at(0).controls.years.setValue(2);
-      form.at(0).controls.roles.at(1).controls.years.setValue(2);
-      form.at(1).controls.roles.at(0).controls.years.setValue(2);
-      form.at(1).controls.roles.at(1).controls.years.setValue(2);
+        options[d.key].toggle(all[0]);
+        options[d.key].toggle(all[1]);
+      });
 
       this.stepper.next.click();
     }
 
     {
-      const form = this.techExp.form;
-      const select = this.techExp.group.select
-      const add = this.techExp.tech.add;
-      const groups = this.techExp.group.all$();
-      for (let gi = 0; gi < 3; gi++) {
-        const g = groups[gi];
-        select(g);
-        const tech = this.techExp.tech.filtered$();
-        for (let ti = 0; ti < 3; ti++) {
-          add(tech[ti]);
-          form.at(gi).controls.tech.at(ti).controls.years.setValue(gi + ti + 1);
-        }
-      }
-      select(groups[0]);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { form, options, domains } = this.software.$()!;
+
+      domains.forEach(d => {
+        const all = options[d.key].all;
+
+        options[d.key].toggle(all[0]);
+        options[d.key].toggle(all[1]);
+
+        form.controls[d.key].controls[all[0].value.name].setValue(2);
+        form.controls[d.key].controls[all[1].value.name].setValue(3);
+      })
 
       this.stepper.next.click();
     }
 
     {
-      const select = this.industries.group.select;
-      const add = this.industries.industry.add;
-      const groups = this.industries.group.all$();
-      for (let gi = 0; gi < 5; gi++) {
-        const g = groups[gi];
-        select(g);
-        const ind = this.industries.industry.filtered$();
-        add(ind[0]);
-      }
-      select(groups[0]);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { form, options, domains } = this.roles.$()!;
+
+      domains.forEach(d => {
+        const { list, toggle } = options[d.key];
+
+        toggle(list[0]);
+        toggle(list[1]);
+
+        form.controls[d.key].controls[list[0].value].setValue(2);
+        form.controls[d.key].controls[list[1].value].setValue(3);
+      });
+
+      this.stepper.next.click();
+    }
+
+    {
+      this.stepper.next.click();
+    }
+
+    {
+      const { filtered$, add } = this.industries;
+      const f = filtered$();
+
+      add(f[0].name, f[0].industries[0]);
+      add(f[0].name, f[0].industries[1]);
+      add(f[0].name, f[0].industries[2]);
+      add(f[1].name, f[1].industries[0]);
 
       this.stepper.next.click();
     }
@@ -1486,6 +1296,16 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   ngOnInit(): void {
     this.devModeInit();
   }
+}
+
+function createYearControl(initialValue = null as unknown as number) {
+  return new FormControl(
+    initialValue,
+    {
+      validators: [Validators.required, Validators.min(1), Validators.max(30)],
+      nonNullable: true
+    }
+  );
 }
 
 type Step =

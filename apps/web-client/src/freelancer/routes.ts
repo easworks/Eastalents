@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { AUTH_GUARD_CHECKS, AuthGuard } from '@easworks/app-shell';
+import { AUTH_GUARD_CHECKS, AuthGuard } from '@easworks/app-shell/services/auth';
 
 export const FREELANCER_ROUTE: Route = {
   path: 'freelancer',

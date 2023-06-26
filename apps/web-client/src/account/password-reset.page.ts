@@ -1,7 +1,11 @@
 import { ChangeDetectionStrategy, Component, HostBinding, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AccountApi, ErrorSnackbarDefaults, FormImports, ImportsModule, SnackbarComponent, generateLoadingState } from '@easworks/app-shell';
+import { AccountApi } from '@easworks/app-shell/api/account.api';
+import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
+import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
+import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { pattern } from '@easworks/models';
 
 @Component({
@@ -11,7 +15,7 @@ import { pattern } from '@easworks/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
-    FormImports
+    FormImportsModule
   ]
 })
 export class AccountPasswordResetPageComponent {

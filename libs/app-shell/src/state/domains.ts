@@ -1,5 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { Domain, IndustryGroup, TalentApi, TechGroup } from '../api';
+import { TechGroup } from '@easworks/models';
+import { Domain, IndustryGroup, TalentApi } from '../api/talent.api';
 import { generateLoadingState } from './loading';
 
 @Injectable({

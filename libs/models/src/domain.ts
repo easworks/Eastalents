@@ -22,10 +22,6 @@ export interface DomainProductDto {
   imageUrl: string;
 }
 
-export interface TechGroupDto {
-  [key: string]: string[]
-}
-
 export interface IndustryGroupDto {
   [key: string]: string[]
 }

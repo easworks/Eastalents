@@ -3,7 +3,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AccountApi, AuthService, AuthState, ErrorSnackbarDefaults, FormImports, ImportsModule, SnackbarComponent, generateLoadingState } from '@easworks/app-shell';
+import { AccountApi } from '@easworks/app-shell/api/account.api';
+import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
+import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
+import { AuthService } from '@easworks/app-shell/services/auth';
+import { AuthState } from '@easworks/app-shell/state/auth';
+import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { pattern } from '@easworks/models';
 import { first, interval, map } from 'rxjs';
 
@@ -15,7 +21,7 @@ import { first, interval, map } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
-    FormImports,
+    FormImportsModule,
     MatCheckboxModule
   ]
 })

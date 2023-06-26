@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ApiResponse, DomainDictionaryDto, FreelancerProfile, FreelancerProfileQuestionDto, IndustryGroupDto, TechGroupDto } from '@easworks/models';
-import { City, Country, State } from 'country-state-city';
+import { ApiResponse, DomainDictionaryDto, FreelancerProfile, FreelancerProfileQuestionDto, IndustryGroupDto, TechGroup, TechGroupDto } from '@easworks/models';
 import { catchError, map } from 'rxjs';
-import { sortString } from '../utilities';
+import { sortString } from '../utilities/sort';
 import { ApiService } from './api';
 
 @Injectable({
@@ -13,7 +12,7 @@ export class TalentApi extends ApiService {
     .pipe(
       map(r => Object.keys(r).map<TechGroup>(key => ({
         name: key,
-        tech: r[key]
+        items: new Set(r[key])
       }))),
       catchError(this.handleError)
     );
@@ -95,7 +94,8 @@ export class TalentApi extends ApiService {
       );
 
   // THIS FUNCTION IS MEANT TO BE REMOVED
-  private useDummyData(profile: FreelancerProfile) {
+  private async useDummyData(profile: FreelancerProfile) {
+    const { Country, State, City } = await import('country-state-city');
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const country = Country.getCountryByCode('IN')!;
     const state = country && State.getStateByCodeAndCountry('WB', country.isoCode);
@@ -145,11 +145,6 @@ export interface DomainModule {
 export interface DomainProduct {
   name: string;
   imageUrl: string;
-}
-
-export interface TechGroup {
-  name: string;
-  tech: string[];
 }
 
 export interface IndustryGroup {

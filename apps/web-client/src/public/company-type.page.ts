@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LottiePlayerDirective } from '@easworks/app-shell';
+import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 
 @Component({
   standalone: true,

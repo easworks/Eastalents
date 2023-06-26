@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Route, Router } from '@angular/router';
-import { AuthState, NotFoundPageComponent } from '@easworks/app-shell';
+import { NotFoundPageComponent } from '@easworks/app-shell/navigation/not-found.page';
+import { AuthState } from '@easworks/app-shell/state/auth';
 import { socialCallbackGuard } from './social-callback';
 import { emailVerificationGuard } from './verification-callback';
 

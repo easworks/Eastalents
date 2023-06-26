@@ -20,6 +20,26 @@
   --mdc-checkbox-unselected-focus-state-layer-color: black;
   --mdc-checkbox-unselected-hover-state-layer-color: black;
   --mdc-checkbox-unselected-pressed-state-layer-color: black;
+
+  &.primary {
+    --mdc-checkbox-disabled-selected-icon-color: theme('colors.divider');
+    --mdc-checkbox-disabled-unselected-icon-color: theme('colors.divider');
+    --mdc-checkbox-selected-checkmark-color: theme('colors.primary-text');
+    --mdc-checkbox-selected-focus-icon-color: theme('colors.primary');
+    --mdc-checkbox-selected-hover-icon-color: theme('colors.primary');
+    --mdc-checkbox-selected-icon-color: theme('colors.primary');
+    --mdc-checkbox-selected-pressed-icon-color: theme('colors.secondary');
+    --mdc-checkbox-unselected-focus-icon-color: #212121;
+    --mdc-checkbox-unselected-hover-icon-color: #212121;
+    --mdc-checkbox-unselected-icon-color: theme('colors.black / 50');
+    --mdc-checkbox-unselected-pressed-icon-color: theme('colors.black / 50');
+    --mdc-checkbox-selected-focus-state-layer-color: theme('colors.primary');
+    --mdc-checkbox-selected-hover-state-layer-color: theme('colors.primary');
+    --mdc-checkbox-selected-pressed-state-layer-color: theme('colors.primary');
+    --mdc-checkbox-unselected-focus-state-layer-color: theme('colors.primary');
+    --mdc-checkbox-unselected-hover-state-layer-color: theme('colors.primary');
+    --mdc-checkbox-unselected-pressed-state-layer-color: theme('colors.primary');
+  }
 }
 
 .mat-mdc-progress-bar {
@@ -50,6 +70,20 @@
 
 .mat-mdc-option {
   @apply !min-h-0 !p-2 !px-4;
+
+  .mat-pseudo-checkbox {
+    @apply !mr-0;
+  }
+}
+
+.mat-mdc-optgroup {
+  .mat-mdc-optgroup-label {
+    @apply font-semibold min-h-0 p-2 px-4;
+
+    & ~ .mat-mdc-option:not(.mat-mdc-option-multiple) {
+      @apply !pl-8;
+    }
+  }
 }
 
 .mdc-list-item {
@@ -57,9 +91,32 @@
     .mdc-list-item__primary-text {
       @apply text-primary;
     }
+  }
+}
 
-    .mat-pseudo-checkbox-checked::after {
-      @apply text-secondary;
+.mat-pseudo-checkbox-full {
+  &.mat-pseudo-checkbox-checked {
+    @apply bg-secondary;
+
+    &.primary {
+      @apply bg-primary;
     }
+  }
+}
+
+// virtual viewport 
+
+.cdk-virtual-scroll-content-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.cdk-virtual-scroll-orientation-horizontal .cdk-virtual-scroll-content-wrapper {
+  flex-direction: row;
+}
+
+.mat-mdc-autocomplete-panel {
+  > cdk-virtual-scroll-viewport {
+    @apply h-screen max-h-full;
   }
 }

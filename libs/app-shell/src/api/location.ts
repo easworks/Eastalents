@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiResponse, } from '@easworks/models';
 import { catchError, map } from 'rxjs';
-import { sortString } from '../utilities';
+import { sortString } from '../utilities/sort';
 import { ApiService } from './api';
 
 @Injectable({

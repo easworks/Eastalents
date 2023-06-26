@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
-import { FormImports, ImportsModule } from '../imports.module';
+import { RouterModule } from '@angular/router';
+import { FormImportsModule } from '../common/form.imports.module';
+import { ImportsModule } from '../common/imports.module';
 import { AppHorizontalMenuComponent } from './horizontal-menu.component';
 import { AppVerticalMenuComponent } from './vertical-menu.component';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,7 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     ImportsModule,
-    FormImports,
+    FormImportsModule,
     RouterModule
   ],
   exports: [

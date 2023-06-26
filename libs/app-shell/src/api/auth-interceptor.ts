@@ -2,7 +2,7 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { catchError, concatMap, from, throwError } from 'rxjs';
 import { ENVIRONMENT } from '../environment';
-import { AuthService } from '../services';
+import { AuthService } from '../services/auth';
 
 
 @Injectable({
