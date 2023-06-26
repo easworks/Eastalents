@@ -2,7 +2,9 @@ import { inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService, AuthState, ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell';
+import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
+import { AuthService } from '@easworks/app-shell/services/auth';
+import { AuthState } from '@easworks/app-shell/state/auth';
 import { RETURN_URL_KEY, Role } from '@easworks/models';
 import { firstValueFrom } from 'rxjs';
 

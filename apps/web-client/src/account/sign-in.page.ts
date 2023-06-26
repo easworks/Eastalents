@@ -1,7 +1,11 @@
 import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { AuthService, AuthState, FormImports, ImportsModule, generateLoadingState } from '@easworks/app-shell';
+import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
+import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { AuthService } from '@easworks/app-shell/services/auth';
+import { AuthState } from '@easworks/app-shell/state/auth';
+import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { RETURN_URL_KEY, pattern } from '@easworks/models';
 
 @Component({
@@ -12,7 +16,7 @@ import { RETURN_URL_KEY, pattern } from '@easworks/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
-    FormImports,
+    FormImportsModule,
     RouterModule
   ]
 })

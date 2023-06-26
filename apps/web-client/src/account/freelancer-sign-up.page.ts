@@ -2,7 +2,13 @@ import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angula
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService, AuthState, ErrorSnackbarDefaults, FormImports, ImportsModule, LottiePlayerDirective, SnackbarComponent, generateLoadingState } from '@easworks/app-shell';
+import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
+import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
+import { AuthService } from '@easworks/app-shell/services/auth';
+import { AuthState } from '@easworks/app-shell/state/auth';
+import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { pattern } from '@easworks/models';
 
 @Component({
@@ -14,7 +20,7 @@ import { pattern } from '@easworks/models';
   imports: [
     ImportsModule,
     LottiePlayerDirective,
-    FormImports,
+    FormImportsModule,
     MatCheckboxModule
   ]
 })

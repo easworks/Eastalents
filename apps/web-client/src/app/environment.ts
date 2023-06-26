@@ -1,5 +1,5 @@
 import { Provider, isDevMode } from '@angular/core';
-import { ENVIRONMENT, Environment } from '@easworks/app-shell';
+import { ENVIRONMENT, Environment } from '@easworks/app-shell/environment';
 
 
 const devMode = isDevMode();

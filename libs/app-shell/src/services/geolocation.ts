@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Deferred } from '../utilities';
+import { Deferred } from '../utilities/deferred';
 
 @Injectable({
   providedIn: 'root'

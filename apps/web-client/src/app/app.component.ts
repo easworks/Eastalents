@@ -1,10 +1,13 @@
 import { ChangeDetectionStrategy, Component, HostBinding, ViewChild, computed, effect, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { EventType, Router, RouterModule } from '@angular/router';
-import { ImportsModule, MenuItem, NOOP_CLICK, NavMenuState, NavigationModule, UiState } from '@easworks/app-shell';
-import { publicMenu } from './menu-items';
+import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { NavigationModule } from '@easworks/app-shell/navigation/navigation.module';
+import { MenuItem, NOOP_CLICK, NavMenuState } from '@easworks/app-shell/state/menu';
+import { UiState } from '@easworks/app-shell/state/ui';
 import { AccountWidgetComponent } from '../account/account.widget';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { publicMenu } from './menu-items';
 
 @Component({
   standalone: true,

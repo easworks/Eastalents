@@ -4,10 +4,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRouteSnapshot, Route, Router, UrlSegment } from '@angular/router';
 import { EmailSignInRequest, EmailSignUpRequest, RETURN_URL_KEY, Role, SocialCallbackState, SocialIdp, SocialSignInRequest, SocialSignUpRequest, User, UserWithToken } from '@easworks/models';
 import { Subject, catchError, fromEvent, map } from 'rxjs';
-import { AccountApi } from '../api';
-import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '../notification';
-import { AuthState } from '../state';
-import { Deferred } from '../utilities';
+import { AccountApi } from '../api/account.api';
+import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '../notification/snackbar';
+import { AuthState } from '../state/auth';
+import { Deferred } from '../utilities/deferred';
 
 @Injectable({
   providedIn: 'root'

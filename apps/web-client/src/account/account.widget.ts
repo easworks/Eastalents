@@ -4,7 +4,8 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService, AuthState } from '@easworks/app-shell';
+import { AuthService } from '@easworks/app-shell/services/auth';
+import { AuthState } from '@easworks/app-shell/state/auth';
 
 @Component({
   selector: 'account-widget',

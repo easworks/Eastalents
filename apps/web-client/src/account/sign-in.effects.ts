@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { AuthService, AuthState } from '@easworks/app-shell';
+import { AuthService } from '@easworks/app-shell/services/auth';
+import { AuthState } from '@easworks/app-shell/state/auth';
 
 const noRedirects = [
   '/account/sign-in',
