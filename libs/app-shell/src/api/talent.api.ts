@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiResponse, DomainDictionaryDto, FreelancerProfile, FreelancerProfileQuestionDto, IndustryGroupDto, TechGroupDto } from '@easworks/models';
+import { ApiResponse, DomainDictionaryDto, FreelancerProfile, FreelancerProfileQuestionDto, IndustryGroupDto, TechGroup, TechGroupDto } from '@easworks/models';
 import { catchError, map } from 'rxjs';
 import { sortString } from '../utilities';
 import { ApiService } from './api';
@@ -12,7 +12,7 @@ export class TalentApi extends ApiService {
     .pipe(
       map(r => Object.keys(r).map<TechGroup>(key => ({
         name: key,
-        tech: r[key]
+        items: new Set(r[key])
       }))),
       catchError(this.handleError)
     );
@@ -145,11 +145,6 @@ export interface DomainModule {
 export interface DomainProduct {
   name: string;
   imageUrl: string;
-}
-
-export interface TechGroup {
-  name: string;
-  tech: string[];
 }
 
 export interface IndustryGroup {

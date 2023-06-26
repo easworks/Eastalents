@@ -3,3 +3,4 @@ export * from './domains';
 export * from './menu';
 export * from './loading';
 export * from './auth';
+export * from './parsers';
