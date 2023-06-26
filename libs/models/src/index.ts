@@ -5,3 +5,4 @@ export * from './validators';
 export * from './auth';
 export * from './freelancer-profile';
 export * from './expertise';
+export * from './software';
