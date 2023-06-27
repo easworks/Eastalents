@@ -3,9 +3,9 @@ import { Software } from '@easworks/models';
 import { writeFile } from 'fs/promises';
 
 export function getDomains() {
-  // return fetch('http://eas-works.onrender.com/api/talentProfile/getTalentProfileSteps')
-  //   .then(r => r.json())
-  //   .then(m => m.talentProfile);
+  return fetch('http://eas-works.onrender.com/api/talentProfile/getTalentProfileSteps')
+    .then(r => r.json())
+    .then(m => m.talentProfile);
 
   return import(new URL('./domain-response.json', import.meta.url).toString(), { assert: { type: 'json' } })
     .then(m => m.default.talentProfile);
