@@ -18,7 +18,7 @@ import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { FreelancerProfile, OVERALL_EXPERIENCE_OPTIONS } from '@easworks/models';
+import { COMMITMENT_OPTIONS, Commitment, OVERALL_EXPERIENCE_OPTIONS, OverallExperience } from '@easworks/models';
 import { City, Country, State } from 'country-state-city';
 import { ICity, ICountry, IState, Timezones } from 'country-state-city/lib/interface';
 import { map, shareReplay, switchMap } from 'rxjs';
@@ -70,7 +70,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly roles = this.initRoles();
   protected readonly techExp = this.initTechExp();
   protected readonly industries = this.initIndustries();
-
+  protected readonly jobCommittment = this.initJobCommitment();
   protected readonly stepper = this.initStepper();
 
   protected readonly trackBy = {
@@ -104,7 +104,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     });
 
 
-    const totalSteps = 8;
+    const totalSteps = 9;
     const stepProgress$ = computed(() => {
       switch (step$()) {
         case 'professional-summary': return 1;
@@ -115,6 +115,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         case 'roles': return 6;
         case 'technology-stack': return 7;
         case 'industry': return 8;
+        case 'job-commitment': return 9;
         default: return 0;
       }
     });
@@ -129,7 +130,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         (step === 'software' && this.software.$()?.status$() !== 'VALID') ||
         (step === 'roles' && this.roles.$()?.status$() !== 'VALID') ||
         (step === 'technology-stack' && this.techExp.status$() !== 'VALID') ||
-        (step === 'industry' && this.industries.status$() !== 'VALID');
+        (step === 'industry' && this.industries.status$() !== 'VALID') ||
+        (step === 'job-commitment' && this.jobCommittment.status$() !== 'VALID');
     });
 
     return {
@@ -156,6 +158,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'software': step$.set('roles'); break;
             case 'roles': step$.set('technology-stack'); break;
             case 'technology-stack': step$.set('industry'); break;
+            case 'industry': step$.set('job-commitment'); break;
           }
           document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
         }
@@ -171,6 +174,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'roles': step$.set('software'); break;
             case 'technology-stack': step$.set('roles'); break;
             case 'industry': step$.set('technology-stack'); break;
+            case 'job-commitment': step$.set('industry'); break;
           }
           document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
         }
@@ -220,7 +224,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         ],
         nonNullable: true
       }),
-      experience: new FormControl(null as unknown as FreelancerProfile['overallExperience'], {
+      experience: new FormControl(null as unknown as OverallExperience, {
         validators: [Validators.required],
         nonNullable: true
       }),
@@ -1142,6 +1146,42 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     } as const;
   }
 
+  private initJobCommitment() {
+    const options = COMMITMENT_OPTIONS.map<SelectableOption<Commitment>>(v => ({
+      selected: false,
+      value: v,
+      label: v
+    }));
+
+    const form = new FormControl(new Set<Commitment>(), {
+      nonNullable: true,
+      validators: [
+        c => {
+          const v = c.value as Set<Commitment>;
+          if (v.size === 0)
+            return { minlength: 1 };
+          return null;
+        }
+      ]
+    });
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    const toggle = (option: SelectableOption<Commitment>) => {
+      if (option.selected) {
+        option.selected = false;
+        form.value.delete(option.value);
+      }
+      else {
+        option.selected = true;
+        form.value.add(option.value);
+      }
+      form.updateValueAndValidity();
+    }
+
+
+    return { form, status$, options, toggle };
+  }
+
   private async devModeInit() {
     if (!isDevMode())
       return;
@@ -1272,6 +1312,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       this.stepper.next.click();
     }
 
+    {
+      const { options, toggle } = this.jobCommittment;
+
+      toggle(options[1]);
+
+      this.stepper.next.click();
+    }
+
     revert.forEach(r => r());
   }
 
@@ -1318,8 +1366,6 @@ type Step =
   'roles' |
   'technology-stack' |
   'industry' |
-  'job-search-status' |
-  'expectations' |
-  'about' |
+  'job-commitment' |
   'social' |
   'end';

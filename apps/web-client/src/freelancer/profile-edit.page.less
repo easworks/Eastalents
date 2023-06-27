@@ -33,3 +33,17 @@
     @apply bg-primary/5 text-primary border-transparent;
   }
 }
+
+.commitment-option {
+  @apply flex border rounded p-2 px-4 cursor-pointer 
+      gap-2 flex-wrap justify-between items-center transition-all
+      ring-inset ring-1 ring-transparent;
+  
+  &:hover, &:focus, &.selected {
+    @apply  text-primary border-primary;
+  }
+
+  &.selected {
+    @apply ring-primary bg-primary-light/5;
+  }
+}

@@ -8,12 +8,25 @@ export const OVERALL_EXPERIENCE_OPTIONS = [
   'More than 10 years'
 ] as const;
 
+export type OverallExperience = typeof OVERALL_EXPERIENCE_OPTIONS[number];
+
+export const COMMITMENT_OPTIONS = [
+  'Part-time (20hrs/week)',
+  'Full-time (40hrs/week)',
+  'Hourly',
+  'Monthly',
+  'Project milestone based',
+] as const;
+
+export type Commitment = typeof COMMITMENT_OPTIONS[number];
+
 export interface FreelancerProfile {
   image: string | null;
   currentRole: string;
   preferredRole: string;
 
-  overallExperience: typeof OVERALL_EXPERIENCE_OPTIONS[number]
+  overallExperience: OverallExperience;
+  commitment: Set<Commitment>;
 
   location: {
     country: ICountry;

@@ -491,9 +491,9 @@
             <label class="font-medium">{{entry.key}}</label>
             <!-- <div class="mt-2 flex flex-wrap gap-2"> -->
             <div class="mt-2 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-              <div *ngFor="let option of entry.value" class="bg-primary/5 text-primary rounded flex gap-2 justify-between">
+              <div *ngFor="let option of entry.value" class="bg-primary/5 text-primary rounded flex gap-2 justify-between ring-inset ring-primary ring-2">
                 <span class="px-4 py-2">{{option.value}}</span>
-                <button class="icon-button h-10 w-10 flex-none text-primary/80 hover:text-warn focus:text-warn transition-all" mat-ripple
+                <button class="icon-button h-10 w-10 flex-none text-primary/70 hover:text-warn focus:text-warn transition-all" mat-ripple
                         type="button" (click)="techExp.remove(entry.key, option)"
                         title="Remove">
                   <i class="fas fa-square-xmark"></i>
@@ -553,9 +553,9 @@
             <label class="font-medium">{{entry.key}}</label>
             <!-- <div class="mt-2 flex flex-wrap gap-2"> -->
             <div class="mt-2 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-              <div *ngFor="let option of entry.value" class="bg-primary/5 text-primary rounded flex gap-2 justify-between">
+              <div *ngFor="let option of entry.value" class="bg-primary/5 text-primary rounded flex gap-2 justify-between ring-inset ring-primary ring-2">
                 <span class="px-4 py-2">{{option.value}}</span>
-                <button class="icon-button h-10 w-10 flex-none text-primary/80 hover:text-warn focus:text-warn transition-all" mat-ripple
+                <button class="icon-button h-10 w-10 flex-none text-primary/70 hover:text-warn focus:text-warn transition-all" mat-ripple
                         type="button" (click)="industries.remove(entry.key, option)"
                         title="Remove">
                   <i class="fas fa-square-xmark"></i>
@@ -589,6 +589,45 @@
           </ng-container>
         </mat-autocomplete>
       </div>
+    </div>
+
+    <div *ngIf="step === 'job-commitment'"
+         class="rounded bg-white mat-elevation-z1">
+      <h2 class="p-4 text-xl font-semibold">Type of Job Commitment</h2>
+      <mat-divider></mat-divider>
+
+      <form *ngrxLet="jobCommittment.form as form"
+            class="p-4 grid gap-4">
+
+        <div>
+          <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+            <span class="text-lg lg:pt-1 transition-all">
+              Specify your preferred Job Commitment
+              <span class="text-warn">*</span>
+            </span>
+            <span class="flex-none flex gap-2 text-slate-500 items-center">
+              <span class="fa-solid fa-circle-info text-lg"></span>
+              <span>Select at least 1</span>
+            </span>
+          </label>
+
+          <div class="grid gap-4 mt-4 max-w-md">
+            <button *ngFor="let option of jobCommittment.options; let i = index; trackBy: trackBy.stringOption"
+                    type="button" class="commitment-option"
+                    mat-ripple
+                    [class.selected]="option.selected"
+                    (click)="jobCommittment.toggle(option)">
+              {{option.label}}
+
+              <span *ngIf="i === 1" class="rounded p-1 px-2 text-sm text-emerald-400">
+                <span class="fa-solid fa-thumbs-up mr-2"></span>
+                <span>Recommended</span>
+              </span>
+
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
 
   </div>
