@@ -599,30 +599,28 @@
       <form *ngrxLet="jobCommittment.form as form"
             class="p-4 grid gap-4">
 
-        <div>
-          <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-            <span class="font-medium lg:pt-1 transition-all">Specify your preferred Job Commitment</span>
-            <span class="flex-none flex gap-2 text-slate-500 items-center">
-              <span class="fa-solid fa-circle-info text-lg"></span>
-              <span>Select at least 1</span>
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Specify your preferred Job Commitment</span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center">
+            <span class="fa-solid fa-circle-info text-lg"></span>
+            <span>Select at least 1</span>
+          </span>
+        </label>
+
+        <div class="grid gap-4 max-w-md">
+          <button *ngFor="let option of jobCommittment.options; let i = index; trackBy: trackBy.stringOption"
+                  type="button" class="commitment-option"
+                  mat-ripple
+                  [class.selected]="option.selected"
+                  (click)="jobCommittment.toggle(option)">
+            {{option.label}}
+
+            <span *ngIf="i === 1" class="rounded p-1 px-2 text-sm text-emerald-400">
+              <span class="fa-solid fa-thumbs-up mr-2"></span>
+              <span>Recommended</span>
             </span>
-          </label>
 
-          <div class="grid gap-4 mt-4 max-w-md">
-            <button *ngFor="let option of jobCommittment.options; let i = index; trackBy: trackBy.stringOption"
-                    type="button" class="commitment-option"
-                    mat-ripple
-                    [class.selected]="option.selected"
-                    (click)="jobCommittment.toggle(option)">
-              {{option.label}}
-
-              <span *ngIf="i === 1" class="rounded p-1 px-2 text-sm text-emerald-400">
-                <span class="fa-solid fa-thumbs-up mr-2"></span>
-                <span>Recommended</span>
-              </span>
-
-            </button>
-          </div>
+          </button>
         </div>
       </form>
     </div>
