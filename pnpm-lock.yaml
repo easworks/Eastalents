@@ -26,6 +26,9 @@ dependencies:
   '@angular/material':
     specifier: 16.1.2
     version: 16.1.2(@angular/animations@16.1.2)(@angular/cdk@16.1.2)(@angular/common@16.1.2)(@angular/core@16.1.2)(@angular/forms@16.1.2)(@angular/platform-browser@16.1.2)(rxjs@7.8.1)
+  '@angular/material-luxon-adapter':
+    specifier: ^16.1.2
+    version: 16.1.2(@angular/core@16.1.2)(@angular/material@16.1.2)(luxon@3.3.0)
   '@angular/platform-browser':
     specifier: 16.1.2
     version: 16.1.2(@angular/animations@16.1.2)(@angular/common@16.1.2)(@angular/core@16.1.2)
@@ -601,6 +604,19 @@ packages:
     resolution: {integrity: sha512-pCneNUjrr7SYUBeqqznoGA5V+RTRMljrg4WFufth3jtnKRCWE1XR+MYNDGejfOx/mQZNxBsjz4l83FTwiqjsRQ==}
     engines: {node: ^16.14.0 || >=18.10.0}
     dev: true
+
+  /@angular/material-luxon-adapter@16.1.2(@angular/core@16.1.2)(@angular/material@16.1.2)(luxon@3.3.0):
+    resolution: {integrity: sha512-OIWCr6oeEoimHUyaoG/OoFeAAiIKAK6knjBd5XhutRYGsuFpAm/j30MXNwqjBxG//xJkKjFTL8X5RSsOGPDesA==}
+    peerDependencies:
+      '@angular/core': ^16.0.0 || ^17.0.0
+      '@angular/material': 16.1.2
+      luxon: ^3.0.0
+    dependencies:
+      '@angular/core': 16.1.2(rxjs@7.8.1)(zone.js@0.13.1)
+      '@angular/material': 16.1.2(@angular/animations@16.1.2)(@angular/cdk@16.1.2)(@angular/common@16.1.2)(@angular/core@16.1.2)(@angular/forms@16.1.2)(@angular/platform-browser@16.1.2)(rxjs@7.8.1)
+      luxon: 3.3.0
+      tslib: 2.5.3
+    dev: false
 
   /@angular/material@16.1.2(@angular/animations@16.1.2)(@angular/cdk@16.1.2)(@angular/common@16.1.2)(@angular/core@16.1.2)(@angular/forms@16.1.2)(@angular/platform-browser@16.1.2)(rxjs@7.8.1):
     resolution: {integrity: sha512-lG88yMnlRkPqXxWpT4Uh3YxwQY3xzaV8dP/Rr3Qtlh0yhp2CEWBmC6Cu1VcHpq0G3VLapO61PIzxSj9125CN5Q==}
