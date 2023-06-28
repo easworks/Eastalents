@@ -34,9 +34,10 @@
   }
 }
 
-.commitment-option {
-  @apply flex border rounded p-2 px-4 cursor-pointer 
-      gap-2 flex-wrap justify-between items-center transition-all
+.commitment-option,
+.preferred-role-option {
+  @apply flex border rounded p-2 px-4 cursor-pointer text-left
+      gap-2 transition-all
       ring-inset ring-1 ring-transparent;
   
   &:hover, &:focus, &.selected {
@@ -46,4 +47,12 @@
   &.selected {
     @apply ring-primary bg-primary-light/5;
   }
+
+  &:disabled {
+    @apply border-divider text-divider ring-0;
+  }
+}
+
+.commitment-option {
+  @apply flex-wrap justify-between items-center;
 }

@@ -72,6 +72,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly industries = this.initIndustries();
   protected readonly jobCommittment = this.initJobCommitment();
   protected readonly rateExpectation = this.initRateExpectation();
+  protected readonly preferredRoles = this.initPreferredRoles();
 
   protected readonly stepper = this.initStepper();
 
@@ -107,7 +108,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     });
 
 
-    const totalSteps = 10;
+    const totalSteps = 11;
     const stepProgress$ = computed(() => {
       switch (step$()) {
         case 'professional-summary': return 1;
@@ -120,6 +121,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         case 'industry': return 8;
         case 'job-commitment': return 9;
         case 'rate-expectation': return 10;
+        case 'preferred-roles': return 11;
         default: return 0;
       }
     });
@@ -136,7 +138,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         (step === 'technology-stack' && this.techExp.status$() !== 'VALID') ||
         (step === 'industry' && this.industries.status$() !== 'VALID') ||
         (step === 'job-commitment' && this.jobCommittment.status$() !== 'VALID') ||
-        (step === 'rate-expectation' && this.rateExpectation.status$() !== 'VALID');
+        (step === 'rate-expectation' && this.rateExpectation.status$() !== 'VALID') ||
+        (step === 'preferred-roles' && this.preferredRoles.$()?.status$() !== 'VALID');
     });
 
     return {
@@ -165,6 +168,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'technology-stack': step$.set('industry'); break;
             case 'industry': step$.set('job-commitment'); break;
             case 'job-commitment': step$.set('rate-expectation'); break;
+            case 'rate-expectation': step$.set('preferred-roles'); break;
           }
           document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
         }
@@ -182,6 +186,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'industry': step$.set('technology-stack'); break;
             case 'job-commitment': step$.set('industry'); break;
             case 'rate-expectation': step$.set('job-commitment'); break;
+            case 'preferred-roles': step$.set('rate-expectation'); break;
           }
           document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
         }
@@ -1212,6 +1217,102 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     } as const;
   }
 
+  private initPreferredRoles() {
+    const injector = this.injector;
+
+    const obs$ = this.modules.selected$
+      .pipe(
+        map(selected => {
+          const exists = this.preferredRoles?.$()?.form.getRawValue();
+
+          const form = new FormRecord<FormControl<Set<string>>>({});
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+
+          const options: Record<string, {
+            list: SelectableOption<string>[],
+            record: Record<string, SelectableOption<string>>,
+            size$: Signal<number>,
+            stopInput$: Signal<boolean>,
+            toggle: (option: SelectableOption<string>) => void
+          }> = {};
+
+          selected.forEach(s => {
+            const size$ = signal(0);
+            const stopInput$ = computed(() => size$() >= 5);
+
+            const roleForm = new FormControl(new Set<string>(), {
+              nonNullable: true,
+              validators: [
+                c => {
+                  const size = (c.value as Set<string>).size;
+                  size$.set(size);
+                  if (size < 1)
+                    return { minlength: 1 };
+                  if (size > 5)
+                    return { maxlength: 5 };
+                  return null;
+                }
+              ]
+            });
+
+            const record: Record<string, SelectableOption<string>> = {};
+            s.modules.forEach(m => {
+              m.roles.forEach(r => {
+                const opt: SelectableOption<string> = {
+                  selected: false,
+                  value: r,
+                  label: r
+                };
+                record[r] = opt;
+              })
+            });
+
+            const list = Object.values(record)
+              .sort((a, b) => sortString(a.value, b.value));
+
+            form.addControl(s.domain.key, roleForm, { emitEvent: false });
+
+            options[s.domain.key] = {
+              list,
+              record,
+              size$,
+              stopInput$,
+              toggle: (option) => {
+                if (option.selected) {
+                  option.selected = false;
+                  roleForm.value.delete(option.value);
+                }
+                else {
+                  option.selected = true;
+                  roleForm.value.add(option.value);
+                }
+                roleForm.updateValueAndValidity();
+              }
+            }
+          });
+
+          if (exists) {
+            Object.keys(exists).forEach(domain => {
+              const roleForm = form.controls[domain];
+              if (roleForm) {
+                roleForm.setValue(exists[domain], { emitEvent: false });
+              }
+            });
+          }
+
+          form.updateValueAndValidity();
+
+          const domains = selected.map(s => s.domain);
+
+          return { form, status$, options, domains } as const;
+        }),
+        shareReplay({ refCount: true, bufferSize: 1 })
+      );
+    const $ = toSignal(obs$);
+
+    return { $ } as const;
+  }
+
   private async devModeInit() {
     if (!isDevMode())
       return;
@@ -1350,6 +1451,22 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       this.stepper.next.click();
     }
 
+    {
+      this.stepper.next.click();
+    }
+
+    {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { domains, options } = this.preferredRoles.$()!;
+
+      domains.forEach(domain => {
+        const { list, toggle } = options[domain.key];
+        toggle(list[0]);
+      });
+
+      this.stepper.next.click();
+    }
+
     revert.forEach(r => r());
   }
 
@@ -1398,5 +1515,6 @@ type Step =
   'industry' |
   'job-commitment' |
   'rate-expectation' |
+  'preferred-roles' |
   'social' |
   'end';

@@ -688,6 +688,46 @@
         </form>
       </div>
     </div>
+
+    <div *ngIf="step === 'preferred-roles'"
+         class="rounded bg-white mat-elevation-z1">
+      <ng-container *ngIf="preferredRoles.$() as roles$">
+        <h2 class="p-4 text-xl font-semibold">Preferred Roles</h2>
+        <mat-divider></mat-divider>
+
+        <ng-container *ngFor="let domain of roles$.domains; let last = last; trackBy: trackBy.domain">
+          <div class="p-4" *ngrxLet="roles$.options[domain.key] as options">
+            <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+              <span class="font-medium lg:pt-1 transition-all">Please select the roles related to <span class="text-primary">{{domain.longName}}</span> you would like to work in</span>
+              <span class="flex-none flex gap-2 text-slate-500 items-center">
+                <span class="fa-solid fa-circle-info text-lg"></span>
+                <span>Select up to 5</span>
+                <span *ngrxLet="options.size$() as size"
+                      class="selection-counter" [class.selected]="size > 0">
+                  {{size}} selected
+                </span>
+              </span>
+            </label>
+
+            <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+              <ng-container *ngFor="let roleOption of options.list; trackBy: trackBy.stringOption">
+                <button *ngrxLet="options.stopInput$() && !roleOption.selected as disabled"
+                        type="button" mat-ripple
+                        class="preferred-role-option"
+                        [class.selected]="roleOption.selected"
+                        [disabled]="disabled"
+                        (click)="options.toggle(roleOption)">
+                  {{roleOption.label}}
+                </button>
+              </ng-container>
+
+            </div>
+          </div>
+
+          <mat-divider *ngIf="!last"></mat-divider>
+        </ng-container>
+      </ng-container>
+    </div>
   </div>
 
   <!-- Button Container -->
