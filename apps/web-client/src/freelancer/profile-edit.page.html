@@ -728,6 +728,43 @@
         </ng-container>
       </ng-container>
     </div>
+
+    <div *ngIf="step === 'preferred-working-hours'"
+         class="rounded bg-white mat-elevation-z1">
+      <h2 class="p-4 text-xl font-semibold">Preferred Working Hours</h2>
+      <mat-divider></mat-divider>
+
+      <form *ngrxLet="preferredWorkingHours.form as form"
+            [formGroup]="form"
+            class="p-4 grid gap-4">
+        <div class="form-field">
+          <label>Timezone</label>
+          <input type="text" readonly [ngModel]="preferredWorkingHours.tz$()?.zoneName" [ngModelOptions]="{ standalone: true }">
+          <span class="hint">As per your professional summary</span>
+        </div>
+
+        <div class="flex gap-4 items-center">
+          <div *ngrxLet="form.controls.start as control"
+               [formFieldControl]="control"
+               class="w-32">
+            <label>Start</label>
+            <mat-select [formControl]="control">
+              <mat-option *ngFor="let option of preferredWorkingHours.options" [value]="option">{{option}}</mat-option>
+            </mat-select>
+          </div>
+          <span>to</span>
+          <div *ngrxLet="form.controls.end as control"
+               [formFieldControl]="control"
+               class="w-32">
+            <label>End</label>
+            <mat-select [formControl]="control">
+              <mat-option *ngFor="let option of preferredWorkingHours.options" [value]="option">{{option}}</mat-option>
+            </mat-select>
+          </div>
+        </div>
+      </form>
+
+    </div>
   </div>
 
   <!-- Button Container -->

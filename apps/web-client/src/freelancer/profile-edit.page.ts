@@ -21,6 +21,7 @@ import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { COMMITMENT_OPTIONS, Commitment, OVERALL_EXPERIENCE_OPTIONS, OverallExperience } from '@easworks/models';
 import { City, Country, State } from 'country-state-city';
 import { ICity, ICountry, IState, Timezones } from 'country-state-city/lib/interface';
+import { DateTime } from 'luxon';
 import { map, shareReplay, switchMap } from 'rxjs';
 
 @Component({
@@ -73,6 +74,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly jobCommittment = this.initJobCommitment();
   protected readonly rateExpectation = this.initRateExpectation();
   protected readonly preferredRoles = this.initPreferredRoles();
+  protected readonly preferredWorkingHours = this.initPreferredWorkingHours();
 
   protected readonly stepper = this.initStepper();
 
@@ -108,7 +110,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     });
 
 
-    const totalSteps = 11;
+    const totalSteps = 12;
     const stepProgress$ = computed(() => {
       switch (step$()) {
         case 'professional-summary': return 1;
@@ -122,6 +124,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         case 'job-commitment': return 9;
         case 'rate-expectation': return 10;
         case 'preferred-roles': return 11;
+        case 'preferred-working-hours': return 12;
         default: return 0;
       }
     });
@@ -139,7 +142,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         (step === 'industry' && this.industries.status$() !== 'VALID') ||
         (step === 'job-commitment' && this.jobCommittment.status$() !== 'VALID') ||
         (step === 'rate-expectation' && this.rateExpectation.status$() !== 'VALID') ||
-        (step === 'preferred-roles' && this.preferredRoles.$()?.status$() !== 'VALID');
+        (step === 'preferred-roles' && this.preferredRoles.$()?.status$() !== 'VALID') ||
+        (step === 'preferred-working-hours' && this.preferredWorkingHours.status$() !== 'VALID');
     });
 
     return {
@@ -169,6 +173,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'industry': step$.set('job-commitment'); break;
             case 'job-commitment': step$.set('rate-expectation'); break;
             case 'rate-expectation': step$.set('preferred-roles'); break;
+            case 'preferred-roles': step$.set('preferred-working-hours'); break;
           }
           document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
         }
@@ -187,6 +192,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'job-commitment': step$.set('industry'); break;
             case 'rate-expectation': step$.set('job-commitment'); break;
             case 'preferred-roles': step$.set('rate-expectation'); break;
+            case 'preferred-working-hours': step$.set('preferred-roles'); break;
           }
           document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
         }
@@ -1313,6 +1319,42 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     return { $ } as const;
   }
 
+  private initPreferredWorkingHours() {
+
+    const allHours = new Array<number>(24)
+      .fill(0).map((_, i) => i)
+
+    const options = allHours
+      .map(hour => DateTime.fromObject({ hour }).toFormat('hh a'));
+
+    const pfs = toSignal(controlValue$(this.professionalSummary.form, true));
+    const tz$ = computed(() => pfs()?.timezone);
+
+    const form = new FormGroup({
+      start: new FormControl(null as unknown as string, {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+        ]
+      }),
+      end: new FormControl(null as unknown as string, {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+        ]
+      }),
+    });
+
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    return {
+      form,
+      status$,
+      tz$,
+      options
+    };
+  }
+
   private async devModeInit() {
     if (!isDevMode())
       return;
@@ -1467,6 +1509,17 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       this.stepper.next.click();
     }
 
+    {
+      const { form, options } = this.preferredWorkingHours;
+
+      form.setValue({
+        start: options[20],
+        end: options[2]
+      });
+
+      this.stepper.next.click();
+    }
+
     revert.forEach(r => r());
   }
 
@@ -1516,5 +1569,6 @@ type Step =
   'job-commitment' |
   'rate-expectation' |
   'preferred-roles' |
+  'preferred-working-hours' |
   'social' |
   'end';
