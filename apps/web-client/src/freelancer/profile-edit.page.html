@@ -763,6 +763,34 @@
       </form>
 
     </div>
+
+    <div *ngIf="step === 'job-search-status'"
+         class="rounded bg-white mat-elevation-z1">
+      <h2 class="p-4 text-xl font-semibold">Job Search Status</h2>
+      <mat-divider></mat-divider>
+
+      <form *ngrxLet="jobSearchStatus.form as form"
+            class="p-4 grid gap-4">
+
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Please select your job search status</span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center">
+            <span class="fa-solid fa-circle-info text-lg"></span>
+            <span>Select 1</span>
+          </span>
+        </label>
+
+        <div class="grid gap-4 max-w-md">
+          <button *ngFor="let option of jobSearchStatus.options; let i = index; trackBy: trackBy.stringOption"
+                  type="button" class="job-search-status-option"
+                  mat-ripple
+                  [class.selected]="option.selected"
+                  (click)="jobSearchStatus.toggle(option)">
+            {{option.label}}
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <!-- Button Container -->

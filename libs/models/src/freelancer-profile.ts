@@ -20,6 +20,14 @@ export const COMMITMENT_OPTIONS = [
 
 export type Commitment = typeof COMMITMENT_OPTIONS[number];
 
+export const JOB_SEARCH_STATUS_OPTIONS = [
+  'Active',
+  'Passive',
+  'Not Looking Actively'
+] as const;
+
+export type JobSearchStatus = typeof JOB_SEARCH_STATUS_OPTIONS[number];
+
 export interface FreelancerProfile {
   image: string | null;
   currentRole: string;
@@ -27,6 +35,7 @@ export interface FreelancerProfile {
 
   overallExperience: OverallExperience;
   commitment: Set<Commitment>;
+  jobSearchStatus: JobSearchStatus;
 
   location: {
     country: ICountry;
