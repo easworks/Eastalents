@@ -28,6 +28,15 @@ export const JOB_SEARCH_STATUS_OPTIONS = [
 
 export type JobSearchStatus = typeof JOB_SEARCH_STATUS_OPTIONS[number];
 
+export const FREELANCER_AVAILABILITY_OPTIONS = [
+  'Immediately',
+  '1 - 2 weeks',
+  '3 - 4 weeks',
+  'More than 1 month'
+] as const;
+
+export type FreelancerAvailability = typeof FREELANCER_AVAILABILITY_OPTIONS[number];
+
 export interface FreelancerProfile {
   image: string | null;
   currentRole: string;
@@ -36,6 +45,7 @@ export interface FreelancerProfile {
   overallExperience: OverallExperience;
   commitment: Set<Commitment>;
   jobSearchStatus: JobSearchStatus;
+  availability: FreelancerAvailability;
 
   location: {
     country: ICountry;

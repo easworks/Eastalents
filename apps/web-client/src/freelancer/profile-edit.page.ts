@@ -18,7 +18,7 @@ import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { COMMITMENT_OPTIONS, Commitment, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, OVERALL_EXPERIENCE_OPTIONS, OverallExperience } from '@easworks/models';
+import { COMMITMENT_OPTIONS, Commitment, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, OVERALL_EXPERIENCE_OPTIONS, OverallExperience } from '@easworks/models';
 import { City, Country, State } from 'country-state-city';
 import { ICity, ICountry, IState, Timezones } from 'country-state-city/lib/interface';
 import { DateTime } from 'luxon';
@@ -76,6 +76,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly preferredRoles = this.initPreferredRoles();
   protected readonly preferredWorkingHours = this.initPreferredWorkingHours();
   protected readonly jobSearchStatus = this.initJobSearchStatus();
+  protected readonly availability = this.initAvailability();
 
   protected readonly stepper = this.initStepper();
 
@@ -111,7 +112,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     });
 
 
-    const totalSteps = 13;
+    const totalSteps = 14;
     const stepProgress$ = computed(() => {
       switch (step$()) {
         case 'professional-summary': return 1;
@@ -127,6 +128,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         case 'preferred-roles': return 11;
         case 'preferred-working-hours': return 12;
         case 'job-search-status': return 13;
+        case 'availability': return 14;
         default: return 0;
       }
     });
@@ -146,7 +148,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         (step === 'rate-expectation' && this.rateExpectation.status$() !== 'VALID') ||
         (step === 'preferred-roles' && this.preferredRoles.$()?.status$() !== 'VALID') ||
         (step === 'preferred-working-hours' && this.preferredWorkingHours.status$() !== 'VALID') ||
-        (step === 'job-search-status' && this.jobSearchStatus.status$() !== 'VALID');
+        (step === 'job-search-status' && this.jobSearchStatus.status$() !== 'VALID') ||
+        (step === 'availability' && this.availability.status$() !== 'VALID');
     });
 
     return {
@@ -178,6 +181,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'rate-expectation': step$.set('preferred-roles'); break;
             case 'preferred-roles': step$.set('preferred-working-hours'); break;
             case 'preferred-working-hours': step$.set('job-search-status'); break;
+            case 'job-search-status': step$.set('availability'); break;
           }
           document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
         }
@@ -198,6 +202,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'preferred-roles': step$.set('rate-expectation'); break;
             case 'preferred-working-hours': step$.set('preferred-roles'); break;
             case 'job-search-status': step$.set('preferred-working-hours'); break;
+            case 'availability': step$.set('job-search-status'); break;
           }
           document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
         }
@@ -1389,6 +1394,35 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     return { form, status$, options, toggle } as const;
   }
 
+  private initAvailability() {
+    const options = FREELANCER_AVAILABILITY_OPTIONS
+      .map<SelectableOption<FreelancerAvailability>>(v => ({
+        selected: false,
+        value: v,
+        label: v
+      }));
+
+    const form = new FormControl(null as unknown as SelectableOption<FreelancerAvailability>, {
+      nonNullable: true,
+      validators: [Validators.required]
+    });
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    const toggle = (option: SelectableOption<FreelancerAvailability>) => {
+      if (option.selected)
+        return;
+
+      option.selected = true;
+      const old = form.value;
+      if (old) {
+        old.selected = false;
+      }
+      form.setValue(option);
+    }
+
+    return { form, status$, options, toggle } as const;
+  }
+
   private async devModeInit() {
     if (!isDevMode())
       return;
@@ -1562,6 +1596,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       this.stepper.next.click();
     }
 
+    {
+      const { toggle, options } = this.availability;
+
+      toggle(options[0]);
+
+      this.stepper.next.click();
+    }
+
     revert.forEach(r => r());
   }
 
@@ -1613,5 +1655,6 @@ type Step =
   'preferred-roles' |
   'preferred-working-hours' |
   'job-search-status' |
+  'availability' |
   'social' |
   'end';

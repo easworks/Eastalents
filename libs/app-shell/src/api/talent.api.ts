@@ -77,6 +77,8 @@ export class TalentApi extends ApiService {
             overallExperience: '2 to 5 years',
             commitment: new Set(),
             jobSearchStatus: 'Active',
+            availability: 'Immediately',
+
             primaryDomainExperience: {
               name: pdo.value,
               years: Number.parseInt(pdo.noOfYear),

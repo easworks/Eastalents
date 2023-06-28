@@ -791,6 +791,35 @@
         </div>
       </form>
     </div>
+
+    <div *ngIf="step === 'availability'"
+         class="rounded bg-white mat-elevation-z1">
+      <h2 class="p-4 text-xl font-semibold">Availability to Join</h2>
+      <mat-divider></mat-divider>
+
+      <form *ngrxLet="availability.form as form"
+            class="p-4 grid gap-4">
+
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Please indicate you availability to join</span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center">
+            <span class="fa-solid fa-circle-info text-lg"></span>
+            <span>Select 1</span>
+          </span>
+        </label>
+
+        <div class="grid gap-4 max-w-md">
+          <button *ngFor="let option of availability.options; let i = index; trackBy: trackBy.stringOption"
+                  type="button" class="job-search-status-option"
+                  mat-ripple
+                  [class.selected]="option.selected"
+                  (click)="availability.toggle(option)">
+            {{option.label}}
+          </button>
+        </div>
+      </form>
+    </div>
+
   </div>
 
   <!-- Button Container -->
