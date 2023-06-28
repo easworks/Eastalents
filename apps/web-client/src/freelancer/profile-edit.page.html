@@ -115,7 +115,7 @@
                 <span class="font-emoji absolute left-2 top-8" *ngIf="control.value as value">{{value.flag}}</span>
                 <input type="text" [formControl]="control" [matAutocomplete]="countryOptions"
                        placeholder="Type to filter"
-                       class="transition-all" [class.!pl-10]="professionalSummary.showFlag$()">
+                       [class.!pl-10]="professionalSummary.showFlag$()">
                 <mat-autocomplete #countryOptions [displayWith]="displayWith.country">
                   <mat-option *ngFor="let country of professionalSummary.options.filtered.country$(); trackBy: trackBy.country"
                               [value]="country">
@@ -601,10 +601,7 @@
 
         <div>
           <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-            <span class="text-lg lg:pt-1 transition-all">
-              Specify your preferred Job Commitment
-              <span class="text-warn">*</span>
-            </span>
+            <span class="font-medium lg:pt-1 transition-all">Specify your preferred Job Commitment</span>
             <span class="flex-none flex gap-2 text-slate-500 items-center">
               <span class="fa-solid fa-circle-info text-lg"></span>
               <span>Select at least 1</span>
@@ -630,6 +627,67 @@
       </form>
     </div>
 
+    <div *ngIf="step === 'rate-expectation'"
+         class="rounded bg-white mat-elevation-z1">
+      <h2 class="p-4 text-xl font-semibold">Rate Expectations</h2>
+      <mat-divider></mat-divider>
+
+      <div class="p-4">
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Indicate your expected rate of remuneration</span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center">
+            <span class="fa-solid fa-circle-info text-lg"></span>
+            <span>Optional</span>
+          </span>
+        </label>
+
+        <div class="rounded mt-4 p-2 px-4 bg-emerald-400/5 text-emerald-500 text-sm">
+          Rate Expectation information is confidential and restricted to the EASWORKS screening team only.
+        </div>
+
+        <form *ngrxLet="rateExpectation.form as form"
+              [formGroup]="form" class="mt-4">
+
+          <div
+               *ngrxLet="form.controls.hourly as control"
+               [formFieldControl]="control">
+            <label> Hourly </label>
+
+            <div class="relative">
+              <input type="number" [formControl]="control" placeholder="Expected hourly remuneration"
+                     class="!pl-[6ch]" />
+              <span class="h-full grid place-content-center absolute top-[0.05rem] left-0 p-2 
+                  text-slate-500/80">USD</span>
+            </div>
+          </div>
+
+          <div *ngrxLet="form.controls.monthly as control"
+               [formFieldControl]="control">
+            <label> Monthly </label>
+
+            <div class="relative">
+              <input type="number" [formControl]="control" placeholder="Expected monthly remuneration"
+                     class="!pl-[6ch]" />
+              <span class="h-full grid place-content-center absolute top-[0.05rem] left-0 p-2 
+                    text-slate-500/80">USD</span>
+            </div>
+          </div>
+
+          <div *ngrxLet="form.controls.annually as control"
+               [formFieldControl]="control">
+            <label> Annually </label>
+
+            <div class="relative">
+              <input type="number" [formControl]="control" placeholder="Expected annual remuneration"
+                     class="!pl-[6ch]" />
+              <span class="h-full grid place-content-center absolute top-[0.05rem] left-0 p-2 
+                  text-slate-500/80">USD</span>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
   </div>
 
   <!-- Button Container -->

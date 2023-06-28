@@ -71,6 +71,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly techExp = this.initTechExp();
   protected readonly industries = this.initIndustries();
   protected readonly jobCommittment = this.initJobCommitment();
+  protected readonly rateExpectation = this.initRateExpectation();
+
   protected readonly stepper = this.initStepper();
 
   protected readonly trackBy = {
@@ -89,6 +91,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     state: (s?: IState) => s?.name || '',
     city: (c?: ICity) => c?.name || '',
     timezone: (t?: Timezones) => t?.zoneName || '',
+    currency: (c?: ICountry) => c ? `${c.currency} (${c.name})` : '',
     none: () => ''
   } as const;
 
@@ -104,7 +107,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     });
 
 
-    const totalSteps = 9;
+    const totalSteps = 10;
     const stepProgress$ = computed(() => {
       switch (step$()) {
         case 'professional-summary': return 1;
@@ -116,6 +119,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         case 'technology-stack': return 7;
         case 'industry': return 8;
         case 'job-commitment': return 9;
+        case 'rate-expectation': return 10;
         default: return 0;
       }
     });
@@ -131,7 +135,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         (step === 'roles' && this.roles.$()?.status$() !== 'VALID') ||
         (step === 'technology-stack' && this.techExp.status$() !== 'VALID') ||
         (step === 'industry' && this.industries.status$() !== 'VALID') ||
-        (step === 'job-commitment' && this.jobCommittment.status$() !== 'VALID');
+        (step === 'job-commitment' && this.jobCommittment.status$() !== 'VALID') ||
+        (step === 'rate-expectation' && this.rateExpectation.status$() !== 'VALID');
     });
 
     return {
@@ -159,6 +164,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'roles': step$.set('technology-stack'); break;
             case 'technology-stack': step$.set('industry'); break;
             case 'industry': step$.set('job-commitment'); break;
+            case 'job-commitment': step$.set('rate-expectation'); break;
           }
           document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
         }
@@ -175,6 +181,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'technology-stack': step$.set('roles'); break;
             case 'industry': step$.set('technology-stack'); break;
             case 'job-commitment': step$.set('industry'); break;
+            case 'rate-expectation': step$.set('job-commitment'); break;
           }
           document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
         }
@@ -1182,6 +1189,29 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     return { form, status$, options, toggle };
   }
 
+  private initRateExpectation() {
+
+
+    const form = new FormGroup({
+      hourly: new FormControl(null as unknown as number, {
+        nonNullable: true,
+      }),
+      monthly: new FormControl(null as unknown as number, {
+        nonNullable: true,
+      }),
+      annually: new FormControl(null as unknown as number, {
+        nonNullable: true,
+      }),
+    });
+
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    return {
+      form,
+      status$,
+    } as const;
+  }
+
   private async devModeInit() {
     if (!isDevMode())
       return;
@@ -1367,5 +1397,6 @@ type Step =
   'technology-stack' |
   'industry' |
   'job-commitment' |
+  'rate-expectation' |
   'social' |
   'end';
