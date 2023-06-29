@@ -4,3 +4,4 @@ dist
 .angular
 .vscode
 *.code-workspace
+tmp

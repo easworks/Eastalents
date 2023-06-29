@@ -820,6 +820,58 @@
       </form>
     </div>
 
+    <div *ngIf="step === 'profile-details'"
+         class="rounded bg-white mat-elevation-z1">
+      <h2 class="p-4 text-xl font-semibold">Profile Details</h2>
+      <mat-divider></mat-divider>
+
+      <form *ngrxLet="profileDetails.form as form">
+        <div class="p-4">
+          <label class="font-medium"> Personal Information </label>
+          <div class="flex mt-4 flex-col md:flex-row md:gap-4">
+            <div *ngrxLet="form.controls.firstName as control"
+                 [formFieldControl]="control"
+                 class="flex-grow">
+              <label>First Name</label>
+              <input type="text" [formControl]="control" placeholder="First Name">
+            </div>
+
+            <div *ngrxLet="form.controls.lastName as control"
+                 [formFieldControl]="control"
+                 class="flex-grow">
+              <label>Last Name</label>
+              <input type="text" [formControl]="control" placeholder="Last Name">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label>Location</label>
+            <input type="text" [ngModel]="profileDetails.location$()"
+                   [ngModelOptions]="{ standalone: true }"
+                   placeholder="Location" readonly>
+            <span class="hint">As per your professional summary</span>
+          </div>
+
+        </div>
+        <mat-divider></mat-divider>
+        <div class="p-4">
+          <label class="font-medium"> Contact Details </label>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="p-4">
+          <label class="font-medium"> Professional Information </label>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="p-4">
+          <label class="font-medium"> Work History, Education, and Portfolio </label>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="p-4">
+          <label class="font-medium"> Social Account Details </label>
+        </div>
+        <mat-divider></mat-divider>
+      </form>
+    </div>
   </div>
 
   <!-- Button Container -->
@@ -834,9 +886,8 @@
       <ng-container *ngIf="stepper.next.visible$()">
         <button *ngrxLet="stepper.next.disabled$() as disabled"
                 type="button" class="stroked-button ml-auto enabled:bg-white enabled:border-transparent mat-elevation-z1 disabled:shadow-none"
-                mat-ripple [matRippleDisabled]="disabled"
+                mat-ripple
                 [disabled]="disabled"
-                [disabled]="stepper.next.disabled$()"
                 (click)="this.stepper.next.click()">
           Next
         </button>
@@ -844,8 +895,8 @@
 
       <ng-container *ngIf="stepper.submit.visible$()">
         <button *ngrxLet="stepper.submit.disabled$() as disabled"
-                type="button" class="shaded-button ml-auto"
-                mat-ripple [matRippleDisabled]="disabled"
+                type="button" class="shaded-button primary ml-auto mat-elevation-z1 disabled:shadow-none"
+                mat-ripple
                 [disabled]="disabled"
                 (click)="this.stepper.submit.click()">
           Submit

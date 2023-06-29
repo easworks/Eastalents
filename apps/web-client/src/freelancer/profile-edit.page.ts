@@ -12,6 +12,7 @@ import { FormImportsModule } from '@easworks/app-shell/common/form.imports.modul
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
+import { AuthState } from '@easworks/app-shell/state/auth';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
@@ -50,7 +51,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private readonly api = {
     location: inject(LocationApi),
   } as const;
-  private readonly domains = inject(DomainState)
+  private readonly domains = inject(DomainState);
+  private readonly user = inject(AuthState).user$;
 
   @HostBinding() private readonly class = 'flex flex-col lg:flex-row';
 
@@ -77,6 +79,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly preferredWorkingHours = this.initPreferredWorkingHours();
   protected readonly jobSearchStatus = this.initJobSearchStatus();
   protected readonly availability = this.initAvailability();
+  protected readonly profileDetails = this.initProfileDetails();
 
   protected readonly stepper = this.initStepper();
 
@@ -112,7 +115,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     });
 
 
-    const totalSteps = 14;
+    const totalSteps = 15;
     const stepProgress$ = computed(() => {
       switch (step$()) {
         case 'professional-summary': return 1;
@@ -129,6 +132,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         case 'preferred-working-hours': return 12;
         case 'job-search-status': return 13;
         case 'availability': return 14;
+        case 'profile-details': return 15;
         default: return 0;
       }
     });
@@ -149,7 +153,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         (step === 'preferred-roles' && this.preferredRoles.$()?.status$() !== 'VALID') ||
         (step === 'preferred-working-hours' && this.preferredWorkingHours.status$() !== 'VALID') ||
         (step === 'job-search-status' && this.jobSearchStatus.status$() !== 'VALID') ||
-        (step === 'availability' && this.availability.status$() !== 'VALID');
+        (step === 'availability' && this.availability.status$() !== 'VALID') ||
+        (step === 'profile-details' && this.profileDetails.status$() !== 'VALID');
     });
 
     return {
@@ -164,7 +169,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         }
       }),
       next: {
-        visible$: computed(() => step$() !== 'social'),
+        visible$: computed(() => step$() !== 'profile-details'),
         disabled$: nextDisabled$,
         click: () => {
           switch (step$()) {
@@ -182,6 +187,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'preferred-roles': step$.set('preferred-working-hours'); break;
             case 'preferred-working-hours': step$.set('job-search-status'); break;
             case 'job-search-status': step$.set('availability'); break;
+            case 'availability': step$.set('profile-details'); break;
           }
           document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
         }
@@ -203,13 +209,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             case 'preferred-working-hours': step$.set('preferred-roles'); break;
             case 'job-search-status': step$.set('preferred-working-hours'); break;
             case 'availability': step$.set('job-search-status'); break;
+            case 'profile-details': step$.set('availability'); break;
           }
           document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
         }
       },
       submit: {
         disabled$: nextDisabled$,
-        visible$: computed(() => step$() === 'social'),
+        visible$: computed(() => step$() === 'profile-details'),
         click: () => {
           // 
         }
@@ -1423,6 +1430,37 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     return { form, status$, options, toggle } as const;
   }
 
+  private initProfileDetails() {
+    const form = new FormGroup({
+      firstName: new FormControl(
+        this.user()?.firstName, {
+        nonNullable: true,
+        validators: [Validators.required]
+      }),
+      lastName: new FormControl(
+        this.user()?.lastName, {
+        nonNullable: true,
+        validators: [Validators.required]
+      })
+    });
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    const psf = toSignal(controlValue$(this.professionalSummary.form, true));
+    const location$ = computed(() => {
+      const v = psf();
+      if (!v)
+        return '';
+
+      const { city, state, country } = v;
+
+      return [city.name, state.name, country.name]
+        .filter(i => !!i)
+        .join(', ');
+    })
+
+    return { form, status$, location$ } as const;
+  }
+
   private async devModeInit() {
     if (!isDevMode())
       return;
@@ -1656,5 +1694,5 @@ type Step =
   'preferred-working-hours' |
   'job-search-status' |
   'availability' |
-  'social' |
+  'profile-details' |
   'end';
