@@ -35,6 +35,14 @@
   .shaded-button {
     @apply rounded py-2 px-4 transition-all;
 
+    @apply bg-white;
+
+    &:enabled, &[href] {
+      &:hover, &:focus {
+        @apply bg-slate-100/75;
+      }
+    }
+
     &.primary {
       @apply bg-primary text-primary-text;
 
@@ -77,12 +85,12 @@
   }
 
   .stroked-button {
-    @apply block border rounded py-2 px-4 text-center
+    @apply block border rounded py-2 px-4
     transition-all;
 
     &:enabled, &[href] {
       &:hover, &:focus {
-        @apply bg-slate-500/10 ;
+        @apply bg-slate-500/10;
       }
     }
 

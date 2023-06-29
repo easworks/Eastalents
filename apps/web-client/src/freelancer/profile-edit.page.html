@@ -487,14 +487,15 @@
 
         <div *ngIf="techExp.size$() > 0"
              class="grid gap-4 mt-4">
-          <div *ngFor="let entry of techExp.value$() | keyvalue">
+          <div *ngFor="let entry of techExp.value$() | keyvalue; trackBy: trackBy.key">
             <label class="font-medium">{{entry.key}}</label>
             <!-- <div class="mt-2 flex flex-wrap gap-2"> -->
             <div class="mt-2 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-              <div *ngFor="let option of entry.value" class="bg-primary/5 text-primary rounded flex gap-2 justify-between ring-inset ring-primary ring-2">
-                <span class="px-4 py-2">{{option.value}}</span>
-                <button class="icon-button h-10 w-10 flex-none text-primary/70 hover:text-warn focus:text-warn transition-all" mat-ripple
-                        type="button" (click)="techExp.remove(entry.key, option)"
+              <div *ngFor="let option of entry.value; let i = index; trackBy: trackBy.stringOption"
+                   class="tech-option">
+                <span>{{option.value}}</span>
+                <button type="button" mat-ripple
+                        (click)="techExp.remove(entry.key, i)"
                         title="Remove">
                   <i class="fas fa-square-xmark"></i>
                 </button>
@@ -549,14 +550,15 @@
 
         <div *ngIf="industries.size$() > 0"
              class="grid gap-4 mt-4">
-          <div *ngFor="let entry of industries.value$() | keyvalue">
+          <div *ngFor="let entry of industries.value$() | keyvalue; trackBy: trackBy.key">
             <label class="font-medium">{{entry.key}}</label>
             <!-- <div class="mt-2 flex flex-wrap gap-2"> -->
             <div class="mt-2 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-              <div *ngFor="let option of entry.value" class="bg-primary/5 text-primary rounded flex gap-2 justify-between ring-inset ring-primary ring-2">
-                <span class="px-4 py-2">{{option.value}}</span>
-                <button class="icon-button h-10 w-10 flex-none text-primary/70 hover:text-warn focus:text-warn transition-all" mat-ripple
-                        type="button" (click)="industries.remove(entry.key, option)"
+              <div *ngFor="let option of entry.value; let i = index; trackBy: trackBy.stringOption"
+                   class="industry-option">
+                <span>{{option.value}}</span>
+                <button type="button" mat-ripple
+                        (click)="industries.remove(entry.key, i)"
                         title="Remove">
                   <i class="fas fa-square-xmark"></i>
                 </button>
@@ -878,14 +880,14 @@
   <ng-container *ngIf="stepper.showStepControls$()">
     <div class="flex mt-4">
       <button *ngIf="stepper.prev.visible$()" mat-ripple
-              type="button" class="stroked-button mr-auto enabled:bg-white enabled:border-transparent mat-elevation-z1 disabled:shadow-none"
+              type="button" class="shaded-button mr-auto mat-elevation-z1 disabled:shadow-none"
               (click)="this.stepper.prev.click()">
         Previous
       </button>
 
       <ng-container *ngIf="stepper.next.visible$()">
         <button *ngrxLet="stepper.next.disabled$() as disabled"
-                type="button" class="stroked-button ml-auto enabled:bg-white enabled:border-transparent mat-elevation-z1 disabled:shadow-none"
+                type="button" class="shaded-button ml-auto mat-elevation-z1 disabled:shadow-none"
                 mat-ripple
                 [disabled]="disabled"
                 (click)="this.stepper.next.click()">

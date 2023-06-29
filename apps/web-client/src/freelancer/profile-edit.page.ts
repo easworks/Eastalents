@@ -1,3 +1,4 @@
+import { KeyValue } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
@@ -91,7 +92,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     moduleOption: (_: number, m: SelectableOption<DomainModule>) => m.value.name,
     softwareOption: (_: number, s: SelectableOption<DomainProduct>) => s.value.name,
     stringOption: (_: number, s: SelectableOption<string>) => s.value,
-    name: (_: number, i: { name: string }) => i.name
+    name: (_: number, i: { name: string }) => i.name,
+    key: (_: number, kv: KeyValue<string, unknown>) => kv.key
   } as const;
 
   protected readonly displayWith = {
@@ -976,11 +978,11 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private initTechExp() {
     const stepLabel$ = this.services.stepLabel$;
 
-    const form = new FormRecord<FormControl<Set<SelectableOption<string>>>>({});
+    const form = new FormRecord<FormControl<SelectableOption<string>[]>>({});
     const value$ = toSignal(controlValue$(form), { requireSync: true });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
-    const size$ = computed(() => Object.values(value$()).reduce((p, c) => p + c.size, 0));
+    const size$ = computed(() => Object.values(value$()).reduce((p, c) => p + c.length, 0));
     const skippable$ = computed(() => size$() === 0);
     const fullSize$ = computed(() => this.domains.tech$().reduce((p, c) => p + c.items.size, 0));
     const stopInput$ = computed(() => size$() >= fullSize$());
@@ -1032,20 +1034,25 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         option.selected = true;
         let control = form.controls[group];
         if (!control) {
-          control = new FormControl(new Set<SelectableOption<string>>(), { nonNullable: true });
+          control = new FormControl([], { nonNullable: true });
           form.addControl(group, control);
         }
-        control.value.add(option);
+        control.value.push(option);
+        control.value.sort((a, b) => sortString(a.value, b.value));
         control.updateValueAndValidity();
         query$.mutate(v => v);
       },
-      remove: (group: string, option: SelectableOption<string>) => {
-        option.selected = false;
+      remove: (group: string, i: number) => {
         const control = form.controls[group];
         if (!control)
           throw new Error('invalid operation');
-        control.value.delete(option);
-        if (control.value.size)
+        const option = control.value.at(i);
+        if (!option)
+          throw new Error('invalid operation');
+
+        option.selected = false;
+        control.value.splice(i, 1);
+        if (control.value.length)
           control.updateValueAndValidity();
         else
           form.removeControl(group);
@@ -1077,17 +1084,23 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private initIndustries() {
     const stepLabel$ = this.services.stepLabel$;
 
-    const form = new FormRecord<FormControl<Set<SelectableOption<string>>>>({});
+    const form = new FormRecord<FormControl<SelectableOption<string>[]>>({});
     const value$ = toSignal(controlValue$(form), { requireSync: true });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
     const size$ = signal(0);
-    const stopInput$ = computed(() => size$() >= 5);
+    const fullSize$ = computed(() => this.domains.industries$().reduce((p, c) => p + c.industries.length, 0));
+    const stopInput$ = computed(() => {
+      const size = size$();
+      console.debug(size);
+      return size >= 5 || size >= fullSize$();
+    });
 
     form.addValidators((c) => {
-      const v = c.value as Record<string, Set<SelectableOption<string>>>;
+      const v = c.value as Record<string, SelectableOption<string>[]>;
       const size = Object.values(v)
-        .reduce((p, c) => p + c.size, 0);
+        .reduce((p, c) => p + c.length, 0);
+      console.debug(v, size);
       size$.set(size);
       if (size === 0)
         return { minlength: 1 };
@@ -1145,20 +1158,25 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         option.selected = true;
         let control = form.controls[group];
         if (!control) {
-          control = new FormControl(new Set<SelectableOption<string>>(), { nonNullable: true });
+          control = new FormControl([], { nonNullable: true });
           form.addControl(group, control);
         }
-        control.value.add(option);
+        control.value.push(option);
+        control.value.sort((a, b) => sortString(a.value, b.value));
         control.updateValueAndValidity();
         query$.mutate(v => v);
       },
-      remove: (group: string, option: SelectableOption<string>) => {
-        option.selected = false;
+      remove: (group: string, i: number) => {
         const control = form.controls[group];
         if (!control)
           throw new Error('invalid operation');
-        control.value.delete(option);
-        if (control.value.size)
+        const option = control.value.at(i);
+        if (!option)
+          throw new Error('invalid operation');
+
+        option.selected = false;
+        control.value.splice(i, 1);
+        if (control.value.length)
           control.updateValueAndValidity();
         else
           form.removeControl(group);
