@@ -885,6 +885,29 @@
         <mat-divider></mat-divider>
         <div class="p-4">
           <label class="font-medium"> Social Account Details </label>
+
+          <ng-container *ngrxLet="profileDetails.form.controls.social as form">
+            <div *ngrxLet="form.controls.linkedIn as control"
+                 [formFieldControl]="control" class="mt-4">
+              <label>LinkedIn</label>
+              <input type="text" [formControl]="control"
+                     placeholder="Profile Link">
+            </div>
+
+            <div *ngrxLet="form.controls.github as control"
+                 [formFieldControl]="control">
+              <label>GitHub</label>
+              <input type="text" [formControl]="control"
+                     placeholder="Profile Link">
+            </div>
+
+            <div *ngrxLet="form.controls.gitlab as control"
+                 [formFieldControl]="control">
+              <label>GitLab</label>
+              <input type="text" [formControl]="control"
+                     placeholder="Profile Link">
+            </div>
+          </ng-container>
         </div>
         <mat-divider></mat-divider>
       </form>

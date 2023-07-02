@@ -1486,6 +1486,11 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         this.user()?.lastName, {
         nonNullable: true,
         validators: [Validators.required]
+      }),
+      social: new FormGroup({
+        linkedIn: new FormControl(''),
+        github: new FormControl(''),
+        gitlab: new FormControl(''),
       })
     });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
@@ -1674,8 +1679,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     }
 
     {
-      const { toggle, options } = this.jobCommittment;
-
+      const { options, toggle } = this.jobSearchStatus;
       toggle(options[0]);
 
       this.stepper.next.click();
