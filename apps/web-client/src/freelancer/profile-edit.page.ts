@@ -1,5 +1,5 @@
 import { KeyValue } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, computed, effect, inject, isDevMode, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, WritableSignal, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -1092,7 +1092,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const fullSize$ = computed(() => this.domains.industries$().reduce((p, c) => p + c.industries.length, 0));
     const stopInput$ = computed(() => {
       const size = size$();
-      console.debug(size);
       return size >= 5 || size >= fullSize$();
     });
 
@@ -1100,7 +1099,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       const v = c.value as Record<string, SelectableOption<string>[]>;
       const size = Object.values(v)
         .reduce((p, c) => p + c.length, 0);
-      console.debug(v, size);
       size$.set(size);
       if (size === 0)
         return { minlength: 1 };
@@ -1261,35 +1259,42 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private initPreferredRoles() {
     const injector = this.injector;
 
-    const obs$ = this.modules.selected$
+    const obs$ = this.primaryDomains.selected$
       .pipe(
         map(selected => {
           const exists = this.preferredRoles?.$()?.form.getRawValue();
 
-          const form = new FormRecord<FormControl<Set<string>>>({});
+          const form = new FormRecord<FormControl<SelectableOption<string>[]>>({});
           const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
 
           const options: Record<string, {
-            list: SelectableOption<string>[],
+            query$: WritableSignal<string | object>,
+            filtered$: Signal<SelectableOption<string>[]>,
+            value$: Signal<SelectableOption<string>[]>,
             record: Record<string, SelectableOption<string>>,
             size$: Signal<number>,
             stopInput$: Signal<boolean>,
-            toggle: (option: SelectableOption<string>) => void
+            add: (option: SelectableOption<string>) => void,
+            remove: (i: number) => void,
           }> = {};
 
-          selected.forEach(s => {
+          selected.forEach(domain => {
             const size$ = signal(0);
-            const stopInput$ = computed(() => size$() >= 5);
+            const totalRoles = domain.modules.reduce((p, c) => p + c.roles.length, 0);
+            const stopInput$ = computed(() => {
+              const size = size$();
+              return size >= 5 || size >= totalRoles;
+            });
 
-            const roleForm = new FormControl(new Set<string>(), {
+            const roleForm = new FormControl([] as SelectableOption<string>[], {
               nonNullable: true,
               validators: [
                 c => {
-                  const size = (c.value as Set<string>).size;
-                  size$.set(size);
-                  if (size < 1)
+                  const length = (c.value as SelectableOption<string>[]).length;
+                  size$.set(length);
+                  if (length < 1)
                     return { minlength: 1 };
-                  if (size > 5)
+                  if (length > 5)
                     return { maxlength: 5 };
                   return null;
                 }
@@ -1297,7 +1302,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             });
 
             const record: Record<string, SelectableOption<string>> = {};
-            s.modules.forEach(m => {
+            domain.modules.forEach(m => {
               m.roles.forEach(r => {
                 const opt: SelectableOption<string> = {
                   selected: false,
@@ -1311,23 +1316,45 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             const list = Object.values(record)
               .sort((a, b) => sortString(a.value, b.value));
 
-            form.addControl(s.domain.key, roleForm, { emitEvent: false });
+            const query$ = signal<string | object>('');
+            const filtered$ = computed(() => {
+              const q = query$();
+              const filter = typeof q === 'string' && q.trim().toLowerCase();
 
-            options[s.domain.key] = {
-              list,
+              if (filter) {
+                return list.filter(o => !o.selected && o.value.toLowerCase().includes(filter));
+              }
+              return list.filter(o => !o.selected);
+            });
+
+            form.addControl(domain.key, roleForm, { emitEvent: false });
+
+            const value$ = toSignal(controlValue$(roleForm), { requireSync: true, injector });
+
+            options[domain.key] = {
+              query$,
+              filtered$,
+              value$,
               record,
               size$,
               stopInput$,
-              toggle: (option) => {
-                if (option.selected) {
-                  option.selected = false;
-                  roleForm.value.delete(option.value);
-                }
-                else {
-                  option.selected = true;
-                  roleForm.value.add(option.value);
-                }
+              add: (option) => {
+                if (option.selected)
+                  return;
+                option.selected = true;
+                const { value } = roleForm;
+                value.push(option);
+                value.sort((a, b) => sortString(a.value, b.value));
                 roleForm.updateValueAndValidity();
+                query$.mutate(v => v);
+              },
+              remove: (i) => {
+                const { value } = roleForm;
+                const option = value[i];
+                value.splice(i, 1);
+                option.selected = false;
+                roleForm.updateValueAndValidity();
+                query$.mutate(v => v);
               }
             }
           });
@@ -1343,7 +1370,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
           form.updateValueAndValidity();
 
-          const domains = selected.map(s => s.domain);
+          const domains = selected;
 
           return { form, status$, options, domains } as const;
         }),
@@ -1626,8 +1653,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       const { domains, options } = this.preferredRoles.$()!;
 
       domains.forEach(domain => {
-        const { list, toggle } = options[domain.key];
-        toggle(list[0]);
+        const { filtered$, add } = options[domain.key];
+        const [o1, o2] = filtered$();
+        add(o1);
+        add(o2);
       });
 
       this.stepper.next.click();

@@ -494,7 +494,7 @@
               <div *ngFor="let option of entry.value; let i = index; trackBy: trackBy.stringOption"
                    class="tech-option">
                 <span>{{option.value}}</span>
-                <button type="button" mat-ripple
+                <button type="button" mat-ripple class="icon-button"
                         (click)="techExp.remove(entry.key, i)"
                         title="Remove">
                   <i class="fas fa-square-xmark"></i>
@@ -557,7 +557,7 @@
               <div *ngFor="let option of entry.value; let i = index; trackBy: trackBy.stringOption"
                    class="industry-option">
                 <span>{{option.value}}</span>
-                <button type="button" mat-ripple
+                <button type="button" mat-ripple class="icon-button"
                         (click)="industries.remove(entry.key, i)"
                         title="Remove">
                   <i class="fas fa-square-xmark"></i>
@@ -709,18 +709,33 @@
               </span>
             </label>
 
-            <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-              <ng-container *ngFor="let roleOption of options.list; trackBy: trackBy.stringOption">
-                <button *ngrxLet="options.stopInput$() && !roleOption.selected as disabled"
-                        type="button" mat-ripple
-                        class="preferred-role-option"
-                        [class.selected]="roleOption.selected"
-                        [disabled]="disabled"
-                        (click)="options.toggle(roleOption)">
-                  {{roleOption.label}}
+            <div class="mt-4 grid gap-4" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+              <div *ngFor="let option of options.value$(); let i = index; trackBy: trackBy.stringOption"
+                   class="preferred-role-option">
+                <span>{{option.value}}</span>
+                <button type="button" mat-ripple class="icon-button"
+                        (click)="options.remove(i)"
+                        title="Remove">
+                  <i class="fas fa-square-xmark"></i>
                 </button>
-              </ng-container>
+              </div>
+            </div>
 
+            <div *ngIf="!options.stopInput$()" class="mt-4">
+              <div class="form-field !mb-0">
+                <input type="text" placeholder="Type to filter"
+                       [ngModel]="options.query$()"
+                       (ngModelChange)="options.query$.set($event)"
+                       [matAutocomplete]="prefRoleOptions">
+              </div>
+
+              <mat-autocomplete #prefRoleOptions class="!p-0">
+                <mat-option *ngFor="let option of options.filtered$(); trackBy: trackBy.stringOption"
+                            [value]="options.query$()"
+                            (onSelectionChange)="options.add(option)">
+                  {{option.label}}
+                </mat-option>
+              </mat-autocomplete>
             </div>
           </div>
 

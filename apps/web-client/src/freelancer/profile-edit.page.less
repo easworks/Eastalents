@@ -35,7 +35,6 @@
 }
 
 .commitment-option,
-.preferred-role-option,
 .job-search-status-option {
   @apply flex border rounded p-2 px-4 cursor-pointer text-left
       gap-2 transition-all
@@ -59,7 +58,8 @@
 }
 
 .tech-option,
-.industry-option {
+.industry-option,
+.preferred-role-option {
   @apply bg-primary/5 text-primary rounded flex gap-2 justify-between ring-inset ring-primary ring-2 overflow-hidden;
 
   > span {
@@ -67,6 +67,6 @@
   }
 
   > button {
-    @apply icon-button rounded-none h-10 w-10 flex-none text-primary/70 hover:text-warn focus:text-warn;
+    @apply h-10 w-10 flex-none text-primary/70 hover:text-warn focus:text-warn;
   }
 }
