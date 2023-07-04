@@ -88,7 +88,7 @@
           </label>
           <p class="text-sm">Select the range that best represents your overall experience</p>
           <mat-select class="mt-2" [formControl]="control">
-            <mat-option *ngFor="let opt of professionalSummary.options.all.experience"
+            <mat-option *ngFor="let opt of professionalSummary.options.experience"
                         [value]="opt">{{opt}}</mat-option>
           </mat-select>
         </div>
@@ -117,7 +117,7 @@
                        placeholder="Type to filter"
                        [class.!pl-10]="professionalSummary.showFlag$()">
                 <mat-autocomplete #countryOptions [displayWith]="displayWith.country">
-                  <mat-option *ngFor="let country of professionalSummary.options.filtered.country$(); trackBy: trackBy.country"
+                  <mat-option *ngFor="let country of professionalSummary.options.country$(); trackBy: trackBy.country"
                               [value]="country">
                     <div class="flex gap-4 items-center">
                       <span class="font-emoji">{{country.flag}}</span>
@@ -140,7 +140,7 @@
                 <input type="text" [formControl]="control" [matAutocomplete]="stateOptions"
                        placeholder="Type to filter">
                 <mat-autocomplete #stateOptions [displayWith]="displayWith.state">
-                  <mat-option *ngFor="let state of professionalSummary.options.filtered.state$(); trackBy: trackBy.state"
+                  <mat-option *ngFor="let state of professionalSummary.options.state$(); trackBy: trackBy.state"
                               [value]="state">
                     {{state.name}}
                   </mat-option>
@@ -163,7 +163,7 @@
                 <input type="text" [formControl]="control" [matAutocomplete]="cityOptions"
                        placeholder="Type to filter">
                 <mat-autocomplete #cityOptions [displayWith]="displayWith.city">
-                  <mat-option *ngFor="let city of professionalSummary.options.filtered.city$()"
+                  <mat-option *ngFor="let city of professionalSummary.options.city$()"
                               [value]="city">
                     {{city.name}}
                   </mat-option>
@@ -182,7 +182,7 @@
                 <input type="text" [formControl]="control" [matAutocomplete]="tzOptions"
                        placeholder="Type to filter">
                 <mat-autocomplete #tzOptions [displayWith]="displayWith.timezone">
-                  <mat-option *ngFor="let tz of professionalSummary.options.filtered.timezone$()"
+                  <mat-option *ngFor="let tz of professionalSummary.options.timezone$()"
                               [value]="tz">
                     {{tz.zoneName}}
                   </mat-option>
@@ -843,7 +843,7 @@
       <mat-divider></mat-divider>
 
       <form *ngrxLet="profileDetails.form as form">
-        <div class="p-4">
+        <div class="p-4" *ngrxLet="form.controls.personalInfo as form">
           <label class="font-medium"> Personal Information </label>
           <div class="flex mt-4 flex-col md:flex-row md:gap-4">
             <div *ngrxLet="form.controls.firstName as control"
@@ -869,6 +869,24 @@
             <span class="hint">As per your professional summary</span>
           </div>
 
+          <div *ngrxLet="form.controls.citizenship as control"
+               [formFieldControl]="control">
+            <label>Citizenship</label>
+            <span class="font-emoji absolute left-2 top-8" *ngIf="control.value as value">{{value.flag}}</span>
+            <input type="text" [formControl]="control" [matAutocomplete]="countryOptions"
+                   placeholder="Type to filter"
+                   [class.!pl-10]="profileDetails.showFlag.citizenship$()">
+            <mat-autocomplete #countryOptions [displayWith]="displayWith.country">
+              <mat-option *ngFor="let country of profileDetails.options.citizenship$(); trackBy: trackBy.country"
+                          [value]="country">
+                <div class="flex gap-4 items-center">
+                  <span class="font-emoji">{{country.flag}}</span>
+                  <span>{{country.name}}</span>
+                </div>
+              </mat-option>
+            </mat-autocomplete>
+          </div>
+
         </div>
         <mat-divider></mat-divider>
         <div class="p-4">
@@ -883,31 +901,28 @@
           <label class="font-medium"> Work History, Education, and Portfolio </label>
         </div>
         <mat-divider></mat-divider>
-        <div class="p-4">
+        <div class="p-4" *ngrxLet="form.controls.social as form">
           <label class="font-medium"> Social Account Details </label>
+          <div *ngrxLet="form.controls.linkedIn as control"
+               [formFieldControl]="control" class="mt-4">
+            <label>LinkedIn</label>
+            <input type="text" [formControl]="control"
+                   placeholder="Profile Link">
+          </div>
 
-          <ng-container *ngrxLet="profileDetails.form.controls.social as form">
-            <div *ngrxLet="form.controls.linkedIn as control"
-                 [formFieldControl]="control" class="mt-4">
-              <label>LinkedIn</label>
-              <input type="text" [formControl]="control"
-                     placeholder="Profile Link">
-            </div>
+          <div *ngrxLet="form.controls.github as control"
+               [formFieldControl]="control">
+            <label>GitHub</label>
+            <input type="text" [formControl]="control"
+                   placeholder="Profile Link">
+          </div>
 
-            <div *ngrxLet="form.controls.github as control"
-                 [formFieldControl]="control">
-              <label>GitHub</label>
-              <input type="text" [formControl]="control"
-                     placeholder="Profile Link">
-            </div>
-
-            <div *ngrxLet="form.controls.gitlab as control"
-                 [formFieldControl]="control">
-              <label>GitLab</label>
-              <input type="text" [formControl]="control"
-                     placeholder="Profile Link">
-            </div>
-          </ng-container>
+          <div *ngrxLet="form.controls.gitlab as control"
+               [formFieldControl]="control">
+            <label>GitLab</label>
+            <input type="text" [formControl]="control"
+                   placeholder="Profile Link">
+          </div>
         </div>
         <mat-divider></mat-divider>
       </form>

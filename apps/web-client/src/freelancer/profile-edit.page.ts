@@ -238,12 +238,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
   private initProfessionaSummary() {
 
-    const isObject = (control: AbstractControl) => {
-      if (control.value && typeof control.value === 'object')
-        return null;
-      return { required: true };
-    };
-
     const summaryWords$ = signal(0);
 
     const form = new FormGroup({
@@ -266,19 +260,19 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         nonNullable: true
       }),
       country: new FormControl(null as unknown as ICountry, {
-        validators: [isObject],
+        validators: [Validators.required, isObject],
         nonNullable: true
       }),
       state: new FormControl(null as unknown as IState, {
-        validators: [isObject],
+        validators: [Validators.required, isObject],
         nonNullable: true
       }),
       city: new FormControl(null as unknown as ICity, {
-        validators: [isObject],
+        validators: [Validators.required, isObject],
         nonNullable: true
       }),
       timezone: new FormControl(null as unknown as Timezones, {
-        validators: [isObject],
+        validators: [Validators.required, isObject],
         nonNullable: true
       })
     });
@@ -303,16 +297,17 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       state$: signal<IState[]>([]),
       city$: signal<ICity[]>([]),
       timezone$: signal<Timezones[]>([]),
-      experience: OVERALL_EXPERIENCE_OPTIONS
     };
 
     const filteredOptions = {
+      experience: OVERALL_EXPERIENCE_OPTIONS,
       country$: computed(() => {
         const value = values.country() as ICountry | string;
         const all = allOptions.country;
         if (typeof value === 'string') {
           const filter = value.trim().toLowerCase();
-          return all.filter(c => c.name.toLowerCase().includes(filter));
+          if (filter)
+            return all.filter(c => c.name.toLowerCase().includes(filter));
         }
         return all;
       }),
@@ -420,10 +415,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       loading: {
         geo$: loadingGeo$,
       },
-      options: {
-        all: allOptions,
-        filtered: filteredOptions,
-      },
+      options: filteredOptions,
       useCurrentLocation: async () => {
         this.loading.add('getting geolocation');
         // const pos = await this.geo.get();
@@ -1477,15 +1469,21 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
   private initProfileDetails() {
     const form = new FormGroup({
-      firstName: new FormControl(
-        this.user()?.firstName, {
-        nonNullable: true,
-        validators: [Validators.required]
-      }),
-      lastName: new FormControl(
-        this.user()?.lastName, {
-        nonNullable: true,
-        validators: [Validators.required]
+      personalInfo: new FormGroup({
+        firstName: new FormControl(
+          this.user()?.firstName, {
+          nonNullable: true,
+          validators: [Validators.required]
+        }),
+        lastName: new FormControl(
+          this.user()?.lastName, {
+          nonNullable: true,
+          validators: [Validators.required]
+        }),
+        citizenship: new FormControl(
+          null as unknown as ICountry, {
+          validators: [isObject]
+        })
       }),
       social: new FormGroup({
         linkedIn: new FormControl(''),
@@ -1494,6 +1492,34 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       })
     });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    const values = {
+      citizenship: toSignal(controlValue$(form.controls.personalInfo.controls.citizenship), { requireSync: true })
+    } as const;
+
+    const showFlag = {
+      citizenship$: computed(() => {
+        const v = values.citizenship();
+        return !!v && typeof v !== 'string';
+      })
+    } as const;
+
+    const allOptions = {
+      countries: Country.getAllCountries()
+    } as const;
+
+    const options = {
+      citizenship$: computed(() => {
+        const value = values.citizenship() as ICountry | string;
+        const all = allOptions.countries;
+        if (typeof value === 'string') {
+          const filter = value.trim().toLowerCase();
+          if (filter)
+            return all.filter(c => c.name.toLowerCase().includes(filter));
+        }
+        return all;
+      })
+    } as const;
 
     const psf = toSignal(controlValue$(this.professionalSummary.form, true));
     const location$ = computed(() => {
@@ -1506,9 +1532,16 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       return [city.name, state.name, country.name]
         .filter(i => !!i)
         .join(', ');
-    })
+    });
 
-    return { form, status$, location$ } as const;
+    effect(() => {
+      const v = psf();
+      if (!v) return;
+      const { country } = v;
+      form.controls.personalInfo.controls.citizenship.setValue(country);
+    }, { allowSignalWrites: true });
+
+    return { form, status$, location$, options, showFlag } as const;
   }
 
   private async devModeInit() {
@@ -1541,7 +1574,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       form.controls.state.reset(state);
       await sleep();
       form.controls.city.reset(city);
-      form.controls.timezone.reset(this.professionalSummary.options.all.timezone$()[0]);
+      form.controls.timezone.reset(this.professionalSummary.options.timezone$()[0]);
 
       this.stepper.next.click();
     }
@@ -1747,3 +1780,11 @@ type Step =
   'availability' |
   'profile-details' |
   'end';
+
+const isObject = (control: AbstractControl) => {
+  if (control.value) {
+    if (typeof control.value !== 'object')
+      return { required: true };
+  }
+  return null;
+};
