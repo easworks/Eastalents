@@ -1529,6 +1529,22 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       countryCode: getPhoneCodeOptions(countries)
     } as const;
 
+    function filterCountryCode(value$: Signal<ICountry | string | null>) {
+      return computed(() => {
+        const value = value$();
+        if (value) {
+          const filter = typeof value === 'string' ?
+            value.replace(notNumber, '') :
+            value.phonecode.replace(notNumber, '');
+
+          if (filter)
+            return allOptions.countryCode
+              .filter(c => c.plainPhoneCode.toLowerCase().includes(filter));
+        }
+        return allOptions.countryCode;
+      });
+    }
+
     const options = {
       citizenship$: computed(() => {
         const value = values.citizenship() as ICountry | string;
@@ -1543,19 +1559,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         }
         return all;
       }),
-      mobileCode$: computed(() => {
-        const value = values.mobileCode() as ICountry | string;
-        const all = allOptions.countryCode;
-        if (value) {
-          const filter = typeof value === 'string' ?
-            value.replace(notNumber, '') :
-            value.phonecode.replace(notNumber, '');
-
-          if (filter)
-            return all.filter(c => c.plainPhoneCode.toLowerCase().includes(filter));
-        }
-        return all;
-      })
+      mobileCode$: filterCountryCode(values.mobileCode),
     } as const;
 
     const psf = toSignal(controlValue$(this.professionalSummary.form, true));
