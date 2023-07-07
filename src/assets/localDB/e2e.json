@@ -1,15 +1,13 @@
-[
-    {
-      "title":"Vetted Individuals",
-      "desc":"Find the missing skill on your team with one of our pre-vetted EAS professionals who bring the skill-set and knowledge you’re after.",
-       "img":"https://assets3.lottiefiles.com/packages/lf20_7akav0kg.json",
+[{
+        "title": "Vetted Individuals",
+        "desc": "Bridge the EAS Skill Gap in Your Team with our pre-vetted EAS professionals who bring the enterprise application expertise and the skill set you're looking for.",
+        "img": "https://assets3.lottiefiles.com/packages/lf20_7akav0kg.json",
         "content": {
             "title": "Vetted Individuals",
             "sec_1_title": "Hire Individual top EAS Talents on-demand based on skill or role.",
             "sec_1_desc": "<p>With the right EAS team members, you can boost the EAS project's performance, outcome, and smoothness to any enterprise projects and, as they enter new phases of maturity, sometimes it’s necessary to add new EAS members or fill the skill gaps who are just right for the job. </p> <p>EAS talent can be hire skilled professionals for short term or long-term project based on your EAS projects goal.</p><p>EASWORKS allows you to hire EAS  talent on-demand (Talent as a service - TaaS), proven, reliable, and cost-effective way for our enterprise clients.</p>",
             "sec_1_btn_txt": "Talk to us",
-            "sec_2": [
-                {
+            "sec_2": [{
                     "img": "https://assets10.lottiefiles.com/packages/lf20_0eaxhxe9.json",
                     "title": "Dedicated EAS individuals",
                     "desc": "Assigned to a particular client and will remain intact over the life cycle of EAS project."
@@ -36,8 +34,7 @@
                 }
             ],
             "sec_3_img": "https://assets4.lottiefiles.com/packages/lf20_ureyqxyw.json",
-            "sec_3_steps": [
-                {
+            "sec_3_steps": [{
                     "step": "01",
                     "title": "Talent & Higher EAS Experts Commitment",
                     "desc": "Quickly integrate outstanding software engineers that increase your team's capacity and add value to your project."
@@ -58,8 +55,7 @@
                     "desc": "Increase or decrease the size of your development workforce as needed with on-demand talent to complete the project within the budget."
                 }
             ],
-            "sec_4_qa": [
-                {
+            "sec_4_qa": [{
                     "question": "Need specific EAS skills",
                     "ans": "Need to quickly expand your team by bringing in high skilled & domain specific EAS experts."
                 },
@@ -77,8 +73,7 @@
                 }
             ],
             "sec_4_img": "https://assets7.lottiefiles.com/packages/lf20_moral0w2.json",
-            "sec_5_title": [
-                {
+            "sec_5_title": [{
                     "title": "Identifying talent gaps",
                     "desc": "Based on your project and analyze if your in-house team has the needed skills and time to fulfill the project themselves across the project lifecycle. Make a list of what Enterprise Application resources and technologies are required to complete the project smoothly.</p> <p>If you see a talent shortage on your team to handle the EAS project, then get in touch with EASWORKS to fill the gaps.",
                     "img": "https://assets8.lottiefiles.com/packages/lf20_dczitgbo.json"
@@ -102,17 +97,16 @@
             "sec_6_title": "EASWORKS connects the elite Enterprise Application software Individual talents all over the world"
         }
     },
-     {
-      "title":"Full Teams",
-      "desc":"Recruit your dream team on a per-project basis, ready to start immediately.",
-       "img":"https://assets2.lottiefiles.com/packages/lf20_kcovw7lp.json",
+    {
+        "title": "Full Teams",
+        "desc": "Hire a fully equipped remote team on a per-project basis with needed EAS skills, ready to start immediately.",
+        "img": "https://assets2.lottiefiles.com/packages/lf20_kcovw7lp.json",
         "content": {
             "title": "Full Team",
             "sec_1_title": "Hire EAS dedicated full team to deliver tech solutions and the value.",
             "sec_1_desc": "<p>EASWORKS provides all the EAS roles needed to complete the team you require. This is typically composed of a Sr.Developer, Solution Architect, UX/UI Designer, QA engineers, PM and other roles that are defined for each specific Enterprise Application project. Management is conducted jointly by a Scrum Master and the client’s product owner.  </p> <p>With Dedicated Full Team approach of having experienced EAS professionals, EASWORKS can immediately deliver technology solutions with quickly assembled teams ready to work & support on your EAS project and project responsibility and ownership are shared by the client and the EASWORKS determining on which responsibilities belong to whom.</p><p>Typical  EASWORKS Full team consists of all the key needed stakeholders based on your specific EAS project :</p> <ul><li>Sr. Developers</li><li>QA engineers</li><li>DevOps engineers</li><li>Project managers</li><li>UX/UI designers</li><li>Solution Architect</li><li>Business analysts</li></ul>",
             "sec_1_btn_txt": "Talk to us",
-            "sec_2": [
-                {
+            "sec_2": [{
                     "img": "https://assets8.lottiefiles.com/packages/lf20_i0gwtggi.json",
                     "title": "Full Equipped EAS Team",
                     "desc": "Assigned to a particular client and will remain intact over the life cycle of EAS project delivery."
@@ -134,8 +128,7 @@
                 }
             ],
             "sec_3_img": "https://assets5.lottiefiles.com/packages/lf20_ifcsdsaa.json",
-            "sec_3_steps": [
-                {
+            "sec_3_steps": [{
                     "step": "01",
                     "title": "Full team with Trained and Experienced Professionals ",
                     "desc": "If you lack the skills or experience needed to manage EAS projects on your own. EASWORKS talents consists of well-trained, experienced, qualified, and certified professionals who can manage your EAS project efficiently and cost-effectively."
@@ -156,8 +149,7 @@
                     "desc": "The ability to stay focused on your core business is probably the biggest benefit of having EASWORKS full equipped team which eliminates the distraction of complex IT decisions, allowing you to focus on what you do best."
                 }
             ],
-            "sec_4_qa": [
-                {
+            "sec_4_qa": [{
                     "question": "Hiring in house team -unjustified",
                     "ans": "Long-term projects on broadscale and unpredictable changes and lags in-house house Enterprise Application software developers. When dealing with a one-time tech EAS project, hiring an in-house team is not justified."
                 },
@@ -175,8 +167,7 @@
                 }
             ],
             "sec_4_img": "https://assets6.lottiefiles.com/packages/lf20_vneroaor.json",
-            "sec_5_title": [
-                {
+            "sec_5_title": [{
                     "title": "Core business & Identifying talent gaps within team. ",
                     "desc": "<p>Based on your project and analyze if  this is core to your business and check your in-house team has the needed skills and time to fulfill the project themselves. Make a list of what Enterprise Application resources and technologies are required to complete the project smoothly.</p> <p>If you see a that this is not core to your business or have talent shortage on different technologies & skills needed for the EAS project, then get in touch with EASWORKS to fill the gaps.</p>",
                     "img": "https://assets10.lottiefiles.com/packages/lf20_zpt5gciw.json"
@@ -200,17 +191,16 @@
             "sec_6_title": "EASWORKS connects the elite Enterprise Application software Individual talents all over the world"
         }
     },
-     {
-      "title":"Enterprise Application Projects",
-      "desc":"Hire a fully-equipped remote team to manage and execute your EAS project within your budget and deadlines.",
-       "img":"https://assets6.lottiefiles.com/packages/lf20_agykieqg.json",
+    {
+        "title": "Enterprise Application Projects",
+        "desc": "EASWORKS platform allows us to pull from the elite global enterprise application talent to create a hand-picked AND fully managed team to reliably deliver on your enterprise project within your budget and deadlines.",
+        "img": "https://assets6.lottiefiles.com/packages/lf20_agykieqg.json",
         "content": {
             "title": "Enterprise Application Projects",
             "sec_1_title": "Partner with EASWORKS to deliver any complex EAS projects using latest tech stack.",
             "sec_1_desc": "<p>EASWORKS manages the whole process of  enterprise application development , testing & implementation based on your specifications, schedule & budget. </p> <p>Partnering & outsourcing with EASWORKS allows organizations to develop high-quality software products in a cost-efficient way. From smart customization of pre-developed platforms to full-cycle custom reliable solutions.</p><p>EASWORKS will develop the enterprise Application operating using agile best practices & methodologies.  In-house Project Manager/Product Owner will have weekly/monthly/milestones-based cadence with EASWORKS based on mutual agreement during the project planning phase based on EAS project complexity.</p>",
             "sec_1_btn_txt": "Talk to us",
-            "sec_2": [
-                {
+            "sec_2": [{
                     "img": "https://assets10.lottiefiles.com/packages/lf20_nnnq5pbo.json",
                     "title": "EAS Project ownership",
                     "desc": "Entire EAS Project life cycle owned and managed by Partners and no recruitment risk."
@@ -232,8 +222,7 @@
                 }
             ],
             "sec_3_img": "https://assets4.lottiefiles.com/packages/lf20_ureyqxyw.json",
-            "sec_3_steps": [
-                {
+            "sec_3_steps": [{
                     "step": "01",
                     "title": "Clear timeline and outcomes",
                     "desc": "Before you start project-based outsourcing engagement, be clear about defining timelines and deliverables."
@@ -259,8 +248,7 @@
                     "desc": "The ability to stay focused on your core business is probably the biggest benefit of partnering with EASWORKS which eliminates the distraction of developing complex EAS project & managing resources, allowing you to focus on what you do best."
                 }
             ],
-            "sec_4_qa": [
-                {
+            "sec_4_qa": [{
                     "question": "When you have a EAS project that is not your main product",
                     "ans": "EAS Project-based outsourcing is fit for businesses of all sizes, although it works best for initiatives that are not core products."
                 },
@@ -278,8 +266,7 @@
                 }
             ],
             "sec_4_img": "https://assets6.lottiefiles.com/packages/lf20_vneroaor.json",
-            "sec_5_title": [
-                {
+            "sec_5_title": [{
                     "title": "Core business & Identifying Outsourcing partner",
                     "desc": "Based on your project and analyze if  this is core to your business and check your in-house team has the needed skills and time to fulfill the project themselves. Make a list of what Enterprise Application resources and technologies are required to complete the project smoothly.</p> <p>If you see a that this is not core to your business or have talent shortage on different technologies & skills needed for the EAS project, then get in touch with EASWORKS to partner & outsource your Application project.",
                     "img": "https://assets5.lottiefiles.com/packages/lf20_ilwog45y.json"

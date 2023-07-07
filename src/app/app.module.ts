@@ -34,6 +34,8 @@ import { ToastrModule } from 'ngx-toastr';
 // import { VerificationComponent } from './verification/verification.component';
 import { HttpAuthInterceptor } from './_helpers/http-auth.interceptor';
 import { FilterPipe } from './header/filter.pipe';
+// import { ServiceTypeComponent } from './service-type/service-type.component';
+// import { CompanyTypeComponent } from './company-type/company-type.component';
 // import { FavouriteSavedComponent } from './favourite-saved/favourite-saved.component';
 // import { DashboardComponent } from './dashboard/dashboard.component';
 // import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
@@ -85,6 +87,8 @@ import { FilterPipe } from './header/filter.pipe';
     // NotificationsComponent,
     // TalenMessageboxComponent,
     FilterPipe,
+    // ServiceTypeComponent,
+    // CompanyTypeComponent,
     // FavouriteSavedComponent,
     // DashboardComponent
     // VerificationComponent,

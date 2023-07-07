@@ -9,15 +9,32 @@
                 <img src="assets/img/black-logo.png" />
             </a>
         </h1>
+        <nav class="nav-menu d-lg-block mr-auto">
+            <button type="button" class="toggleMenu toggle-closebtn"><i class='bx bx-x'></i></button>
+            <ul>
+                <!-- <li><a [routerLinkActive]="['active']" [routerLink]="['/Talent']">Talent</a></li> -->
+                <li>
+                    <a [routerLinkActive]="['active']" [routerLink]="['/index']">Home</a>
+                </li>
+                <li>
+                    <a [routerLinkActive]="['active']" [routerLink]="['/How']">For Companies</a>
+                </li>
+                <li>
+                    <a [routerLinkActive]="['active']" [routerLink]="['/WhyEasworks']">Why EASWORKS?</a>
+                </li>
+                <li>
+                    <a [routerLinkActive]="['active']" [routerLink]="['/talent']"> EASWORKS Talent </a>
+                </li>
+            </ul>
+        </nav>
         <nav class="nav-menu profile-creat-nav d-none d-lg-block">
             <ul>
                 <li><a href="javascript:void(0)">Profile</a></li>
-                <li><a href="javascript:void(0)">Workskill</a></li>
                 <li><a href="javascript:void(0)">Your Jobs</a></li>
                 <li><a href="javascript:void(0)">Interviews</a></li>
+                <li><a href="javascript:void(0)">Dashboard</a></li>
                 <li class="user-details dropdown">
-                    <a class="user-icon dropdown-toggle" href="javascript:void(0)" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="user-icon dropdown-toggle" href="javascript:void(0)" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class='bx bxs-user-circle'></i>
                     </a>
                     <div class="user-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -38,8 +55,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="view-res-btngroup mb-2 justify-content-end">
-                        <button type="button" class="resumebtn ml-2" data-bs-toggle="modal" data-bs-target="#addmembers"
-                            (click)="members()">Members</button>
+                        <button type="button" class="resumebtn ml-2" data-bs-toggle="modal" data-bs-target="#addmembers" (click)="members()">Members</button>
                         <button type="button" class="resumebtn bgcolor4f4ffc ml-2 mr-2" (click)="startHiring()">Start
                             Hiring</button>
                         <button type="button" class="resumebtn" (click)="dashboard()">Dashboard</button>
@@ -317,8 +333,7 @@
                     <div class="profile-card mb-3">
                         <div class="common-title d-flex justify-content-between">
                             <h2 class="card-title mb-0">Company Members</h2>
-                            <button type="button" class="resumebtn update-resume ml-2" data-bs-toggle="modal"
-                                data-bs-target="#addmembers"><i class='bx bx-plus-circle add-mem'></i>Add
+                            <button type="button" class="resumebtn update-resume ml-2" data-bs-toggle="modal" data-bs-target="#addmembers"><i class='bx bx-plus-circle add-mem'></i>Add
                                 Members</button>
                         </div>
                         <div class="profile-body p-3">

@@ -39,9 +39,15 @@ export class HeaderComponent implements OnInit {
 
       $('#togglebutton').click(function () {
         $('.nav-menu').show();
+        $('body').addClass('overflow-hidden');
       });
       $('.toggle-closebtn').click(function () {
         $('.nav-menu').hide();
+        $('body').removeClass('overflow-hidden');
+      });
+      $('.nav-menu a').click(function(){
+        $('.nav-menu').hide();
+        $('body').removeClass('overflow-hidden');
       });
     });
 

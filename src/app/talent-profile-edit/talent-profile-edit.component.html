@@ -1,271 +1,287 @@
 <!----- Header ----->
 <header id="header" class="fixed-top">
-  <div class="container-fluid d-flex align-items-center">
-    <h1 class="logo mr-auto">
-      <a class="black-logo" [routerLink]="['/index']">
-        <img src="assets/img/white-logo.png" />
-      </a>
-      <a class="white-logo" [routerLink]="['/index']">
-        <img src="assets/img/black-logo.png" />
-      </a>
-    </h1>
-    <nav class="nav-menu profile-creat-nav d-none d-lg-block">
-      <ul>
-        <li><a href="profile.html">Profile</a></li>
-        <li><a href="workskill.html">Workskill</a></li>
-        <li><a href="yourjobs.html">Your Jobs</a></li>
-        <li><a href="interviewsList.html">Interviews</a></li>
-        <li class="user-details dropdown">
-          <a class="user-icon dropdown-toggle" href="javascript:void(0)" id="dropdownMenuButton"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class='bx bxs-user-circle'></i>
-          </a>
-          <div class="user-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="javascript:void(0)"><i class='bx bxs-cog'></i>Settings</a>
-              <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-help-circle'></i>Help</a>
-              <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-log-in'></i>Logout</a>
-          </div>
-      </li>
-      </ul>
-    </nav>
-  </div>
+    <div class="container-fluid d-flex align-items-center">
+        <h1 class="logo mr-auto">
+            <a class="black-logo" [routerLink]="['/index']">
+                <img src="assets/img/white-logo.png" />
+            </a>
+            <a class="white-logo" [routerLink]="['/index']">
+                <img src="assets/img/black-logo.png" />
+            </a>
+        </h1>
+        <nav class="nav-menu d-lg-block mr-auto">
+            <button type="button" class="toggleMenu toggle-closebtn"><i class='bx bx-x'></i></button>
+            <ul>
+                <!-- <li><a [routerLinkActive]="['active']" [routerLink]="['/Talent']">Talent</a></li> -->
+                <li>
+                    <a [routerLinkActive]="['active']" [routerLink]="['/index']">Home</a>
+                </li>
+                <li>
+                    <a [routerLinkActive]="['active']" [routerLink]="['/How']">For Companies</a>
+                </li>
+                <li>
+                    <a [routerLinkActive]="['active']" [routerLink]="['/WhyEasworks']">Why EASWORKS?</a>
+                </li>
+                <li>
+                    <a [routerLinkActive]="['active']" [routerLink]="['/talent']"> EASWORKS Talent </a>
+                </li>
+            </ul>
+        </nav>
+        <nav class="nav-menu profile-creat-nav d-none d-lg-block">
+            <ul>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="workskill.html">Workskill</a></li>
+                <li><a href="yourjobs.html">Your Jobs</a></li>
+                <li><a href="interviewsList.html">Interviews</a></li>
+                <li class="user-details dropdown">
+                    <a class="user-icon dropdown-toggle" href="javascript:void(0)" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class='bx bxs-user-circle'></i>
+                    </a>
+                    <div class="user-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="javascript:void(0)"><i class='bx bxs-cog'></i>Settings</a>
+                        <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-help-circle'></i>Help</a>
+                        <a class="dropdown-item" href="javascript:void(0)"><i class='bx bx-log-in'></i>Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </header>
 <!----- Header ----->
 
 <div class="common-space">
-  <div class="profile-create-wraper">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-9 col-md-9 col-12">
-          <div class="row mb-3">
-            <div class="col-lg-8 col-md-8 col-12 pr-0">
-              <div class="profile-card">
-                <div class="profile-card-body">
-                  <div class="d-flex">
-                    <span class="pc-avatar">
+    <div class="profile-create-wraper">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-md-9 col-12">
+                    <div class="row mb-3">
+                        <div class="col-lg-8 col-md-8 col-12 pr-0">
+                            <div class="profile-card">
+                                <div class="profile-card-body">
+                                    <div class="d-flex">
+                                        <span class="pc-avatar">
                       <img src="{{imgUrl}}" />
                       <div class="edit-profile">
                         <input type="file" id="fileupload" accept=".png,.jpg" (change)="onImage($event)" />
                         <label for="fileupload"><i class='bx bxs-edit'></i>Edit</label>
                       </div>
                     </span>
-                    <div class="pc-namd-detail">
-                      <h1>{{personalData.firstName}}<span [ngStyle]="{'margin-left': '5px'}"> {{ personalData.lastName}} </span></h1>
-                      <ul class="pc-type mt-2">
-                        <li>
-                          <label>Current Role:</label>
-                          <div class="flex-baseline">
-                            <span class="pc-text">{{dataToDisplay.currentPLM}}</span>
-                            <button type="button" class="com-edit"><i class='bx bxs-edit com-edit' (click)="onUpdate('11')"></i></button>
-                          </div>
-                        </li>
-                        <li>
-                          <label>Location:</label>
-                          <div class="flex-baseline">
-                            <span class="pc-text"
-                              *ngIf="dataToDisplay && dataToDisplay.state">{{dataToDisplay.state.name}},
+                                        <div class="pc-namd-detail">
+                                            <h1>{{personalData.firstName}}<span [ngStyle]="{'margin-left': '5px'}"> {{ personalData.lastName}} </span></h1>
+                                            <ul class="pc-type mt-2">
+                                                <li>
+                                                    <label>Current Role:</label>
+                                                    <div class="flex-baseline">
+                                                        <span class="pc-text">{{dataToDisplay.currentPLM}}</span>
+                                                        <button type="button" class="com-edit"><i class='bx bxs-edit com-edit' (click)="onUpdate('11')"></i></button>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label>Location:</label>
+                                                    <div class="flex-baseline">
+                                                        <span class="pc-text" *ngIf="dataToDisplay && dataToDisplay.state">{{dataToDisplay.state.name}},
                               {{dataToDisplay.city}} </span>
-                            <button type="button" class="com-edit" (click)="onUpdate('1')"><i
+                                                        <button type="button" class="com-edit" (click)="onUpdate('1')"><i
                                 class='bx bxs-edit com-edit'></i></button>
-                          </div>
-                        </li>
-                        <li>
-                          <label>Prefered Role:</label>
-                          <div class="flex-baseline">
-                            <span class="pc-text">{{dataToDisplay.preferredPLM}}</span>
-                            <button type="button" class="com-edit"><i class='bx bxs-edit com-edit' (click)="onUpdate('11')"></i></button>
-                          </div>
-                        </li>
-                      </ul>
-                      <div class="view-res-btngroup">
-                        <button type="button" class="resumebtn" (click)="viewPdf()">View Resume</button>
-                        <input type="file" id="up-files" (change)="onupdatePDF($event)" />
-                        <!-- <button type="button" class="resumebtn update-resume ml-2" (click)="onupdatePDF()"><i class='bx bxs-edit'></i>Update
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label>Prefered Role:</label>
+                                                    <div class="flex-baseline">
+                                                        <span class="pc-text">{{dataToDisplay.preferredPLM}}</span>
+                                                        <button type="button" class="com-edit"><i class='bx bxs-edit com-edit' (click)="onUpdate('11')"></i></button>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="view-res-btngroup">
+                                                <button type="button" class="resumebtn" (click)="viewPdf()">View Resume</button>
+                                                <input type="file" id="up-files" (change)="onupdatePDF($event)" />
+                                                <!-- <button type="button" class="resumebtn update-resume ml-2" (click)="onupdatePDF()"><i class='bx bxs-edit'></i>Update
                           Resume</button> -->
-                      </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-12">
+                            <div class="profile-card">
+                                <div class="profile-card-body d-flex align-items-center flex-column">
+                                    <h2 class="card-title fontSmall">Profile Strength</h2>
+                                    <div class="radialProgressBar progress-70">
+                                        <div class="overlay">75%</div>
+                                    </div>
+                                    <p class="mb-0 common-para mt-1">Your Profile is 75% Complete.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-12">
-              <div class="profile-card">
-                <div class="profile-card-body d-flex align-items-center flex-column">
-                  <h2 class="card-title fontSmall">Profile Strength</h2>
-                  <div class="radialProgressBar progress-70">
-                    <div class="overlay">75%</div>
-                  </div>
-                  <p class="mb-0 common-para mt-1">Your Profile is 75% Complete.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-lg-12 col-md-12 col-12">
-              <div class="profile-card">
-                <div class="common-title d-flex justify-content-between">
-                  <h2 class="card-title mb-0">Profile Strength</h2>
-                  <button type="button" class="editbtn" (click)="onUpdate('1')"><i class='bx bxs-edit'></i></button>
-                </div>
-                <div class="profile-body p-3">
-                  <textarea [ngStyle]="{'width':'50rem','height':'100px'}" name="summary" readonly >{{dataToDisplay.profileSummary}}</textarea>
-                  <!-- <p class="common-para m-0">{{dataToDisplay.profileSummary}}</p> -->
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row mb-3">
-            <div class="col-lg-12 col-md-12 col-12">
-              <div class="profile-card">
-                <div class="common-title d-flex justify-content-between">
-                  <h2 class="card-title mb-0">Top Enterprise Application Domain Experience</h2>
-                  <!-- <button type="button" class="editbtn"><i class='bx bxs-edit'></i></button> -->
-                </div>
-                <div class="profile-body p-3">
-                  <div class="mepb-card">
-                    <div class="mepb-view">
-                      <h1>Specific Skills</h1>
-                      <ul class="mepb-type">
-                        <li>
-                          <span class="dot master"></span>
-                          <span class="mepb-label">Master</span>
-                        </li>
-                        <li>
-                          <span class="dot expert"></span>
-                          <span class="mepb-label">Expert</span>
-                        </li>
-                        <li>
-                          <span class="dot proficient"></span>
-                          <span class="mepb-label">Proficient</span>
-                        </li>
-                        <li>
-                          <span class="dot familiar"></span>
-                          <span class="mepb-label">Familiar</span>
-                        </li>
-                        <li>
-                          <span class="dot beginner"></span>
-                          <span class="mepb-label">Beginner</span>
-                        </li>
-                      </ul>
+                    <div class="row mb-3">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <div class="profile-card">
+                                <div class="common-title d-flex justify-content-between">
+                                    <h2 class="card-title mb-0">Profile Strength</h2>
+                                    <button type="button" class="editbtn" (click)="onUpdate('1')"><i class='bx bxs-edit'></i></button>
+                                </div>
+                                <div class="profile-body p-3">
+                                    <textarea [ngStyle]="{'width':'50rem','height':'100px'}" name="summary" readonly>{{dataToDisplay.profileSummary}}</textarea>
+                                    <!-- <p class="common-para m-0">{{dataToDisplay.profileSummary}}</p> -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <ul class="enterprise-type">
-                      <ng-container *ngIf="this.talentQuestionData[2]">
-                      <ng-container *ngFor="let data of this.talentQuestionData[2].option">
-                      <li class="enterprise-list" *ngIf ="data.selected === true">
-                        <span class="enterprise-link">{{data.value}}</span>
-                        <div class="lang-progress">
-                          <span class="lang-bar w-50">{{data.noOfYear}} </span>
-                          <span class="lang-bar bggray w-50">{{data.skill.charAt(0) | uppercase}}</span>
-                        </div>
-                      </li>
-                    </ng-container>
-                    </ng-container>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="row mb-3">
-            <div class="col-lg-12 col-md-12 col-12">
-              <div class="profile-card">
-                <div class="common-title d-flex justify-content-between">
-                  <h2 class="card-title mb-0">Top EAS Experience</h2>
-                  <button type="button" class="editbtn"><i class='bx bxs-edit' (click)="onUpdate('4')"></i></button>
-                </div>
-                <div class="profile-body p-3">
-                  <div class="mepb-card">
-
-                    <ul class="enterprise-type">
-                      <ng-container *ngIf="this.talentQuestionData[4]">
-                      <ng-container *ngFor="let data of this.talentQuestionData[4].option">
-                      <li class="enterprise-list" *ngIf ="data.selected === true">
-                        <span class="enterprise-link">{{data.value}}</span>
-                        <div class="lang-progress">
-                          <span class="lang-bar w-50">{{data.noOfYear}}</span>
-                          <span class="lang-bar bggray w-50">{{data.skill.charAt(0) | uppercase}}</span>
+                    <div class="row mb-3">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <div class="profile-card">
+                                <div class="common-title d-flex justify-content-between">
+                                    <h2 class="card-title mb-0">Top Enterprise Application Domain Experience</h2>
+                                    <!-- <button type="button" class="editbtn"><i class='bx bxs-edit'></i></button> -->
+                                </div>
+                                <div class="profile-body p-3">
+                                    <div class="mepb-card">
+                                        <div class="mepb-view">
+                                            <h1>Specific Skills</h1>
+                                            <ul class="mepb-type">
+                                                <li>
+                                                    <span class="dot master"></span>
+                                                    <span class="mepb-label">Master</span>
+                                                </li>
+                                                <li>
+                                                    <span class="dot expert"></span>
+                                                    <span class="mepb-label">Expert</span>
+                                                </li>
+                                                <li>
+                                                    <span class="dot proficient"></span>
+                                                    <span class="mepb-label">Proficient</span>
+                                                </li>
+                                                <li>
+                                                    <span class="dot familiar"></span>
+                                                    <span class="mepb-label">Familiar</span>
+                                                </li>
+                                                <li>
+                                                    <span class="dot beginner"></span>
+                                                    <span class="mepb-label">Beginner</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <ul class="enterprise-type">
+                                            <ng-container *ngIf="this.talentQuestionData[2]">
+                                                <ng-container *ngFor="let data of this.talentQuestionData[2].option">
+                                                    <li class="enterprise-list" *ngIf="data.selected === true">
+                                                        <span class="enterprise-link">{{data.value}}</span>
+                                                        <div class="lang-progress">
+                                                            <span class="lang-bar w-50">{{data.noOfYear}} </span>
+                                                            <span class="lang-bar bggray w-50">{{data.skill.charAt(0) | uppercase}}</span>
+                                                        </div>
+                                                    </li>
+                                                </ng-container>
+                                            </ng-container>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                      </li>
-                     </ng-container>
-                     </ng-container>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                    </div>
 
-          <div class="row mb-3">
-            <div class="col-lg-12 col-md-12 col-12">
-              <div class="profile-card">
-                <div class="common-title d-flex justify-content-between">
-                  <h2 class="card-title mb-0">Top Modules Experience</h2>
-                  <!-- <button type="button" class="editbtn"><i class='bx bxs-edit'></i></button> -->
-                </div>
-                <div class="profile-body p-3">
-                  <ul class="app-soft-type">
-                    <ng-container *ngIf="this.talentQuestionData[3]">
-                    <ng-container *ngFor="let data of this.talentQuestionData[3].option">
-                    <li class="app-soft-list"  *ngIf ="data.selected === true">
-                      {{data.value}}
-                    </li>
-                  </ng-container>
-                  </ng-container>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+                    <div class="row mb-3">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <div class="profile-card">
+                                <div class="common-title d-flex justify-content-between">
+                                    <h2 class="card-title mb-0">Top EAS Experience</h2>
+                                    <button type="button" class="editbtn"><i class='bx bxs-edit' (click)="onUpdate('4')"></i></button>
+                                </div>
+                                <div class="profile-body p-3">
+                                    <div class="mepb-card">
 
-          <div class="row mb-3">
-            <div class="col-lg-12 col-md-12 col-12">
-              <div class="profile-card">
-                <div class="common-title d-flex justify-content-between">
-                  <h2 class="card-title mb-0">System Phases Worked</h2>
-                  <button type="button" class="editbtn"><i class='bx bxs-edit' (click)="onUpdate('5')"></i></button>
-                </div>
-                <div class="profile-body p-3">
-                  <ul class="app-soft-type">
-                    <ng-container *ngIf="this.talentQuestionData[5]">
-                    <ng-container *ngFor="let data of this.talentQuestionData[5].option">
-                    <li class="app-soft-list" *ngIf ="data.selected === true">
-                      {{data.value}}
-                    </li>
-                  </ng-container>
-                </ng-container>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-lg-12 col-md-12 col-12">
-              <div class="profile-card">
-                <div class="common-title d-flex justify-content-between">
-                  <h2 class="card-title mb-0">Industry</h2>
-                  <button type="button" class="editbtn"><i class='bx bxs-edit' (click)="onUpdate('9')"></i></button>
-                </div>
-                <div class="profile-body p-3">
-                  <ul class="industryType row">
-                    <ng-container *ngIf="this.talentQuestionData[9]">
-                      <ng-container *ngFor="let data of this.talentQuestionData[9].option">
-                    <li class="col-lg-6 col-md-6 col-sm-6 col-12" *ngIf ="data.selected === true">
-                      <div class="industryTypeList">
-                        <div class="industry-box border-right">
-                          <label>Group</label>
-                          <span>{{data.group}}</span>
+                                        <ul class="enterprise-type">
+                                            <ng-container *ngIf="this.talentQuestionData[4]">
+                                                <ng-container *ngFor="let data of this.talentQuestionData[4].option">
+                                                    <li class="enterprise-list" *ngIf="data.selected === true">
+                                                        <span class="enterprise-link">{{data.value}}</span>
+                                                        <div class="lang-progress">
+                                                            <span class="lang-bar w-50">{{data.noOfYear}}</span>
+                                                            <span class="lang-bar bggray w-50">{{data.skill.charAt(0) | uppercase}}</span>
+                                                        </div>
+                                                    </li>
+                                                </ng-container>
+                                            </ng-container>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="industry-box">
-                          <label>Industry</label>
-                          <span>{{data.value}}</span>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <div class="profile-card">
+                                <div class="common-title d-flex justify-content-between">
+                                    <h2 class="card-title mb-0">Top Modules Experience</h2>
+                                    <!-- <button type="button" class="editbtn"><i class='bx bxs-edit'></i></button> -->
+                                </div>
+                                <div class="profile-body p-3">
+                                    <ul class="app-soft-type">
+                                        <ng-container *ngIf="this.talentQuestionData[3]">
+                                            <ng-container *ngFor="let data of this.talentQuestionData[3].option">
+                                                <li class="app-soft-list" *ngIf="data.selected === true">
+                                                    {{data.value}}
+                                                </li>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                      </div>
-                    </li>
-                    </ng-container>
-                    </ng-container>
-                    <!-- <li class="col-lg-6 col-md-6 col-sm-6 col-12">
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <div class="profile-card">
+                                <div class="common-title d-flex justify-content-between">
+                                    <h2 class="card-title mb-0">System Phases Worked</h2>
+                                    <button type="button" class="editbtn"><i class='bx bxs-edit' (click)="onUpdate('5')"></i></button>
+                                </div>
+                                <div class="profile-body p-3">
+                                    <ul class="app-soft-type">
+                                        <ng-container *ngIf="this.talentQuestionData[5]">
+                                            <ng-container *ngFor="let data of this.talentQuestionData[5].option">
+                                                <li class="app-soft-list" *ngIf="data.selected === true">
+                                                    {{data.value}}
+                                                </li>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <div class="profile-card">
+                                <div class="common-title d-flex justify-content-between">
+                                    <h2 class="card-title mb-0">Industry</h2>
+                                    <button type="button" class="editbtn"><i class='bx bxs-edit' (click)="onUpdate('9')"></i></button>
+                                </div>
+                                <div class="profile-body p-3">
+                                    <ul class="industryType row">
+                                        <ng-container *ngIf="this.talentQuestionData[9]">
+                                            <ng-container *ngFor="let data of this.talentQuestionData[9].option">
+                                                <li class="col-lg-6 col-md-6 col-sm-6 col-12" *ngIf="data.selected === true">
+                                                    <div class="industryTypeList">
+                                                        <div class="industry-box border-right">
+                                                            <label>Group</label>
+                                                            <span>{{data.group}}</span>
+                                                        </div>
+                                                        <div class="industry-box">
+                                                            <label>Industry</label>
+                                                            <span>{{data.value}}</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ng-container>
+                                        </ng-container>
+                                        <!-- <li class="col-lg-6 col-md-6 col-sm-6 col-12">
                       <div class="industryTypeList">
                         <div class="industry-box border-right">
                           <label>Group</label>
@@ -277,95 +293,95 @@
                         </div>
                       </div>
                     </li> -->
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-          <div class="row mb-3">
-            <div class="col-lg-12 col-md-12 col-12">
-              <div class="profile-card">
-                <div class="common-title d-flex justify-content-between">
-                  <h2 class="card-title mb-0">Top Development Skills</h2>
-                  <!-- <button type="button" class="editbtn"><i class='bx bxs-edit'></i></button> -->
+                    <div class="row mb-3">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <div class="profile-card">
+                                <div class="common-title d-flex justify-content-between">
+                                    <h2 class="card-title mb-0">Top Development Skills</h2>
+                                    <!-- <button type="button" class="editbtn"><i class='bx bxs-edit'></i></button> -->
+                                </div>
+                                <div class="profile-body p-3">
+                                    <ul class="app-soft-type">
+                                        <li class="app-soft-list" *ngFor="let data of randomTechData">
+                                            {{data.value}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="profile-body p-3">
-                  <ul class="app-soft-type">
-                    <li class="app-soft-list" *ngFor="let data of randomTechData">
-                      {{data.value}}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3 col-12 pl-0">
-          <div class="row">
-            <div class="col-lg-12 col-md-12 col-12">
-              <div class="profile-card mb-3">
-                <div class="profile-card-body">
-                  <h2 class="card-title fontSmall">Profile Completeness</h2>
-                  <div class="profile-completeness">
-                    <ul class="pfc-type">
-                      <li>
-                        <div class="pro-com-textedit">
-                          <label>Profile Summary</label>
-                          <button type="button" class="com-edit" (click)="onUpdate('1')"><i
+                <div class="col-lg-3 col-md-3 col-12 pl-0">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <div class="profile-card mb-3">
+                                <div class="profile-card-body">
+                                    <h2 class="card-title fontSmall">Profile Completeness</h2>
+                                    <div class="profile-completeness">
+                                        <ul class="pfc-type">
+                                            <li>
+                                                <div class="pro-com-textedit">
+                                                    <label>Profile Summary</label>
+                                                    <button type="button" class="com-edit" (click)="onUpdate('1')"><i
                               class='bx bxs-edit com-edit'></i></button>
-                        </div>
-                        <div class="talent-progress-bar">
-                          <span class="talent-progress progress-green w-100"></span>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="pro-com-textedit">
-                          <label>Top EAS Experience</label>
-                          <button type="button" class="com-edit" (click)="onUpdate('4')"><i
+                                                </div>
+                                                <div class="talent-progress-bar">
+                                                    <span class="talent-progress progress-green w-100"></span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="pro-com-textedit">
+                                                    <label>Top EAS Experience</label>
+                                                    <button type="button" class="com-edit" (click)="onUpdate('4')"><i
                               class='bx bxs-edit com-edit'></i></button>
-                        </div>
-                        <div class="talent-progress-bar">
-                          <span class="talent-progress  progress-green w-100"></span>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="pro-com-textedit">
-                          <label>EAS System Phases Worked</label>
-                          <button type="button" class="com-edit" (click)="onUpdate('5')"><i class='bx bxs-edit com-edit'></i></button>
-                        </div>
-                        <div class="talent-progress-bar">
-                          <span class="talent-progress progress-green w-100"></span>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="pro-com-textedit">
-                          <label>Job Role </label>
-                          <button type="button" class="com-edit" (click)="onUpdate('6')"><i class='bx bxs-edit com-edit'></i></button>
-                        </div>
-                        <div class="talent-progress-bar">
-                          <span class="talent-progress progress-green w-100"></span>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="pro-com-textedit">
-                          <label>Experience</label>
-                          <button type="button" class="com-edit" (click)="onUpdate('7')"><i class='bx bxs-edit com-edit'></i></button>
-                        </div>
-                        <div class="talent-progress-bar">
-                          <span class="talent-progress progress-green w-100"></span>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="pro-com-textedit">
-                          <label>Technology Stacks</label>
-                          <button type="button" class="com-edit" (click)="onUpdate('8')"><i class='bx bxs-edit com-edit'></i></button>
-                        </div>
-                        <div class="talent-progress-bar">
-                          <span class="talent-progress progress-green w-100"></span>
-                        </div>
-                      </li>
-                      <!-- <li>
+                                                </div>
+                                                <div class="talent-progress-bar">
+                                                    <span class="talent-progress  progress-green w-100"></span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="pro-com-textedit">
+                                                    <label>EAS System Phases Worked</label>
+                                                    <button type="button" class="com-edit" (click)="onUpdate('5')"><i class='bx bxs-edit com-edit'></i></button>
+                                                </div>
+                                                <div class="talent-progress-bar">
+                                                    <span class="talent-progress progress-green w-100"></span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="pro-com-textedit">
+                                                    <label>Job Role </label>
+                                                    <button type="button" class="com-edit" (click)="onUpdate('6')"><i class='bx bxs-edit com-edit'></i></button>
+                                                </div>
+                                                <div class="talent-progress-bar">
+                                                    <span class="talent-progress progress-green w-100"></span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="pro-com-textedit">
+                                                    <label>Experience</label>
+                                                    <button type="button" class="com-edit" (click)="onUpdate('7')"><i class='bx bxs-edit com-edit'></i></button>
+                                                </div>
+                                                <div class="talent-progress-bar">
+                                                    <span class="talent-progress progress-green w-100"></span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="pro-com-textedit">
+                                                    <label>Technology Stacks</label>
+                                                    <button type="button" class="com-edit" (click)="onUpdate('8')"><i class='bx bxs-edit com-edit'></i></button>
+                                                </div>
+                                                <div class="talent-progress-bar">
+                                                    <span class="talent-progress progress-green w-100"></span>
+                                                </div>
+                                            </li>
+                                            <!-- <li>
                         <div class="pro-com-textedit">
                           <label>Introduction Video</label>
                           <button type="button" class="com-edit" (click)="onUpdate('1')"><i
@@ -375,369 +391,348 @@
                           <span class="talent-progress progress-green w-0"></span>
                         </div>
                       </li> -->
-                      <li>
-                        <div class="pro-com-textedit">
-                          <label>Job Search Status Profiecncy</label>
-                          <button type="button" class="com-edit" (click)="onUpdate('10')"><i
+                                            <li>
+                                                <div class="pro-com-textedit">
+                                                    <label>Job Search Status Profiecncy</label>
+                                                    <button type="button" class="com-edit" (click)="onUpdate('10')"><i
                               class='bx bxs-edit com-edit'></i></button>
-                        </div>
-                        <div class="talent-progress-bar">
-                          <span class="talent-progress progress-green"></span>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="pro-com-textedit">
-                          <label>Rates</label>
-                          <button type="button" class="com-edit" (click)="onUpdate('11')"><i
+                                                </div>
+                                                <div class="talent-progress-bar">
+                                                    <span class="talent-progress progress-green"></span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="pro-com-textedit">
+                                                    <label>Rates</label>
+                                                    <button type="button" class="com-edit" (click)="onUpdate('11')"><i
                               class='bx bxs-edit com-edit'></i></button>
-                        </div>
-                        <div class="talent-progress-bar">
-                          <span class="talent-progress progress-green"></span>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="pro-com-textedit">
-                          <label>About yourself</label>
-                          <button type="button" class="com-edit" (click)="onUpdate('12')"><i
+                                                </div>
+                                                <div class="talent-progress-bar">
+                                                    <span class="talent-progress progress-green"></span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="pro-com-textedit">
+                                                    <label>About yourself</label>
+                                                    <button type="button" class="com-edit" (click)="onUpdate('12')"><i
                               class='bx bxs-edit com-edit'></i></button>
-                        </div>
-                        <div class="talent-progress-bar">
-                          <span class="talent-progress progress-green"></span>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="pro-com-textedit">
-                          <label>Social Media Links</label>
-                          <button type="button" class="com-edit" (click)="onUpdate('13')"><i
+                                                </div>
+                                                <div class="talent-progress-bar">
+                                                    <span class="talent-progress progress-green"></span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="pro-com-textedit">
+                                                    <label>Social Media Links</label>
+                                                    <button type="button" class="com-edit" (click)="onUpdate('13')"><i
                               class='bx bxs-edit com-edit'></i></button>
-                        </div>
-                        <div class="talent-progress-bar">
-                          <span class="talent-progress progress-green"></span>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="pro-com-textedit">
-                          <label>Work Skill Assessment (WAS)</label>
-                          <button type="button" class="com-edit"><i class='bx bxs-edit com-edit' (click)="takeSurveyAgain()"></i></button>
-                        </div>
-                        <div class="talent-progress-bar">
-                          <span class="talent-progress progress-green"></span>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-12 col-md-12 col-12">
-              <div class="profile-card">
-                <div class="profile-card-body">
-                  <div class="d-flex justify-content-between flex-wrap">
-                    <h2 class="card-title fontSmall d-flex align-items-center"><i class='bx bxs-contact'></i>Contact
-                      Us</h2>
-                    <!-- <button type="button" class="com-edit" (click)="onUpdate('1')"><i
-                        class="bx bxs-edit com-edit"></i></button> -->
-                  </div>
-                  <div class="contact-form">
-                    <form>
-                      <div class="row">
-                        <div class="col-lg-12 col-md-12 col-12">
-                          <div class="contact-form-group">
-                            <label>Address</label>
-                            <div class="contact-input-group">
-                              <span class="editLabel"
-                                *ngIf="dataToDisplay && dataToDisplay.country">{{dataToDisplay.country.name}}</span>
-                              <input type="text" class="inputview d-none" />
+                                                </div>
+                                                <div class="talent-progress-bar">
+                                                    <span class="talent-progress progress-green"></span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="pro-com-textedit">
+                                                    <label>Work Skill Assessment (WAS)</label>
+                                                    <button type="button" class="com-edit"><i class='bx bxs-edit com-edit' (click)="takeSurveyAgain()"></i></button>
+                                                </div>
+                                                <div class="talent-progress-bar">
+                                                    <span class="talent-progress progress-green"></span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-12">
-                          <div class="contact-form-group">
-                            <label>Timezone</label>
-                            <div class="contact-input-group">
-                              <span class="editLabel">Pacific/Midway</span>
-                              <select class="inputview d-none">
+                            <div class="profile-card">
+                                <div class="profile-card-body">
+                                    <div class="d-flex justify-content-between flex-wrap">
+                                        <h2 class="card-title fontSmall d-flex align-items-center"><i class='bx bxs-contact'></i>Contact Us
+                                        </h2>
+                                        <!-- <button type="button" class="com-edit" (click)="onUpdate('1')"><i
+                        class="bx bxs-edit com-edit"></i></button> -->
+                                    </div>
+                                    <div class="contact-form">
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-12">
+                                                    <div class="contact-form-group">
+                                                        <label>Address</label>
+                                                        <div class="contact-input-group">
+                                                            <span class="editLabel" *ngIf="dataToDisplay && dataToDisplay.country">{{dataToDisplay.country.name}}</span>
+                                                            <input type="text" class="inputview d-none" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-12">
+                                                    <div class="contact-form-group">
+                                                        <label>Timezone</label>
+                                                        <div class="contact-input-group">
+                                                            <span class="editLabel">Pacific/Midway</span>
+                                                            <select class="inputview d-none">
                                 <option value="1">Pacific/Midway</option>
                               </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                          <div class="contact-form-group">
-                            <label>EW REF Code</label>
-                            <div class="contact-input-group">
-                              <span class="editLabel">28480</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                          <div class="contact-form-group">
-                            <label>Stack Overflow</label>
-                            <div class="contact-input-group">
-                              <span class="editLabel">{{dataToDisplay.stackOverflow}}</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                          <div class="contact-form-group">
-                            <label>Email</label>
-                            <div class="contact-input-group">
-                              <span class="editLabel">{{personalData.email}}</span>
-                              <input type="text" class="inputview d-none" />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                          <div class="contact-form-group">
-                            <label>Telephone</label>
-                            <div class="contact-input-group">
-                              <span class="editLabel">{{dataToDisplay.phoneCode2}}{{dataToDisplay.phoneNumber2}}</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                          <div class="contact-form-group">
-                            <label>LinkedIn</label>
-                            <div class="contact-input-group">
-                              <span class="editLabel">{{dataToDisplay.LinkedIn}}</span>
-                              <input type="text" class="inputview d-none" />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                          <div class="contact-form-group">
-                            <label>GitLab</label>
-                            <div class="contact-input-group">
-                              <span class="editLabel">{{dataToDisplay.GitLab}}</span>
-                              <input type="text" class="inputview d-none" />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                          <div class="contact-form-group">
-                            <label>Portfolio</label>
-                            <div class="contact-input-group">
-                              <span class="editLabel">{{dataToDisplay.portfolio}}</span>
-                              <input type="text" class="inputview d-none" />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                          <div class="contact-form-group">
-                            <label>bitbucket</label>
-                            <div class="contact-input-group">
-                              <span class="editLabel">{{dataToDisplay.bitbucket}}</span>
-                              <input type="text" class="inputview d-none" />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                          <div class="contact-form-group">
-                            <label>Other URL</label>
-                            <div class="contact-input-group">
-                              <span class="editLabel">{{dataToDisplay.otherurl}}</span>
-                              <input type="text" class="inputview d-none" />
-                            </div>
-                          </div>
-                        </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-12">
+                                                    <div class="contact-form-group">
+                                                        <label>EW REF Code</label>
+                                                        <div class="contact-input-group">
+                                                            <span class="editLabel">28480</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-12">
+                                                    <div class="contact-form-group">
+                                                        <label>Stack Overflow</label>
+                                                        <div class="contact-input-group">
+                                                            <span class="editLabel">{{dataToDisplay.stackOverflow}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-12">
+                                                    <div class="contact-form-group">
+                                                        <label>Email</label>
+                                                        <div class="contact-input-group">
+                                                            <span class="editLabel">{{personalData.email}}</span>
+                                                            <input type="text" class="inputview d-none" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-12">
+                                                    <div class="contact-form-group">
+                                                        <label>Telephone</label>
+                                                        <div class="contact-input-group">
+                                                            <span class="editLabel">{{dataToDisplay.phoneCode2}}{{dataToDisplay.phoneNumber2}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-12">
+                                                    <div class="contact-form-group">
+                                                        <label>LinkedIn</label>
+                                                        <div class="contact-input-group">
+                                                            <span class="editLabel">{{dataToDisplay.LinkedIn}}</span>
+                                                            <input type="text" class="inputview d-none" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-12">
+                                                    <div class="contact-form-group">
+                                                        <label>GitLab</label>
+                                                        <div class="contact-input-group">
+                                                            <span class="editLabel">{{dataToDisplay.GitLab}}</span>
+                                                            <input type="text" class="inputview d-none" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-12">
+                                                    <div class="contact-form-group">
+                                                        <label>Portfolio</label>
+                                                        <div class="contact-input-group">
+                                                            <span class="editLabel">{{dataToDisplay.portfolio}}</span>
+                                                            <input type="text" class="inputview d-none" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-12">
+                                                    <div class="contact-form-group">
+                                                        <label>bitbucket</label>
+                                                        <div class="contact-input-group">
+                                                            <span class="editLabel">{{dataToDisplay.bitbucket}}</span>
+                                                            <input type="text" class="inputview d-none" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-12">
+                                                    <div class="contact-form-group">
+                                                        <label>Other URL</label>
+                                                        <div class="contact-input-group">
+                                                            <span class="editLabel">{{dataToDisplay.otherurl}}</span>
+                                                            <input type="text" class="inputview d-none" />
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                      </div>
-                    </form>
-                  </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-  <section class="profile-create-video section-bg mt-5">
-    <div class="container">
-      <div class="text-center">
-        <h2 class="second-title mb-5">Profile Video</h2>
-      </div>
-      <div class="row mt-5">
-        <div class="col-lg-6 col-md-6 col-12">
-          <div class="video-tag">
-            <video width="510" height="310" controls #videoPlayer>
+    <section class="profile-create-video section-bg mt-5">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="second-title mb-5">Profile Video</h2>
+            </div>
+            <div class="row mt-5">
+                <div class="col-lg-6 col-md-6 col-12">
+                    <div class="video-tag">
+                        <video width="510" height="310" controls #videoPlayer>
               <source src="{{videoUrl}}" type="video/mp4">
               <!-- <source [src]="videoUrl" type="video/ogg"> -->
               Your browser does not support the video tag.
             </video>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-12">
-          <div class="video-content">
-            <p class="common-para mt-0">As a remote professional on our platform, your ability to communicate over
-              video is a required skill.</p>
-            <p class="common-para">But look, there's no pressure here. Very few people love recording themselves.
-              Think of this as a light conversation starter for your future interviews. What
-              would you say about yourself if you were meeting prospective clients for the
-              first time?</p>
-            <p class="common-para">You only have to do this once - it will live on your profile and you can re-do as
-              many times as you like.</p>
-            <ul class="twowaysstreet-type p-0 mt-3">
-              <li><i class="icofont-tick-mark"></i>Write down a few talking points before you begin.</li>
-              <li><i class="icofont-tick-mark"></i>Have a clean background and good lighting.</li>
-              <li><i class="icofont-tick-mark"></i>Look into the camera when you speak.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="profile-create-video">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 col-md-6 col-12 border-right">
-          <h2 class="card-title mb-3">Job Search Status</h2>
-          <!-- <p class="common-para">Tell your future clients how much time you have for new work</p> -->
-            <ul class="form-wizard-type jss-list selectarea  mt-3 row">
-              <ng-container *ngIf="talentQuestionData && talentQuestionData[10]">
-            <li *ngFor = "let option of  talentQuestionData[10].data[0].option">
-              <a href="javascript:void(0)" class="pl-3 pr-3"
-              [style.background-color]="option.selected ?'#4949fc' :''"
-              [style.color]="option.selected ? 'white': ''"
-                [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}" >
-                <span class="d-block text-uppercase">{{option.firstPart}}</span>
-                <span *ngIf="option.secondPart">{{option.secondPart}}</span>
-                <sub *ngIf="option.thirdPart">{{option.thirdPart}}</sub>
-              </a>
-            </li>
-            </ng-container>
-            </ul>
-        </div>
-        <div class="col-lg-6 col-md-6 col-12">
-          <h2 class="card-title mb-3">Employment Opportunity</h2>
-          <div class="interested-visible">
-            <ul class="form-wizard-type jss-list selectarea  mt-3 row">
-              <ng-container *ngIf="talentQuestionData && talentQuestionData[10]">
-              <li *ngFor = "let option of  this.talentQuestionData[10].data[1].option">
-                <a href="javascript:void(0)" class="pl-3 pr-3"
-                [style.background-color]="option.selected ?'#4949fc' :''"
-                [style.color]="option.selected ? 'white': ''"
-                  [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}" >
-                  <span class="d-block text-uppercase">{{option.firstPart}}</span>
-                  <span *ngIf="option.secondPart">{{option.secondPart}}</span>
-                  <sub *ngIf="option.thirdPart">{{option.thirdPart}}</sub>
-                </a>
-              </li>
-              </ng-container>
-              </ul>
-            <div class="iv-formgroup mt-2">
-              <label>Max Hours Per Week Available for contact GIGS?</label>
-              <div class="iv-input-form">
-                <div class="d-flex align-items-center">
-                  <p class="m-0">{{dataToDisplay.weeklyHourlyRate}}</p>
-                  <button type="button" class="editbtn ml-2"><i class="bx bxs-edit" (click)="onUpdate('11')"></i></button>
+                    </div>
                 </div>
-              </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    <div class="video-content">
+                        <p class="common-para mt-0">As a remote professional on our platform, your ability to communicate over video is a required skill.</p>
+                        <p class="common-para">But look, there's no pressure here. Very few people love recording themselves. Think of this as a light conversation starter for your future interviews. What would you say about yourself if you were meeting prospective clients
+                            for the first time?</p>
+                        <p class="common-para">You only have to do this once - it will live on your profile and you can re-do as many times as you like.</p>
+                        <ul class="twowaysstreet-type p-0 mt-3">
+                            <li><i class="icofont-tick-mark"></i>Write down a few talking points before you begin.</li>
+                            <li><i class="icofont-tick-mark"></i>Have a clean background and good lighting.</li>
+                            <li><i class="icofont-tick-mark"></i>Look into the camera when you speak.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="visible-contact section-bg">
-    <div class="container">
-      <h2 class="card-title mb-3">Visible to you and Staff only</h2>
-      <div class="row">
-        <div class="col-lg-12 col-md-12 col-12">
-          <ul class="visible-so mt-2 d-flex flex-wrap">
-            <li>
-              <label>Phone Number:</label>
-              <span class="pc-text">{{dataToDisplay.phoneNumber}}</span>
-              <i class="bx bxs-edit com-edit" (click)="onUpdate('12')"></i>
-            </li>
-            <li>
-              <label>Works Hours(Your Local Time):</label>
-              <span class="pc-text">02:30</span>
-              <i class="bx bxs-edit com-edit" (click)="onUpdate('1')"></i>
-            </li>
-            <li>
-              <label>External Links:</label>
-              <span class="pc-text d-inline-flex align-items-center"><i class='bx bxl-github externallink'></i>{{dataToDisplay.GitHub}}</span>
-              <i class="bx bxs-edit com-edit" (click)="onUpdate('13')"></i>
-            </li>
-          </ul>
+    <section class="profile-create-video">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-12 border-right">
+                    <h2 class="card-title mb-3">Job Search Status</h2>
+                    <!-- <p class="common-para">Tell your future clients how much time you have for new work</p> -->
+                    <ul class="form-wizard-type jss-list selectarea  mt-3 row">
+                        <ng-container *ngIf="talentQuestionData && talentQuestionData[10]">
+                            <li *ngFor="let option of  talentQuestionData[10].data[0].option">
+                                <a href="javascript:void(0)" class="pl-3 pr-3" [style.background-color]="option.selected ?'#4949fc' :''" [style.color]="option.selected ? 'white': ''" [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}">
+                                    <span class="d-block text-uppercase">{{option.firstPart}}</span>
+                                    <span *ngIf="option.secondPart">{{option.secondPart}}</span>
+                                    <sub *ngIf="option.thirdPart">{{option.thirdPart}}</sub>
+                                </a>
+                            </li>
+                        </ng-container>
+                    </ul>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    <h2 class="card-title mb-3">Employment Opportunity</h2>
+                    <div class="interested-visible">
+                        <ul class="form-wizard-type jss-list selectarea  mt-3 row">
+                            <ng-container *ngIf="talentQuestionData && talentQuestionData[10]">
+                                <li *ngFor="let option of  this.talentQuestionData[10].data[1].option">
+                                    <a href="javascript:void(0)" class="pl-3 pr-3" [style.background-color]="option.selected ?'#4949fc' :''" [style.color]="option.selected ? 'white': ''" [ngStyle]=" option.disable ? {'pointer-events':'none','opacity':'0.6'}:{}">
+                                        <span class="d-block text-uppercase">{{option.firstPart}}</span>
+                                        <span *ngIf="option.secondPart">{{option.secondPart}}</span>
+                                        <sub *ngIf="option.thirdPart">{{option.thirdPart}}</sub>
+                                    </a>
+                                </li>
+                            </ng-container>
+                        </ul>
+                        <div class="iv-formgroup mt-2">
+                            <label>Max Hours Per Week Available for contact GIGS?</label>
+                            <div class="iv-input-form">
+                                <div class="d-flex align-items-center">
+                                    <p class="m-0">{{dataToDisplay.weeklyHourlyRate}}</p>
+                                    <button type="button" class="editbtn ml-2"><i class="bx bxs-edit" (click)="onUpdate('11')"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-12 col-md-12 col-12">
-          <h2 class="card-title mb-3 mt-3">Rate Card (USD)</h2>
-          <ul class="visible-so mt-2 d-flex flex-wrap">
-            <li>
-              <label>Hourly:</label>
-              <span class="pc-text">${{dataToDisplay.desiredHourlyRate}}</span>
-              <i class="bx bxs-edit com-edit" (click)="onUpdate('11')"></i>
-            </li>
-            <li>
-              <label>Monthly Retainer:</label>
-              <span class="pc-text">${{dataToDisplay.monthlyRate}}</span>
-              <i class="bx bxs-edit com-edit" (click)="onUpdate('11')"></i>
-            </li>
-            <li>
-              <label>Salary:</label>
-              <span class="pc-text">${{dataToDisplay.targetAnnualSalary}}</span>
-              <i class="bx bxs-edit com-edit" (click)="onUpdate('11')"></i>
-            </li>
-          </ul>
-        </div>
-        <div class="col-lg-12 col-md-12 col-12">
-          <h2 class="card-title mb-3 mt-3">Rate Settings Tips</h2>
-          <p class="common-para">We encourage clients to
-            book on a monthly basis
-            vs. hourly.</p>
-          <p class="common-para mt-2">We recommend
-            developers offer a
-            discounted monthly rate to
-            encourage longer term
-            commitments.</p>
-          <p class="common-para mt-2">Salaried employee roles
-            often include non-salary
-            comp such as benefits,
-            equity and PTO. We
-            recommend only including
-            your base salary here.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="profile-skills">
-    <div class="container">
-      <div class="mepb-view">
-        <h1>Specific Skills</h1>
-        <ul class="mepb-type">
-          <li>
-            <span class="dot master"></span>
-            <span class="mepb-label">Advanced</span>
-          </li>
-          <li>
-            <span class="dot proficient"></span>
-            <span class="mepb-label">Intermediate</span>
-          </li>
-          <li>
-            <span class="dot beginner"></span>
-            <span class="mepb-label">Fresher</span>
-          </li>
-        </ul>
-      </div>
-      <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-3 col-12" data-aos="fade-up" data-aos-delay="100" *ngFor="let data of groups">
-          <h2 class="secondary-title">{{data.group}}</h2>
-          <ul class="developer-type">
-            <li class="developer-list" *ngFor="let opt of data.option">
-              <a href="javascript:void(0)">
-                <i class="icofont-simple-right"></i> {{opt.value}}
-              </a>
-              <div class="lang-progress w-40">
-                <span class="lang-bar w-50">{{opt.noOfYear}}</span>
-                <span class="lang-bar bggray w-50">{{opt.skill.charAt(0) | uppercase}}</span>
-              </div>
-            </li>
-            <!-- <li class="developer-list">
+    <section class="visible-contact section-bg">
+        <div class="container">
+            <h2 class="card-title mb-3">Visible to you and Staff only</h2>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <ul class="visible-so mt-2 d-flex flex-wrap">
+                        <li>
+                            <label>Phone Number:</label>
+                            <span class="pc-text">{{dataToDisplay.phoneNumber}}</span>
+                            <i class="bx bxs-edit com-edit" (click)="onUpdate('12')"></i>
+                        </li>
+                        <li>
+                            <label>Works Hours(Your Local Time):</label>
+                            <span class="pc-text">02:30</span>
+                            <i class="bx bxs-edit com-edit" (click)="onUpdate('1')"></i>
+                        </li>
+                        <li>
+                            <label>External Links:</label>
+                            <span class="pc-text d-inline-flex align-items-center"><i class='bx bxl-github externallink'></i>{{dataToDisplay.GitHub}}</span>
+                            <i class="bx bxs-edit com-edit" (click)="onUpdate('13')"></i>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-12 col-md-12 col-12">
+                    <h2 class="card-title mb-3 mt-3">Rate Card (USD)</h2>
+                    <ul class="visible-so mt-2 d-flex flex-wrap">
+                        <li>
+                            <label>Hourly:</label>
+                            <span class="pc-text">${{dataToDisplay.desiredHourlyRate}}</span>
+                            <i class="bx bxs-edit com-edit" (click)="onUpdate('11')"></i>
+                        </li>
+                        <li>
+                            <label>Monthly Retainer:</label>
+                            <span class="pc-text">${{dataToDisplay.monthlyRate}}</span>
+                            <i class="bx bxs-edit com-edit" (click)="onUpdate('11')"></i>
+                        </li>
+                        <li>
+                            <label>Salary:</label>
+                            <span class="pc-text">${{dataToDisplay.targetAnnualSalary}}</span>
+                            <i class="bx bxs-edit com-edit" (click)="onUpdate('11')"></i>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-12 col-md-12 col-12">
+                    <h2 class="card-title mb-3 mt-3">Rate Settings Tips</h2>
+                    <p class="common-para">We encourage clients to book on a monthly basis vs. hourly.</p>
+                    <p class="common-para mt-2">We recommend developers offer a discounted monthly rate to encourage longer term commitments.
+                    </p>
+                    <p class="common-para mt-2">Salaried employee roles often include non-salary comp such as benefits, equity and PTO. We recommend only including your base salary here.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="profile-skills">
+        <div class="container">
+            <div class="mepb-view">
+                <h1>Specific Skills</h1>
+                <ul class="mepb-type">
+                    <li>
+                        <span class="dot master"></span>
+                        <span class="mepb-label">Advanced</span>
+                    </li>
+                    <li>
+                        <span class="dot proficient"></span>
+                        <span class="mepb-label">Intermediate</span>
+                    </li>
+                    <li>
+                        <span class="dot beginner"></span>
+                        <span class="mepb-label">Fresher</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-12" data-aos="fade-up" data-aos-delay="100" *ngFor="let data of groups">
+                    <h2 class="secondary-title">{{data.group}}</h2>
+                    <ul class="developer-type">
+                        <li class="developer-list" *ngFor="let opt of data.option">
+                            <a href="javascript:void(0)">
+                                <i class="icofont-simple-right"></i> {{opt.value}}
+                            </a>
+                            <div class="lang-progress w-40">
+                                <span class="lang-bar w-50">{{opt.noOfYear}}</span>
+                                <span class="lang-bar bggray w-50">{{opt.skill.charAt(0) | uppercase}}</span>
+                            </div>
+                        </li>
+                        <!-- <li class="developer-list">
                 <a href="javascript:void(0)">
                   <i class="icofont-simple-right"></i> CH
                 </a>
@@ -783,10 +778,10 @@
                 </div>
               </li> -->
 
-          </ul>
-          <hr class="h-line">
-        </div>
-        <!-- <div class="col-lg-12 col-md-12 col-12" data-aos="fade-up" data-aos-delay="100">
+                    </ul>
+                    <hr class="h-line">
+                </div>
+                <!-- <div class="col-lg-12 col-md-12 col-12" data-aos="fade-up" data-aos-delay="100">
             <h2 class="secondary-title">Frameworks</h2>
             <ul class="developer-type">
               <li class="developer-list">
@@ -1137,158 +1132,152 @@
             </ul>
             <hr class="h-line">
           </div> -->
-      </div>
-    </div>
-  </section>
-
-  <section class="workstyle-assessment section-bg">
-    <div class="container">
-      <div class="text-center">
-        <h2 class="second-title mb-5">Workstyle Assessment</h2>
-      </div>
-      <div class="row">
-        <div class="col-lg-5 col-md-5 col-sm-5 col-12 border-right">
-          <h2 class="fourthtitle">Your Work Style</h2>
-          <div class="workstyle-assesment-chart">
-            <!--Chart area div-->
-          </div>
-        </div>
-        <div class="col-lg-7 col-md-7 col-sm-7 col-12">
-          <div class="ws-assessment-btn d-flex justify-content-end">
-            <button type="button" class="btn-get-started"  (click)="takeSurveyAgain()">Take Survey Again</button>
-          </div>
-          <div class="ws-assesment">
-            <div class="ws-assessment-type">
-              <ul class="visible-so mt-2 d-block">
-                <li class="d-flex flex-wrap">
-                  <label>Highest DISC Dimension(s):</label>
-                  <span class="pc-text">Dimension (D)</span>
-                </li>
-                <li class="d-flex flex-wrap">
-                  <label>Classical Pattern:</label>
-                  <span class="pc-text">Achiever</span>
-                </li>
-                <li class="d-flex flex-wrap">
-                  <label>Segment Numbers:</label>
-                  <span class="pc-text">7-2-5-2</span>
-                </li>
-                <li class="d-block">
-                  <label>Description:</label>
-                  <p>The motication of Achievers is largely internal and flows from deeply felt personal goals.</p>
-                </li>
-              </ul>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="work-history ">
-    <div class="container">
-      <div class="text-left mb-0">
-        <h2 class="second-title mb-3">Work History</h2>
-      </div>
-      <div class="row">
-        <div class="col-lg-12 col-md-12 col-12">
-          <div class="workhistory-table">
-            <button type="button" class="btn-get-started addworkhistorybtn mb-2 d-flex align-items-center ml-auto" (click)="onUpdate('12')"><i
+    <section class="workstyle-assessment section-bg">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="second-title mb-5">Workstyle Assessment</h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-5 col-12 border-right">
+                    <h2 class="fourthtitle">Your Work Style</h2>
+                    <div class="workstyle-assesment-chart">
+                        <!--Chart area div-->
+                    </div>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-7 col-12">
+                    <div class="ws-assessment-btn d-flex justify-content-end">
+                        <button type="button" class="btn-get-started" (click)="takeSurveyAgain()">Take Survey Again</button>
+                    </div>
+                    <div class="ws-assesment">
+                        <div class="ws-assessment-type">
+                            <ul class="visible-so mt-2 d-block">
+                                <li class="d-flex flex-wrap">
+                                    <label>Highest DISC Dimension(s):</label>
+                                    <span class="pc-text">Dimension (D)</span>
+                                </li>
+                                <li class="d-flex flex-wrap">
+                                    <label>Classical Pattern:</label>
+                                    <span class="pc-text">Achiever</span>
+                                </li>
+                                <li class="d-flex flex-wrap">
+                                    <label>Segment Numbers:</label>
+                                    <span class="pc-text">7-2-5-2</span>
+                                </li>
+                                <li class="d-block">
+                                    <label>Description:</label>
+                                    <p>The motication of Achievers is largely internal and flows from deeply felt personal goals.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="work-history ">
+        <div class="container">
+            <div class="text-left mb-0">
+                <h2 class="second-title mb-3">Work History</h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="workhistory-table">
+                        <button type="button" class="btn-get-started addworkhistorybtn mb-2 d-flex align-items-center ml-auto" (click)="onUpdate('12')"><i
                 class='bx bx-plus-circle'></i> Add Work History</button>
-            <div class="apptalent-table-view mb-4">
-              <table>
-                <thead>
-                  <tr class="price-table-head">
-                    <th>Role</th>
-                    <th>Duration</th>
-                    <th>Developer Skills</th>
-                    <th>Client name</th>
-                    <!-- <th>Action</th> -->
-                  </tr>
-                </thead>
-                <tbody >
-                  <ng-container *ngIf="talentQuestionData && talentQuestionData[12]">
-                  <tr *ngFor="let data of talentQuestionData[12].experience">
-                    <td>{{data.role}}</td>
-                    <td>{{data.startDuration}} - {{data.endDuration}}</td>
-                    <td>
-                      {{data.skills}}
-                    </td>
-                    <td>{{data.clientName}}</td>
-                    <!-- <td>
+                        <div class="apptalent-table-view mb-4">
+                            <table>
+                                <thead>
+                                    <tr class="price-table-head">
+                                        <th>Role</th>
+                                        <th>Duration</th>
+                                        <th>Developer Skills</th>
+                                        <th>Client name</th>
+                                        <!-- <th>Action</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngIf="talentQuestionData && talentQuestionData[12]">
+                                        <tr *ngFor="let data of talentQuestionData[12].experience">
+                                            <td>{{data.role}}</td>
+                                            <td>{{data.startDuration}} - {{data.endDuration}}</td>
+                                            <td>
+                                                {{data.skills}}
+                                            </td>
+                                            <td>{{data.clientName}}</td>
+                                            <!-- <td>
                       <button type="button" class="deletebtn"><i class='bx bxs-trash'></i></button>
                     </td> -->
-                  </tr>
-                  </ng-container>
-                </tbody>
-              </table>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="text-left mb-0">
-        <h2 class="second-title mb-3">Education</h2>
-      </div>
-      <div class="row">
-        <div class="col-lg-12 col-md-12 col-12">
-          <div class="workhistory-table">
-            <button type="button" class="btn-get-started addworkhistorybtn mb-2 d-flex align-items-center ml-auto" (click)="onUpdate('12')"><i
+            <div class="text-left mb-0">
+                <h2 class="second-title mb-3">Education</h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="workhistory-table">
+                        <button type="button" class="btn-get-started addworkhistorybtn mb-2 d-flex align-items-center ml-auto" (click)="onUpdate('12')"><i
                 class='bx bx-plus-circle'></i> Add Education</button>
-            <div class="apptalent-table-view">
-              <table>
-                <thead>
-                  <tr class="price-table-head">
-                    <th>Degree</th>
-                    <th>Duration</th>
-                    <th>University</th>
-                    <th>City/State/Country</th>
-                    <th>Specialization</th>
-                    <!-- <th>Action</th> -->
-                  </tr>
-                </thead>
-                <tbody>
-                  <ng-container *ngIf="talentQuestionData && talentQuestionData[12]">
-                  <tr *ngFor="let data of this.talentQuestionData[12].education">
-                    <td>{{data.degree}}</td>
-                    <td>{{data.startDuration}} - {{data.endDuration}}</td>
-                    <td>{{data.school}}</td>
-                    <td>{{data.address}}</td>
-                    <td>{{data.specialization}}</td>
-                    <!-- <td>
+                        <div class="apptalent-table-view">
+                            <table>
+                                <thead>
+                                    <tr class="price-table-head">
+                                        <th>Degree</th>
+                                        <th>Duration</th>
+                                        <th>University</th>
+                                        <th>City/State/Country</th>
+                                        <th>Specialization</th>
+                                        <!-- <th>Action</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngIf="talentQuestionData && talentQuestionData[12]">
+                                        <tr *ngFor="let data of this.talentQuestionData[12].education">
+                                            <td>{{data.degree}}</td>
+                                            <td>{{data.startDuration}} - {{data.endDuration}}</td>
+                                            <td>{{data.school}}</td>
+                                            <td>{{data.address}}</td>
+                                            <td>{{data.specialization}}</td>
+                                            <!-- <td>
                       <button type="button" class="deletebtn"><i class='bx bxs-trash'></i></button>
                     </td> -->
-                  </tr>
-                  </ng-container>
-                </tbody>
-              </table>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
-  <section class="apptalent-connect">
-    <div class="container">
-      <div class="text-center p-0">
-        <h2 class="second-title mb-3 text-white">Code Challenges</h2>
-      </div>
-      <div class="apptalent-export-content codechallenge">
-        <p class="common-para text-white mb-3">YOU HAVE NOT COMPLETED ANY CODE CHALLENGES
-        </p>
-        <p class="common-para text-white mb-3">We get it - code tests suck. They don't measure how good a developer
-          you are. They're not representative of real world situations.
-          They're glorified CS exams!</p>
-        <p class="common-para text-white mb-3">Yep, get it, heard it, know it, agree with lots of it. We took all of
-          that into account when we built our challenges. Trust us, we're
-          measuring stuff that DOES matter in the real world when we grade results.</p>
-        <p class="common-para text-white mb-3">Plus, writing this bit of code increases your profile strength by A
-          LOT, making your profile more competitive when you apply for
-          gigs.</p>
-        <div class="d-flex justify-content-center"><a href="javascript:void(0)" class="applytojoin-btn"
-            (click)="takeTest()">View Instructions</a></div>
-      </div>
-    </div>
-  </section>
+    </section>
+    <section class="apptalent-connect">
+        <div class="container">
+            <div class="text-center p-0">
+                <h2 class="second-title mb-3 text-white">Code Challenges</h2>
+            </div>
+            <div class="apptalent-export-content codechallenge">
+                <p class="common-para text-white mb-3">YOU HAVE NOT COMPLETED ANY CODE CHALLENGES
+                </p>
+                <p class="common-para text-white mb-3">We get it - code tests suck. They don't measure how good a developer you are. They're not representative of real world situations. They're glorified CS exams!</p>
+                <p class="common-para text-white mb-3">Yep, get it, heard it, know it, agree with lots of it. We took all of that into account when we built our challenges. Trust us, we're measuring stuff that DOES matter in the real world when we grade results.</p>
+                <p class="common-para text-white mb-3">Plus, writing this bit of code increases your profile strength by A LOT, making your profile more competitive when you apply for gigs.
+                </p>
+                <div class="d-flex justify-content-center"><a href="javascript:void(0)" class="applytojoin-btn" (click)="takeTest()">View Instructions</a></div>
+            </div>
+        </div>
+    </section>
 </div>
 
 <!--Footer-->
