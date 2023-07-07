@@ -1512,6 +1512,17 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             }),
           }, {
             validators: [isTelephoneWithCode]
+          }),
+          telegram: new FormGroup({
+            code: new FormControl(
+              null as unknown as ICountry, {
+              validators: [isObject]
+            }),
+            number: new FormControl('', {
+              validators: [Validators.pattern(pattern.telephone)]
+            }),
+          }, {
+            validators: [isTelephoneWithCode]
           })
         })
       }),
@@ -1527,12 +1538,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       citizenship: toSignal(controlValue$(form.controls.personalInfo.controls.citizenship), { requireSync: true }),
       mobileCode: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.mobile.controls.code), { requireSync: true }),
       whatsappCode: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.whastapp.controls.code), { requireSync: true }),
+      telegramCode: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.telegram.controls.code), { requireSync: true }),
     } as const;
 
     const showFlag = {
       citizenship$: shouldShowFlag(values.citizenship),
       mobileCode$: shouldShowFlag(values.mobileCode),
-      whatsappCode$: shouldShowFlag(values.whatsappCode)
+      whatsappCode$: shouldShowFlag(values.whatsappCode),
+      telegramCode$: shouldShowFlag(values.telegramCode),
     } as const;
 
     const countries = Country.getAllCountries();
@@ -1573,7 +1586,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         return all;
       }),
       mobileCode$: filterCountryCode(values.mobileCode),
-      whatsapCode$: filterCountryCode(values.whatsappCode),
+      whatsappCode$: filterCountryCode(values.whatsappCode),
+      telegramCode$: filterCountryCode(values.telegramCode),
     } as const;
 
     const psf = toSignal(controlValue$(this.professionalSummary.form, true));

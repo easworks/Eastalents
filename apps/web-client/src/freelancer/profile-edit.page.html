@@ -952,7 +952,40 @@
                          [class.!pl-10]="profileDetails.showFlag.whatsappCode$()">
 
                   <mat-autocomplete #codeOptions [displayWith]="displayWith.phoneCode" panelWidth="auto" hideSingleSelectionIndicator>
-                    <mat-option *ngFor="let country of profileDetails.options.whatsapCode$(); trackBy: trackBy.country"
+                    <mat-option *ngFor="let country of profileDetails.options.whatsappCode$(); trackBy: trackBy.country"
+                                [value]="country"
+                                (onSelectionChange)="$event.source.deselect();">
+                      <div class="flex gap-4 items-center">
+                        <span class="font-emoji">{{country.flag}}</span>
+                        <span>{{country.phonecode}}</span>
+                      </div>
+                    </mat-option>
+                  </mat-autocomplete>
+                </ng-container>
+
+                <input type="tel"
+                       *ngrxLet="form.controls.number as control"
+                       [formControl]="control" placeholder="Number">
+              </div>
+              <span class="error" *ngIf="form.controls.code.invalid">Invalid Code</span>
+              <span class="error" *ngIf="form.invalid">Invalid number</span>
+            </div>
+
+            <div *ngrxLet="form.controls.telegram as form"
+                 [formFieldControl]="form">
+
+              <label>Telegram</label>
+
+              <div class="flex gap-2 justify-start">
+                <ng-container *ngrxLet="form.controls.code as control">
+                  <span class="font-emoji absolute left-2 top-8" *ngIf="control.value as value">{{value.flag}}</span>
+                  <input type="tel" class="!w-[6.25rem]"
+                         [matAutocomplete]="codeOptions"
+                         [formControl]="control" placeholder="Code"
+                         [class.!pl-10]="profileDetails.showFlag.telegramCode$()">
+
+                  <mat-autocomplete #codeOptions [displayWith]="displayWith.phoneCode" panelWidth="auto" hideSingleSelectionIndicator>
+                    <mat-option *ngFor="let country of profileDetails.options.telegramCode$(); trackBy: trackBy.country"
                                 [value]="country"
                                 (onSelectionChange)="$event.source.deselect();">
                       <div class="flex gap-4 items-center">
