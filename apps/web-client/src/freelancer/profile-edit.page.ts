@@ -20,7 +20,7 @@ import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { COMMITMENT_OPTIONS, Commitment, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, OVERALL_EXPERIENCE_OPTIONS, OverallExperience } from '@easworks/models';
+import { COMMITMENT_OPTIONS, Commitment, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, pattern } from '@easworks/models';
 import { City, Country, State } from 'country-state-city';
 import { ICity, ICountry, IState, Timezones } from 'country-state-city/lib/interface';
 import { DateTime } from 'luxon';
@@ -102,6 +102,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     city: (c?: ICity) => c?.name || '',
     timezone: (t?: Timezones) => t?.zoneName || '',
     currency: (c?: ICountry) => c ? `${c.currency} (${c.name})` : '',
+    phoneCode: (c?: ICountry) => c ? c.phonecode : '',
     none: () => ''
   } as const;
 
@@ -293,7 +294,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const loadingGeo$ = this.loading.has('getting geolocation');
 
     const allOptions = {
-      country: Country.getAllCountries(),
+      country: [...Country.getAllCountries()].sort((a, b) => sortString(a.name, b.name)),
       state$: signal<IState[]>([]),
       city$: signal<ICity[]>([]),
       timezone$: signal<Timezones[]>([]),
@@ -429,10 +430,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         throw new Error('not implemented');
 
       },
-      showFlag$: computed(() => {
-        const v = values.country();
-        return !!v && typeof v !== 'string';
-      }),
+      showFlag$: shouldShowFlag(values.country),
       summaryWords$
     } as const;
   }
@@ -1468,21 +1466,42 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   private initProfileDetails() {
+    const user = this.user();
     const form = new FormGroup({
       personalInfo: new FormGroup({
         firstName: new FormControl(
-          this.user()?.firstName, {
+          user?.firstName, {
           nonNullable: true,
           validators: [Validators.required]
         }),
         lastName: new FormControl(
-          this.user()?.lastName, {
+          user?.lastName, {
           nonNullable: true,
           validators: [Validators.required]
         }),
         citizenship: new FormControl(
           null as unknown as ICountry, {
           validators: [isObject]
+        })
+      }),
+      contact: new FormGroup({
+        email: new FormControl(
+          user?.email, {
+          nonNullable: true,
+          validators: [Validators.required, Validators.email]
+        }),
+        phoneNumber: new FormGroup({
+          mobile: new FormGroup({
+            code: new FormControl(
+              null as unknown as ICountry, {
+              validators: [isObject]
+            }),
+            number: new FormControl('', {
+              validators: [Validators.pattern(pattern.telephone)]
+            }),
+          }, {
+            validators: [isTelephoneWithCode]
+          })
         })
       }),
       social: new FormGroup({
@@ -1494,28 +1513,46 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
     const values = {
-      citizenship: toSignal(controlValue$(form.controls.personalInfo.controls.citizenship), { requireSync: true })
+      citizenship: toSignal(controlValue$(form.controls.personalInfo.controls.citizenship), { requireSync: true }),
+      mobileCode: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.mobile.controls.code), { requireSync: true }),
     } as const;
 
     const showFlag = {
-      citizenship$: computed(() => {
-        const v = values.citizenship();
-        return !!v && typeof v !== 'string';
-      })
+      citizenship$: shouldShowFlag(values.citizenship),
+      mobileCode$: shouldShowFlag(values.mobileCode)
     } as const;
 
+    const countries = Country.getAllCountries();
+
     const allOptions = {
-      countries: Country.getAllCountries()
+      countries,
+      countryCode: getPhoneCodeOptions(countries)
     } as const;
 
     const options = {
       citizenship$: computed(() => {
         const value = values.citizenship() as ICountry | string;
         const all = allOptions.countries;
-        if (typeof value === 'string') {
-          const filter = value.trim().toLowerCase();
+        if (value) {
+          const filter = typeof value === 'string' ?
+            value.trim().toLowerCase() :
+            value.name.toLowerCase();
+
           if (filter)
             return all.filter(c => c.name.toLowerCase().includes(filter));
+        }
+        return all;
+      }),
+      mobileCode$: computed(() => {
+        const value = values.mobileCode() as ICountry | string;
+        const all = allOptions.countryCode;
+        if (value) {
+          const filter = typeof value === 'string' ?
+            value.replace(notNumber, '') :
+            value.phonecode.replace(notNumber, '');
+
+          if (filter)
+            return all.filter(c => c.plainPhoneCode.toLowerCase().includes(filter));
         }
         return all;
       })
@@ -1788,3 +1825,44 @@ const isObject = (control: AbstractControl) => {
   }
   return null;
 };
+
+const isTelephoneWithCode = (control: AbstractControl) => {
+  const v = control.value;
+  const r1 = !!v.code;
+  const r2 = !!v.number;
+  if (r1 !== r2)
+    return { required: true }
+  return null;
+}
+
+
+function shouldShowFlag(value: Signal<ICountry | string | null>) {
+  return computed(() => {
+    const v = value();
+    return !!v && typeof v !== 'string';
+  })
+}
+
+const notNumber = /[^\d\s]/g;
+
+function getPhoneCodeOptions(countries: ICountry[]) {
+  const mapped = [] as ICountry[];
+
+  countries.forEach(c => {
+    if (c.phonecode.includes('and')) {
+      const codes = c.phonecode.split(' and ');
+      codes.forEach(code => mapped.push({
+        ...c,
+        phonecode: code,
+      }));
+    }
+    else mapped.push(c);
+  });
+
+  return mapped
+    .map(c => ({
+      ...c,
+      plainPhoneCode: c.phonecode.replace(notNumber, '')
+    }))
+    .sort((a, b) => sortString(a.plainPhoneCode, b.plainPhoneCode))
+}

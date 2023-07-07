@@ -116,7 +116,7 @@
                 <input type="text" [formControl]="control" [matAutocomplete]="countryOptions"
                        placeholder="Type to filter"
                        [class.!pl-10]="professionalSummary.showFlag$()">
-                <mat-autocomplete #countryOptions [displayWith]="displayWith.country">
+                <mat-autocomplete #countryOptions [displayWith]="displayWith.country" hideSingleSelectionIndicator>
                   <mat-option *ngFor="let country of professionalSummary.options.country$(); trackBy: trackBy.country"
                               [value]="country">
                     <div class="flex gap-4 items-center">
@@ -139,7 +139,7 @@
 
                 <input type="text" [formControl]="control" [matAutocomplete]="stateOptions"
                        placeholder="Type to filter">
-                <mat-autocomplete #stateOptions [displayWith]="displayWith.state">
+                <mat-autocomplete #stateOptions [displayWith]="displayWith.state" hideSingleSelectionIndicator>
                   <mat-option *ngFor="let state of professionalSummary.options.state$(); trackBy: trackBy.state"
                               [value]="state">
                     {{state.name}}
@@ -162,7 +162,7 @@
                 </label>
                 <input type="text" [formControl]="control" [matAutocomplete]="cityOptions"
                        placeholder="Type to filter">
-                <mat-autocomplete #cityOptions [displayWith]="displayWith.city">
+                <mat-autocomplete #cityOptions [displayWith]="displayWith.city" hideSingleSelectionIndicator>
                   <mat-option *ngFor="let city of professionalSummary.options.city$()"
                               [value]="city">
                     {{city.name}}
@@ -181,7 +181,7 @@
                 </label>
                 <input type="text" [formControl]="control" [matAutocomplete]="tzOptions"
                        placeholder="Type to filter">
-                <mat-autocomplete #tzOptions [displayWith]="displayWith.timezone">
+                <mat-autocomplete #tzOptions [displayWith]="displayWith.timezone" hideSingleSelectionIndicator>
                   <mat-option *ngFor="let tz of professionalSummary.options.timezone$()"
                               [value]="tz">
                     {{tz.zoneName}}
@@ -876,7 +876,7 @@
             <input type="text" [formControl]="control" [matAutocomplete]="countryOptions"
                    placeholder="Type to filter"
                    [class.!pl-10]="profileDetails.showFlag.citizenship$()">
-            <mat-autocomplete #countryOptions [displayWith]="displayWith.country">
+            <mat-autocomplete #countryOptions [displayWith]="displayWith.country" hideSingleSelectionIndicator>
               <mat-option *ngFor="let country of profileDetails.options.citizenship$(); trackBy: trackBy.country"
                           [value]="country">
                 <div class="flex gap-4 items-center">
@@ -889,9 +889,56 @@
 
         </div>
         <mat-divider></mat-divider>
-        <div class="p-4">
+        <form class="p-4" *ngrxLet="form.controls.contact as form"
+              [formGroup]="form">
           <label class="font-medium"> Contact Details </label>
-        </div>
+
+          <div *ngrxLet="form.controls.email as control"
+               [formFieldControl]="control"
+               class="mt-4">
+            <label>
+              Email
+              <span class="text-warn">*</span>
+            </label>
+            <input type="email" [formControl]="control" placeholder="Email Address">
+          </div>
+
+          <div *ngrxLet="form.controls.phoneNumber as form">
+
+            <div *ngrxLet="form.controls.mobile as form"
+                 [formFieldControl]="form">
+
+              <label>Mobile</label>
+
+              <div class="flex gap-2 justify-start">
+                <ng-container *ngrxLet="form.controls.code as control">
+                  <span class="font-emoji absolute left-2 top-8" *ngIf="control.value as value">{{value.flag}}</span>
+                  <input type="tel" class="!w-[6.25rem]"
+
+                         [matAutocomplete]="codeOptions"
+                         [formControl]="control" placeholder="Code"
+                         [class.!pl-10]="profileDetails.showFlag.mobileCode$()">
+
+                  <mat-autocomplete #codeOptions [displayWith]="displayWith.phoneCode" panelWidth="auto" hideSingleSelectionIndicator>
+                    <mat-option *ngFor="let country of profileDetails.options.mobileCode$(); trackBy: trackBy.country"
+                                [value]="country">
+                      <div class="flex gap-4 items-center">
+                        <span class="font-emoji">{{country.flag}}</span>
+                        <span>{{country.phonecode}}</span>
+                      </div>
+                    </mat-option>
+                  </mat-autocomplete>
+                </ng-container>
+
+                <input type="tel"
+                       *ngrxLet="form.controls.number as control"
+                       [formControl]="control" placeholder="Number">
+              </div>
+              <span class="error" *ngIf="form.invalid">Invalid number</span>
+            </div>
+
+          </div>
+        </form>
         <mat-divider></mat-divider>
         <div class="p-4">
           <label class="font-medium"> Professional Information </label>
