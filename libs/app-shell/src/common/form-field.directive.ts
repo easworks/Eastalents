@@ -7,7 +7,7 @@ import { Observable, filter, shareReplay, startWith } from 'rxjs';
   selector: '[formFieldControl]',
 })
 export class FormFieldDirective {
-  @Input({ required: true, alias: 'formFieldControl' }) public control!: FormControl;
+  @Input({ required: true, alias: 'formFieldControl' }) public control!: FormControl | FormGroup;
 
   @HostBinding() private get class() {
     return [
