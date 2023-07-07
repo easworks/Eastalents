@@ -1501,6 +1501,17 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             }),
           }, {
             validators: [isTelephoneWithCode]
+          }),
+          whastapp: new FormGroup({
+            code: new FormControl(
+              null as unknown as ICountry, {
+              validators: [isObject]
+            }),
+            number: new FormControl('', {
+              validators: [Validators.pattern(pattern.telephone)]
+            }),
+          }, {
+            validators: [isTelephoneWithCode]
           })
         })
       }),
@@ -1515,11 +1526,13 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const values = {
       citizenship: toSignal(controlValue$(form.controls.personalInfo.controls.citizenship), { requireSync: true }),
       mobileCode: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.mobile.controls.code), { requireSync: true }),
+      whatsappCode: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.whastapp.controls.code), { requireSync: true }),
     } as const;
 
     const showFlag = {
       citizenship$: shouldShowFlag(values.citizenship),
-      mobileCode$: shouldShowFlag(values.mobileCode)
+      mobileCode$: shouldShowFlag(values.mobileCode),
+      whatsappCode$: shouldShowFlag(values.whatsappCode)
     } as const;
 
     const countries = Country.getAllCountries();
@@ -1560,6 +1573,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         return all;
       }),
       mobileCode$: filterCountryCode(values.mobileCode),
+      whatsapCode$: filterCountryCode(values.whatsappCode),
     } as const;
 
     const psf = toSignal(controlValue$(this.professionalSummary.form, true));
@@ -1579,7 +1593,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       const v = psf();
       if (!v) return;
       const { country } = v;
-      form.controls.personalInfo.controls.citizenship.setValue(country);
+      const control = form.controls.personalInfo.controls.citizenship;
+      const hasValidValue = control.valid && control.value;
+      if (!hasValidValue)
+        form.controls.personalInfo.controls.citizenship.setValue(country);
     }, { allowSignalWrites: true });
 
     return { form, status$, location$, options, showFlag } as const;
