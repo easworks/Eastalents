@@ -217,10 +217,14 @@ const routes: Routes = [
     loadChildren: () => import('./service-type/service-type.module').then(m => m.ServiceTypeModule)
   },
   {
+    path: 'landing-page',
+    loadChildren: () => import('./landing-page/landing-page.module').then(m => m.LandingModule)
+  },
+  {
     path: '',
     loadChildren: () => import('./index/index.module').then(m => m.IndexModule)
-    ,
-  }
+    
+  },
 ];
 
 @NgModule({
