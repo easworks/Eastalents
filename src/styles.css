@@ -158,7 +158,7 @@ select {
 }
 
 .common-para {
-    font-size: 1rem !important;
+    font-size: 16px;
     font-weight: 400;
     line-height: 1.75;
     color: #000000;
@@ -8066,7 +8066,7 @@ form #debt-amount-slider label {
 }
 
 .easwork-loginland-card {
-    background: #ffffff;
+    background: #fffffff2;
     border-radius: 6px;
     box-shadow: 0px 1px 2px 0px #b4b4b4;
     display: inline-block;
@@ -8076,7 +8076,7 @@ form #debt-amount-slider label {
 }
 
 .whyEasNavTabs .nav-eastabs {
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .whyEasNavTabs .nav-eastabs .nav-easitem .nav-link {
