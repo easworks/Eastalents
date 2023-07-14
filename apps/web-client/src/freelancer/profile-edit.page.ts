@@ -1,4 +1,5 @@
 import { KeyValue } from '@angular/common';
+import { FunctionExpr } from '@angular/compiler';
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, WritableSignal, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
@@ -1493,36 +1494,18 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         phoneNumber: new FormGroup({
           mobile: new FormGroup({
             code: new FormControl(
-              null as unknown as ICountry, {
-              validators: [isObject]
-            }),
-            number: new FormControl('', {
-              validators: [Validators.pattern(pattern.telephone)]
-            }),
-          }, {
-            validators: [isTelephoneWithCode]
+              null as unknown as ICountry),
+            number: new FormControl(''),
           }),
-          whastapp: new FormGroup({
+          whatsapp: new FormGroup({
             code: new FormControl(
-              null as unknown as ICountry, {
-              validators: [isObject]
-            }),
-            number: new FormControl('', {
-              validators: [Validators.pattern(pattern.telephone)]
-            }),
-          }, {
-            validators: [isTelephoneWithCode]
+              null as unknown as ICountry),
+            number: new FormControl(''),
           }),
           telegram: new FormGroup({
             code: new FormControl(
-              null as unknown as ICountry, {
-              validators: [isObject]
-            }),
-            number: new FormControl('', {
-              validators: [Validators.pattern(pattern.telephone)]
-            }),
-          }, {
-            validators: [isTelephoneWithCode]
+              null as unknown as ICountry),
+            number: new FormControl(''),
           })
         })
       }),
@@ -1536,16 +1519,28 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     const values = {
       citizenship: toSignal(controlValue$(form.controls.personalInfo.controls.citizenship), { requireSync: true }),
-      mobileCode: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.mobile.controls.code), { requireSync: true }),
-      whatsappCode: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.whastapp.controls.code), { requireSync: true }),
-      telegramCode: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.telegram.controls.code), { requireSync: true }),
+      phone: {
+        mobile: {
+          full: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.mobile), { requireSync: true }),
+          code: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.mobile.controls.code), { requireSync: true }),
+        },
+        whatsapp: {
+          full: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.whatsapp), { requireSync: true }),
+          code: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.whatsapp.controls.code), { requireSync: true }),
+        },
+        telegram: {
+          full: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.telegram), { requireSync: true }),
+          code: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.telegram.controls.code), { requireSync: true }),
+        },
+      }
+
     } as const;
 
     const showFlag = {
       citizenship$: shouldShowFlag(values.citizenship),
-      mobileCode$: shouldShowFlag(values.mobileCode),
-      whatsappCode$: shouldShowFlag(values.whatsappCode),
-      telegramCode$: shouldShowFlag(values.telegramCode),
+      mobileCode$: shouldShowFlag(values.phone.mobile.code),
+      whatsappCode$: shouldShowFlag(values.phone.whatsapp.code),
+      telegramCode$: shouldShowFlag(values.phone.telegram.code),
     } as const;
 
     const countries = Country.getAllCountries();
@@ -1585,9 +1580,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         }
         return all;
       }),
-      mobileCode$: filterCountryCode(values.mobileCode),
-      whatsappCode$: filterCountryCode(values.whatsappCode),
-      telegramCode$: filterCountryCode(values.telegramCode),
+      mobileCode$: filterCountryCode(values.phone.mobile.code),
+      whatsappCode$: filterCountryCode(values.phone.whatsapp.code),
+      telegramCode$: filterCountryCode(values.phone.telegram.code),
     } as const;
 
     const psf = toSignal(controlValue$(this.professionalSummary.form, true));
@@ -1602,6 +1597,48 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         .filter(i => !!i)
         .join(', ');
     });
+
+    // update the validators on the fly for the phone controls
+    {
+      type Form = FormGroup<{
+        code: FormControl<ICountry | null>;
+        number: FormControl<string | null>;
+      }>
+      type FormValue = Form['value'];
+
+      // eslint-disable-next-line no-inner-declarations
+      function updatePhoneValidator(form: Form, value$: Signal<FormValue>) {
+
+        const hasValue = computed(() => {
+          const value = value$();
+          return !!value.code || !!value.number;
+        });
+
+        const telPattern = Validators.pattern(pattern.telephone);
+
+        const { code, number } = form.controls;
+        effect(() => {
+          if (hasValue()) {
+            code.setValidators([Validators.required, isObject]);
+            number.setValidators([Validators.required, telPattern]);
+          }
+          else {
+            code.clearValidators();
+            number.clearValidators();
+          }
+
+          code.updateValueAndValidity();
+          number.updateValueAndValidity();
+
+        }, { allowSignalWrites: true })
+      }
+
+      const { mobile, whatsapp, telegram } = form.controls.contact.controls.phoneNumber.controls;
+
+      updatePhoneValidator(mobile, values.phone.mobile.full);
+      updatePhoneValidator(whatsapp, values.phone.whatsapp.full);
+      updatePhoneValidator(telegram, values.phone.telegram.full);
+    }
 
     effect(() => {
       const v = psf();

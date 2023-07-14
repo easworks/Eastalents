@@ -913,7 +913,7 @@
               <div class="flex gap-2 justify-start">
                 <ng-container *ngrxLet="form.controls.code as control">
                   <span class="font-emoji absolute left-2 top-8" *ngIf="control.value as value">{{value.flag}}</span>
-                  <input type="tel" class="!w-[6.25rem]"
+                  <input type="tel" class="!w-[7.5rem]"
                          [matAutocomplete]="codeOptions"
                          [formControl]="control" placeholder="Code"
                          [class.!pl-10]="profileDetails.showFlag.mobileCode$()">
@@ -935,10 +935,11 @@
                        [formControl]="control" placeholder="Number">
               </div>
               <span class="error" *ngIf="form.controls.code.invalid">Invalid Code</span>
-              <span class="error" *ngIf="form.invalid">Invalid number</span>
+              <span class="error" *ngIf="form.controls.number.hasError('pattern')">Invalid number</span>
+              <span class="error" *ngIf="form.controls.number.hasError('required')">Number required</span>
             </div>
 
-            <div *ngrxLet="form.controls.whastapp as form"
+            <div *ngrxLet="form.controls.whatsapp as form"
                  [formFieldControl]="form">
 
               <label>WhatsApp</label>
@@ -946,7 +947,7 @@
               <div class="flex gap-2 justify-start">
                 <ng-container *ngrxLet="form.controls.code as control">
                   <span class="font-emoji absolute left-2 top-8" *ngIf="control.value as value">{{value.flag}}</span>
-                  <input type="tel" class="!w-[6.25rem]"
+                  <input type="tel" class="!w-[7.5rem]"
                          [matAutocomplete]="codeOptions"
                          [formControl]="control" placeholder="Code"
                          [class.!pl-10]="profileDetails.showFlag.whatsappCode$()">
@@ -968,7 +969,8 @@
                        [formControl]="control" placeholder="Number">
               </div>
               <span class="error" *ngIf="form.controls.code.invalid">Invalid Code</span>
-              <span class="error" *ngIf="form.invalid">Invalid number</span>
+              <span class="error" *ngIf="form.controls.number.hasError('pattern')">Invalid number</span>
+              <span class="error" *ngIf="form.controls.number.hasError('required')">Number required</span>
             </div>
 
             <div *ngrxLet="form.controls.telegram as form"
@@ -979,7 +981,7 @@
               <div class="flex gap-2 justify-start">
                 <ng-container *ngrxLet="form.controls.code as control">
                   <span class="font-emoji absolute left-2 top-8" *ngIf="control.value as value">{{value.flag}}</span>
-                  <input type="tel" class="!w-[6.25rem]"
+                  <input type="tel" class="!w-[7.5rem]"
                          [matAutocomplete]="codeOptions"
                          [formControl]="control" placeholder="Code"
                          [class.!pl-10]="profileDetails.showFlag.telegramCode$()">
@@ -1001,7 +1003,8 @@
                        [formControl]="control" placeholder="Number">
               </div>
               <span class="error" *ngIf="form.controls.code.invalid">Invalid Code</span>
-              <span class="error" *ngIf="form.invalid">Invalid number</span>
+              <span class="error" *ngIf="form.controls.number.hasError('pattern')">Invalid number</span>
+              <span class="error" *ngIf="form.controls.number.hasError('required')">Number required</span>
             </div>
 
           </div>
