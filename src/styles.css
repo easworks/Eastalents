@@ -2494,6 +2494,10 @@ footer {
     padding: 8px 20px;
 }
 
+.applytojoin-btn:hover {
+    margin: inherit;
+}
+
 .applytojoin-btn.whyapp-applytojoin {
     margin: inherit;
 }
