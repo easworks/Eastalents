@@ -1,5 +1,4 @@
 import { KeyValue } from '@angular/common';
-import { FunctionExpr } from '@angular/compiler';
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, WritableSignal, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
@@ -1507,6 +1506,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
               null as unknown as ICountry),
             number: new FormControl(''),
           })
+        }),
+        address: new FormGroup({
+          line1: new FormControl('', { nonNullable: true }),
+          line2: new FormControl(''),
+          city: new FormControl(null as unknown as ICity, { nonNullable: true }),
+          state: new FormControl(null as unknown as IState, { nonNullable: true }),
+          country: new FormControl(null as unknown as ICountry, { nonNullable: true }),
+          postalCode: new FormControl('', { nonNullable: true })
         })
       }),
       social: new FormGroup({
@@ -1532,6 +1539,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           full: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.telegram), { requireSync: true }),
           code: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.telegram.controls.code), { requireSync: true }),
         },
+      },
+      address: {
+        full: toSignal(controlValue$(form.controls.contact.controls.address), { requireSync: true }),
+        country: toSignal(controlValue$(form.controls.contact.controls.address.controls.country), { requireSync: true }),
+        state: toSignal(controlValue$(form.controls.contact.controls.address.controls.state), { requireSync: true }),
+        city: toSignal(controlValue$(form.controls.contact.controls.address.controls.city), { requireSync: true })
       }
 
     } as const;
@@ -1541,13 +1554,16 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       mobileCode$: shouldShowFlag(values.phone.mobile.code),
       whatsappCode$: shouldShowFlag(values.phone.whatsapp.code),
       telegramCode$: shouldShowFlag(values.phone.telegram.code),
+      country$: shouldShowFlag(values.address.country)
     } as const;
 
     const countries = Country.getAllCountries();
 
     const allOptions = {
-      countries,
-      countryCode: getPhoneCodeOptions(countries)
+      countries: [...countries].sort((a, b) => sortString(a.name, b.name)),
+      countryCode: getPhoneCodeOptions(countries),
+      state$: signal<IState[]>([]),
+      city$: signal<ICity[]>([]),
     } as const;
 
     function filterCountryCode(value$: Signal<ICountry | string | null>) {
@@ -1583,6 +1599,45 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       mobileCode$: filterCountryCode(values.phone.mobile.code),
       whatsappCode$: filterCountryCode(values.phone.whatsapp.code),
       telegramCode$: filterCountryCode(values.phone.telegram.code),
+      country$: computed(() => {
+        const value = values.address.country() as ICountry | string;
+        const all = allOptions.countries;
+        if (value) {
+          const filter = typeof value === 'string' ?
+            value.trim().toLowerCase() :
+            value.name.toLowerCase();
+
+          if (filter)
+            return all.filter(c => c.name.toLowerCase().includes(filter));
+        }
+        return all;
+      }),
+      state$: computed(() => {
+        const value = values.address.state() as IState | string;
+        const all = allOptions.state$();
+        if (value) {
+          const filter = typeof value === 'string' ?
+            value.trim().toLowerCase() :
+            value.name.toLowerCase();
+
+          if (filter)
+            return all.filter(s => s.name.toLowerCase().includes(filter));
+        }
+        return all;
+      }),
+      city$: computed(() => {
+        const value = values.address.city() as ICity | string;
+        const all = allOptions.city$();
+        if (value) {
+          const filter = typeof value === 'string' ?
+            value.trim().toLowerCase() :
+            value.name.toLowerCase();
+
+          if (filter)
+            return all.filter(c => c.name.toLowerCase().includes(filter));
+        }
+        return all;
+      })
     } as const;
 
     const psf = toSignal(controlValue$(this.professionalSummary.form, true));
@@ -1639,6 +1694,89 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       updatePhoneValidator(whatsapp, values.phone.whatsapp.full);
       updatePhoneValidator(telegram, values.phone.telegram.full);
     }
+
+    // update the address validator on the fly
+    {
+      const hasValue = computed(() => {
+        const value = values.address.full();
+        return !!value.line1 || !!value.line2 ||
+          !!value.city || !!value.state ||
+          !!value.country || !!value.postalCode;
+      });
+
+      const { line1, city, state, country, postalCode } = form.controls.contact.controls.address.controls;
+
+      effect(() => {
+        if (hasValue()) {
+          line1.addValidators(Validators.required);
+          city.addValidators([Validators.required, isObject]);
+          state.addValidators([Validators.required, isObject]);
+          country.addValidators([Validators.required, isObject]);
+          postalCode.addValidators(Validators.required);
+        }
+        else {
+          line1.clearValidators();
+          city.clearValidators();
+          state.clearValidators();
+          country.clearValidators();
+          postalCode.clearValidators();
+        }
+
+        line1.updateValueAndValidity();
+        city.updateValueAndValidity();
+        state.updateValueAndValidity();
+        country.updateValueAndValidity();
+        postalCode.updateValueAndValidity();
+
+      }, { allowSignalWrites: true });
+    }
+
+    // enable disable the address controls and update the options
+    {
+      const status = {
+        country: toSignal(controlStatus$(form.controls.contact.controls.address.controls.country), { requireSync: true }),
+        state: toSignal(controlStatus$(form.controls.contact.controls.address.controls.state), { requireSync: true }),
+      } as const;
+
+      const disabled = {
+        state$: computed(() => status.country() !== 'VALID' || allOptions.state$().length === 0),
+        city$: computed(() => status.state() !== 'VALID' || allOptions.city$().length === 0)
+      } as const;
+
+      const { state, city } = form.controls.contact.controls.address.controls;
+
+      effect(() => disabled.state$() ? state.disable() : state.enable(), { allowSignalWrites: true });
+      effect(() => disabled.city$() ? city.disable() : city.enable(), { allowSignalWrites: true });
+
+      effect(() => {
+        const country = values.address.country();
+        state.reset();
+        city.reset();
+
+        let stateOpts: IState[] = [];
+        if (country && status.country() === 'VALID') {
+          stateOpts = State.getStatesOfCountry(country.isoCode);;
+        }
+        allOptions.state$.set(stateOpts);
+      }, { allowSignalWrites: true });
+
+      effect(() => {
+        const state = values.address.state();
+        city.reset();
+
+        let cityOpts: ICity[] = [];
+        if (status.state() === 'VALID') {
+          cityOpts = City.getCitiesOfState(state.countryCode, state.isoCode);
+        }
+        else {
+          const country = values.address.country();
+          if (country && status.country() === 'VALID')
+            cityOpts = City.getCitiesOfCountry(country.isoCode) || [];
+        }
+        allOptions.city$.set(cityOpts);
+      }, { allowSignalWrites: true })
+    }
+
 
     effect(() => {
       const v = psf();

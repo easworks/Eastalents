@@ -849,20 +849,29 @@
             <div *ngrxLet="form.controls.firstName as control"
                  [formFieldControl]="control"
                  class="flex-grow">
-              <label>First Name</label>
+              <label>
+                First Name
+                <span class="text-warn">*</span>
+              </label>
               <input type="text" [formControl]="control" placeholder="First Name">
             </div>
 
             <div *ngrxLet="form.controls.lastName as control"
                  [formFieldControl]="control"
                  class="flex-grow">
-              <label>Last Name</label>
+              <label>
+                Last Name
+                <span class="text-warn">*</span>
+              </label>
               <input type="text" [formControl]="control" placeholder="Last Name">
             </div>
           </div>
 
           <div class="form-field">
-            <label>Location</label>
+            <label>
+              Location
+              <span class="text-warn">*</span>
+            </label>
             <input type="text" [ngModel]="profileDetails.location$()"
                    [ngModelOptions]="{ standalone: true }"
                    placeholder="Location" readonly>
@@ -871,7 +880,10 @@
 
           <div *ngrxLet="form.controls.citizenship as control"
                [formFieldControl]="control">
-            <label>Citizenship</label>
+            <label>
+              Citizenship
+              <span class="text-warn">*</span>
+            </label>
             <span class="font-emoji absolute left-2 top-8" *ngIf="control.value as value">{{value.flag}}</span>
             <input type="text" [formControl]="control" [matAutocomplete]="countryOptions"
                    placeholder="Type to filter"
@@ -1008,9 +1020,73 @@
             </div>
 
           </div>
+
+          <div *ngrxLet="form.controls.address as form"
+               class="form-field !mb-0">
+            <label>Address</label>
+
+            <div *ngrxLet="form.controls.line1 as control"
+                 [formFieldControl]="control">
+              <input type="text" [formControl]="control" placeholder="Line 1">
+            </div>
+
+            <div *ngrxLet="form.controls.line2 as control"
+                 [formFieldControl]="control">
+              <input type="text" [formControl]="control" placeholder="Line 2">
+            </div>
+
+            <div class="grid gap-x-4 md:grid-cols-2">
+              <div *ngrxLet="form.controls.country as control"
+                   [formFieldControl]="control">
+                <span class="font-emoji absolute left-2 top-2" *ngIf="control.value as value">{{value.flag}}</span>
+                <input type="text" [formControl]="control" [matAutocomplete]="countryOptions"
+                       placeholder="Country"
+                       [class.!pl-10]="profileDetails.showFlag.country$()">
+                <mat-autocomplete #countryOptions [displayWith]="displayWith.country" hideSingleSelectionIndicator>
+                  <mat-option *ngFor="let country of profileDetails.options.country$(); trackBy: trackBy.country"
+                              [value]="country"
+                              (onSelectionChange)="$event.source.deselect();">
+                    <div class="flex gap-4 items-center">
+                      <span class="font-emoji">{{country.flag}}</span>
+                      <span>{{country.name}}</span>
+                    </div>
+                  </mat-option>
+                </mat-autocomplete>
+              </div>
+              <div *ngrxLet="form.controls.state as control"
+                   [formFieldControl]="control">
+                <input type="text" [formControl]="control" placeholder="State/Province"
+                       [matAutocomplete]="stateOptions">
+                <mat-autocomplete #stateOptions [displayWith]="displayWith.state" hideSingleSelectionIndicator>
+                  <mat-option *ngFor="let state of profileDetails.options.state$(); trackBy: trackBy.state"
+                              [value]="state"
+                              (onSelectionChange)="$event.source.deselect();">
+                    {{state.name}}
+                  </mat-option>
+                </mat-autocomplete>
+              </div>
+              <div *ngrxLet="form.controls.city as control"
+                   [formFieldControl]="control">
+                <input type="text" [formControl]="control" placeholder="City/Area"
+                       [matAutocomplete]="cityOptions">
+                <mat-autocomplete #cityOptions [displayWith]="displayWith.state" hideSingleSelectionIndicator>
+                  <mat-option *ngFor="let state of profileDetails.options.city$()"
+                              [value]="state"
+                              (onSelectionChange)="$event.source.deselect();">
+                    {{state.name}}
+                  </mat-option>
+                </mat-autocomplete>
+              </div>
+              <div *ngrxLet="form.controls.postalCode as control"
+                   [formFieldControl]="control">
+                <input type="text" [formControl]="control" placeholder="Postal Code">
+              </div>
+            </div>
+
+          </div>
         </form>
         <mat-divider></mat-divider>
-        <div class="p-4">
+        <div class=" p-4">
           <label class="font-medium"> Professional Information </label>
         </div>
         <mat-divider></mat-divider>
