@@ -1536,6 +1536,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           validators: [Validators.required]
         })
       }),
+      history: new FormGroup({
+        details: new FormControl('')
+      }),
       social: new FormGroup({
         linkedIn: new FormControl(''),
         github: new FormControl(''),
@@ -1662,7 +1665,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         const selected = this.roles.$()?.selected$() || {};
         const roles = Object.keys(selected)
           .flatMap(domain => selected[domain].map(role => [domain, role]))
-        console.debug(roles);
         return roles;
       }),
       english: ENGLISH_PROFICIENCY_OPTIONS

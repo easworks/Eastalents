@@ -1129,9 +1129,18 @@
           </div>
         </form>
         <mat-divider></mat-divider>
-        <div class="p-4">
+        <form class="p-4" *ngrxLet="form.controls.history as form"
+              [formGroup]="form">
           <label class="font-medium"> Work History, Education, and Portfolio </label>
-        </div>
+
+          <div *ngrxLet="form.controls.details as control"
+               [formFieldControl]="control" class="mt-4">
+            <label>Portfolio or Sample/Details</label>
+            <div class="field field-interactive h-64 mt-2">
+              <textarea [formControl]="control" class="resize-none"></textarea>
+            </div>
+          </div>
+        </form>
         <mat-divider></mat-divider>
         <div class="p-4" *ngrxLet="form.controls.social as form">
           <label class="font-medium"> Social Account Details </label>
