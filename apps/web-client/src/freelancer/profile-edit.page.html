@@ -1086,9 +1086,30 @@
           </div>
         </form>
         <mat-divider></mat-divider>
-        <div class=" p-4">
+        <form *ngrxLet="form.controls.information as form"
+              [formGroup]="form"
+              class="p-4">
           <label class="font-medium"> Professional Information </label>
-        </div>
+          <div *ngrxLet="form.controls.currentRole as control"
+               [formFieldControl]="control"
+               class="mt-4">
+            <label>
+              Professional Title
+              <span class="text-warn">*</span>
+            </label>
+            <mat-select [formControl]="control">
+              <mat-select-trigger *ngIf="control.value as value">
+                <span class="text-gray-500 mr-4">{{value[0]}}</span>
+                <span>{{value[1]}}</span>
+              </mat-select-trigger>
+              <mat-option *ngFor="let option of profileDetails.options.currentRole$()"
+                          [value]="option">
+                <span class="text-gray-500 mr-4">{{option[0]}}</span>
+                <span>{{option[1]}}</span>
+              </mat-option>
+            </mat-select>
+          </div>
+        </form>
         <mat-divider></mat-divider>
         <div class="p-4">
           <label class="font-medium"> Work History, Education, and Portfolio </label>

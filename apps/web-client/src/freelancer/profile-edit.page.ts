@@ -955,7 +955,17 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
           const domains = selected.map(s => s.domain);
 
-          return { form, status$, options, domains } as const;
+          const value$ = toSignal(controlValue$(form, true), { injector });
+          const selected$ = computed(() => {
+            const v = value$() || {};
+            return Object.keys(v)
+              .reduce((prev, current) => {
+                prev[current] = Object.keys(v[current]);
+                return prev;
+              }, {} as { [key: string]: string[] });
+          })
+
+          return { form, status$, options, domains, selected$ } as const;
         }),
         shareReplay({ refCount: true, bufferSize: 1 })
       );
@@ -1516,6 +1526,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           postalCode: new FormControl('', { nonNullable: true })
         })
       }),
+      information: new FormGroup({
+        currentRole: new FormControl(null as unknown as [string, string], {
+          nonNullable: true,
+          validators: [Validators.required]
+        })
+      }),
       social: new FormGroup({
         linkedIn: new FormControl(''),
         github: new FormControl(''),
@@ -1637,21 +1653,15 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             return all.filter(c => c.name.toLowerCase().includes(filter));
         }
         return all;
+      }),
+      currentRole$: computed(() => {
+        const selected = this.roles.$()?.selected$() || {};
+        const roles = Object.keys(selected)
+          .flatMap(domain => selected[domain].map(role => [domain, role]))
+        console.debug(roles);
+        return roles;
       })
     } as const;
-
-    const psf = toSignal(controlValue$(this.professionalSummary.form, true));
-    const location$ = computed(() => {
-      const v = psf();
-      if (!v)
-        return '';
-
-      const { city, state, country } = v;
-
-      return [city.name, state.name, country.name]
-        .filter(i => !!i)
-        .join(', ');
-    });
 
     // update the validators on the fly for the phone controls
     {
@@ -1776,6 +1786,19 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         allOptions.city$.set(cityOpts);
       }, { allowSignalWrites: true })
     }
+
+    const psf = toSignal(controlValue$(this.professionalSummary.form, true));
+    const location$ = computed(() => {
+      const v = psf();
+      if (!v)
+        return '';
+
+      const { city, state, country } = v;
+
+      return [city.name, state.name, country.name]
+        .filter(i => !!i)
+        .join(', ');
+    });
 
 
     effect(() => {
@@ -2035,16 +2058,6 @@ const isObject = (control: AbstractControl) => {
   }
   return null;
 };
-
-const isTelephoneWithCode = (control: AbstractControl) => {
-  const v = control.value;
-  const r1 = !!v.code;
-  const r2 = !!v.number;
-  if (r1 !== r2)
-    return { required: true }
-  return null;
-}
-
 
 function shouldShowFlag(value: Signal<ICountry | string | null>) {
   return computed(() => {
