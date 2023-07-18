@@ -37,6 +37,15 @@ export const FREELANCER_AVAILABILITY_OPTIONS = [
 
 export type FreelancerAvailability = typeof FREELANCER_AVAILABILITY_OPTIONS[number];
 
+export const ENGLISH_PROFICIENCY_OPTIONS = [
+  'Basic',
+  'Intermediate',
+  'Advanced',
+  'Native/Fluent'
+] as const;
+
+export type EnglishProficiency = typeof ENGLISH_PROFICIENCY_OPTIONS[number];
+
 export interface FreelancerProfile {
   image: string | null;
   currentRole: string;

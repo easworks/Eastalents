@@ -1108,6 +1108,24 @@
                 <span>{{option[1]}}</span>
               </mat-option>
             </mat-select>
+            <span class="hint">Current Professional Title or Job Role</span>
+          </div>
+
+          <div class="mt-8">
+            <label class="text-sm">
+              English Proficiency
+              <span class="text-warn">*</span>
+            </label>
+
+            <div class="grid gap-4 max-w-md mt-2">
+              <button *ngFor="let option of profileDetails.options.english"
+                      type="button" class="english-proficiency-option"
+                      mat-ripple
+                      [class.selected]="option.selected"
+                      (click)="profileDetails.english.toggle(option)">
+                {{option.label}}
+              </button>
+            </div>
           </div>
         </form>
         <mat-divider></mat-divider>

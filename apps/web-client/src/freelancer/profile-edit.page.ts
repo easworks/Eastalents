@@ -20,7 +20,7 @@ import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { COMMITMENT_OPTIONS, Commitment, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, pattern } from '@easworks/models';
+import { COMMITMENT_OPTIONS, Commitment, ENGLISH_PROFICIENCY_OPTIONS, EnglishProficiency, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, pattern } from '@easworks/models';
 import { City, Country, State } from 'country-state-city';
 import { ICity, ICountry, IState, Timezones } from 'country-state-city/lib/interface';
 import { DateTime } from 'luxon';
@@ -1530,6 +1530,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         currentRole: new FormControl(null as unknown as [string, string], {
           nonNullable: true,
           validators: [Validators.required]
+        }),
+        englishProficiency: new FormControl(null as unknown as SelectableOption<EnglishProficiency>, {
+          nonNullable: true,
+          validators: [Validators.required]
         })
       }),
       social: new FormGroup({
@@ -1660,7 +1664,26 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           .flatMap(domain => selected[domain].map(role => [domain, role]))
         console.debug(roles);
         return roles;
-      })
+      }),
+      english: ENGLISH_PROFICIENCY_OPTIONS
+        .map<SelectableOption<EnglishProficiency>>(v => ({
+          selected: false,
+          value: v,
+          label: v,
+        }))
+    } as const;
+
+    const english = {
+      toggle: (option: SelectableOption<EnglishProficiency>) => {
+        if (option.selected)
+          return;
+
+        option.selected = true;
+        const old = form.value.information?.englishProficiency;
+        if (old)
+          old.selected = false;
+        form.controls.information.controls.englishProficiency.setValue(option);
+      }
     } as const;
 
     // update the validators on the fly for the phone controls
@@ -1811,7 +1834,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         form.controls.personalInfo.controls.citizenship.setValue(country);
     }, { allowSignalWrites: true });
 
-    return { form, status$, location$, options, showFlag } as const;
+    return { form, status$, location$, options, showFlag, english } as const;
   }
 
   private async devModeInit() {
