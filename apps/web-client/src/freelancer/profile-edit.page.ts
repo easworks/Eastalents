@@ -7,6 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
+import { GMapsApi } from '@easworks/app-shell/api/gmap';
 import { LocationApi } from '@easworks/app-shell/api/location';
 import { Domain, DomainModule, DomainProduct } from '@easworks/app-shell/api/talent.api';
 import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
@@ -21,7 +22,7 @@ import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { COMMITMENT_OPTIONS, Commitment, ENGLISH_PROFICIENCY_OPTIONS, EnglishProficiency, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, pattern } from '@easworks/models';
+import { COMMITMENT_OPTIONS, Commitment, ENGLISH_PROFICIENCY_OPTIONS, EnglishProficiency, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, LatLng, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, pattern } from '@easworks/models';
 import { City, Country, State } from 'country-state-city';
 import { ICity, ICountry, IState, Timezones } from 'country-state-city/lib/interface';
 import { DateTime } from 'luxon';
@@ -420,19 +421,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         geo$: loadingGeo$,
       },
       options: filteredOptions,
-      useCurrentLocation: async () => {
-        this.loading.add('getting geolocation');
-        // const pos = await this.geo.get();
-
-        // now that we have gotten the coords
-        // or gotten null
-        // we have to send these off to the api to
-        // figure out where the user is
-        // then populate the form with those values
-
-        throw new Error('not implemented');
-
-      },
       showFlag$: shouldShowFlag(values.country),
       summaryWords$
     } as const;
@@ -2045,6 +2033,44 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     await Promise.all(toDo);
     this.loading.delete('getting data');
+  }
+
+  private async getCurrentLocation() {
+    this.loading.add('getting geolocation');
+
+    const device = inject(GeoLocationService);
+    const api = inject(GMapsApi);
+
+    try {
+      let coords: LatLng;
+
+      const fromDevice = await device.get();
+      if (fromDevice) {
+        coords = { lat: fromDevice.coords.latitude, lng: fromDevice.coords.longitude };
+      }
+      else {
+        const respone = await api.geolocateByIPAddress();
+        coords = respone.location;
+      }
+
+      const response = await api.reverseGeocode(coords, ['postal_code']);
+
+      if (response.status !== 'OK')
+        return null;
+
+      const country = response.results.find(c => c.types.includes('country'));
+      const state = response.results.find(c => c.types.includes('administrative_area_level_1'));
+      const city = response.results.find(c => c.types.includes('locality'));
+
+      return { country, state, city };
+    }
+    catch (e) {
+      console.error(e);
+      return null;
+    }
+    finally {
+      this.loading.delete('getting geolocation');
+    }
   }
 
   ngOnInit(): void {

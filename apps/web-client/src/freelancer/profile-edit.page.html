@@ -96,13 +96,6 @@
         <div>
           <label class="text-lg">Your Location and Time Zone</label>
 
-          <button class="highlight-button mt-4 flex gap-2 items-center"
-                  type="button" mat-ripple
-                  (click)="professionalSummary.useCurrentLocation()">
-            <i class="fas fa-location"></i>
-            <span class="text-sm">Use current location</span>
-          </button>
-
           <div class="mt-4">
             <div class="grid grid-cols-2 gap-x-4 md:gap-x-8 transition-all">
               <div *ngrxLet="form.controls.country as control"
