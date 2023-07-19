@@ -1085,7 +1085,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   private initIndustries() {
-    const stepLabel$ = this.services.stepLabel$;
+    const stepLabel$ = toSignal(this.primaryDomains.selected$
+      .pipe(map(selected => (selected.length === 1 && selected[0].key) || 'Enterprise Application')),
+      { initialValue: 'Enterprise Application' });
 
     const form = new FormRecord<FormControl<SelectableOption<string>[]>>({});
     const value$ = toSignal(controlValue$(form), { requireSync: true });
