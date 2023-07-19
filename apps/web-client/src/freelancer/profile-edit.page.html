@@ -222,19 +222,19 @@
              class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
 
           <ng-container *ngFor="let domain of primaryDomains.options$(); trackBy: trackBy.domainOption">
-            <div class="primary-domain-option border rounded flex flex-col gap-2"
+            <div class="primary-domain-option"
                  *ngrxLet="primaryDomains.stopInput$() && !domain.selected as disabled"
                  [class.disabled]="disabled"
                  [class.selected]="domain.selected">
-              <div class="flex flex-grow cursor-pointer"
-                   (click)="!disabled && primaryDomains.toggle(domain)">
+              <label class="flex flex-grow cursor-pointer">
                 <mat-checkbox class="primary"
                               [ngModel]="domain.selected"
                               [ngModelOptions]="{ standalone: true }"
-                              [disabled]="disabled">
+                              [disabled]="disabled"
+                              (click)="!disabled && primaryDomains.toggle(domain)">
                 </mat-checkbox>
                 <div class="flex-grow p-2">{{domain.label}}</div>
-              </div>
+              </label>
               <div *ngIf="domain.selected && form.controls[domain.value.key] as control"
                    [formFieldControl]="control" class="px-2">
                 <input type="number" [formControl]="control" placeholder="Years of Experience *"
@@ -271,16 +271,16 @@
 
               <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
                 <div *ngFor="let service of options.all; trackBy: trackBy.stringOption"
-                     class="service-option border rounded flex flex-col gap-2"
+                     class="service-option"
                      [class.selected]="service.selected">
-                  <div class="flex cursor-pointer flex-grow"
-                       (click)="options.toggle(service)">
+                  <label class="flex cursor-pointer flex-grow">
                     <mat-checkbox class="primary"
                                   [ngModel]="service.selected"
-                                  [ngModelOptions]="{ standalone: true }">
+                                  [ngModelOptions]="{ standalone: true }"
+                                  (click)="options.toggle(service)">
                     </mat-checkbox>
                     <div class="flex-grow p-2">{{service.label}}</div>
-                  </div>
+                  </label>
                   <ng-container *ngIf="service.selected">
                     <div *ngrxLet="form.controls[domain.key].controls[service.value] as control"
                          [formFieldControl]="control" class="px-2">
@@ -321,29 +321,21 @@
                 </span>
               </label>
 
-              <!-- <div *ngIf="options.selectAll.visible"
-                   class="border rounded flex max-w-max pr-4 cursor-pointer mt-4 lg:mt-2 transition-all"
-                   (click)="options.selectAll.toggle()">
-                <mat-checkbox class="primary"
-                              [ngModel]="options.selectAll.value"
-                              [ngModelOptions]="{ standalone: true }">
-                </mat-checkbox>
-                <div class="flex-grow p-2">Select All</div>
-              </div> -->
-
               <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
                 <ng-container *ngFor="let module of options.all; trackBy: trackBy.moduleOption">
                   <div *ngrxLet="options.stopInput$() && !module.selected as disabled"
-                       class="module-option border rounded flex cursor-pointer"
+                       class="module-option"
                        [class.selected]="module.selected"
-                       [class.disabled]="disabled"
-                       (click)="!disabled && options.toggle(module)">
-                    <mat-checkbox class="primary"
-                                  [ngModel]="module.selected"
-                                  [ngModelOptions]="{ standalone: true }"
-                                  [disabled]="disabled">
-                    </mat-checkbox>
-                    <div class="flex-grow p-2">{{module.label}}</div>
+                       [class.disabled]="disabled">
+                    <label class="flex cursor-pointer">
+                      <mat-checkbox class="primary"
+                                    [ngModel]="module.selected"
+                                    [ngModelOptions]="{ standalone: true }"
+                                    [disabled]="disabled"
+                                    (click)="!disabled && options.toggle(module)">
+                      </mat-checkbox>
+                      <div class="flex-grow p-2">{{module.label}}</div>
+                    </label>
                   </div>
                 </ng-container>
 
@@ -380,18 +372,18 @@
               <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
                 <ng-container *ngFor="let softOption of options.all; trackBy: trackBy.softwareOption">
                   <div *ngrxLet="options.stopInput$() && !softOption.selected as disabled"
-                       class="software-option border rounded flex flex-col gap-2"
+                       class="software-option"
                        [class.selected]="softOption.selected"
                        [class.disabled]="disabled">
-                    <div class="flex flex-grow cursor-pointer"
-                         (click)="!disabled && options.toggle(softOption)">
+                    <label class="flex flex-grow cursor-pointer">
                       <mat-checkbox class="primary"
                                     [ngModel]="softOption.selected"
                                     [ngModelOptions]="{ standalone: true }"
-                                    [disabled]="disabled">
+                                    [disabled]="disabled"
+                                    (click)="!disabled && options.toggle(softOption)">
                       </mat-checkbox>
                       <div class="flex-grow p-2">{{softOption.label}}</div>
-                    </div>
+                    </label>
                     <div *ngIf="softOption.selected && form.controls[domain.key].controls[softOption.value.name] as control"
                          [formFieldControl]="control" class="px-2">
                       <input type="number" [formControl]="control" placeholder="Years of Experience *"
@@ -435,18 +427,18 @@
               <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
                 <ng-container *ngFor="let roleOption of options.list; trackBy: trackBy.stringOption">
                   <div *ngrxLet="options.stopInput$() && !roleOption.selected as disabled"
-                       class="role-option border rounded flex flex-col gap-2"
+                       class="role-option"
                        [class.selected]="roleOption.selected"
                        [class.disabled]="disabled">
-                    <div class="flex flex-grow cursor-pointer"
-                         (click)="!disabled && options.toggle(roleOption)">
+                    <label class="flex flex-grow cursor-pointer">
                       <mat-checkbox class="primary"
                                     [ngModel]="roleOption.selected"
                                     [ngModelOptions]="{ standalone: true }"
-                                    [disabled]="disabled">
+                                    [disabled]="disabled"
+                                    (click)="!disabled && options.toggle(roleOption)">
                       </mat-checkbox>
                       <div class="flex-grow p-2">{{roleOption.label}}</div>
-                    </div>
+                    </label>
                     <div *ngIf="roleOption.selected && form.controls[domain.key].controls[roleOption.value] as control"
                          [formFieldControl]="control" class="px-2">
                       <input type="number" [formControl]="control" placeholder="Years of Experience *"

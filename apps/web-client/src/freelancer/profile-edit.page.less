@@ -3,11 +3,25 @@
 .module-option,
 .software-option,
 .role-option {
-  @apply transition-all;
+  @apply border rounded flex flex-col gap-2
+    transition-all;
+
+  &:hover, 
+  &:focus-within,
+  &.selected {
+    @apply border-primary text-primary;
+  }
+
+  &:hover ::ng-deep {
+    .mat-mdc-checkbox:not(.mat-mdc-checkbox-disabled) {
+      .mdc-checkbox__background {
+        @apply !border-primary;
+      }
+    }
+  }
 
   &.selected {
-    @apply bg-primary-light/10 border-transparent text-primary 
-      ring-2 ring-primary;
+    @apply bg-primary-light/10 ring-1 ring-primary;
 
     input {
       @apply bg-primary-light/10 placeholder:text-primary/75;
@@ -15,7 +29,7 @@
 
   }
   &.disabled {
-    @apply text-divider transition-all;
+    @apply text-divider transition-all border-divider;
 
     > * {
       @apply cursor-default;
