@@ -4,6 +4,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
 import { LocationApi } from '@easworks/app-shell/api/location';
@@ -39,6 +40,7 @@ import { map, shareReplay, switchMap } from 'rxjs';
     MatAutocompleteModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatPseudoCheckboxModule
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
@@ -103,7 +105,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     timezone: (t?: Timezones) => t?.zoneName || '',
     currency: (c?: ICountry) => c ? `${c.currency} (${c.name})` : '',
     phoneCode: (c?: ICountry) => c ? c.phonecode : '',
-    none: () => ''
+    none: () => '',
+    checkbox: (value: boolean) => value ? 'checked' : 'unchecked'
   } as const;
 
   private initStepper() {

@@ -6,7 +6,8 @@
   @apply transition-all;
 
   &.selected {
-    @apply bg-primary-light/10 border-transparent text-primary;
+    @apply bg-primary-light/10 border-transparent text-primary 
+      ring-2 ring-primary;
 
     input {
       @apply bg-primary-light/10 placeholder:text-primary/75;
@@ -37,12 +38,18 @@
 .commitment-option,
 .job-search-status-option,
 .english-proficiency-option {
-  @apply flex border rounded p-2 px-4 cursor-pointer text-left
+  @apply flex items-center border rounded p-2 px-4 cursor-pointer text-left
       gap-2 transition-all
       ring-inset ring-1 ring-transparent;
   
   &:hover, &:focus, &.selected {
     @apply  text-primary border-primary;
+
+    .mat-pseudo-checkbox-full {
+      &:not(.mat-pseudo-checkbox-checked) {
+        @apply border-primary;
+      }
+    }
   }
 
   &.selected {
@@ -52,10 +59,6 @@
   &:disabled {
     @apply border-divider text-divider ring-0;
   }
-}
-
-.commitment-option {
-  @apply flex-wrap justify-between items-center;
 }
 
 .tech-option,

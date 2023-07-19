@@ -609,19 +609,20 @@
           </span>
         </label>
 
-        <div class="grid gap-4 max-w-md">
+        <div class="grid gap-4 lg:max-w-md">
           <button *ngFor="let option of jobCommittment.options; let i = index; trackBy: trackBy.stringOption"
                   type="button" class="commitment-option"
                   mat-ripple
                   [class.selected]="option.selected"
                   (click)="jobCommittment.toggle(option)">
-            {{option.label}}
-
-            <span *ngIf="i === 1" class="rounded p-1 px-2 text-sm text-emerald-400">
-              <span class="fa-solid fa-thumbs-up mr-2"></span>
-              <span>Recommended</span>
-            </span>
-
+            <div class="flex-grow flex gap-2 flex-wrap items-center justify-between">
+              <span>{{option.label}}</span>
+              <span *ngIf="i === 1" class="rounded text-sm text-emerald-400">
+                <span class="fa-solid fa-thumbs-up mr-2"></span>
+                <span>Recommended</span>
+              </span>
+            </div>
+            <mat-pseudo-checkbox class="primary" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
           </button>
         </div>
       </form>
@@ -797,13 +798,14 @@
           </span>
         </label>
 
-        <div class="grid gap-4 max-w-md">
+        <div class="grid gap-4 lg:max-w-md">
           <button *ngFor="let option of jobSearchStatus.options; let i = index; trackBy: trackBy.stringOption"
                   type="button" class="job-search-status-option"
                   mat-ripple
                   [class.selected]="option.selected"
                   (click)="jobSearchStatus.toggle(option)">
-            {{option.label}}
+            <span>{{option.label}}</span>
+            <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
           </button>
         </div>
       </form>
@@ -825,13 +827,14 @@
           </span>
         </label>
 
-        <div class="grid gap-4 max-w-md">
+        <div class="grid gap-4 lg:max-w-md">
           <button *ngFor="let option of availability.options; let i = index; trackBy: trackBy.stringOption"
                   type="button" class="job-search-status-option"
                   mat-ripple
                   [class.selected]="option.selected"
                   (click)="availability.toggle(option)">
-            {{option.label}}
+            <span>{{option.label}}</span>
+            <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
           </button>
         </div>
       </form>
@@ -1117,13 +1120,14 @@
               <span class="text-warn">*</span>
             </label>
 
-            <div class="grid gap-4 max-w-md mt-2">
+            <div class="grid gap-4 lg:max-w-md mt-2">
               <button *ngFor="let option of profileDetails.options.english"
                       type="button" class="english-proficiency-option"
                       mat-ripple
                       [class.selected]="option.selected"
                       (click)="profileDetails.english.toggle(option)">
-                {{option.label}}
+                <span>{{option.label}}</span>
+                <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
               </button>
             </div>
           </div>

@@ -12,8 +12,8 @@
   --mdc-checkbox-selected-pressed-icon-color: theme('colors.secondary');
   --mdc-checkbox-unselected-focus-icon-color: #212121;
   --mdc-checkbox-unselected-hover-icon-color: #212121;
-  --mdc-checkbox-unselected-icon-color: theme('colors.black / 50');
-  --mdc-checkbox-unselected-pressed-icon-color: theme('colors.black / 50');
+  --mdc-checkbox-unselected-icon-color: theme('colors.black');
+  --mdc-checkbox-unselected-pressed-icon-color: theme('colors.black');
   --mdc-checkbox-selected-focus-state-layer-color: theme('colors.secondary');
   --mdc-checkbox-selected-hover-state-layer-color: theme('colors.secondary');
   --mdc-checkbox-selected-pressed-state-layer-color: theme('colors.secondary');
@@ -31,8 +31,8 @@
     --mdc-checkbox-selected-pressed-icon-color: theme('colors.secondary');
     --mdc-checkbox-unselected-focus-icon-color: #212121;
     --mdc-checkbox-unselected-hover-icon-color: #212121;
-    --mdc-checkbox-unselected-icon-color: theme('colors.black / 50');
-    --mdc-checkbox-unselected-pressed-icon-color: theme('colors.black / 50');
+    --mdc-checkbox-unselected-icon-color: theme('colors.black');
+    --mdc-checkbox-unselected-pressed-icon-color: theme('colors.black');
     --mdc-checkbox-selected-focus-state-layer-color: theme('colors.primary');
     --mdc-checkbox-selected-hover-state-layer-color: theme('colors.primary');
     --mdc-checkbox-selected-pressed-state-layer-color: theme('colors.primary');
@@ -99,6 +99,10 @@
 }
 
 .mat-pseudo-checkbox-full {
+  &:not(.mat-pseudo-checkbox-checked) {
+    @apply border-black;
+  }
+  
   &.mat-pseudo-checkbox-checked {
     @apply bg-secondary;
 
