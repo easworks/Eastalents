@@ -1,7 +1,7 @@
 import { Injectable, inject, isDevMode } from '@angular/core';
 import { ENVIRONMENT } from '../environment';
+import { sortNumber } from '../utilities/sort';
 import { Cached, createCache, isFresh } from './cache';
-import { generateLoadingState } from '../state/loading';
 
 const THREE_DAY_MS = 3 * 24 * 60 * 60 * 1000;
 
@@ -18,44 +18,45 @@ export class CSCApi {
   private readonly devMode = isDevMode();
   private readonly cache = createCache('csc-cache');
 
-  readonly loading = generateLoadingState<[
-    'country',
-    'state',
-    'city'
-  ]>();
-
   async allCountries() {
-    this.loading.add('country');
+    const url = `${this.apiUrl}/countries`;
+    const id = url;
 
-    try {
-      const url = `${this.apiUrl}/countries`;
-      const id = url;
+    const cached = await this.cache.get<Cached<Country[]>>(id);
+    if (cached && isFresh(cached, THREE_DAY_MS))
+      return cached.data;
 
-      const cached = await this.cache.get<Cached<Country[]>>(id);
-      if (cached && isFresh(cached, THREE_DAY_MS))
-        return cached.data;
+    const res = await fetch(url, { headers: this.headers });
+    await this.handleErrorsIfAny(res);
 
-      const res = await fetch(url, { headers: this.headers });
-      await this.handleErrorsIfAny(res);
+    const countries = await res.json() as Country[];
 
-      const countries = await res.json() as Country[];
+    const details = await Promise.all(countries.map(c => this.countryDetails(c.iso2)))
 
-      const details = await Promise.all(countries.map(c => this.countryDetails(c.iso2)))
+    await this.cache.set(id, details);
+    return details;
+  }
 
-      await this.cache.set(id, details);
-      return details;
-    }
-    finally {
-      this.loading.delete('country');
-    }
+  async allTimezones() {
+    const id = 'timezones';
+
+    const cached = await this.cache.get<Cached<Timezone[]>>(id);
+    if (cached && isFresh(cached, THREE_DAY_MS))
+      return cached.data;
+
+    const countries = await this.allCountries();
+    const tz = countries.flatMap(c => c.timezones)
+      .sort((a, b) => sortNumber(a.gmtOffset, b.gmtOffset));
+
+    await this.cache.set(id, tz);
+    return tz;
   }
 
   async allStates(ciso2: string) {
-    this.loading.add('state');
-
     try {
       const url = `${this.apiUrl}/countries/${ciso2}/states`;
       const id = url;
+      const country = await this.countryDetails(ciso2);
 
       const cached = await this.cache.get<Cached<State[]>>(id);
       if (cached && isFresh(cached, THREE_DAY_MS))
@@ -65,22 +66,21 @@ export class CSCApi {
       await this.handleErrorsIfAny(res);
 
       const states = await res.json() as State[];
+      states.forEach(s => {
+        s.country_code = country.iso2;
+        s.country_id = country.id;
+      });
 
-      const details = await Promise.all(states.map(s => this.stateDetails(ciso2, s.iso2)));
-
-      await this.cache.set(id, details);
-      return details;
+      await this.cache.set(id, states);
+      return states;
     }
-    finally {
-      this.loading.delete('state');
+    catch (e) {
+      console.error(e);
+      return [];
     }
   }
 
   async allCities(ciso2: string, siso2?: string) {
-    const isChildOperation = this.loading.has('city')();
-    if (!isChildOperation)
-      this.loading.add('city');
-
     try {
       const url = siso2 ?
         `${this.apiUrl}/countries/${ciso2}/states/${siso2}/cities` :
@@ -98,71 +98,28 @@ export class CSCApi {
       await this.cache.set(id, cities);
       return cities;
     }
-    finally {
-      if (!isChildOperation)
-        this.loading.delete('city');
+    catch (e) {
+      console.error(e);
+      return [];
     }
   }
 
-  async countryDetails(ciso2: string) {
-    const isChildOperation = this.loading.has('country')();
-    if (!isChildOperation)
-      this.loading.add('country');
+  private async countryDetails(ciso2: string) {
+    const url = `${this.apiUrl}/countries/${ciso2}`;
+    const id = url;
 
-    try {
-      const url = `${this.apiUrl}/countries/${ciso2}`;
-      const id = url;
+    const cached = await this.cache.get<Cached<Country>>(id);
+    if (cached && isFresh(cached, THREE_DAY_MS))
+      return cached.data;
 
-      const cached = await this.cache.get<Cached<Country>>(id);
-      if (cached && isFresh(cached, THREE_DAY_MS))
-        return cached.data;
+    const res = await fetch(url, { headers: this.headers });
+    await this.handleErrorsIfAny(res);
 
-      const res = await fetch(url, { headers: this.headers });
-      await this.handleErrorsIfAny(res);
-
-      const country = await res.json() as Country;
-      country.timezones = JSON.parse(country.timezones as unknown as string);
-      country.translations = JSON.parse(country.translations as unknown as string);
-      await this.cache.set(id, country);
-      return country;
-    }
-    finally {
-      if (!isChildOperation)
-        this.loading.delete('country');
-    }
-
-  }
-
-  async stateDetails(ciso2: string, siso2: string) {
-    const isChildOperation = this.loading.has('state')();
-    if (!isChildOperation)
-      this.loading.add('state');
-
-    try {
-      if (siso2.length !== 2) {
-        const parts = siso2.split('-');
-        ciso2 = parts[0];
-        siso2 = parts[1];
-      }
-
-      const url = `${this.apiUrl}/countries/${ciso2}/states/${siso2}`;
-      const id = url;
-
-      const cached = await this.cache.get<Cached<State>>(id);
-      if (cached && isFresh(cached, THREE_DAY_MS))
-        return cached.data;
-
-      const res = await fetch(url, { headers: this.headers });
-      await this.handleErrorsIfAny(res);
-
-      const state = await res.json() as State;
-      await this.cache.set(id, state);
-      return state;
-    }
-    finally {
-      if (!isChildOperation)
-        this.loading.delete('state');
-    }
+    const country = await res.json() as Country;
+    country.timezones = JSON.parse(country.timezones as unknown as string);
+    country.translations = JSON.parse(country.translations as unknown as string);
+    await this.cache.set(id, country);
+    return country;
   }
 
   private async handleErrorsIfAny(response: Response) {
