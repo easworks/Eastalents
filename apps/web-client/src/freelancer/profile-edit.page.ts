@@ -2036,31 +2036,32 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   private async getCurrentLocation() {
-    this.loading.add('getting geolocation');
-
-    const device = inject(GeoLocationService);
-    const api = inject(GMapsApi);
-
     try {
+      this.loading.add('getting geolocation');
+
+      const device = this.injector.get(GeoLocationService);
+
       let coords: LatLng;
 
-      const fromDevice = await device.get();
+      const fromDevice = await device.get()
       if (fromDevice) {
         coords = { lat: fromDevice.coords.latitude, lng: fromDevice.coords.longitude };
       }
       else {
-        const respone = await api.geolocateByIPAddress();
+        const respone = await this.api.gmap.geolocateByIPAddress();
         coords = respone.location;
       }
 
-      const response = await api.reverseGeocode(coords, ['postal_code']);
+      const response = await this.api.gmap.reverseGeocode(coords, ['postal_code']);
 
       if (response.status !== 'OK')
         return null;
 
-      const country = response.results.find(c => c.types.includes('country'));
-      const state = response.results.find(c => c.types.includes('administrative_area_level_1'));
-      const city = response.results.find(c => c.types.includes('locality'));
+      const components = response.results[0].address_components
+
+      const country = components.find(c => c.types.includes('country'));
+      const state = components.find(c => c.types.includes('administrative_area_level_1'));
+      const city = components.find(c => c.types.includes('locality'));
 
       return { country, state, city };
     }
