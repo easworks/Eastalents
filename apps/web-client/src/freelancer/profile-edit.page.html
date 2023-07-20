@@ -75,8 +75,8 @@
                       class="resize-none"></textarea>
           </div>
           <span class="error" *ngIf="control.hasError('required')">Required</span>
-          <span class="error" *ngIf="control.hasError('wordlength')">{{professionalSummary.summaryWords$()}}/250 words</span>
-          <span class="hint">{{professionalSummary.summaryWords$()}}/250 words</span>
+          <span class="error" *ngIf="control.hasError('wordlength')">{{control.value.length}}/1500</span>
+          <span class="hint">{{control.value.length}}/1500</span>
           <p class="p-2 px-4 rounded text-sm bg-emerald-400/5 text-emerald-500 mt-8">The Professional Summary will remain confidential and visible exclusively to the EASWORKS screening team.</p>
         </div>
 
@@ -100,47 +100,47 @@
             <div class="grid grid-cols-2 gap-x-4 md:gap-x-8 transition-all">
               <div *ngrxLet="form.controls.country as control"
                    [formFieldControl]="control"
-                   [class.show-spinner]="professionalSummary.loading.geo$()">
+                   [class.show-spinner]="professionalSummary.loading.geo$() || professionalSummary.loading.country$()">
                 <label>
                   Country
-                  <span class="text-warn" *ngIf="control.enabled">*</span>
+                  <span class="text-warn">*</span>
                 </label>
-                <span class="font-emoji absolute left-2 top-8" *ngIf="control.value as value">{{value.flag}}</span>
-                <input type="text" [formControl]="control" [matAutocomplete]="countryOptions"
-                       placeholder="Type to filter"
-                       [class.!pl-10]="professionalSummary.showFlag$()">
-                <mat-autocomplete #countryOptions [displayWith]="displayWith.country" hideSingleSelectionIndicator>
+                <input type="text" [formControl]="control" placeholder="Type to filter"
+                       [matAutocomplete]="countryOptions">
+                <span class="error" *ngIf="control.hasError('required')">Required</span>
+
+                <mat-autocomplete #countryOptions hideSingleSelectionIndicator>
                   <mat-option *ngFor="let country of professionalSummary.options.country$(); trackBy: trackBy.country"
-                              [value]="country">
+                              [value]="country.name" (onSelectionChange)="$event.source.deselect()">
                     <div class="flex gap-4 items-center">
-                      <span class="font-emoji">{{country.flag}}</span>
+                      <span class="font-emoji">{{country.emoji}}</span>
                       <span>{{country.name}}</span>
                     </div>
                   </mat-option>
                 </mat-autocomplete>
+
                 <mat-progress-spinner class="field-spinner right-6 top-8"
                                       mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>
 
               <div *ngrxLet="form.controls.state as control"
                    [formFieldControl]="control"
-                   [class.show-spinner]="professionalSummary.loading.geo$()">
+                   [class.show-spinner]="professionalSummary.loading.state$()">
                 <label>
                   State/Province
-                  <span class="text-warn" *ngIf="control.enabled">*</span>
+                  <span class="text-warn" *ngIf="professionalSummary.validation.stateRequired$()">*</span>
                 </label>
 
-                <input type="text" [formControl]="control" [matAutocomplete]="stateOptions"
-                       placeholder="Type to filter">
-                <mat-autocomplete #stateOptions [displayWith]="displayWith.state" hideSingleSelectionIndicator>
+                <input type="text" [formControl]="control" placeholder="Type to filter"
+                       [matAutocomplete]="stateOptions">
+                <span class="error" *ngIf="control.hasError('required')">Required</span>
+
+                <mat-autocomplete #stateOptions hideSingleSelectionIndicator>
                   <mat-option *ngFor="let state of professionalSummary.options.state$(); trackBy: trackBy.state"
-                              [value]="state">
+                              [value]="state.name" (onSelectionChange)="$event.source.deselect()">
                     {{state.name}}
                   </mat-option>
                 </mat-autocomplete>
-                <span class="error" *ngIf="control.hasError('required')">Required</span>
-                <span class="error" *ngIf="control.hasError('invalid')">Invalid</span>
-
 
                 <mat-progress-spinner class="field-spinner right-6 top-8"
                                       mode="indeterminate" diameter="24"></mat-progress-spinner>
@@ -148,38 +148,46 @@
 
               <div *ngrxLet="form.controls.city as control"
                    [formFieldControl]="control"
-                   [class.show-spinner]="professionalSummary.loading.geo$()">
+                   [class.show-spinner]="professionalSummary.loading.city$()">
                 <label>
                   City/Area
-                  <span class="text-warn" *ngIf="control.enabled">*</span>
+                  <span class="text-warn" *ngIf="professionalSummary.validation.cityRequired$()">*</span>
                 </label>
-                <input type="text" [formControl]="control" [matAutocomplete]="cityOptions"
-                       placeholder="Type to filter">
-                <mat-autocomplete #cityOptions [displayWith]="displayWith.city" hideSingleSelectionIndicator>
+                <input type="text" [formControl]="control" placeholder="Type to filter"
+                       [matAutocomplete]="cityOptions">
+                <span class="error" *ngIf="control.hasError('required')">Required</span>
+
+                <mat-autocomplete #cityOptions hideSingleSelectionIndicator>
                   <mat-option *ngFor="let city of professionalSummary.options.city$()"
-                              [value]="city">
+                              [value]="city.name" (onSelectionChange)="$event.source.deselect()">
                     {{city.name}}
                   </mat-option>
                 </mat-autocomplete>
+
                 <mat-progress-spinner class="field-spinner right-6 top-8"
                                       mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>
 
               <div *ngrxLet="form.controls.timezone as control"
                    [formFieldControl]="control"
-                   [class.show-spinner]="professionalSummary.loading.geo$()">
+                   [class.show-spinner]="professionalSummary.loading.timezone$()">
                 <label>
                   Time Zone
                   <span class="text-warn" *ngIf="control.enabled">*</span>
                 </label>
-                <input type="text" [formControl]="control" [matAutocomplete]="tzOptions"
-                       placeholder="Type to filter">
-                <mat-autocomplete #tzOptions [displayWith]="displayWith.timezone" hideSingleSelectionIndicator>
+                <input type="text" [formControl]="control" placeholder="Type to filter"
+                       [matAutocomplete]="tzOptions">
+                <span class="error" *ngIf="control.hasError('required')">Required</span>
+                <span class="error" *ngIf="control.hasError('invalid')">Invalid</span>
+
+
+                <mat-autocomplete #tzOptions hideSingleSelectionIndicator>
                   <mat-option *ngFor="let tz of professionalSummary.options.timezone$()"
-                              [value]="tz">
+                              [value]="tz.zoneName" (onSelectionChange)="$event.source.deselect()">
                     {{tz.zoneName}}
                   </mat-option>
                 </mat-autocomplete>
+
                 <mat-progress-spinner class="field-spinner right-6 top-8"
                                       mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>

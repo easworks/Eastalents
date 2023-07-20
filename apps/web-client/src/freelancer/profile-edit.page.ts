@@ -61,13 +61,18 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   @HostBinding() private readonly class = 'flex flex-col lg:flex-row';
 
   private readonly loading = generateLoadingState<[
-    'getting profile data' |
-    'getting geolocation' |
-    'getting data'
+    'getting profile data',
+    'getting geolocation',
+    'getting data',
+    'ps-country',
+    'ps-state',
+    'ps-city',
+    'ps-timezone',
   ]>();
   protected readonly isNew = this.route.snapshot.queryParamMap.has('new');
   protected readonly loadingData$ = this.loading.has('getting data');
   private readonly section = this.initSection();
+  private readonly allCountries = this.api.csc.allCountries();
 
   protected readonly professionalSummary = this.initProfessionaSummary();
   protected readonly primaryDomains = this.initPrimaryDomains();
@@ -88,8 +93,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly stepper = this.initStepper();
 
   protected readonly trackBy = {
-    country: (_: number, c: ICountry) => c.isoCode,
-    state: (_: number, s: IState) => s.isoCode,
+    country: (_: number, c: Country) => c.iso2,
+    state: (_: number, s: State) => s.iso2,
     domain: (_: number, d: Domain) => d.key,
     domainOption: (_: number, d: SelectableOption<Domain>) => d.value.key,
     moduleOption: (_: number, m: SelectableOption<DomainModule>) => m.value.name,
@@ -100,12 +105,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   } as const;
 
   protected readonly displayWith = {
-    country: (c?: ICountry) => c?.name || '',
-    state: (s?: IState) => s?.name || '',
-    city: (c?: ICity) => c?.name || '',
+    country: (c?: Country) => c?.name || '',
+    state: (s?: State) => s?.name || '',
+    city: (c?: City) => c?.name || '',
     timezone: (t?: Timezones) => t?.zoneName || '',
-    currency: (c?: ICountry) => c ? `${c.currency} (${c.name})` : '',
-    phoneCode: (c?: ICountry) => c ? c.phonecode : '',
+    currency: (c?: Country) => c ? `${c.currency} (${c.name})` : '',
+    phoneCode: (c?: Country) => c ? c.phonecode : '',
     none: () => '',
     checkbox: (value: boolean) => value ? 'checked' : 'unchecked'
   } as const;
@@ -243,20 +248,11 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
   private initProfessionaSummary() {
 
-    const summaryWords$ = signal(0);
-
     const form = new FormGroup({
       summary: new FormControl('', {
         validators: [
           Validators.required,
-          (c) => {
-            const v = c.value as string;
-            const w = v && v.length && v.split(/\s+\b/).length || 0;
-            summaryWords$.set(w);
-            if (w > 250)
-              return { wordlength: true }
-            return null;
-          }
+          Validators.maxLength(1500),
         ],
         nonNullable: true
       }),
@@ -264,20 +260,21 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         validators: [Validators.required],
         nonNullable: true
       }),
-      country: new FormControl(null as unknown as ICountry, {
-        validators: [Validators.required, isObject],
+      country: new FormControl('', {
+        validators: [Validators.required],
         nonNullable: true
       }),
-      state: new FormControl(null as unknown as IState, {
-        validators: [Validators.required, isObject],
-        nonNullable: true
-      }),
-      city: new FormControl(null as unknown as ICity, {
-        validators: [Validators.required, isObject],
-        nonNullable: true
-      }),
-      timezone: new FormControl(null as unknown as Timezones, {
-        validators: [Validators.required, isObject],
+      state: new FormControl('', { nonNullable: true }),
+      city: new FormControl('', { nonNullable: true }),
+      timezone: new FormControl('', {
+        validators: [
+          Validators.required,
+          c => {
+            if (!IANAZone.isValidZone(c.value))
+              return { invalid: true };
+            return null;
+          }
+        ],
         nonNullable: true
       })
     });
@@ -295,134 +292,243 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       state: toSignal(controlStatus$(form.controls.state), { requireSync: true }),
     }
 
-    const loadingGeo$ = this.loading.has('getting geolocation');
-
     const allOptions = {
-      country: [...Country.getAllCountries()].sort((a, b) => sortString(a.name, b.name)),
-      state$: signal<IState[]>([]),
-      city$: signal<ICity[]>([]),
+      country$: signal<Country[]>([]),
+      state$: signal<State[]>([]),
+      city$: signal<City[]>([]),
       timezone$: signal<Timezones[]>([]),
     };
 
     const filteredOptions = {
       experience: OVERALL_EXPERIENCE_OPTIONS,
       country$: computed(() => {
-        const value = values.country() as ICountry | string;
-        const all = allOptions.country;
-        if (typeof value === 'string') {
-          const filter = value.trim().toLowerCase();
-          if (filter)
-            return all.filter(c => c.name.toLowerCase().includes(filter));
-        }
+        const value = values.country();
+        const all = allOptions.country$();
+        const filter = value && value.trim().toLowerCase();
+        if (filter)
+          return all.filter(c => c.name.toLowerCase().includes(filter));
         return all;
       }),
       state$: computed(() => {
-        const value = values.state() as IState | string;
+        const value = values.state();
         const all = allOptions.state$();
-        if (typeof value === 'string') {
-          const filter = value.trim().toLowerCase();
+        const filter = value && value.trim().toLowerCase();
+        if (filter)
           return all.filter(s => s.name.toLowerCase().includes(filter));
-        }
         return all;
       }),
       city$: computed(() => {
-        const value = values.city() as ICity | string;
+        const value = values.city();
         const all = allOptions.city$();
-        if (typeof value === 'string') {
-          const filter = value.trim().toLowerCase();
+        const filter = value && value.trim().toLowerCase();
+        if (filter)
           return all.filter(c => c.name.toLowerCase().includes(filter));
-        }
         return all;
-
       }),
       timezone$: computed(() => {
-        const value = values.timezone() as Timezones | string;
+        const value = values.timezone();
         const all = allOptions.timezone$();
-        if (typeof value === 'string') {
-          const filter = value.trim().toLowerCase();
+        const filter = value && value.trim().toLowerCase();
+        if (filter)
           return all.filter(c => c.zoneName.toLowerCase().includes(filter));
-        }
         return all;
       })
     }
 
-    const disabled = {
-      country$: computed(() => loadingGeo$()),
-      state$: computed(() => loadingGeo$() || status.country() !== 'VALID' || allOptions.state$().length === 0),
-      city$: computed(() => loadingGeo$() || status.state() !== 'VALID' || allOptions.city$().length === 0),
-      timezone$: computed(() => loadingGeo$() || status.country() !== 'VALID' || allOptions.timezone$().length === 0),
+    const validation = {
+      stateRequired$: computed(() => allOptions.state$().length > 0),
+      cityRequired$: computed(() => allOptions.city$().length > 0)
     }
+
+    const loading = {
+      geo$: this.loading.has('getting geolocation'),
+      country$: this.loading.has('ps-country'),
+      state$: this.loading.has('ps-state'),
+      city$: this.loading.has('ps-city'),
+      timezone$: this.loading.has('ps-timezone'),
+    } as const;
+
+    const disabled = {
+      country$: computed(() => loading.geo$() || loading.country$()),
+      state$: computed(() => loading.geo$() || loading.state$() || status.country() !== 'VALID'),
+      city$: computed(() => loading.geo$() || loading.city$() || status.country() !== 'VALID'),
+      timezone$: computed(() => loading.geo$() || loading.timezone$() || status.country() !== 'VALID' || allOptions.timezone$().length === 0),
+    } as const;
 
     effect(() => disabled.country$() ? form.controls.country.disable() : form.controls.country.enable(), { allowSignalWrites: true });
     effect(() => disabled.state$() ? form.controls.state.disable() : form.controls.state.enable(), { allowSignalWrites: true });
     effect(() => disabled.city$() ? form.controls.city.disable() : form.controls.city.enable(), { allowSignalWrites: true });
     effect(() => disabled.timezone$() ? form.controls.timezone.disable() : form.controls.timezone.enable(), { allowSignalWrites: true });
 
-    effect(() => {
+    // dynamically add/remove validators for the state and city controls
+    {
+      form.controls
+      // eslint-disable-next-line no-inner-declarations
+      function dynamicallyRequired(
+        isRequired: Signal<boolean>,
+        control: FormControl<string>
+      ) {
+        effect(() => {
+          if (isRequired()) {
+            control.addValidators(Validators.required);
+          }
+          else {
+            control.removeValidators(Validators.required);
+          }
+          control.updateValueAndValidity();
+        }, { allowSignalWrites: true })
+
+      }
+
+      dynamicallyRequired(validation.stateRequired$, form.controls.state);
+      dynamicallyRequired(validation.cityRequired$, form.controls.city);
+    }
+
+    // react to changes in the country control
+    effect(async () => {
+      const options = filteredOptions.country$();
       const country = values.country();
       form.controls.state.reset();
       form.controls.city.reset();
       form.controls.timezone.reset();
 
-      let stateOpts: IState[] = [];
-      let tzOpts: Timezones[] = [];
+      allOptions.state$.set([]);
+      allOptions.city$.set([]);
+      allOptions.timezone$.set([]);
 
-      if (status.country() === 'VALID') {
-        const states = State.getStatesOfCountry(country.isoCode);
-        stateOpts = states;
-        tzOpts = country.timezones || [];
-      }
+      if (options.length < 25) {
+        const match = options.find(o => o.name.toLowerCase() === country.trim().toLowerCase());
+        if (match) {
+          // populate the options for timezone
+          {
+            this.loading.add('ps-timezone');
+            const cscTz = match.timezones;
+            if (cscTz.length)
+              allOptions.timezone$.set(cscTz);
+            else {
+              const all = await this.api.csc.allTimezones();
+              allOptions.timezone$.set(all)
+            }
+            this.loading.delete('ps-timezone');
+          }
 
-      allOptions.state$.set(stateOpts);
-      allOptions.timezone$.set(tzOpts);
-    }, { allowSignalWrites: true });
-
-    effect(() => {
-      const state = values.state();
-      form.controls.city.reset();
-
-      let cityOpts: ICity[] = [];
-
-      if (status.state() === 'VALID') {
-        if (state && typeof state === 'object')
-          cityOpts = City.getCitiesOfState(state.countryCode, state.isoCode);
-      }
-      else if (status.country() === 'VALID') {
-        if (allOptions.state$().length === 0) {
-          cityOpts = City.getCitiesOfCountry(values.country().isoCode) || [];
+          // populate the options for state
+          this.loading.add('ps-state');
+          if (match.name.length === country.length) {
+            if (match.name !== country) {
+              form.controls.country.setValue(match.name);
+            }
+            else {
+              const states = await this.api.csc.allStates(match.iso2);
+              if (states.length) {
+                states.sort((a, b) => sortString(a.name, b.name));
+                allOptions.state$.set(states);
+              }
+              // populate the options for cities when no states were found
+              else {
+                this.loading.add('ps-city');
+                const cities = await this.api.csc.allCities(match.iso2);
+                cities.sort((a, b) => sortString(a.name, b.name));
+                allOptions.city$.set(cities);
+                this.loading.delete('ps-city');
+              }
+            }
+          }
+          this.loading.delete('ps-state');
         }
       }
-      allOptions.city$.set(cityOpts);
     }, { allowSignalWrites: true });
 
+    effect(async () => {
+      const options = filteredOptions.state$();
+      const state = values.state();
+      form.controls.city.reset();
+      allOptions.city$.set([]);
 
-    // automatically select first option when appropriate
-    effect(() => {
-      const all = allOptions.state$();
-      if (all.length === 1)
-        form.controls.state.reset(all[0]);
+      if (options.length < 25) {
+        const match = options.find(o => o.name.toLowerCase() === state.trim().toLowerCase());
+        if (match && match.name.length === state.length) {
+          if (match.name !== state) {
+            form.controls.state.setValue(match.name);
+          }
+          else {
+            // populate the options for cities
+            this.loading.add('ps-city');
+            const cities = await this.api.csc.allCities(match.country_code, match.iso2);
+            if (cities.length) {
+              cities.sort((a, b) => sortString(a.name, b.name));
+              allOptions.city$.set(cities);
+            }
+            else {
+              const cities = await this.api.csc.allCities(match.country_code);
+              cities.sort((a, b) => sortString(a.name, b.name));
+              allOptions.city$.set(cities);
+            }
+            this.loading.delete('ps-city');
+          }
+        }
+      }
     }, { allowSignalWrites: true });
-    effect(() => {
-      const all = allOptions.city$();
-      if (all.length === 1)
-        form.controls.city.reset(all[0]);
-    }, { allowSignalWrites: true });
-    effect(() => {
-      const all = allOptions.timezone$();
-      if (all.length === 1)
-        form.controls.timezone.reset(all[0]);
+
+    effect(async () => {
+      const options = filteredOptions.city$();
+      if (options.length < 25) {
+        const city = values.city();
+        const match = options.find(o => o.name.toLowerCase() === city.trim().toLowerCase());
+        if (match && match.name.length === city.length && match.name !== city) {
+          form.controls.city.setValue(match.name);
+        }
+      }
     }, { allowSignalWrites: true })
+
+    effect(() => {
+      const options = allOptions.timezone$();
+      if (options.length === 1) {
+        form.controls.timezone.setValue(options[0].zoneName);
+      }
+      else if (options.length < 25) {
+        const tz = values.timezone();
+        const match = options.find(o => o.zoneName.toLowerCase() === tz.trim().toLowerCase());
+        if (match && match.zoneName.length === tz.length && match.zoneName !== tz) {
+          form.controls.timezone.setValue(match.zoneName);
+        }
+      }
+    }, { allowSignalWrites: true });
+
+    // populate the country list
+    // pre-fill the current location
+    {
+      this.loading.add('ps-country');
+      this.allCountries
+        .then(async countries => {
+          allOptions.country$.set([...countries].sort((a, b) => sortString(a.name, b.name)));
+          this.loading.delete('ps-country');
+
+
+          if (this.isNew) {
+            const cl = await this.getCurrentLocation();
+            if (cl) {
+              form.controls.country.setValue(cl.country?.long_name || '');
+
+              await toPromise(loading.state$, v => v, this.injector);
+              await toPromise(loading.state$, v => !v, this.injector);
+              form.controls.state.setValue(cl.state?.long_name || '');
+
+              await toPromise(loading.city$, v => v, this.injector);
+              await toPromise(loading.city$, v => !v, this.injector);
+              form.controls.city.setValue(cl.city?.long_name || '');
+            }
+          }
+        });
+    }
 
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
     return {
       form,
       status$,
-      loading: {
-        geo$: loadingGeo$,
-      },
+      loading,
       options: filteredOptions,
-      showFlag$: shouldShowFlag(values.country),
-      summaryWords$
+      validation
     } as const;
   }
 
