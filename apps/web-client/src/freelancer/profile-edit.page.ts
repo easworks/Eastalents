@@ -2272,10 +2272,36 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     }
 
     {
-      const { form, options, english, work } = this.profileDetails;
+      const { form, options, english } = this.profileDetails;
 
       form.controls.information.controls.currentRole.setValue(options.role$()[0]);
       english.toggle(options.english[0]);
+
+      {
+        const control = form.controls.history.controls.work.at(0);
+        control.patchValue({
+          client: 'Client 1',
+          duration: {
+            start: 2023
+          },
+          role: options.role$()[0],
+          skills: 'Skill 1'
+        })
+      }
+
+      {
+        const control = form.controls.history.controls.education.at(0);
+        control.patchValue({
+          degree: 'Some Degree',
+          specialization: 'Some Specialization',
+          duration: {
+            start: 2018,
+            end: 2021
+          },
+          institution: 'Some institute',
+          location: 'Some city, Some state, Some country'
+        })
+      }
     }
 
     revert.forEach(r => r());
