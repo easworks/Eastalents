@@ -91,3 +91,12 @@ export interface FreelancerProfile {
 // freelancer profile
 export type FreelancerProfileQuestionDto = any[];
 
+export interface WorkHistory {
+  role: string;
+  duration: {
+    start: number;
+    end: number | null;
+  };
+  client: string;
+  skills: string;
+}

@@ -1,7 +1,7 @@
 import { KeyValue } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, WritableSignal, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
@@ -1582,6 +1582,16 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   private initProfileDetails() {
+    type WorkHistoryForm = FormGroup<{
+      role: FormControl<[string, string]>;
+      duration: FormGroup<{
+        start: FormControl<number>;
+        end: FormControl<number | null>;
+      }>;
+      client: FormControl<string>;
+      skills: FormControl<string>;
+    }>
+
     const user = this.user();
     const form = new FormGroup({
       personalInfo: new FormGroup({
@@ -1637,6 +1647,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         })
       }),
       history: new FormGroup({
+        work: new FormArray<WorkHistoryForm>([]),
         details: new FormControl('')
       }),
       social: new FormGroup({
@@ -1726,7 +1737,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           return all.filter(c => c.name.toLowerCase().includes(filter));
         return all;
       }),
-      currentRole$: computed(() => {
+      role$: computed(() => {
         const selected = this.roles.$()?.selected$() || {};
         const roles = Object.keys(selected)
           .flatMap(domain => selected[domain].map<[string, string]>(role => [domain, role]))
@@ -1737,7 +1748,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           selected: false,
           value: v,
           label: v,
-        }))
+        })),
+      years: new Array(DateTime.now().year - 1980 + 1)
+        .fill(0)
+        .map((_, i) => i + 1980)
     } as const;
 
     const english = {
@@ -1752,6 +1766,39 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         form.controls.information.controls.englishProficiency.setValue(option);
       }
     } as const;
+
+    const work = {
+      add: () => {
+        const arr = form.controls.history.controls.work;
+        arr.push(new FormGroup({
+          role: new FormControl(null as unknown as [string, string], {
+            nonNullable: true,
+            validators: [Validators.required]
+          }),
+          duration: new FormGroup({
+            start: new FormControl(null as unknown as number, {
+              nonNullable: true,
+              validators: [Validators.required]
+            }),
+            end: new FormControl(null as unknown as number | null)
+          }),
+          client: new FormControl('', {
+            nonNullable: true,
+            validators: [Validators.required]
+          }),
+          skills: new FormControl('', {
+            nonNullable: true,
+            validators: [Validators.required]
+          })
+        }))
+      },
+      remove: (i: number) => {
+        const arr = form.controls.history.controls.work;
+        arr.controls.splice(i, 1);
+        arr.updateValueAndValidity();
+      }
+    }
+
 
     // update the validators on the fly for the phone controls
     {
@@ -1984,7 +2031,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       loading,
       options: filteredOptions,
       english,
-      isRequired
+      isRequired,
+      work
     } as const;
   }
 
@@ -2168,9 +2216,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     }
 
     {
-      const { form, options, english } = this.profileDetails;
+      const { form, options, english, work } = this.profileDetails;
 
-      form.controls.information.controls.currentRole.setValue(options.currentRole$()[0]);
+      form.controls.information.controls.currentRole.setValue(options.role$()[0]);
       english.toggle(options.english[0]);
     }
 

@@ -1113,7 +1113,7 @@
                 <span class="text-gray-500 mr-4">{{value[0]}}</span>
                 <span>{{value[1]}}</span>
               </mat-select-trigger>
-              <mat-option *ngFor="let option of profileDetails.options.currentRole$()"
+              <mat-option *ngFor="let option of profileDetails.options.role$()"
                           [value]="option">
                 <span class="text-gray-500 mr-4">{{option[0]}}</span>
                 <span>{{option[1]}}</span>
@@ -1141,15 +1141,126 @@
           </div>
         </form>
         <mat-divider></mat-divider>
-        <form class="p-4" *ngrxLet="form.controls.history as form"
-              [formGroup]="form">
-          <label class="font-medium"> Work History, Education, and Portfolio </label>
+        <form class="p-4" *ngrxLet="form.controls.history.controls.work as form">
+          <label class="font-medium"> Work History</label>
 
-          <div *ngrxLet="form.controls.details as control"
-               [formFieldControl]="control" class="mt-4">
-            <label>Portfolio or Sample/Details</label>
-            <div class="field field-interactive h-64 mt-2">
-              <textarea [formControl]="control" class="resize-none"></textarea>
+          <div class="mt-4">
+            <label class="text-sm">Please provide details of your work history, projects, and relevant experience.</label>
+
+            <div class="grid gap-4 mt-2">
+              <div *ngFor="let form of form.controls; let i = index;"
+                   class="border rounded">
+
+                <div class="flex gap-4 flex-wrap p-2 pb-3">
+                  <div *ngrxLet="form.controls.role as control"
+                       [formFieldControl]="control"
+                       class="flex-grow w-60 !m-0">
+                    <label>
+                      Role
+                      <span class="text-warn">*</span>
+                    </label>
+                    <mat-select [formControl]="control">
+                      <mat-select-trigger *ngIf="control.value as value">
+                        <span class="text-gray-500 mr-4">{{value[0]}}</span>
+                        <span>{{value[1]}}</span>
+                      </mat-select-trigger>
+                      <mat-option *ngFor="let option of profileDetails.options.role$()"
+                                  [value]="option">
+                        <span class="text-gray-500 mr-4">{{option[0]}}</span>
+                        <span>{{option[1]}}</span>
+                      </mat-option>
+                    </mat-select>
+                  </div>
+
+                  <div *ngrxLet="form.controls.client as control"
+                       [formFieldControl]="control"
+                       class="flex-grow w-60 !m-0">
+                    <label>
+                      Client Name
+                      <span class="text-warn">*</span>
+                    </label>
+                    <input type="text" [formControl]="control">
+                  </div>
+
+                  <div *ngrxLet="form.controls.duration as form"
+                       class="flex-grow flex gap-4">
+                    <div *ngrxLet="form.controls.start as control"
+                         [formFieldControl]="control"
+                         class="flex-grow w-20 !m-0">
+                      <label>
+                        Start
+                        <span class="text-warn">*</span>
+                      </label>
+                      <mat-select [formControl]="control">
+                        <mat-option *ngFor="let option of profileDetails.options.years"
+                                    [value]="option">
+                          {{option}}
+                        </mat-option>
+                      </mat-select>
+                    </div>
+                    <div *ngrxLet="form.controls.end as control"
+                         [formFieldControl]="control"
+                         class="flex-grow w-20 !m-0">
+                      <label>
+                        End
+                      </label>
+                      <mat-select [formControl]="control">
+                        <mat-option *ngFor="let option of profileDetails.options.years"
+                                    [value]="option">
+                          {{option}}
+                        </mat-option>
+                      </mat-select>
+                    </div>
+                  </div>
+
+                  <div *ngrxLet="form.controls.skills as control"
+                       [formFieldControl]="control"
+                       class="w-full !m-0">
+                    <label>
+                      Developer Skills
+                      <span class="text-warn">*</span>
+                    </label>
+                    <div class="field field-interactive">
+                      <textarea [formControl]="control" class="resize-none"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <mat-divider></mat-divider>
+                <div class="p-2 py-3">
+                  <button type="button"
+                          class="stroked-button small warn" mat-ripple
+                          (click)="profileDetails.work.remove(i)">
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <button type="button" *ngIf="form.length < 5"
+                      class="stroked-button small" mat-ripple
+                      (click)="profileDetails.work.add()">
+                Add
+              </button>
+            </div>
+          </div>
+        </form>
+        <mat-divider></mat-divider>
+        <form class="p-4">
+          <label class="font-medium">Education</label>
+          <div class="mt-4">
+            <label class="text-sm">Please provide details of your academic background, degrees, and certifications obtained.</label>
+          </div>
+        </form>
+        <mat-divider></mat-divider>
+        <form class="p-4" *ngrxLet="form.controls.history as form">
+          <label class="font-medium">Portfolio</label>
+          <div class="mt-4">
+            <div *ngrxLet="form.controls.details as control"
+                 [formFieldControl]="control">
+              <div class="field field-interactive h-64">
+                <textarea [formControl]="control" class="resize-none" placeholder="Sample / Details"></textarea>
+              </div>
             </div>
           </div>
         </form>
