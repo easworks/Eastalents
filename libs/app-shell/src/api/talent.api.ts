@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
+import { INJECTOR, Injectable, inject } from '@angular/core';
 import { ApiResponse, DomainDictionaryDto, FreelancerProfile, FreelancerProfileQuestionDto, IndustryGroupDto, TechGroup, TechGroupDto } from '@easworks/models';
 import { catchError, map } from 'rxjs';
 import { sortString } from '../utilities/sort';
 import { ApiService } from './api';
+import { CSCApi } from './csc';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TalentApi extends ApiService {
+  private readonly injector = inject(INJECTOR);
   readonly techGroups = () => this.http.get<TechGroupDto>('/assets/utils/tech.json')
     .pipe(
       map(r => Object.keys(r).map<TechGroup>(key => ({
@@ -99,17 +101,20 @@ export class TalentApi extends ApiService {
 
   // THIS FUNCTION IS MEANT TO BE REMOVED
   private async useDummyData(profile: FreelancerProfile) {
-    const { Country, State, City } = await import('country-state-city');
+    const csc = this.injector.get(CSCApi);
+
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const country = Country.getCountryByCode('IN')!;
-    const state = country && State.getStateByCodeAndCountry('WB', country.isoCode);
-    const city = state && City.getCitiesOfState(state.countryCode, state.isoCode)
+    const country = (await csc.allCountries()).find(c => c.iso2 === 'IN');
+    if (!country)
+      throw new Error('could not find India in the list');
+    const state = (await csc.allStates(country.iso2)).find(s => s.iso2 === 'WB');
+    const city = state && (await csc.allCities(state.country_code, state.iso2))
       .find(c => c.name === 'Kolkata');
 
     profile.location = {
-      country: country,
-      state: state,
-      city: city
+      country: country.name,
+      state: state?.name,
+      city: city?.name
     }
 
     profile.profileCompletion = {

@@ -1,4 +1,3 @@
-import { ICity, ICountry, IState } from 'country-state-city';
 import { ExperienceData } from './expertise';
 
 export const OVERALL_EXPERIENCE_OPTIONS = [
@@ -57,9 +56,9 @@ export interface FreelancerProfile {
   availability: FreelancerAvailability;
 
   location: {
-    country: ICountry;
-    state?: IState;
-    city?: ICity;
+    country: string;
+    state?: string;
+    city?: string;
   };
 
   summary: string;

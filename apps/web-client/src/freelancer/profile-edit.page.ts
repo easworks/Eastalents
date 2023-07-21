@@ -7,7 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
-import { CSCApi, City, Country, State } from '@easworks/app-shell/api/csc';
+import { CSCApi, City, Country, State, Timezone } from '@easworks/app-shell/api/csc';
 import { GMapsApi } from '@easworks/app-shell/api/gmap';
 import { LocationApi } from '@easworks/app-shell/api/location';
 import { Domain, DomainModule, DomainProduct } from '@easworks/app-shell/api/talent.api';
@@ -23,7 +23,6 @@ import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { COMMITMENT_OPTIONS, Commitment, ENGLISH_PROFICIENCY_OPTIONS, EnglishProficiency, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, LatLng, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, pattern } from '@easworks/models';
-import { Timezones } from 'country-state-city/lib/interface';
 import { DateTime, IANAZone } from 'luxon';
 import { map, shareReplay, switchMap } from 'rxjs';
 
@@ -112,7 +111,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     country: (c?: Country) => c?.name || '',
     state: (s?: State) => s?.name || '',
     city: (c?: City) => c?.name || '',
-    timezone: (t?: Timezones) => t?.zoneName || '',
+    timezone: (t?: Timezone) => t?.zoneName || '',
     currency: (c?: Country) => c ? `${c.currency} (${c.name})` : '',
     phoneCode: (c?: Country) => c ? c.phonecode : '',
     none: () => '',
@@ -300,7 +299,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       country$: signal<Country[]>([]),
       state$: signal<State[]>([]),
       city$: signal<City[]>([]),
-      timezone$: signal<Timezones[]>([]),
+      timezone$: signal<Timezone[]>([]),
     };
 
     const filteredOptions = {
