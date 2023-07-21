@@ -1,33 +1,50 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { AddressComponentType, GeoLocationResponse, ReverseGeocodeResponse } from '@easworks/models';
-import { firstValueFrom } from 'rxjs';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { AddressComponentType, GeoLocationResponse, GeocodeResponse } from '@easworks/models';
 import { ENVIRONMENT } from '../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GMapsApi {
-  private readonly http = inject(HttpClient);
+  private readonly devMode = isDevMode();
   private readonly apiKey = inject(ENVIRONMENT).gMapApiKey;
 
   geolocateByIPAddress() {
-    return firstValueFrom(this.http.post<GeoLocationResponse>(`https://www.googleapis.com/geolocation/v1/geolocate?key=${this.apiKey}`, null));
+    const url = new URL('https://www.googleapis.com/geolocation/v1/geolocate');
+    url.searchParams.set('key', this.apiKey);
+    return fetch(url, { method: 'POST' })
+      .then(async res => {
+        await this.handleErrorsIfAny(res);
+        return res.json() as Promise<GeoLocationResponse>;
+      });
   }
 
   reverseGeocode(
     coords: { lat: number, lng: number },
     components: AddressComponentType[] = []
   ) {
-    let params = new HttpParams()
-      .set('key', this.apiKey)
-      .set('latlng', `${coords.lat},${coords.lng}`);
-
+    const url = new URL('https://maps.googleapis.com/maps/api/geocode/json');
+    url.searchParams.set('key', this.apiKey);
+    url.searchParams.set('latlng', `${coords.lat},${coords.lng}`);
     const result_type = components.join('|');
     if (result_type)
-      params = params.set('result_type', result_type);
+      url.searchParams.set('result_type', result_type);
 
-    return firstValueFrom(this.http.get<ReverseGeocodeResponse>(`https://maps.googleapis.com/maps/api/geocode/json`, { params }));
+    return fetch(url)
+      .then(async res => {
+        await this.handleErrorsIfAny(res);
+        return res.json() as Promise<GeocodeResponse>;
+      });
+  }
+
+  private async handleErrorsIfAny(response: Response) {
+    if (!response.ok) {
+      const body = await response.json();
+      if (this.devMode) {
+        console.error(body);
+      }
+      throw body;
+    }
   }
 }
 

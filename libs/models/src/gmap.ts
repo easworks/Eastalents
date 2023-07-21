@@ -16,12 +16,12 @@ export interface GeoLocationResponse {
   location: LatLng;
 }
 
-export interface ReverseGeocodeResult {
+export interface GeocodeResult {
   types: AddressComponentType[];
   address_components: AddressComponent[];
 }
 
-export interface ReverseGeocodeResponse {
+export interface GeocodeResponse {
   status: 'OK' | 'ZERO_RESULTS';
-  results: AddressComponent[]
+  results: GeocodeResult[];
 }
