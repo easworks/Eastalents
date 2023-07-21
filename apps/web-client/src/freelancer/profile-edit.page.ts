@@ -121,6 +121,35 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private initStepper() {
     const step$ = signal<Step>(this.section ?? 'start');
 
+    const order: Step[] = [
+      'start',
+      'professional-summary',
+      'primary-domains',
+      'services',
+      'modules',
+      'software',
+      'roles',
+      'technology-stack',
+      'industry',
+      'job-commitment',
+      'rate-expectation',
+      'preferred-roles',
+      'preferred-working-hours',
+      'job-search-status',
+      'availability',
+      'profile-details',
+      'end'
+    ];
+
+    const stepNumber = order.reduce((prev, cv, ci) => {
+      prev[cv] = ci;
+      return prev;
+    }, {} as Record<Step, number>)
+
+    const totalSteps = order.length - 2;
+
+    const stepProgress$ = computed(() => stepNumber[step$()]);
+
     const showStepControls$ = computed(() => {
       if (this.section)
         return false;
@@ -129,48 +158,53 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       return step !== 'start' && step !== 'end';
     });
 
+    const firstStep = order[1];
+    const lastStep = order.at(-2);
 
-    const totalSteps = 15;
-    const stepProgress$ = computed(() => {
-      switch (step$()) {
-        case 'professional-summary': return 1;
-        case 'primary-domains': return 2;
-        case 'services': return 3;
-        case 'modules': return 4;
-        case 'software': return 5;
-        case 'roles': return 6;
-        case 'technology-stack': return 7;
-        case 'industry': return 8;
-        case 'job-commitment': return 9;
-        case 'rate-expectation': return 10;
-        case 'preferred-roles': return 11;
-        case 'preferred-working-hours': return 12;
-        case 'job-search-status': return 13;
-        case 'availability': return 14;
-        case 'profile-details': return 15;
-        default: return 0;
+    const next = {
+      visible$: computed(() => step$() !== lastStep),
+      disabled$: computed(() => {
+        const step = step$();
+        return this.loading.any$() ||
+          (step === 'professional-summary' && this.professionalSummary.status$() !== 'VALID') ||
+          (step === 'primary-domains' && this.primaryDomains.status$() !== 'VALID') ||
+          (step === 'services' && this.services.$()?.status$() !== 'VALID') ||
+          (step === 'modules' && this.modules.$()?.status$() !== 'VALID') ||
+          (step === 'software' && this.software.$()?.status$() !== 'VALID') ||
+          (step === 'roles' && this.roles.$()?.status$() !== 'VALID') ||
+          (step === 'technology-stack' && this.techExp.status$() !== 'VALID') ||
+          (step === 'industry' && this.industries.status$() !== 'VALID') ||
+          (step === 'job-commitment' && this.jobCommittment.status$() !== 'VALID') ||
+          (step === 'rate-expectation' && this.rateExpectation.status$() !== 'VALID') ||
+          (step === 'preferred-roles' && this.preferredRoles.$()?.status$() !== 'VALID') ||
+          (step === 'preferred-working-hours' && this.preferredWorkingHours.status$() !== 'VALID') ||
+          (step === 'job-search-status' && this.jobSearchStatus.status$() !== 'VALID') ||
+          (step === 'availability' && this.availability.status$() !== 'VALID') ||
+          (step === 'profile-details' && this.profileDetails.status$() !== 'VALID');
+      }),
+      click: () => {
+        const current = stepNumber[step$()];
+        step$.set(order[current + 1]);
+        document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
       }
-    });
+    } as const;
 
-    const nextDisabled$ = computed(() => {
-      const step = step$();
-      return this.loading.any$() ||
-        (step === 'professional-summary' && this.professionalSummary.status$() !== 'VALID') ||
-        (step === 'primary-domains' && this.primaryDomains.status$() !== 'VALID') ||
-        (step === 'services' && this.services.$()?.status$() !== 'VALID') ||
-        (step === 'modules' && this.modules.$()?.status$() !== 'VALID') ||
-        (step === 'software' && this.software.$()?.status$() !== 'VALID') ||
-        (step === 'roles' && this.roles.$()?.status$() !== 'VALID') ||
-        (step === 'technology-stack' && this.techExp.status$() !== 'VALID') ||
-        (step === 'industry' && this.industries.status$() !== 'VALID') ||
-        (step === 'job-commitment' && this.jobCommittment.status$() !== 'VALID') ||
-        (step === 'rate-expectation' && this.rateExpectation.status$() !== 'VALID') ||
-        (step === 'preferred-roles' && this.preferredRoles.$()?.status$() !== 'VALID') ||
-        (step === 'preferred-working-hours' && this.preferredWorkingHours.status$() !== 'VALID') ||
-        (step === 'job-search-status' && this.jobSearchStatus.status$() !== 'VALID') ||
-        (step === 'availability' && this.availability.status$() !== 'VALID') ||
-        (step === 'profile-details' && this.profileDetails.status$() !== 'VALID');
-    });
+    const prev = {
+      visible$: computed(() => step$() !== firstStep),
+      click: () => {
+        const current = stepNumber[step$()];
+        step$.set(order[current - 1]);
+        document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
+      }
+    } as const;
+
+    const submit = {
+      disabled$: next.disabled$,
+      visible$: computed(() => step$() === lastStep),
+      click: () => {
+        // 
+      }
+    } as const;
 
     return {
       totalSteps,
@@ -183,59 +217,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           percent: ((s - 1) / totalSteps) * 100
         }
       }),
-      next: {
-        visible$: computed(() => step$() !== 'profile-details'),
-        disabled$: nextDisabled$,
-        click: () => {
-          switch (step$()) {
-            case 'start': step$.set('professional-summary'); break;
-            case 'professional-summary': step$.set('primary-domains'); break;
-            case 'primary-domains': step$.set('services'); break;
-            case 'services': step$.set('modules'); break;
-            case 'modules': step$.set('software'); break;
-            case 'software': step$.set('roles'); break;
-            case 'roles': step$.set('technology-stack'); break;
-            case 'technology-stack': step$.set('industry'); break;
-            case 'industry': step$.set('job-commitment'); break;
-            case 'job-commitment': step$.set('rate-expectation'); break;
-            case 'rate-expectation': step$.set('preferred-roles'); break;
-            case 'preferred-roles': step$.set('preferred-working-hours'); break;
-            case 'preferred-working-hours': step$.set('job-search-status'); break;
-            case 'job-search-status': step$.set('availability'); break;
-            case 'availability': step$.set('profile-details'); break;
-          }
-          document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
-        }
-      },
-      prev: {
-        visible$: computed(() => step$() !== 'professional-summary'),
-        click: () => {
-          switch (step$()) {
-            case 'primary-domains': step$.set('professional-summary'); break;
-            case 'services': step$.set('primary-domains'); break;
-            case 'modules': step$.set('services'); break;
-            case 'software': step$.set('modules'); break;
-            case 'roles': step$.set('software'); break;
-            case 'technology-stack': step$.set('roles'); break;
-            case 'industry': step$.set('technology-stack'); break;
-            case 'job-commitment': step$.set('industry'); break;
-            case 'rate-expectation': step$.set('job-commitment'); break;
-            case 'preferred-roles': step$.set('rate-expectation'); break;
-            case 'preferred-working-hours': step$.set('preferred-roles'); break;
-            case 'job-search-status': step$.set('preferred-working-hours'); break;
-            case 'availability': step$.set('job-search-status'); break;
-            case 'profile-details': step$.set('availability'); break;
-          }
-          document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
-        }
-      },
-      submit: {
-        disabled$: nextDisabled$,
-        visible$: computed(() => step$() === 'profile-details'),
-        click: () => {
-          // 
-        }
-      }
+      next,
+      prev,
+      submit
     } as const;
   }
 
