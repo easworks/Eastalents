@@ -1,7 +1,7 @@
 import { KeyValue } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, WritableSignal, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormArray, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
@@ -1750,8 +1750,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           label: v,
         })),
       years: new Array(DateTime.now().year - 1980 + 1)
-        .fill(0)
-        .map((_, i) => i + 1980)
+        .fill(1980)
+        .map((base, i) => base + i)
+        .reverse()
     } as const;
 
     const english = {
@@ -1781,6 +1782,16 @@ export class FreelancerProfileEditPageComponent implements OnInit {
               validators: [Validators.required]
             }),
             end: new FormControl(null as unknown as number | null)
+          }, {
+            validators: [
+              c => {
+                const { start, end } = c.value;
+                if (end && (!start || (end < start)))
+                  return { invalidEnd: true }
+
+                return null;
+              }
+            ]
           }),
           client: new FormControl('', {
             nonNullable: true,
@@ -1790,7 +1801,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             nonNullable: true,
             validators: [Validators.required]
           })
-        }))
+        }));
       },
       remove: (i: number) => {
         const arr = form.controls.history.controls.work;

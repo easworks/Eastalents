@@ -1141,7 +1141,7 @@
           </div>
         </form>
         <mat-divider></mat-divider>
-        <form class="p-4" *ngrxLet="form.controls.history.controls.work as form">
+        <div class="p-4" *ngrxLet="form.controls.history.controls.work as form">
           <label class="font-medium"> Work History</label>
 
           <div class="mt-4">
@@ -1151,7 +1151,7 @@
               <div *ngFor="let form of form.controls; let i = index;"
                    class="border rounded">
 
-                <div class="flex gap-4 flex-wrap p-2 pb-3">
+                <form class="flex gap-4 flex-wrap p-2 pb-3" [formGroup]="form">
                   <div *ngrxLet="form.controls.role as control"
                        [formFieldControl]="control"
                        class="flex-grow w-60 !m-0">
@@ -1204,7 +1204,8 @@
                       <label>
                         End
                       </label>
-                      <mat-select [formControl]="control">
+                      <mat-select [formControl]="control" [crossValidate]="['invalidEnd']">
+                        <mat-option [value]="null">Clear</mat-option>
                         <mat-option *ngFor="let option of profileDetails.options.years"
                                     [value]="option">
                           {{option}}
@@ -1224,7 +1225,7 @@
                       <textarea [formControl]="control" class="resize-none"></textarea>
                     </div>
                   </div>
-                </div>
+                </form>
                 <mat-divider></mat-divider>
                 <div class="p-2 py-3">
                   <button type="button"
@@ -1244,7 +1245,7 @@
               </button>
             </div>
           </div>
-        </form>
+        </div>
         <mat-divider></mat-divider>
         <form class="p-4">
           <label class="font-medium">Education</label>
