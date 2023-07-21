@@ -119,7 +119,7 @@
                   </mat-option>
                 </mat-autocomplete>
 
-                <mat-progress-spinner class="field-spinner right-6 top-8"
+                <mat-progress-spinner class="field-spinner right-3 top-8"
                                       mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>
 
@@ -142,7 +142,7 @@
                   </mat-option>
                 </mat-autocomplete>
 
-                <mat-progress-spinner class="field-spinner right-6 top-8"
+                <mat-progress-spinner class="field-spinner right-3 top-8"
                                       mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>
 
@@ -164,7 +164,7 @@
                   </mat-option>
                 </mat-autocomplete>
 
-                <mat-progress-spinner class="field-spinner right-6 top-8"
+                <mat-progress-spinner class="field-spinner right-3 top-8"
                                       mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>
 
@@ -188,7 +188,7 @@
                   </mat-option>
                 </mat-autocomplete>
 
-                <mat-progress-spinner class="field-spinner right-6 top-8"
+                <mat-progress-spinner class="field-spinner right-3 top-8"
                                       mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>
 
@@ -748,7 +748,7 @@
             class="p-4 grid gap-4">
         <div class="form-field">
           <label>Timezone</label>
-          <input type="text" readonly [ngModel]="preferredWorkingHours.tz$()?.zoneName" [ngModelOptions]="{ standalone: true }">
+          <input type="text" readonly [ngModel]="preferredWorkingHours.tz$()" [ngModelOptions]="{ standalone: true }">
           <span class="hint">As per your professional summary</span>
         </div>
 
@@ -875,24 +875,24 @@
           </div>
 
           <div *ngrxLet="form.controls.citizenship as control"
-               [formFieldControl]="control">
-            <label>
-              Citizenship
-              <span class="text-warn">*</span>
-            </label>
-            <span class="font-emoji absolute left-2 top-8" *ngIf="control.value as value">{{value.flag}}</span>
-            <input type="text" [formControl]="control" [matAutocomplete]="countryOptions"
-                   placeholder="Type to filter"
-                   [class.!pl-10]="profileDetails.showFlag.citizenship$()">
-            <mat-autocomplete #countryOptions [displayWith]="displayWith.country" hideSingleSelectionIndicator>
+               [formFieldControl]="control"
+               class="mt-10"
+               [class.show-spinner]="profileDetails.loading.country$()">
+            <label> Citizenship </label>
+            <input type="text" [formControl]="control" placeholder="Type to filter"
+                   [matAutocomplete]="countryOptions">
+            <mat-autocomplete #countryOptions hideSingleSelectionIndicator>
               <mat-option *ngFor="let country of profileDetails.options.citizenship$(); trackBy: trackBy.country"
-                          [value]="country">
+                          [value]="country.name" (onSelectionChange)="$event.source.deselect()">
                 <div class="flex gap-4 items-center">
-                  <span class="font-emoji">{{country.flag}}</span>
+                  <span class="font-emoji">{{country.emoji}}</span>
                   <span>{{country.name}}</span>
                 </div>
               </mat-option>
             </mat-autocomplete>
+
+            <mat-progress-spinner class="field-spinner right-3 top-8"
+                                  mode="indeterminate" diameter="24"></mat-progress-spinner>
           </div>
 
         </div>
@@ -920,18 +920,15 @@
 
               <div class="flex gap-2 justify-start">
                 <ng-container *ngrxLet="form.controls.code as control">
-                  <span class="font-emoji absolute left-2 top-8" *ngIf="control.value as value">{{value.flag}}</span>
-                  <input type="tel" class="!w-[7.5rem]"
+                  <input type="tel" class="!w-[5.5rem]"
                          [matAutocomplete]="codeOptions"
-                         [formControl]="control" placeholder="Code"
-                         [class.!pl-10]="profileDetails.showFlag.mobileCode$()">
+                         [formControl]="control" placeholder="Code">
 
-                  <mat-autocomplete #codeOptions [displayWith]="displayWith.phoneCode" panelWidth="auto" hideSingleSelectionIndicator>
+                  <mat-autocomplete #codeOptions panelWidth="auto" hideSingleSelectionIndicator>
                     <mat-option *ngFor="let country of profileDetails.options.mobileCode$(); trackBy: trackBy.country"
-                                [value]="country"
-                                (onSelectionChange)="$event.source.deselect();">
+                                [value]="country.phonecode" (onSelectionChange)="$event.source.deselect();">
                       <div class="flex gap-4 items-center">
-                        <span class="font-emoji">{{country.flag}}</span>
+                        <span class="font-emoji">{{country.emoji}}</span>
                         <span>{{country.phonecode}}</span>
                       </div>
                     </mat-option>
@@ -954,18 +951,15 @@
 
               <div class="flex gap-2 justify-start">
                 <ng-container *ngrxLet="form.controls.code as control">
-                  <span class="font-emoji absolute left-2 top-8" *ngIf="control.value as value">{{value.flag}}</span>
-                  <input type="tel" class="!w-[7.5rem]"
+                  <input type="tel" class="!w-[5.5rem]"
                          [matAutocomplete]="codeOptions"
-                         [formControl]="control" placeholder="Code"
-                         [class.!pl-10]="profileDetails.showFlag.whatsappCode$()">
+                         [formControl]="control" placeholder="Code">
 
-                  <mat-autocomplete #codeOptions [displayWith]="displayWith.phoneCode" panelWidth="auto" hideSingleSelectionIndicator>
+                  <mat-autocomplete #codeOptions panelWidth="auto" hideSingleSelectionIndicator>
                     <mat-option *ngFor="let country of profileDetails.options.whatsappCode$(); trackBy: trackBy.country"
-                                [value]="country"
-                                (onSelectionChange)="$event.source.deselect();">
+                                [value]="country.phonecode" (onSelectionChange)="$event.source.deselect();">
                       <div class="flex gap-4 items-center">
-                        <span class="font-emoji">{{country.flag}}</span>
+                        <span class="font-emoji">{{country.emoji}}</span>
                         <span>{{country.phonecode}}</span>
                       </div>
                     </mat-option>
@@ -988,18 +982,15 @@
 
               <div class="flex gap-2 justify-start">
                 <ng-container *ngrxLet="form.controls.code as control">
-                  <span class="font-emoji absolute left-2 top-8" *ngIf="control.value as value">{{value.flag}}</span>
-                  <input type="tel" class="!w-[7.5rem]"
+                  <input type="tel" class="!w-[5.5rem]"
                          [matAutocomplete]="codeOptions"
-                         [formControl]="control" placeholder="Code"
-                         [class.!pl-10]="profileDetails.showFlag.telegramCode$()">
+                         [formControl]="control" placeholder="Code">
 
-                  <mat-autocomplete #codeOptions [displayWith]="displayWith.phoneCode" panelWidth="auto" hideSingleSelectionIndicator>
+                  <mat-autocomplete #codeOptions panelWidth="auto" hideSingleSelectionIndicator>
                     <mat-option *ngFor="let country of profileDetails.options.telegramCode$(); trackBy: trackBy.country"
-                                [value]="country"
-                                (onSelectionChange)="$event.source.deselect();">
+                                [value]="country.phonecode" (onSelectionChange)="$event.source.deselect();">
                       <div class="flex gap-4 items-center">
-                        <span class="font-emoji">{{country.flag}}</span>
+                        <span class="font-emoji">{{country.emoji}}</span>
                         <span>{{country.phonecode}}</span>
                       </div>
                     </mat-option>
@@ -1023,7 +1014,9 @@
 
             <div *ngrxLet="form.controls.line1 as control"
                  [formFieldControl]="control">
-              <input type="text" [formControl]="control" placeholder="Line 1">
+              <input type="text" [formControl]="control"
+                     [placeholder]="profileDetails.isRequired.line1$() ? 'Line 1*': 'Line 1'">
+              <span class="error" *ngIf="control.hasError('required')">Required</span>
             </div>
 
             <div *ngrxLet="form.controls.line2 as control"
@@ -1033,49 +1026,71 @@
 
             <div class="grid gap-x-4 md:grid-cols-2">
               <div *ngrxLet="form.controls.country as control"
-                   [formFieldControl]="control">
-                <span class="font-emoji absolute left-2 top-2" *ngIf="control.value as value">{{value.flag}}</span>
-                <input type="text" [formControl]="control" [matAutocomplete]="countryOptions"
-                       placeholder="Country"
-                       [class.!pl-10]="profileDetails.showFlag.country$()">
-                <mat-autocomplete #countryOptions [displayWith]="displayWith.country" hideSingleSelectionIndicator>
+                   [formFieldControl]="control"
+                   [class.show-spinner]="profileDetails.loading.country$()">
+                <input type="text" [formControl]="control"
+                       [placeholder]="profileDetails.isRequired.country$() ? 'Country*': 'Country'"
+                       [matAutocomplete]="countryOptions">
+                <span class="error" *ngIf="control.hasError('required')">Required</span>
+
+                <mat-autocomplete #countryOptions hideSingleSelectionIndicator>
                   <mat-option *ngFor="let country of profileDetails.options.country$(); trackBy: trackBy.country"
-                              [value]="country"
-                              (onSelectionChange)="$event.source.deselect();">
+                              [value]="country.name" (onSelectionChange)="$event.source.deselect()">
                     <div class="flex gap-4 items-center">
-                      <span class="font-emoji">{{country.flag}}</span>
+                      <span class="font-emoji">{{country.emoji}}</span>
                       <span>{{country.name}}</span>
                     </div>
                   </mat-option>
                 </mat-autocomplete>
+
+                <mat-progress-spinner class="field-spinner right-3 top-2"
+                                      mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>
+
               <div *ngrxLet="form.controls.state as control"
-                   [formFieldControl]="control">
-                <input type="text" [formControl]="control" placeholder="State/Province"
+                   [formFieldControl]="control"
+                   [class.show-spinner]="profileDetails.loading.state$()">
+                <input type="text" [formControl]="control"
+                       [placeholder]="profileDetails.isRequired.state$() ? 'State/Province*': 'State/Province'"
                        [matAutocomplete]="stateOptions">
-                <mat-autocomplete #stateOptions [displayWith]="displayWith.state" hideSingleSelectionIndicator>
+                <span class="error" *ngIf="control.hasError('required')">Required</span>
+
+                <mat-autocomplete #stateOptions hideSingleSelectionIndicator>
                   <mat-option *ngFor="let state of profileDetails.options.state$(); trackBy: trackBy.state"
-                              [value]="state"
-                              (onSelectionChange)="$event.source.deselect();">
+                              [value]="state.name" (onSelectionChange)="$event.source.deselect();">
                     {{state.name}}
                   </mat-option>
                 </mat-autocomplete>
+
+                <mat-progress-spinner class="field-spinner right-3 top-2"
+                                      mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>
+
               <div *ngrxLet="form.controls.city as control"
-                   [formFieldControl]="control">
-                <input type="text" [formControl]="control" placeholder="City/Area"
+                   [formFieldControl]="control"
+                   [class.show-spinner]="profileDetails.loading.city$()">
+                <input type="text" [formControl]="control"
+                       [placeholder]="profileDetails.isRequired.city$() ? 'City/Area*': 'City/Area'"
                        [matAutocomplete]="cityOptions">
-                <mat-autocomplete #cityOptions [displayWith]="displayWith.state" hideSingleSelectionIndicator>
+                <span class="error" *ngIf="control.hasError('required')">Required</span>
+
+                <mat-autocomplete #cityOptions hideSingleSelectionIndicator>
                   <mat-option *ngFor="let state of profileDetails.options.city$()"
-                              [value]="state"
-                              (onSelectionChange)="$event.source.deselect();">
+                              [value]="state.name" (onSelectionChange)="$event.source.deselect();">
                     {{state.name}}
                   </mat-option>
                 </mat-autocomplete>
+
+                <mat-progress-spinner class="field-spinner right-3 top-2"
+                                      mode="indeterminate" diameter="24"></mat-progress-spinner>
               </div>
+
               <div *ngrxLet="form.controls.postalCode as control"
                    [formFieldControl]="control">
-                <input type="text" [formControl]="control" placeholder="Postal Code">
+                <input type="text" [formControl]="control"
+                       [placeholder]="profileDetails.isRequired.postalCode$() ? 'Postal Code*': 'Postal Code'">
+                <span class="error" *ngIf="control.hasError('required')">Required</span>
+
               </div>
             </div>
 
