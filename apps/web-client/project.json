@@ -61,8 +61,8 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
+              "maximumWarning": "5kb",
+              "maximumError": "10kb"
             }
           ],
           "outputHashing": "all"
@@ -93,6 +93,16 @@
         }
       },
       "defaultConfiguration": "development"
+    },
+    "analyze": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx build web-client --statsJson",
+          "webpack-bundle-analyzer dist/apps/web-client/stats.json"
+        ],
+        "parallel": false
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",

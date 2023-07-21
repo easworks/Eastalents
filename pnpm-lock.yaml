@@ -214,6 +214,9 @@ devDependencies:
   typescript:
     specifier: ~5.1.3
     version: 5.1.3
+  webpack-bundle-analyzer:
+    specifier: ^4.9.0
+    version: 4.9.0
 
 packages:
 
@@ -4612,6 +4615,10 @@ packages:
     dev: true
     optional: true
 
+  /@polka/url@1.0.0-next.21:
+    resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
+    dev: true
+
   /@rollup/plugin-json@6.0.0(rollup@3.25.2):
     resolution: {integrity: sha512-i/4C5Jrdr1XUarRhVu27EEwjt4GObltD7c+MkCIpO2QIbojw8MUs+CCTqOphQi3Qtg1FLmYt+l+6YeoIf51J7w==}
     engines: {node: '>=14.0.0'}
@@ -8135,6 +8142,13 @@ packages:
 
   /grapheme-splitter@1.0.4:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
+    dev: true
+
+  /gzip-size@6.0.0:
+    resolution: {integrity: sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==}
+    engines: {node: '>=10'}
+    dependencies:
+      duplexer: 0.1.2
     dev: true
 
   /handle-thing@2.0.1:
@@ -12221,6 +12235,15 @@ packages:
       - supports-color
     dev: true
 
+  /sirv@1.0.19:
+    resolution: {integrity: sha512-JuLThK3TnZG1TAKDwNIqNq6QA2afLOCcm+iE8D1Kj3GA40pSPsxQjjJl0J8X3tsR7T+CP1GavpzLwYkgVLWrZQ==}
+    engines: {node: '>= 10'}
+    dependencies:
+      '@polka/url': 1.0.0-next.21
+      mrmime: 1.0.1
+      totalist: 1.1.0
+    dev: true
+
   /sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
     dev: true
@@ -12833,6 +12856,11 @@ packages:
     engines: {node: '>=0.6'}
     dev: true
 
+  /totalist@1.1.0:
+    resolution: {integrity: sha512-gduQwd1rOdDMGxFG1gEvhV88Oirdo2p+KjoYFU7k2g+i7n6AFFbDQ5kMPUsW0pNbfQsB/cwXvT1i4Bue0s9g5g==}
+    engines: {node: '>=6'}
+    dev: true
+
   /tough-cookie@2.5.0:
     resolution: {integrity: sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g==}
     engines: {node: '>=0.8'}
@@ -13277,6 +13305,26 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
+  /webpack-bundle-analyzer@4.9.0:
+    resolution: {integrity: sha512-+bXGmO1LyiNx0i9enBu3H8mv42sj/BJWhZNFwjz92tVnBa9J3JMGo2an2IXlEleoDOPn/Hofl5hr/xCpObUDtw==}
+    engines: {node: '>= 10.13.0'}
+    hasBin: true
+    dependencies:
+      '@discoveryjs/json-ext': 0.5.7
+      acorn: 8.9.0
+      acorn-walk: 8.2.0
+      chalk: 4.1.2
+      commander: 7.2.0
+      gzip-size: 6.0.0
+      lodash: 4.17.21
+      opener: 1.5.2
+      sirv: 1.0.19
+      ws: 7.5.9
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: true
+
   /webpack-dev-middleware@5.3.3(webpack@5.88.0):
     resolution: {integrity: sha512-hj5CYrY0bZLB+eTO+x/j67Pkrquiy7kWepMHmUMoPsmcUaeEnQJqFzHJOyxgWlq746/wUuA64p9ta34Kyb01pA==}
     engines: {node: '>= 12.13.0'}
@@ -13677,6 +13725,19 @@ packages:
     dependencies:
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
+    dev: true
+
+  /ws@7.5.9:
+    resolution: {integrity: sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==}
+    engines: {node: '>=8.3.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
     dev: true
 
   /ws@8.13.0:
