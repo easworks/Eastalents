@@ -1590,7 +1590,18 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       }>;
       client: FormControl<string>;
       skills: FormControl<string>;
-    }>
+    }>;
+
+    type EducationHistoryForm = FormGroup<{
+      degree: FormControl<string>,
+      specialization: FormControl<string>,
+      duration: FormGroup<{
+        start: FormControl<number>;
+        end: FormControl<number | null>;
+      }>;
+      institution: FormControl<string>;
+      location: FormControl<string>;
+    }>;
 
     const user = this.user();
     const form = new FormGroup({
@@ -1648,6 +1659,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       }),
       history: new FormGroup({
         work: new FormArray<WorkHistoryForm>([]),
+        education: new FormArray<EducationHistoryForm>([]),
         details: new FormControl('')
       }),
       social: new FormGroup({
@@ -1679,8 +1691,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         country: toSignal(controlValue$(form.controls.contact.controls.address.controls.country), { requireSync: true }),
         state: toSignal(controlValue$(form.controls.contact.controls.address.controls.state), { requireSync: true }),
         city: toSignal(controlValue$(form.controls.contact.controls.address.controls.city), { requireSync: true })
-      }
-
+      },
+      work: toSignal(controlValue$(form.controls.history.controls.work), { requireSync: true }),
+      education: toSignal(controlValue$(form.controls.history.controls.education), { requireSync: true })
     } as const;
 
     const allOptions = {
@@ -1768,6 +1781,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       }
     } as const;
 
+    const validateDuration = (c: AbstractControl) => {
+      const { start, end } = c.value;
+      if (end && (!start || (end < start)))
+        return { invalidEnd: true }
+
+      return null;
+    }
+
     const work = {
       add: () => {
         const arr = form.controls.history.controls.work;
@@ -1783,15 +1804,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             }),
             end: new FormControl(null as unknown as number | null)
           }, {
-            validators: [
-              c => {
-                const { start, end } = c.value;
-                if (end && (!start || (end < start)))
-                  return { invalidEnd: true }
-
-                return null;
-              }
-            ]
+            validators: [Validators.required]
           }),
           client: new FormControl('', {
             nonNullable: true,
@@ -1804,12 +1817,43 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         }));
       },
       remove: (i: number) => {
-        const arr = form.controls.history.controls.work;
-        arr.controls.splice(i, 1);
-        arr.updateValueAndValidity();
-      }
-    }
+        form.controls.history.controls.work.removeAt(i);
+      },
+      canRemove$: (() => {
+        const count = computed(() => values.work().length);
+        return computed(() => count() > 1)
+      })()
+    } as const;
+    work.add();
 
+    const education = {
+      add: () => {
+        const arr = form.controls.history.controls.education;
+        arr.push(new FormGroup({
+          degree: new FormControl('', { nonNullable: true }),
+          specialization: new FormControl('', { nonNullable: true }),
+          duration: new FormGroup({
+            start: new FormControl(null as unknown as number, {
+              nonNullable: true,
+              validators: [Validators.required]
+            }),
+            end: new FormControl(null as unknown as number | null)
+          }, {
+            validators: [validateDuration]
+          }),
+          institution: new FormControl('', { nonNullable: true }),
+          location: new FormControl('', { nonNullable: true })
+        }));
+      },
+      remove: (i: number) => {
+        form.controls.history.controls.education.removeAt(i);
+      },
+      canRemove$: (() => {
+        const count = computed(() => values.education().length);
+        return computed(() => count() > 1)
+      })()
+    } as const;
+    education.add();
 
     // update the validators on the fly for the phone controls
     {
@@ -2043,7 +2087,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       options: filteredOptions,
       english,
       isRequired,
-      work
+      work,
+      education
     } as const;
   }
 

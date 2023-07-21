@@ -499,7 +499,7 @@
       </div>
 
       <div *ngIf="!techExp.stopInput$()" class="p-4">
-        <div class="form-field !mb-0">
+        <div class="form-field mb-0">
           <input type="text" placeholder="Type to filter"
                  [ngModel]="techExp.query$()"
                  (ngModelChange)="techExp.query$.set($event)"
@@ -562,7 +562,7 @@
       </div>
 
       <div *ngIf="!industries.stopInput$()" class="p-4">
-        <div class="form-field !mb-0">
+        <div class="form-field mb-0">
           <input type="text" placeholder="Type to filter"
                  [ngModel]="industries.query$()"
                  (ngModelChange)="industries.query$.set($event)"
@@ -716,7 +716,7 @@
             </div>
 
             <div *ngIf="!options.stopInput$()" class="mt-4">
-              <div class="form-field !mb-0">
+              <div class="form-field mb-0">
                 <input type="text" placeholder="Type to filter"
                        [ngModel]="options.query$()"
                        (ngModelChange)="options.query$.set($event)"
@@ -1009,7 +1009,7 @@
           </div>
 
           <div *ngrxLet="form.controls.address as form"
-               class="form-field !mb-0">
+               class="form-field mb-0">
             <label>Address</label>
 
             <div *ngrxLet="form.controls.line1 as control"
@@ -1154,7 +1154,7 @@
                 <form class="flex gap-4 flex-wrap p-2 pb-3" [formGroup]="form">
                   <div *ngrxLet="form.controls.role as control"
                        [formFieldControl]="control"
-                       class="flex-grow w-60 !m-0">
+                       class="flex-grow w-60 mb-0">
                     <label>
                       Role
                       <span class="text-warn">*</span>
@@ -1174,7 +1174,7 @@
 
                   <div *ngrxLet="form.controls.client as control"
                        [formFieldControl]="control"
-                       class="flex-grow w-60 !m-0">
+                       class="flex-grow w-60 mb-0">
                     <label>
                       Client Name
                       <span class="text-warn">*</span>
@@ -1186,7 +1186,7 @@
                        class="flex-grow flex gap-4">
                     <div *ngrxLet="form.controls.start as control"
                          [formFieldControl]="control"
-                         class="flex-grow w-20 !m-0">
+                         class="flex-grow w-20 mb-0">
                       <label>
                         Start
                         <span class="text-warn">*</span>
@@ -1200,7 +1200,7 @@
                     </div>
                     <div *ngrxLet="form.controls.end as control"
                          [formFieldControl]="control"
-                         class="flex-grow w-20 !m-0">
+                         class="flex-grow w-20 mb-0">
                       <label>
                         End
                       </label>
@@ -1216,7 +1216,7 @@
 
                   <div *ngrxLet="form.controls.skills as control"
                        [formFieldControl]="control"
-                       class="w-full !m-0">
+                       class="w-full mb-0">
                     <label>
                       Developer Skills
                       <span class="text-warn">*</span>
@@ -1226,14 +1226,16 @@
                     </div>
                   </div>
                 </form>
-                <mat-divider></mat-divider>
-                <div class="p-2 py-3">
-                  <button type="button"
-                          class="stroked-button small warn" mat-ripple
-                          (click)="profileDetails.work.remove(i)">
-                    Remove
-                  </button>
-                </div>
+                <ng-container *ngIf="profileDetails.work.canRemove$()">
+                  <mat-divider></mat-divider>
+                  <div class="p-2 py-3">
+                    <button type="button"
+                            class="stroked-button small warn" mat-ripple
+                            (click)="profileDetails.work.remove(i)">
+                      Remove
+                    </button>
+                  </div>
+                </ng-container>
               </div>
             </div>
 
@@ -1247,18 +1249,118 @@
           </div>
         </div>
         <mat-divider></mat-divider>
-        <form class="p-4">
+        <div class="p-4" *ngrxLet="form.controls.history.controls.education as form">
           <label class="font-medium">Education</label>
+
           <div class="mt-4">
-            <label class="text-sm">Please provide details of your academic background, degrees, and certifications obtained.</label>
+            <label class="text-sm">Please provide details of your educational background, degrees, and certifications obtained.</label>
+
+            <div class="grid gap-4 mt-2">
+              <div *ngFor="let form of form.controls; let i = index;"
+                   class="border rounded">
+                <form class="flex gap-4 flex-wrap p-2 pb-3" [formGroup]="form">
+                  <div *ngrxLet="form.controls.degree as control"
+                       [formFieldControl]="control"
+                       class="flex-grow w-60 mb-0">
+                    <label>
+                      Degree
+                      <span class="text-warn">*</span>
+                    </label>
+                    <input type="text" [formControl]="control">
+                  </div>
+
+                  <div *ngrxLet="form.controls.specialization as control"
+                       [formFieldControl]="control"
+                       class="flex-grow w-60 mb-0">
+                    <label>
+                      Specialization
+                      <span class="text-warn">*</span>
+                    </label>
+                    <input type="text" [formControl]="control">
+                  </div>
+
+                  <div *ngrxLet="form.controls.duration as form"
+                       class="flex-grow flex gap-4">
+                    <div *ngrxLet="form.controls.start as control"
+                         [formFieldControl]="control"
+                         class="flex-grow w-20 mb-0">
+                      <label>
+                        Start
+                        <span class="text-warn">*</span>
+                      </label>
+                      <mat-select [formControl]="control">
+                        <mat-option *ngFor="let option of profileDetails.options.years"
+                                    [value]="option">
+                          {{option}}
+                        </mat-option>
+                      </mat-select>
+                    </div>
+                    <div *ngrxLet="form.controls.end as control"
+                         [formFieldControl]="control"
+                         class="flex-grow w-20 mb-0">
+                      <label>
+                        End
+                      </label>
+                      <mat-select [formControl]="control" [crossValidate]="['invalidEnd']">
+                        <mat-option [value]="null">Clear</mat-option>
+                        <mat-option *ngFor="let option of profileDetails.options.years"
+                                    [value]="option">
+                          {{option}}
+                        </mat-option>
+                      </mat-select>
+                    </div>
+                  </div>
+
+                  <div *ngrxLet="form.controls.institution as control"
+                       [formFieldControl]="control"
+                       class="flex-grow w-60 mb-4">
+                    <label>
+                      Institution
+                      <span class="text-warn">*</span>
+                    </label>
+                    <input type="text" [formControl]="control">
+                    <span class="hint">School / College / University</span>
+                  </div>
+
+                  <div *ngrxLet="form.controls.location as control"
+                       [formFieldControl]="control"
+                       class="flex-grow w-60 mb-4">
+                    <label>
+                      Location
+                      <span class="text-warn">*</span>
+                    </label>
+                    <input type="text" [formControl]="control">
+                    <span class="hint">City, State, Country</span>
+                  </div>
+                </form>
+                <ng-container *ngIf="profileDetails.education.canRemove$()">
+                  <mat-divider></mat-divider>
+                  <div class="p-2 py-3">
+                    <button type="button"
+                            class="stroked-button small warn" mat-ripple
+                            (click)="profileDetails.education.remove(i)">
+                      Remove
+                    </button>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <button type="button" *ngIf="form.length < 5"
+                      class="stroked-button small" mat-ripple
+                      (click)="profileDetails.education.add()">
+                Add
+              </button>
+            </div>
           </div>
-        </form>
+        </div>
         <mat-divider></mat-divider>
         <form class="p-4" *ngrxLet="form.controls.history as form">
           <label class="font-medium">Portfolio</label>
           <div class="mt-4">
             <div *ngrxLet="form.controls.details as control"
-                 [formFieldControl]="control">
+                 [formFieldControl]="control" class="mb-0">
               <div class="field field-interactive h-64">
                 <textarea [formControl]="control" class="resize-none" placeholder="Sample / Details"></textarea>
               </div>

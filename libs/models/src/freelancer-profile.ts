@@ -100,3 +100,14 @@ export interface WorkHistory {
   client: string;
   skills: string;
 }
+
+export interface EducationHistory {
+  degree: string;
+  specialization: string;
+  duration: {
+    start: number;
+    end: number | null;
+  };
+  institution: string;
+  location: string;
+}
