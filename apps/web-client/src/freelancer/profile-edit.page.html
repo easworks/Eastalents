@@ -34,6 +34,36 @@
     </lottie-player>
   </div>
 
+  <div class="mt-2 flex">
+    <ng-container *ngFor="let group of stepperGroups; let i = index; let first = first; let last = last;">
+      <mat-divider *ngIf="!first" class="flex-grow !mt-8"></mat-divider>
+      <button type="button" *ngrxLet="group.enabled$() as enabled"
+              class="relative grid justify-items-center rounded transition-all
+                p-2 pt-4 px-4 gap-2   
+                flex-none w-40 lg:w-60 
+                hover:enabled:bg-black/10 focus:enabled:bg-black/10"
+              [disabled]="!enabled"
+              mat-ripple [matRippleDisabled]="!enabled"
+              (click)="group.click()">
+        <mat-divider *ngIf="!first" class="absolute left-0 top-8 -z-10" style="width: calc(50% - 1.5rem);"></mat-divider>
+        <mat-divider *ngIf="!last" class="absolute right-0 top-8 -z-10" style="width: calc(50% - 1.5rem);"></mat-divider>
+        <div class="rounded-full grid place-content-center bg-divider text-white
+                w-8 h-8 leading-none"
+             [class.bg-primary]="enabled">
+          <div *ngIf="group.completed$(); else $stepNo">
+            <i class="fa-solid fa-check"></i>
+          </div>
+
+          <ng-template #$stepNo>{{i + 1}}</ng-template>
+        </div>
+        <div class="transition-all relative"
+             [class]="group.completed$()  ? 'font-medium text-base' : 'text-sm'">
+          <span class="w-fit">{{group.label}}</span>
+        </div>
+      </button>
+    </ng-container>
+  </div>
+
   <div *ngIf="stepper.showStepControls$()" class="stepper-progress w-100 mt-4">
     <ng-container *ngrxLet="stepper.progress$() as progress">
       <span>{{progress.label}}</span>
@@ -190,10 +220,6 @@
 
                 <mat-progress-spinner class="field-spinner right-3 top-8"
                                       mode="indeterminate" diameter="24"></mat-progress-spinner>
-              </div>
-
-              <div class="col-span-2 rounded bg-warn/10 p-2 px-4 text-center text-warn">
-                Need to integrate the Google API as well
               </div>
             </div>
           </div>
@@ -490,7 +516,7 @@
                 <button type="button" mat-ripple class="icon-button"
                         (click)="techExp.remove(entry.key, i)"
                         title="Remove">
-                  <i class="fas fa-square-xmark"></i>
+                  <i class="fa-solid fa-square-xmark"></i>
                 </button>
               </div>
             </div>
@@ -553,7 +579,7 @@
                 <button type="button" mat-ripple class="icon-button"
                         (click)="industries.remove(entry.key, i)"
                         title="Remove">
-                  <i class="fas fa-square-xmark"></i>
+                  <i class="fa-solid fa-square-xmark"></i>
                 </button>
               </div>
             </div>
@@ -710,7 +736,7 @@
                 <button type="button" mat-ripple class="icon-button"
                         (click)="options.remove(i)"
                         title="Remove">
-                  <i class="fas fa-square-xmark"></i>
+                  <i class="fa-solid fa-square-xmark"></i>
                 </button>
               </div>
             </div>

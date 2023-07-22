@@ -94,6 +94,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly profileDetails = this.initProfileDetails();
 
   protected readonly stepper = this.initStepper();
+  protected readonly stepperGroups = this.initStepperGroups();
 
   protected readonly trackBy = {
     country: (_: number, c: Country) => c.iso2,
@@ -141,14 +142,21 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       'end'
     ];
 
-    const stepNumber = order.reduce((prev, cv, ci) => {
+    const stepNumbers = order.reduce((prev, cv, ci) => {
       prev[cv] = ci;
       return prev;
-    }, {} as Record<Step, number>)
+    }, {} as Record<Step, number>);
 
     const totalSteps = order.length - 2;
 
-    const stepProgress$ = computed(() => stepNumber[step$()]);
+    const stepIndex$ = computed(() => stepNumbers[step$()]);
+    const progress$ = computed(() => {
+      const s = stepIndex$();
+      return {
+        label: `Step ${s} of ${totalSteps}`,
+        percent: ((s - 1) / totalSteps) * 100
+      }
+    });
 
     const showStepControls$ = computed(() => {
       if (this.section)
@@ -161,38 +169,38 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const firstStep = order[1];
     const lastStep = order.at(-2);
 
+    const isValidStep = (step: Step) =>
+      (step === 'professional-summary' && this.professionalSummary.status$() === 'VALID') ||
+      (step === 'primary-domains' && this.primaryDomains.status$() === 'VALID') ||
+      (step === 'services' && this.services.$()?.status$() === 'VALID') ||
+      (step === 'modules' && this.modules.$()?.status$() === 'VALID') ||
+      (step === 'software' && this.software.$()?.status$() === 'VALID') ||
+      (step === 'roles' && this.roles.$()?.status$() === 'VALID') ||
+      (step === 'technology-stack' && this.techExp.status$() === 'VALID') ||
+      (step === 'industry' && this.industries.status$() === 'VALID') ||
+      (step === 'job-commitment' && this.jobCommittment.status$() === 'VALID') ||
+      (step === 'rate-expectation' && this.rateExpectation.status$() === 'VALID') ||
+      (step === 'preferred-roles' && this.preferredRoles.$()?.status$() === 'VALID') ||
+      (step === 'preferred-working-hours' && this.preferredWorkingHours.status$() === 'VALID') ||
+      (step === 'job-search-status' && this.jobSearchStatus.status$() === 'VALID') ||
+      (step === 'availability' && this.availability.status$() === 'VALID') ||
+      (step === 'profile-details' && this.profileDetails.status$() === 'VALID');
+
     const next = {
       visible$: computed(() => step$() !== lastStep),
-      disabled$: computed(() => {
-        const step = step$();
-        return this.loading.any$() ||
-          (step === 'professional-summary' && this.professionalSummary.status$() !== 'VALID') ||
-          (step === 'primary-domains' && this.primaryDomains.status$() !== 'VALID') ||
-          (step === 'services' && this.services.$()?.status$() !== 'VALID') ||
-          (step === 'modules' && this.modules.$()?.status$() !== 'VALID') ||
-          (step === 'software' && this.software.$()?.status$() !== 'VALID') ||
-          (step === 'roles' && this.roles.$()?.status$() !== 'VALID') ||
-          (step === 'technology-stack' && this.techExp.status$() !== 'VALID') ||
-          (step === 'industry' && this.industries.status$() !== 'VALID') ||
-          (step === 'job-commitment' && this.jobCommittment.status$() !== 'VALID') ||
-          (step === 'rate-expectation' && this.rateExpectation.status$() !== 'VALID') ||
-          (step === 'preferred-roles' && this.preferredRoles.$()?.status$() !== 'VALID') ||
-          (step === 'preferred-working-hours' && this.preferredWorkingHours.status$() !== 'VALID') ||
-          (step === 'job-search-status' && this.jobSearchStatus.status$() !== 'VALID') ||
-          (step === 'availability' && this.availability.status$() !== 'VALID') ||
-          (step === 'profile-details' && this.profileDetails.status$() !== 'VALID');
-      }),
+      disabled$: computed(() => this.loading.any$() || !isValidStep(step$())),
       click: () => {
-        const current = stepNumber[step$()];
+        const current = stepIndex$();
         step$.set(order[current + 1]);
         document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
-      }
+      },
+
     } as const;
 
     const prev = {
       visible$: computed(() => step$() !== firstStep),
       click: () => {
-        const current = stepNumber[step$()];
+        const current = stepIndex$();
         step$.set(order[current - 1]);
         document.scrollingElement?.scroll({ top: 0, behavior: 'smooth' });
       }
@@ -209,18 +217,77 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     return {
       totalSteps,
       step$,
+      stepIndex$,
       showStepControls$,
-      progress$: computed(() => {
-        const s = stepProgress$();
-        return {
-          label: `Step ${s} of ${totalSteps}`,
-          percent: ((s - 1) / totalSteps) * 100
-        }
-      }),
+      progress$,
+      isValidStep,
       next,
       prev,
       submit
     } as const;
+  }
+
+  private initStepperGroups() {
+    type StepGroupID =
+      'Professional Experience' |
+      'Work Preference' |
+      'Profile Setup';
+
+    type StepGroup = {
+      label: StepGroupID;
+      enabled$: Signal<boolean>,
+      completed$: Signal<boolean>,
+      click: () => void
+    }
+
+    const groupings: [StepGroupID, Step[]][] = [
+      [
+        'Professional Experience',
+        [
+          'professional-summary',
+          'primary-domains',
+          'services',
+          'modules',
+          'software',
+          'roles',
+          'technology-stack',
+          'industry'
+        ]
+      ],
+      [
+        'Work Preference',
+        [
+          'job-commitment',
+          'rate-expectation',
+          'preferred-roles',
+          'preferred-working-hours',
+          'job-search-status',
+          'availability'
+        ]
+      ],
+      [
+        'Profile Setup',
+        ['profile-details']
+      ]
+    ];
+
+    const isValidStep = this.stepper.isValidStep;
+    const groupSteps = groupings
+      .map<StepGroup>((g, i) => ({
+        label: g[0],
+        enabled$: computed(() => true),
+        completed$: computed(() => g[1].every(step => isValidStep(step))),
+        click: () => this.stepper.step$.set(g[1][0])
+      }));
+
+    groupSteps.forEach((step, i) => {
+      if (i > 0)
+        step.enabled$ = groupSteps[i - 1].completed$;
+      // const completed = step.completed$;
+      // step.completed$ = computed(() => step.enabled$() && completed());
+    });
+
+    return groupSteps;
   }
 
   private initSection() {
