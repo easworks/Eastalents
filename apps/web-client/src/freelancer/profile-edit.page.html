@@ -1381,14 +1381,17 @@
           </div>
         </div>
         <mat-divider></mat-divider>
-        <form class="p-4" *ngrxLet="form.controls.history as form">
-          <label class="font-medium">Portfolio</label>
+        <form class="p-4" *ngrxLet="form.controls.history as form"
+              [formGroup]="form">
+          <label class="font-medium">Portfolio / Program / Project</label>
           <div class="mt-4">
-            <div *ngrxLet="form.controls.details as control"
-                 [formFieldControl]="control" class="mb-0">
+            <div *ngrxLet="form.controls.portfolio as control"
+                 [formFieldControl]="control">
               <div class="field field-interactive h-64">
-                <textarea [formControl]="control" class="resize-none" placeholder="Sample / Details"></textarea>
+                <textarea [formControl]="control" class="resize-none" placeholder="Details"></textarea>
               </div>
+              <span class="error" *ngIf="control.hasError('maxlength')">{{control.value?.length}}/2500</span>
+              <span class="hint">{{control.value?.length}}/2500</span>
             </div>
           </div>
         </form>

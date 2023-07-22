@@ -1711,7 +1711,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       history: new FormGroup({
         work: new FormArray<WorkHistoryForm>([]),
         education: new FormArray<EducationHistoryForm>([]),
-        details: new FormControl('')
+        portfolio: new FormControl('', {
+          validators: [Validators.maxLength(2500)]
+        })
       }),
       social: new FormGroup({
         linkedIn: new FormControl(''),
