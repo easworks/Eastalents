@@ -34,7 +34,7 @@
     </lottie-player>
   </div>
 
-  <div class="mt-2 flex">
+  <div class="mt-2 hidden md:flex">
     <ng-container *ngFor="let group of stepperGroups; let i = index; let first = first; let last = last;">
       <mat-divider *ngIf="!first" class="flex-grow !mt-8"></mat-divider>
       <button type="button" *ngrxLet="group.enabled$() as enabled"
@@ -666,11 +666,10 @@
         </div>
 
         <form *ngrxLet="rateExpectation.form as form"
-              [formGroup]="form" class="mt-4">
+              [formGroup]="form" class="mt-4 flex gap-x-4 flex-wrap">
 
-          <div
-               *ngrxLet="form.controls.hourly as control"
-               [formFieldControl]="control">
+          <div *ngrxLet="form.controls.hourly as control"
+               [formFieldControl]="control" class="flex-none w-full max-w-[18rem]">
             <label> Hourly </label>
 
             <div class="relative">
@@ -682,7 +681,7 @@
           </div>
 
           <div *ngrxLet="form.controls.monthly as control"
-               [formFieldControl]="control">
+               [formFieldControl]="control" class="flex-none w-full max-w-[18rem]">
             <label> Monthly </label>
 
             <div class="relative">
@@ -694,7 +693,7 @@
           </div>
 
           <div *ngrxLet="form.controls.annually as control"
-               [formFieldControl]="control">
+               [formFieldControl]="control" class="flex-none w-full max-w-[18rem]">
             <label> Annually </label>
 
             <div class="relative">
