@@ -273,16 +273,19 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     const isValidStep = this.stepper.isValidStep;
     const groupSteps = groupings
-      .map<StepGroup>((g, i) => ({
-        label: g[0],
+      .map<StepGroup>(([label, steps]) => ({
+        label,
         enabled$: computed(() => true),
-        completed$: computed(() => g[1].every(step => isValidStep(step))),
-        click: () => this.stepper.step$.set(g[1][0])
+        completed$: computed(() => steps.every(step => isValidStep(step))),
+        click: () => this.stepper.step$.set(steps[0])
       }));
 
     groupSteps.forEach((step, i) => {
       if (i > 0)
-        step.enabled$ = groupSteps[i - 1].completed$;
+        step.enabled$ = computed(() => {
+          const prev = groupSteps[i - 1];
+          return prev.completed$() && prev.enabled$();
+        });
       // const completed = step.completed$;
       // step.completed$ = computed(() => step.enabled$() && completed());
     });
