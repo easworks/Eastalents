@@ -84,6 +84,7 @@ export interface FreelancerProfile {
     about: number;
     social: number;
     wsa: number;
+    completed: boolean;
   }
 }
 

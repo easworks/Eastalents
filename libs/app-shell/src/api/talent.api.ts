@@ -117,23 +117,24 @@ export class TalentApi extends ApiService {
       city: city?.name
     }
 
+    const pc = new Array(12).fill(0).map(() => Math.random())
+
     profile.profileCompletion = {
-      about: Math.random(),
-      easExperience: Math.random(),
-      easSystemPhases: Math.random(),
-      experience: Math.random(),
-      jobRole: Math.random(),
-      jobSearchStatus: Math.random(),
-      overall: 0,
-      rates: Math.random(),
-      social: Math.random(),
-      summary: Math.random(),
-      techStacks: Math.random(),
-      wsa: Math.random()
+      about: pc[0],
+      easExperience: pc[1],
+      easSystemPhases: pc[2],
+      experience: pc[3],
+      jobRole: pc[4],
+      jobSearchStatus: pc[5],
+      overall: pc[6],
+      rates: pc[7],
+      social: pc[8],
+      summary: pc[9],
+      techStacks: pc[10],
+      wsa: pc[12],
+      completed: false
     };
 
-    profile.profileCompletion.overall = Object.values(profile.profileCompletion)
-      .reduce((p, c) => p + c, 0) / 11
   }
 }
 

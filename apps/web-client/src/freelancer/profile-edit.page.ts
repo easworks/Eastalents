@@ -326,11 +326,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       timezone: new FormControl('', {
         validators: [
           Validators.required,
-          c => {
-            if (!IANAZone.isValidZone(c.value))
-              return { invalid: true };
-            return null;
-          }
+          isTimezone
         ],
         nonNullable: true
       })
@@ -1543,16 +1539,17 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
   private initPreferredWorkingHours() {
 
-    const allHours = new Array<number>(24)
-      .fill(0).map((_, i) => i)
-
-    const options = allHours
-      .map(hour => DateTime.fromObject({ hour }).toFormat('hh a'));
-
-    const pfs = toSignal(controlValue$(this.professionalSummary.form, true));
-    const tz$ = computed(() => pfs()?.timezone);
+    const pfs$ = toSignal(controlValue$(this.professionalSummary.form, true));
+    const loading$ = signal(true)
 
     const form = new FormGroup({
+      timezone: new FormControl('', {
+        validators: [
+          Validators.required,
+          isTimezone
+        ],
+        nonNullable: true
+      }),
       start: new FormControl(null as unknown as string, {
         nonNullable: true,
         validators: [
@@ -1567,13 +1564,58 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       }),
     });
 
+    const allZones$ = signal<Timezone[]>([]);
+    this.api.csc.allTimezones()
+      .then(tz => {
+        allZones$.set(tz);
+        loading$.set(false);
+      });
+
+    const tzValue$ = toSignal(controlValue$(form.controls.timezone), { requireSync: true });
+
+    const options = {
+      timezone$: computed(() => {
+        const all = allZones$();
+        const value = tzValue$();
+        const filter = value && value.trim().toLowerCase()
+        if (filter)
+          return all.filter(tz => tz.zoneName.toLowerCase().includes(filter));
+        return all;
+      }),
+      hours: new Array<number>(24)
+        .fill(0).map((_, i) => i)
+        .map(hour => DateTime.fromObject({ hour }).toFormat('hh a'))
+    }
+
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    effect(() => {
+      const opts = options.timezone$();
+      const value = tzValue$()
+      if (opts.length < 25) {
+        const match = opts.find(o => o.tzName.toLowerCase() === value.trim().toLowerCase())
+        if (match && match.zoneName.length === value.length && match.zoneName !== value) {
+          form.controls.timezone.setValue(match.zoneName)
+        }
+      }
+    }, { allowSignalWrites: true })
+
+    effect(() => {
+      const v = pfs$();
+      if (!v)
+        return;
+      const { timezone } = v;
+      const control = form.controls.timezone;
+      const hasValidValue = (!this.isNew) || (control.valid)
+      if (!hasValidValue)
+        control.setValue(timezone);
+    }, { allowSignalWrites: true })
 
     return {
       form,
       status$,
-      tz$,
-      options
+      options,
+      loading$
     } as const;
   }
 
@@ -2303,9 +2345,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     {
       const { form, options } = this.preferredWorkingHours;
 
-      form.setValue({
-        start: options[20],
-        end: options[2]
+      form.patchValue({
+        start: options.hours[20],
+        end: options.hours[2]
       });
 
       this.stepper.next.click();
@@ -2474,4 +2516,13 @@ function getPhoneCodeOptions(countries: Country[]) {
       plainPhoneCode: c.phonecode.replace(notNumber, '')
     }))
     .sort((a, b) => sortString(a.plainPhoneCode, b.plainPhoneCode))
+}
+
+const isTimezone = (control: AbstractControl<string | null>) => {
+  if (control.value) {
+    if (!IANAZone.isValidZone(control.value)) {
+      return { invalid: true }
+    }
+  }
+  return null;
 }

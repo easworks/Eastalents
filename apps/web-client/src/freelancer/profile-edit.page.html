@@ -771,10 +771,22 @@
       <form *ngrxLet="preferredWorkingHours.form as form"
             [formGroup]="form"
             class="p-4 grid gap-4">
-        <div class="form-field">
+        <div *ngrxLet="form.controls.timezone as control"
+             [formFieldControl]="control"
+             [class.show-spinner]="preferredWorkingHours.loading$()">
           <label>Timezone</label>
-          <input type="text" readonly [ngModel]="preferredWorkingHours.tz$()" [ngModelOptions]="{ standalone: true }">
+          <input type="text" [formControl]="control" [matAutocomplete]="tzOptions">
           <span class="hint">As per your professional summary</span>
+
+          <mat-autocomplete #tzOptions hideSingleSelectionIndicator>
+            <mat-option *ngFor="let tz of preferredWorkingHours.options.timezone$()"
+                        [value]="tz.zoneName" (onSelectionChange)="$event.source.deselect()">
+              {{tz.zoneName}}
+            </mat-option>
+          </mat-autocomplete>
+
+          <mat-progress-spinner class="field-spinner right-3 top-8"
+                                mode="indeterminate" diameter="24"></mat-progress-spinner>
         </div>
 
         <div class="flex gap-4 items-center">
@@ -783,7 +795,7 @@
                class="w-32">
             <label>Start</label>
             <mat-select [formControl]="control">
-              <mat-option *ngFor="let option of preferredWorkingHours.options" [value]="option">{{option}}</mat-option>
+              <mat-option *ngFor="let option of preferredWorkingHours.options.hours" [value]="option">{{option}}</mat-option>
             </mat-select>
           </div>
           <span>to</span>
@@ -792,7 +804,7 @@
                class="w-32">
             <label>End</label>
             <mat-select [formControl]="control">
-              <mat-option *ngFor="let option of preferredWorkingHours.options" [value]="option">{{option}}</mat-option>
+              <mat-option *ngFor="let option of preferredWorkingHours.options.hours" [value]="option">{{option}}</mat-option>
             </mat-select>
           </div>
         </div>
