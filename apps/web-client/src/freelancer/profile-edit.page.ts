@@ -1719,9 +1719,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         })
       }),
       social: new FormGroup({
-        linkedIn: new FormControl(''),
-        github: new FormControl(''),
-        gitlab: new FormControl(''),
+        linkedIn: new FormControl('', { validators: [Validators.pattern(pattern.linkedin.profile)] }),
+        github: new FormControl('', { validators: [Validators.pattern(pattern.github.profile)] }),
+        gitlab: new FormControl('', { validators: [Validators.pattern(pattern.gitlab.profile)] }),
       })
     });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });

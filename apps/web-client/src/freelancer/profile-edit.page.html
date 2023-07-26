@@ -1403,6 +1403,7 @@
             <label>LinkedIn</label>
             <input type="text" [formControl]="control"
                    placeholder="Profile Link">
+            <span class="error" *ngIf="control.hasError('pattern')">Invalid</span>
           </div>
 
           <div *ngrxLet="form.controls.github as control"
@@ -1410,6 +1411,7 @@
             <label>GitHub</label>
             <input type="text" [formControl]="control"
                    placeholder="Profile Link">
+            <span class="error" *ngIf="control.hasError('pattern')">Invalid</span>
           </div>
 
           <div *ngrxLet="form.controls.gitlab as control"
@@ -1417,6 +1419,7 @@
             <label>GitLab</label>
             <input type="text" [formControl]="control"
                    placeholder="Profile Link">
+            <span class="error" *ngIf="control.hasError('pattern')">Invalid</span>
           </div>
         </div>
       </form>
