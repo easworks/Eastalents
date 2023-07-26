@@ -1430,14 +1430,14 @@
   <ng-container *ngIf="stepper.showStepControls$()">
     <div class="flex mt-4">
       <button *ngIf="stepper.prev.visible$()" mat-ripple
-              type="button" class="shaded-button mr-auto mat-elevation-z1 disabled:shadow-none"
+              type="button" class="shaded-button mr-auto mat-elevation-z1 disabled:shadow-none hover:bg-secondary hover:text-secondary-text"
               (click)="this.stepper.prev.click()">
         Previous
       </button>
 
       <ng-container *ngIf="stepper.next.visible$()">
         <button *ngrxLet="stepper.next.disabled$() as disabled"
-                type="button" class="shaded-button ml-auto mat-elevation-z1 disabled:shadow-none"
+                type="button" class="shaded-button ml-auto mat-elevation-z1 disabled:shadow-none hover:bg-secondary hover:text-secondary-text"
                 mat-ripple
                 [disabled]="disabled"
                 (click)="this.stepper.next.click()">

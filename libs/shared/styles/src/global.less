@@ -26,9 +26,7 @@
       text-2xl w-12 h-12
       transition-all;
       
-      &:enabled, &[href] {
-        @apply hover:bg-slate-500/10 focus:bg-slate-500/10;
-      }
+    @apply hover:bg-slate-500/10 focus:bg-slate-500/10;
 
   }
 
@@ -37,19 +35,15 @@
 
     @apply bg-white;
 
-    &:enabled, &[href] {
-      &:hover, &:focus {
-        @apply bg-slate-100/75;
-      }
+    &:hover, &:focus {
+      @apply bg-slate-100/75;
     }
 
-    &.primary {
+    &:where(.primary) {
       @apply bg-primary text-primary-text;
 
-      &:enabled, &[href] {
-        &:hover, &:focus {
-          @apply bg-primary-dark text-primary-text;
-        }
+      &:hover, &:focus {
+        @apply bg-primary-dark text-primary-text;
       }
     }
 
@@ -61,21 +55,17 @@
   .highlight-button {
     @apply block rounded py-2 px-4 transition-all;
 
-    &:enabled, &[href] {
-      @apply bg-slate-500/10;
+    @apply bg-slate-500/10;
 
-      &:hover, &:focus {
-        @apply bg-slate-500/20;
-      }
+    &:hover, &:focus {
+      @apply bg-slate-500/20;
     }
 
-    &.primary {
-      &:enabled, &[href] {
-        @apply bg-primary/10 text-primary;
+    &:where(.primary) {
+      @apply bg-primary/10 text-primary;
 
-        &:hover, &:focus {
-          @apply bg-primary/20 text-primary-dark;
-        }
+      &:hover, &:focus {
+        @apply bg-primary/20 text-primary-dark;
       }
     }
 
@@ -92,16 +82,12 @@
       @apply py-1;
     }
 
-    &:enabled, &[href] {
-      &:hover, &:focus {
-        @apply bg-slate-500/10;
-      }
+    &:hover, &:focus {
+      @apply bg-slate-500/10;
     }
 
-    &.warn {
-      &:enabled, &[href] {
-        @apply text-warn;
-      }
+    &:where(.warn) {
+      @apply text-warn;
     }
 
     &:disabled {
