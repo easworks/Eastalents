@@ -1642,8 +1642,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         start: FormControl<number>;
         end: FormControl<number | null>;
       }>;
-      client: FormControl<string>;
-      skills: FormControl<string>;
+      client: FormControl<string | null>;
+      skills: FormControl<string | null>;
     }>;
 
     type EducationHistoryForm = FormGroup<{
@@ -1863,24 +1863,17 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             validators: [Validators.required]
           }),
           client: new FormControl('', {
-            nonNullable: true,
-            validators: [Validators.required]
+            validators: [Validators.maxLength(300)]
           }),
           skills: new FormControl('', {
-            nonNullable: true,
-            validators: [Validators.required]
+            validators: [Validators.maxLength(1000)]
           })
         }));
       },
       remove: (i: number) => {
         form.controls.history.controls.work.removeAt(i);
       },
-      canRemove$: (() => {
-        const count = computed(() => values.work().length);
-        return computed(() => count() > 1)
-      })()
     } as const;
-    work.add();
 
     const education = {
       add: () => {
@@ -1896,7 +1889,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           duration: new FormGroup({
             start: new FormControl(null as unknown as number, {
               nonNullable: true,
-              validators: [Validators.required, Validators.max(10)]
+              validators: [Validators.required]
             }),
             end: new FormControl(null as unknown as number | null)
           }, {
@@ -2334,12 +2327,13 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     }
 
     {
-      const { form, options, english, education } = this.profileDetails;
+      const { form, options, english, work, education } = this.profileDetails;
 
       form.controls.information.controls.currentRole.setValue(options.role$()[0]);
       english.toggle(options.english[0]);
 
       {
+        work.add();
         const control = form.controls.history.controls.work.at(0);
         control.patchValue({
           client: 'Client 1',

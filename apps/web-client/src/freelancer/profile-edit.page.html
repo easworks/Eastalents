@@ -1200,11 +1200,8 @@
                   <div *ngrxLet="form.controls.client as control"
                        [formFieldControl]="control"
                        class="flex-grow w-60 mb-0">
-                    <label>
-                      Client Name
-                      <span class="text-warn">*</span>
-                    </label>
-                    <input type="text" [formControl]="control">
+                    <label>Client Name</label>
+                    <input type="text" [formControl]="control" maxlength="300">
                   </div>
 
                   <div *ngrxLet="form.controls.duration as form"
@@ -1242,25 +1239,20 @@
                   <div *ngrxLet="form.controls.skills as control"
                        [formFieldControl]="control"
                        class="w-full mb-0">
-                    <label>
-                      Developer Skills
-                      <span class="text-warn">*</span>
-                    </label>
+                    <label>Professional Skills</label>
                     <div class="field field-interactive">
-                      <textarea [formControl]="control" class="resize-none"></textarea>
+                      <textarea [formControl]="control" class="resize-none" maxlength="1000"></textarea>
                     </div>
                   </div>
                 </form>
-                <ng-container *ngIf="profileDetails.work.canRemove$()">
-                  <mat-divider></mat-divider>
-                  <div class="p-2 py-3">
-                    <button type="button"
-                            class="stroked-button small warn" mat-ripple
-                            (click)="profileDetails.work.remove(i)">
-                      Remove
-                    </button>
-                  </div>
-                </ng-container>
+                <mat-divider></mat-divider>
+                <div class="p-2 py-3">
+                  <button type="button"
+                          class="stroked-button small warn" mat-ripple
+                          (click)="profileDetails.work.remove(i)">
+                    Remove
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -1291,14 +1283,14 @@
                       Qualification
                       <span class="text-warn">*</span>
                     </label>
-                    <input type="text" [formControl]="control">
+                    <input type="text" [formControl]="control" maxlength="300">
                   </div>
 
                   <div *ngrxLet="form.controls.specialization as control"
                        [formFieldControl]="control"
                        class="flex-grow w-60 mb-0">
                     <label>Specialization</label>
-                    <input type="text" [formControl]="control">
+                    <input type="text" [formControl]="control" maxlength="300">
                   </div>
 
                   <div *ngrxLet="form.controls.duration as form"
@@ -1340,7 +1332,7 @@
                       Institution
                       <span class="text-warn">*</span>
                     </label>
-                    <input type="text" [formControl]="control">
+                    <input type="text" [formControl]="control" maxlength="300">
                     <span class="hint">School / College / University</span>
                   </div>
 
@@ -1351,7 +1343,7 @@
                       Location
                       <span class="text-warn">*</span>
                     </label>
-                    <input type="text" [formControl]="control">
+                    <input type="text" [formControl]="control" maxlength="300">
                     <span class="hint">City, State, Country</span>
                   </div>
                 </form>
