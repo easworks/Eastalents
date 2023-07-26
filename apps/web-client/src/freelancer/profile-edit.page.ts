@@ -1647,8 +1647,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     }>;
 
     type EducationHistoryForm = FormGroup<{
-      degree: FormControl<string>,
-      specialization: FormControl<string>,
+      qualification: FormControl<string>,
+      specialization: FormControl<string | null>,
       duration: FormGroup<{
         start: FormControl<number>;
         end: FormControl<number | null>;
@@ -1886,30 +1886,36 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       add: () => {
         const arr = form.controls.history.controls.education;
         arr.push(new FormGroup({
-          degree: new FormControl('', { nonNullable: true }),
-          specialization: new FormControl('', { nonNullable: true }),
+          qualification: new FormControl('', {
+            validators: [Validators.maxLength(300)],
+            nonNullable: true
+          }),
+          specialization: new FormControl('', {
+            validators: [Validators.maxLength(300)],
+          }),
           duration: new FormGroup({
             start: new FormControl(null as unknown as number, {
               nonNullable: true,
-              validators: [Validators.required]
+              validators: [Validators.required, Validators.max(10)]
             }),
             end: new FormControl(null as unknown as number | null)
           }, {
             validators: [validateDuration]
           }),
-          institution: new FormControl('', { nonNullable: true }),
-          location: new FormControl('', { nonNullable: true })
+          institution: new FormControl('', {
+            validators: [Validators.maxLength(300)],
+            nonNullable: true
+          }),
+          location: new FormControl('', {
+            validators: [Validators.maxLength(300)],
+            nonNullable: true
+          })
         }));
       },
       remove: (i: number) => {
         form.controls.history.controls.education.removeAt(i);
       },
-      canRemove$: (() => {
-        const count = computed(() => values.education().length);
-        return computed(() => count() > 1)
-      })()
     } as const;
-    education.add();
 
     // update the validators on the fly for the phone controls
     {
@@ -2328,7 +2334,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     }
 
     {
-      const { form, options, english } = this.profileDetails;
+      const { form, options, english, education } = this.profileDetails;
 
       form.controls.information.controls.currentRole.setValue(options.role$()[0]);
       english.toggle(options.english[0]);
@@ -2346,9 +2352,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       }
 
       {
+        education.add();
         const control = form.controls.history.controls.education.at(0);
         control.patchValue({
-          degree: 'Some Degree',
+          qualification: 'Some Qualification',
           specialization: 'Some Specialization',
           duration: {
             start: 2018,

@@ -1278,17 +1278,17 @@
           <label class="font-medium">Education</label>
 
           <div class="mt-4">
-            <label class="text-sm">Please provide details of your educational background, degrees, and certifications obtained.</label>
+            <label class="text-sm">Please provide details of your educational background, qualification, and certifications obtained.</label>
 
             <div class="grid gap-4 mt-2">
               <div *ngFor="let form of form.controls; let i = index;"
                    class="border rounded">
                 <form class="flex gap-4 flex-wrap p-2 pb-3" [formGroup]="form">
-                  <div *ngrxLet="form.controls.degree as control"
+                  <div *ngrxLet="form.controls.qualification as control"
                        [formFieldControl]="control"
                        class="flex-grow w-60 mb-0">
                     <label>
-                      Degree
+                      Qualification
                       <span class="text-warn">*</span>
                     </label>
                     <input type="text" [formControl]="control">
@@ -1297,10 +1297,7 @@
                   <div *ngrxLet="form.controls.specialization as control"
                        [formFieldControl]="control"
                        class="flex-grow w-60 mb-0">
-                    <label>
-                      Specialization
-                      <span class="text-warn">*</span>
-                    </label>
+                    <label>Specialization</label>
                     <input type="text" [formControl]="control">
                   </div>
 
@@ -1358,16 +1355,14 @@
                     <span class="hint">City, State, Country</span>
                   </div>
                 </form>
-                <ng-container *ngIf="profileDetails.education.canRemove$()">
-                  <mat-divider></mat-divider>
-                  <div class="p-2 py-3">
-                    <button type="button"
-                            class="stroked-button small warn" mat-ripple
-                            (click)="profileDetails.education.remove(i)">
-                      Remove
-                    </button>
-                  </div>
-                </ng-container>
+                <mat-divider></mat-divider>
+                <div class="p-2 py-3">
+                  <button type="button"
+                          class="stroked-button small warn" mat-ripple
+                          (click)="profileDetails.education.remove(i)">
+                    Remove
+                  </button>
+                </div>
               </div>
             </div>
 

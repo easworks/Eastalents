@@ -102,8 +102,8 @@ export interface WorkHistory {
 }
 
 export interface EducationHistory {
-  degree: string;
-  specialization: string;
+  qualification: string;
+  specialization: string | null;
   duration: {
     start: number;
     end: number | null;
