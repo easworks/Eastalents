@@ -96,7 +96,7 @@
   }
 
   // links
-  a[href] {
+  a:where([href]) {
     @apply transition-all outline-none;
     
     &:hover, &:focus {
@@ -207,6 +207,7 @@
       } 
 
       input.ng-invalid,
+      file-upload.ng-invalid,
       .field {
         @apply ring-1 ring-warn/80
           focus:ring-2 focus-within:ring-2
