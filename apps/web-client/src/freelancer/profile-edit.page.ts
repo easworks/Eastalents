@@ -25,6 +25,7 @@ import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { COMMITMENT_OPTIONS, Commitment, ENGLISH_PROFICIENCY_OPTIONS, EnglishProficiency, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, LatLng, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, pattern } from '@easworks/models';
 import { DateTime, IANAZone } from 'luxon';
 import { map, shareReplay, switchMap } from 'rxjs';
+import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator';
 
 @Component({
   selector: 'freelancer-profile-edit-page',
@@ -39,7 +40,8 @@ import { map, shareReplay, switchMap } from 'rxjs';
     MatAutocompleteModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatPseudoCheckboxModule
+    MatPseudoCheckboxModule,
+    DropDownIndicatorComponent
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {

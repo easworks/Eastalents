@@ -956,10 +956,11 @@
               <label>Mobile</label>
 
               <div class="flex gap-2 justify-start">
-                <ng-container *ngrxLet="form.controls.code as control">
-                  <input type="tel" class="!w-[5.5rem]"
+                <div *ngrxLet="form.controls.code as control" class="relative">
+                  <input type="tel" class="!w-24 !pr-4"
                          [matAutocomplete]="codeOptions"
-                         [formControl]="control" placeholder="Code">
+                         [formControl]="control" placeholder="ISD Code">
+                  <drop-down-indicator class="absolute top-2 right-0"></drop-down-indicator>
 
                   <mat-autocomplete #codeOptions panelWidth="auto" hideSingleSelectionIndicator>
                     <mat-option *ngFor="let country of profileDetails.options.mobileCode$(); trackBy: trackBy.country"
@@ -970,7 +971,7 @@
                       </div>
                     </mat-option>
                   </mat-autocomplete>
-                </ng-container>
+                </div>
 
                 <input type="tel"
                        *ngrxLet="form.controls.number as control"
@@ -987,10 +988,11 @@
               <label>WhatsApp</label>
 
               <div class="flex gap-2 justify-start">
-                <ng-container *ngrxLet="form.controls.code as control">
-                  <input type="tel" class="!w-[5.5rem]"
+                <div *ngrxLet="form.controls.code as control" class="relative">
+                  <input type="tel" class="!w-24 !pr-4"
                          [matAutocomplete]="codeOptions"
-                         [formControl]="control" placeholder="Code">
+                         [formControl]="control" placeholder="ISD Code">
+                  <drop-down-indicator class="absolute top-2 right-0"></drop-down-indicator>
 
                   <mat-autocomplete #codeOptions panelWidth="auto" hideSingleSelectionIndicator>
                     <mat-option *ngFor="let country of profileDetails.options.whatsappCode$(); trackBy: trackBy.country"
@@ -1001,7 +1003,7 @@
                       </div>
                     </mat-option>
                   </mat-autocomplete>
-                </ng-container>
+                </div>
 
                 <input type="tel"
                        *ngrxLet="form.controls.number as control"
@@ -1018,11 +1020,12 @@
               <label>Telegram</label>
 
               <div class="flex gap-2 justify-start">
-                <ng-container *ngrxLet="form.controls.code as control">
-                  <input type="tel" class="!w-[5.5rem]"
+                <div *ngrxLet="form.controls.code as control" class="relative">
+                  <input type="tel" class="!w-24 !pr-4"
                          [matAutocomplete]="codeOptions"
-                         [formControl]="control" placeholder="Code">
+                         [formControl]="control" placeholder="ISD Code">
 
+                  <drop-down-indicator class="absolute top-2 right-0"></drop-down-indicator>
                   <mat-autocomplete #codeOptions panelWidth="auto" hideSingleSelectionIndicator>
                     <mat-option *ngFor="let country of profileDetails.options.telegramCode$(); trackBy: trackBy.country"
                                 [value]="country.phonecode" (onSelectionChange)="$event.source.deselect();">
@@ -1032,7 +1035,7 @@
                       </div>
                     </mat-option>
                   </mat-autocomplete>
-                </ng-container>
+                </div>
 
                 <input type="tel"
                        *ngrxLet="form.controls.number as control"
