@@ -24,3 +24,44 @@
 
   </div>
 </div>
+
+<div class="min-w-min page">
+  <div class="mx-auto w-24 h-24">
+    <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_m4gdjtfv.json"
+                   loop autoplay>
+    </lottie-player>
+  </div>
+
+  <div class="rounded bg-white mat-elevation-z1">
+    <h2 class="p-4 text-xl font-semibold">Enterprise Details</h2>
+    <mat-divider></mat-divider>
+    <form [formGroup]="form" class="p-4">
+      <div *ngrxLet="form.controls.name as control"
+           [formFieldControl]="control">
+        <label>
+          Enterprise Name
+          <span class="text-warn">*</span>
+        </label>
+        <input type="text" [formControl]="control" maxlength="300" placeholder="Name">
+        <span class="error" *ngIf="control.hasError('required')">Required</span>
+      </div>
+
+      <div *ngrxLet="form.controls.name as control"
+           [formFieldControl]="control">
+        <label>
+          Brief Enterprise Description
+          <span class="text-warn">*</span>
+        </label>
+        <div class="field field-interactive h-64 mt-2">
+          <textarea [formControl]="control"
+                    placeholder="Summary/Description"
+                    class="resize-none"></textarea>
+        </div>
+
+        <span class="error" *ngIf="control.hasError('required')">Required</span>
+        <span class="error" *ngIf="control.hasError('maxlength')">{{control.value.length || 0}}/1500</span>
+        <span class="hint">{{control.value.length || 0}}/1500</span>
+      </div>
+    </form>
+  </div>
+</div>
