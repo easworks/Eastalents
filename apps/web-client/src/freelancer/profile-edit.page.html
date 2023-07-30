@@ -909,8 +909,8 @@
               <label>Profile Picture</label>
               <file-upload [formControl]="control" [accept]="profileDetails.acceptedMimes.image"></file-upload>
               <span class="error" *ngIf="control.hasError('size')">Allowed: 5MB</span>
-              <span class="error" *ngIf="control.hasError('type')">Accepted: .png, .jpeg</span>
-              <span class="hint">5MB | .png, .jpeg</span>
+              <span class="error" *ngIf="control.hasError('type')">Accepted: .png, .jpeg, .bmp</span>
+              <span class="hint">5MB | .png, .jpeg, .bmp</span>
             </div>
 
             <div *ngrxLet="form.controls.cv as control"

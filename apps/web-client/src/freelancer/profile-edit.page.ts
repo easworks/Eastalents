@@ -1704,7 +1704,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     }>;
 
     const acceptedMimes = {
-      image: 'image/png,image/jpeg',
+      image: 'image/png,image/jpeg,image/bmp',
       cv: 'application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     }
 
