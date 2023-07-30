@@ -35,32 +35,61 @@
   <div class="rounded bg-white mat-elevation-z1">
     <h2 class="p-4 text-xl font-semibold">Enterprise Details</h2>
     <mat-divider></mat-divider>
-    <form [formGroup]="form" class="p-4">
-      <div *ngrxLet="form.controls.name as control"
-           [formFieldControl]="control">
-        <label>
-          Enterprise Name
-          <span class="text-warn">*</span>
-        </label>
-        <input type="text" [formControl]="control" maxlength="300" placeholder="Name">
-        <span class="error" *ngIf="control.hasError('required')">Required</span>
-      </div>
-
-      <div *ngrxLet="form.controls.name as control"
-           [formFieldControl]="control">
-        <label>
-          Brief Enterprise Description
-          <span class="text-warn">*</span>
-        </label>
-        <div class="field field-interactive h-64 mt-2">
-          <textarea [formControl]="control"
-                    placeholder="Summary/Description"
-                    class="resize-none"></textarea>
+    <form [formGroup]="form">
+      <div class="p-4">
+        <div *ngrxLet="form.controls.name as control"
+             [formFieldControl]="control">
+          <label>
+            Enterprise Name
+            <span class="text-warn">*</span>
+          </label>
+          <input type="text" [formControl]="control" maxlength="300" placeholder="Name">
+          <span class="error" *ngIf="control.hasError('required')">Required</span>
         </div>
 
-        <span class="error" *ngIf="control.hasError('required')">Required</span>
-        <span class="error" *ngIf="control.hasError('maxlength')">{{control.value.length || 0}}/1500</span>
-        <span class="hint">{{control.value.length || 0}}/1500</span>
+        <div *ngrxLet="form.controls.name as control"
+             [formFieldControl]="control">
+          <label>
+            Brief Enterprise Description
+            <span class="text-warn">*</span>
+          </label>
+          <div class="field field-interactive h-64 mt-2">
+            <textarea [formControl]="control"
+                      placeholder="Summary/Description"
+                      class="resize-none"></textarea>
+          </div>
+
+          <span class="error" *ngIf="control.hasError('required')">Required</span>
+          <span class="error" *ngIf="control.hasError('maxlength')">{{control.value.length || 0}}/1500</span>
+          <span class="hint">{{control.value.length || 0}}/1500</span>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="p-4">
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Business Type</span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center">
+            <span class="fa-solid fa-circle-info text-lg"></span>
+            <span>Select 1</span>
+          </span>
+        </label>
+
+        <div class="grid gap-4 mt-4 lg:max-w-md">
+          <button *ngFor="let option of options.type; let i = index; trackBy: trackBy.stringOption"
+                  type="button" class="business-type-option"
+                  mat-ripple
+                  [class.selected]="option.selected"
+                  (click)="type.toggle(option)">
+            <div class="grid gap-1">
+              <span>{{option.label}}</span>
+              <span *ngIf="option.description as description"
+                    class="text-sm">{{description}}</span>
+            </div>
+            <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
+          </button>
+        </div>
       </div>
     </form>
   </div>

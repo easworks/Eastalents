@@ -7,3 +7,4 @@ export * from './freelancer-profile';
 export * from './expertise';
 export * from './software';
 export * from './gmap';
+export * from './business-profile';
