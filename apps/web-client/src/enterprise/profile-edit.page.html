@@ -118,6 +118,56 @@
           </button>
         </div>
       </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="p-4" *ngrxLet="form.controls.industry as form">
+
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Industry Group and Industry</span>
+        </label>
+
+        <mat-progress-spinner class="mx-auto mt-4" mode="indeterminate" diameter="24"
+                              *ngIf="industry.loading$(); else $industryLoaded"></mat-progress-spinner>
+
+        <ng-template #$industryLoaded>
+          <div class="mt-4">
+            <ng-container *ngIf="form.valid; else $selectIndutry">
+              <label>{{form.value.group?.name}}</label>
+              <div class="mt-2 industry-option max-w-md">
+                <span>{{form.value.name}}</span>
+                <button type="button" mat-ripple class="icon-button"
+                        (click)="industry.clear()"
+                        title="Remove">
+                  <i class="fa-solid fa-square-xmark"></i>
+                </button>
+              </div>
+            </ng-container>
+
+            <ng-template #$selectIndutry>
+              <input type="text" placeholder="Type to filter"
+                     [ngModel]="industry.query$()"
+                     (ngModelChange)="industry.query$.set($event)"
+                     [ngModelOptions]="{ standalone: true }"
+                     [matAutocomplete]="indGroupOptions">
+
+              <mat-autocomplete #indGroupOptions hideSingleSelectionIndicator>
+                <ng-container *ngFor="let group of industry.filteredOptions$(); let last = last; trackBy: trackBy.name">
+                  <mat-optgroup [label]="group.name">
+                    <mat-option *ngFor="let option of group.industries"
+                                (onSelectionChange)="$event.source.deselect(); industry.select(group,option)">
+                      {{option}}
+                    </mat-option>
+                  </mat-optgroup>
+                  <mat-divider *ngIf="!last"></mat-divider>
+                </ng-container>
+
+              </mat-autocomplete>
+            </ng-template>
+          </div>
+        </ng-template>
+
+      </div>
     </form>
   </div>
 </div>
