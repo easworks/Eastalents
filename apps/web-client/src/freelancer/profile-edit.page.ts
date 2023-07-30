@@ -24,7 +24,7 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { COMMITMENT_OPTIONS, Commitment, ENGLISH_PROFICIENCY_OPTIONS, EnglishProficiency, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, LatLng, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, pattern } from '@easworks/models';
+import { COMMITMENT_OPTIONS, Commitment, EMPLOYMENT_OPPORTUNITY_OPTIONS, ENGLISH_PROFICIENCY_OPTIONS, EmploymentOpportunity, EnglishProficiency, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, LatLng, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, pattern } from '@easworks/models';
 import { DateTime, IANAZone } from 'luxon';
 import { map, shareReplay, switchMap } from 'rxjs';
 
@@ -1624,32 +1624,74 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   private initJobSearchStatus() {
-    const form = new FormControl(null as unknown as SelectableOption<JobSearchStatus>, {
-      nonNullable: true,
-      validators: [Validators.required]
-    });
+
+    const form = new FormGroup({
+      status: new FormControl(null as unknown as SelectableOption<JobSearchStatus>, {
+        nonNullable: true,
+        validators: [Validators.required]
+      }),
+      opportunity: new FormControl([] as SelectableOption<EmploymentOpportunity>[], {
+        nonNullable: true,
+        validators: [Validators.required]
+      })
+    })
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
-    const options = JOB_SEARCH_STATUS_OPTIONS
-      .map<SelectableOption<JobSearchStatus>>(c => ({
-        selected: false,
-        value: c,
-        label: c
-      }));
+    const descriptions = {
+      status: {
+        'Active': 'We will match you with all available job opportunities',
+        'Passive': 'We will send you a daily digest of jobs that match your profile',
+        'Not Looking Actively': 'We will pause job match emails, but keep your account active'
+      } satisfies Record<JobSearchStatus, string>,
+      opportunity: {
+        'Short Term Freelance/Contract': '1 - 3 months',
+        'Long Term Freelance/Contract': '4 - 36 months',
+        'Full-Time Salaried Employee': ''
+      } satisfies Record<EmploymentOpportunity, string>
+    } as const;
 
-    const toggle = (option: SelectableOption<JobSearchStatus>) => {
-      if (option.selected)
-        return;
+    const options = {
+      status: JOB_SEARCH_STATUS_OPTIONS
+        .map<SelectableOption<JobSearchStatus>>(s => ({
+          selected: false,
+          value: s,
+          label: s,
+          description: descriptions.status[s]
+        })),
+      opportunity: EMPLOYMENT_OPPORTUNITY_OPTIONS
+        .map<SelectableOption<EmploymentOpportunity>>(o => ({
+          selected: false,
+          value: o,
+          label: o,
+          description: descriptions.opportunity[o]
+        }))
+    } as const;
 
-      option.selected = true;
-      const old = form.value;
-      if (old) {
-        old.selected = false;
+    const status = {
+      toggle: (option: SelectableOption<JobSearchStatus>) => {
+        if (option.selected)
+          return;
+
+        const control = form.controls.status;
+        option.selected = true;
+        const old = control.value;
+        if (old) {
+          old.selected = false;
+        }
+        control.setValue(option);
       }
-      form.setValue(option);
-    }
+    } as const;
 
-    return { form, status$, options, toggle } as const;
+    const opportunity = {
+      toggle: (option: SelectableOption<EmploymentOpportunity>) => {
+        option.selected = !option.selected
+
+        const control = form.controls.opportunity;
+        control.setValue(options.opportunity.filter(o => o.selected))
+      }
+    } as const;
+
+    return { form, status$, options, status, opportunity } as const;
   }
 
   private initAvailability() {
@@ -2378,8 +2420,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     }
 
     {
-      const { options, toggle } = this.jobSearchStatus;
-      toggle(options[0]);
+      const { options, status, opportunity } = this.jobSearchStatus;
+      status.toggle(options.status[0]);
+      opportunity.toggle(options.opportunity[0]);
 
       this.stepper.next.click();
     }

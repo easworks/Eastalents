@@ -27,6 +27,16 @@ export const JOB_SEARCH_STATUS_OPTIONS = [
 
 export type JobSearchStatus = typeof JOB_SEARCH_STATUS_OPTIONS[number];
 
+export const EMPLOYMENT_OPPORTUNITY_OPTIONS = [
+  'Short Term Freelance/Contract',
+  'Long Term Freelance/Contract',
+  'Full-Time Salaried Employee',
+] as const;
+
+export type EmploymentOpportunity = typeof EMPLOYMENT_OPPORTUNITY_OPTIONS[number];
+
+
+
 export const FREELANCER_AVAILABILITY_OPTIONS = [
   'Immediately',
   '1 - 2 weeks',

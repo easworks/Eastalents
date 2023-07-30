@@ -814,29 +814,61 @@
 
     <div *ngIf="step === 'job-search-status'"
          class="rounded bg-white mat-elevation-z1">
-      <h2 class="p-4 text-xl font-semibold">Job Search Status</h2>
+      <h2 class="p-4 text-xl font-semibold">Job Search</h2>
       <mat-divider></mat-divider>
 
-      <form *ngrxLet="jobSearchStatus.form as form"
-            class="p-4 grid gap-4">
+      <form *ngrxLet="jobSearchStatus.form as form">
 
-        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all">Please select your job search status</span>
-          <span class="flex-none flex gap-2 text-slate-500 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
-            <span>Select 1</span>
-          </span>
-        </label>
+        <div class="p-4">
+          <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+            <span class="font-medium lg:pt-1 transition-all">Please select your job search status</span>
+            <span class="flex-none flex gap-2 text-slate-500 items-center">
+              <span class="fa-solid fa-circle-info text-lg"></span>
+              <span>Select 1</span>
+            </span>
+          </label>
 
-        <div class="grid gap-4 lg:max-w-md">
-          <button *ngFor="let option of jobSearchStatus.options; let i = index; trackBy: trackBy.stringOption"
-                  type="button" class="job-search-status-option"
-                  mat-ripple
-                  [class.selected]="option.selected"
-                  (click)="jobSearchStatus.toggle(option)">
-            <span>{{option.label}}</span>
-            <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
-          </button>
+          <div class="grid gap-4 mt-4 lg:max-w-md">
+            <button *ngFor="let option of jobSearchStatus.options.status; let i = index; trackBy: trackBy.stringOption"
+                    type="button" class="job-search-status-option"
+                    mat-ripple
+                    [class.selected]="option.selected"
+                    (click)="jobSearchStatus.status.toggle(option)">
+              <div class="grid gap-1">
+                <span>{{option.label}}</span>
+                <span *ngIf="option.description as description"
+                      class="text-sm">{{description}}</span>
+              </div>
+              <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
+            </button>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="p-4">
+          <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+            <span class="font-medium lg:pt-1 transition-all">Please select the kind of opportunity you are interested in</span>
+            <span class="flex-none flex gap-2 text-slate-500 items-center">
+              <span class="fa-solid fa-circle-info text-lg"></span>
+              <span>Select at least 1</span>
+            </span>
+          </label>
+
+          <div class="grid gap-4 mt-4 lg:max-w-md">
+            <button *ngFor="let option of jobSearchStatus.options.opportunity; let i = index; trackBy: trackBy.stringOption"
+                    type="button" class="job-search-opportunity-option"
+                    mat-ripple
+                    [class.selected]="option.selected"
+                    (click)="jobSearchStatus.opportunity.toggle(option)">
+              <div class="grid gap-1">
+                <span>{{option.label}}</span>
+                <span *ngIf="option.description as description"
+                      class="text-sm">{{description}}</span>
+              </div>
+              <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
+            </button>
+          </div>
         </div>
       </form>
     </div>
