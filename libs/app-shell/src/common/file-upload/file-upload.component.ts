@@ -3,7 +3,7 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, DoCheck, ElementRef, HostBinding, HostListener, Input, OnDestroy, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { CanUpdateErrorState, ErrorStateMatcher } from '@angular/material/core';
@@ -199,3 +199,31 @@ export class FileUploadComponent
     this.fm.stopMonitoring(this.elRef.nativeElement);
   }
 }
+
+export const FileValidators = {
+  size: (size: number) => (c: AbstractControl) => {
+    const v = c.value as File | File[]
+    if (v) {
+      const tooLarge = Array.isArray(v) ?
+        (v.find(f => f.size > size) || null) :
+        (v.size > size ? v : null);
+      if (tooLarge) {
+        return { 'size': tooLarge.name }
+      }
+    }
+    return null;
+  },
+  type: (accepted: string[]) => (c: AbstractControl) => {
+    const v = c.value as File | File[];
+    if (v) {
+      const incorrectType = Array.isArray(v) ?
+        (v.find(f => !accepted.some(m => f.type.match(m))) || null) :
+        (!accepted.some(m => v.type.match(m)) ? v : null);
+
+      if (incorrectType) {
+        return { 'type': incorrectType.name }
+      }
+    }
+    return null;
+  }
+} as const

@@ -11,6 +11,8 @@ import { CSCApi, City, Country, State, Timezone } from '@easworks/app-shell/api/
 import { GMapsApi } from '@easworks/app-shell/api/gmap';
 import { LocationApi } from '@easworks/app-shell/api/location';
 import { Domain, DomainModule, DomainProduct } from '@easworks/app-shell/api/talent.api';
+import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator';
+import { FileUploadComponent, FileValidators } from '@easworks/app-shell/common/file-upload/file-upload.component';
 import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
@@ -25,7 +27,6 @@ import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { COMMITMENT_OPTIONS, Commitment, ENGLISH_PROFICIENCY_OPTIONS, EnglishProficiency, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, LatLng, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, pattern } from '@easworks/models';
 import { DateTime, IANAZone } from 'luxon';
 import { map, shareReplay, switchMap } from 'rxjs';
-import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator';
 
 @Component({
   selector: 'freelancer-profile-edit-page',
@@ -41,7 +42,8 @@ import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down
     MatSelectModule,
     MatCheckboxModule,
     MatPseudoCheckboxModule,
-    DropDownIndicatorComponent
+    DropDownIndicatorComponent,
+    FileUploadComponent
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
@@ -1701,6 +1703,11 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       location: FormControl<string>;
     }>;
 
+    const acceptedMimes = {
+      image: 'image/png,image/jpeg',
+      cv: 'application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    }
+
     const user = this.user();
     const form = new FormGroup({
       personalInfo: new FormGroup({
@@ -1713,6 +1720,20 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           user?.lastName, {
           nonNullable: true,
           validators: [Validators.required]
+        }),
+        image: new FormControl<null | File>(
+          null, {
+          validators: [
+            FileValidators.size(5_000_000),
+            FileValidators.type(acceptedMimes.image.split(',')),
+          ]
+        }),
+        cv: new FormControl<null | File>(
+          null, {
+          validators: [
+            FileValidators.size(5_000_000),
+            FileValidators.type(acceptedMimes.cv.split(',')),
+          ]
         }),
         citizenship: new FormControl('')
       }),
@@ -2187,7 +2208,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       english,
       isRequired,
       work,
-      education
+      education,
+      acceptedMimes
     } as const;
   }
 

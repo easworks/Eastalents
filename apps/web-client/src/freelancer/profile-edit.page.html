@@ -875,7 +875,8 @@
       <h2 class="p-4 text-xl font-semibold">Profile Details</h2>
       <mat-divider></mat-divider>
 
-      <form *ngrxLet="profileDetails.form as form">
+      <form *ngrxLet="profileDetails.form as form"
+            [formGroup]="form">
         <div class="p-4" *ngrxLet="form.controls.personalInfo as form">
           <label class="font-medium"> Personal Information </label>
           <div class="flex mt-4 flex-col md:flex-row md:gap-4">
@@ -887,6 +888,7 @@
                 <span class="text-warn">*</span>
               </label>
               <input type="text" [formControl]="control" placeholder="First Name">
+              <span class="error" *ngIf="control.hasError('required')">Required</span>
             </div>
 
             <div *ngrxLet="form.controls.lastName as control"
@@ -897,6 +899,27 @@
                 <span class="text-warn">*</span>
               </label>
               <input type="text" [formControl]="control" placeholder="Last Name">
+              <span class="error" *ngIf="control.hasError('required')">Required</span>
+            </div>
+          </div>
+
+          <div class="flex gap-4 flex-wrap mb-4">
+            <div *ngrxLet="form.controls.image as control"
+                 [formFieldControl]="control" class="flex-grow">
+              <label>Profile Picture</label>
+              <file-upload [formControl]="control" [accept]="profileDetails.acceptedMimes.image"></file-upload>
+              <span class="error" *ngIf="control.hasError('size')">Allowed: 5MB</span>
+              <span class="error" *ngIf="control.hasError('type')">Accepted: .png, .jpeg</span>
+              <span class="hint">5MB | .png, .jpeg</span>
+            </div>
+
+            <div *ngrxLet="form.controls.cv as control"
+                 [formFieldControl]="control" class="flex-grow">
+              <label>CV</label>
+              <file-upload [formControl]="control" [accept]="profileDetails.acceptedMimes.cv"></file-upload>
+              <span class="error" *ngIf="control.hasError('size')">Allowed: 5MB</span>
+              <span class="error" *ngIf="control.hasError('type')">Accepted: .docx, .pdf</span>
+              <span class="hint">5MB | .docx, .pdf</span>
             </div>
           </div>
 
