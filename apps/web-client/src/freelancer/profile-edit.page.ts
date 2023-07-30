@@ -5,6 +5,7 @@ import { AbstractControl, FormArray, FormControl, FormGroup, FormRecord, Validat
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
 import { CSCApi, City, Country, State, Timezone } from '@easworks/app-shell/api/csc';
@@ -24,7 +25,7 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { COMMITMENT_OPTIONS, Commitment, EMPLOYMENT_OPPORTUNITY_OPTIONS, ENGLISH_PROFICIENCY_OPTIONS, EmploymentOpportunity, EnglishProficiency, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, LatLng, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, pattern } from '@easworks/models';
+import { COMMITMENT_OPTIONS, Commitment, EMPLOYMENT_OPPORTUNITY_OPTIONS, ENGLISH_PROFICIENCY_OPTIONS, EmploymentOpportunity, EnglishProficiency, FREEELANCER_SIGNUP_REASON_OPTIONS, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, FreelancerSignupReason, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, LatLng, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, pattern } from '@easworks/models';
 import { DateTime, IANAZone } from 'luxon';
 import { map, shareReplay, switchMap } from 'rxjs';
 
@@ -43,7 +44,8 @@ import { map, shareReplay, switchMap } from 'rxjs';
     MatCheckboxModule,
     MatPseudoCheckboxModule,
     DropDownIndicatorComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    MatRadioModule
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
@@ -1777,7 +1779,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             FileValidators.type(acceptedMimes.cv.split(',')),
           ]
         }),
-        citizenship: new FormControl('')
+        citizenship: new FormControl(''),
+        signupReason: new FormControl<FreelancerSignupReason | null>(null)
       }),
       contact: new FormGroup({
         email: new FormControl(
@@ -1812,6 +1815,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         currentRole: new FormControl(null as unknown as [string, string], {
           nonNullable: true,
           validators: [Validators.required]
+        }),
+        freelanceExperience: new FormControl(null as unknown as boolean, {
+          validators: [Validators.required],
+          nonNullable: true
         }),
         englishProficiency: new FormControl(null as unknown as SelectableOption<EnglishProficiency>, {
           nonNullable: true,
@@ -1928,7 +1935,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       years: new Array(DateTime.now().year - 1980 + 1)
         .fill(1980)
         .map((base, i) => base + i)
-        .reverse()
+        .reverse(),
+      signupReason: FREEELANCER_SIGNUP_REASON_OPTIONS
     } as const;
 
     const english = {
@@ -2439,6 +2447,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       const { form, options, english, work, education } = this.profileDetails;
 
       form.controls.information.controls.currentRole.setValue(options.role$()[0]);
+      form.controls.information.controls.freelanceExperience.setValue(true);
       english.toggle(options.english[0]);
 
       {

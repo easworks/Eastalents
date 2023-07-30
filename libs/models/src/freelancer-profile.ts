@@ -55,6 +55,19 @@ export const ENGLISH_PROFICIENCY_OPTIONS = [
 
 export type EnglishProficiency = typeof ENGLISH_PROFICIENCY_OPTIONS[number];
 
+export const FREEELANCER_SIGNUP_REASON_OPTIONS = [
+  'Want to work on challenging enterprise application projects',
+  'Want to increase sources of income',
+  'Want the flexibility and freedom of working remotely',
+  'Want to learn about new enterprise applications and associated technical skills',
+  'Want to work with elite companies',
+  'Joining based on word-of-mouth reference',
+  'Joining based on positive online reviews',
+  'Want to be part of the EAS community',
+  'Other'
+] as const;
+export type FreelancerSignupReason = typeof FREEELANCER_SIGNUP_REASON_OPTIONS[number];
+
 export interface FreelancerProfile {
   image: string | null;
   currentRole: string;

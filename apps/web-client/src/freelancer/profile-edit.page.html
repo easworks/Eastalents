@@ -987,6 +987,14 @@
                                   mode="indeterminate" diameter="24"></mat-progress-spinner>
           </div>
 
+          <div *ngrxLet="form.controls.signupReason as control"
+               [formFieldControl]="control">
+            <label>Reason for joining EASWORKS</label>
+            <mat-select [formControl]="control">
+              <mat-option *ngFor="let option of profileDetails.options.signupReason" [value]="option">{{option}}</mat-option>
+            </mat-select>
+          </div>
+
         </div>
         <mat-divider></mat-divider>
         <form class="p-4" *ngrxLet="form.controls.contact as form"
@@ -1217,7 +1225,20 @@
             <span class="hint">Current Professional Title or Job Role</span>
           </div>
 
-          <div class="mt-8">
+          <div *ngrxLet="form.controls.freelanceExperience as control"
+               [formFieldControl]="control" class="mt-10 mb-2">
+            <label>
+              Have you ever worked as a freelancer in the past?
+              <span class="text-warn">*</span>
+            </label>
+
+            <mat-radio-group [formControl]="control" class="flex gap-4">
+              <mat-radio-button [value]="true" class="primary">Yes</mat-radio-button>
+              <mat-radio-button [value]="false" class="primary">No</mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <div>
             <label class="text-sm">
               English Proficiency
               <span class="text-warn">*</span>
