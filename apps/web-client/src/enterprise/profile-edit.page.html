@@ -1,1 +1,26 @@
-Profile Edit Page
+<div class="welcome-mat min-w-min 
+      w-full lg:max-w-2xl transition-all"
+     *ngIf="isNew">
+
+  <div class="sticky p-4
+        grid place-content-center justify-items-center
+        bg-[#2f2e41] text-white"
+       style="top: 4rem; height: calc(100vh - 4rem);">
+
+    <div class="max-w-lg text-center">
+      <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_8nfvjov1.json"
+                     loop autoplay
+                     class="h-auto m-auto w-60 md:w-80 lg:w-96 transition-all">
+      </lottie-player>
+      <div class="mt-4">
+        <h1 class="text-xl font-semibold">Welcome to EASWORKS</h1>
+        <p class="mt-2 text-sm">
+          The simplest & fastest way to access & build teams with pre-vetted
+          Enterprise Application Talent.
+          Creating a global remote team has never been this easy.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
