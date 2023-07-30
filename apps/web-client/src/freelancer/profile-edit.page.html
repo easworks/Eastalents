@@ -236,9 +236,11 @@
             [formGroup]="form" class="p-4">
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
           <span class="font-medium lg:pt-1 transition-all"> Please select your domain of expertise in enterprise applications </span>
-          <span class="flex-none flex gap-2 text-slate-500 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
-            <span>Select up to 3</span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
+            <span class="flex gap-1 items-center">
+              <span class="fa-solid fa-circle-info text-lg"></span>
+              <span>Select up to 3</span>
+            </span>
             <span *ngrxLet="primaryDomains.size$() as size"
                   class="selection-counter" [class.selected]="size > 0">
               {{size}} selected
@@ -286,9 +288,11 @@
             <div class="p-4" *ngrxLet="service$.options[domain.key] as options">
               <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
                 <span class="font-medium lg:pt-1 transition-all">Please specify your areas of expertise within <span class="text-primary">{{domain.longName}}</span></span>
-                <span class="flex-none flex gap-2 text-slate-500 items-center">
-                  <span class="fa-solid fa-circle-info text-lg"></span>
-                  <span>Select at least 1</span>
+                <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
+                  <span class="flex gap-1 items-center">
+                    <span class="fa-solid fa-circle-info text-lg"></span>
+                    <span>Select at least 1</span>
+                  </span>
                   <span *ngrxLet="options.size$() as size"
                         class="selection-counter" [class.selected]="size > 0">
                     {{size}} selected
@@ -338,9 +342,11 @@
             <div class="p-4" *ngrxLet="modules$.options[domain.key] as options">
               <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
                 <span class="font-medium lg:pt-1 transition-all">Indicate the <span class="text-primary">{{domain.longName}}</span> modules you are proficient in</span>
-                <span class="flex-none flex gap-2 text-slate-500 items-center">
-                  <span class="fa-solid fa-circle-info text-lg"></span>
-                  <span>Select up to 7</span>
+                <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
+                  <span class="flex gap-1 items-center">
+                    <span class="fa-solid fa-circle-info text-lg"></span>
+                    <span>Select up to 7</span>
+                  </span>
                   <span *ngrxLet="options.size$() as size"
                         class="selection-counter" [class.selected]="size > 0">
                     {{size}} selected
@@ -386,9 +392,11 @@
             <div class="p-4" *ngrxLet="software$.options[domain.key] as options">
               <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
                 <span class="font-medium lg:pt-1 transition-all">Please indicate your proficiency level in <span class="text-primary">{{domain.longName}}</span> software</span>
-                <span class="flex-none flex gap-2 text-slate-500 items-center">
-                  <span class="fa-solid fa-circle-info text-lg"></span>
-                  <span>Select up to 5</span>
+                <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
+                  <span class="flex gap-1 items-center">
+                    <span class="fa-solid fa-circle-info text-lg"></span>
+                    <span>Select up to 5</span>
+                  </span>
                   <span *ngrxLet="options.size$() as size"
                         class="selection-counter" [class.selected]="size > 0">
                     {{size}} selected
@@ -441,9 +449,11 @@
             <div class="p-4" *ngrxLet="roles$.options[domain.key] as options">
               <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
                 <span class="font-medium lg:pt-1 transition-all">Please select the <span class="text-primary">{{domain.longName}}</span> roles you are currently working or have worked in</span>
-                <span class="flex-none flex gap-2 text-slate-500 items-center">
-                  <span class="fa-solid fa-circle-info text-lg"></span>
-                  <span>Select up to 5</span>
+                <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
+                  <span class="flex gap-1 items-center">
+                    <span class="fa-solid fa-circle-info text-lg"></span>
+                    <span>Select up to 5</span>
+                  </span>
                   <span *ngrxLet="options.size$() as size"
                         class="selection-counter" [class.selected]="size > 0">
                     {{size}} selected
@@ -556,9 +566,11 @@
       <div class="p-4">
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
           <span class="font-medium lg:pt-1 transition-all">Please select the industries you have worked in</span>
-          <span class="flex-none flex gap-2 text-slate-500 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
-            <span>Select up to 5</span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center justify-center">
+            <span class="flex gap-1 items-center">
+              <span class="fa-solid fa-circle-info text-lg"></span>
+              <span>Select up to 5</span>
+            </span>
             <span *ngrxLet="industries.size$() as size"
                   class="selection-counter"
                   [class.selected]="size > 0">
@@ -718,9 +730,11 @@
           <div class="p-4" *ngrxLet="roles$.options[domain.key] as options">
             <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
               <span class="font-medium lg:pt-1 transition-all">Please select the roles related to <span class="text-primary">{{domain.longName}}</span> you would like to work in</span>
-              <span class="flex-none flex gap-2 text-slate-500 items-center">
-                <span class="fa-solid fa-circle-info text-lg"></span>
-                <span>Select up to 5</span>
+              <span class="flex-none flex gap-2 text-slate-500 items-center justify-center">
+                <span class="flex gap-1 items-center">
+                  <span class="fa-solid fa-circle-info text-lg"></span>
+                  <span>Select up to 5</span>
+                </span>
                 <span *ngrxLet="options.size$() as size"
                       class="selection-counter" [class.selected]="size > 0">
                   {{size}} selected
