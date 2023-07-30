@@ -14,6 +14,11 @@ export const ENTERPRISE_ROUTE: Route = {
       loadComponent: () => import('./dashboard.page').then(m => m.EnterpriseDashboardComponent)
     },
     {
+      path: 'profile/edit',
+      pathMatch: 'full',
+      loadComponent: () => import('./profile-edit.page').then(m => m.EnterpriseProfileEditPageComponent)
+    },
+    {
       path: '',
       pathMatch: 'full',
       redirectTo: 'dashboard'

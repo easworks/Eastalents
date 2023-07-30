@@ -29,7 +29,7 @@ export class AccountWidgetComponent {
   protected readonly profileLink$ = computed(() => {
     switch (this.state.user$()?.role) {
       case 'freelancer': return '/freelancer/profile';
-      case 'employer': return '/freelancer/profile';
+      case 'employer': return '/enterprise/profile';
       default: throw new Error('not implmeneted');
     }
   })
