@@ -6,7 +6,7 @@ import { FormImportsModule } from '@easworks/app-shell/common/form.imports.modul
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
-import { BUSINESS_TYPE_OPTIONS, BusinessType } from '@easworks/models';
+import { BUSINESS_TYPE_OPTIONS, BusinessType, EMPLOYEE_SIZE_OPTIONS, EmployeeSize } from '@easworks/models';
 
 @Component({
   selector: 'enterprise-profile-edit-page',
@@ -55,6 +55,12 @@ export class EnterpriseProfileEditPageComponent {
       validators: [
         Validators.required
       ]
+    }),
+    employeeSize: new FormControl(null as unknown as SelectableOption<EmployeeSize>, {
+      nonNullable: true,
+      validators: [
+        Validators.required
+      ]
     })
   });
 
@@ -73,11 +79,31 @@ export class EnterpriseProfileEditPageComponent {
     }
   } as const;
 
+  protected readonly employeeSize = {
+    toggle: (option: SelectableOption<EmployeeSize>) => {
+      if (option.selected)
+        return;
+
+      const control = this.form.controls.employeeSize;
+      option.selected = true;
+      const old = control.value;
+      if (old) {
+        old.selected = false;
+      }
+      control.setValue(option);
+    }
+  } as const;
+
   protected readonly options = {
     type: BUSINESS_TYPE_OPTIONS.map<SelectableOption<BusinessType>>(t => ({
       selected: false,
       value: t,
       label: t
+    })),
+    employeeSize: EMPLOYEE_SIZE_OPTIONS.map<SelectableOption<EmployeeSize>>(s => ({
+      selected: false,
+      value: s,
+      label: s
     }))
   } as const;
 }

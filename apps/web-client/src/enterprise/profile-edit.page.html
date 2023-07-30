@@ -91,6 +91,33 @@
           </button>
         </div>
       </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="p-4">
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Number of Employees</span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center">
+            <span class="fa-solid fa-circle-info text-lg"></span>
+            <span>Select 1</span>
+          </span>
+        </label>
+
+        <div class="grid gap-4 mt-4 lg:max-w-md">
+          <button *ngFor="let option of options.employeeSize; let i = index; trackBy: trackBy.stringOption"
+                  type="button" class="employee-size-option"
+                  mat-ripple
+                  [class.selected]="option.selected"
+                  (click)="employeeSize.toggle(option)">
+            <div class="grid gap-1">
+              <span>{{option.label}}</span>
+              <span *ngIf="option.description as description"
+                    class="text-sm">{{description}}</span>
+            </div>
+            <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
+          </button>
+        </div>
+      </div>
     </form>
   </div>
 </div>
