@@ -24,6 +24,7 @@ import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
+import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-required';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
@@ -423,24 +424,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     // dynamically add/remove validators for the state and city controls
     {
-      form.controls
-      // eslint-disable-next-line no-inner-declarations
-      function dynamicallyRequired(
-        isRequired: Signal<boolean>,
-        control: FormControl<string>
-      ) {
-        effect(() => {
-          if (isRequired()) {
-            control.addValidators(Validators.required);
-          }
-          else {
-            control.removeValidators(Validators.required);
-          }
-          control.updateValueAndValidity();
-        }, { allowSignalWrites: true })
-
-      }
-
       dynamicallyRequired(validation.stateRequired$, form.controls.state);
       dynamicallyRequired(validation.cityRequired$, form.controls.city);
     }
