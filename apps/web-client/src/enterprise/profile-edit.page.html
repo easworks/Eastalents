@@ -244,6 +244,113 @@
 
       <mat-divider></mat-divider>
 
+      <!-- location -->
+      <div class="p-4" *ngrxLet="form.controls.location as form">
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Location & Timezone</span>
+        </label>
+
+        <div class="mt-4">
+          <div class="grid grid-cols-2 gap-x-4 md:gap-x-8 transition-all">
+            <div *ngrxLet="form.controls.country as control"
+                 [formFieldControl]="control"
+                 [class.show-spinner]="contact.loading.geo$() || contact.loading.country$()">
+              <label>
+                Country
+                <span class="text-warn">*</span>
+              </label>
+              <input type="text" [formControl]="control" placeholder="Type to filter"
+                     [matAutocomplete]="countryOptions">
+              <span class="error" *ngIf="control.hasError('required')">Required</span>
+
+              <mat-autocomplete #countryOptions hideSingleSelectionIndicator>
+                <mat-option *ngFor="let country of contact.options.country$(); trackBy: trackBy.country"
+                            [value]="country.name" (onSelectionChange)="$event.source.deselect()">
+                  <div class="flex gap-4 items-center">
+                    <span class="font-emoji">{{country.emoji}}</span>
+                    <span>{{country.name}}</span>
+                  </div>
+                </mat-option>
+              </mat-autocomplete>
+
+              <mat-progress-spinner class="field-spinner right-3 top-8"
+                                    mode="indeterminate" diameter="24"></mat-progress-spinner>
+            </div>
+
+            <div *ngrxLet="form.controls.state as control"
+                 [formFieldControl]="control"
+                 [class.show-spinner]="contact.loading.state$()">
+              <label>
+                State/Province
+                <span class="text-warn" *ngIf="contact.validation.stateRequired$()">*</span>
+              </label>
+
+              <input type="text" [formControl]="control" placeholder="Type to filter"
+                     [matAutocomplete]="stateOptions">
+              <span class="error" *ngIf="control.hasError('required')">Required</span>
+
+              <mat-autocomplete #stateOptions hideSingleSelectionIndicator>
+                <mat-option *ngFor="let state of contact.options.state$(); trackBy: trackBy.state"
+                            [value]="state.name" (onSelectionChange)="$event.source.deselect()">
+                  {{state.name}}
+                </mat-option>
+              </mat-autocomplete>
+
+              <mat-progress-spinner class="field-spinner right-3 top-8"
+                                    mode="indeterminate" diameter="24"></mat-progress-spinner>
+            </div>
+
+            <div *ngrxLet="form.controls.city as control"
+                 [formFieldControl]="control"
+                 [class.show-spinner]="contact.loading.city$()">
+              <label>
+                City/Area
+                <span class="text-warn" *ngIf="contact.validation.cityRequired$()">*</span>
+              </label>
+              <input type="text" [formControl]="control" placeholder="Type to filter"
+                     [matAutocomplete]="cityOptions">
+              <span class="error" *ngIf="control.hasError('required')">Required</span>
+
+              <mat-autocomplete #cityOptions hideSingleSelectionIndicator>
+                <mat-option *ngFor="let city of contact.options.city$()"
+                            [value]="city.name" (onSelectionChange)="$event.source.deselect()">
+                  {{city.name}}
+                </mat-option>
+              </mat-autocomplete>
+
+              <mat-progress-spinner class="field-spinner right-3 top-8"
+                                    mode="indeterminate" diameter="24"></mat-progress-spinner>
+            </div>
+
+            <div *ngrxLet="form.controls.timezone as control"
+                 [formFieldControl]="control"
+                 [class.show-spinner]="contact.loading.timezone$()">
+              <label>
+                Time Zone
+                <span class="text-warn" *ngIf="control.enabled">*</span>
+              </label>
+              <input type="text" [formControl]="control" placeholder="Type to filter"
+                     [matAutocomplete]="tzOptions">
+              <span class="error" *ngIf="control.hasError('required')">Required</span>
+              <span class="error" *ngIf="control.hasError('invalid')">Invalid</span>
+
+
+              <mat-autocomplete #tzOptions hideSingleSelectionIndicator>
+                <mat-option *ngFor="let tz of contact.options.timezone$()"
+                            [value]="tz.zoneName" (onSelectionChange)="$event.source.deselect()">
+                  {{tz.zoneName}}
+                </mat-option>
+              </mat-autocomplete>
+
+              <mat-progress-spinner class="field-spinner right-3 top-8"
+                                    mode="indeterminate" diameter="24"></mat-progress-spinner>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
       <!-- contact -->
 
       <div class="p-4" *ngrxLet="form.controls.contact as form">
