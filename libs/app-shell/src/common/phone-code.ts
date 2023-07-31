@@ -1,6 +1,10 @@
-import { Signal, computed } from '@angular/core';
+import { Signal, computed, effect } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { pattern } from '@easworks/models';
 import { Country } from '../api/csc';
 import { sortString } from '../utilities/sort';
+import { controlValue$ } from './form-field.directive';
 
 type PhoneCodeOption = Country & { plainPhoneCode: string };
 
@@ -36,4 +40,35 @@ export function filterCountryCode(all$: Signal<PhoneCodeOption[]>, value$: Signa
       return all.filter(c => c.plainPhoneCode.toLowerCase().includes(filter));
     return all;
   });
+}
+
+type Form = FormGroup<{
+  code: FormControl<string | null>;
+  number: FormControl<string | null>;
+}>
+const telPattern = Validators.pattern(pattern.telephone);
+
+export function updatePhoneValidatorEffect(form: Form) {
+  const value$ = toSignal(controlValue$(form), { requireSync: true });
+  const hasValue = computed(() => {
+    const value = value$();
+    return !!value.code || !!value.number;
+  });
+
+  const { code, number } = form.controls;
+
+  effect(() => {
+    if (hasValue()) {
+      code.setValidators([Validators.required]);
+      number.setValidators([Validators.required, telPattern]);
+    }
+    else {
+      code.clearValidators();
+      number.clearValidators();
+    }
+
+    code.updateValueAndValidity();
+    number.updateValueAndValidity();
+
+  }, { allowSignalWrites: true })
 }

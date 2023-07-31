@@ -19,7 +19,7 @@ import { FormImportsModule } from '@easworks/app-shell/common/form.imports.modul
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { isTimezone } from '@easworks/app-shell/common/location';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
-import { filterCountryCode, getPhoneCodeOptions } from '@easworks/app-shell/common/phone-code';
+import { filterCountryCode, getPhoneCodeOptions, updatePhoneValidatorEffect } from '@easworks/app-shell/common/phone-code';
 import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { DomainState } from '@easworks/app-shell/state/domains';
@@ -1846,15 +1846,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       citizenship: toSignal(controlValue$(form.controls.personalInfo.controls.citizenship), { requireSync: true }),
       phone: {
         mobile: {
-          full: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.mobile), { requireSync: true }),
           code: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.mobile.controls.code), { requireSync: true }),
         },
         whatsapp: {
-          full: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.whatsapp), { requireSync: true }),
           code: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.whatsapp.controls.code), { requireSync: true }),
         },
         telegram: {
-          full: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.telegram), { requireSync: true }),
           code: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.telegram.controls.code), { requireSync: true }),
         },
       },
@@ -2019,43 +2016,11 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     // update the validators on the fly for the phone controls
     {
-      type Form = FormGroup<{
-        code: FormControl<string | null>;
-        number: FormControl<string | null>;
-      }>
-      type FormValue = Form['value'];
-      const telPattern = Validators.pattern(pattern.telephone);
-
-      // eslint-disable-next-line no-inner-declarations
-      function updatePhoneValidator(form: Form, value$: Signal<FormValue>) {
-
-        const hasValue = computed(() => {
-          const value = value$();
-          return !!value.code || !!value.number;
-        });
-
-        const { code, number } = form.controls;
-        effect(() => {
-          if (hasValue()) {
-            code.setValidators([Validators.required]);
-            number.setValidators([Validators.required, telPattern]);
-          }
-          else {
-            code.clearValidators();
-            number.clearValidators();
-          }
-
-          code.updateValueAndValidity();
-          number.updateValueAndValidity();
-
-        }, { allowSignalWrites: true })
-      }
-
       const { mobile, whatsapp, telegram } = form.controls.contact.controls.phoneNumber.controls;
 
-      updatePhoneValidator(mobile, values.phone.mobile.full);
-      updatePhoneValidator(whatsapp, values.phone.whatsapp.full);
-      updatePhoneValidator(telegram, values.phone.telegram.full);
+      updatePhoneValidatorEffect(mobile);
+      updatePhoneValidatorEffect(whatsapp);
+      updatePhoneValidatorEffect(telegram);
     }
 
     const isRequired = {
