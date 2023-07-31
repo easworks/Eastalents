@@ -1,0 +1,23 @@
+.post-type-option {
+  @apply flex items-center border rounded p-2 px-4 cursor-pointer text-left
+      gap-2 transition-all
+      ring-inset ring-1 ring-transparent;
+  
+  &:hover, &:focus, &.selected {
+    @apply  text-primary border-primary;
+
+    .mat-pseudo-checkbox-full {
+      &:not(.mat-pseudo-checkbox-checked) {
+        @apply border-primary;
+      }
+    }
+  }
+
+  &.selected {
+    @apply ring-primary bg-primary-light/5;
+  }
+
+  &:disabled {
+    @apply border-divider text-divider ring-0;
+  }
+}

@@ -1,0 +1,78 @@
+<h1 class="font-semibold text-xl">Create New Job Post</h1>
+<mat-divider class="!my-2"></mat-divider>
+
+<div class="stepper-progress w-100 mt-4">
+  <ng-container *ngrxLet="stepper.progress$() as progress">
+    <span>{{progress.label}}</span>
+    <mat-progress-bar [value]="progress.percent" class="mt-2 rounded-full"></mat-progress-bar>
+  </ng-container>
+</div>
+
+<!-- Stepper container -->
+<div class="relative mt-8" *ngrxLet="stepper.step$() as step">
+
+  <div *ngIf="step === 'post-type'"
+       class="rounded bg-white mat-elevation-z1">
+    <h2 class="p-4 text-xl font-semibold">Service Type</h2>
+    <mat-divider></mat-divider>
+    <div class="p-4">
+      <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
+        <span class="font-medium lg:pt-1 transition-all"> Please select the EASWORK service you want</span>
+        <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
+          <span class="flex gap-1 items-center">
+            <span class="fa-solid fa-circle-info text-lg"></span>
+            <span>Select 1</span>
+          </span>
+        </span>
+      </label>
+
+      <div class="grid gap-4 mt-4 lg:max-w-md">
+        <button *ngFor="let option of postType.options; let i = index; trackBy: trackBy.stringOption"
+                type="button" class="post-type-option"
+                mat-ripple
+                [class.selected]="option.selected"
+                (click)="postType.toggle(option)">
+          <div class="grid gap-1">
+            {{option.label}}
+          </div>
+          <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
+        </button>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<!-- Button Container -->
+<div class="flex mt-4">
+  <button *ngIf="stepper.prev.visible$()" mat-ripple
+          type="button" class="shaded-button mr-auto mat-elevation-z1 disabled:shadow-none 
+                enabled:hover:bg-secondary enabled:hover:text-secondary-text
+                enabled:focus:bg-secondary enabled:focus:text-secondary-text"
+          (click)="this.stepper.prev.click()">
+    Previous
+  </button>
+
+  <ng-container *ngIf="stepper.next.visible$()">
+    <button *ngrxLet="stepper.next.disabled$() as disabled"
+            type="button" class="shaded-button ml-auto mat-elevation-z1 disabled:shadow-none 
+                  enabled:hover:bg-secondary enabled:hover:text-secondary-text
+                  enabled:focus:bg-secondary enabled:focus:text-secondary-text"
+            mat-ripple
+            [disabled]="disabled"
+            (click)="this.stepper.next.click()">
+      Next
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="stepper.submit.visible$()">
+    <button *ngrxLet="stepper.submit.disabled$() as disabled"
+            type="button" class="shaded-button primary ml-auto mat-elevation-z1 disabled:shadow-none"
+            mat-ripple
+            [disabled]="disabled"
+            (click)="this.stepper.submit.click()">
+      Submit
+    </button>
+  </ng-container>
+</div>
