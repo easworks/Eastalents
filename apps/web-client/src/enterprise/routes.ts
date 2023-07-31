@@ -19,6 +19,11 @@ export const ENTERPRISE_ROUTE: Route = {
       loadComponent: () => import('./profile-edit.page').then(m => m.EnterpriseProfileEditPageComponent)
     },
     {
+      path: 'job-post/create',
+      pathMatch: 'full',
+      loadComponent: () => import('./job-post/create-job-post.page').then(m => m.CreateJobPostPageComponent)
+    },
+    {
       path: '',
       pathMatch: 'full',
       redirectTo: 'dashboard'
