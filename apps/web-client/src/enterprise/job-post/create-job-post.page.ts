@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit, computed, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, Validators } from '@angular/forms';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
@@ -19,7 +19,7 @@ import { JOB_POST_TYPE_OPTIONS, JobPostType } from '@easworks/models';
     MatPseudoCheckboxModule
   ]
 })
-export class CreateJobPostPageComponent {
+export class CreateJobPostPageComponent implements OnInit {
 
   @HostBinding() private readonly class = 'page'
 
@@ -44,23 +44,23 @@ export class CreateJobPostPageComponent {
     const order: Step[] = [
       'post-type',
       'primary-domain',
-      'services',
-      'modules',
-      'software',
-      'roles',
-      'technology-stack',
-      'industry',
-      'description',
-      'project-type',
-      'experience',
-      'estimated-hours',
-      'engagement-period',
-      'estimated-budget',
-      'starting-period',
-      'remote-work'
+      // 'services',
+      // 'modules',
+      // 'software',
+      // 'roles',
+      // 'technology-stack',
+      // 'industry',
+      // 'description',
+      // 'project-type',
+      // 'experience',
+      // 'estimated-hours',
+      // 'engagement-period',
+      // 'estimated-budget',
+      // 'starting-period',
+      // 'remote-work'
     ];
     const stepNumbers = order.reduce((prev, cv, ci) => {
-      prev[cv] = ci + 1;
+      prev[cv] = ci;
       return prev;
     }, {} as Record<Step, number>);
 
@@ -71,12 +71,12 @@ export class CreateJobPostPageComponent {
     const progress$ = computed(() => {
       const s = stepIndex$();
       return {
-        label: `Step ${s} of ${totalSteps}`,
-        percent: ((s - 1) / totalSteps) * 100
+        label: `Step ${s + 1} of ${totalSteps}`,
+        percent: ((s) / totalSteps) * 100
       }
     });
 
-    const firstStep = order[1];
+    const firstStep = order[0];
     const lastStep = order.at(-1);
 
 
@@ -156,6 +156,26 @@ export class CreateJobPostPageComponent {
       options,
       ...handlers
     } as const;
+  }
+
+  private async devModeInit() {
+    if (!isDevMode())
+      return;
+
+    const revert = [] as (() => void)[];
+
+    {
+      const { options, toggle } = this.postType;
+      toggle(options[0]);
+
+      this.stepper.next.click();
+    }
+
+    revert.forEach(r => r());
+  }
+
+  ngOnInit(): void {
+    this.devModeInit();
   }
 }
 
