@@ -12,12 +12,14 @@ import { CSCApi, City, Country, State, Timezone } from '@easworks/app-shell/api/
 import { GMapsApi } from '@easworks/app-shell/api/gmap';
 import { LocationApi } from '@easworks/app-shell/api/location';
 import { Domain, DomainModule, DomainProduct } from '@easworks/app-shell/api/talent.api';
-import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator';
+import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator.component';
 import { FileUploadComponent, FileValidators } from '@easworks/app-shell/common/file-upload/file-upload.component';
 import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { isTimezone } from '@easworks/app-shell/common/location';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { filterCountryCode, getPhoneCodeOptions } from '@easworks/app-shell/common/phone-code';
 import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { DomainState } from '@easworks/app-shell/state/domains';
@@ -26,7 +28,7 @@ import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { COMMITMENT_OPTIONS, Commitment, EMPLOYMENT_OPPORTUNITY_OPTIONS, ENGLISH_PROFICIENCY_OPTIONS, EmploymentOpportunity, EnglishProficiency, FREEELANCER_SIGNUP_REASON_OPTIONS, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, FreelancerSignupReason, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, LatLng, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, pattern } from '@easworks/models';
-import { DateTime, IANAZone } from 'luxon';
+import { DateTime } from 'luxon';
 import { map, shareReplay, switchMap } from 'rxjs';
 
 @Component({
@@ -1873,16 +1875,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       city$: signal<City[]>([]),
     } as const;
 
-    function filterCountryCode(value$: Signal<string | null>) {
-      return computed(() => {
-        const all = allOptions.countryCode();
-        const value = value$();
-        const filter = value && value.replace(notNumber, '');
-        if (filter)
-          return all.filter(c => c.plainPhoneCode.toLowerCase().includes(filter));
-        return all;
-      });
-    }
 
     const filteredOptions = {
       citizenship$: computed(() => {
@@ -1893,9 +1885,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           return all.filter(c => c.name.toLowerCase().includes(filter));
         return all;
       }),
-      mobileCode$: filterCountryCode(values.phone.mobile.code),
-      whatsappCode$: filterCountryCode(values.phone.whatsapp.code),
-      telegramCode$: filterCountryCode(values.phone.telegram.code),
+      mobileCode$: filterCountryCode(allOptions.countryCode, values.phone.mobile.code),
+      whatsappCode$: filterCountryCode(allOptions.countryCode, values.phone.whatsapp.code),
+      telegramCode$: filterCountryCode(allOptions.countryCode, values.phone.telegram.code),
       country$: computed(() => {
         const value = values.address.country();
         const all = allOptions.countries();
@@ -2569,36 +2561,3 @@ type Step =
   'availability' |
   'profile-details' |
   'end';
-
-const notNumber = /[^\d\s]/g;
-
-function getPhoneCodeOptions(countries: Country[]) {
-  const mapped = [] as Country[];
-
-  countries.forEach(c => {
-    if (c.phonecode.includes('and')) {
-      const codes = c.phonecode.split(' and ');
-      codes.forEach(code => mapped.push({
-        ...c,
-        phonecode: code,
-      }));
-    }
-    else mapped.push(c);
-  });
-
-  return mapped
-    .map(c => ({
-      ...c,
-      plainPhoneCode: c.phonecode.replace(notNumber, '')
-    }))
-    .sort((a, b) => sortString(a.plainPhoneCode, b.plainPhoneCode))
-}
-
-const isTimezone = (control: AbstractControl<string | null>) => {
-  if (control.value) {
-    if (!IANAZone.isValidZone(control.value)) {
-      return { invalid: true }
-    }
-  }
-  return null;
-}
