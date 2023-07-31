@@ -32,10 +32,10 @@
     </lottie-player>
   </div>
 
-  <div class="rounded bg-white mat-elevation-z1">
-    <h2 class="p-4 text-xl font-semibold">Enterprise Details</h2>
-    <mat-divider></mat-divider>
-    <form [formGroup]="form">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="rounded bg-white mat-elevation-z1">
+      <h2 class="p-4 text-xl font-semibold">Enterprise Details</h2>
+      <mat-divider></mat-divider>
       <!-- name and summery -->
       <div class="p-4">
         <div *ngrxLet="form.controls.name as control"
@@ -48,7 +48,7 @@
           <span class="error" *ngIf="control.hasError('required')">Required</span>
         </div>
 
-        <div *ngrxLet="form.controls.name as control"
+        <div *ngrxLet="form.controls.summary as control"
              [formFieldControl]="control">
           <label>
             Brief Enterprise Description
@@ -405,6 +405,17 @@
           <input type="text" [formControl]="control" placeholder="Website" maxlength="300">
         </div>
       </div>
-    </form>
-  </div>
+    </div>
+
+    <div class="flex mt-4">
+
+      <button *ngrxLet="disableSubmit$() as disabled"
+              type="submit" class="shaded-button primary ml-auto mat-elevation-z1 disabled:shadow-none"
+              mat-ripple
+              [disabled]="disabled">
+        Submit
+      </button>
+    </div>
+  </form>
+
 </div>

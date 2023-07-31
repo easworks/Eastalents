@@ -41,6 +41,13 @@ import { BUSINESS_TYPE_OPTIONS, BusinessType, EMPLOYEE_SIZE_OPTIONS, EmployeeSiz
   ]
 })
 export class EnterpriseProfileEditPageComponent {
+
+  constructor() {
+    const status$ = toSignal(controlStatus$(this.form), { requireSync: true });
+    const isInvalid$ = computed(() => status$() !== 'VALID');
+    this.disableSubmit$ = computed(() => this.loading.any$() || isInvalid$());
+  }
+
   private readonly injector = inject(INJECTOR);
   private readonly route = inject(ActivatedRoute);
   private readonly domains = inject(DomainState);
@@ -144,6 +151,8 @@ export class EnterpriseProfileEditPageComponent {
       })
     })
   });
+
+  protected readonly disableSubmit$;
 
   protected readonly type = {
     toggle: (option: SelectableOption<BusinessType>) => {
@@ -631,5 +640,10 @@ export class EnterpriseProfileEditPageComponent {
     finally {
       this.loading.delete('geolocation');
     }
+  }
+
+  protected submit() {
+    if (!this.form.valid)
+      return;
   }
 }
