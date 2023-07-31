@@ -23,7 +23,8 @@
   }
 }
 
-.industry-option {
+.industry-option,
+.software-option {
   @apply bg-primary/5 text-primary rounded flex gap-2 justify-between ring-inset ring-primary ring-2 overflow-hidden;
 
   > span {
@@ -32,6 +33,14 @@
 
   > button {
     @apply h-10 w-10 flex-none text-primary/70 hover:text-warn focus:text-warn;
+  }
+}
+
+.selection-counter {
+  @apply border rounded p-1 px-2 transition-all;
+
+  &.selected {
+    @apply bg-primary/5 text-primary border-transparent;
   }
 }
 

@@ -134,7 +134,7 @@
           <div class="mt-4">
             <ng-container *ngIf="form.valid; else $selectIndutry">
               <label>{{form.value.group?.name}}</label>
-              <div class="mt-2 industry-option max-w-md">
+              <div class="mt-2 industry-option lg:max-w-md">
                 <span>{{form.value.name}}</span>
                 <button type="button" mat-ripple class="icon-button"
                         (click)="industry.clear()"
@@ -145,11 +145,14 @@
             </ng-container>
 
             <ng-template #$selectIndutry>
-              <input type="text" placeholder="Type to filter"
-                     [ngModel]="industry.query$()"
-                     (ngModelChange)="industry.query$.set($event)"
-                     [ngModelOptions]="{ standalone: true }"
-                     [matAutocomplete]="indGroupOptions">
+              <div class="form-field mb-0">
+                <input type="text" placeholder="Type to filter"
+                       [ngModel]="industry.query$()"
+                       (ngModelChange)="industry.query$.set($event)"
+                       [ngModelOptions]="{ standalone: true }"
+                       [matAutocomplete]="indGroupOptions">
+                <span class="hint !relative">If the query matches a category, all items in the category will be shown, otherwise only matching items will be shown.</span>
+              </div>
 
               <mat-autocomplete #indGroupOptions hideSingleSelectionIndicator>
                 <ng-container *ngFor="let group of industry.filteredOptions$(); let last = last; trackBy: trackBy.name">
@@ -164,6 +167,67 @@
 
               </mat-autocomplete>
             </ng-template>
+          </div>
+        </ng-template>
+
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="p-4">
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Enterprise Application Software in use</span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center">
+            <span *ngrxLet="software.count$() as count"
+                  class="selection-counter"
+                  [class.selected]="count > 0">
+              {{count}} selected
+            </span>
+          </span>
+        </label>
+
+        <mat-progress-spinner class="mx-auto mt-4" mode="indeterminate" diameter="24"
+                              *ngIf="software.loading$(); else $softwareLoaded"></mat-progress-spinner>
+
+        <ng-template #$softwareLoaded>
+          <div *ngIf="software.hasItems$()" class="grid gap-4 mt-4">
+            <div *ngFor="let entry of software.value$() | keyvalue; trackBy: trackBy.key">
+              <label class="font-medium">{{entry.key}}</label>
+              <div class="mt-2 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+                <div *ngFor="let option of entry.value; let i = index; trackBy: trackBy.stringOption"
+                     class="software-option">
+                  <span>{{option.value}}</span>
+                  <button type="button" mat-ripple class="icon-button"
+                          (click)="software.remove(entry.key, i)"
+                          title="Remove">
+                    <i class="fa-solid fa-square-xmark"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4">
+            <div class="form-field !mb-0">
+              <input type="text" placeholder="Type to filter"
+                     [ngModel]="software.query$()"
+                     (ngModelChange)="software.query$.set($event)"
+                     [ngModelOptions]="{ standalone: true }"
+                     [matAutocomplete]="softwareOptions">
+              <span class="hint !relative">If the query matches a category, all items in the category will be shown, otherwise only matching items will be shown.</span>
+              <span class="hint !relative">Selected items will be removed from suggestions.</span>
+            </div>
+
+            <mat-autocomplete #softwareOptions>
+              <ng-container *ngFor="let group of software.filteredOptions$(); let last = last; trackBy: trackBy.name">
+                <mat-optgroup [label]="group.name">
+                  <mat-option *ngFor="let option of group.software"
+                              (onSelectionChange)="software.add(group.name, option); $event.source.deselect(); ">
+                    {{option.value}}
+                  </mat-option>
+                </mat-optgroup>
+                <mat-divider *ngIf="!last"></mat-divider>
+              </ng-container>
+            </mat-autocomplete>
           </div>
         </ng-template>
 

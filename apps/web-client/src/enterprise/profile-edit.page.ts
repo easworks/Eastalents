@@ -1,14 +1,18 @@
+import { KeyValue } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { ActivatedRoute } from '@angular/router';
 import { IndustryGroup } from '@easworks/app-shell/api/talent.api';
+import { controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
+import { sortString } from '@easworks/app-shell/utilities/sort';
 import { BUSINESS_TYPE_OPTIONS, BusinessType, EMPLOYEE_SIZE_OPTIONS, EmployeeSize } from '@easworks/models';
 
 @Component({
@@ -33,6 +37,7 @@ export class EnterpriseProfileEditPageComponent {
   protected readonly trackBy = {
     name: (_: number, i: { name: string }) => i.name,
     stringOption: (_: number, s: SelectableOption<string>) => s.value,
+    key: (_: number, kv: KeyValue<string, unknown>) => kv.key
   } as const;
 
   protected readonly displayWith = {
@@ -77,7 +82,8 @@ export class EnterpriseProfileEditPageComponent {
         nonNullable: true,
         validators: [Validators.required]
       })
-    })
+    }),
+    software: new FormRecord<FormControl<SelectableOption<string>[]>>({})
   });
 
   protected readonly type = {
@@ -111,6 +117,7 @@ export class EnterpriseProfileEditPageComponent {
   } as const;
 
   protected readonly industry = this.initIndustry();
+  protected readonly software = this.initSoftware();
 
   protected readonly options = {
     type: BUSINESS_TYPE_OPTIONS.map<SelectableOption<BusinessType>>(t => ({
@@ -173,6 +180,103 @@ export class EnterpriseProfileEditPageComponent {
       select,
       clear,
       loading$
+    }
+  }
+
+  private initSoftware() {
+    const count$ = signal(0);
+    const hasItems$ = computed(() => count$() > 0);
+
+    const loading$ = this.domains.loading.has('domains');
+
+    const form = this.form.controls.software;
+    const value$ = toSignal(controlValue$(form), { requireSync: true });
+
+    const query$ = signal<string | object>('');
+
+    type OptionGroup = {
+      name: string;
+      software: SelectableOption<string>[];
+    };
+
+    const all$ = computed(() => this.domains.domains$()
+      .map<OptionGroup>(d => ({
+        name: d.longName,
+        software: d.allProducts.map(p => ({
+          selected: false,
+          value: p.name,
+          label: p.name
+        }))
+      })));
+
+    const filteredOptions$ = computed(() => {
+      const q = query$();
+      const all = all$();
+
+      const filter = typeof q === 'string' && q && q.trim().toLowerCase();
+
+      const filtered = all
+        .map(g => {
+          const matchGroup = filter && g.name.toLowerCase().includes(filter)
+          if (matchGroup) {
+            return {
+              name: g.name,
+              software: g.software.filter(i => !i.selected),
+            };
+          }
+          return {
+            name: g.name,
+            software: g.software.filter(i => !i.selected && (!filter || i.value.toLowerCase().includes(filter)))
+          }
+        })
+        .filter(g => g.software.length);
+
+      return filtered;
+    })
+
+    const handlers = {
+      add: (domain: string, option: SelectableOption<string>) => {
+        if (option.selected)
+          return;
+        option.selected = true;
+        let control = form.controls[domain];
+        if (!control) {
+          control = new FormControl([], { nonNullable: true });
+          form.addControl(domain, control);
+        }
+        control.value.push(option);
+        control.value.sort((a, b) => sortString(a.value, b.value));
+        control.updateValueAndValidity();
+        query$.mutate(v => v);
+        count$.update(v => ++v);
+      },
+      remove: (domain: string, i: number) => {
+        const control = form.controls[domain];
+        if (!control)
+          throw new Error('invalid operation');
+        const option = control.value.at(i);
+        if (!option)
+          throw new Error('invalid operation');
+
+        option.selected = false;
+        control.value.splice(i, 1);
+        if (control.value.length)
+          control.updateValueAndValidity();
+        else
+          form.removeControl(domain);
+        query$.mutate(v => v);
+        count$.update(v => --v);
+      }
+    }
+
+    return {
+      count$,
+      hasItems$,
+      loading$,
+      value$,
+      query$,
+      filteredOptions$,
+      ...handlers
     }
   }
 }

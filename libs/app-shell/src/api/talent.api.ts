@@ -46,8 +46,18 @@ export class TalentApi extends ApiService {
               products: v.Product.sort((a, b) => sortString(a.name, b.name))
             };
             return m;
-          }).sort((a, b) => sortString(a.name, b.name))
+          }).sort((a, b) => sortString(a.name, b.name)),
+          allProducts: []
         };
+
+        const products = new Set<string>([]);
+        d.modules.forEach(m => m.products.forEach(p => {
+          if (products.has(p.name))
+            return;
+          products.add(p.name);
+          d.allProducts.push(p);
+        }));
+
         return d;
       }).sort((a, b) => sortString(a.key, b.key))
     }),
@@ -144,6 +154,7 @@ export interface Domain {
   prefix: string | null;
   services: string[];
   modules: DomainModule[];
+  allProducts: DomainProduct[];
 }
 
 export interface DomainModule {
