@@ -1,16 +1,21 @@
 import { KeyValue } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { ActivatedRoute } from '@angular/router';
+import { CSCApi, Country } from '@easworks/app-shell/api/csc';
 import { IndustryGroup } from '@easworks/app-shell/api/talent.api';
+import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator.component';
 import { controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { filterCountryCode, getPhoneCodeOptions, updatePhoneValidatorEffect } from '@easworks/app-shell/common/phone-code';
+import { AuthState } from '@easworks/app-shell/state/auth';
 import { DomainState } from '@easworks/app-shell/state/domains';
+import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { BUSINESS_TYPE_OPTIONS, BusinessType, EMPLOYEE_SIZE_OPTIONS, EmployeeSize } from '@easworks/models';
@@ -26,15 +31,27 @@ import { BUSINESS_TYPE_OPTIONS, BusinessType, EMPLOYEE_SIZE_OPTIONS, EmployeeSiz
     LottiePlayerDirective,
     FormImportsModule,
     MatPseudoCheckboxModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    DropDownIndicatorComponent
   ]
 })
 export class EnterpriseProfileEditPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly domains = inject(DomainState);
+  private readonly user = inject(AuthState).user$;
+  private readonly api = {
+    csc: inject(CSCApi)
+  } as const;
+
   @HostBinding() private readonly class = 'flex flex-col lg:flex-row';
+  private readonly loading = generateLoadingState<[
+    'industries',
+    'domains',
+    'country'
+  ]>();
 
   protected readonly trackBy = {
+    country: (_: number, c: Country) => c.iso2,
     name: (_: number, i: { name: string }) => i.name,
     stringOption: (_: number, s: SelectableOption<string>) => s.value,
     key: (_: number, kv: KeyValue<string, unknown>) => kv.key
@@ -45,6 +62,7 @@ export class EnterpriseProfileEditPageComponent {
   } as const;
 
   protected readonly isNew = this.route.snapshot.queryParamMap.has('new');
+  private readonly allCountries = this.api.csc.allCountries();
 
   protected readonly form = new FormGroup({
     name: new FormControl('', {
@@ -83,7 +101,18 @@ export class EnterpriseProfileEditPageComponent {
         validators: [Validators.required]
       })
     }),
-    software: new FormRecord<FormControl<SelectableOption<string>[]>>({})
+    software: new FormRecord<FormControl<SelectableOption<string>[]>>({}),
+    contact: new FormGroup({
+      email: new FormControl(
+        this.isNew && this.user()?.email || '', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.email]
+      }),
+      phoneNumber: new FormGroup({
+        code: new FormControl(''),
+        number: new FormControl(''),
+      })
+    })
   });
 
   protected readonly type = {
@@ -98,7 +127,12 @@ export class EnterpriseProfileEditPageComponent {
         old.selected = false;
       }
       control.setValue(option);
-    }
+    },
+    options: BUSINESS_TYPE_OPTIONS.map<SelectableOption<BusinessType>>(t => ({
+      selected: false,
+      value: t,
+      label: t
+    }))
   } as const;
 
   protected readonly employeeSize = {
@@ -113,24 +147,17 @@ export class EnterpriseProfileEditPageComponent {
         old.selected = false;
       }
       control.setValue(option);
-    }
-  } as const;
-
-  protected readonly industry = this.initIndustry();
-  protected readonly software = this.initSoftware();
-
-  protected readonly options = {
-    type: BUSINESS_TYPE_OPTIONS.map<SelectableOption<BusinessType>>(t => ({
-      selected: false,
-      value: t,
-      label: t
-    })),
-    employeeSize: EMPLOYEE_SIZE_OPTIONS.map<SelectableOption<EmployeeSize>>(s => ({
+    },
+    options: EMPLOYEE_SIZE_OPTIONS.map<SelectableOption<EmployeeSize>>(s => ({
       selected: false,
       value: s,
       label: s
     }))
   } as const;
+
+  protected readonly industry = this.initIndustry();
+  protected readonly software = this.initSoftware();
+  protected readonly contact = this.initContact();
 
   private initIndustry() {
     this.domains.getIndustries()
@@ -173,10 +200,18 @@ export class EnterpriseProfileEditPageComponent {
       })
     }
 
-    const loading$ = this.domains.loading.has('industries');
+    const loadingIndustries = this.domains.loading.has('industries');
+    effect(() => {
+      if (loadingIndustries())
+        this.loading.add('industries')
+      else
+        this.loading.delete('industries')
+    }, { allowSignalWrites: true });
+    const loading$ = this.loading.has('industries');
+
     return {
       query$,
-      filteredOptions$,
+      options$: filteredOptions$,
       select,
       clear,
       loading$
@@ -187,7 +222,7 @@ export class EnterpriseProfileEditPageComponent {
     const count$ = signal(0);
     const hasItems$ = computed(() => count$() > 0);
 
-    const loading$ = this.domains.loading.has('domains');
+
 
     const form = this.form.controls.software;
     const value$ = toSignal(controlValue$(form), { requireSync: true });
@@ -269,14 +304,56 @@ export class EnterpriseProfileEditPageComponent {
       }
     }
 
+    const loadingDomain = this.domains.loading.has('domains');
+    effect(() => {
+      if (loadingDomain())
+        this.loading.add('domains')
+      else
+        this.loading.delete('domains')
+    }, { allowSignalWrites: true });
+    const loading$ = this.loading.has('domains');
+
     return {
       count$,
       hasItems$,
       loading$,
       value$,
       query$,
-      filteredOptions$,
+      options$: filteredOptions$,
       ...handlers
+    }
+  }
+
+  private initContact() {
+    const form = this.form.controls.contact;
+    const values = {
+      phone: {
+        code: toSignal(controlValue$(form.controls.phoneNumber.controls.code), { requireSync: true }),
+      },
+    } as const;
+
+    const allOptions = {
+      countries: signal<Country[]>([]),
+      countryCode: signal<(Country & { plainPhoneCode: string })[]>([]),
+    } as const;
+
+    const filteredOptions = {
+      phoneCode$: filterCountryCode(allOptions.countryCode, values.phone.code)
+    } as const;
+
+    updatePhoneValidatorEffect(form.controls.phoneNumber);
+
+    this.loading.add('country');
+    this.allCountries
+      .then(async countries => {
+        allOptions.countries.set([...countries].sort((a, b) => sortString(a.name, b.name)));
+        allOptions.countryCode.set(getPhoneCodeOptions(allOptions.countries()));
+
+        this.loading.delete('country');
+      });
+
+    return {
+      options: filteredOptions
     }
   }
 }

@@ -36,6 +36,7 @@
     <h2 class="p-4 text-xl font-semibold">Enterprise Details</h2>
     <mat-divider></mat-divider>
     <form [formGroup]="form">
+      <!-- name and summery -->
       <div class="p-4">
         <div *ngrxLet="form.controls.name as control"
              [formFieldControl]="control">
@@ -67,6 +68,7 @@
 
       <mat-divider></mat-divider>
 
+      <!-- business type -->
       <div class="p-4">
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
           <span class="font-medium lg:pt-1 transition-all">Business Type</span>
@@ -77,7 +79,7 @@
         </label>
 
         <div class="grid gap-4 mt-4 lg:max-w-md">
-          <button *ngFor="let option of options.type; let i = index; trackBy: trackBy.stringOption"
+          <button *ngFor="let option of type.options; let i = index; trackBy: trackBy.stringOption"
                   type="button" class="business-type-option"
                   mat-ripple
                   [class.selected]="option.selected"
@@ -94,6 +96,7 @@
 
       <mat-divider></mat-divider>
 
+      <!-- business size by employee -->
       <div class="p-4">
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
           <span class="font-medium lg:pt-1 transition-all">Number of Employees</span>
@@ -104,7 +107,7 @@
         </label>
 
         <div class="grid gap-4 mt-4 lg:max-w-md">
-          <button *ngFor="let option of options.employeeSize; let i = index; trackBy: trackBy.stringOption"
+          <button *ngFor="let option of employeeSize.options; let i = index; trackBy: trackBy.stringOption"
                   type="button" class="employee-size-option"
                   mat-ripple
                   [class.selected]="option.selected"
@@ -121,10 +124,15 @@
 
       <mat-divider></mat-divider>
 
+      <!-- select industry -->
       <div class="p-4" *ngrxLet="form.controls.industry as form">
 
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
           <span class="font-medium lg:pt-1 transition-all">Industry Group and Industry</span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center">
+            <span class="fa-solid fa-circle-info text-lg"></span>
+            <span>Select 1</span>
+          </span>
         </label>
 
         <mat-progress-spinner class="mx-auto mt-4" mode="indeterminate" diameter="24"
@@ -155,7 +163,7 @@
               </div>
 
               <mat-autocomplete #indGroupOptions hideSingleSelectionIndicator>
-                <ng-container *ngFor="let group of industry.filteredOptions$(); let last = last; trackBy: trackBy.name">
+                <ng-container *ngFor="let group of industry.options$(); let last = last; trackBy: trackBy.name">
                   <mat-optgroup [label]="group.name">
                     <mat-option *ngFor="let option of group.industries"
                                 (onSelectionChange)="$event.source.deselect(); industry.select(group,option)">
@@ -174,6 +182,7 @@
 
       <mat-divider></mat-divider>
 
+      <!-- select software -->
       <div class="p-4">
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
           <span class="font-medium lg:pt-1 transition-all">Enterprise Application Software in use</span>
@@ -218,7 +227,7 @@
             </div>
 
             <mat-autocomplete #softwareOptions>
-              <ng-container *ngFor="let group of software.filteredOptions$(); let last = last; trackBy: trackBy.name">
+              <ng-container *ngFor="let group of software.options$(); let last = last; trackBy: trackBy.name">
                 <mat-optgroup [label]="group.name">
                   <mat-option *ngFor="let option of group.software"
                               (onSelectionChange)="software.add(group.name, option); $event.source.deselect(); ">
@@ -231,6 +240,56 @@
           </div>
         </ng-template>
 
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- contact -->
+
+      <div class="p-4" *ngrxLet="form.controls.contact as form">
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Contact Information</span>
+        </label>
+
+        <div *ngrxLet="form.controls.email as control"
+             [formFieldControl]="control"
+             class="mt-4">
+          <label>
+            Email
+            <span class="text-warn">*</span>
+          </label>
+          <input type="email" [formControl]="control" placeholder="Email Address">
+        </div>
+
+        <div *ngrxLet="form.controls.phoneNumber as form"
+             [formFieldControl]="form">
+          <label>Phone Number</label>
+          <div class="flex gap-2 justify-start">
+            <div *ngrxLet="form.controls.code as control" class="relative">
+              <input type="tel" class="!w-24 !pr-4"
+                     [matAutocomplete]="codeOptions"
+                     [formControl]="control" placeholder="ISD Code">
+              <drop-down-indicator class="absolute top-2 right-0"></drop-down-indicator>
+
+              <mat-autocomplete #codeOptions panelWidth="auto" hideSingleSelectionIndicator>
+                <mat-option *ngFor="let country of contact.options.phoneCode$(); trackBy: trackBy.country"
+                            [value]="country.phonecode" (onSelectionChange)="$event.source.deselect();">
+                  <div class="flex gap-4 items-center">
+                    <span class="font-emoji">{{country.emoji}}</span>
+                    <span>{{country.phonecode}}</span>
+                  </div>
+                </mat-option>
+              </mat-autocomplete>
+            </div>
+
+            <input type="tel"
+                   *ngrxLet="form.controls.number as control"
+                   [formControl]="control" placeholder="Number">
+          </div>
+          <span class="error" *ngIf="form.controls.code.invalid">Invalid Code</span>
+          <span class="error" *ngIf="form.controls.number.hasError('pattern')">Invalid number</span>
+          <span class="error" *ngIf="form.controls.number.hasError('required')">Number required</span>
+        </div>
       </div>
     </form>
   </div>
