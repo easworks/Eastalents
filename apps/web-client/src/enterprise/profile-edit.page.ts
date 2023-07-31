@@ -106,11 +106,14 @@ export class EnterpriseProfileEditPageComponent {
       email: new FormControl(
         this.isNew && this.user()?.email || '', {
         nonNullable: true,
-        validators: [Validators.required, Validators.email]
+        validators: [Validators.required, Validators.email, Validators.maxLength(300)]
       }),
       phoneNumber: new FormGroup({
         code: new FormControl(''),
         number: new FormControl(''),
+      }),
+      website: new FormControl('', {
+        validators: [Validators.maxLength(300)]
       })
     })
   });

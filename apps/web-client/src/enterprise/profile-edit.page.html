@@ -258,7 +258,7 @@
             Email
             <span class="text-warn">*</span>
           </label>
-          <input type="email" [formControl]="control" placeholder="Email Address">
+          <input type="email" [formControl]="control" placeholder="Email Address" maxlength="300">
         </div>
 
         <div *ngrxLet="form.controls.phoneNumber as form"
@@ -289,6 +289,13 @@
           <span class="error" *ngIf="form.controls.code.invalid">Invalid Code</span>
           <span class="error" *ngIf="form.controls.number.hasError('pattern')">Invalid number</span>
           <span class="error" *ngIf="form.controls.number.hasError('required')">Number required</span>
+        </div>
+
+        <div *ngrxLet="form.controls.website as control"
+             [formFieldControl]="control"
+             class="mt-4">
+          <label>Website</label>
+          <input type="text" [formControl]="control" placeholder="Website" maxlength="300">
         </div>
       </div>
     </form>
