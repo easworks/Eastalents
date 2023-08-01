@@ -94,7 +94,7 @@
     <ng-container *ngIf="services.$() as services$">
       <form class="p-4">
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all">Please specify areas of expertise you require within <span class="text-primary">{{services.stepLabel$()}}</span></span>
+          <span class="font-medium lg:pt-1 transition-all">Please specify the areas of expertise you require within <span class="text-primary">{{services.stepLabel$()}}</span></span>
           <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
             <span class="flex gap-1 items-center">
               <span class="fa-solid fa-circle-info text-lg"></span>
@@ -126,9 +126,50 @@
           </ng-container>
         </div>
       </form>
-
     </ng-container>
 
+  </div>
+
+  <div *ngIf="step === 'modules'"
+       class="rounded bg-white mat-elevation-z1">
+    <h2 class="p-4 text-xl font-semibold">{{modules.stepLabel$()}} Modules Expertise</h2>
+    <mat-divider></mat-divider>
+    <ng-container *ngIf="modules.$() as modules$">
+      <form class="p-4">
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Indicate the <span class="text-primary">{{modules.stepLabel$()}}</span> modules you require proficiency in</span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
+            <span class="flex gap-1 items-center">
+              <span class="fa-solid fa-circle-info text-lg"></span>
+              <span>Select up to 7</span>
+            </span>
+            <span *ngrxLet="modules$.count$() as count"
+                  class="selection-counter" [class.selected]="count > 0">
+              {{count}} selected
+            </span>
+          </span>
+        </label>
+
+        <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+          <ng-container *ngFor="let module of modules$.options; trackBy: trackBy.moduleOption">
+            <div *ngrxLet="modules$.stopInput$() && !module.selected as disabled"
+                 class="module-option"
+                 [class.selected]="module.selected"
+                 [class.disabled]="disabled">
+              <label class="flex cursor-pointer flex-grow">
+                <mat-checkbox class="primary"
+                              [ngModel]="module.selected"
+                              [ngModelOptions]="{ standalone: true }"
+                              [disabled]="disabled"
+                              (ngModelChange)="modules$.toggle(module)">
+                </mat-checkbox>
+                <div class="flex-grow p-2">{{module.label}}</div>
+              </label>
+            </div>
+          </ng-container>
+        </div>
+      </form>
+    </ng-container>
   </div>
 </div>
 

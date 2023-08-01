@@ -3,7 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
-import { Domain } from '@easworks/app-shell/api/talent.api';
+import { Domain, DomainModule } from '@easworks/app-shell/api/talent.api';
 import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
@@ -40,6 +40,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
   protected readonly trackBy = {
     domainOption: (_: number, d: SelectableOption<Domain>) => d.value.key,
+    moduleOption: (_: number, m: SelectableOption<DomainModule>) => m.value.name,
     stringOption: (_: number, s: SelectableOption<string>) => s.value,
   } as const;
 
@@ -52,6 +53,7 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly postType = this.initPostType();
   protected readonly primaryDomain = this.initPrimaryDomain();
   protected readonly services = this.initServices();
+  protected readonly modules = this.initModules();
 
 
   private initStepper() {
@@ -60,7 +62,7 @@ export class CreateJobPostPageComponent implements OnInit {
       'primary-domain',
       'services',
       'modules',
-      // 'software',
+      'software',
       // 'roles',
       // 'technology-stack',
       // 'industry',
@@ -98,6 +100,7 @@ export class CreateJobPostPageComponent implements OnInit {
       (step === 'post-type' && this.postType.status$() === 'VALID') ||
       (step === 'primary-domain' && this.primaryDomain.status$() === 'VALID') ||
       (step === 'services' && this.services.$()?.status$() === 'VALID') ||
+      (step === 'modules' && this.modules.$()?.status$() === 'VALID') ||
       false;
 
     const next = {
@@ -242,6 +245,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
   private initServices() {
     const injector = this.injector;
+
     const stepLabel$ = toSignal(this.primaryDomain.value$
       .pipe(map(selected => selected.domain.value.longName)));
 
@@ -281,7 +285,7 @@ export class CreateJobPostPageComponent implements OnInit {
           stopInput$,
           options,
           ...handlers
-        }
+        } as const
       }));
 
     const $ = toSignal(obs$);
@@ -289,7 +293,58 @@ export class CreateJobPostPageComponent implements OnInit {
     return {
       $,
       stepLabel$
-    }
+    } as const;
+  }
+
+  private initModules() {
+    const injector = this.injector;
+
+    const stepLabel$ = this.services.stepLabel$;
+
+    const obs$ = this.primaryDomain.value$
+      .pipe(map(selected => {
+        const form = new FormControl([] as SelectableOption<DomainModule>[], {
+          nonNullable: true,
+          validators: [
+            Validators.required,
+            Validators.maxLength(7)
+          ]
+        });
+        const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+        const value$ = toSignal(controlValue$(form), { requireSync: true, injector });
+        const count$ = computed(() => value$().length);
+        const stopInput$ = computed(() => count$() >= 7);
+
+        const options = selected.domain.value.modules
+          .map<SelectableOption<DomainModule>>(m => ({
+            selected: false,
+            value: m,
+            label: m.name
+          }));
+
+        const handlers = {
+          toggle: (option: SelectableOption<DomainModule>) => {
+            option.selected = !option.selected;
+            form.setValue(options.filter(o => o.selected));
+          }
+        } as const;
+
+        return {
+          form,
+          status$,
+          count$,
+          stopInput$,
+          options,
+          ...handlers
+        } as const;
+      }));
+
+    const $ = toSignal(obs$);
+
+    return {
+      $,
+      stepLabel$
+    } as const;
   }
 
   private async devModeInit() {
@@ -319,6 +374,16 @@ export class CreateJobPostPageComponent implements OnInit {
     {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const { toggle, options } = this.services.$()!;
+      toggle(options[0]);
+      toggle(options[1]);
+
+      this.stepper.next.click();
+    }
+
+    {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { toggle, options } = this.modules.$()!;
+
       toggle(options[0]);
       toggle(options[1]);
 
