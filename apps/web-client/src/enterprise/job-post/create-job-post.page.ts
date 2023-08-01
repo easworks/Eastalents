@@ -10,6 +10,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
+import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { JOB_POST_TYPE_OPTIONS, JobPostType } from '@easworks/models';
 import { map, shareReplay, switchMap } from 'rxjs';
@@ -56,6 +57,7 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly services = this.initServices();
   protected readonly modules = this.initModules();
   protected readonly software = this.initSoftware();
+  protected readonly roles = this.initRoles();
 
 
   private initStepper() {
@@ -66,7 +68,7 @@ export class CreateJobPostPageComponent implements OnInit {
       'modules',
       'software',
       'roles',
-      // 'technology-stack',
+      'technology-stack',
       // 'industry',
       // 'description',
       // 'project-type',
@@ -104,6 +106,7 @@ export class CreateJobPostPageComponent implements OnInit {
       (step === 'services' && this.services.$()?.status$() === 'VALID') ||
       (step === 'modules' && this.modules.$()?.status$() === 'VALID') ||
       (step === 'software' && this.software.$()?.status$() === 'VALID') ||
+      (step === 'roles' && this.roles.$()?.status$() === 'VALID') ||
       false;
 
     const next = {
@@ -407,6 +410,7 @@ export class CreateJobPostPageComponent implements OnInit {
               label: p.name
             });
           }));
+          options.sort((a, b) => sortString(a.value.name, b.value.name));
 
           const stopInput$ = computed(() => count$() >= 5 || count$() >= options.length);
 
@@ -434,11 +438,24 @@ export class CreateJobPostPageComponent implements OnInit {
           };
           form.updateValueAndValidity();
 
+          const selected$ = controlValue$(form, true)
+            .pipe(
+              map(v => Object.keys(v)
+                .map(k => {
+                  const found = options.find(o => o.value.name === k);
+                  if (!found)
+                    throw new Error('invalid operation');
+                  return found.value;
+                })
+              ),
+              shareReplay({ refCount: true, bufferSize: 1 }));
+
           return {
             form,
             status$,
             count$,
             stopInput$,
+            selected$,
             options,
             ...handlers
           } as const;
@@ -446,12 +463,105 @@ export class CreateJobPostPageComponent implements OnInit {
         shareReplay({ refCount: true, bufferSize: 1 }));
 
     const $ = toSignal(obs$);
+    const selected$ = obs$.pipe(
+      switchMap(f => f.selected$),
+      shareReplay({ refCount: true, bufferSize: 1 })
+    );
+    return {
+      $,
+      selected$,
+      stepLabel$
+    } as const;
+
+  }
+
+  private initRoles() {
+    const injector = this.injector;
+
+    const selectedSoftware$ = toSignal(this.software.selected$)
+    const stepLabel$ = computed(() => {
+      const software = selectedSoftware$()
+      if (software?.length === 1)
+        return software[0].name;
+
+      return this.services.stepLabel$();
+    });
+
+    const obs$ = this.modules.selected$
+      .pipe(map(selected => {
+        const exists = this.roles?.$()?.form.getRawValue();
+
+        const form = new FormGroup({
+          role: new FormControl(null as unknown as SelectableOption<string>, {
+            nonNullable: true,
+            validators: [Validators.required]
+          }),
+          years: createYearControl()
+        });
+        const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+
+        const optionSet = new Set<string>();
+        selected.forEach(m => m.roles.forEach(r => optionSet.add(r)));
+        const options = [...optionSet]
+          .sort(sortString)
+          .map<SelectableOption<string>>(o => ({
+            selected: false,
+            value: o,
+            label: o,
+          }));
+
+        const roleStatus$ = toSignal(controlStatus$(form.controls.role), { injector });
+        const stopInput$ = computed(() => roleStatus$() === 'VALID');
+
+        const handlers = {
+          toggle: (option: SelectableOption<string>) => {
+            const old = form.controls.role.value;
+            form.reset();
+            if (old) {
+              old.selected = false;
+
+              if (old === option) {
+                form.setValue({
+                  role: null as unknown as SelectableOption<string>,
+                  years: null as unknown as number
+                });
+                return;
+              }
+            }
+
+            option.selected = true;
+            form.setValue({
+              role: option,
+              years: null as unknown as number,
+            });
+          }
+        } as const;
+
+        if (exists) {
+          const found = options.find(o => o.value === exists.role.value);
+          if (found) {
+            form.setValue({
+              role: found,
+              years: exists.years
+            });
+          }
+        }
+
+        return {
+          form,
+          status$,
+          stopInput$,
+          options,
+          ...handlers
+        } as const;
+      }));
+
+    const $ = toSignal(obs$);
 
     return {
       $,
       stepLabel$
     } as const;
-
   }
 
   private async devModeInit() {
@@ -508,6 +618,16 @@ export class CreateJobPostPageComponent implements OnInit {
         [options[0].value.name]: 2,
         [options[1].value.name]: 3
       });
+
+      this.stepper.next.click();
+    }
+
+    {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { toggle, options, form } = this.roles.$()!;
+
+      toggle(options[0]);
+      form.patchValue({ years: 2 });
 
       this.stepper.next.click();
     }
