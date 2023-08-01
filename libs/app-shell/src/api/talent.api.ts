@@ -38,7 +38,7 @@ export class TalentApi extends ApiService {
           key: dk,
           longName: dto[dk]['Primary Domain'],
           prefix: dto[dk]['Role-Prefix and Product-Suffix'],
-          services: dto[dk].Services,
+          services: dto[dk].Services.sort(sortString),
           modules: Object.entries(dto[dk].Modules).map(([mk, v]) => {
             const m: DomainModule = {
               name: mk,
