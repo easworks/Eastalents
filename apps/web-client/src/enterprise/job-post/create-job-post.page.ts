@@ -39,7 +39,8 @@ export class CreateJobPostPageComponent implements OnInit {
 
   private readonly loading = generateLoadingState<[
     'domains',
-    'technology'
+    'technologies',
+    'industries'
   ]>();
 
 
@@ -65,6 +66,7 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly software = this.initSoftware();
   protected readonly roles = this.initRoles();
   protected readonly techExp = this.initTechExp();
+  protected readonly industries = this.initIndustries();
 
 
   private initStepper() {
@@ -77,7 +79,7 @@ export class CreateJobPostPageComponent implements OnInit {
       'roles',
       'technology-stack',
       'industry',
-      // 'description',
+      'description',
       // 'project-type',
       // 'experience',
       // 'estimated-hours',
@@ -114,7 +116,8 @@ export class CreateJobPostPageComponent implements OnInit {
       (step === 'modules' && this.modules.$()?.status$() === 'VALID') ||
       (step === 'software' && this.software.$()?.status$() === 'VALID') ||
       (step === 'roles' && this.roles.$()?.status$() === 'VALID') ||
-      (step === 'technology-stack');
+      (step === 'technology-stack' && this.techExp.status$() === 'VALID') ||
+      (step === 'industry' && this.industries.status$() === 'VALID');
 
     const next = {
       visible$: computed(() => step$() !== lastStep),
@@ -579,11 +582,11 @@ export class CreateJobPostPageComponent implements OnInit {
     const loadingTech = this.domains.loading.has('tech');
     effect(() => {
       if (loadingTech())
-        this.loading.add('technology');
+        this.loading.add('technologies');
       else
-        this.loading.delete('technology');
+        this.loading.delete('technologies');
     }, { allowSignalWrites: true });
-    const loading$ = this.loading.has('technology');
+    const loading$ = this.loading.has('technologies');
 
     const form = new FormRecord<FormControl<SelectableOption<string>[]>>({});
     const value$ = toSignal(controlValue$(form), { requireSync: true });
@@ -679,6 +682,134 @@ export class CreateJobPostPageComponent implements OnInit {
     } as const;
   }
 
+  private initIndustries() {
+    this.domains.getIndustries();
+
+    const loadingIndustries = this.domains.loading.has('industries');
+    effect(() => {
+      if (loadingIndustries())
+        this.loading.add('industries');
+      else
+        this.loading.delete('industries');
+    }, { allowSignalWrites: true });
+    const loading$ = this.loading.has('industries');
+
+    const stepLabel$ = toSignal(this.primaryDomain.selected$
+      .pipe(map(selected => selected.domain.value.key)));
+
+    const form = new FormRecord<FormControl<SelectableOption<string>[]>>({});
+    const value$ = toSignal(controlValue$(form), { requireSync: true });
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    const count$ = signal(0);
+    const fullSize$ = computed(() => this.domains.industries$().reduce((p, c) => p + c.industries.length, 0));
+    const stopInput$ = computed(() => {
+      const count = count$();
+      return count >= 5 || count >= fullSize$();
+    });
+
+    form.addValidators((c) => {
+      const v = c.value as Record<string, SelectableOption<string>[]>;
+      const count = Object.values(v)
+        .reduce((p, c) => p + c.length, 0);
+      count$.set(count);
+      if (count === 0)
+        return { minlength: 1 };
+      if (count > 5)
+        return { maxlength: 5 };
+      return null;
+    });
+    form.updateValueAndValidity();
+
+    const query$ = signal<string | object>('');
+
+    type OptionGroup = {
+      name: string;
+      industries: SelectableOption<string>[];
+    };
+
+
+    const all$ = computed(() => this.domains.industries$()
+      .map<OptionGroup>(g => ({
+        name: g.name,
+        industries: g.industries
+          .map(i => ({
+            selected: false,
+            value: i,
+            label: i
+          }))
+      })));
+
+
+    const filtered$ = computed(() => {
+      const q = query$();
+      const all = all$();
+
+      const filter = typeof q === 'string' && q.trim().toLowerCase();
+
+      const filtered = all
+        .map(g => {
+          const matchGroup = filter && g.name.toLowerCase().includes(filter);
+          if (matchGroup)
+            return {
+              name: g.name,
+              industries: g.industries.filter(i => !i.selected)
+            };
+          return {
+            name: g.name,
+            industries: g.industries
+              .filter(i => !i.selected && (!filter || i.value.toLowerCase().includes(filter)))
+          };
+        })
+        .filter(g => g.industries.length);
+      return filtered;
+    });
+
+    const handlers = {
+      add: (group: string, option: SelectableOption<string>) => {
+        option.selected = true;
+        let control = form.controls[group];
+        if (!control) {
+          control = new FormControl([], { nonNullable: true });
+          form.addControl(group, control);
+        }
+        control.value.push(option);
+        control.value.sort((a, b) => sortString(a.value, b.value));
+        control.updateValueAndValidity();
+        query$.mutate(v => v);
+      },
+      remove: (group: string, i: number) => {
+        const control = form.controls[group];
+        if (!control)
+          throw new Error('invalid operation');
+        const option = control.value.at(i);
+        if (!option)
+          throw new Error('invalid operation');
+
+        option.selected = false;
+        control.value.splice(i, 1);
+        if (control.value.length)
+          control.updateValueAndValidity();
+        else
+          form.removeControl(group);
+        query$.mutate(v => v);
+      }
+    } as const;
+
+    return {
+      form,
+      value$,
+      status$,
+      query$,
+      options$: filtered$,
+      count$,
+      stopInput$,
+      stepLabel$,
+      loading$,
+      ...handlers
+    } as const;
+  }
+
   private async devModeInit() {
     if (!isDevMode())
       return;
@@ -743,6 +874,22 @@ export class CreateJobPostPageComponent implements OnInit {
 
       toggle(options[0]);
       form.patchValue({ years: 2 });
+
+      this.stepper.next.click();
+    }
+
+    {
+      this.stepper.next.click();
+    }
+
+    {
+      const { options$, add } = this.industries;
+      const o = options$();
+
+      add(o[0].name, o[0].industries[0]);
+      add(o[0].name, o[0].industries[1]);
+      add(o[0].name, o[0].industries[2]);
+      add(o[1].name, o[1].industries[0]);
 
       this.stepper.next.click();
     }

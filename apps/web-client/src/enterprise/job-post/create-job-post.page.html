@@ -308,7 +308,7 @@
           </div>
         </div>
 
-        <div *ngIf="!techExp.stopInput$()" class="mt-4">
+        <div *ngIf="!techExp.stopInput$()" class="mt-6">
           <div class="form-field mb-0">
             <input type="text" placeholder="Type to filter"
                    [ngModel]="techExp.query$()"
@@ -324,6 +324,73 @@
                 <mat-option *ngFor="let option of group.tech; trackBy: trackBy.stringOption"
                             [value]="techExp.query$()"
                             (onSelectionChange)="techExp.add(group.name, option);">
+                  {{option.label}}
+                </mat-option>
+              </mat-optgroup>
+              <mat-divider *ngIf="!last"></mat-divider>
+            </ng-container>
+          </mat-autocomplete>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div *ngIf="step === 'industry'"
+       class="rounded bg-white mat-elevation-z1">
+    <h2 class="p-4 text-xl font-semibold">Industry Experience</h2>
+    <mat-divider></mat-divider>
+
+    <div class="p-4">
+      <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+        <span class="font-medium lg:pt-1 transition-all">Specify required industry-specific experience in <span class="text-primary">{{industries.stepLabel$()}}</span></span>
+        <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
+          <span class="flex gap-1 items-center">
+            <span class="fa-solid fa-circle-info text-lg"></span>
+            <span>Select upto 5</span>
+          </span>
+          <span *ngrxLet="industries.count$() as count"
+                class="selection-counter" [class.selected]="count > 0">
+            {{count}} selected
+          </span>
+        </span>
+      </label>
+
+      <ng-container *ngIf="!industries.loading$(); else $dataLoading">
+        <div *ngIf="industries.count$() > 0"
+             class="grid gap-4 mt-4">
+          <div *ngFor="let entry of industries.value$() | keyvalue; trackBy: trackBy.key">
+            <label class="font-medium">{{entry.key}}</label>
+            <!-- <div class="mt-2 flex flex-wrap gap-2"> -->
+            <div class="mt-2 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+              <div *ngFor="let option of entry.value; let i = index; trackBy: trackBy.stringOption"
+                   class="industry-option">
+                <span>{{option.value}}</span>
+                <button type="button" mat-ripple class="icon-button"
+                        (click)="industries.remove(entry.key, i)"
+                        title="Remove">
+                  <i class="fa-solid fa-square-xmark"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!industries.stopInput$()" class="mt-6">
+          <div class="form-field mb-0">
+            <input type="text" placeholder="Type to filter"
+                   [ngModel]="industries.query$()"
+                   (ngModelChange)="industries.query$.set($event)"
+                   [matAutocomplete]="industryOptions">
+            <span class="hint !relative">If the query matches a category, all items in the category will be shown, otherwise only matching items will be shown.</span>
+            <span class="hint !relative">Selected items will be removed from suggestions.</span>
+          </div>
+
+          <mat-autocomplete #industryOptions class="!p-0">
+            <ng-container *ngFor="let group of industries.options$(); let last = last; trackBy: trackBy.name">
+              <mat-optgroup [label]="group.name" class="block pt-2">
+                <mat-option *ngFor="let option of group.industries; trackBy: trackBy.stringOption"
+                            [value]="industries.query$()"
+                            (onSelectionChange)="industries.add(group.name, option);">
                   {{option.label}}
                 </mat-option>
               </mat-optgroup>
