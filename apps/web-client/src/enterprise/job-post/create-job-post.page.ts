@@ -14,7 +14,7 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { PROJECT_TYPE_OPTIONS, ProjectType, SERVICE_TYPE_OPTIONS, ServiceType } from '@easworks/models';
+import { PROJECT_TYPE_OPTIONS, ProjectType, REQUIRED_EXPERIENCE_OPTIONS, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType } from '@easworks/models';
 import { map, shareReplay, switchMap } from 'rxjs';
 
 @Component({
@@ -69,6 +69,7 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly industries = this.initIndustries();
   protected readonly description = this.initDescription();
   protected readonly projectType = this.initProjectType();
+  protected readonly requiredExp = this.initRequiredExp();
 
 
   private initStepper() {
@@ -83,8 +84,8 @@ export class CreateJobPostPageComponent implements OnInit {
       'industry',
       'description',
       'project-type',
-      'experience',
-      // 'estimated-hours',
+      'required-experience',
+      'estimated-hours',
       // 'engagement-period',
       // 'estimated-budget',
       // 'starting-period',
@@ -121,7 +122,8 @@ export class CreateJobPostPageComponent implements OnInit {
       (step === 'technology-stack' && this.techExp.status$() === 'VALID') ||
       (step === 'industry' && this.industries.status$() === 'VALID') ||
       (step === 'description' && this.description.status$() === 'VALID') ||
-      (step === 'project-type' && this.projectType.status$() === 'VALID');
+      (step === 'project-type' && this.projectType.status$() === 'VALID') ||
+      (step === 'required-experience' && this.requiredExp.status$() === 'VALID');
 
     const next = {
       visible$: computed(() => step$() !== lastStep),
@@ -881,6 +883,42 @@ export class CreateJobPostPageComponent implements OnInit {
     }
   }
 
+  private initRequiredExp() {
+    const stepLabel$ = this.description.stepLabel$;
+    const form = new FormControl(null as unknown as SelectableOption<RequiredExperience>, {
+      nonNullable: true,
+      validators: [Validators.required]
+    });
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    const options = REQUIRED_EXPERIENCE_OPTIONS.map<SelectableOption<RequiredExperience>>(pt => ({
+      selected: false,
+      value: pt,
+      label: pt
+    }));
+
+    const handlers = {
+      toggle: (option: SelectableOption<RequiredExperience>) => {
+        if (option.selected)
+          return;
+
+        const old = form.value;
+        if (old)
+          old.selected = false;
+        option.selected = true;
+        form.setValue(option);
+      }
+    } as const;
+
+    return {
+      form,
+      status$,
+      options,
+      stepLabel$,
+      ...handlers
+    }
+  }
+
   private async devModeInit() {
     if (!isDevMode())
       return;
@@ -928,11 +966,9 @@ export class CreateJobPostPageComponent implements OnInit {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const { toggle, options, form } = this.software.$()!;
 
-      toggle(options[0]);
       toggle(options[1]);
 
       form.patchValue({
-        [options[0].value.name]: 2,
         [options[1].value.name]: 3
       });
 
@@ -979,6 +1015,13 @@ export class CreateJobPostPageComponent implements OnInit {
       this.stepper.next.click();
     }
 
+    {
+      const { options, toggle } = this.requiredExp;
+      toggle(options[0]);
+
+      this.stepper.next.click();
+    }
+
     revert.forEach(r => r());
   }
 
@@ -998,7 +1041,7 @@ type Step =
   'industry' |
   'description' |
   'project-type' |
-  'experience' |
+  'required-experience' |
   'estimated-hours' |
   'engagement-period' |
   'estimated-budget' |
