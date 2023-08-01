@@ -1,6 +1,8 @@
+import { KeyValue } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { Domain, DomainModule, DomainProduct } from '@easworks/app-shell/api/talent.api';
@@ -25,7 +27,8 @@ import { map, shareReplay, switchMap } from 'rxjs';
     ImportsModule,
     MatPseudoCheckboxModule,
     MatCheckboxModule,
-    FormImportsModule
+    FormImportsModule,
+    MatAutocompleteModule
   ]
 })
 export class CreateJobPostPageComponent implements OnInit {
@@ -36,6 +39,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
   private readonly loading = generateLoadingState<[
     'domains',
+    'technology'
   ]>();
 
 
@@ -44,6 +48,8 @@ export class CreateJobPostPageComponent implements OnInit {
     moduleOption: (_: number, m: SelectableOption<DomainModule>) => m.value.name,
     softwareOption: (_: number, s: SelectableOption<DomainProduct>) => s.value.name,
     stringOption: (_: number, s: SelectableOption<string>) => s.value,
+    name: (_: number, i: { name: string }) => i.name,
+    key: (_: number, kv: KeyValue<string, unknown>) => kv.key
   } as const;
 
   protected readonly displayWith = {
@@ -58,6 +64,7 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly modules = this.initModules();
   protected readonly software = this.initSoftware();
   protected readonly roles = this.initRoles();
+  protected readonly techExp = this.initTechExp();
 
 
   private initStepper() {
@@ -69,7 +76,7 @@ export class CreateJobPostPageComponent implements OnInit {
       'software',
       'roles',
       'technology-stack',
-      // 'industry',
+      'industry',
       // 'description',
       // 'project-type',
       // 'experience',
@@ -107,7 +114,7 @@ export class CreateJobPostPageComponent implements OnInit {
       (step === 'modules' && this.modules.$()?.status$() === 'VALID') ||
       (step === 'software' && this.software.$()?.status$() === 'VALID') ||
       (step === 'roles' && this.roles.$()?.status$() === 'VALID') ||
-      false;
+      (step === 'technology-stack');
 
     const next = {
       visible$: computed(() => step$() !== lastStep),
@@ -538,7 +545,7 @@ export class CreateJobPostPageComponent implements OnInit {
         } as const;
 
         if (exists) {
-          const found = options.find(o => o.value === exists.role.value);
+          const found = exists.role?.value && options.find(o => o.value === exists.role.value);
           if (found) {
             form.setValue({
               role: found,
@@ -561,6 +568,114 @@ export class CreateJobPostPageComponent implements OnInit {
     return {
       $,
       stepLabel$
+    } as const;
+  }
+
+  private initTechExp() {
+    this.domains.getTech();
+
+    const stepLabel$ = this.roles.stepLabel$;
+
+    const loadingTech = this.domains.loading.has('tech');
+    effect(() => {
+      if (loadingTech())
+        this.loading.add('technology');
+      else
+        this.loading.delete('technology');
+    }, { allowSignalWrites: true });
+    const loading$ = this.loading.has('technology');
+
+    const form = new FormRecord<FormControl<SelectableOption<string>[]>>({});
+    const value$ = toSignal(controlValue$(form), { requireSync: true });
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    const count$ = computed(() => Object.values(value$()).reduce((p, c) => p + c.length, 0));
+    const fullSize$ = computed(() => this.domains.tech$().reduce((p, c) => p + c.items.size, 0));
+    const stopInput$ = computed(() => count$() >= fullSize$());
+
+    const query$ = signal<string | object>('');
+
+    type OptionGroup = {
+      name: string;
+      tech: SelectableOption<string>[];
+    };
+    const all$ = computed(() => this.domains.tech$()
+      .map<OptionGroup>(g => ({
+        name: g.name,
+        tech: [...g.items]
+          .map(t => ({
+            selected: false,
+            value: t,
+            label: t
+          }))
+      })));
+
+    const filtered$ = computed(() => {
+      const q = query$();
+      const all = all$();
+
+      const filter = typeof q === 'string' && q.trim().toLowerCase();
+
+      const filtered = all
+        .map(g => {
+          const matchGroup = filter && g.name.toLowerCase().includes(filter);
+          if (matchGroup)
+            return {
+              name: g.name,
+              tech: g.tech.filter(t => !t.selected)
+            };
+          return {
+            name: g.name,
+            tech: g.tech
+              .filter(t => !t.selected && (!filter || t.value.toLowerCase().includes(filter)))
+          };
+        })
+        .filter(g => g.tech.length);
+      return filtered;
+    });
+
+    const handlers = {
+      add: (group: string, option: SelectableOption<string>) => {
+        option.selected = true;
+        let control = form.controls[group];
+        if (!control) {
+          control = new FormControl([], { nonNullable: true });
+          form.addControl(group, control);
+        }
+        control.value.push(option);
+        control.value.sort((a, b) => sortString(a.value, b.value));
+        control.updateValueAndValidity();
+        query$.mutate(v => v);
+      },
+      remove: (group: string, i: number) => {
+        const control = form.controls[group];
+        if (!control)
+          throw new Error('invalid operation');
+        const option = control.value.at(i);
+        if (!option)
+          throw new Error('invalid operation');
+
+        option.selected = false;
+        control.value.splice(i, 1);
+        if (control.value.length)
+          control.updateValueAndValidity();
+        else
+          form.removeControl(group);
+        query$.mutate(v => v);
+      }
+    } as const;
+
+    return {
+      form,
+      value$,
+      status$,
+      query$,
+      options$: filtered$,
+      count$,
+      stopInput$,
+      loading$,
+      stepLabel$,
+      ...handlers
     } as const;
   }
 
