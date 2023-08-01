@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
-import { Domain, DomainModule } from '@easworks/app-shell/api/talent.api';
+import { Domain, DomainModule, DomainProduct } from '@easworks/app-shell/api/talent.api';
 import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
@@ -41,6 +41,7 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly trackBy = {
     domainOption: (_: number, d: SelectableOption<Domain>) => d.value.key,
     moduleOption: (_: number, m: SelectableOption<DomainModule>) => m.value.name,
+    softwareOption: (_: number, s: SelectableOption<DomainProduct>) => s.value.name,
     stringOption: (_: number, s: SelectableOption<string>) => s.value,
   } as const;
 
@@ -54,6 +55,7 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly primaryDomain = this.initPrimaryDomain();
   protected readonly services = this.initServices();
   protected readonly modules = this.initModules();
+  protected readonly software = this.initSoftware();
 
 
   private initStepper() {
@@ -63,7 +65,7 @@ export class CreateJobPostPageComponent implements OnInit {
       'services',
       'modules',
       'software',
-      // 'roles',
+      'roles',
       // 'technology-stack',
       // 'industry',
       // 'description',
@@ -101,6 +103,7 @@ export class CreateJobPostPageComponent implements OnInit {
       (step === 'primary-domain' && this.primaryDomain.status$() === 'VALID') ||
       (step === 'services' && this.services.$()?.status$() === 'VALID') ||
       (step === 'modules' && this.modules.$()?.status$() === 'VALID') ||
+      (step === 'software' && this.software.$()?.status$() === 'VALID') ||
       false;
 
     const next = {
@@ -271,7 +274,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
           const value$ = toSignal(controlValue$(form), { requireSync: true, injector });
           const count$ = computed(() => value$().length);
-          const stopInput$ = computed(() => count$() >= 7);
+          const stopInput$ = computed(() => count$() >= 7 || count$() >= options.length);
 
           const handlers = {
             toggle: (option: SelectableOption<string>) => {
@@ -317,8 +320,6 @@ export class CreateJobPostPageComponent implements OnInit {
           });
           const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
           const value$ = toSignal(controlValue$(form), { requireSync: true, injector });
-          const count$ = computed(() => value$().length);
-          const stopInput$ = computed(() => count$() >= 7);
 
           const options = selected.domain.value.modules
             .map<SelectableOption<DomainModule>>(m => ({
@@ -326,6 +327,9 @@ export class CreateJobPostPageComponent implements OnInit {
               value: m,
               label: m.name
             }));
+
+          const count$ = computed(() => value$().length);
+          const stopInput$ = computed(() => count$() >= 7 || count$() <= options.length);
 
           const handlers = {
             toggle: (option: SelectableOption<DomainModule>) => {
@@ -362,6 +366,92 @@ export class CreateJobPostPageComponent implements OnInit {
       selected$,
       stepLabel$
     } as const;
+  }
+
+  private initSoftware() {
+    const injector = this.injector;
+
+    const stepLabel$ = this.services.stepLabel$;
+
+    const obs$ = this.modules.selected$
+      .pipe(
+        map(selected => {
+          const exists = this.software?.$()?.form.getRawValue();
+
+          const count$ = signal(0);
+          const form = new FormRecord<FormControl<number>>({}, {
+            validators: [
+              c => {
+                const count = Object.keys(c.value).length;
+                count$.set(count);
+                if (count < 1)
+                  return { minlength: 1 };
+                if (count > 5)
+                  return { maxlength: 5 };
+                return null;
+              }
+            ]
+          });
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+
+          const optionSet = new Set<string>();
+          const options: SelectableOption<DomainProduct>[] = [];
+          selected.forEach(m => m.products.forEach(p => {
+            if (optionSet.has(p.name))
+              return;
+
+            optionSet.add(p.name);
+            options.push({
+              selected: false,
+              value: p,
+              label: p.name
+            });
+          }));
+
+          const stopInput$ = computed(() => count$() >= 5 || count$() >= options.length);
+
+          const handlers = {
+            toggle: (option: SelectableOption<DomainProduct>) => {
+              if (option.selected) {
+                option.selected = false;
+                form.removeControl(option.value.name);
+              }
+              else {
+                option.selected = true;
+                form.addControl(option.value.name, createYearControl());
+              }
+            }
+          } as const;
+
+          if (exists) {
+            Object.keys(exists).forEach(software => {
+              const option = options.find(o => o.value.name === software);
+              if (option) {
+                option.selected = true;
+                form.addControl(option.value.name, createYearControl(exists[software]), { emitEvent: false });
+              }
+            })
+          };
+          form.updateValueAndValidity();
+
+          return {
+            form,
+            status$,
+            count$,
+            stopInput$,
+            options,
+            ...handlers
+          } as const;
+        }),
+        shareReplay({ refCount: true, bufferSize: 1 }));
+
+    const $ = toSignal(obs$);
+
+    return {
+      $,
+      stepLabel$
+    } as const;
+
   }
 
   private async devModeInit() {
@@ -403,6 +493,21 @@ export class CreateJobPostPageComponent implements OnInit {
 
       toggle(options[0]);
       toggle(options[1]);
+
+      this.stepper.next.click();
+    }
+
+    {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { toggle, options, form } = this.software.$()!;
+
+      toggle(options[0]);
+      toggle(options[1]);
+
+      form.patchValue({
+        [options[0].value.name]: 2,
+        [options[1].value.name]: 3
+      });
 
       this.stepper.next.click();
     }

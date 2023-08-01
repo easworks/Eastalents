@@ -171,6 +171,59 @@
       </form>
     </ng-container>
   </div>
+
+  <div *ngIf="step === 'software'"
+       class="rounded bg-white mat-elevation-z1">
+    <h2 class="p-4 text-xl font-semibold">Proficiency required in {{software.stepLabel$()}} Software</h2>
+    <mat-divider></mat-divider>
+    <ng-container *ngIf="software.$() as software$">
+      <form *ngrxLet="software$.form as form" [formGroup]="form"
+            class="p-4">
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Please indicate the requred proficiency level in <span class="text-primary">{{software.stepLabel$()}}</span> software</span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
+            <span class="flex gap-1 items-center">
+              <span class="fa-solid fa-circle-info text-lg"></span>
+              <span>Select up to 5</span>
+            </span>
+            <span *ngrxLet="software$.count$() as count"
+                  class="selection-counter" [class.selected]="count > 0">
+              {{count}} selected
+            </span>
+          </span>
+        </label>
+
+        <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+          <ng-container *ngFor="let software of software$.options; trackBy: trackBy.softwareOption">
+            <div *ngrxLet="software$.stopInput$() && !software.selected as disabled"
+                 class="software-option"
+                 [class.selected]="software.selected"
+                 [class.disabled]="disabled">
+              <label class="flex flex-grow cursor-pointer">
+                <mat-checkbox class="primary"
+                              [ngModel]="software.selected"
+                              [ngModelOptions]="{ standalone: true }"
+                              [disabled]="disabled"
+                              (ngModelChange)="software$.toggle(software)">
+                </mat-checkbox>
+                <div class="flex-grow p-2">{{software.label}}</div>
+              </label>
+              <div *ngIf="software.selected && form.controls[software.value.name] as control"
+                   [formFieldControl]="control" class="px-2">
+                <input type="number" [formControl]="control" placeholder="Years of Experience *"
+                       min="1" max="30">
+                <span class="error">1-30</span>
+                <span class="hint">1-30</span>
+              </div>
+            </div>
+          </ng-container>
+
+        </div>
+      </form>
+
+    </ng-container>
+
+  </div>
 </div>
 
 <!-- Button Container -->
