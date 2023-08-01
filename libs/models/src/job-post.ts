@@ -43,3 +43,13 @@ export const ENGAGEMENT_PERIOD_OPTIONS = [
 ] as const;
 
 export type EngagementPeriod = typeof ENGAGEMENT_PERIOD_OPTIONS[number];
+
+export const HOURLY_BUDGET_OPTIONS = [
+  'Less than $50',
+  '$51 - $80',
+  '$81 - $120',
+  '$120 or more',
+  'Decide Later'
+] as const;
+
+export type HourlyBudget = typeof HOURLY_BUDGET_OPTIONS[number];
