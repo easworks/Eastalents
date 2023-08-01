@@ -23,3 +23,13 @@ export const REQUIRED_EXPERIENCE_OPTIONS = [
 ] as const;
 
 export type RequiredExperience = typeof REQUIRED_EXPERIENCE_OPTIONS[number];
+
+export const WEEKLY_COMMITMENT_OPTIONS = [
+  '10 hrs or less',
+  '10 - 20 hrs',
+  '20 - 30 hrs',
+  '40hrs',
+  'Not sure'
+] as const;
+
+export type WeeklyCommitment = typeof WEEKLY_COMMITMENT_OPTIONS[number];
