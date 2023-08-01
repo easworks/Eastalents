@@ -1,5 +1,5 @@
 import { KeyValue } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, computed, effect, inject, isDevMode, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -58,6 +58,7 @@ export class CreateJobPostPageComponent implements OnInit {
   } as const;
 
   protected readonly stepper = this.initStepper();
+  protected readonly stepperGroups = this.initStepperGroups();
 
   protected readonly serviceType = this.initServiceType();
   protected readonly primaryDomain = this.initPrimaryDomain();
@@ -171,6 +172,85 @@ export class CreateJobPostPageComponent implements OnInit {
       prev,
       submit
     } as const;
+  }
+
+  private initStepperGroups() {
+    type StepGroupID =
+      'Services Selection' |
+      'Primary Domain & Expertise' |
+      'Role & Technical Experience' |
+      'Industry & Job Details' |
+      'Job Specifics';
+
+    type StepGroup = {
+      label: StepGroupID;
+      enabled$: Signal<boolean>,
+      completed$: Signal<boolean>,
+      click: () => void
+    }
+
+    const groupings: [StepGroupID, Step[]][] = [
+      [
+        'Services Selection',
+        ['service-type']
+      ],
+      [
+        'Primary Domain & Expertise',
+        [
+          'primary-domain',
+          'services',
+          'modules',
+          'software',
+        ]
+      ],
+      [
+        'Role & Technical Experience',
+        [
+          'roles',
+          'technology-stack',
+        ]
+      ],
+      [
+        'Industry & Job Details',
+        [
+          'industry',
+          'description',
+        ]
+      ],
+      [
+        'Job Specifics',
+        [
+          'project-type',
+          'required-experience',
+          'weekly-commitment',
+          'engagement-period',
+          'hourly-budget',
+          'starting-period',
+          'remote-work'
+        ]
+      ]
+    ];
+
+    const isValidStep = this.stepper.isValidStep;
+    const groupSteps = groupings
+      .map<StepGroup>(([label, steps]) => ({
+        label,
+        enabled$: computed(() => true),
+        completed$: computed(() => steps.every(step => isValidStep(step))),
+        click: () => this.stepper.step$.set(steps[0])
+      }));
+
+    groupSteps.forEach((step, i) => {
+      if (i > 0)
+        step.enabled$ = computed(() => {
+          const prev = groupSteps[i - 1];
+          return prev.completed$() && prev.enabled$();
+        });
+      // const completed = step.completed$;
+      // step.completed$ = computed(() => step.enabled$() && completed());
+    });
+
+    return groupSteps;
   }
 
   private initServiceType() {
