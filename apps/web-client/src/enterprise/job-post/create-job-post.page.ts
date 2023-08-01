@@ -14,7 +14,7 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, PROJECT_TYPE_OPTIONS, ProjectType, REQUIRED_EXPERIENCE_OPTIONS, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
+import { ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, PROJECT_TYPE_OPTIONS, ProjectType, REQUIRED_EXPERIENCE_OPTIONS, RequiredExperience, SERVICE_TYPE_OPTIONS, STARTING_PERIOD_OPTIONS, ServiceType, StartingPeriod, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
 import { map, shareReplay, switchMap } from 'rxjs';
 
 @Component({
@@ -73,6 +73,7 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly weeklyCommitment = this.initWeeklyCommitment();
   protected readonly engagementPeriod = this.initEngagementPeriod();
   protected readonly hourlyBudget = this.initHourlyBudget();
+  protected readonly startingPeriod = this.initStartingPeriod();
 
   private initStepper() {
     const order: Step[] = [
@@ -128,7 +129,8 @@ export class CreateJobPostPageComponent implements OnInit {
       (step === 'required-experience' && this.requiredExp.status$() === 'VALID') ||
       (step === 'weekly-commitment' && this.weeklyCommitment.status$() === 'VALID') ||
       (step === 'engagement-period' && this.engagementPeriod.status$() === 'VALID') ||
-      (step === 'hourly-budget' && this.hourlyBudget.status$() === 'VALID');
+      (step === 'hourly-budget' && this.hourlyBudget.status$() === 'VALID') ||
+      (step === 'starting-period' && this.startingPeriod.status$() === 'VALID');
 
     const next = {
       visible$: computed(() => step$() !== lastStep),
@@ -1032,6 +1034,42 @@ export class CreateJobPostPageComponent implements OnInit {
     }
   }
 
+  private initStartingPeriod() {
+    const stepLabel$ = this.description.stepLabel$;
+    const form = new FormControl(null as unknown as SelectableOption<StartingPeriod>, {
+      nonNullable: true,
+      validators: [Validators.required]
+    });
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    const options = STARTING_PERIOD_OPTIONS.map<SelectableOption<StartingPeriod>>(pt => ({
+      selected: false,
+      value: pt,
+      label: pt
+    }));
+
+    const handlers = {
+      toggle: (option: SelectableOption<StartingPeriod>) => {
+        if (option.selected)
+          return;
+
+        const old = form.value;
+        if (old)
+          old.selected = false;
+        option.selected = true;
+        form.setValue(option);
+      }
+    } as const;
+
+    return {
+      form,
+      status$,
+      options,
+      stepLabel$,
+      ...handlers
+    }
+  }
+
   private async devModeInit() {
     if (!isDevMode())
       return;
@@ -1151,6 +1189,13 @@ export class CreateJobPostPageComponent implements OnInit {
 
     {
       const { options, toggle } = this.hourlyBudget;
+      toggle(options[0]);
+
+      this.stepper.next.click();
+    }
+
+    {
+      const { options, toggle } = this.startingPeriod;
       toggle(options[0]);
 
       this.stepper.next.click();

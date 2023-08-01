@@ -53,3 +53,12 @@ export const HOURLY_BUDGET_OPTIONS = [
 ] as const;
 
 export type HourlyBudget = typeof HOURLY_BUDGET_OPTIONS[number];
+
+export const STARTING_PERIOD_OPTIONS = [
+  'Immediately',
+  '1 - 2 weeks',
+  '3 - 4 weeks',
+  'More than 1 month'
+] as const;
+
+export type StartingPeriod = typeof STARTING_PERIOD_OPTIONS[number];
