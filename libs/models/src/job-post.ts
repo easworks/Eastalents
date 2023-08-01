@@ -33,3 +33,13 @@ export const WEEKLY_COMMITMENT_OPTIONS = [
 ] as const;
 
 export type WeeklyCommitment = typeof WEEKLY_COMMITMENT_OPTIONS[number];
+
+export const ENGAGEMENT_PERIOD_OPTIONS = [
+  '2 - 4 weeks',
+  '1 - 3 months',
+  '3 - 6 months',
+  '6+ months',
+  'Decide Later'
+] as const;
+
+export type EngagementPeriod = typeof ENGAGEMENT_PERIOD_OPTIONS[number];
