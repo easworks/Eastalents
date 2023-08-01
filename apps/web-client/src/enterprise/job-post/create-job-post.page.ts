@@ -1,9 +1,13 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnInit, computed, inject, isDevMode, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
+import { Domain } from '@easworks/app-shell/api/talent.api';
 import { controlStatus$ } from '@easworks/app-shell/common/form-field.directive';
+import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { DomainState } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { JOB_POST_TYPE_OPTIONS, JobPostType } from '@easworks/models';
@@ -16,7 +20,9 @@ import { JOB_POST_TYPE_OPTIONS, JobPostType } from '@easworks/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
-    MatPseudoCheckboxModule
+    MatPseudoCheckboxModule,
+    MatCheckboxModule,
+    FormImportsModule
   ]
 })
 export class CreateJobPostPageComponent implements OnInit {
@@ -27,7 +33,10 @@ export class CreateJobPostPageComponent implements OnInit {
     'domains',
   ]>();
 
+  private readonly domains = inject(DomainState);
+
   protected readonly trackBy = {
+    domainOption: (_: number, d: SelectableOption<Domain>) => d.value.key,
     stringOption: (_: number, s: SelectableOption<string>) => s.value,
   } as const;
 
@@ -38,6 +47,7 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly stepper = this.initStepper();
 
   protected readonly postType = this.initPostType();
+  protected readonly primaryDomain = this.initPrimaryDomain();
 
 
   private initStepper() {
@@ -158,6 +168,68 @@ export class CreateJobPostPageComponent implements OnInit {
     } as const;
   }
 
+  private initPrimaryDomain() {
+    const loading$ = this.loading.has('domains');
+
+    const form = new FormGroup({
+      domain: new FormControl(null as unknown as SelectableOption<Domain>, {
+        nonNullable: true,
+        validators: [Validators.required]
+      }),
+      years: createYearControl()
+    });
+
+    const domainStatus$ = toSignal(controlStatus$(form.controls.domain), { requireSync: true });
+    const stopInput$ = computed(() => domainStatus$() === 'VALID');
+
+    const options$ = computed(() => this.domains.domains$()
+      .map<SelectableOption<Domain>>(d => ({
+        selected: false,
+        value: d,
+        label: d.longName,
+      })));
+
+    const handlers = {
+      toggle: (option: SelectableOption<Domain>) => {
+        const old = form.controls.domain.value;
+        form.reset();
+        if (old) {
+          old.selected = false;
+
+          if (old === option) {
+            form.setValue({
+              domain: null as unknown as SelectableOption<Domain>,
+              years: null as unknown as number
+            });
+            return;
+          }
+        }
+
+        option.selected = true;
+        form.setValue({
+          domain: option,
+          years: null as unknown as number,
+        });
+      }
+    }
+
+    const loadingDomain = this.domains.loading.has('domains');
+    effect(() => {
+      if (loadingDomain())
+        this.loading.add('domains');
+      else
+        this.loading.delete('domains');
+    }, { allowSignalWrites: true })
+
+    return {
+      loading$,
+      form,
+      options$,
+      stopInput$,
+      ...handlers
+    } as const;
+  }
+
   private async devModeInit() {
     if (!isDevMode())
       return;
@@ -196,3 +268,13 @@ type Step =
   'estimated-budget' |
   'starting-period' |
   'remote-work';
+
+function createYearControl(initialValue = null as unknown as number) {
+  return new FormControl(
+    initialValue,
+    {
+      validators: [Validators.required, Validators.min(1), Validators.max(30)],
+      nonNullable: true
+    }
+  );
+}
