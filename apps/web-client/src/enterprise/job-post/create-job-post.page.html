@@ -11,7 +11,7 @@
 <!-- Stepper container -->
 <div class="relative mt-8" *ngrxLet="stepper.step$() as step">
 
-  <div *ngIf="step === 'post-type'"
+  <div *ngIf="step === 'service-type'"
        class="rounded bg-white mat-elevation-z1">
     <h2 class="p-4 text-xl font-semibold">Service Type</h2>
     <mat-divider></mat-divider>
@@ -27,11 +27,11 @@
       </label>
 
       <div class="grid gap-4 mt-4 lg:max-w-md">
-        <button *ngFor="let option of postType.options; let i = index; trackBy: trackBy.stringOption"
-                type="button" class="post-type-option"
+        <button *ngFor="let option of serviceType.options; let i = index; trackBy: trackBy.stringOption"
+                type="button" class="service-type-option"
                 mat-ripple
                 [class.selected]="option.selected"
-                (click)="postType.toggle(option)">
+                (click)="serviceType.toggle(option)">
           <div class="grid gap-1">
             {{option.label}}
           </div>
@@ -427,6 +427,36 @@
       </div>
     </form>
 
+  </div>
+
+  <div *ngIf="step === 'project-type'"
+       class="rounded bg-white mat-elevation-z1">
+    <h2 class="p-4 text-xl font-semibold">Project Type</h2>
+    <mat-divider></mat-divider>
+    <div class="p-4">
+      <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
+        <span class="font-medium lg:pt-1 transition-all"><span class="text-primary">{{projectType.stepLabel$()}}</span> Project Type</span>
+        <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
+          <span class="flex gap-1 items-center">
+            <span class="fa-solid fa-circle-info text-lg"></span>
+            <span>Select 1</span>
+          </span>
+        </span>
+      </label>
+
+      <div class="grid gap-4 mt-4 lg:max-w-md">
+        <button *ngFor="let option of projectType.options; let i = index; trackBy: trackBy.stringOption"
+                type="button" class="project-type-option"
+                mat-ripple
+                [class.selected]="option.selected"
+                (click)="projectType.toggle(option)">
+          <div class="grid gap-1">
+            {{option.label}}
+          </div>
+          <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 

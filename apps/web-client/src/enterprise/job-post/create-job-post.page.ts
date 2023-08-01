@@ -14,7 +14,7 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { JOB_POST_TYPE_OPTIONS, JobPostType } from '@easworks/models';
+import { PROJECT_TYPE_OPTIONS, ProjectType, SERVICE_TYPE_OPTIONS, ServiceType } from '@easworks/models';
 import { map, shareReplay, switchMap } from 'rxjs';
 
 @Component({
@@ -59,7 +59,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
   protected readonly stepper = this.initStepper();
 
-  protected readonly postType = this.initPostType();
+  protected readonly serviceType = this.initServiceType();
   protected readonly primaryDomain = this.initPrimaryDomain();
   protected readonly services = this.initServices();
   protected readonly modules = this.initModules();
@@ -68,11 +68,12 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly techExp = this.initTechExp();
   protected readonly industries = this.initIndustries();
   protected readonly description = this.initDescription();
+  protected readonly projectType = this.initProjectType();
 
 
   private initStepper() {
     const order: Step[] = [
-      'post-type',
+      'service-type',
       'primary-domain',
       'services',
       'modules',
@@ -82,7 +83,7 @@ export class CreateJobPostPageComponent implements OnInit {
       'industry',
       'description',
       'project-type',
-      // 'experience',
+      'experience',
       // 'estimated-hours',
       // 'engagement-period',
       // 'estimated-budget',
@@ -111,7 +112,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
 
     const isValidStep = (step: Step) =>
-      (step === 'post-type' && this.postType.status$() === 'VALID') ||
+      (step === 'service-type' && this.serviceType.status$() === 'VALID') ||
       (step === 'primary-domain' && this.primaryDomain.status$() === 'VALID') ||
       (step === 'services' && this.services.$()?.status$() === 'VALID') ||
       (step === 'modules' && this.modules.$()?.status$() === 'VALID') ||
@@ -119,7 +120,8 @@ export class CreateJobPostPageComponent implements OnInit {
       (step === 'roles' && this.roles.$()?.status$() === 'VALID') ||
       (step === 'technology-stack' && this.techExp.status$() === 'VALID') ||
       (step === 'industry' && this.industries.status$() === 'VALID') ||
-      (step === 'description' && this.description.status$() === 'VALID');
+      (step === 'description' && this.description.status$() === 'VALID') ||
+      (step === 'project-type' && this.projectType.status$() === 'VALID');
 
     const next = {
       visible$: computed(() => step$() !== lastStep),
@@ -160,20 +162,20 @@ export class CreateJobPostPageComponent implements OnInit {
     } as const;
   }
 
-  private initPostType() {
-    const form = new FormControl(null as unknown as SelectableOption<JobPostType>, {
+  private initServiceType() {
+    const form = new FormControl(null as unknown as SelectableOption<ServiceType>, {
       validators: [Validators.required]
     });
 
-    const options = JOB_POST_TYPE_OPTIONS
-      .map<SelectableOption<JobPostType>>(t => ({
+    const options = SERVICE_TYPE_OPTIONS
+      .map<SelectableOption<ServiceType>>(t => ({
         selected: false,
         value: t,
         label: t
       }));
 
     const handlers = {
-      toggle: (option: SelectableOption<JobPostType>) => {
+      toggle: (option: SelectableOption<ServiceType>) => {
         if (option.selected)
           return;
 
@@ -843,6 +845,42 @@ export class CreateJobPostPageComponent implements OnInit {
     } as const;
   }
 
+  private initProjectType() {
+    const stepLabel$ = this.services.stepLabel$;
+    const form = new FormControl(null as unknown as SelectableOption<ProjectType>, {
+      nonNullable: true,
+      validators: [Validators.required]
+    });
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    const options = PROJECT_TYPE_OPTIONS.map<SelectableOption<ProjectType>>(pt => ({
+      selected: false,
+      value: pt,
+      label: pt
+    }));
+
+    const handlers = {
+      toggle: (option: SelectableOption<ProjectType>) => {
+        if (option.selected)
+          return;
+
+        const old = form.value;
+        if (old)
+          old.selected = false;
+        option.selected = true;
+        form.setValue(option);
+      }
+    } as const;
+
+    return {
+      form,
+      status$,
+      options,
+      stepLabel$,
+      ...handlers
+    }
+  }
+
   private async devModeInit() {
     if (!isDevMode())
       return;
@@ -850,7 +888,7 @@ export class CreateJobPostPageComponent implements OnInit {
     const revert = [] as (() => void)[];
 
     {
-      const { options, toggle } = this.postType;
+      const { options, toggle } = this.serviceType;
       toggle(options[0]);
 
       this.stepper.next.click();
@@ -934,6 +972,13 @@ export class CreateJobPostPageComponent implements OnInit {
       this.stepper.next.click();
     }
 
+    {
+      const { options, toggle } = this.projectType;
+      toggle(options[0]);
+
+      this.stepper.next.click();
+    }
+
     revert.forEach(r => r());
   }
 
@@ -943,7 +988,7 @@ export class CreateJobPostPageComponent implements OnInit {
 }
 
 type Step =
-  'post-type' |
+  'service-type' |
   'primary-domain' |
   'services' |
   'modules' |
