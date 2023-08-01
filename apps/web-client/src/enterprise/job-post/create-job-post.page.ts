@@ -67,6 +67,7 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly roles = this.initRoles();
   protected readonly techExp = this.initTechExp();
   protected readonly industries = this.initIndustries();
+  protected readonly description = this.initDescription();
 
 
   private initStepper() {
@@ -80,7 +81,7 @@ export class CreateJobPostPageComponent implements OnInit {
       'technology-stack',
       'industry',
       'description',
-      // 'project-type',
+      'project-type',
       // 'experience',
       // 'estimated-hours',
       // 'engagement-period',
@@ -117,7 +118,8 @@ export class CreateJobPostPageComponent implements OnInit {
       (step === 'software' && this.software.$()?.status$() === 'VALID') ||
       (step === 'roles' && this.roles.$()?.status$() === 'VALID') ||
       (step === 'technology-stack' && this.techExp.status$() === 'VALID') ||
-      (step === 'industry' && this.industries.status$() === 'VALID');
+      (step === 'industry' && this.industries.status$() === 'VALID') ||
+      (step === 'description' && this.description.status$() === 'VALID');
 
     const next = {
       visible$: computed(() => step$() !== lastStep),
@@ -498,78 +500,90 @@ export class CreateJobPostPageComponent implements OnInit {
     });
 
     const obs$ = this.modules.selected$
-      .pipe(map(selected => {
-        const exists = this.roles?.$()?.form.getRawValue();
+      .pipe(
+        map(selected => {
+          const exists = this.roles?.$()?.form.getRawValue();
 
-        const form = new FormGroup({
-          role: new FormControl(null as unknown as SelectableOption<string>, {
-            nonNullable: true,
-            validators: [Validators.required]
-          }),
-          years: createYearControl()
-        });
-        const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+          const form = new FormGroup({
+            role: new FormControl(null as unknown as SelectableOption<string>, {
+              nonNullable: true,
+              validators: [Validators.required]
+            }),
+            years: createYearControl()
+          });
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
 
-        const optionSet = new Set<string>();
-        selected.forEach(m => m.roles.forEach(r => optionSet.add(r)));
-        const options = [...optionSet]
-          .sort(sortString)
-          .map<SelectableOption<string>>(o => ({
-            selected: false,
-            value: o,
-            label: o,
-          }));
+          const optionSet = new Set<string>();
+          selected.forEach(m => m.roles.forEach(r => optionSet.add(r)));
+          const options = [...optionSet]
+            .sort(sortString)
+            .map<SelectableOption<string>>(o => ({
+              selected: false,
+              value: o,
+              label: o,
+            }));
 
-        const roleStatus$ = toSignal(controlStatus$(form.controls.role), { injector });
-        const stopInput$ = computed(() => roleStatus$() === 'VALID');
+          const roleStatus$ = toSignal(controlStatus$(form.controls.role), { injector });
+          const stopInput$ = computed(() => roleStatus$() === 'VALID');
 
-        const handlers = {
-          toggle: (option: SelectableOption<string>) => {
-            const old = form.controls.role.value;
-            form.reset();
-            if (old) {
-              old.selected = false;
+          const handlers = {
+            toggle: (option: SelectableOption<string>) => {
+              const old = form.controls.role.value;
+              form.reset();
+              if (old) {
+                old.selected = false;
 
-              if (old === option) {
-                form.setValue({
-                  role: null as unknown as SelectableOption<string>,
-                  years: null as unknown as number
-                });
-                return;
+                if (old === option) {
+                  form.setValue({
+                    role: null as unknown as SelectableOption<string>,
+                    years: null as unknown as number
+                  });
+                  return;
+                }
               }
+
+              option.selected = true;
+              form.setValue({
+                role: option,
+                years: null as unknown as number,
+              });
             }
+          } as const;
 
-            option.selected = true;
-            form.setValue({
-              role: option,
-              years: null as unknown as number,
-            });
+          if (exists) {
+            const found = exists.role?.value && options.find(o => o.value === exists.role.value);
+            if (found) {
+              form.setValue({
+                role: found,
+                years: exists.years
+              });
+            }
           }
-        } as const;
 
-        if (exists) {
-          const found = exists.role?.value && options.find(o => o.value === exists.role.value);
-          if (found) {
-            form.setValue({
-              role: found,
-              years: exists.years
-            });
-          }
-        }
+          const selected$ = controlValue$(form, true)
+            .pipe(
+              map(v => v.role.value),
+              shareReplay({ refCount: true, bufferSize: 1 }))
 
-        return {
-          form,
-          status$,
-          stopInput$,
-          options,
-          ...handlers
-        } as const;
-      }));
+          return {
+            form,
+            status$,
+            selected$,
+            stopInput$,
+            options,
+            ...handlers
+          } as const;
+        }),
+        shareReplay({ refCount: true, bufferSize: 1 }));
 
     const $ = toSignal(obs$);
+    const selected$ = obs$.pipe(
+      switchMap(f => f.selected$),
+      shareReplay({ refCount: true, bufferSize: 1 }));
 
     return {
       $,
+      selected$,
       stepLabel$
     } as const;
   }
@@ -810,6 +824,25 @@ export class CreateJobPostPageComponent implements OnInit {
     } as const;
   }
 
+  private initDescription() {
+
+    const stepLabel$ = toSignal(this.roles.selected$);
+
+    const form = new FormGroup({
+      description: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.maxLength(1500)]
+      })
+    });
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    return {
+      form,
+      status$,
+      stepLabel$
+    } as const;
+  }
+
   private async devModeInit() {
     if (!isDevMode())
       return;
@@ -890,6 +923,13 @@ export class CreateJobPostPageComponent implements OnInit {
       add(o[0].name, o[0].industries[1]);
       add(o[0].name, o[0].industries[2]);
       add(o[1].name, o[1].industries[0]);
+
+      this.stepper.next.click();
+    }
+
+    {
+      const { form } = this.description;
+      form.setValue({ description: 'some ai-generated description' });
 
       this.stepper.next.click();
     }
