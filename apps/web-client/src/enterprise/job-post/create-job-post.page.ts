@@ -12,7 +12,7 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { JOB_POST_TYPE_OPTIONS, JobPostType } from '@easworks/models';
-import { map } from 'rxjs';
+import { map, shareReplay, switchMap } from 'rxjs';
 
 @Component({
   selector: 'enterprise-create-job-post',
@@ -188,7 +188,8 @@ export class CreateJobPostPageComponent implements OnInit {
       years: createYearControl()
     });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
-    const value$ = controlValue$(form, true);
+    const selected$ = controlValue$(form, true)
+      .pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
     const domainStatus$ = toSignal(controlStatus$(form.controls.domain), { requireSync: true });
     const stopInput$ = computed(() => domainStatus$() === 'VALID');
@@ -236,7 +237,7 @@ export class CreateJobPostPageComponent implements OnInit {
       loading$,
       form,
       status$,
-      value$,
+      selected$,
       options$,
       stopInput$,
       ...handlers
@@ -246,47 +247,50 @@ export class CreateJobPostPageComponent implements OnInit {
   private initServices() {
     const injector = this.injector;
 
-    const stepLabel$ = toSignal(this.primaryDomain.value$
+    const stepLabel$ = toSignal(this.primaryDomain.selected$
       .pipe(map(selected => selected.domain.value.longName)));
 
-    const obs$ = this.primaryDomain.value$
-      .pipe(map(selected => {
-        const form = new FormControl([] as SelectableOption<string>[], {
-          nonNullable: true,
-          validators: [
-            Validators.required,
-            Validators.maxLength(7)
-          ]
-        });
-        const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+    const obs$ = this.primaryDomain.selected$
+      .pipe(
+        map(selected => {
+          const form = new FormControl([] as SelectableOption<string>[], {
+            nonNullable: true,
+            validators: [
+              Validators.required,
+              Validators.maxLength(7)
+            ]
+          });
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
 
-        const options = selected.domain.value.services
-          .map<SelectableOption<string>>(s => ({
-            selected: false,
-            value: s,
-            label: s
-          }));
+          const options = selected.domain.value.services
+            .map<SelectableOption<string>>(s => ({
+              selected: false,
+              value: s,
+              label: s
+            }));
 
-        const value$ = toSignal(controlValue$(form), { requireSync: true, injector });
-        const count$ = computed(() => value$().length);
-        const stopInput$ = computed(() => count$() >= 7);
+          const value$ = toSignal(controlValue$(form), { requireSync: true, injector });
+          const count$ = computed(() => value$().length);
+          const stopInput$ = computed(() => count$() >= 7);
 
-        const handlers = {
-          toggle: (option: SelectableOption<string>) => {
-            option.selected = !option.selected;
-            form.setValue(options.filter(o => o.selected));
-          }
-        } as const;
+          const handlers = {
+            toggle: (option: SelectableOption<string>) => {
+              option.selected = !option.selected;
+              form.setValue(options.filter(o => o.selected));
+            }
+          } as const;
 
-        return {
-          form,
-          status$,
-          count$,
-          stopInput$,
-          options,
-          ...handlers
-        } as const
-      }));
+          return {
+            form,
+            status$,
+            count$,
+            stopInput$,
+            options,
+            ...handlers
+          } as const
+        }),
+        shareReplay({ refCount: true, bufferSize: 1 })
+      );
 
     const $ = toSignal(obs$);
 
@@ -301,48 +305,61 @@ export class CreateJobPostPageComponent implements OnInit {
 
     const stepLabel$ = this.services.stepLabel$;
 
-    const obs$ = this.primaryDomain.value$
-      .pipe(map(selected => {
-        const form = new FormControl([] as SelectableOption<DomainModule>[], {
-          nonNullable: true,
-          validators: [
-            Validators.required,
-            Validators.maxLength(7)
-          ]
-        });
-        const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
-        const value$ = toSignal(controlValue$(form), { requireSync: true, injector });
-        const count$ = computed(() => value$().length);
-        const stopInput$ = computed(() => count$() >= 7);
+    const obs$ = this.primaryDomain.selected$
+      .pipe(
+        map(selected => {
+          const form = new FormControl([] as SelectableOption<DomainModule>[], {
+            nonNullable: true,
+            validators: [
+              Validators.required,
+              Validators.maxLength(7)
+            ]
+          });
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+          const value$ = toSignal(controlValue$(form), { requireSync: true, injector });
+          const count$ = computed(() => value$().length);
+          const stopInput$ = computed(() => count$() >= 7);
 
-        const options = selected.domain.value.modules
-          .map<SelectableOption<DomainModule>>(m => ({
-            selected: false,
-            value: m,
-            label: m.name
-          }));
+          const options = selected.domain.value.modules
+            .map<SelectableOption<DomainModule>>(m => ({
+              selected: false,
+              value: m,
+              label: m.name
+            }));
 
-        const handlers = {
-          toggle: (option: SelectableOption<DomainModule>) => {
-            option.selected = !option.selected;
-            form.setValue(options.filter(o => o.selected));
-          }
-        } as const;
+          const handlers = {
+            toggle: (option: SelectableOption<DomainModule>) => {
+              option.selected = !option.selected;
+              form.setValue(options.filter(o => o.selected));
+            }
+          } as const;
 
-        return {
-          form,
-          status$,
-          count$,
-          stopInput$,
-          options,
-          ...handlers
-        } as const;
-      }));
+          const selected$ = controlValue$(form, true)
+            .pipe(
+              map(selected => selected.map(o => o.value)),
+              shareReplay({ refCount: true, bufferSize: 1 }));
+
+          return {
+            form,
+            status$,
+            selected$,
+            count$,
+            stopInput$,
+            options,
+            ...handlers
+          } as const;
+        }),
+        shareReplay({ refCount: true, bufferSize: 1 })
+      );
 
     const $ = toSignal(obs$);
-
+    const selected$ = obs$.pipe(
+      switchMap(o => o.selected$),
+      shareReplay({ refCount: true, bufferSize: 1 })
+    );
     return {
       $,
+      selected$,
       stepLabel$
     } as const;
   }
