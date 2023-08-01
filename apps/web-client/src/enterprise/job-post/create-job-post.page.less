@@ -22,7 +22,8 @@
   }
 }
 
-.primary-domain-option {
+.primary-domain-option,
+.service-option {
   @apply border rounded flex flex-col gap-2
     transition-all;
 
@@ -62,5 +63,13 @@
 
   .hint {
     @apply text-primary/75;
+  }
+}
+
+.selection-counter {
+  @apply border rounded p-1 px-2 transition-all;
+
+  &.selected {
+    @apply bg-primary/5 text-primary border-transparent;
   }
 }

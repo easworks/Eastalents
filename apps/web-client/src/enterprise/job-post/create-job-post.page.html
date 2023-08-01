@@ -70,7 +70,7 @@
                             [ngModel]="domain.selected"
                             [ngModelOptions]="{ standalone: true }"
                             [disabled]="disabled"
-                            (click)="!disabled && primaryDomain.toggle(domain)">
+                            (ngModelChange)="primaryDomain.toggle(domain)">
               </mat-checkbox>
               <div class="flex-grow p-2">{{domain.label}}</div>
             </label>
@@ -85,6 +85,50 @@
         </ng-container>
       </div>
     </form>
+  </div>
+
+  <div *ngIf="step === 'services'"
+       class="rounded bg-white mat-elevation-z1">
+    <h2 class="p-4 text-xl font-semibold">Expertise in {{services.stepLabel$()}} Services</h2>
+    <mat-divider></mat-divider>
+    <ng-container *ngIf="services.$() as services$">
+      <form class="p-4">
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Please specify areas of expertise you require within <span class="text-primary">{{services.stepLabel$()}}</span></span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
+            <span class="flex gap-1 items-center">
+              <span class="fa-solid fa-circle-info text-lg"></span>
+              <span>Select at least 1</span>
+            </span>
+            <span *ngrxLet="services$.count$() as count"
+                  class="selection-counter" [class.selected]="count > 0">
+              {{count}} selected
+            </span>
+          </span>
+        </label>
+
+        <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+          <ng-container *ngFor="let service of services$.options; trackBy: trackBy.stringOption">
+            <div *ngrxLet="services$.stopInput$() && !service.selected as disabled"
+                 class="service-option"
+                 [class.selected]="service.selected"
+                 [class.disabled]="disabled">
+              <label class="flex cursor-pointer flex-grow">
+                <mat-checkbox class="primary"
+                              [ngModel]="service.selected"
+                              [ngModelOptions]="{ standalone: true }"
+                              [disabled]="disabled"
+                              (ngModelChange)="services$.toggle(service)">
+                </mat-checkbox>
+                <div class="flex-grow p-2">{{service.label}}</div>
+              </label>
+            </div>
+          </ng-container>
+        </div>
+      </form>
+
+    </ng-container>
+
   </div>
 </div>
 

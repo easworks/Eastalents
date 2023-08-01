@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { Domain } from '@easworks/app-shell/api/talent.api';
-import { controlStatus$ } from '@easworks/app-shell/common/form-field.directive';
+import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { DomainState } from '@easworks/app-shell/state/domains';
@@ -12,6 +12,7 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { JOB_POST_TYPE_OPTIONS, JobPostType } from '@easworks/models';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'enterprise-create-job-post',
@@ -50,6 +51,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
   protected readonly postType = this.initPostType();
   protected readonly primaryDomain = this.initPrimaryDomain();
+  protected readonly services = this.initServices();
 
 
   private initStepper() {
@@ -57,7 +59,7 @@ export class CreateJobPostPageComponent implements OnInit {
       'post-type',
       'primary-domain',
       'services',
-      // 'modules',
+      'modules',
       // 'software',
       // 'roles',
       // 'technology-stack',
@@ -95,6 +97,7 @@ export class CreateJobPostPageComponent implements OnInit {
     const isValidStep = (step: Step) =>
       (step === 'post-type' && this.postType.status$() === 'VALID') ||
       (step === 'primary-domain' && this.primaryDomain.status$() === 'VALID') ||
+      (step === 'services' && this.services.$()?.status$() === 'VALID') ||
       false;
 
     const next = {
@@ -182,6 +185,7 @@ export class CreateJobPostPageComponent implements OnInit {
       years: createYearControl()
     });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
+    const value$ = controlValue$(form, true);
 
     const domainStatus$ = toSignal(controlStatus$(form.controls.domain), { requireSync: true });
     const stopInput$ = computed(() => domainStatus$() === 'VALID');
@@ -229,10 +233,63 @@ export class CreateJobPostPageComponent implements OnInit {
       loading$,
       form,
       status$,
+      value$,
       options$,
       stopInput$,
       ...handlers
     } as const;
+  }
+
+  private initServices() {
+    const injector = this.injector;
+    const stepLabel$ = toSignal(this.primaryDomain.value$
+      .pipe(map(selected => selected.domain.value.longName)));
+
+    const obs$ = this.primaryDomain.value$
+      .pipe(map(selected => {
+        const form = new FormControl([] as SelectableOption<string>[], {
+          nonNullable: true,
+          validators: [
+            Validators.required,
+            Validators.maxLength(7)
+          ]
+        });
+        const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+
+        const options = selected.domain.value.services
+          .map<SelectableOption<string>>(s => ({
+            selected: false,
+            value: s,
+            label: s
+          }));
+
+        const value$ = toSignal(controlValue$(form), { requireSync: true, injector });
+        const count$ = computed(() => value$().length);
+        const stopInput$ = computed(() => count$() >= 7);
+
+        const handlers = {
+          toggle: (option: SelectableOption<string>) => {
+            option.selected = !option.selected;
+            form.setValue(options.filter(o => o.selected));
+          }
+        } as const;
+
+        return {
+          form,
+          status$,
+          count$,
+          stopInput$,
+          options,
+          ...handlers
+        }
+      }));
+
+    const $ = toSignal(obs$);
+
+    return {
+      $,
+      stepLabel$
+    }
   }
 
   private async devModeInit() {
@@ -255,6 +312,15 @@ export class CreateJobPostPageComponent implements OnInit {
 
       toggle(all[0]);
       form.patchValue({ years: 2 });
+
+      this.stepper.next.click();
+    }
+
+    {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { toggle, options } = this.services.$()!;
+      toggle(options[0]);
+      toggle(options[1]);
 
       this.stepper.next.click();
     }
