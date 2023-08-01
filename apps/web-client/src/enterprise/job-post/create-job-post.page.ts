@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnInit, computed, effect, inject, isDevMode, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -10,6 +10,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
+import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { JOB_POST_TYPE_OPTIONS, JobPostType } from '@easworks/models';
 
 @Component({
@@ -26,6 +27,8 @@ import { JOB_POST_TYPE_OPTIONS, JobPostType } from '@easworks/models';
   ]
 })
 export class CreateJobPostPageComponent implements OnInit {
+  private readonly injector = inject(INJECTOR);
+  private readonly domains = inject(DomainState);
 
   @HostBinding() private readonly class = 'page'
 
@@ -33,7 +36,6 @@ export class CreateJobPostPageComponent implements OnInit {
     'domains',
   ]>();
 
-  private readonly domains = inject(DomainState);
 
   protected readonly trackBy = {
     domainOption: (_: number, d: SelectableOption<Domain>) => d.value.key,
@@ -54,7 +56,7 @@ export class CreateJobPostPageComponent implements OnInit {
     const order: Step[] = [
       'post-type',
       'primary-domain',
-      // 'services',
+      'services',
       // 'modules',
       // 'software',
       // 'roles',
@@ -92,6 +94,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
     const isValidStep = (step: Step) =>
       (step === 'post-type' && this.postType.status$() === 'VALID') ||
+      (step === 'primary-domain' && this.primaryDomain.status$() === 'VALID') ||
       false;
 
     const next = {
@@ -178,6 +181,7 @@ export class CreateJobPostPageComponent implements OnInit {
       }),
       years: createYearControl()
     });
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
     const domainStatus$ = toSignal(controlStatus$(form.controls.domain), { requireSync: true });
     const stopInput$ = computed(() => domainStatus$() === 'VALID');
@@ -224,6 +228,7 @@ export class CreateJobPostPageComponent implements OnInit {
     return {
       loading$,
       form,
+      status$,
       options$,
       stopInput$,
       ...handlers
@@ -239,6 +244,17 @@ export class CreateJobPostPageComponent implements OnInit {
     {
       const { options, toggle } = this.postType;
       toggle(options[0]);
+
+      this.stepper.next.click();
+    }
+
+    {
+      const { options$, toggle, form } = this.primaryDomain;
+
+      const all = await toPromise(options$, all => all.length > 0, this.injector);
+
+      toggle(all[0]);
+      form.patchValue({ years: 2 });
 
       this.stepper.next.click();
     }
