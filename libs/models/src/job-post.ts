@@ -62,3 +62,12 @@ export const STARTING_PERIOD_OPTIONS = [
 ] as const;
 
 export type StartingPeriod = typeof STARTING_PERIOD_OPTIONS[number];
+
+export const REMOTE_WORK_OPTIONS = [
+  'Yes',
+  'No',
+  'Hybrid',
+  'Decide Later'
+] as const;
+
+export type RemoteWork = typeof REMOTE_WORK_OPTIONS[number];

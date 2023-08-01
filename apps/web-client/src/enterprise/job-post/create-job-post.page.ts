@@ -14,7 +14,7 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, PROJECT_TYPE_OPTIONS, ProjectType, REQUIRED_EXPERIENCE_OPTIONS, RequiredExperience, SERVICE_TYPE_OPTIONS, STARTING_PERIOD_OPTIONS, ServiceType, StartingPeriod, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
+import { ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, PROJECT_TYPE_OPTIONS, ProjectType, REMOTE_WORK_OPTIONS, REQUIRED_EXPERIENCE_OPTIONS, RemoteWork, RequiredExperience, SERVICE_TYPE_OPTIONS, STARTING_PERIOD_OPTIONS, ServiceType, StartingPeriod, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
 import { map, shareReplay, switchMap } from 'rxjs';
 
 @Component({
@@ -74,6 +74,7 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly engagementPeriod = this.initEngagementPeriod();
   protected readonly hourlyBudget = this.initHourlyBudget();
   protected readonly startingPeriod = this.initStartingPeriod();
+  protected readonly remoteWork = this.initRemoteWork();
 
   private initStepper() {
     const order: Step[] = [
@@ -130,7 +131,8 @@ export class CreateJobPostPageComponent implements OnInit {
       (step === 'weekly-commitment' && this.weeklyCommitment.status$() === 'VALID') ||
       (step === 'engagement-period' && this.engagementPeriod.status$() === 'VALID') ||
       (step === 'hourly-budget' && this.hourlyBudget.status$() === 'VALID') ||
-      (step === 'starting-period' && this.startingPeriod.status$() === 'VALID');
+      (step === 'starting-period' && this.startingPeriod.status$() === 'VALID') ||
+      (step === 'remote-work' && this.remoteWork.status$() === 'VALID');
 
     const next = {
       visible$: computed(() => step$() !== lastStep),
@@ -1070,6 +1072,42 @@ export class CreateJobPostPageComponent implements OnInit {
     }
   }
 
+  private initRemoteWork() {
+    const stepLabel$ = this.description.stepLabel$;
+    const form = new FormControl(null as unknown as SelectableOption<RemoteWork>, {
+      nonNullable: true,
+      validators: [Validators.required]
+    });
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    const options = REMOTE_WORK_OPTIONS.map<SelectableOption<RemoteWork>>(pt => ({
+      selected: false,
+      value: pt,
+      label: pt
+    }));
+
+    const handlers = {
+      toggle: (option: SelectableOption<RemoteWork>) => {
+        if (option.selected)
+          return;
+
+        const old = form.value;
+        if (old)
+          old.selected = false;
+        option.selected = true;
+        form.setValue(option);
+      }
+    } as const;
+
+    return {
+      form,
+      status$,
+      options,
+      stepLabel$,
+      ...handlers
+    }
+  }
+
   private async devModeInit() {
     if (!isDevMode())
       return;
@@ -1199,6 +1237,11 @@ export class CreateJobPostPageComponent implements OnInit {
       toggle(options[0]);
 
       this.stepper.next.click();
+    }
+
+    {
+      const { options, toggle } = this.remoteWork;
+      toggle(options[0]);
     }
 
     revert.forEach(r => r());

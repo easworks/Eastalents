@@ -608,6 +608,36 @@
       </div>
     </div>
   </div>
+
+  <div *ngIf="step === 'remote-work'"
+       class="rounded bg-white mat-elevation-z1">
+    <h2 class="p-4 text-xl font-semibold">Remote Work</h2>
+    <mat-divider></mat-divider>
+    <div class="p-4">
+      <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
+        <span class="font-medium lg:pt-1 transition-all">Remote Work for <span class="text-primary">{{remoteWork.stepLabel$()}}</span></span>
+        <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
+          <span class="flex gap-1 items-center">
+            <span class="fa-solid fa-circle-info text-lg"></span>
+            <span>Select 1</span>
+          </span>
+        </span>
+      </label>
+
+      <div class="grid gap-4 mt-4 lg:max-w-md">
+        <button *ngFor="let option of remoteWork.options; let i = index; trackBy: trackBy.stringOption"
+                type="button" class="remote-work-option"
+                mat-ripple
+                [class.selected]="option.selected"
+                (click)="remoteWork.toggle(option)">
+          <div class="grid gap-1">
+            {{option.label}}
+          </div>
+          <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Button Container -->
