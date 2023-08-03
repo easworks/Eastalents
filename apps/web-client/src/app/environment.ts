@@ -4,8 +4,8 @@ import { ENVIRONMENT, Environment } from '@easworks/app-shell/environment';
 
 const devMode = isDevMode();
 
-const gMapApiKey = '';
-const cscApiKey = '';
+const gMapApiKey = 'AIzaSyBUGAyE0raWYxJ8LJMWg0y8Xyw3xU_T7Fk';
+const cscApiKey = 'MU1ZaUJ2QnU3N2tqcHNNaUJNQ1V2c3VsMktZcUJTYnVBY1FSN3VZSw==';
 
 const env: Environment = devMode ?
   {
@@ -23,6 +23,5 @@ const env: Environment = devMode ?
 
 
 export function provideEnvironment(): Provider {
-  // eslint-disable-next-line no-irregular-whitespace
-  return { provide: ENVIRONMENT, useValue: env }
+  return { provide: ENVIRONMENT, useValue: env }
 }
