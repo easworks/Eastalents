@@ -437,7 +437,7 @@ export class CreateJobPostPageComponent implements OnInit {
             }));
 
           const count$ = computed(() => value$().length);
-          const stopInput$ = computed(() => count$() >= 7 || count$() <= options.length);
+          const stopInput$ = computed(() => count$() >= 7 || count$() >= options.length);
 
           const handlers = {
             toggle: (option: SelectableOption<DomainModule>) => {
@@ -1328,7 +1328,7 @@ export class CreateJobPostPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.devModeInit();
+    // this.devModeInit();
   }
 }
 
