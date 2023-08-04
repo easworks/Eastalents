@@ -1,8 +1,9 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { DomainDictionaryDto, IndustryGroupDto, TechGroup, TechGroupDto } from '@easworks/models';
+import { createStore, get, set } from 'idb-keyval';
 import { Domain, DomainModule, IndustryGroup, TalentApi } from '../api/talent.api';
-import { generateLoadingState } from './loading';
 import { sortString } from '../utilities/sort';
+import { generateLoadingState } from './loading';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class DomainState {
   private readonly api = {
     talent: inject(TalentApi)
   } as const;
+
+  private readonly cache = this.initCache();
 
   readonly loading = generateLoadingState<[
     'domains',
@@ -63,6 +66,17 @@ export class DomainState {
     const ig = mapIndustryGroupDto(r)
     this.industries$.set(ig);
     this.loading.delete('industries');
+  }
+
+  private initCache() {
+    const storeName = 'domain-data';
+    const store = createStore(storeName, storeName);
+
+    return {
+      get: <T>(id: string) => get<T>(id, store),
+      set: <T>(id: string, data: T) => set(id, data, store),
+    } as const;
+
   }
 }
 
