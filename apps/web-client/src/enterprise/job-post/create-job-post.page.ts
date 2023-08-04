@@ -706,11 +706,23 @@ export class CreateJobPostPageComponent implements OnInit {
     }, { allowSignalWrites: true });
     const loading$ = this.loading.has('technologies');
 
-    const form = new FormRecord<FormControl<SelectableOption<string>[]>>({});
+    const count$ = signal(0);
+    const form = new FormRecord<FormControl<SelectableOption<string>[]>>({}, {
+      validators: [
+        c => {
+          const value = c.value as Record<string, []>;
+          const count = Object.values(value).reduce((p, c) => p + c.length, 0);
+          count$.set(count);
+          if (count === 0) {
+            return { minlength: true }
+          }
+          return null;
+        }
+      ]
+    });
     const value$ = toSignal(controlValue$(form), { requireSync: true });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
-    const count$ = computed(() => Object.values(value$()).reduce((p, c) => p + c.length, 0));
     const fullSize$ = computed(() => this.domains.tech$().reduce((p, c) => p + c.items.size, 0));
     const stopInput$ = computed(() => count$() >= fullSize$());
 
@@ -1339,7 +1351,6 @@ export class CreateJobPostPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.devModeInit();
   }
 }
 
