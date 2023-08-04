@@ -17,9 +17,9 @@ export const publicMenu = {
   ],
   items: {
     forEnterprises: { name: 'For Enterprises', link: NOOP_CLICK },
-    forFreelancers: { name: 'For Freelancers', link: NOOP_CLICK },
-    whyEasWorks: { name: 'Why EASWORKS?', link: NOOP_CLICK },
-    easeworksTalent: { name: 'EASWORKS Talent', link: NOOP_CLICK },
+    forFreelancers: { name: 'For Freelancers', link: '/for-freelancer' },
+    whyEasWorks: { name: 'Why EASWORKS?', link: '/why-easworks' },
+    easeworksTalent: { name: 'EASWORKS Talent', link: '/easworks-talent' },
     useCases: {
       name: 'Use Cases', link: NOOP_CLICK,
       children: [

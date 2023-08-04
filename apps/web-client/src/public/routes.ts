@@ -7,12 +7,7 @@ export const PUBLIC_ROUTES: Routes = [
     loadComponent: () => import('./company-type.page').then(m => m.CompanyTypePageComponent)
   },
   {
-    path: 'home',
-    pathMatch: 'full',
-    loadComponent: () => import('./Home/home.page').then(m => m.HomePageComponent)
-  },
-  {
-    path: 'forfreelancer',
+    path: 'for-freelancer',
     pathMatch: 'full',
     loadComponent: () => import('./ForFreelancer/forfreelancer.page').then(m => m.ForFreelancerComponent)
   },
@@ -25,7 +20,10 @@ export const PUBLIC_ROUTES: Routes = [
     path: 'why-easworks',
     pathMatch: 'full',
     loadComponent: () => import('./WhyEasworks/why-easworks.page').then(m => m.WhyeasworksComponent)
-  }
-  
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    loadComponent: () => import('./Home/home.page').then(m => m.HomePageComponent)
+  },
 ];
- 
