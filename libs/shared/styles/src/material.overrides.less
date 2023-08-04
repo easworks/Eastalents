@@ -145,12 +145,11 @@
 // virtual viewport 
 
 .cdk-virtual-scroll-content-wrapper {
-  display: flex;
-  flex-direction: column;
+  @apply flex flex-col;
 }
 
 .cdk-virtual-scroll-orientation-horizontal .cdk-virtual-scroll-content-wrapper {
-  flex-direction: row;
+  @apply flex-row;
 }
 
 .mat-mdc-autocomplete-panel {
@@ -163,4 +162,16 @@
 
 .cdk-overlay-pane {
   @apply min-w-max;
+}
+
+.mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs {
+  > .mat-mdc-tab-header {
+    .mat-mdc-tab {
+      @apply flex-grow-0;
+    }
+  } 
+} 
+
+.mat-mdc-tab-labels {
+  @apply justify-center;
 }
