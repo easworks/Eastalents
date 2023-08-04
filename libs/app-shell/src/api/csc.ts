@@ -21,7 +21,7 @@ export class CSCApi extends ApiService {
     const url = `${this.apiUrl}/countries`;
     const id = url;
 
-    const cached = await this.cache.get<Cached<Country[]>>(id);
+    const cached = await this.cache.get<Country[]>(id);
     if (cached && isFresh(cached, THREE_DAY_MS))
       return cached.data;
 
@@ -39,7 +39,7 @@ export class CSCApi extends ApiService {
   async allTimezones() {
     const id = 'timezones';
 
-    const cached = await this.cache.get<Cached<Timezone[]>>(id);
+    const cached = await this.cache.get<Timezone[]>(id);
     if (cached && isFresh(cached, THREE_DAY_MS))
       return cached.data;
 
@@ -57,7 +57,7 @@ export class CSCApi extends ApiService {
       const id = url;
       const country = await this.countryDetails(ciso2);
 
-      const cached = await this.cache.get<Cached<State[]>>(id);
+      const cached = await this.cache.get<State[]>(id);
       if (cached && isFresh(cached, THREE_DAY_MS))
         return cached.data;
 
@@ -87,7 +87,7 @@ export class CSCApi extends ApiService {
         `${this.apiUrl}/countries/${ciso2}/cities`;
       const id = url;
 
-      const cached = await this.cache.get<Cached<City[]>>(id);
+      const cached = await this.cache.get<City[]>(id);
       if (cached && isFresh(cached, THREE_DAY_MS))
         return cached.data;
 
@@ -109,7 +109,7 @@ export class CSCApi extends ApiService {
     const url = `${this.apiUrl}/countries/${ciso2}`;
     const id = url;
 
-    const cached = await this.cache.get<Cached<Country>>(id);
+    const cached = await this.cache.get<Country>(id);
     if (cached && isFresh(cached, THREE_DAY_MS))
       return cached.data;
 
