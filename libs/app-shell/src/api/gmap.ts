@@ -1,13 +1,12 @@
-import { Injectable, inject, isDevMode } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { AddressComponentType, GeoLocationResponse, GeocodeResponse } from '@easworks/models';
-import { ENVIRONMENT } from '../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GMapsApi {
   private readonly devMode = isDevMode();
-  private readonly apiKey = inject(ENVIRONMENT).gMapApiKey;
+  private readonly apiKey = 'AIzaSyBUGAyE0raWYxJ8LJMWg0y8Xyw3xU_T7Fk';
 
   geolocateByIPAddress() {
     const url = new URL('https://www.googleapis.com/geolocation/v1/geolocate');

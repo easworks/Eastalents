@@ -1,5 +1,4 @@
-import { Injectable, inject, isDevMode } from '@angular/core';
-import { ENVIRONMENT } from '../environment';
+import { Injectable, isDevMode } from '@angular/core';
 import { sortNumber } from '../utilities/sort';
 import { Cached, createCache, isFresh } from './cache';
 
@@ -10,7 +9,7 @@ const THREE_DAY_MS = 3 * 24 * 60 * 60 * 1000;
 })
 export class CSCApi {
   private readonly apiUrl = 'https://api.countrystatecity.in/v1';
-  private readonly apiKey = inject(ENVIRONMENT).cscApiKey;
+  private readonly apiKey = 'bHlsN1QxdWtzbkdvUVNCbGpld1YzNGl6VlExUjFsekw5cnRvN1FNVQ==';
   private readonly headers = new Headers({
     'X-CSCAPI-KEY': this.apiKey
   });
