@@ -10,7 +10,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
 import { CSCApi, City, Country, State, Timezone } from '@easworks/app-shell/api/csc';
 import { GMapsApi } from '@easworks/app-shell/api/gmap';
-import { LocationApi } from '@easworks/app-shell/api/location';
 import { Domain, DomainModule, DomainProduct } from '@easworks/app-shell/api/talent.api';
 import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator.component';
 import { FileUploadComponent, FileValidators } from '@easworks/app-shell/common/file-upload/file-upload.component';
@@ -60,7 +59,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly geo = inject(GeoLocationService);
   private readonly api = {
-    location: inject(LocationApi),
     gmap: inject(GMapsApi),
     csc: inject(CSCApi)
   } as const;
