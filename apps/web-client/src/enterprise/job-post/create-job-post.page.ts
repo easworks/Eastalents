@@ -16,6 +16,7 @@ import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REMOTE_WORK_OPTIONS, REQUIRED_EXPERIENCE_OPTIONS, RemoteWork, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
 import { map, shareReplay, switchMap } from 'rxjs';
+import { OpenAIApi } from '@easworks/app-shell/api/open-ai';
 
 @Component({
   selector: 'enterprise-create-job-post',
@@ -34,6 +35,9 @@ import { map, shareReplay, switchMap } from 'rxjs';
 export class CreateJobPostPageComponent implements OnInit {
   private readonly injector = inject(INJECTOR);
   private readonly domains = inject(DomainState);
+  private readonly api = {
+    openai: inject(OpenAIApi)
+  } as const;
 
   @HostBinding() private readonly class = 'page'
 
