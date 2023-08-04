@@ -1,113 +1,73 @@
 import { INJECTOR, Injectable, inject } from '@angular/core';
-import { ApiResponse, DomainDictionaryDto, FreelancerProfile, FreelancerProfileQuestionDto, IndustryGroupDto, TechGroup, TechGroupDto } from '@easworks/models';
-import { catchError, map } from 'rxjs';
-import { sortString } from '../utilities/sort';
-import { ApiService } from './api';
+import { DomainDictionaryDto, FreelancerProfile, FreelancerProfileQuestionDto, IndustryGroupDto, TechGroupDto } from '@easworks/models';
+import { BackendApi } from './backend';
 import { CSCApi } from './csc';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TalentApi extends ApiService {
+export class TalentApi extends BackendApi {
   private readonly injector = inject(INJECTOR);
-  readonly techGroups = () => this.http.get<TechGroupDto>('/assets/utils/tech.json')
-    .pipe(
-      map(r => Object.keys(r).map<TechGroup>(key => ({
-        name: key,
-        items: new Set(r[key])
-      }))),
-      catchError(this.handleError)
-    );
-  readonly industryGroups = () => this.http.get<IndustryGroupDto>('/assets/utils/industries.json')
-    .pipe(
-      map(r => Object.keys(r).map<IndustryGroup>(key => ({
-        name: key,
-        industries: r[key]
-      }))),
-      catchError(this.handleError)
-    );
 
-  readonly profileSteps = () => this.http.get<ApiResponse>(
-    `${this.apiUrl}/talentProfile/getTalentProfileSteps`
-  ).pipe(
-    map(r => {
-      const dto = r['talentProfile'] as DomainDictionaryDto
+  readonly techGroups = () => fetch('/assets/utils/tech.json')
+    .then<TechGroupDto>(this.handleJson)
+    .catch(this.handleError)
 
-      return Object.keys(dto).map(dk => {
-        const d: Domain = {
-          key: dk,
-          longName: dto[dk]['Primary Domain'],
-          prefix: dto[dk]['Role-Prefix and Product-Suffix'],
-          services: dto[dk].Services.sort(sortString),
-          modules: Object.entries(dto[dk].Modules).map(([mk, v]) => {
-            const m: DomainModule = {
-              name: mk,
-              roles: v['Job roles'].sort(sortString),
-              products: v.Product.sort((a, b) => sortString(a.name, b.name))
-            };
-            return m;
-          }).sort((a, b) => sortString(a.name, b.name)),
-          allProducts: []
-        };
+  readonly industryGroups = () => fetch('/assets/utils/industries.json')
+    .then<IndustryGroupDto>(this.handleJson)
+    .catch(this.handleError)
 
-        const products = new Set<string>([]);
-        d.modules.forEach(m => m.products.forEach(p => {
-          if (products.has(p.name))
-            return;
-          products.add(p.name);
-          d.allProducts.push(p);
-        }));
+  readonly profileSteps = () => this.request(`${this.apiUrl}/talentProfile/getTalentProfileSteps`)
+    .then(this.handleJson)
+    .then(r => r['talentProfile'] as DomainDictionaryDto)
+    .catch(this.handleError)
 
-        return d;
-      }).sort((a, b) => sortString(a.key, b.key))
-    }),
-    catchError(this.handleError)
-  );
 
-  readonly getTalentProfile = (userId: string) =>
-    this.http.post<ApiResponse>(`${this.apiUrl}/talentProfile/getTalentProfile`, { userId })
-      .pipe(
-        map(r => {
-          const steps = r['steps'] as FreelancerProfileQuestionDto;
-          console.debug(steps);
+  readonly getTalentProfile = (userId: string) => {
+    const body = JSON.stringify({ userId });
+    return this.request(`${this.apiUrl}/talentProfile/getTalentProfile`, { body })
+      .then(this.handleJson)
+      .then(r => {
+        const steps = r['steps'] as FreelancerProfileQuestionDto;
+        console.debug(steps);
 
-          const pdo = steps[2].option.find((o: any) => o.selected);
+        const pdo = steps[2].option.find((o: any) => o.selected);
 
-          const p: FreelancerProfile = {
-            image: null,
+        const p: FreelancerProfile = {
+          image: null,
 
-            currentRole: steps[11].data.currentPLM,
-            preferredRole: steps[11].data.preferredPLM,
+          currentRole: steps[11].data.currentPLM,
+          preferredRole: steps[11].data.preferredPLM,
 
-            location: {
-              country: steps[1].country,
-              state: steps[1].state,
-              city: steps[1].city,
-            },
+          location: {
+            country: steps[1].country,
+            state: steps[1].state,
+            city: steps[1].city,
+          },
 
-            summary: steps[1].profileSummary,
-            overallExperience: '2 to 5 years',
-            commitment: new Set(),
-            jobSearchStatus: 'Active',
-            availability: 'Immediately',
+          summary: steps[1].profileSummary,
+          overallExperience: '2 to 5 years',
+          commitment: new Set(),
+          jobSearchStatus: 'Active',
+          availability: 'Immediately',
 
-            primaryDomainExperience: {
-              name: pdo.value,
-              years: Number.parseInt(pdo.noOfYear),
-              skill: pdo.skill
-            },
+          primaryDomainExperience: {
+            name: pdo.value,
+            years: Number.parseInt(pdo.noOfYear),
+            skill: pdo.skill
+          },
 
-            enterpriseSoftwareExperience: [],
+          enterpriseSoftwareExperience: [],
 
-            profileCompletion: null as unknown as FreelancerProfile['profileCompletion']
-          }
+          profileCompletion: null as unknown as FreelancerProfile['profileCompletion']
+        }
 
-          this.useDummyData(p);
+        this.useDummyData(p);
 
-          return p;
-        }),
-        catchError(this.handleError)
-      );
+        return p;
+      })
+      .catch(this.handleError);
+  }
 
   // THIS FUNCTION IS MEANT TO BE REMOVED
   private async useDummyData(profile: FreelancerProfile) {

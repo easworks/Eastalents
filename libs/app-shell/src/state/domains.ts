@@ -1,7 +1,8 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { TechGroup } from '@easworks/models';
-import { Domain, IndustryGroup, TalentApi } from '../api/talent.api';
+import { DomainDictionaryDto, IndustryGroupDto, TechGroup, TechGroupDto } from '@easworks/models';
+import { Domain, DomainModule, IndustryGroup, TalentApi } from '../api/talent.api';
 import { generateLoadingState } from './loading';
+import { sortString } from '../utilities/sort';
 
 @Injectable({
   providedIn: 'root'
@@ -26,39 +27,85 @@ export class DomainState {
   readonly industries$ = signal<IndustryGroup[]>([]);
 
 
-  private getDomains() {
+  private async getDomains() {
     if (this.loading.set$().has('domains') || this.domains$().length)
       return;
 
     this.loading.add('domains');
-    this.api.talent.profileSteps()
-      .subscribe(r => {
-        this.domains$.set(r);
-        this.loading.delete('domains');
-      })
+
+    const r = await this.api.talent.profileSteps();
+
+    console.debug(r);
+
+    const domains = mapDomainDto(r);
+    this.domains$.set(domains);
+    this.loading.delete('domains');
   }
 
-  getTech() {
+  async getTech() {
     if (this.loading.set$().has('tech') || this.tech$().length)
       return;
 
     this.loading.add('tech');
-    this.api.talent.techGroups()
-      .subscribe(r => {
-        this.tech$.set(r);
-        this.loading.delete('tech');
-      })
+    const r = await this.api.talent.techGroups()
+    const tech = mapTechGroupDto(r)
+    this.tech$.set(tech);
+    this.loading.delete('tech');
+
   }
 
-  getIndustries() {
+  async getIndustries() {
     if (this.loading.set$().has('industries') || this.industries$().length)
       return;
 
     this.loading.add('industries');
-    this.api.talent.industryGroups()
-      .subscribe(r => {
-        this.industries$.set(r);
-        this.loading.delete('industries');
-      })
+    const r = await this.api.talent.industryGroups();
+    const ig = mapIndustryGroupDto(r)
+    this.industries$.set(ig);
+    this.loading.delete('industries');
   }
+}
+
+function mapDomainDto(dto: DomainDictionaryDto) {
+  return Object.keys(dto).map(dk => {
+    const d: Domain = {
+      key: dk,
+      longName: dto[dk]['Primary Domain'],
+      prefix: dto[dk]['Role-Prefix and Product-Suffix'],
+      services: dto[dk].Services.sort(sortString),
+      modules: Object.entries(dto[dk].Modules).map(([mk, v]) => {
+        const m: DomainModule = {
+          name: mk,
+          roles: v['Job roles'].sort(sortString),
+          products: v.Product.sort((a, b) => sortString(a.name, b.name))
+        };
+        return m;
+      }).sort((a, b) => sortString(a.name, b.name)),
+      allProducts: []
+    };
+
+    const products = new Set<string>([]);
+    d.modules.forEach(m => m.products.forEach(p => {
+      if (products.has(p.name))
+        return;
+      products.add(p.name);
+      d.allProducts.push(p);
+    }));
+
+    return d;
+  }).sort((a, b) => sortString(a.key, b.key))
+}
+
+function mapTechGroupDto(dto: TechGroupDto) {
+  return Object.keys(dto).map<TechGroup>(key => ({
+    name: key,
+    items: new Set(dto[key])
+  }))
+}
+
+function mapIndustryGroupDto(dto: IndustryGroupDto) {
+  return Object.keys(dto).map<IndustryGroup>(key => ({
+    name: key,
+    industries: dto[key]
+  }))
 }

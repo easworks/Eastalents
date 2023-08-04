@@ -118,15 +118,13 @@ export class EnterpriseSignUpPageComponent {
       ) :
       this.auth.signup.email({ email, firstName, lastName, password, role: 'employer' });
 
-    query$.subscribe({
-      next: () => {
-        this.loading.delete('signing up')
-      },
-      error: () => {
+    query$
+      .catch(() => {
         this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
+      })
+      .finally(() => {
         this.loading.delete('signing up');
-      }
-    });
+      });
   }
 
   private shouldPrefillSocial() {

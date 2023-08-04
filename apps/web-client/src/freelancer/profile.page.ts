@@ -47,13 +47,8 @@ export class FreelancerProfilePageComponent {
       throw new Error('invalid operation');
 
     this.api.talent.getTalentProfile(user._id)
-      .subscribe({
-        next: (r) => {
-          this.data.profile$.set(r);
-          this.loading.delete('loading profile');
-        },
-        error: () => this.loading.delete('loading profile')
-      })
+      .then(r => this.data.profile$.set(r))
+      .finally(() => this.loading.delete('loading profile'));
   }
 
   private initData() {

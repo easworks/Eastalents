@@ -1,20 +1,20 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { sortNumber } from '../utilities/sort';
 import { Cached, createCache, isFresh } from './cache';
+import { ApiService } from './api';
 
 const THREE_DAY_MS = 3 * 24 * 60 * 60 * 1000;
 
 @Injectable({
   providedIn: 'root'
 })
-export class CSCApi {
+export class CSCApi extends ApiService {
   private readonly apiUrl = 'https://api.countrystatecity.in/v1';
   private readonly apiKey = 'bHlsN1QxdWtzbkdvUVNCbGpld1YzNGl6VlExUjFsekw5cnRvN1FNVQ==';
   private readonly headers = new Headers({
     'X-CSCAPI-KEY': this.apiKey
   });
 
-  private readonly devMode = isDevMode();
   private readonly cache = createCache('csc-cache');
 
   async allCountries() {
@@ -25,10 +25,10 @@ export class CSCApi {
     if (cached && isFresh(cached, THREE_DAY_MS))
       return cached.data;
 
-    const res = await fetch(url, { headers: this.headers });
-    await this.handleErrorsIfAny(res);
-
-    const countries = await res.json() as Country[];
+    const countries = await fetch(url, { headers: this.headers })
+      .then(this.verifyOk)
+      .then<Country[]>(r => r.json())
+      .catch(this.handleError);
 
     const details = await Promise.all(countries.map(c => this.countryDetails(c.iso2)))
 
@@ -61,10 +61,11 @@ export class CSCApi {
       if (cached && isFresh(cached, THREE_DAY_MS))
         return cached.data;
 
-      const res = await fetch(url, { headers: this.headers });
-      await this.handleErrorsIfAny(res);
+      const states = await fetch(url, { headers: this.headers })
+        .then(this.verifyOk)
+        .then<State[]>(r => r.json())
+        .catch(this.handleError);
 
-      const states = await res.json() as State[];
       states.forEach(s => {
         s.country_code = country.iso2;
         s.country_id = country.id;
@@ -90,10 +91,11 @@ export class CSCApi {
       if (cached && isFresh(cached, THREE_DAY_MS))
         return cached.data;
 
-      const res = await fetch(url, { headers: this.headers });
-      await this.handleErrorsIfAny(res);
+      const cities = await fetch(url, { headers: this.headers })
+        .then(this.verifyOk)
+        .then<City[]>(r => r.json())
+        .catch(this.handleError);
 
-      const cities = await res.json() as City[];
       await this.cache.set(id, cities);
       return cities;
     }
@@ -111,26 +113,16 @@ export class CSCApi {
     if (cached && isFresh(cached, THREE_DAY_MS))
       return cached.data;
 
-    const res = await fetch(url, { headers: this.headers });
-    await this.handleErrorsIfAny(res);
+    const country = await fetch(url, { headers: this.headers })
+      .then(this.verifyOk)
+      .then<Country>(r => r.json())
+      .catch(this.handleError);
 
-    const country = await res.json() as Country;
     country.timezones = JSON.parse(country.timezones as unknown as string);
     country.translations = JSON.parse(country.translations as unknown as string);
     await this.cache.set(id, country);
     return country;
   }
-
-  private async handleErrorsIfAny(response: Response) {
-    if (!response.ok) {
-      const body = await response.json();
-      if (this.devMode) {
-        console.error(body);
-      }
-      throw body;
-    }
-  }
-
 }
 
 export interface Country {

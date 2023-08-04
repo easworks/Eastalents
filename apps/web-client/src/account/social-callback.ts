@@ -33,10 +33,10 @@ export const socialCallbackGuard: CanActivateFn = async (route) => {
     state.request.code = code;
 
 
-    const result = await firstValueFrom(auth.socialCallback.getToken(state.request, {
+    const result = await auth.socialCallback.getToken(state.request, {
       isNewUser: state.request.authType === 'signup',
       returnUrl: state[RETURN_URL_KEY]
-    }))
+    });
     // TODO: THIS CATCH CHAIN IS TEMPORARY AND SHOULD BE REMOVED
     // .catch(() => ({
     //   email: 'test@gmail.com',

@@ -1,9 +1,9 @@
-import { DestroyRef, Injectable, inject } from '@angular/core';
+import { DestroyRef, INJECTOR, Injectable, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRouteSnapshot, Route, Router, UrlSegment } from '@angular/router';
 import { EmailSignInRequest, EmailSignUpRequest, RETURN_URL_KEY, Role, SocialCallbackState, SocialIdp, SocialSignInRequest, SocialSignUpRequest, User, UserWithToken } from '@easworks/models';
-import { Subject, catchError, fromEvent, map } from 'rxjs';
+import { Subject, fromEvent } from 'rxjs';
 import { AccountApi } from '../api/account.api';
 import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '../notification/snackbar';
 import { AuthState } from '../state/auth';
@@ -17,18 +17,16 @@ export class AuthService {
     this.reactToLocalStorage();
   }
 
+  private readonly injector = inject(INJECTOR);
   private readonly dRef = inject(DestroyRef);
   private readonly state = inject(AuthState);
   private readonly api = {
-    account: inject(AccountApi)
+    account: () => this.injector.get(AccountApi),
   } as const;
   private readonly snackbar = inject(MatSnackBar);
   private readonly router = inject(Router);
   readonly ready = new Deferred();
-  get token() {
-    return this.ready
-      .then(() => this.state.user$()?.token || null);
-  }
+
 
   readonly afterSignIn$ = new Subject<SignInMeta>();
 
@@ -51,14 +49,14 @@ export class AuthService {
       else
         return null;
     },
-    getToken: (input: SocialSignInRequest | SocialSignUpRequest, meta: SignInMeta) =>
-      this.api.account.socialLogin(input)
-        .pipe(map(r => {
+    getToken: async (input: SocialSignInRequest | SocialSignUpRequest, meta: SignInMeta) =>
+      this.api.account().socialLogin(input)
+        .then(r => {
           if ('token' in r) {
             this.handleSignIn(r, meta)
           }
           return r;
-        }))
+        })
   };
 
   readonly signup = {
@@ -75,17 +73,15 @@ export class AuthService {
       location.href = authUrl.toString();
     },
     email: (input: EmailSignUpRequest) =>
-      this.api.account.signup(input)
-        .pipe(
-          map(r => {
-            this.handleSignIn(r, { isNewUser: true });
-            return r;
-          }),
-          catchError((e) => {
-            this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
-            throw e;
-          })
-        )
+      this.api.account().signup(input)
+        .then(r => {
+          this.handleSignIn(r, { isNewUser: true });
+          return r;
+        })
+        .catch(e => {
+          this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
+          throw e;
+        })
   } as const;
 
   readonly signin = {
@@ -102,18 +98,21 @@ export class AuthService {
       location.href = authUrl.toString();
     },
     email: (input: EmailSignInRequest, returnUrl?: string) =>
-      this.api.account.signin(input)
-        .pipe(
-          map(r => {
-            this.handleSignIn(r, { isNewUser: false, returnUrl });
-            return r;
-          }),
-          catchError((e) => {
-            this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
-            throw e;
-          })
-        )
+      this.api.account().signin(input)
+        .then(r => {
+          this.handleSignIn(r, { isNewUser: false, returnUrl });
+          return r;
+        })
+        .catch(e => {
+          this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
+          throw e;
+        })
   } as const;
+
+  async token() {
+    await this.ready;
+    return this.state.user$()?.token || null;
+  }
 
   signOut() {
     this.state.user$.set(null);

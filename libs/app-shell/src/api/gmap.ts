@@ -1,21 +1,20 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AddressComponentType, GeoLocationResponse, GeocodeResponse } from '@easworks/models';
+import { ApiService } from './api';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GMapsApi {
-  private readonly devMode = isDevMode();
+export class GMapsApi extends ApiService {
   private readonly apiKey = 'AIzaSyBUGAyE0raWYxJ8LJMWg0y8Xyw3xU_T7Fk';
 
   geolocateByIPAddress() {
     const url = new URL('https://www.googleapis.com/geolocation/v1/geolocate');
     url.searchParams.set('key', this.apiKey);
     return fetch(url, { method: 'POST' })
-      .then(async res => {
-        await this.handleErrorsIfAny(res);
-        return res.json() as Promise<GeoLocationResponse>;
-      });
+      .then(this.verifyOk)
+      .then<GeoLocationResponse>(r => r.json())
+      .catch(this.handleError);
   }
 
   reverseGeocode(
@@ -30,20 +29,9 @@ export class GMapsApi {
       url.searchParams.set('result_type', result_type);
 
     return fetch(url)
-      .then(async res => {
-        await this.handleErrorsIfAny(res);
-        return res.json() as Promise<GeocodeResponse>;
-      });
-  }
-
-  private async handleErrorsIfAny(response: Response) {
-    if (!response.ok) {
-      const body = await response.json();
-      if (this.devMode) {
-        console.error(body);
-      }
-      throw body;
-    }
+      .then(this.verifyOk)
+      .then<GeocodeResponse>(r => r.json())
+      .catch(this.handleError);
   }
 }
 
