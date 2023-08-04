@@ -137,7 +137,18 @@ export class CreateJobPostPageComponent implements OnInit {
 
     const next = {
       visible$: computed(() => step$() !== lastStep),
-      disabled$: computed(() => this.loading.any$() || !isValidStep(step$())),
+      disabled$: computed(() => {
+        const step = step$();
+        const wait = (
+          step === 'primary-domain' ||
+          step === 'technology-stack' ||
+          step === 'industry'
+        ) && this.loading.any$();
+
+        if (wait)
+          return true;
+        return !isValidStep(step);
+      }),
       click: () => {
         const current = stepIndex$();
         step$.set(order[current + 1]);
