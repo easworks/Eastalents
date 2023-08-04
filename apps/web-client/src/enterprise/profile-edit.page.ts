@@ -199,7 +199,13 @@ export class EnterpriseProfileEditPageComponent {
   protected readonly contact = this.initContact();
 
   private initIndustry() {
-    this.domains.getIndustries()
+    {
+      this.loading.add('industries');
+      this.domains.getIndustries()
+        .then(() => this.loading.delete('industries'));
+    }
+
+    const loading$ = this.loading.has('industries');
 
     const query$ = signal<string>('');
 
@@ -238,15 +244,6 @@ export class EnterpriseProfileEditPageComponent {
         name: ''
       })
     }
-
-    const loadingIndustries = this.domains.loading.has('industries');
-    effect(() => {
-      if (loadingIndustries())
-        this.loading.add('industries')
-      else
-        this.loading.delete('industries')
-    }, { allowSignalWrites: true });
-    const loading$ = this.loading.has('industries');
 
     return {
       query$,

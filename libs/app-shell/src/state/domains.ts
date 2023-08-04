@@ -21,8 +21,7 @@ export class DomainState {
 
   readonly loading = generateLoadingState<[
     'domains',
-    'tech',
-    'industries'
+    'tech'
   ]>();
 
   readonly domains$ = signal<Domain[]>([]);
@@ -58,14 +57,15 @@ export class DomainState {
   }
 
   async getIndustries() {
-    if (this.loading.set$().has('industries') || this.industries$().length)
-      return;
+    const cacheKey = 'industries'
+    const cached = await this.cache.get<IndustryGroup[]>(cacheKey);
+    if (cached)
+      this.industries$.set(cached);
 
-    this.loading.add('industries');
     const r = await this.api.talent.industryGroups();
     const ig = mapIndustryGroupDto(r)
+    await this.cache.set(cacheKey, ig);
     this.industries$.set(ig);
-    this.loading.delete('industries');
   }
 
   private initCache() {
