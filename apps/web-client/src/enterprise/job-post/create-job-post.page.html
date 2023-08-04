@@ -609,13 +609,13 @@
     </div>
   </div>
 
-  <div *ngIf="step === 'starting-period'"
+  <div *ngIf="step === 'project-kickoff-timeline'"
        class="rounded bg-white mat-elevation-z1">
-    <h2 class="p-4 text-xl font-semibold">Starting Period</h2>
+    <h2 class="p-4 text-xl font-semibold">Project Kickoff</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Starting Period for <span class="text-primary">{{startingPeriod.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Please specify the tentative starting timeline for <span class="text-primary">{{projectKickoffTimeline.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <span class="fa-solid fa-circle-info text-lg"></span>
@@ -625,11 +625,11 @@
       </label>
 
       <div class="grid gap-4 mt-4 lg:max-w-md">
-        <button *ngFor="let option of startingPeriod.options; let i = index; trackBy: trackBy.stringOption"
-                type="button" class="starting-period-option"
+        <button *ngFor="let option of projectKickoffTimeline.options; let i = index; trackBy: trackBy.stringOption"
+                type="button" class="project-kickoff-timeline-option"
                 mat-ripple
                 [class.selected]="option.selected"
-                (click)="startingPeriod.toggle(option)">
+                (click)="projectKickoffTimeline.toggle(option)">
           <div class="grid gap-1">
             {{option.label}}
           </div>

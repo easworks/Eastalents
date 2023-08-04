@@ -28,7 +28,7 @@ export const WEEKLY_COMMITMENT_OPTIONS = [
   '10 hrs or less',
   '10 - 20 hrs',
   '20 - 30 hrs',
-  '40hrs',
+  '40 hrs',
   'Not sure'
 ] as const;
 
@@ -54,14 +54,14 @@ export const HOURLY_BUDGET_OPTIONS = [
 
 export type HourlyBudget = typeof HOURLY_BUDGET_OPTIONS[number];
 
-export const STARTING_PERIOD_OPTIONS = [
+export const PROJECT_KICKOFF_TIMELINE_OPTIONS = [
   'Immediately',
   '1 - 2 weeks',
   '3 - 4 weeks',
   'More than 1 month'
 ] as const;
 
-export type StartingPeriod = typeof STARTING_PERIOD_OPTIONS[number];
+export type ProjectKickoffTimeline = typeof PROJECT_KICKOFF_TIMELINE_OPTIONS[number];
 
 export const REMOTE_WORK_OPTIONS = [
   'Yes',

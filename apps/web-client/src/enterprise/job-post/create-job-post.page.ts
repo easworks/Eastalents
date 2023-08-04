@@ -14,7 +14,7 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, PROJECT_TYPE_OPTIONS, ProjectType, REMOTE_WORK_OPTIONS, REQUIRED_EXPERIENCE_OPTIONS, RemoteWork, RequiredExperience, SERVICE_TYPE_OPTIONS, STARTING_PERIOD_OPTIONS, ServiceType, StartingPeriod, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
+import { ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REMOTE_WORK_OPTIONS, REQUIRED_EXPERIENCE_OPTIONS, RemoteWork, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
 import { map, shareReplay, switchMap } from 'rxjs';
 
 @Component({
@@ -74,7 +74,7 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly weeklyCommitment = this.initWeeklyCommitment();
   protected readonly engagementPeriod = this.initEngagementPeriod();
   protected readonly hourlyBudget = this.initHourlyBudget();
-  protected readonly startingPeriod = this.initStartingPeriod();
+  protected readonly projectKickoffTimeline = this.initProjectKickoffTimeline();
   protected readonly remoteWork = this.initRemoteWork();
 
   private initStepper() {
@@ -93,7 +93,7 @@ export class CreateJobPostPageComponent implements OnInit {
       'weekly-commitment',
       'engagement-period',
       'hourly-budget',
-      'starting-period',
+      'project-kickoff-timeline',
       'remote-work'
     ];
     const stepNumbers = order.reduce((prev, cv, ci) => {
@@ -132,7 +132,7 @@ export class CreateJobPostPageComponent implements OnInit {
       (step === 'weekly-commitment' && this.weeklyCommitment.status$() === 'VALID') ||
       (step === 'engagement-period' && this.engagementPeriod.status$() === 'VALID') ||
       (step === 'hourly-budget' && this.hourlyBudget.status$() === 'VALID') ||
-      (step === 'starting-period' && this.startingPeriod.status$() === 'VALID') ||
+      (step === 'project-kickoff-timeline' && this.projectKickoffTimeline.status$() === 'VALID') ||
       (step === 'remote-work' && this.remoteWork.status$() === 'VALID');
 
     const next = {
@@ -225,7 +225,7 @@ export class CreateJobPostPageComponent implements OnInit {
           'weekly-commitment',
           'engagement-period',
           'hourly-budget',
-          'starting-period',
+          'project-kickoff-timeline',
           'remote-work'
         ]
       ]
@@ -1116,22 +1116,22 @@ export class CreateJobPostPageComponent implements OnInit {
     }
   }
 
-  private initStartingPeriod() {
+  private initProjectKickoffTimeline() {
     const stepLabel$ = this.description.stepLabel$;
-    const form = new FormControl(null as unknown as SelectableOption<StartingPeriod>, {
+    const form = new FormControl(null as unknown as SelectableOption<ProjectKickoffTimeline>, {
       nonNullable: true,
       validators: [Validators.required]
     });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
-    const options = STARTING_PERIOD_OPTIONS.map<SelectableOption<StartingPeriod>>(pt => ({
+    const options = PROJECT_KICKOFF_TIMELINE_OPTIONS.map<SelectableOption<ProjectKickoffTimeline>>(pt => ({
       selected: false,
       value: pt,
       label: pt
     }));
 
     const handlers = {
-      toggle: (option: SelectableOption<StartingPeriod>) => {
+      toggle: (option: SelectableOption<ProjectKickoffTimeline>) => {
         if (option.selected)
           return;
 
@@ -1313,7 +1313,7 @@ export class CreateJobPostPageComponent implements OnInit {
     }
 
     {
-      const { options, toggle } = this.startingPeriod;
+      const { options, toggle } = this.projectKickoffTimeline;
       toggle(options[0]);
 
       this.stepper.next.click();
@@ -1347,7 +1347,7 @@ type Step =
   'weekly-commitment' |
   'engagement-period' |
   'hourly-budget' |
-  'starting-period' |
+  'project-kickoff-timeline' |
   'remote-work';
 
 function createYearControl(initialValue = null as unknown as number) {
