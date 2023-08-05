@@ -8,10 +8,12 @@ export class BackendApi extends ApiService {
   private readonly auth = inject(AuthService);
 
   protected async headers(init?: HeadersInit) {
-    const token = await this.auth.token();
     const headers = new Headers({
-      'authorization': token ? `Bearer ${token}` : ''
+      'content-type': 'application/json'
     });
+    const token = await this.auth.token();
+    if (token)
+      headers.set('authorization', `Bearer ${token}`)
 
     new Headers(init).forEach((v, k) => headers.set(k, v));
 
