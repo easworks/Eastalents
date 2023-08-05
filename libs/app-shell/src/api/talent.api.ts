@@ -107,28 +107,3 @@ export class TalentApi extends BackendApi {
 
   }
 }
-
-export interface Domain {
-  key: string;
-  longName: string;
-  prefix: string | null;
-  services: string[];
-  modules: DomainModule[];
-  allProducts: DomainProduct[];
-}
-
-export interface DomainModule {
-  name: string;
-  roles: string[];
-  products: DomainProduct[];
-}
-
-export interface DomainProduct {
-  name: string;
-  imageUrl: string;
-}
-
-export interface IndustryGroup {
-  name: string;
-  industries: string[];
-}

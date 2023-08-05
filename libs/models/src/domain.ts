@@ -10,6 +10,9 @@ export interface DomainDto {
   'Role-Prefix and Product-Suffix': string | null;
   Modules: { [key: string]: DomainModuleDto };
   Services: string[];
+  Roles: boolean;
+  Icons: boolean;
+  Properties?: Record<string, Record<string, string[]>>;
 }
 
 export interface DomainModuleDto {
