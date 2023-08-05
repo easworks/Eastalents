@@ -19,7 +19,7 @@ export class AccountApi extends BackendApi {
 
   readonly socialLogin = (input: SocialSignInRequest | SocialSignUpRequest) => {
     const body = JSON.stringify(input);
-    return this.request(`${this.apiUrl}/social-login`, { body })
+    return this.request(`${this.apiUrl}/social-login`, { body, method: 'POST' })
       .then<UserWithToken | SocialUserNotInDB>(this.handleJson)
       .catch(this.handleError);
   }
@@ -27,7 +27,7 @@ export class AccountApi extends BackendApi {
 
   readonly signup = (input: EmailSignUpRequest) => {
     const body = JSON.stringify(input);
-    return this.request(`${this.apiUrl}/users/signup`, { body })
+    return this.request(`${this.apiUrl}/users/signup`, { body, method: 'POST' })
       .then(this.handleJson)
       .then<UserWithToken>(r => r.result?.user)
       .catch(this.handleError);
@@ -35,7 +35,7 @@ export class AccountApi extends BackendApi {
 
   readonly signin = (input: EmailSignInRequest) => {
     const body = JSON.stringify(input);
-    return this.request(`${this.apiUrl}/users/login`, { body })
+    return this.request(`${this.apiUrl}/users/login`, { body, method: 'POST' })
       .then(this.handleJson)
       .then<UserWithToken>(r => r.result?.user)
       .catch(this.handleError);
@@ -44,7 +44,7 @@ export class AccountApi extends BackendApi {
   readonly resetPassword = {
     sendLink: (email: string) => {
       const body = JSON.stringify({ email });
-      return this.request(`${this.apiUrl}/users/forgotPassword`, { body })
+      return this.request(`${this.apiUrl}/users/forgotPassword`, { body, method: 'POST' })
         .then(this.handleJson)
         .catch(this.handleError);
     }
@@ -52,7 +52,7 @@ export class AccountApi extends BackendApi {
 
   readonly verifyEmail = (token: string) => {
     const body = JSON.stringify({ token });
-    return this.request(`${this.apiUrl}/users/verification`, { body })
+    return this.request(`${this.apiUrl}/users/verification`, { body, method: 'POST' })
       .then(this.handleJson)
       .catch(this.handleError);
   }

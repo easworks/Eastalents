@@ -25,7 +25,7 @@ export class TalentApi extends BackendApi {
 
   readonly getTalentProfile = (userId: string) => {
     const body = JSON.stringify({ userId });
-    return this.request(`${this.apiUrl}/talentProfile/getTalentProfile`, { body })
+    return this.request(`${this.apiUrl}/talentProfile/getTalentProfile`, { body, method: 'POST' })
       .then(this.handleJson)
       .then(r => {
         const steps = r['steps'] as FreelancerProfileQuestionDto;
