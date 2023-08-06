@@ -1,3 +1,4 @@
+// TODO: REMOVE THIS ENTIRE FILE
 export const SKILL_OPTIONS = [
   'Fresher',
   'Intermediate',

@@ -22,7 +22,7 @@ import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-r
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { EMPLOYER_TYPE_OPTIONS, EMPLOYEE_SIZE_OPTIONS, EmployeeSize, LatLng, EmployerType } from '@easworks/models';
+import { EMPLOYER_ORG_SIZE_OPTIONS, EMPLOYER_TYPE_OPTIONS, EmployerOrgSize, EmployerType, LatLng } from '@easworks/models';
 
 @Component({
   selector: 'employer-profile-edit-page',
@@ -103,7 +103,7 @@ export class EmployerProfileEditPageComponent {
         Validators.required
       ]
     }),
-    employeeSize: new FormControl(null as unknown as SelectableOption<EmployeeSize>, {
+    employeeSize: new FormControl(null as unknown as SelectableOption<EmployerOrgSize>, {
       nonNullable: true,
       validators: [
         Validators.required
@@ -174,7 +174,7 @@ export class EmployerProfileEditPageComponent {
   } as const;
 
   protected readonly employeeSize = {
-    toggle: (option: SelectableOption<EmployeeSize>) => {
+    toggle: (option: SelectableOption<EmployerOrgSize>) => {
       if (option.selected)
         return;
 
@@ -186,7 +186,7 @@ export class EmployerProfileEditPageComponent {
       }
       control.setValue(option);
     },
-    options: EMPLOYEE_SIZE_OPTIONS.map<SelectableOption<EmployeeSize>>(s => ({
+    options: EMPLOYER_ORG_SIZE_OPTIONS.map<SelectableOption<EmployerOrgSize>>(s => ({
       selected: false,
       value: s,
       label: s

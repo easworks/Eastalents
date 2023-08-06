@@ -8,7 +8,7 @@ export const EMPLOYER_TYPE_OPTIONS = [
 
 export type EmployerType = typeof EMPLOYER_TYPE_OPTIONS[number];
 
-export const EMPLOYEE_SIZE_OPTIONS = [
+export const EMPLOYER_ORG_SIZE_OPTIONS = [
   '1 - 10 Employees',
   '11 - 50 Employees',
   '51 - 100 employees',
@@ -16,4 +16,4 @@ export const EMPLOYEE_SIZE_OPTIONS = [
   '501+ employees'
 ] as const;
 
-export type EmployeeSize = typeof EMPLOYEE_SIZE_OPTIONS[number];
+export type EmployerOrgSize = typeof EMPLOYER_ORG_SIZE_OPTIONS[number];
