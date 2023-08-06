@@ -1,7 +1,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Domain, DomainDictionaryDto, DomainModule, IndustryGroup, IndustryGroupDto, SoftwareProduct, TechGroup, TechGroupDto } from '@easworks/models';
-import { createCache, isFresh } from '../api/cache';
 import { TalentApi } from '../api/talent.api';
+import { CACHE } from '../common/cache';
 import { sortString } from '../utilities/sort';
 
 const ONE_HOUR_MS = 60 * 60 * 1000;
@@ -24,7 +24,7 @@ export class DomainState {
     talent: inject(TalentApi)
   } as const;
 
-  private readonly cache = createCache('domain-data');
+  private readonly cache = CACHE.domains;
 
   readonly domains;
   readonly products;
@@ -34,11 +34,11 @@ export class DomainState {
 
   private async loadDomains() {
     try {
-      const cached = await this.cache.get<Map<string, Domain>>('domains');
-      if (cached && isFresh(cached, ONE_HOUR_MS)) {
-        const domains = cached.data;
-        const products = (await this.cache.get<Map<string, SoftwareProduct>>('products'))?.data;
-        const tech = (await this.cache.get<Map<string, TechGroup>>('tech'))?.data;
+      const cached = await this.cache.get<Map<string, Domain>>('domains', ONE_HOUR_MS);
+      if (cached) {
+        const domains = cached;
+        const products = await this.cache.get<Map<string, SoftwareProduct>>('products');
+        const tech = await this.cache.get<Map<string, TechGroup>>('tech');
         if (!products || !tech)
           throw new Error('invalid operation');
 
@@ -84,7 +84,7 @@ export class DomainState {
     const cacheKey = 'industries';
     const cached = await this.cache.get<IndustryGroup[]>(cacheKey);
     if (cached)
-      this.industries$.set(cached.data);
+      this.industries$.set(cached);
 
     const r = await this.api.talent.industryGroups();
     const ig = mapIndustryGroupDto(r);

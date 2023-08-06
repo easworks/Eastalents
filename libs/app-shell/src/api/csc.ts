@@ -1,6 +1,6 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { CACHE } from '../common/cache';
 import { sortNumber } from '../utilities/sort';
-import { Cached, createCache, isFresh } from './cache';
 import { ApiService } from './api';
 
 const THREE_DAY_MS = 3 * 24 * 60 * 60 * 1000;
@@ -15,22 +15,22 @@ export class CSCApi extends ApiService {
     'X-CSCAPI-KEY': this.apiKey
   });
 
-  private readonly cache = createCache('csc-cache');
+  private readonly cache = CACHE.csc;
 
   async allCountries() {
     const url = `${this.apiUrl}/countries`;
     const id = url;
 
-    const cached = await this.cache.get<Country[]>(id);
-    if (cached && isFresh(cached, THREE_DAY_MS))
-      return cached.data;
+    const cached = await this.cache.get<Country[]>(id, THREE_DAY_MS);
+    if (cached)
+      return cached;
 
     const countries = await fetch(url, { headers: this.headers })
       .then(this.verifyOk)
       .then<Country[]>(r => r.json())
       .catch(this.handleError);
 
-    const details = await Promise.all(countries.map(c => this.countryDetails(c.iso2)))
+    const details = await Promise.all(countries.map(c => this.countryDetails(c.iso2)));
 
     await this.cache.set(id, details);
     return details;
@@ -39,9 +39,9 @@ export class CSCApi extends ApiService {
   async allTimezones() {
     const id = 'timezones';
 
-    const cached = await this.cache.get<Timezone[]>(id);
-    if (cached && isFresh(cached, THREE_DAY_MS))
-      return cached.data;
+    const cached = await this.cache.get<Timezone[]>(id, THREE_DAY_MS);
+    if (cached)
+      return cached;
 
     const countries = await this.allCountries();
     const tz = countries.flatMap(c => c.timezones)
@@ -57,9 +57,9 @@ export class CSCApi extends ApiService {
       const id = url;
       const country = await this.countryDetails(ciso2);
 
-      const cached = await this.cache.get<State[]>(id);
-      if (cached && isFresh(cached, THREE_DAY_MS))
-        return cached.data;
+      const cached = await this.cache.get<State[]>(id, THREE_DAY_MS);
+      if (cached)
+        return cached;
 
       const states = await fetch(url, { headers: this.headers })
         .then(this.verifyOk)
@@ -87,9 +87,9 @@ export class CSCApi extends ApiService {
         `${this.apiUrl}/countries/${ciso2}/cities`;
       const id = url;
 
-      const cached = await this.cache.get<City[]>(id);
-      if (cached && isFresh(cached, THREE_DAY_MS))
-        return cached.data;
+      const cached = await this.cache.get<City[]>(id, THREE_DAY_MS);
+      if (cached)
+        return cached;
 
       const cities = await fetch(url, { headers: this.headers })
         .then(this.verifyOk)
@@ -109,9 +109,9 @@ export class CSCApi extends ApiService {
     const url = `${this.apiUrl}/countries/${ciso2}`;
     const id = url;
 
-    const cached = await this.cache.get<Country>(id);
-    if (cached && isFresh(cached, THREE_DAY_MS))
-      return cached.data;
+    const cached = await this.cache.get<Country>(id, THREE_DAY_MS);
+    if (cached)
+      return cached;
 
     const country = await fetch(url, { headers: this.headers })
       .then(this.verifyOk)
@@ -135,7 +135,7 @@ export interface Country {
   phonecode: string;
   emoji: string;
   timezones: Timezone[];
-  translations: { [key: string]: string };
+  translations: { [key: string]: string; };
 }
 
 export interface State {
