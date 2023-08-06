@@ -10,7 +10,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
 import { CSCApi, City, Country, State, Timezone } from '@easworks/app-shell/api/csc';
 import { GMapsApi } from '@easworks/app-shell/api/gmap';
-import { Domain, DomainModule, DomainProduct } from '@easworks/app-shell/api/talent.api';
 import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator.component';
 import { FileUploadComponent, FileValidators } from '@easworks/app-shell/common/file-upload/file-upload.component';
 import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
@@ -21,7 +20,7 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
 import { filterCountryCode, getPhoneCodeOptions, updatePhoneValidatorEffect } from '@easworks/app-shell/common/phone-code';
 import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
 import { AuthState } from '@easworks/app-shell/state/auth';
-import { DomainState } from '@easworks/app-shell/state/domains';
+import { Domain, DomainModule, DomainProduct, DomainState } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-required';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
@@ -51,10 +50,6 @@ import { map, shareReplay, switchMap } from 'rxjs';
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
-  constructor() {
-    this.getData();
-  }
-
   private readonly injector = inject(INJECTOR);
   private readonly route = inject(ActivatedRoute);
   private readonly geo = inject(GeoLocationService);
@@ -68,9 +63,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   @HostBinding() private readonly class = 'flex flex-col lg:flex-row';
 
   private readonly loading = generateLoadingState<[
-    'getting profile data',
     'getting geolocation',
-    'getting data',
+    'domains',
+    'industries',
     'ps-country',
     'ps-state',
     'ps-city',
@@ -80,7 +75,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     'pd-city',
   ]>();
   protected readonly isNew = this.route.snapshot.queryParamMap.has('new');
-  protected readonly loadingData$ = this.loading.has('getting data');
   private readonly section = this.initSection();
   private readonly allCountries = this.api.csc.allCountries();
 
@@ -193,9 +187,21 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       (step === 'availability' && this.availability.status$() === 'VALID') ||
       (step === 'profile-details' && this.profileDetails.status$() === 'VALID');
 
+    const waitingSteps: Step[] = [
+      'professional-summary',
+      'primary-domains',
+      'industry',
+      'profile-details'
+    ];
     const next = {
       visible$: computed(() => step$() !== lastStep),
-      disabled$: computed(() => this.loading.any$() || !isValidStep(step$())),
+      disabled$: computed(() => {
+        const step = step$();
+        const wait = waitingSteps.includes(step) && this.loading.any$();
+        if (wait)
+          return true;
+        return !isValidStep(step$());
+      }),
       click: () => {
         const current = stepIndex$();
         step$.set(order[current + 1]);
@@ -242,8 +248,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     type StepGroup = {
       label: StepGroupID;
-      enabled$: Signal<boolean>,
-      completed$: Signal<boolean>,
+      enabled$: Signal<boolean>;
+      completed$: Signal<boolean>;
       click: () => void;
     };
 
@@ -579,9 +585,21 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   private initPrimaryDomains() {
+    {
+      const loading = computed(() => this.domains.domains.list$().length === 0);
+      effect(() => {
+        if (loading())
+          this.loading.add('domains');
+        else
+          this.loading.delete('domains');
+      }, { allowSignalWrites: true });
+    }
+
+    const loading$ = this.loading.has('domains');
+
     const domains$ = computed(() => {
       const optionMap = new Map<string, SelectableOption<Domain>>();
-      const options = this.domains.domains$().map(d => {
+      const options = this.domains.domains.list$().map(d => {
         const opt: SelectableOption<Domain> = {
           selected: false,
           value: d,
@@ -615,11 +633,11 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const selected$ = controlValue$(form, true)
       .pipe(
         map(v => {
-          const map = map$();
+          const dMap = map$();
           return Object.keys(v)
             .sort(sortString)
             .map(k => {
-              const o = map.get(k);
+              const o = dMap.get(k);
               if (!o)
                 throw new Error('invalid operation');
               return o.value;
@@ -643,6 +661,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
 
     return {
+      loading$,
       form,
       status$,
       selected$,
@@ -1127,7 +1146,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     const size$ = computed(() => Object.values(value$()).reduce((p, c) => p + c.length, 0));
     const skippable$ = computed(() => size$() === 0);
-    const fullSize$ = computed(() => this.domains.tech$().reduce((p, c) => p + c.items.size, 0));
+    const fullSize$ = computed(() => this.domains.tech.list$().reduce((p, c) => p + c.items.size, 0));
     const stopInput$ = computed(() => size$() >= fullSize$());
 
     const query$ = signal<string | object>('');
@@ -1136,7 +1155,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       name: string;
       tech: SelectableOption<string>[];
     };
-    const all$ = computed(() => this.domains.tech$()
+    const all$ = computed(() => this.domains.tech.list$()
       .map<OptionGroup>(g => ({
         name: g.name,
         tech: [...g.items]
@@ -1174,6 +1193,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     const handlers = {
       add: (group: string, option: SelectableOption<string>) => {
+        if (option.selected)
+          return;
         option.selected = true;
         let control = form.controls[group];
         if (!control) {
@@ -1208,6 +1229,29 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       }
     } as const;
 
+    if (!this.isNew) {
+      const selected$ = toSignal(this.software.selected$);
+
+      effect(() => {
+        const selected = selected$();
+        if (selected) {
+          const all = all$();
+          const list = selected.flatMap(s => s.software.flatMap(s => s.tech));
+          list.forEach(lg => {
+            const og = all.find(g => g.name === lg.name);
+            if (!og)
+              throw new Error('invalid operation');
+            lg.items.forEach(li => {
+              const opt = og.tech.find(t => t.value === li);
+              if (!opt)
+                throw new Error('invalid operation');
+              handlers.add(og.name, opt);
+            });
+          });
+        }
+      }, { allowSignalWrites: true });
+    }
+
     form.updateValueAndValidity();
 
     return {
@@ -1225,6 +1269,19 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   private initIndustries() {
+    {
+      const loading = computed(() => this.domains.industries$().length === 0);
+      effect(() => {
+        if (loading())
+          this.loading.add('industries');
+        else
+          this.loading.delete('industries');
+      }, { allowSignalWrites: true });
+      this.domains.loadIndustries();
+    }
+
+    const loading$ = this.loading.has('industries');
+
     const stepLabel$ = toSignal(this.primaryDomains.selected$
       .pipe(map(selected => (selected.length === 1 && selected[0].key) || 'Enterprise Application')),
       { initialValue: 'Enterprise Application' });
@@ -1330,6 +1387,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     form.updateValueAndValidity();
 
     return {
+      loading$,
       form,
       value$,
       status$,
@@ -2240,10 +2298,17 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         injector
       );
 
-      this.primaryDomains.toggle(all[0]);
-      this.primaryDomains.toggle(all[1]);
-      this.primaryDomains.form.get(all[0].value.key)?.setValue(2);
-      this.primaryDomains.form.get(all[1].value.key)?.setValue(2);
+      const scm = all.find(o => o.value.key === 'SCM');
+      if (!scm)
+        throw new Error('invalid operation');
+
+      this.primaryDomains.toggle(scm);
+      this.primaryDomains.form.get(scm.value.key)?.setValue(2);
+
+      // this.primaryDomains.toggle(all[0]);
+      // this.primaryDomains.toggle(all[1]);
+      // this.primaryDomains.form.get(all[0].value.key)?.setValue(2);
+      // this.primaryDomains.form.get(all[1].value.key)?.setValue(2);
 
       this.stepper.next.click();
     }
@@ -2284,6 +2349,16 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
       domains.forEach(d => {
         const all = options[d.key].all;
+
+        if (d.key === 'SCM') {
+          const bluJay = all.find(s => s.value.name === 'BluJay Solutions');
+          if (!bluJay)
+            throw new Error('invalid operation');
+
+          options[d.key].toggle(bluJay);
+          form.controls[d.key].controls[bluJay.value.name].setValue(2);
+          return;
+        }
 
         options[d.key].toggle(all[0]);
         options[d.key].toggle(all[1]);
@@ -2420,24 +2495,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     revert.forEach(r => r());
   }
 
-  private async getData() {
-    this.loading.add('getting data');
-    const toDo = [] as Promise<unknown>[];
-
-    if (!this.section || this.section === 'technology-stack') {
-      this.domains.getTech();
-    }
-
-    if (!this.section || this.section === 'industry') {
-      this.domains.getIndustries();
-    }
-
-    toDo.push(toPromise(this.domains.loading.any$, v => !v));
-
-    await Promise.all(toDo);
-    this.loading.delete('getting data');
-  }
-
   private async getCurrentLocation() {
     try {
       this.loading.add('getting geolocation');
@@ -2475,7 +2532,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.devModeInit();
+    this.devModeInit();
   }
 }
 

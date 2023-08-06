@@ -247,7 +247,7 @@
             </span>
           </span>
         </label>
-        <div *ngIf="!loadingData$(); else $dataLoading"
+        <div *ngIf="!primaryDomains.loading$(); else $dataLoading"
              class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
 
           <ng-container *ngFor="let domain of primaryDomains.options$(); trackBy: trackBy.domainOption">
@@ -579,24 +579,26 @@
           </span>
         </label>
 
-        <div *ngIf="industries.size$() > 0"
-             class="grid gap-4 mt-4">
-          <div *ngFor="let entry of industries.value$() | keyvalue; trackBy: trackBy.key">
-            <label class="font-medium">{{entry.key}}</label>
-            <!-- <div class="mt-2 flex flex-wrap gap-2"> -->
-            <div class="mt-2 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-              <div *ngFor="let option of entry.value; let i = index; trackBy: trackBy.stringOption"
-                   class="industry-option">
-                <span>{{option.value}}</span>
-                <button type="button" mat-ripple class="icon-button"
-                        (click)="industries.remove(entry.key, i)"
-                        title="Remove">
-                  <i class="fa-solid fa-square-xmark"></i>
-                </button>
+        <ng-container *ngIf="!industries.loading$(); else $dataLoading">
+          <div *ngIf="industries.size$() > 0"
+               class="grid gap-4 mt-4">
+            <div *ngFor="let entry of industries.value$() | keyvalue; trackBy: trackBy.key">
+              <label class="font-medium">{{entry.key}}</label>
+              <!-- <div class="mt-2 flex flex-wrap gap-2"> -->
+              <div class="mt-2 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+                <div *ngFor="let option of entry.value; let i = index; trackBy: trackBy.stringOption"
+                     class="industry-option">
+                  <span>{{option.value}}</span>
+                  <button type="button" mat-ripple class="icon-button"
+                          (click)="industries.remove(entry.key, i)"
+                          title="Remove">
+                    <i class="fa-solid fa-square-xmark"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </ng-container>
       </div>
 
       <div *ngIf="!industries.stopInput$()" class="p-4">
