@@ -1,6 +1,6 @@
 import { KeyValue } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, computed, effect, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
@@ -22,7 +22,9 @@ import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-r
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { IndustryGroup, LatLng, ORGANIZATION_SIZE_OPTIONS, ORGANIZATION_TYPE_OPTIONS, OrganizationSize, OrganizationType } from '@easworks/models';
+import { EmployerProfile, IndustryGroup, LatLng, ORGANIZATION_SIZE_OPTIONS, ORGANIZATION_TYPE_OPTIONS, OrganizationSize, OrganizationType, pattern } from '@easworks/models';
+import { emailBlacklist } from '@easworks/app-shell/validators/email-blacklist';
+import { AccountApi } from '@easworks/app-shell/api/account.api';
 
 @Component({
   selector: 'employer-profile-edit-page',
@@ -44,7 +46,8 @@ export class EmployerProfileEditPageComponent {
   constructor() {
     const status$ = toSignal(controlStatus$(this.form), { requireSync: true });
     const isInvalid$ = computed(() => status$() !== 'VALID');
-    this.disableSubmit$ = computed(() => this.loading.any$() || isInvalid$());
+    this.submitting$ = this.loading.has('submitting');
+    this.disableSubmit$ = computed(() => this.loading.any$() || isInvalid$() || this.submitting$());
   }
 
   private readonly injector = inject(INJECTOR);
@@ -54,6 +57,7 @@ export class EmployerProfileEditPageComponent {
   private readonly api = {
     csc: inject(CSCApi),
     gmap: inject(GMapsApi),
+    account: inject(AccountApi)
   } as const;
 
   @HostBinding() private readonly class = 'flex flex-col lg:flex-row';
@@ -64,7 +68,9 @@ export class EmployerProfileEditPageComponent {
     'country',
     'state',
     'city',
-    'timezone'
+    'timezone',
+    'email',
+    'submitting'
   ]>();
 
   protected readonly trackBy = {
@@ -90,20 +96,20 @@ export class EmployerProfileEditPageComponent {
         Validators.maxLength(300)
       ]
     }),
-    summary: new FormControl('', {
+    description: new FormControl('', {
       nonNullable: true,
       validators: [
         Validators.required,
         Validators.maxLength(1500)
       ]
     }),
-    type: new FormControl(null as unknown as SelectableOption<OrganizationType>, {
+    orgType: new FormControl(null as unknown as SelectableOption<OrganizationType>, {
       nonNullable: true,
       validators: [
         Validators.required
       ]
     }),
-    employeeSize: new FormControl(null as unknown as SelectableOption<OrganizationSize>, {
+    orgSize: new FormControl(null as unknown as SelectableOption<OrganizationSize>, {
       nonNullable: true,
       validators: [
         Validators.required
@@ -124,7 +130,10 @@ export class EmployerProfileEditPageComponent {
       email: new FormControl(
         this.isNew && this.user()?.email || '', {
         nonNullable: true,
-        validators: [Validators.required, Validators.email, Validators.maxLength(300)]
+        validators: [Validators.required, Validators.pattern(pattern.email), Validators.maxLength(300)],
+        asyncValidators: [
+          emailBlacklist(this.api.account.freeEmailProviders())
+        ]
       }),
       phoneNumber: new FormGroup({
         code: new FormControl(''),
@@ -152,13 +161,14 @@ export class EmployerProfileEditPageComponent {
   });
 
   protected readonly disableSubmit$;
+  protected readonly submitting$;
 
-  protected readonly type = {
+  protected readonly orgType = {
     toggle: (option: SelectableOption<OrganizationType>) => {
       if (option.selected)
         return;
 
-      const control = this.form.controls.type;
+      const control = this.form.controls.orgType;
       option.selected = true;
       const old = control.value;
       if (old) {
@@ -173,12 +183,12 @@ export class EmployerProfileEditPageComponent {
     }))
   } as const;
 
-  protected readonly employeeSize = {
+  protected readonly orgSize = {
     toggle: (option: SelectableOption<OrganizationSize>) => {
       if (option.selected)
         return;
 
-      const control = this.form.controls.employeeSize;
+      const control = this.form.controls.orgSize;
       option.selected = true;
       const old = control.value;
       if (old) {
@@ -379,6 +389,7 @@ export class EmployerProfileEditPageComponent {
     const status = {
       country: toSignal(controlStatus$(location.controls.country), { requireSync: true }),
       state: toSignal(controlStatus$(location.controls.state), { requireSync: true }),
+      email: toSignal(controlStatus$(contact.controls.email), { requireSync: true })
     };
 
     const allOptions = {
@@ -436,6 +447,7 @@ export class EmployerProfileEditPageComponent {
       state$: this.loading.has('state'),
       city$: this.loading.has('city'),
       timezone$: this.loading.has('timezone'),
+      email$: this.loading.has('email')
     } as const;
 
     const disabled = {
@@ -600,6 +612,16 @@ export class EmployerProfileEditPageComponent {
         });
     }
 
+    // show loading for email
+    {
+      effect(() => {
+        if (status.email() === 'PENDING')
+          this.loading.add('email');
+        else
+          this.loading.delete('email');
+      }, { allowSignalWrites: true });
+    }
+
     return {
       options: filteredOptions,
       loading,
@@ -646,5 +668,38 @@ export class EmployerProfileEditPageComponent {
   protected submit() {
     if (!this.form.valid)
       return;
+
+    this.loading.add('submitting');
+
+    const fv = this.form.getRawValue();
+
+    const profile: EmployerProfile = {
+      orgName: fv.name,
+      description: fv.description,
+      orgType: fv.orgType.value,
+      orgSize: fv.orgSize.value,
+      industry: {
+        group: fv.industry.group.name,
+        name: fv.industry.name,
+      },
+      software: Object.entries(fv.software)
+        .map(([domain, opt]) => ({
+          domain,
+          products: opt.map(o => o.value)
+        })),
+      contact: {
+        email: fv.contact.email || null,
+        phone: fv.contact.phoneNumber.code ? `${fv.contact.phoneNumber.code}${fv.contact.phoneNumber.number}` : null,
+        website: fv.contact.website || null
+      },
+      location: {
+        country: fv.location.country,
+        state: fv.location.state || null,
+        city: fv.location.city || null,
+        timezone: fv.location.timezone
+      }
+    };
+
+    console.debug(profile);
   }
 }

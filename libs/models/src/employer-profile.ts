@@ -21,16 +21,19 @@ export const ORGANIZATION_SIZE_OPTIONS = [
 export type OrganizationSize = typeof ORGANIZATION_SIZE_OPTIONS[number];
 
 export interface EmployerProfile {
-  name: string;
+  orgName: string;
   description: string;
 
-  type: OrganizationType;
-  size: OrganizationSize;
-  industries: IndustryGroup[];
+  orgType: OrganizationType;
+  orgSize: OrganizationSize;
+  industry: {
+    name: string;
+    group: string;
+  };
   software: {
     domain: string;
     products: string[];
-  };
+  }[];
 
   location: {
     country: string;

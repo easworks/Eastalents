@@ -48,7 +48,7 @@
           <span class="error" *ngIf="control.hasError('required')">Required</span>
         </div>
 
-        <div *ngrxLet="form.controls.summary as control"
+        <div *ngrxLet="form.controls.description as control"
              [formFieldControl]="control">
           <label>
             Brief Description
@@ -79,11 +79,11 @@
         </label>
 
         <div class="grid gap-4 mt-4 lg:max-w-md">
-          <button *ngFor="let option of type.options; let i = index; trackBy: trackBy.stringOption"
-                  type="button" class="business-type-option"
+          <button *ngFor="let option of orgType.options; let i = index; trackBy: trackBy.stringOption"
+                  type="button" class="org-type-option"
                   mat-ripple
                   [class.selected]="option.selected"
-                  (click)="type.toggle(option)">
+                  (click)="orgType.toggle(option)">
             <div class="grid gap-1">
               <span>{{option.label}}</span>
               <span *ngIf="option.description as description"
@@ -107,11 +107,11 @@
         </label>
 
         <div class="grid gap-4 mt-4 lg:max-w-md">
-          <button *ngFor="let option of employeeSize.options; let i = index; trackBy: trackBy.stringOption"
-                  type="button" class="employee-size-option"
+          <button *ngFor="let option of orgSize.options; let i = index; trackBy: trackBy.stringOption"
+                  type="button" class="org-size-option"
                   mat-ripple
                   [class.selected]="option.selected"
-                  (click)="employeeSize.toggle(option)">
+                  (click)="orgSize.toggle(option)">
             <div class="grid gap-1">
               <span>{{option.label}}</span>
               <span *ngIf="option.description as description"
@@ -361,12 +361,18 @@
 
         <div *ngrxLet="form.controls.email as control"
              [formFieldControl]="control"
-             class="mt-4">
+             class="mt-4"
+             [class.show-spinner]="contact.loading.email$()">
           <label>
             Email
             <span class="text-warn">*</span>
           </label>
           <input type="email" [formControl]="control" placeholder="Email Address" maxlength="300">
+          <span class="error" *ngIf="control.hasError('required')">Required</span>
+          <span class="error" *ngIf="control.hasError('pattern')">Invalid email</span>
+          <span class="error" *ngIf="control.hasError('blacklisted')">Personal emails are not allowed</span>
+          <mat-progress-spinner class="field-spinner right-3 top-8"
+                                mode="indeterminate" diameter="24"></mat-progress-spinner>
         </div>
 
         <div *ngrxLet="form.controls.phoneNumber as form"
@@ -414,7 +420,9 @@
               type="submit" class="shaded-button primary ml-auto mat-elevation-z1 disabled:shadow-none"
               mat-ripple
               [disabled]="disabled">
-        Submit
+        <replace-spinner [showSpinner]="submitting$()">
+          Submit
+        </replace-spinner>
       </button>
     </div>
   </form>
