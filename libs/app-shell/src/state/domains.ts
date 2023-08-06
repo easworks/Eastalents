@@ -1,5 +1,5 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { DomainDictionaryDto, IndustryGroup, IndustryGroupDto, TechGroup, TechGroupDto } from '@easworks/models';
+import { Domain, DomainDictionaryDto, DomainModule, IndustryGroup, IndustryGroupDto, SoftwareProduct, TechGroup, TechGroupDto } from '@easworks/models';
 import { createCache, isFresh } from '../api/cache';
 import { TalentApi } from '../api/talent.api';
 import { sortString } from '../utilities/sort';
@@ -33,46 +33,51 @@ export class DomainState {
 
 
   private async loadDomains() {
-    const cached = await this.cache.get<Map<string, Domain>>('domains');
-    if (cached && isFresh(cached, ONE_HOUR_MS)) {
-      const domains = cached.data;
-      const products = (await this.cache.get<Map<string, DomainProduct>>('products'))?.data;
-      const tech = (await this.cache.get<Map<string, TechGroup>>('tech'))?.data;
-      if (!products || !tech)
-        throw new Error('invalid operation');
-
-      const getProduct = (name: string) => {
-        const found = products.get(name);
-        if (!found)
+    try {
+      const cached = await this.cache.get<Map<string, Domain>>('domains');
+      if (cached && isFresh(cached, ONE_HOUR_MS)) {
+        const domains = cached.data;
+        const products = (await this.cache.get<Map<string, SoftwareProduct>>('products'))?.data;
+        const tech = (await this.cache.get<Map<string, TechGroup>>('tech'))?.data;
+        if (!products || !tech)
           throw new Error('invalid operation');
-        return found;
-      };
 
-      domains.forEach(d => {
-        d.allProducts = d.allProducts.map(p => getProduct(p.name));
-        d.modules.forEach(m => m.products = m.products.map(p => getProduct(p.name)));
-      });
+        const getProduct = (name: string) => {
+          const found = products.get(name);
+          if (!found)
+            throw new Error('invalid operation');
+          return found;
+        };
 
-      this.domains.map$.set(domains);
-      this.products.map$.set(products);
-      this.tech.map$.set(tech);
+        domains.forEach(d => {
+          d.products = d.products.map(p => getProduct(p.name));
+          d.modules.forEach(m => m.products = m.products.map(p => getProduct(p.name)));
+        });
+
+        this.domains.map$.set(domains);
+        this.products.map$.set(products);
+        this.tech.map$.set(tech);
+        return;
+      }
     }
-    else {
-      const [ddto, tdto] = await Promise.all([
-        this.api.talent.profileSteps(),
-        this.api.talent.techGroups()
-      ]);
-
-      const { domains, tech, products } = mapDomainEntities(ddto, tdto);
-
-      await this.cache.set('domains', domains);
-      await this.cache.set('tech', tech);
-      await this.cache.set('products', products);
-
-      this.domains.map$.set(domains);
-      this.products.map$.set(products);
-      this.tech.map$.set(tech);
+    catch (e) {
+      console.error(e);
     }
+
+    const [ddto, tdto] = await Promise.all([
+      this.api.talent.profileSteps(),
+      this.api.talent.techGroups()
+    ]);
+
+    const { domains, tech, products } = mapDomainEntities(ddto, tdto);
+
+    await this.cache.set('domains', domains);
+    await this.cache.set('tech', tech);
+    await this.cache.set('products', products);
+
+    this.domains.map$.set(domains);
+    this.products.map$.set(products);
+    this.tech.map$.set(tech);
   }
 
   async loadIndustries() {
@@ -90,7 +95,7 @@ export class DomainState {
   private initSignals() {
     const maps = {
       domains: signal(new Map<string, Domain>()),
-      products: signal(new Map<string, DomainProduct>()),
+      products: signal(new Map<string, SoftwareProduct>()),
       tech: signal(new Map<string, TechGroup>())
     } as const;
 
@@ -100,7 +105,7 @@ export class DomainState {
         values.sort((a, b) => sortString(a.key, b.key));
         values.forEach(d => {
           d.services.sort(sortString);
-          d.allProducts.sort((a, b) => sortString(a.name, b.name));
+          d.products.sort((a, b) => sortString(a.name, b.name));
           d.modules.sort((a, b) => sortString(a.name, b.name));
 
           d.modules.forEach(m => {
@@ -146,7 +151,7 @@ export class DomainState {
 
 function mapDomainEntities(ddto: DomainDictionaryDto, tdto: TechGroupDto) {
   const tech = new Map<string, TechGroup>();
-  const products = new Map<string, DomainProduct>();
+  const products = new Map<string, SoftwareProduct>();
   const domains = new Map<string, Domain>();
   const mapLog = [] as string[];
 
@@ -174,7 +179,7 @@ function mapDomainEntities(ddto: DomainDictionaryDto, tdto: TechGroupDto) {
                 const found = products.get(p.name);
                 if (found)
                   return found;
-                const np: DomainProduct = { ...p, tech: [] };
+                const np: SoftwareProduct = { ...p, tech: [] };
                 products.set(np.name, np);
                 return np;
               })
@@ -182,7 +187,7 @@ function mapDomainEntities(ddto: DomainDictionaryDto, tdto: TechGroupDto) {
 
           return m;
         }),
-      allProducts: [...dp].map(k => {
+      products: [...dp].map(k => {
         const p = products.get(k);
         if (!p)
           throw new Error('invalid operation');
@@ -258,25 +263,4 @@ function mapIndustryGroupDto(dto: IndustryGroupDto) {
     name: key,
     industries: dto[key]
   }));
-}
-
-export interface Domain {
-  key: string;
-  longName: string;
-  prefix: string | null;
-  services: string[];
-  modules: DomainModule[];
-  allProducts: DomainProduct[];
-}
-
-export interface DomainModule {
-  name: string;
-  roles: string[];
-  products: DomainProduct[];
-}
-
-export interface DomainProduct {
-  name: string;
-  imageUrl: string;
-  tech: TechGroup[];
 }
