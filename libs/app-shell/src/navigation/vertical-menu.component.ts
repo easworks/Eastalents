@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
-import { Domain, DomainState } from '../state/domains';
+import { Domain } from '@easworks/models';
+import { DomainState } from '../state/domains';
 import { MenuItem, NOOP_CLICK, NavMenuState } from '../state/menu';
 import { SelectableOption } from '../utilities/options';
-import { sortString } from '../utilities/sort';
 
 @Component({
   selector: 'app-vertical-menu',
@@ -68,7 +68,7 @@ export class AppVerticalMenuComponent {
       const selected = selected$();
       if (!selected)
         return [];
-      return selected.value.allProducts;
+      return selected.value.products;
     });
 
     const filteredProducts$ = computed(() => {
