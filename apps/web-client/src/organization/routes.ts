@@ -1,8 +1,8 @@
 import { Route } from '@angular/router';
 import { AUTH_GUARD_CHECKS, AuthGuard } from '@easworks/app-shell/services/auth';
 
-export const ENTERPRISE_ROUTE: Route = {
-  path: 'enterprise',
+export const ORGANIZATION_ROUTE: Route = {
+  path: 'organization',
   canMatch: [AuthGuard.asFunction],
   data: {
     auth: AUTH_GUARD_CHECKS.isInRole('employer')
@@ -11,12 +11,12 @@ export const ENTERPRISE_ROUTE: Route = {
     {
       path: 'dashboard',
       pathMatch: 'full',
-      loadComponent: () => import('./dashboard.page').then(m => m.EnterpriseDashboardComponent)
+      loadComponent: () => import('./dashboard.page').then(m => m.OrganizationDashboardComponent)
     },
     {
       path: 'profile/edit',
       pathMatch: 'full',
-      loadComponent: () => import('./profile-edit.page').then(m => m.EnterpriseProfileEditPageComponent)
+      loadComponent: () => import('./profile-edit.page').then(m => m.OrganizationProfileEditPageComponent)
     },
     {
       path: 'job-post/create',
@@ -29,4 +29,4 @@ export const ENTERPRISE_ROUTE: Route = {
       redirectTo: 'dashboard'
     }
   ]
-}
+};

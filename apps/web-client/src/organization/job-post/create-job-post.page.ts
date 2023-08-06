@@ -18,7 +18,7 @@ import { ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, Hou
 import { map, shareReplay, switchMap } from 'rxjs';
 
 @Component({
-  selector: 'enterprise-create-job-post',
+  selector: 'organization-create-job-post',
   templateUrl: './create-job-post.page.html',
   styleUrls: ['./create-job-post.page.less'],
   standalone: true,

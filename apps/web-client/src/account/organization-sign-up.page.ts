@@ -25,7 +25,7 @@ import { first, interval, map } from 'rxjs';
     MatCheckboxModule
   ]
 })
-export class EnterpriseSignUpPageComponent {
+export class OrganizationSignUpPageComponent {
   // TODO: see if destroyRef and cdRef can be removed from this component
   private readonly dRef = inject(DestroyRef);
   private readonly cdRef = inject(ChangeDetectorRef);

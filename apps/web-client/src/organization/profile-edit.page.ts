@@ -22,10 +22,10 @@ import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-r
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { BUSINESS_TYPE_OPTIONS, BusinessType, EMPLOYEE_SIZE_OPTIONS, EmployeeSize, LatLng } from '@easworks/models';
+import { ORGANIZATION_TYPE_OPTIONS, EMPLOYEE_SIZE_OPTIONS, EmployeeSize, LatLng, OrganizationType } from '@easworks/models';
 
 @Component({
-  selector: 'enterprise-profile-edit-page',
+  selector: 'organization-profile-edit-page',
   templateUrl: './profile-edit.page.html',
   styleUrls: ['./profile-edit.page.less'],
   standalone: true,
@@ -39,7 +39,7 @@ import { BUSINESS_TYPE_OPTIONS, BusinessType, EMPLOYEE_SIZE_OPTIONS, EmployeeSiz
     DropDownIndicatorComponent
   ]
 })
-export class EnterpriseProfileEditPageComponent {
+export class OrganizationProfileEditPageComponent {
 
   constructor() {
     const status$ = toSignal(controlStatus$(this.form), { requireSync: true });
@@ -70,7 +70,7 @@ export class EnterpriseProfileEditPageComponent {
   protected readonly trackBy = {
     country: (_: number, c: Country) => c.iso2,
     state: (_: number, s: State) => s.iso2,
-    name: (_: number, i: { name: string }) => i.name,
+    name: (_: number, i: { name: string; }) => i.name,
     stringOption: (_: number, s: SelectableOption<string>) => s.value,
     key: (_: number, kv: KeyValue<string, unknown>) => kv.key
   } as const;
@@ -97,7 +97,7 @@ export class EnterpriseProfileEditPageComponent {
         Validators.maxLength(1500)
       ]
     }),
-    type: new FormControl(null as unknown as SelectableOption<BusinessType>, {
+    type: new FormControl(null as unknown as SelectableOption<OrganizationType>, {
       nonNullable: true,
       validators: [
         Validators.required
@@ -154,7 +154,7 @@ export class EnterpriseProfileEditPageComponent {
   protected readonly disableSubmit$;
 
   protected readonly type = {
-    toggle: (option: SelectableOption<BusinessType>) => {
+    toggle: (option: SelectableOption<OrganizationType>) => {
       if (option.selected)
         return;
 
@@ -166,7 +166,7 @@ export class EnterpriseProfileEditPageComponent {
       }
       control.setValue(option);
     },
-    options: BUSINESS_TYPE_OPTIONS.map<SelectableOption<BusinessType>>(t => ({
+    options: ORGANIZATION_TYPE_OPTIONS.map<SelectableOption<OrganizationType>>(t => ({
       selected: false,
       value: t,
       label: t
@@ -229,7 +229,7 @@ export class EnterpriseProfileEditPageComponent {
             return {
               name: g.name,
               industries: g.industries.filter(i => i.toLowerCase().includes(filter)),
-            }
+            };
           })
           .filter(ig => ig.industries.length);
         return filtered;
@@ -240,14 +240,14 @@ export class EnterpriseProfileEditPageComponent {
 
     const select = (group: IndustryGroup, name: string) => {
       this.form.controls.industry.setValue({ group, name });
-    }
+    };
 
     const clear = () => {
       this.form.controls.industry.setValue({
         group: null as unknown as IndustryGroup,
         name: ''
-      })
-    }
+      });
+    };
 
     return {
       query$,
@@ -255,7 +255,7 @@ export class EnterpriseProfileEditPageComponent {
       select,
       clear,
       loading$
-    }
+    };
   }
 
   private initSoftware() {
@@ -301,7 +301,7 @@ export class EnterpriseProfileEditPageComponent {
 
       const filtered = all
         .map(g => {
-          const matchGroup = filter && g.name.toLowerCase().includes(filter)
+          const matchGroup = filter && g.name.toLowerCase().includes(filter);
           if (matchGroup) {
             return {
               name: g.name,
@@ -311,12 +311,12 @@ export class EnterpriseProfileEditPageComponent {
           return {
             name: g.name,
             software: g.software.filter(i => !i.selected && (!filter || i.value.toLowerCase().includes(filter)))
-          }
+          };
         })
         .filter(g => g.software.length);
 
       return filtered;
-    })
+    });
 
     const handlers = {
       add: (domain: string, option: SelectableOption<string>) => {
@@ -351,7 +351,7 @@ export class EnterpriseProfileEditPageComponent {
         query$.mutate(v => v);
         count$.update(v => --v);
       }
-    }
+    };
 
     return {
       count$,
@@ -361,7 +361,7 @@ export class EnterpriseProfileEditPageComponent {
       query$,
       options$: filteredOptions$,
       ...handlers
-    }
+    };
   }
 
   private initContact() {
@@ -379,14 +379,14 @@ export class EnterpriseProfileEditPageComponent {
     const status = {
       country: toSignal(controlStatus$(location.controls.country), { requireSync: true }),
       state: toSignal(controlStatus$(location.controls.state), { requireSync: true }),
-    }
+    };
 
     const allOptions = {
       country$: signal<Country[]>([]),
       state$: signal<State[]>([]),
       city$: signal<City[]>([]),
       timezone$: signal<Timezone[]>([]),
-      countryCode: signal<(Country & { plainPhoneCode: string })[]>([]),
+      countryCode: signal<(Country & { plainPhoneCode: string; })[]>([]),
     } as const;
 
     const filteredOptions = {
@@ -428,7 +428,7 @@ export class EnterpriseProfileEditPageComponent {
     const validation = {
       stateRequired$: computed(() => allOptions.state$().length > 0),
       cityRequired$: computed(() => allOptions.city$().length > 0)
-    }
+    };
 
     const loading = {
       geo$: this.loading.has('geolocation'),
@@ -481,7 +481,7 @@ export class EnterpriseProfileEditPageComponent {
               allOptions.timezone$.set(cscTz);
             else {
               const all = await this.api.csc.allTimezones();
-              allOptions.timezone$.set(all)
+              allOptions.timezone$.set(all);
             }
             this.loading.delete('timezone');
           }
@@ -553,7 +553,7 @@ export class EnterpriseProfileEditPageComponent {
           location.controls.city.setValue(match.name);
         }
       }
-    }, { allowSignalWrites: true })
+    }, { allowSignalWrites: true });
 
     effect(() => {
       const options = allOptions.timezone$();
@@ -604,7 +604,7 @@ export class EnterpriseProfileEditPageComponent {
       options: filteredOptions,
       loading,
       validation
-    }
+    };
   }
 
   private async getCurrentLocation() {
@@ -613,7 +613,7 @@ export class EnterpriseProfileEditPageComponent {
 
       const device = this.injector.get(GeoLocationService);
 
-      const fromDevice = await device.get(true)
+      const fromDevice = await device.get(true);
 
       const coords: LatLng = fromDevice ?
         { lat: fromDevice.coords.latitude, lng: fromDevice.coords.longitude } :
@@ -626,7 +626,7 @@ export class EnterpriseProfileEditPageComponent {
       if (response.status !== 'OK')
         return null;
 
-      const components = response.results[0].address_components
+      const components = response.results[0].address_components;
 
       const country = components.find(c => c.types.includes('country'));
       const state = components.find(c => c.types.includes('administrative_area_level_1'));

@@ -29,10 +29,10 @@ export class AccountWidgetComponent {
   protected readonly profileLink$ = computed(() => {
     switch (this.state.user$()?.role) {
       case 'freelancer': return '/freelancer/profile';
-      case 'employer': return '/enterprise/profile';
+      case 'employer': return '/organization/profile';
       default: throw new Error('not implmeneted');
     }
-  })
+  });
 
   protected readonly user$ = this.state.user$;
 
