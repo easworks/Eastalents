@@ -46,7 +46,7 @@ export class DomainState {
         if (!found)
           throw new Error('invalid operation');
         return found;
-      }
+      };
 
       domains.forEach(d => {
         d.allProducts = d.allProducts.map(p => getProduct(p.name));
@@ -76,7 +76,7 @@ export class DomainState {
   }
 
   async loadIndustries() {
-    const cacheKey = 'industries'
+    const cacheKey = 'industries';
     const cached = await this.cache.get<IndustryGroup[]>(cacheKey);
     if (cached)
       this.industries$.set(cached.data);
@@ -106,8 +106,8 @@ export class DomainState {
           d.modules.forEach(m => {
             m.roles.sort(sortString);
             m.products.sort((a, b) => sortString(a.name, b.name));
-          })
-        })
+          });
+        });
         return values;
       }),
       products: computed(() => {
@@ -140,7 +140,7 @@ export class DomainState {
         map$: maps.tech,
         list$: lists.tech
       }
-    }
+    };
   }
 }
 
@@ -154,7 +154,7 @@ function mapDomainEntities(ddto: DomainDictionaryDto, tdto: TechGroupDto) {
   // console.debug([...tech.values()].sort((a, b) => sortString(a.name, b.name)));
 
   Object.keys(ddto).forEach(dk => {
-    const input = ddto[dk]
+    const input = ddto[dk];
 
     const dp = new Set<string>();
 
@@ -185,7 +185,7 @@ function mapDomainEntities(ddto: DomainDictionaryDto, tdto: TechGroupDto) {
       allProducts: [...dp].map(k => {
         const p = products.get(k);
         if (!p)
-          throw new Error('invalid operation')
+          throw new Error('invalid operation');
         return p;
       })
     };
@@ -202,7 +202,7 @@ function mapDomainEntities(ddto: DomainDictionaryDto, tdto: TechGroupDto) {
             name: pk,
             imageUrl: pk,
             tech: []
-          }
+          };
           products.set(product.name, product);
         }
 
@@ -213,7 +213,7 @@ function mapDomainEntities(ddto: DomainDictionaryDto, tdto: TechGroupDto) {
             tg = {
               name: tgk,
               items: new Set()
-            }
+            };
             tech.set(tg.name, tg);
           }
 
@@ -229,13 +229,13 @@ function mapDomainEntities(ddto: DomainDictionaryDto, tdto: TechGroupDto) {
             const ng: TechGroup = {
               name: tg.name,
               items: new Set(skills)
-            }
+            };
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             product!.tech.push(ng);
           }
         });
 
-      })
+      });
     }
 
     domains.set(dk, d);
@@ -250,14 +250,14 @@ function mapTechGroupDto(dto: TechGroupDto) {
   return Object.keys(dto).map<TechGroup>(key => ({
     name: key,
     items: new Set(dto[key])
-  }))
+  }));
 }
 
 function mapIndustryGroupDto(dto: IndustryGroupDto) {
   return Object.keys(dto).map<IndustryGroup>(key => ({
     name: key,
     industries: dto[key]
-  }))
+  }));
 }
 
 export interface Domain {
