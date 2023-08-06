@@ -1,28 +1,32 @@
 import { Injectable } from '@angular/core';
 import { EmailSignInRequest, EmailSignUpRequest, SocialSignInRequest, SocialSignUpRequest, SocialUserNotInDB, UserWithToken } from '@easworks/models';
+import { CACHE } from '../common/cache';
 import { BackendApi } from './backend';
+
+const ONE_HOUR_MS = 60 * 60 * 1000;
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountApi extends BackendApi {
-  /** black-listed email domains */
-  private _bled?: Promise<string[]>;
-  readonly blackListedEmailDomains = async () => {
-    if (!this._bled) {
-      this._bled = fetch('/assets/utils/free-email-providers.json')
-        .then<string[]>(this.handleJson)
-        .catch(this.handleError);
-    }
-    return this._bled;
-  }
+  readonly freeEmailProviders = async () => {
+    const cached = await CACHE.domains.get('free-email-providers', ONE_HOUR_MS);
+    if (cached)
+      return cached;
+
+    const res = await fetch('/assets/utils/free-email-providers.json')
+      .then<string[]>(this.handleJson)
+      .catch(this.handleError);
+    await CACHE.domains.set('free-email-providers', res);
+    return res;
+  };
 
   readonly socialLogin = (input: SocialSignInRequest | SocialSignUpRequest) => {
     const body = JSON.stringify(input);
     return this.request(`${this.apiUrl}/social-login`, { body, method: 'POST' })
       .then<UserWithToken | SocialUserNotInDB>(this.handleJson)
       .catch(this.handleError);
-  }
+  };
 
 
   readonly signup = (input: EmailSignUpRequest) => {
@@ -31,7 +35,7 @@ export class AccountApi extends BackendApi {
       .then(this.handleJson)
       .then<UserWithToken>(r => r.result?.user)
       .catch(this.handleError);
-  }
+  };
 
   readonly signin = (input: EmailSignInRequest) => {
     const body = JSON.stringify(input);
@@ -39,7 +43,7 @@ export class AccountApi extends BackendApi {
       .then(this.handleJson)
       .then<UserWithToken>(r => r.result?.user)
       .catch(this.handleError);
-  }
+  };
 
   readonly resetPassword = {
     sendLink: (email: string) => {
@@ -55,5 +59,5 @@ export class AccountApi extends BackendApi {
     return this.request(`${this.apiUrl}/users/verification`, { body, method: 'POST' })
       .then(this.handleJson)
       .catch(this.handleError);
-  }
+  };
 }
