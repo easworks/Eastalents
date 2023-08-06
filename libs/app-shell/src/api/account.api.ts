@@ -10,7 +10,7 @@ const ONE_HOUR_MS = 60 * 60 * 1000;
 })
 export class AccountApi extends BackendApi {
   readonly freeEmailProviders = async () => {
-    const cached = await CACHE.domains.get('free-email-providers', ONE_HOUR_MS);
+    const cached = await CACHE.domains.get<string[]>('free-email-providers', ONE_HOUR_MS);
     if (cached)
       return cached;
 
