@@ -585,16 +585,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   private initPrimaryDomains() {
-    {
-      const loading = computed(() => this.domains.domains.list$().length === 0);
-      effect(() => {
-        if (loading())
-          this.loading.add('domains');
-        else
-          this.loading.delete('domains');
-      }, { allowSignalWrites: true });
-    }
-
+    this.loading.react('domains', computed(() => this.domains.domains.list$().length === 0));
     const loading$ = this.loading.has('domains');
 
     const domains$ = computed(() => {
@@ -2081,22 +2072,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       isRequired.state$ = computed(() => allOptions.state$().length > 0 && hasValue());
       isRequired.city$ = computed(() => allOptions.city$().length > 0 && hasValue());
       isRequired.postalCode$ = hasValue;
-
-      // eslint-disable-next-line no-inner-declarations
-      function dynamicallyRequired(
-        required$: Signal<boolean>,
-        control: FormControl
-      ) {
-        effect(() => {
-          if (required$()) {
-            control.addValidators(Validators.required);
-          }
-          else {
-            control.removeValidators(Validators.required);
-          }
-          control.updateValueAndValidity();
-        }, { allowSignalWrites: true });
-      }
 
       dynamicallyRequired(isRequired.line1$, line1);
       dynamicallyRequired(isRequired.country$, country);

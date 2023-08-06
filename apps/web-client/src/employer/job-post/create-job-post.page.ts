@@ -302,16 +302,7 @@ export class CreateJobPostPageComponent implements OnInit {
   }
 
   private initPrimaryDomain() {
-    {
-      const loading = computed(() => this.domains.domains.list$().length === 0);
-      effect(() => {
-        if (loading())
-          this.loading.add('domains');
-        else
-          this.loading.delete('domains');
-      }, { allowSignalWrites: true });
-    }
-
+    this.loading.react('domains', computed(() => this.domains.domains.list$().length === 0));
     const loading$ = this.loading.has('domains');
 
     const form = new FormGroup({

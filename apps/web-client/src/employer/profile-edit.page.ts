@@ -208,17 +208,8 @@ export class EmployerProfileEditPageComponent {
   protected readonly contact = this.initContact();
 
   private initIndustry() {
-    {
-      const loading = computed(() => this.domainState.industries$().length === 0);
-      effect(() => {
-        if (loading())
-          this.loading.add('industries');
-        else
-          this.loading.delete('industries');
-      }, { allowSignalWrites: true });
-      this.domainState.loadIndustries();
-    }
-
+    this.loading.react('industries', computed(() => this.domainState.industries$().length === 0));
+    this.domainState.loadIndustries();
     const loading$ = this.loading.has('industries');
 
     const query$ = signal<string>('');
@@ -269,15 +260,7 @@ export class EmployerProfileEditPageComponent {
   }
 
   private initSoftware() {
-    {
-      const loading = computed(() => this.domainState.domains.list$().length === 0);
-      effect(() => {
-        if (loading())
-          this.loading.add('domains');
-        else
-          this.loading.delete('domains');
-      }, { allowSignalWrites: true });
-    }
+    this.loading.react('domains', computed(() => this.domainState.domains.list$().length === 0));
     const loading$ = this.loading.has('domains');
 
     const count$ = signal(0);
@@ -440,6 +423,9 @@ export class EmployerProfileEditPageComponent {
       stateRequired$: computed(() => allOptions.state$().length > 0),
       cityRequired$: computed(() => allOptions.city$().length > 0)
     };
+
+    // show loading for email
+    this.loading.react('email', computed(() => status.email() === 'PENDING'));
 
     const loading = {
       geo$: this.loading.has('geolocation'),
@@ -612,15 +598,7 @@ export class EmployerProfileEditPageComponent {
         });
     }
 
-    // show loading for email
-    {
-      effect(() => {
-        if (status.email() === 'PENDING')
-          this.loading.add('email');
-        else
-          this.loading.delete('email');
-      }, { allowSignalWrites: true });
-    }
+
 
     return {
       options: filteredOptions,
