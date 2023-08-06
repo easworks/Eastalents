@@ -7,7 +7,6 @@ import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { ActivatedRoute } from '@angular/router';
 import { CSCApi, City, Country, State, Timezone } from '@easworks/app-shell/api/csc';
 import { GMapsApi } from '@easworks/app-shell/api/gmap';
-import { IndustryGroup } from '@easworks/app-shell/api/talent.api';
 import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator.component';
 import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
@@ -17,7 +16,7 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
 import { filterCountryCode, getPhoneCodeOptions, updatePhoneValidatorEffect } from '@easworks/app-shell/common/phone-code';
 import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
 import { AuthState } from '@easworks/app-shell/state/auth';
-import { DomainState } from '@easworks/app-shell/state/domains';
+import { DomainState, IndustryGroup } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-required';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
@@ -50,7 +49,7 @@ export class EnterpriseProfileEditPageComponent {
 
   private readonly injector = inject(INJECTOR);
   private readonly route = inject(ActivatedRoute);
-  private readonly domains = inject(DomainState);
+  private readonly domainState = inject(DomainState);
   private readonly user = inject(AuthState).user$;
   private readonly api = {
     csc: inject(CSCApi),
@@ -200,9 +199,14 @@ export class EnterpriseProfileEditPageComponent {
 
   private initIndustry() {
     {
-      this.loading.add('industries');
-      this.domains.getIndustries()
-        .then(() => this.loading.delete('industries'));
+      const loading = computed(() => this.domainState.industries$().length === 0);
+      effect(() => {
+        if (loading())
+          this.loading.add('industries');
+        else
+          this.loading.delete('industries');
+      }, { allowSignalWrites: true });
+      this.domainState.loadIndustries();
     }
 
     const loading$ = this.loading.has('industries');
@@ -211,7 +215,7 @@ export class EnterpriseProfileEditPageComponent {
 
     const filteredOptions$ = computed(() => {
       const q = query$();
-      const all = this.domains.industries$();
+      const all = this.domainState.industries$();
 
       const filter = q && q.trim().toLowerCase();
 
@@ -255,22 +259,31 @@ export class EnterpriseProfileEditPageComponent {
   }
 
   private initSoftware() {
+    {
+      const loading = computed(() => this.domainState.domains.list$().length === 0);
+      effect(() => {
+        if (loading())
+          this.loading.add('domains');
+        else
+          this.loading.delete('domains');
+      }, { allowSignalWrites: true });
+    }
+    const loading$ = this.loading.has('domains');
+
     const count$ = signal(0);
     const hasItems$ = computed(() => count$() > 0);
-
-
 
     const form = this.form.controls.software;
     const value$ = toSignal(controlValue$(form), { requireSync: true });
 
-    const query$ = signal<string | object>('');
+    const query$ = signal<string>('');
 
     type OptionGroup = {
       name: string;
       software: SelectableOption<string>[];
     };
 
-    const all$ = computed(() => this.domains.domains$()
+    const all$ = computed(() => this.domainState.domains.list$()
       .map<OptionGroup>(d => ({
         name: d.longName,
         software: d.allProducts.map(p => ({
@@ -284,7 +297,7 @@ export class EnterpriseProfileEditPageComponent {
       const q = query$();
       const all = all$();
 
-      const filter = typeof q === 'string' && q && q.trim().toLowerCase();
+      const filter = q && q.trim().toLowerCase();
 
       const filtered = all
         .map(g => {
@@ -339,15 +352,6 @@ export class EnterpriseProfileEditPageComponent {
         count$.update(v => --v);
       }
     }
-
-    const loadingDomain = this.domains.loading.has('domains');
-    effect(() => {
-      if (loadingDomain())
-        this.loading.add('domains')
-      else
-        this.loading.delete('domains')
-    }, { allowSignalWrites: true });
-    const loading$ = this.loading.has('domains');
 
     return {
       count$,

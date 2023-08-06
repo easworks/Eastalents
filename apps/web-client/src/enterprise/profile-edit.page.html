@@ -230,7 +230,8 @@
               <ng-container *ngFor="let group of software.options$(); let last = last; trackBy: trackBy.name">
                 <mat-optgroup [label]="group.name">
                   <mat-option *ngFor="let option of group.software"
-                              (onSelectionChange)="software.add(group.name, option); $event.source.deselect(); ">
+                              [value]="software.query$()"
+                              (onSelectionChange)="$event.source.deselect(); software.add(group.name, option);">
                     {{option.value}}
                   </mat-option>
                 </mat-optgroup>
