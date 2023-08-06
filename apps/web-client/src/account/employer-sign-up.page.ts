@@ -15,8 +15,8 @@ import { first, interval, map } from 'rxjs';
 
 @Component({
   selector: 'account-organization-sign-up-page',
-  templateUrl: './organization-sign-up.page.html',
-  styleUrls: ['./organization-sign-up.page.less'],
+  templateUrl: './employer-sign-up.page.html',
+  styleUrls: ['./employer-sign-up.page.less'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [

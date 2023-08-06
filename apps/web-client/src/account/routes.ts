@@ -36,7 +36,7 @@ export const ACCOUNT_ROUTE: Route = {
       path: 'sign-up/organization',
       pathMatch: 'full',
       canActivate: [redirectUser],
-      loadComponent: () => import('./organization-sign-up.page').then(m => m.OrganizationSignUpPageComponent),
+      loadComponent: () => import('./employer-sign-up.page').then(m => m.OrganizationSignUpPageComponent),
       data: {
         seo: {
           title: () => 'Sign Up as an Organization'
