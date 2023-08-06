@@ -34,7 +34,7 @@
 
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="rounded bg-white mat-elevation-z1">
-      <h2 class="p-4 text-xl font-semibold">Organization Details</h2>
+      <h2 class="p-4 text-xl font-semibold">Employer Details</h2>
       <mat-divider></mat-divider>
       <!-- name and summery -->
       <div class="p-4">
@@ -51,7 +51,7 @@
         <div *ngrxLet="form.controls.summary as control"
              [formFieldControl]="control">
           <label>
-            Brief Organization Description
+            Brief Description
             <span class="text-warn">*</span>
           </label>
           <div class="field field-interactive h-64 mt-2">

@@ -22,10 +22,10 @@ import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-r
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { ORGANIZATION_TYPE_OPTIONS, EMPLOYEE_SIZE_OPTIONS, EmployeeSize, LatLng, OrganizationType } from '@easworks/models';
+import { EMPLOYER_TYPE_OPTIONS, EMPLOYEE_SIZE_OPTIONS, EmployeeSize, LatLng, EmployerType } from '@easworks/models';
 
 @Component({
-  selector: 'organization-profile-edit-page',
+  selector: 'employer-profile-edit-page',
   templateUrl: './profile-edit.page.html',
   styleUrls: ['./profile-edit.page.less'],
   standalone: true,
@@ -39,7 +39,7 @@ import { ORGANIZATION_TYPE_OPTIONS, EMPLOYEE_SIZE_OPTIONS, EmployeeSize, LatLng,
     DropDownIndicatorComponent
   ]
 })
-export class OrganizationProfileEditPageComponent {
+export class EmployerProfileEditPageComponent {
 
   constructor() {
     const status$ = toSignal(controlStatus$(this.form), { requireSync: true });
@@ -97,7 +97,7 @@ export class OrganizationProfileEditPageComponent {
         Validators.maxLength(1500)
       ]
     }),
-    type: new FormControl(null as unknown as SelectableOption<OrganizationType>, {
+    type: new FormControl(null as unknown as SelectableOption<EmployerType>, {
       nonNullable: true,
       validators: [
         Validators.required
@@ -154,7 +154,7 @@ export class OrganizationProfileEditPageComponent {
   protected readonly disableSubmit$;
 
   protected readonly type = {
-    toggle: (option: SelectableOption<OrganizationType>) => {
+    toggle: (option: SelectableOption<EmployerType>) => {
       if (option.selected)
         return;
 
@@ -166,7 +166,7 @@ export class OrganizationProfileEditPageComponent {
       }
       control.setValue(option);
     },
-    options: ORGANIZATION_TYPE_OPTIONS.map<SelectableOption<OrganizationType>>(t => ({
+    options: EMPLOYER_TYPE_OPTIONS.map<SelectableOption<EmployerType>>(t => ({
       selected: false,
       value: t,
       label: t

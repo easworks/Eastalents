@@ -14,7 +14,7 @@ import { pattern } from '@easworks/models';
 import { first, interval, map } from 'rxjs';
 
 @Component({
-  selector: 'account-organization-sign-up-page',
+  selector: 'account-employer-sign-up-page',
   templateUrl: './employer-sign-up.page.html',
   styleUrls: ['./employer-sign-up.page.less'],
   standalone: true,
@@ -25,7 +25,7 @@ import { first, interval, map } from 'rxjs';
     MatCheckboxModule
   ]
 })
-export class OrganizationSignUpPageComponent {
+export class EmployerSignUpPageComponent {
   // TODO: see if destroyRef and cdRef can be removed from this component
   private readonly dRef = inject(DestroyRef);
   private readonly cdRef = inject(ChangeDetectorRef);

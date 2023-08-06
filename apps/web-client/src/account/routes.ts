@@ -33,13 +33,13 @@ export const ACCOUNT_ROUTE: Route = {
       }
     },
     {
-      path: 'sign-up/organization',
+      path: 'sign-up/employer',
       pathMatch: 'full',
       canActivate: [redirectUser],
-      loadComponent: () => import('./employer-sign-up.page').then(m => m.OrganizationSignUpPageComponent),
+      loadComponent: () => import('./employer-sign-up.page').then(m => m.EmployerSignUpPageComponent),
       data: {
         seo: {
-          title: () => 'Sign Up as an Organization'
+          title: () => 'Sign Up as an Employer'
         }
       }
     },
