@@ -1,6 +1,6 @@
 export * from './api';
 export * from './user';
-export * from './validators';
+export * from './pattern';
 export * from './auth';
 export * from './freelancer-profile';
 export * from './expertise';
