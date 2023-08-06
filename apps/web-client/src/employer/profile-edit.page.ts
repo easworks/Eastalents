@@ -16,13 +16,13 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
 import { filterCountryCode, getPhoneCodeOptions, updatePhoneValidatorEffect } from '@easworks/app-shell/common/phone-code';
 import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
 import { AuthState } from '@easworks/app-shell/state/auth';
-import { DomainState, IndustryGroup } from '@easworks/app-shell/state/domains';
+import { DomainState } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-required';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { EMPLOYER_ORG_SIZE_OPTIONS, EMPLOYER_TYPE_OPTIONS, EmployerOrgSize, EmployerType, LatLng } from '@easworks/models';
+import { IndustryGroup, LatLng, ORGANIZATION_SIZE_OPTIONS, ORGANIZATION_TYPE_OPTIONS, OrganizationSize, OrganizationType } from '@easworks/models';
 
 @Component({
   selector: 'employer-profile-edit-page',
@@ -97,13 +97,13 @@ export class EmployerProfileEditPageComponent {
         Validators.maxLength(1500)
       ]
     }),
-    type: new FormControl(null as unknown as SelectableOption<EmployerType>, {
+    type: new FormControl(null as unknown as SelectableOption<OrganizationType>, {
       nonNullable: true,
       validators: [
         Validators.required
       ]
     }),
-    employeeSize: new FormControl(null as unknown as SelectableOption<EmployerOrgSize>, {
+    employeeSize: new FormControl(null as unknown as SelectableOption<OrganizationSize>, {
       nonNullable: true,
       validators: [
         Validators.required
@@ -154,7 +154,7 @@ export class EmployerProfileEditPageComponent {
   protected readonly disableSubmit$;
 
   protected readonly type = {
-    toggle: (option: SelectableOption<EmployerType>) => {
+    toggle: (option: SelectableOption<OrganizationType>) => {
       if (option.selected)
         return;
 
@@ -166,7 +166,7 @@ export class EmployerProfileEditPageComponent {
       }
       control.setValue(option);
     },
-    options: EMPLOYER_TYPE_OPTIONS.map<SelectableOption<EmployerType>>(t => ({
+    options: ORGANIZATION_TYPE_OPTIONS.map<SelectableOption<OrganizationType>>(t => ({
       selected: false,
       value: t,
       label: t
@@ -174,7 +174,7 @@ export class EmployerProfileEditPageComponent {
   } as const;
 
   protected readonly employeeSize = {
-    toggle: (option: SelectableOption<EmployerOrgSize>) => {
+    toggle: (option: SelectableOption<OrganizationSize>) => {
       if (option.selected)
         return;
 
@@ -186,7 +186,7 @@ export class EmployerProfileEditPageComponent {
       }
       control.setValue(option);
     },
-    options: EMPLOYER_ORG_SIZE_OPTIONS.map<SelectableOption<EmployerOrgSize>>(s => ({
+    options: ORGANIZATION_SIZE_OPTIONS.map<SelectableOption<OrganizationSize>>(s => ({
       selected: false,
       value: s,
       label: s
@@ -286,7 +286,7 @@ export class EmployerProfileEditPageComponent {
     const all$ = computed(() => this.domainState.domains.list$()
       .map<OptionGroup>(d => ({
         name: d.longName,
-        software: d.allProducts.map(p => ({
+        software: d.products.map(p => ({
           selected: false,
           value: p.name,
           label: p.name

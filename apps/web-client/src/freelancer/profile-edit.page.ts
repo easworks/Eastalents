@@ -20,13 +20,13 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
 import { filterCountryCode, getPhoneCodeOptions, updatePhoneValidatorEffect } from '@easworks/app-shell/common/phone-code';
 import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
 import { AuthState } from '@easworks/app-shell/state/auth';
-import { Domain, DomainModule, DomainProduct, DomainState } from '@easworks/app-shell/state/domains';
+import { DomainState } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-required';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { COMMITMENT_OPTIONS, Commitment, EMPLOYMENT_OPPORTUNITY_OPTIONS, ENGLISH_PROFICIENCY_OPTIONS, EmploymentOpportunity, EnglishProficiency, FREEELANCER_SIGNUP_REASON_OPTIONS, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, FreelancerSignupReason, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, LatLng, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, pattern } from '@easworks/models';
+import { COMMITMENT_OPTIONS, Commitment, Domain, DomainModule, EMPLOYMENT_OPPORTUNITY_OPTIONS, ENGLISH_PROFICIENCY_OPTIONS, EmploymentOpportunity, EnglishProficiency, FREEELANCER_SIGNUP_REASON_OPTIONS, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, FreelancerSignupReason, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, LatLng, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, SoftwareProduct, pattern } from '@easworks/models';
 import { DateTime } from 'luxon';
 import { map, shareReplay, switchMap } from 'rxjs';
 
@@ -103,7 +103,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     domain: (_: number, d: Domain) => d.key,
     domainOption: (_: number, d: SelectableOption<Domain>) => d.value.key,
     moduleOption: (_: number, m: SelectableOption<DomainModule>) => m.value.name,
-    softwareOption: (_: number, s: SelectableOption<DomainProduct>) => s.value.name,
+    softwareOption: (_: number, s: SelectableOption<SoftwareProduct>) => s.value.name,
     stringOption: (_: number, s: SelectableOption<string>) => s.value,
     name: (_: number, i: { name: string; }) => i.name,
     key: (_: number, kv: KeyValue<string, unknown>) => kv.key
@@ -920,11 +920,11 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
 
           const options: Record<string, {
-            all: SelectableOption<DomainProduct>[],
+            all: SelectableOption<SoftwareProduct>[],
             size$: Signal<number>,
             stopInput$: Signal<boolean>,
-            toggle: (option: SelectableOption<DomainProduct>) => void,
-            record: Record<string, SelectableOption<DomainProduct>>;
+            toggle: (option: SelectableOption<SoftwareProduct>) => void,
+            record: Record<string, SelectableOption<SoftwareProduct>>;
           }> = {};
 
           selected.forEach(s => {
@@ -945,10 +945,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
               ]
             });
 
-            const record: Record<string, SelectableOption<DomainProduct>> = {};
+            const record: Record<string, SelectableOption<SoftwareProduct>> = {};
             s.modules.forEach(m => {
               m.products.forEach(p => {
-                const opt: SelectableOption<DomainProduct> = {
+                const opt: SelectableOption<SoftwareProduct> = {
                   selected: false,
                   value: p,
                   label: p.name

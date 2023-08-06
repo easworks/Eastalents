@@ -9,12 +9,12 @@ import { OpenAIApi } from '@easworks/app-shell/api/open-ai';
 import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { Domain, DomainModule, DomainProduct, DomainState } from '@easworks/app-shell/state/domains';
+import { DomainState } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REMOTE_WORK_OPTIONS, REQUIRED_EXPERIENCE_OPTIONS, RemoteWork, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
+import { Domain, DomainModule, ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REMOTE_WORK_OPTIONS, REQUIRED_EXPERIENCE_OPTIONS, RemoteWork, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType, SoftwareProduct, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
 import { map, shareReplay, switchMap } from 'rxjs';
 
 @Component({
@@ -49,7 +49,7 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly trackBy = {
     domainOption: (_: number, d: SelectableOption<Domain>) => d.value.key,
     moduleOption: (_: number, m: SelectableOption<DomainModule>) => m.value.name,
-    softwareOption: (_: number, s: SelectableOption<DomainProduct>) => s.value.name,
+    softwareOption: (_: number, s: SelectableOption<SoftwareProduct>) => s.value.name,
     stringOption: (_: number, s: SelectableOption<string>) => s.value,
     name: (_: number, i: { name: string; }) => i.name,
     key: (_: number, kv: KeyValue<string, unknown>) => kv.key
@@ -518,7 +518,7 @@ export class CreateJobPostPageComponent implements OnInit {
           const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
 
           const optionSet = new Set<string>();
-          const options: SelectableOption<DomainProduct>[] = [];
+          const options: SelectableOption<SoftwareProduct>[] = [];
           selected.forEach(m => m.products.forEach(p => {
             if (optionSet.has(p.name))
               return;
@@ -535,7 +535,7 @@ export class CreateJobPostPageComponent implements OnInit {
           const stopInput$ = computed(() => count$() >= 5 || count$() >= options.length);
 
           const handlers = {
-            toggle: (option: SelectableOption<DomainProduct>) => {
+            toggle: (option: SelectableOption<SoftwareProduct>) => {
               if (option.selected) {
                 option.selected = false;
                 form.removeControl(option.value.name);
