@@ -1229,7 +1229,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       }
     } as const;
 
-    if (!this.isNew) {
+    {
       const selected$ = toSignal(this.software.selected$);
 
       effect(() => {
@@ -1270,14 +1270,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
   private initIndustries() {
     {
-      const loading = computed(() => this.domains.industries$().length === 0);
-      effect(() => {
-        if (loading())
-          this.loading.add('industries');
-        else
-          this.loading.delete('industries');
-      }, { allowSignalWrites: true });
-      this.domains.loadIndustries();
+      this.loading.add('industries');
+      this.domains.loadIndustries()
+        .then(() => this.loading.delete('industries'));
     }
 
     const loading$ = this.loading.has('industries');

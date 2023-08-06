@@ -5,18 +5,17 @@ import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
-import { Domain, DomainModule, DomainProduct } from '@easworks/app-shell/api/talent.api';
+import { OpenAIApi } from '@easworks/app-shell/api/open-ai';
 import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { DomainState } from '@easworks/app-shell/state/domains';
+import { Domain, DomainModule, DomainProduct, DomainState } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REMOTE_WORK_OPTIONS, REQUIRED_EXPERIENCE_OPTIONS, RemoteWork, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
 import { map, shareReplay, switchMap } from 'rxjs';
-import { OpenAIApi } from '@easworks/app-shell/api/open-ai';
 
 @Component({
   selector: 'enterprise-create-job-post',
@@ -39,11 +38,10 @@ export class CreateJobPostPageComponent implements OnInit {
     openai: inject(OpenAIApi)
   } as const;
 
-  @HostBinding() private readonly class = 'page'
+  @HostBinding() private readonly class = 'page';
 
   private readonly loading = generateLoadingState<[
     'domains',
-    'technologies',
     'industries'
   ]>();
 
@@ -53,7 +51,7 @@ export class CreateJobPostPageComponent implements OnInit {
     moduleOption: (_: number, m: SelectableOption<DomainModule>) => m.value.name,
     softwareOption: (_: number, s: SelectableOption<DomainProduct>) => s.value.name,
     stringOption: (_: number, s: SelectableOption<string>) => s.value,
-    name: (_: number, i: { name: string }) => i.name,
+    name: (_: number, i: { name: string; }) => i.name,
     key: (_: number, kv: KeyValue<string, unknown>) => kv.key
   } as const;
 
@@ -114,7 +112,7 @@ export class CreateJobPostPageComponent implements OnInit {
       return {
         label: `Step ${s + 1} of ${totalSteps}`,
         percent: ((s) / totalSteps) * 100
-      }
+      };
     });
 
     const firstStep = order[0];
@@ -199,10 +197,10 @@ export class CreateJobPostPageComponent implements OnInit {
 
     type StepGroup = {
       label: StepGroupID;
-      enabled$: Signal<boolean>,
-      completed$: Signal<boolean>,
-      click: () => void
-    }
+      enabled$: Signal<boolean>;
+      completed$: Signal<boolean>;
+      click: () => void;
+    };
 
     const groupings: [StepGroupID, Step[]][] = [
       [
@@ -289,7 +287,7 @@ export class CreateJobPostPageComponent implements OnInit {
         option.selected = true;
         if (old)
           old.selected = false;
-        form.setValue(option)
+        form.setValue(option);
       }
     } as const;
 
@@ -304,6 +302,16 @@ export class CreateJobPostPageComponent implements OnInit {
   }
 
   private initPrimaryDomain() {
+    {
+      const loading = computed(() => this.domains.domains.list$().length === 0);
+      effect(() => {
+        if (loading())
+          this.loading.add('domains');
+        else
+          this.loading.delete('domains');
+      }, { allowSignalWrites: true });
+    }
+
     const loading$ = this.loading.has('domains');
 
     const form = new FormGroup({
@@ -320,7 +328,7 @@ export class CreateJobPostPageComponent implements OnInit {
     const domainStatus$ = toSignal(controlStatus$(form.controls.domain), { requireSync: true });
     const stopInput$ = computed(() => domainStatus$() === 'VALID');
 
-    const options$ = computed(() => this.domains.domains$()
+    const options$ = computed(() => this.domains.domains.list$()
       .map<SelectableOption<Domain>>(d => ({
         selected: false,
         value: d,
@@ -349,15 +357,7 @@ export class CreateJobPostPageComponent implements OnInit {
           years: null as unknown as number,
         });
       }
-    }
-
-    const loadingDomain = this.domains.loading.has('domains');
-    effect(() => {
-      if (loadingDomain())
-        this.loading.add('domains');
-      else
-        this.loading.delete('domains');
-    }, { allowSignalWrites: true })
+    };
 
     return {
       loading$,
@@ -413,7 +413,7 @@ export class CreateJobPostPageComponent implements OnInit {
             stopInput$,
             options,
             ...handlers
-          } as const
+          } as const;
         }),
         shareReplay({ refCount: true, bufferSize: 1 })
       );
@@ -554,8 +554,8 @@ export class CreateJobPostPageComponent implements OnInit {
                 option.selected = true;
                 form.addControl(option.value.name, createYearControl(exists[software]), { emitEvent: false });
               }
-            })
-          };
+            });
+          }
           form.updateValueAndValidity();
 
           const selected$ = controlValue$(form, true)
@@ -598,9 +598,9 @@ export class CreateJobPostPageComponent implements OnInit {
   private initRoles() {
     const injector = this.injector;
 
-    const selectedSoftware$ = toSignal(this.software.selected$)
+    const selectedSoftware$ = toSignal(this.software.selected$);
     const stepLabel$ = computed(() => {
-      const software = selectedSoftware$()
+      const software = selectedSoftware$();
       if (software?.length === 1)
         return software[0].name;
 
@@ -671,7 +671,7 @@ export class CreateJobPostPageComponent implements OnInit {
           const selected$ = controlValue$(form, true)
             .pipe(
               map(v => v.role.value),
-              shareReplay({ refCount: true, bufferSize: 1 }))
+              shareReplay({ refCount: true, bufferSize: 1 }));
 
           return {
             form,
@@ -697,18 +697,10 @@ export class CreateJobPostPageComponent implements OnInit {
   }
 
   private initTechExp() {
-    this.domains.getTech();
 
     const stepLabel$ = this.roles.stepLabel$;
 
-    const loadingTech = this.domains.loading.has('tech');
-    effect(() => {
-      if (loadingTech())
-        this.loading.add('technologies');
-      else
-        this.loading.delete('technologies');
-    }, { allowSignalWrites: true });
-    const loading$ = this.loading.has('technologies');
+    const loading$ = this.loading.has('domains');
 
     const count$ = signal(0);
     const form = new FormRecord<FormControl<SelectableOption<string>[]>>({}, {
@@ -718,7 +710,7 @@ export class CreateJobPostPageComponent implements OnInit {
           const count = Object.values(value).reduce((p, c) => p + c.length, 0);
           count$.set(count);
           if (count === 0) {
-            return { minlength: true }
+            return { minlength: true };
           }
           return null;
         }
@@ -727,7 +719,7 @@ export class CreateJobPostPageComponent implements OnInit {
     const value$ = toSignal(controlValue$(form), { requireSync: true });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
-    const fullSize$ = computed(() => this.domains.tech$().reduce((p, c) => p + c.items.size, 0));
+    const fullSize$ = computed(() => this.domains.tech.list$().reduce((p, c) => p + c.items.size, 0));
     const stopInput$ = computed(() => count$() >= fullSize$());
 
     const query$ = signal<string | object>('');
@@ -736,7 +728,7 @@ export class CreateJobPostPageComponent implements OnInit {
       name: string;
       tech: SelectableOption<string>[];
     };
-    const all$ = computed(() => this.domains.tech$()
+    const all$ = computed(() => this.domains.tech.list$()
       .map<OptionGroup>(g => ({
         name: g.name,
         tech: [...g.items]
@@ -773,6 +765,8 @@ export class CreateJobPostPageComponent implements OnInit {
 
     const handlers = {
       add: (group: string, option: SelectableOption<string>) => {
+        if (option.selected)
+          return;
         option.selected = true;
         let control = form.controls[group];
         if (!control) {
@@ -802,6 +796,30 @@ export class CreateJobPostPageComponent implements OnInit {
       }
     } as const;
 
+    {
+      const selected$ = toSignal(this.software.selected$);
+
+      effect(() => {
+        const selected = selected$();
+        if (selected) {
+          const all = all$();
+          const list = selected.flatMap(s => s.tech);
+          list.forEach(lg => {
+            const og = all.find(g => g.name === lg.name);
+            if (!og)
+              throw new Error('invalid operation');
+            lg.items.forEach(li => {
+              const opt = og.tech.find(t => t.value === li);
+              if (!opt)
+                throw new Error('invalid operation');
+              handlers.add(og.name, opt);
+            });
+          });
+
+        }
+      }, { allowSignalWrites: true });
+    }
+
     return {
       form,
       value$,
@@ -819,7 +837,7 @@ export class CreateJobPostPageComponent implements OnInit {
   private initIndustries() {
     {
       this.loading.add('industries');
-      this.domains.getIndustries()
+      this.domains.loadIndustries()
         .then(() => this.loading.delete('industries'));
     }
 
@@ -993,7 +1011,7 @@ export class CreateJobPostPageComponent implements OnInit {
       options,
       stepLabel$,
       ...handlers
-    }
+    };
   }
 
   private initRequiredExp() {
@@ -1029,7 +1047,7 @@ export class CreateJobPostPageComponent implements OnInit {
       options,
       stepLabel$,
       ...handlers
-    }
+    };
   }
 
   private initWeeklyCommitment() {
@@ -1065,7 +1083,7 @@ export class CreateJobPostPageComponent implements OnInit {
       options,
       stepLabel$,
       ...handlers
-    }
+    };
   }
 
   private initEngagementPeriod() {
@@ -1101,7 +1119,7 @@ export class CreateJobPostPageComponent implements OnInit {
       options,
       stepLabel$,
       ...handlers
-    }
+    };
   }
 
   private initHourlyBudget() {
@@ -1137,7 +1155,7 @@ export class CreateJobPostPageComponent implements OnInit {
       options,
       stepLabel$,
       ...handlers
-    }
+    };
   }
 
   private initProjectKickoffTimeline() {
@@ -1173,7 +1191,7 @@ export class CreateJobPostPageComponent implements OnInit {
       options,
       stepLabel$,
       ...handlers
-    }
+    };
   }
 
   private initRemoteWork() {
@@ -1209,13 +1227,10 @@ export class CreateJobPostPageComponent implements OnInit {
       options,
       stepLabel$,
       ...handlers
-    }
+    };
   }
 
   private async devModeInit() {
-    if (!isDevMode())
-      return;
-
     const revert = [] as (() => void)[];
 
     {
@@ -1230,7 +1245,11 @@ export class CreateJobPostPageComponent implements OnInit {
 
       const all = await toPromise(options$, all => all.length > 0, this.injector);
 
-      toggle(all[0]);
+      const scm = all.find(o => o.value.key === 'SCM');
+      if (!scm)
+        throw new Error('invalid operation');
+
+      toggle(scm);
       form.patchValue({ years: 2 });
 
       this.stepper.next.click();
@@ -1259,10 +1278,14 @@ export class CreateJobPostPageComponent implements OnInit {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const { toggle, options, form } = this.software.$()!;
 
-      toggle(options[1]);
+      const bluJay = options.find(s => s.value.name === 'BluJay Solutions');
+      if (!bluJay)
+        throw new Error('invalid operation');
+
+      toggle(bluJay);
 
       form.patchValue({
-        [options[1].value.name]: 3
+        [bluJay.value.name]: 3
       });
 
       this.stepper.next.click();
@@ -1352,6 +1375,9 @@ export class CreateJobPostPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (isDevMode()) {
+      // this.devModeInit();
+    }
   }
 }
 
