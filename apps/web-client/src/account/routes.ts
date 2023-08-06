@@ -11,11 +11,11 @@ const redirectUser: CanActivateFn = () => {
 
   if (user) {
     const router = inject(Router);
-    return router.createUrlTree(['/account/sign-in'])
+    return router.createUrlTree(['/account/sign-in']);
   }
 
   return true;
-}
+};
 
 
 export const ACCOUNT_ROUTE: Route = {
@@ -36,7 +36,7 @@ export const ACCOUNT_ROUTE: Route = {
       path: 'sign-up/enterprise',
       pathMatch: 'full',
       canActivate: [redirectUser],
-      loadComponent: () => import('./enterprise-sign-up.page').then(m => m.EnterpriseSignUpPageComponent),
+      loadComponent: () => import('./organization-sign-up.page').then(m => m.EnterpriseSignUpPageComponent),
       data: {
         seo: {
           title: () => 'Sign Up as Enterprise'

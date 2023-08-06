@@ -14,9 +14,9 @@ import { pattern } from '@easworks/models';
 import { first, interval, map } from 'rxjs';
 
 @Component({
-  selector: 'account-enterprise-sign-up-page',
-  templateUrl: './enterprise-sign-up.page.html',
-  styleUrls: ['./enterprise-sign-up.page.less'],
+  selector: 'account-organization-sign-up-page',
+  templateUrl: './organization-sign-up.page.html',
+  styleUrls: ['./organization-sign-up.page.less'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -59,7 +59,7 @@ export class EnterpriseSignUpPageComponent {
       validators: [Validators.required, Validators.pattern(pattern.email)],
       asyncValidators: [
         async (c) => {
-          this.loading.add('validating email')
+          this.loading.add('validating email');
           const value = c.value as string;
           const blacklisted = await this.blacklistedEmails;
           let result = null;
@@ -93,7 +93,7 @@ export class EnterpriseSignUpPageComponent {
           if (c.value.password !== c.value.confirmPassword)
             return { passwordMismatch: true };
         }
-        return null
+        return null;
       }
     ],
     updateOn: 'submit'
