@@ -7,8 +7,7 @@ export interface Cached<T> {
   data: T;
 }
 
-const ONE_DAY_MS = 24 * 60 * 60 * 1000;
-export function isFresh(cached: Cached<unknown>, maxAgeMs = ONE_DAY_MS) {
+export function isFresh(cached: Cached<unknown>, maxAgeMs: number) {
   return (Date.now() - cached.timestamp) <= maxAgeMs;
 }
 
