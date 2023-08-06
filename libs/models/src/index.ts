@@ -9,3 +9,4 @@ export * from './software';
 export * from './gmap';
 export * from './employer-profile';
 export * from './job-post';
+export * from './industry';

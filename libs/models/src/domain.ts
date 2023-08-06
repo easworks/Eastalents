@@ -8,7 +8,7 @@ export interface DomainDictionaryDto {
 export interface DomainDto {
   'Primary Domain': string;
   'Role-Prefix and Product-Suffix': string | null;
-  Modules: { [key: string]: DomainModuleDto };
+  Modules: { [key: string]: DomainModuleDto; };
   Services: string[];
   Roles: boolean;
   Icons: boolean;
@@ -23,8 +23,4 @@ export interface DomainModuleDto {
 export interface DomainProductDto {
   name: string;
   imageUrl: string;
-}
-
-export interface IndustryGroupDto {
-  [key: string]: string[]
 }

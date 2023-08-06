@@ -1,5 +1,5 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { DomainDictionaryDto, IndustryGroupDto, TechGroup, TechGroupDto } from '@easworks/models';
+import { DomainDictionaryDto, IndustryGroup, IndustryGroupDto, TechGroup, TechGroupDto } from '@easworks/models';
 import { createCache, isFresh } from '../api/cache';
 import { TalentApi } from '../api/talent.api';
 import { sortString } from '../utilities/sort';
@@ -279,9 +279,4 @@ export interface DomainProduct {
   name: string;
   imageUrl: string;
   tech: TechGroup[];
-}
-
-export interface IndustryGroup {
-  name: string;
-  industries: string[];
 }
