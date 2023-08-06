@@ -52,7 +52,7 @@ import { map, shareReplay, switchMap } from 'rxjs';
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
   constructor() {
-    this.getData()
+    this.getData();
   }
 
   private readonly injector = inject(INJECTOR);
@@ -111,7 +111,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     moduleOption: (_: number, m: SelectableOption<DomainModule>) => m.value.name,
     softwareOption: (_: number, s: SelectableOption<DomainProduct>) => s.value.name,
     stringOption: (_: number, s: SelectableOption<string>) => s.value,
-    name: (_: number, i: { name: string }) => i.name,
+    name: (_: number, i: { name: string; }) => i.name,
     key: (_: number, kv: KeyValue<string, unknown>) => kv.key
   } as const;
 
@@ -162,7 +162,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       return {
         label: `Step ${s} of ${totalSteps}`,
         percent: ((s - 1) / totalSteps) * 100
-      }
+      };
     });
 
     const showStepControls$ = computed(() => {
@@ -244,8 +244,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       label: StepGroupID;
       enabled$: Signal<boolean>,
       completed$: Signal<boolean>,
-      click: () => void
-    }
+      click: () => void;
+    };
 
     const groupings: [StepGroupID, Step[]][] = [
       [
@@ -345,12 +345,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       state: toSignal(controlValue$(form.controls.state), { requireSync: true }),
       city: toSignal(controlValue$(form.controls.city), { requireSync: true }),
       timezone: toSignal(controlValue$(form.controls.timezone), { requireSync: true })
-    }
+    };
 
     const status = {
       country: toSignal(controlStatus$(form.controls.country), { requireSync: true }),
       state: toSignal(controlStatus$(form.controls.state), { requireSync: true }),
-    }
+    };
 
     const allOptions = {
       country$: signal<Country[]>([]),
@@ -393,12 +393,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           return all.filter(c => c.zoneName.toLowerCase().includes(filter));
         return all;
       })
-    }
+    };
 
     const validation = {
       stateRequired$: computed(() => allOptions.state$().length > 0),
       cityRequired$: computed(() => allOptions.city$().length > 0)
-    }
+    };
 
     const loading = {
       geo$: this.loading.has('getting geolocation'),
@@ -449,7 +449,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
               allOptions.timezone$.set(cscTz);
             else {
               const all = await this.api.csc.allTimezones();
-              allOptions.timezone$.set(all)
+              allOptions.timezone$.set(all);
             }
             this.loading.delete('ps-timezone');
           }
@@ -521,7 +521,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           form.controls.city.setValue(match.name);
         }
       }
-    }, { allowSignalWrites: true })
+    }, { allowSignalWrites: true });
 
     effect(() => {
       const options = allOptions.timezone$();
@@ -604,9 +604,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           const size = Object.keys(c.value).length;
           size$.set(size);
           if (size < 1)
-            return { minlength: 1 }
+            return { minlength: 1 };
           if (size > 3)
-            return { maxlength: 3 }
+            return { maxlength: 3 };
           return null;
         }
       ]
@@ -636,7 +636,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         }
         else {
           option.selected = true;
-          form.addControl(option.value.key, createYearControl())
+          form.addControl(option.value.key, createYearControl());
         }
       }
     } as const;
@@ -671,7 +671,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           const options: Record<string, {
             all: SelectableOption<string>[],
             size$: Signal<number>,
-            toggle: (option: SelectableOption<string>) => void
+            toggle: (option: SelectableOption<string>) => void;
           }> = {};
 
           const optionMap = new Map<string, SelectableOption<string>>();
@@ -683,7 +683,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                   const size = Object.keys(c.value).length;
                   size$.set(size);
                   if (size < 1)
-                    return { minlength: 1 }
+                    return { minlength: 1 };
                   return null;
                 }
               ]
@@ -714,7 +714,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 }
               },
               size$
-            }
+            };
           });
 
           if (exists) {
@@ -727,9 +727,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                     throw new Error('invalid operation');
                   option.selected = true;
                   serviceForm.addControl(service, createYearControl(exists[domain][service]), { emitEvent: false });
-                })
+                });
               }
-            })
+            });
           }
 
           form.updateValueAndValidity();
@@ -765,8 +765,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             selectAll: {
               visible: boolean,
               value: boolean,
-              toggle: () => void
-            }
+              toggle: () => void;
+            };
           }> = {};
 
           const optionMap = new Map<string, SelectableOption<DomainModule>>();
@@ -806,7 +806,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
               size$,
               stopInput$,
               toggle: (option) => {
-                const v = moduleForm.getRawValue()
+                const v = moduleForm.getRawValue();
                 if (option.selected) {
                   option.selected = false;
                   v.delete(option.value);
@@ -840,7 +840,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                   options[d.key].selectAll.value = selected;
                 }
               }
-            }
+            };
           });
 
           if (exists) {
@@ -854,7 +854,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                   option.selected = true;
                   moduleForm.value.add(module);
                 });
-                moduleForm.updateValueAndValidity({ onlySelf: true })
+                moduleForm.updateValueAndValidity({ onlySelf: true });
                 options[domain].selectAll.value = moduleForm.value.size === options[domain].all.length;
               }
             });
@@ -905,7 +905,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             size$: Signal<number>,
             stopInput$: Signal<boolean>,
             toggle: (option: SelectableOption<DomainProduct>) => void,
-            record: Record<string, SelectableOption<DomainProduct>>
+            record: Record<string, SelectableOption<DomainProduct>>;
           }> = {};
 
           selected.forEach(s => {
@@ -982,7 +982,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 const domain = s.domain;
                 const modules = s.modules;
                 const software = Object.keys(v[domain.key])
-                  .map(s => options[domain.key].record[s].value)
+                  .map(s => options[domain.key].record[s].value);
                 return { domain, modules, software };
               })
               ),
@@ -1000,7 +1000,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const selected$ = obs$.pipe(
       switchMap(f => f.selected$),
       shareReplay({ refCount: true, bufferSize: 1 })
-    )
+    );
 
     return { $, stepLabel$, selected$ } as const;
 
@@ -1021,7 +1021,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
           const options: Record<string, {
             list: SelectableOption<string>[],
-            record: Record<string, SelectableOption<string>>
+            record: Record<string, SelectableOption<string>>;
             size$: Signal<number>,
             stopInput$: Signal<boolean>,
             toggle: (option: SelectableOption<string>) => void,
@@ -1078,7 +1078,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 }
               },
               record
-            }
+            };
           });
 
           if (exists) {
@@ -1105,8 +1105,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
               .reduce((prev, current) => {
                 prev[current] = Object.keys(v[current]);
                 return prev;
-              }, {} as { [key: string]: string[] });
-          })
+              }, {} as { [key: string]: string[]; });
+          });
 
           return { form, status$, options, domains, selected$ } as const;
         }),
@@ -1372,7 +1372,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         form.value.add(option.value);
       }
       form.updateValueAndValidity();
-    }
+    };
 
 
     return { form, status$, options, toggle };
@@ -1455,7 +1455,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                   label: r
                 };
                 record[r] = opt;
-              })
+              });
             });
 
             const list = Object.values(record)
@@ -1501,7 +1501,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 roleForm.updateValueAndValidity();
                 query$.mutate(v => v);
               }
-            }
+            };
           });
 
           if (exists) {
@@ -1529,7 +1529,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private initPreferredWorkingHours() {
 
     const pfs$ = toSignal(controlValue$(this.professionalSummary.form, true));
-    const loading$ = signal(true)
+    const loading$ = signal(true);
 
     const form = new FormGroup({
       timezone: new FormControl('', {
@@ -1566,7 +1566,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       timezone$: computed(() => {
         const all = allZones$();
         const value = tzValue$();
-        const filter = value && value.trim().toLowerCase()
+        const filter = value && value.trim().toLowerCase();
         if (filter)
           return all.filter(tz => tz.zoneName.toLowerCase().includes(filter));
         return all;
@@ -1574,20 +1574,20 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       hours: new Array<number>(24)
         .fill(0).map((_, i) => i)
         .map(hour => DateTime.fromObject({ hour }).toFormat('hh a'))
-    }
+    };
 
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
     effect(() => {
       const opts = options.timezone$();
-      const value = tzValue$()
+      const value = tzValue$();
       if (opts.length < 25) {
-        const match = opts.find(o => o.tzName.toLowerCase() === value.trim().toLowerCase())
+        const match = opts.find(o => o.tzName.toLowerCase() === value.trim().toLowerCase());
         if (match && match.zoneName.length === value.length && match.zoneName !== value) {
-          form.controls.timezone.setValue(match.zoneName)
+          form.controls.timezone.setValue(match.zoneName);
         }
       }
-    }, { allowSignalWrites: true })
+    }, { allowSignalWrites: true });
 
     effect(() => {
       const v = pfs$();
@@ -1595,10 +1595,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         return;
       const { timezone } = v;
       const control = form.controls.timezone;
-      const hasValidValue = (!this.isNew) || (control.valid)
+      const hasValidValue = (!this.isNew) || (control.valid);
       if (!hasValidValue)
         control.setValue(timezone);
-    }, { allowSignalWrites: true })
+    }, { allowSignalWrites: true });
 
     return {
       form,
@@ -1619,7 +1619,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         nonNullable: true,
         validators: [Validators.required]
       })
-    })
+    });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
     const descriptions = {
@@ -1669,10 +1669,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     const opportunity = {
       toggle: (option: SelectableOption<EmploymentOpportunity>) => {
-        option.selected = !option.selected
+        option.selected = !option.selected;
 
         const control = form.controls.opportunity;
-        control.setValue(options.opportunity.filter(o => o.selected))
+        control.setValue(options.opportunity.filter(o => o.selected));
       }
     } as const;
 
@@ -1703,7 +1703,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         old.selected = false;
       }
       form.setValue(option);
-    }
+    };
 
     return { form, status$, options, toggle } as const;
   }
@@ -1733,7 +1733,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const acceptedMimes = {
       image: 'image/png,image/jpeg,image/bmp',
       cv: 'application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-    }
+    };
 
     const user = this.user();
     const form = new FormGroup({
@@ -1848,7 +1848,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     const allOptions = {
       countries: signal<Country[]>([]),
-      countryCode: signal<(Country & { plainPhoneCode: string })[]>([]),
+      countryCode: signal<(Country & { plainPhoneCode: string; })[]>([]),
       state$: signal<State[]>([]),
       city$: signal<City[]>([]),
     } as const;
@@ -1893,7 +1893,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       role$: computed(() => {
         const selected = this.roles.$()?.selected$() || {};
         const roles = Object.keys(selected)
-          .flatMap(domain => selected[domain].map<[string, string]>(role => [domain, role]))
+          .flatMap(domain => selected[domain].map<[string, string]>(role => [domain, role]));
         return roles;
       }),
       english: ENGLISH_PROFICIENCY_OPTIONS
@@ -1925,10 +1925,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const validateDuration = (c: AbstractControl) => {
       const { start, end } = c.value;
       if (end && (!start || (end < start)))
-        return { invalidEnd: true }
+        return { invalidEnd: true };
 
       return null;
-    }
+    };
 
     const work = {
       add: () => {
@@ -2104,7 +2104,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                   const cities = await this.api.csc.allCities(match.iso2);
                   cities.sort((a, b) => sortString(a.name, b.name));
                   allOptions.city$.set(cities);
-                  this.loading.delete('pd-city')
+                  this.loading.delete('pd-city');
                 }
               }
             }
@@ -2290,7 +2290,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
         form.controls[d.key].controls[all[0].value.name].setValue(2);
         form.controls[d.key].controls[all[1].value.name].setValue(3);
-      })
+      });
 
       this.stepper.next.click();
     }
@@ -2398,7 +2398,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           },
           role: options.role$()[0],
           skills: 'Skill 1'
-        })
+        });
       }
 
       {
@@ -2413,7 +2413,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           },
           institution: 'Some institute',
           location: 'Some city, Some state, Some country'
-        })
+        });
       }
     }
 
@@ -2444,7 +2444,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
       const device = this.injector.get(GeoLocationService);
 
-      const fromDevice = await device.get(true)
+      const fromDevice = await device.get(true);
 
       const coords: LatLng = fromDevice ?
         { lat: fromDevice.coords.latitude, lng: fromDevice.coords.longitude } :
@@ -2457,7 +2457,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       if (response.status !== 'OK')
         return null;
 
-      const components = response.results[0].address_components
+      const components = response.results[0].address_components;
 
       const country = components.find(c => c.types.includes('country'));
       const state = components.find(c => c.types.includes('administrative_area_level_1'));
