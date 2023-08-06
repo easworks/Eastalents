@@ -1,4 +1,4 @@
-export const ORGANIZATION_TYPE_OPTIONS = [
+export const EMPLOYER_TYPE_OPTIONS = [
   'Enterprise',
   'Small & Medium Business',
   'Startup',
@@ -6,7 +6,7 @@ export const ORGANIZATION_TYPE_OPTIONS = [
   'Technology Services'
 ] as const;
 
-export type OrganizationType = typeof ORGANIZATION_TYPE_OPTIONS[number];
+export type EmployerType = typeof EMPLOYER_TYPE_OPTIONS[number];
 
 export const EMPLOYEE_SIZE_OPTIONS = [
   '1 - 10 Employees',
