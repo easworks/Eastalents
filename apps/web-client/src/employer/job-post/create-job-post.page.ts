@@ -1429,7 +1429,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
   ngOnInit(): void {
     if (isDevMode()) {
-      this.devModeInit();
+      // this.devModeInit();
     }
   }
 }

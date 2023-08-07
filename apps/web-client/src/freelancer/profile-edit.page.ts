@@ -2614,7 +2614,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
   ngOnInit(): void {
     if (isDevMode()) {
-      this.devModeInit();
+      // this.devModeInit();
     }
   }
 }
