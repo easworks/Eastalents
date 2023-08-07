@@ -26,7 +26,7 @@ import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-r
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { COMMITMENT_OPTIONS, Commitment, Domain, DomainModule, EMPLOYMENT_OPPORTUNITY_OPTIONS, ENGLISH_PROFICIENCY_OPTIONS, EmploymentOpportunity, EnglishProficiency, FREEELANCER_SIGNUP_REASON_OPTIONS, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, FreelancerSignupReason, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, LatLng, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, SoftwareProduct, pattern } from '@easworks/models';
+import { COMMITMENT_OPTIONS, Commitment, Domain, DomainModule, EMPLOYMENT_OPPORTUNITY_OPTIONS, ENGLISH_PROFICIENCY_OPTIONS, EmploymentOpportunity, EnglishProficiency, FREEELANCER_SIGNUP_REASON_OPTIONS, FreelancerSignupReason, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, LatLng, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, PROJECT_KICKOFF_TIMELINE_OPTIONS, ProjectKickoffTimeline, SoftwareProduct, pattern } from '@easworks/models';
 import { DateTime } from 'luxon';
 import { map, shareReplay, switchMap } from 'rxjs';
 
@@ -1724,20 +1724,20 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   private initAvailability() {
-    const options = FREELANCER_AVAILABILITY_OPTIONS
-      .map<SelectableOption<FreelancerAvailability>>(v => ({
+    const options = PROJECT_KICKOFF_TIMELINE_OPTIONS
+      .map<SelectableOption<ProjectKickoffTimeline>>(v => ({
         selected: false,
         value: v,
         label: v
       }));
 
-    const form = new FormControl(null as unknown as SelectableOption<FreelancerAvailability>, {
+    const form = new FormControl(null as unknown as SelectableOption<ProjectKickoffTimeline>, {
       nonNullable: true,
       validators: [Validators.required]
     });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
-    const toggle = (option: SelectableOption<FreelancerAvailability>) => {
+    const toggle = (option: SelectableOption<ProjectKickoffTimeline>) => {
       if (option.selected)
         return;
 

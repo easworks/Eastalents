@@ -1,4 +1,4 @@
-import { ExperienceData } from './expertise';
+import { ProjectKickoffTimeline } from './job-post';
 
 export const OVERALL_EXPERIENCE_OPTIONS = [
   'Less than 2 years',
@@ -37,15 +37,6 @@ export type EmploymentOpportunity = typeof EMPLOYMENT_OPPORTUNITY_OPTIONS[number
 
 
 
-export const FREELANCER_AVAILABILITY_OPTIONS = [
-  'Immediately',
-  '1 - 2 weeks',
-  '3 - 4 weeks',
-  'More than 1 month'
-] as const;
-
-export type FreelancerAvailability = typeof FREELANCER_AVAILABILITY_OPTIONS[number];
-
 export const ENGLISH_PROFICIENCY_OPTIONS = [
   'Basic',
   'Intermediate',
@@ -69,25 +60,99 @@ export const FREEELANCER_SIGNUP_REASON_OPTIONS = [
 export type FreelancerSignupReason = typeof FREEELANCER_SIGNUP_REASON_OPTIONS[number];
 
 export interface FreelancerProfile {
-  image: string | null;
-  currentRole: string;
-  preferredRole: string;
+  experience: {
+    domain: string;
+    years: number;
+    services: {
+      name: string;
+      years: number;
+    }[];
+    modules: string[];
+    products: {
+      name: string;
+      years: number;
+    }[];
+    roles: {
+      name: string;
+      years: number;
+    }[];
+    tech: {
+      group: string;
+      items: string[];
+    }[];
+  }[];
 
-  overallExperience: OverallExperience;
-  commitment: Set<Commitment>;
-  jobSearchStatus: JobSearchStatus;
-  availability: FreelancerAvailability;
-
-  location: {
-    country: string;
-    state?: string;
-    city?: string;
+  workPreference: {
+    commitment: Commitment[];
+    rates: {
+      hourly: number | null;
+      monthly: number | null;
+      annually: number | null;
+    };
+    roles: {
+      domain: string;
+      roles: string[];
+    };
+    time: {
+      timezone: string;
+      start: string;
+      end: string;
+    },
+    searchStatus: JobSearchStatus;
+    interest: EmploymentOpportunity[];
+    availability: ProjectKickoffTimeline;
   };
 
-  summary: string;
+  personalDetails: {
+    firstName: string;
+    lastName: string;
+    image: string | null;
+    resume: string | null;
+    location: {
+      country: string;
+      state: string | null;
+      city: string | null;
+      timezone: string;
+    };
+    citizenship: string;
+    signupReason: FreelancerSignupReason;
+    contact: {
+      email: string;
+      phone: {
+        mobile: string | null;
+        whatsapp: string | null;
+        telegram: string | null;
+      };
+      address: {
+        line1: string;
+        line2: string | null;
+        country: string;
+        state: string | null;
+        city: string | null;
+        postalCode: string;
+      } | null;
+    };
+    social: {
+      linkedin: string | null;
+      github: string | null;
+      gitlab: string | null;
+    };
+    portfolio: string;
+    education: EducationHistory[];
+  };
 
-  primaryDomainExperience: ExperienceData;
-  enterpriseSoftwareExperience: ExperienceData[];
+  professionalDetails: {
+    summary: string;
+    overallExperience: OverallExperience;
+    currentRole: string;
+    wasFreelancer: boolean;
+    englishProficiency: EnglishProficiency;
+    history: WorkHistory[];
+    industries: {
+      group: string;
+      items: string[];
+    }[];
+  };
 
   // DISCUSS: for the profile completion, the value could be
   // 1. decimals between 0 and 1 (inclusive), OR
@@ -108,12 +173,8 @@ export interface FreelancerProfile {
     social: number;
     wsa: number;
     completed: boolean;
-  }
+  };
 }
-
-// the following types define the response that we currently get for the 
-// freelancer profile
-export type FreelancerProfileQuestionDto = any[];
 
 export interface WorkHistory {
   role: string;
