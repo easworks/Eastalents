@@ -1,5 +1,3 @@
-import { IndustryGroup } from './industry';
-
 export const ORGANIZATION_TYPE_OPTIONS = [
   'Enterprise',
   'Small & Medium Business',
