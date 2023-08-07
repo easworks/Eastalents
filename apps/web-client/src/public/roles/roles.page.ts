@@ -4,7 +4,7 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
 @Component({
   standalone: true,
   selector: 'roles-page',
-  templateUrl: './roles-page.page.html',
+  templateUrl: './roles.page.html',
   styleUrls: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [

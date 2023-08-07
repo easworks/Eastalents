@@ -22,9 +22,9 @@ export const PUBLIC_ROUTES: Routes = [
     loadComponent: () => import('./why-easworks/why-easworks.page').then(m => m.WhyEasworksPageComponent)
   },
   {
-    path: 'role-page',
+    path: 'roles',
     pathMatch: 'full',
-    loadComponent: () => import('./roles/roles-page.page').then(m => m.RolesPageComponent)
+    loadComponent: () => import('./roles/roles.page').then(m => m.RolesPageComponent)
   },
   {
     path: '',
