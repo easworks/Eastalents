@@ -7,8 +7,7 @@ export interface Cached<T> {
   data: T;
 }
 
-const ONE_DAY_MS = 24 * 60 * 60 * 1000;
-export function isFresh(cached: Cached<unknown>, maxAgeMs = ONE_DAY_MS) {
+function isFresh(cached: Cached<unknown>, maxAgeMs: number) {
   return (Date.now() - cached.timestamp) <= maxAgeMs;
 }
 
@@ -16,8 +15,12 @@ export function createCache(name: string) {
   const store = createStore(name, name);
 
   return {
-    get: <T>(id: string) => {
-      return get<T>(id, store);
+    get: async <T>(id: string, maxAgeMs?: number) => {
+      const cached = await get<Cached<T>>(id, store);
+      if (cached && typeof maxAgeMs === 'number') {
+        return isFresh(cached, maxAgeMs) ? cached.data : undefined;
+      }
+      return cached?.data;
     },
     set: <T>(id: string, data: T) => {
       return set(id, { id, timestamp: Date.now(), data }, store);

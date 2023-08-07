@@ -44,17 +44,14 @@ export class AccountPasswordResetPageComponent {
       this.loading.add('sending link')
       const { email } = this.sendLink.form.getRawValue();
       this.api.account.resetPassword.sendLink(email)
-        .subscribe({
-          next: () => {
-            this.sendLink.sent$.set(true);
-            this.loading.delete('sending link');
-          },
-          error: (e) => {
-            this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
-            this.sendLink.form.controls.email.setErrors({ server: e.message });
-            this.loading.delete('sending link');
-          }
-        });
+        .then(() => {
+          this.sendLink.sent$.set(true);
+        })
+        .catch(e => {
+          this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
+          this.sendLink.form.controls.email.setErrors({ server: e.message });
+        })
+        .finally(() => this.loading.delete('sending link'))
     },
     sent$: signal(false)
   }

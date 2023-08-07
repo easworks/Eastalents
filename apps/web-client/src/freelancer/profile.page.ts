@@ -47,13 +47,8 @@ export class FreelancerProfilePageComponent {
       throw new Error('invalid operation');
 
     this.api.talent.getTalentProfile(user._id)
-      .subscribe({
-        next: (r) => {
-          this.data.profile$.set(r);
-          this.loading.delete('loading profile');
-        },
-        error: () => this.loading.delete('loading profile')
-      })
+      .then(r => this.data.profile$.set(r))
+      .finally(() => this.loading.delete('loading profile'));
   }
 
   private initData() {
@@ -70,11 +65,11 @@ export class FreelancerProfilePageComponent {
 
         return {
           name: `${u.firstName} ${u.lastName}`,
-          image: p.image,
-          currentRole: p.currentRole,
-          location: `${p.location.city}, ${p.location.state}, ${p.location.country}`,
-          preferredRole: p.preferredRole,
-        }
+          image: p.personalDetails.image,
+          currentRole: p.professionalDetails.currentRole,
+          location: p.personalDetails.location,
+          preferredRole: p.workPreference.roles,
+        };
       }),
       profileCompletionPie$: computed(() => {
         const p = profile$();
@@ -101,7 +96,7 @@ export class FreelancerProfilePageComponent {
           }
         };
 
-        const percentage = completed * 100
+        const percentage = completed * 100;
 
         return { percentage, config } as const;
       }),
@@ -126,7 +121,7 @@ export class FreelancerProfilePageComponent {
           ['Work Skill Assessment (WSA]', completion.wsa]
         ];
 
-        const indicators = data.map(([label, percentage]) => ({ label, percentage }))
+        const indicators = data.map(([label, percentage]) => ({ label, percentage }));
         indicators.forEach(i => i.percentage = i.percentage * 100);
         return indicators;
       })

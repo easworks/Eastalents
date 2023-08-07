@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'enterprise-dashboard-page',
+  selector: 'employer-dashboard-page',
   templateUrl: './dashboard.page.html',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EnterpriseDashboardComponent { }
+export class EmployerDashboardComponent { }

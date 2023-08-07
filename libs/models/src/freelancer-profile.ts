@@ -1,4 +1,4 @@
-import { ExperienceData } from './expertise';
+import { JobPost, ProjectKickoffTimeline } from './job-post';
 
 export const OVERALL_EXPERIENCE_OPTIONS = [
   'Less than 2 years',
@@ -27,14 +27,15 @@ export const JOB_SEARCH_STATUS_OPTIONS = [
 
 export type JobSearchStatus = typeof JOB_SEARCH_STATUS_OPTIONS[number];
 
-export const FREELANCER_AVAILABILITY_OPTIONS = [
-  'Immediately',
-  '1 - 2 weeks',
-  '3 - 4 weeks',
-  'More than 1 month'
+export const EMPLOYMENT_OPPORTUNITY_OPTIONS = [
+  'Short Term Freelance/Contract',
+  'Long Term Freelance/Contract',
+  'Full-Time Salaried Employee',
 ] as const;
 
-export type FreelancerAvailability = typeof FREELANCER_AVAILABILITY_OPTIONS[number];
+export type EmploymentOpportunity = typeof EMPLOYMENT_OPPORTUNITY_OPTIONS[number];
+
+
 
 export const ENGLISH_PROFICIENCY_OPTIONS = [
   'Basic',
@@ -45,26 +46,109 @@ export const ENGLISH_PROFICIENCY_OPTIONS = [
 
 export type EnglishProficiency = typeof ENGLISH_PROFICIENCY_OPTIONS[number];
 
+export const FREEELANCER_SIGNUP_REASON_OPTIONS = [
+  'Want to work on challenging enterprise application projects',
+  'Want to increase sources of income',
+  'Want the flexibility and freedom of working remotely',
+  'Want to learn about new enterprise applications and associated technical skills',
+  'Want to work with elite companies',
+  'Joining based on word-of-mouth reference',
+  'Joining based on positive online reviews',
+  'Want to be part of the EAS community',
+  'Other'
+] as const;
+export type FreelancerSignupReason = typeof FREEELANCER_SIGNUP_REASON_OPTIONS[number];
+
 export interface FreelancerProfile {
-  image: string | null;
-  currentRole: string;
-  preferredRole: string;
-
-  overallExperience: OverallExperience;
-  commitment: Set<Commitment>;
-  jobSearchStatus: JobSearchStatus;
-  availability: FreelancerAvailability;
-
-  location: {
-    country: string;
-    state?: string;
-    city?: string;
+  experience: {
+    domains: {
+      key: string;
+      years: number;
+      services: {
+        key: string;
+        years: number;
+      }[];
+      modules: string[];
+      products: {
+        key: string;
+        years: number;
+      }[];
+      roles: {
+        key: string;
+        years: number;
+      }[];
+    }[],
+    tech: JobPost['tech'];
+    industries: JobPost['industries'];
   };
 
-  summary: string;
+  workPreference: {
+    commitment: Commitment[];
+    rates: {
+      hourly: number | null;
+      monthly: number | null;
+      annually: number | null;
+    };
+    roles: {
+      domain: string;
+      roles: string[];
+    }[];
+    time: {
+      timezone: string;
+      start: string;
+      end: string;
+    },
+    searchStatus: JobSearchStatus;
+    interest: EmploymentOpportunity[];
+    availability: ProjectKickoffTimeline;
+  };
 
-  primaryDomainExperience: ExperienceData;
-  enterpriseSoftwareExperience: ExperienceData[];
+  personalDetails: {
+    firstName: string;
+    lastName: string;
+    image: string | null;
+    resume: string | null;
+    location: {
+      country: string;
+      state: string | null;
+      city: string | null;
+      timezone: string;
+    };
+    citizenship: string | null;
+    signupReason: FreelancerSignupReason | null;
+    contact: {
+      email: string;
+      phone: {
+        mobile: string | null;
+        whatsapp: string | null;
+        telegram: string | null;
+      };
+      address: {
+        line1: string;
+        line2: string | null;
+        country: string;
+        state: string | null;
+        city: string | null;
+        postalCode: string;
+      } | null;
+    };
+    social: {
+      linkedin: string | null;
+      github: string | null;
+      gitlab: string | null;
+    };
+    education: EducationHistory[];
+  };
+
+  professionalDetails: {
+    summary: string;
+    overallExperience: OverallExperience;
+    currentRole: string;
+    wasFreelancer: boolean;
+    englishProficiency: EnglishProficiency;
+    portfolio: string | null;
+    history: WorkHistory[];
+  };
 
   // DISCUSS: for the profile completion, the value could be
   // 1. decimals between 0 and 1 (inclusive), OR
@@ -84,26 +168,24 @@ export interface FreelancerProfile {
     about: number;
     social: number;
     wsa: number;
-  }
+    completed: boolean;
+  };
 }
 
-// the following types define the response that we currently get for the 
-// freelancer profile
-export type FreelancerProfileQuestionDto = any[];
-
 export interface WorkHistory {
+  domain: string;
   role: string;
   duration: {
     start: number;
     end: number | null;
   };
-  client: string;
-  skills: string;
+  client: string | null;
+  skills: string | null;
 }
 
 export interface EducationHistory {
-  degree: string;
-  specialization: string;
+  qualification: string;
+  specialization: string | null;
   duration: {
     start: number;
     end: number | null;

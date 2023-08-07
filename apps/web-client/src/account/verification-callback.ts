@@ -18,7 +18,7 @@ export const emailVerificationGuard: CanActivateFn = async (route) => {
   }
   else {
     const api = inject(AccountApi);
-    await firstValueFrom(api.verifyEmail(token))
+    await api.verifyEmail(token)
       .then(() => {
         snackbar.openFromComponent(SnackbarComponent, SuccessSnackbarDefaults)
       })

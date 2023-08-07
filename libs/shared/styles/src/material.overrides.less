@@ -42,6 +42,36 @@
   }
 }
 
+.mat-mdc-radio-button {
+  --mdc-radio-disabled-selected-icon-color: theme('colors.divider');
+  --mdc-radio-disabled-unselected-icon-color: theme('colors.divider');
+  --mat-radio-disabled-label-color: theme('colors.divider');
+  --mdc-radio-unselected-hover-icon-color: theme('colors.secondary');
+  --mdc-radio-unselected-icon-color: theme('colors.secondary');
+  --mdc-radio-unselected-pressed-icon-color: theme('colors.secondary');
+  --mdc-radio-selected-focus-icon-color: theme('colors.secondary');
+  --mdc-radio-selected-hover-icon-color: theme('colors.secondary');
+  --mdc-radio-selected-icon-color: theme('colors.secondary');
+  --mdc-radio-selected-pressed-icon-color: theme('colors.secondary');
+  --mat-radio-ripple-color: theme('colors.secondary');
+  --mat-radio-checked-ripple-color: theme('colors.secondary');
+
+  &.primary {
+    --mdc-radio-disabled-selected-icon-color: theme('colors.divider');
+    --mdc-radio-disabled-unselected-icon-color: theme('colors.divider');
+    --mat-radio-disabled-label-color: theme('colors.divider');
+    --mdc-radio-unselected-hover-icon-color: theme('colors.primary');
+    --mdc-radio-unselected-icon-color: theme('colors.secondary');
+    --mdc-radio-unselected-pressed-icon-color: theme('colors.primary');
+    --mdc-radio-selected-focus-icon-color: theme('colors.primary');
+    --mdc-radio-selected-hover-icon-color: theme('colors.primary');
+    --mdc-radio-selected-icon-color: theme('colors.primary');
+    --mdc-radio-selected-pressed-icon-color: theme('colors.primary');
+    --mat-radio-ripple-color: theme('colors.primary');
+    --mat-radio-checked-ripple-color: theme('colors.primary');
+  }
+}
+
 .mat-mdc-progress-bar {
   --mdc-linear-progress-active-indicator-color: theme('colors.primary-light');
 }
@@ -115,12 +145,11 @@
 // virtual viewport 
 
 .cdk-virtual-scroll-content-wrapper {
-  display: flex;
-  flex-direction: column;
+  @apply flex flex-col;
 }
 
 .cdk-virtual-scroll-orientation-horizontal .cdk-virtual-scroll-content-wrapper {
-  flex-direction: row;
+  @apply flex-row;
 }
 
 .mat-mdc-autocomplete-panel {
@@ -133,4 +162,16 @@
 
 .cdk-overlay-pane {
   @apply min-w-max;
+}
+
+.mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs {
+  > .mat-mdc-tab-header {
+    .mat-mdc-tab {
+      @apply flex-grow-0;
+    }
+  } 
+} 
+
+.mat-mdc-tab-labels {
+  @apply justify-center;
 }

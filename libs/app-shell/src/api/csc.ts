@@ -1,37 +1,36 @@
-import { Injectable, inject, isDevMode } from '@angular/core';
-import { ENVIRONMENT } from '../environment';
+import { Injectable } from '@angular/core';
+import { CACHE } from '../common/cache';
 import { sortNumber } from '../utilities/sort';
-import { Cached, createCache, isFresh } from './cache';
+import { ApiService } from './api';
 
 const THREE_DAY_MS = 3 * 24 * 60 * 60 * 1000;
 
 @Injectable({
   providedIn: 'root'
 })
-export class CSCApi {
+export class CSCApi extends ApiService {
   private readonly apiUrl = 'https://api.countrystatecity.in/v1';
-  private readonly apiKey = inject(ENVIRONMENT).cscApiKey;
+  private readonly apiKey = 'bHlsN1QxdWtzbkdvUVNCbGpld1YzNGl6VlExUjFsekw5cnRvN1FNVQ==';
   private readonly headers = new Headers({
     'X-CSCAPI-KEY': this.apiKey
   });
 
-  private readonly devMode = isDevMode();
-  private readonly cache = createCache('csc-cache');
+  private readonly cache = CACHE.csc;
 
   async allCountries() {
     const url = `${this.apiUrl}/countries`;
     const id = url;
 
-    const cached = await this.cache.get<Cached<Country[]>>(id);
-    if (cached && isFresh(cached, THREE_DAY_MS))
-      return cached.data;
+    const cached = await this.cache.get<Country[]>(id, THREE_DAY_MS);
+    if (cached)
+      return cached;
 
-    const res = await fetch(url, { headers: this.headers });
-    await this.handleErrorsIfAny(res);
+    const countries = await fetch(url, { headers: this.headers })
+      .then(this.verifyOk)
+      .then<Country[]>(r => r.json())
+      .catch(this.handleError);
 
-    const countries = await res.json() as Country[];
-
-    const details = await Promise.all(countries.map(c => this.countryDetails(c.iso2)))
+    const details = await Promise.all(countries.map(c => this.countryDetails(c.iso2)));
 
     await this.cache.set(id, details);
     return details;
@@ -40,9 +39,9 @@ export class CSCApi {
   async allTimezones() {
     const id = 'timezones';
 
-    const cached = await this.cache.get<Cached<Timezone[]>>(id);
-    if (cached && isFresh(cached, THREE_DAY_MS))
-      return cached.data;
+    const cached = await this.cache.get<Timezone[]>(id, THREE_DAY_MS);
+    if (cached)
+      return cached;
 
     const countries = await this.allCountries();
     const tz = countries.flatMap(c => c.timezones)
@@ -58,14 +57,15 @@ export class CSCApi {
       const id = url;
       const country = await this.countryDetails(ciso2);
 
-      const cached = await this.cache.get<Cached<State[]>>(id);
-      if (cached && isFresh(cached, THREE_DAY_MS))
-        return cached.data;
+      const cached = await this.cache.get<State[]>(id, THREE_DAY_MS);
+      if (cached)
+        return cached;
 
-      const res = await fetch(url, { headers: this.headers });
-      await this.handleErrorsIfAny(res);
+      const states = await fetch(url, { headers: this.headers })
+        .then(this.verifyOk)
+        .then<State[]>(r => r.json())
+        .catch(this.handleError);
 
-      const states = await res.json() as State[];
       states.forEach(s => {
         s.country_code = country.iso2;
         s.country_id = country.id;
@@ -87,14 +87,15 @@ export class CSCApi {
         `${this.apiUrl}/countries/${ciso2}/cities`;
       const id = url;
 
-      const cached = await this.cache.get<Cached<City[]>>(id);
-      if (cached && isFresh(cached, THREE_DAY_MS))
-        return cached.data;
+      const cached = await this.cache.get<City[]>(id, THREE_DAY_MS);
+      if (cached)
+        return cached;
 
-      const res = await fetch(url, { headers: this.headers });
-      await this.handleErrorsIfAny(res);
+      const cities = await fetch(url, { headers: this.headers })
+        .then(this.verifyOk)
+        .then<City[]>(r => r.json())
+        .catch(this.handleError);
 
-      const cities = await res.json() as City[];
       await this.cache.set(id, cities);
       return cities;
     }
@@ -108,30 +109,20 @@ export class CSCApi {
     const url = `${this.apiUrl}/countries/${ciso2}`;
     const id = url;
 
-    const cached = await this.cache.get<Cached<Country>>(id);
-    if (cached && isFresh(cached, THREE_DAY_MS))
-      return cached.data;
+    const cached = await this.cache.get<Country>(id, THREE_DAY_MS);
+    if (cached)
+      return cached;
 
-    const res = await fetch(url, { headers: this.headers });
-    await this.handleErrorsIfAny(res);
+    const country = await fetch(url, { headers: this.headers })
+      .then(this.verifyOk)
+      .then<Country>(r => r.json())
+      .catch(this.handleError);
 
-    const country = await res.json() as Country;
     country.timezones = JSON.parse(country.timezones as unknown as string);
     country.translations = JSON.parse(country.translations as unknown as string);
     await this.cache.set(id, country);
     return country;
   }
-
-  private async handleErrorsIfAny(response: Response) {
-    if (!response.ok) {
-      const body = await response.json();
-      if (this.devMode) {
-        console.error(body);
-      }
-      throw body;
-    }
-  }
-
 }
 
 export interface Country {
@@ -144,7 +135,7 @@ export interface Country {
   phonecode: string;
   emoji: string;
   timezones: Timezone[];
-  translations: { [key: string]: string };
+  translations: { [key: string]: string; };
 }
 
 export interface State {

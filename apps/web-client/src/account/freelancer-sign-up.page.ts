@@ -99,14 +99,12 @@ export class FreelancerSignUpPageComponent {
       ) :
       this.auth.signup.email({ email, firstName, lastName, password, role: 'freelancer' });
 
-    query$.subscribe({
-      next: () => {
-        this.loading.delete('signing up')
-      },
-      error: () => {
+    query$
+      .catch(() => {
         this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
+      })
+      .finally(() => {
         this.loading.delete('signing up');
-      }
-    });
+      });
   }
 }

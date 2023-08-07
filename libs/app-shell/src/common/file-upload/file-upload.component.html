@@ -1,0 +1,50 @@
+<div *ngIf="!empty; else $placeholder" class="grid gap-2 mb-2">
+  <div *ngFor="let f of files; let i = index"
+       class="flex items-center w-full rounded bg-slate-500/10 transition-all overflow-hidden"
+       [class]="{
+            'hover:bg-slate-500/20': !disabled
+       }">
+    <span class="p-1 px-2"
+          [class]="{ 
+            'text-divider': disabled
+        }">
+      {{multiple ? (i+1)+'. ' : ''}}{{f.name}}
+    </span>
+    <button class="ml-auto p-2 w-10 grid place-content-center transition-all
+              hover:bg-warn hover:text-white 
+              focus:bg-warn focus:text-white 
+              disabled:text-divider"
+            [disabled]="disabled"
+            (click)="removeFile(i)">
+      <i class="fa-solid fa-xmark text-lg"></i>
+    </button>
+  </div>
+</div>
+
+<ng-template #$placeholder>
+  <div *ngIf="empty" class="text-gray-400">{{placeholder}}</div>
+</ng-template>
+
+<div class="file-drop-area" tabindex="-1"
+     class="relative border border-dashed border-divider rounded p-2 group
+      flex flex-wrap gap-1 items-center">
+  <input #input type="file" tabindex="-1"
+         class="absolute top-0 left-0 w-full h-full cursor-pointer opacity-0
+           disabled:cursor-default"
+         [multiple]="multiple"
+         [accept]="accept"
+         [disabled]="disabled"
+         [placeholder]="placeholder">
+  <button type="button" class="bg-slate-500/10 text-slate-600 rounded p-1 px-4 
+            group-hover:bg-slate-500/20 focus:bg-slate-500/20
+            outline-none transition-all
+            disabled:!bg-divider"
+          (click)="input.click()"
+          [disabled]="disabled">
+    Browse...
+  </button>
+
+  <span class="whitespace-nowrap overflow-hidden text-ellipsis text-gray-500">
+    or drag and drop file(s) here
+  </span>
+</div>

@@ -1,22 +1,24 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, HostBinding, inject, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AccountApi } from '@easworks/app-shell/api/account.api';
+import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AuthService } from '@easworks/app-shell/services/auth';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
+import { toPromise } from '@easworks/app-shell/utilities/to-promise';
+import { emailBlacklist } from '@easworks/app-shell/validators/email-blacklist';
 import { pattern } from '@easworks/models';
-import { first, interval, map } from 'rxjs';
 
 @Component({
-  selector: 'account-enterprise-sign-up-page',
-  templateUrl: './enterprise-sign-up.page.html',
-  styleUrls: ['./enterprise-sign-up.page.less'],
+  selector: 'account-employer-sign-up-page',
+  templateUrl: './employer-sign-up.page.html',
+  styleUrls: ['./employer-sign-up.page.less'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -25,10 +27,13 @@ import { first, interval, map } from 'rxjs';
     MatCheckboxModule
   ]
 })
-export class EnterpriseSignUpPageComponent {
-  // TODO: see if destroyRef and cdRef can be removed from this component
-  private readonly dRef = inject(DestroyRef);
-  private readonly cdRef = inject(ChangeDetectorRef);
+export class EmployerSignUpPageComponent {
+  constructor() {
+    const status = toSignal(controlStatus$(this.form));
+    const pending = computed(() => status() === 'PENDING');
+    this.loading.react('form pending', pending);
+  }
+
   protected readonly auth = inject(AuthService);
   protected readonly authState = inject(AuthState);
 
@@ -41,10 +46,8 @@ export class EnterpriseSignUpPageComponent {
   private readonly class = 'page grid grid-cols-10 gap-4';
   protected readonly loading = generateLoadingState<[
     'signing up',
-    'validating email'
+    'form pending'
   ]>();
-
-  private readonly blacklistedEmails = this.api.account.blackListedEmailDomains();
 
   protected readonly form = new FormGroup({
     firstName: new FormControl('', {
@@ -58,19 +61,7 @@ export class EnterpriseSignUpPageComponent {
     email: new FormControl('', {
       validators: [Validators.required, Validators.pattern(pattern.email)],
       asyncValidators: [
-        async (c) => {
-          this.loading.add('validating email')
-          const value = c.value as string;
-          const blacklisted = await this.blacklistedEmails;
-          let result = null;
-
-          if (blacklisted.some(d => value.endsWith(d)))
-            result = { blacklisted: true };
-
-          this.loading.delete('validating email');
-          this.cdRef.markForCheck();
-          return result;
-        }
+        emailBlacklist(this.api.account.freeEmailProviders())
       ],
       nonNullable: true
     }),
@@ -93,7 +84,7 @@ export class EnterpriseSignUpPageComponent {
           if (c.value.password !== c.value.confirmPassword)
             return { passwordMismatch: true };
         }
-        return null
+        return null;
       }
     ],
     updateOn: 'submit'
@@ -106,8 +97,8 @@ export class EnterpriseSignUpPageComponent {
     if (!this.form.valid)
       return;
 
-    const { email, firstName, lastName, password } = this.form.getRawValue();
     this.loading.add('signing up');
+    const { email, firstName, lastName, password } = this.form.getRawValue();
 
     const partial = this.prefillSocial$();
 
@@ -118,15 +109,13 @@ export class EnterpriseSignUpPageComponent {
       ) :
       this.auth.signup.email({ email, firstName, lastName, password, role: 'employer' });
 
-    query$.subscribe({
-      next: () => {
-        this.loading.delete('signing up')
-      },
-      error: () => {
+    query$
+      .catch(() => {
         this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
+      })
+      .finally(() => {
         this.loading.delete('signing up');
-      }
-    });
+      });
   }
 
   private shouldPrefillSocial() {
@@ -144,17 +133,12 @@ export class EnterpriseSignUpPageComponent {
       this.form.controls.email.markAsDirty();
 
       const control = this.form.controls.email;
+      const status$ = toSignal(controlStatus$(control));
+      const value$ = toSignal(controlValue$(control), { requireSync: true });
 
-      // we have to poll for status because of
-      // https://github.com/angular/angular/issues/41519
-      // TODO: use control.statusChanges when the bug is resolved
-      interval(10)
-        .pipe(
-          map(() => control.status),
-          first(s => s !== 'PENDING'),
-          takeUntilDestroyed()
-        ).subscribe(status => {
-          if (status === 'VALID') {
+      toPromise(status$, s => s !== 'PENDING')
+        .then(async s => {
+          if (s === 'VALID') {
             partialAccepted$.set(true);
           }
           else {
@@ -163,8 +147,8 @@ export class EnterpriseSignUpPageComponent {
             this.form.controls.confirmPassword.enable();
             partialAccepted$.set(false);
 
-            control.valueChanges.pipe(first(v => v !== partial.email), takeUntilDestroyed(this.dRef))
-              .subscribe(() => partialAccepted$.set(undefined));
+            await toPromise(value$, v => v !== partial.email);
+            partialAccepted$.set(undefined);
           }
         });
     }

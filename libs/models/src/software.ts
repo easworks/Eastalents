@@ -3,11 +3,8 @@ export interface TechGroup {
   items: Set<string>;
 }
 
-export type TechGroupDto = Record<string, string[]>;
-
-export interface Software {
+export interface SoftwareProduct {
   name: string;
-  tech: [string, string][];
+  imageUrl: string;
+  tech: TechGroup[];
 }
-
-export type SoftwareDto = Record<string, [string, string][]>;

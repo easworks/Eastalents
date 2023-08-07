@@ -1,25 +1,29 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, isDevMode } from '@angular/core';
-import { throwError } from 'rxjs';
-import { ENVIRONMENT } from '../environment';
-
-
+import { isDevMode } from '@angular/core';
 export class ApiService {
-  protected readonly http = inject(HttpClient);
-  protected readonly apiUrl = inject(ENVIRONMENT).apiUrl;
   private readonly devMode = isDevMode();
 
+  protected async verifyOk(response: Response) {
+    if (!response.ok) {
+      const body = await response.json();
+      throw body;
+    }
+
+    return response;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected readonly handleError = (error: any) => {
     let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
+    if (error instanceof ErrorEvent) {
       if (this.devMode)
         console.error('client error', error);
-      errorMessage = error.error.message;
+      errorMessage = error.message;
     } else {
       if (this.devMode)
         console.error('server error', error);
-      errorMessage = error.error.message || error.error.status || error.status;
+      errorMessage = error.message || error.status;
     }
-    return throwError(() => new Error(errorMessage));
+
+    throw new Error(errorMessage);
   }
 }

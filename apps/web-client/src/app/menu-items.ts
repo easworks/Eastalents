@@ -2,7 +2,7 @@ import { MenuItem, NOOP_CLICK } from '@easworks/app-shell/state/menu';
 
 export const publicMenu = {
   firstPart: () => [
-    publicMenu.items.forEnterprises,
+    publicMenu.items.forEmployers,
     publicMenu.items.forFreelancers,
     publicMenu.items.whyEasWorks,
   ],
@@ -16,10 +16,10 @@ export const publicMenu = {
     ...publicMenu.secondPart()
   ],
   items: {
-    forEnterprises: { name: 'For Enterprises', link: NOOP_CLICK },
-    forFreelancers: { name: 'For Freelancers', link: NOOP_CLICK },
-    whyEasWorks: { name: 'Why EASWORKS?', link: NOOP_CLICK },
-    easeworksTalent: { name: 'EASWORKS Talent', link: NOOP_CLICK },
+    forEmployers: { name: 'For Employers', link: NOOP_CLICK },
+    forFreelancers: { name: 'For Freelancers', link: '/for-freelancer' },
+    whyEasWorks: { name: 'Why EASWORKS?', link: '/why-easworks' },
+    easeworksTalent: { name: 'EASWORKS Talent', link: '/easworks-talent' },
     useCases: {
       name: 'Use Cases', link: NOOP_CLICK,
       children: [
@@ -36,5 +36,5 @@ export const publicMenu = {
       ]
     },
     applyAsFreelancer: { name: 'Apply as Freelancer', link: '/account/sign-up/freelancer' }
-  } satisfies { readonly [key: string]: MenuItem }
+  } satisfies { readonly [key: string]: MenuItem; }
 } as const;

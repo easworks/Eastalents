@@ -1,0 +1,99 @@
+.service-type-option,
+.project-type-option,
+.required-exp-option,
+.weekly-commitment-option,
+.engagement-period-option,
+.hourly-budget-option,
+.project-kickoff-timeline-option,
+.remote-work-option {
+  @apply flex items-center border rounded p-2 px-4 cursor-pointer text-left
+      gap-2 transition-all
+      ring-inset ring-1 ring-transparent;
+  
+  &:hover, &:focus, &.selected {
+    @apply  text-primary border-primary;
+
+    .mat-pseudo-checkbox-full {
+      &:not(.mat-pseudo-checkbox-checked) {
+        @apply border-primary;
+      }
+    }
+  }
+
+  &.selected {
+    @apply ring-primary bg-primary-light/5;
+  }
+
+  &:disabled {
+    @apply border-divider text-divider ring-0;
+  }
+}
+
+.primary-domain-option,
+.service-option,
+.module-option,
+.software-option,
+.role-option {
+  @apply border rounded flex flex-col gap-2
+    transition-all;
+
+  &:hover, 
+  &:focus-within,
+  &.selected {
+    @apply border-primary text-primary;
+  }
+
+  &:hover ::ng-deep {
+    .mat-mdc-checkbox:not(.mat-mdc-checkbox-disabled) {
+      .mdc-checkbox__background {
+        @apply !border-primary;
+      }
+    }
+  }
+
+  &.selected {
+    @apply bg-primary-light/10 ring-1 ring-primary;
+
+    input {
+      @apply bg-primary-light/10 placeholder:text-primary/75;
+    }
+
+  }
+  &.disabled {
+    @apply text-divider transition-all border-divider;
+
+    > * {
+      @apply cursor-default;
+    }
+  }
+
+  input:focus {
+    @apply bg-white;
+  }
+
+  .hint {
+    @apply text-primary/75;
+  }
+}
+
+.selection-counter {
+  @apply border rounded p-1 px-2 transition-all;
+
+  &.selected {
+    @apply bg-primary/5 text-primary border-transparent;
+  }
+}
+
+.tech-option,
+.industry-option {
+  @apply bg-primary/5 text-primary rounded flex gap-2 justify-between ring-inset ring-primary ring-2 overflow-hidden;
+
+  > span {
+    @apply p-2 px-4;
+  }
+
+  > button {
+    @apply h-10 w-10 flex-none text-primary/70 hover:text-warn focus:text-warn;
+  }
+}
+

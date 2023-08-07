@@ -1,14 +1,14 @@
 <div class="h-16 p-2 md:px-4 flex mat-elevation-z1 z-10 sticky top-0 bg-white justify-between transition-all">
 
-  <div class="grid content-center">
+  <a routerLink="/" class="grid content-center">
     <img src="/assets/brand/black-logo.png">
-  </div>
+  </a>
 
   <app-horizontal-menu *ngIf="showHorizontalMenu$()"></app-horizontal-menu>
 
   <div class="flex gap-2 items-center flex-none">
     <account-widget></account-widget>
-    <a routerLink="/account/sign-up/enterprise" class="shaded-button primary" mat-ripple>
+    <a routerLink="/account/sign-up/employer" class="shaded-button primary" mat-ripple>
       Hire Now
     </a>
     <button class="icon-button" mat-ripple

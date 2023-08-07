@@ -5,25 +5,29 @@ import { AbstractControl, FormArray, FormControl, FormGroup, FormRecord, Validat
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
 import { CSCApi, City, Country, State, Timezone } from '@easworks/app-shell/api/csc';
 import { GMapsApi } from '@easworks/app-shell/api/gmap';
-import { LocationApi } from '@easworks/app-shell/api/location';
-import { Domain, DomainModule, DomainProduct } from '@easworks/app-shell/api/talent.api';
+import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator.component';
+import { FileUploadComponent, FileValidators } from '@easworks/app-shell/common/file-upload/file-upload.component';
 import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { isTimezone } from '@easworks/app-shell/common/location';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { filterCountryCode, getCombinedNumber, getPhoneCodeOptions, updatePhoneValidatorEffect } from '@easworks/app-shell/common/phone-code';
 import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
+import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-required';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { COMMITMENT_OPTIONS, Commitment, ENGLISH_PROFICIENCY_OPTIONS, EnglishProficiency, FREELANCER_AVAILABILITY_OPTIONS, FreelancerAvailability, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, LatLng, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, pattern } from '@easworks/models';
-import { DateTime, IANAZone } from 'luxon';
+import { COMMITMENT_OPTIONS, Commitment, Domain, DomainModule, EMPLOYMENT_OPPORTUNITY_OPTIONS, ENGLISH_PROFICIENCY_OPTIONS, EmploymentOpportunity, EnglishProficiency, FREEELANCER_SIGNUP_REASON_OPTIONS, FreelancerProfile, FreelancerSignupReason, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, LatLng, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, PROJECT_KICKOFF_TIMELINE_OPTIONS, ProjectKickoffTimeline, SoftwareProduct, pattern } from '@easworks/models';
+import { DateTime } from 'luxon';
 import { map, shareReplay, switchMap } from 'rxjs';
 
 @Component({
@@ -39,19 +43,17 @@ import { map, shareReplay, switchMap } from 'rxjs';
     MatAutocompleteModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatPseudoCheckboxModule
+    MatPseudoCheckboxModule,
+    DropDownIndicatorComponent,
+    FileUploadComponent,
+    MatRadioModule
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
-  constructor() {
-    this.getData()
-  }
-
   private readonly injector = inject(INJECTOR);
   private readonly route = inject(ActivatedRoute);
   private readonly geo = inject(GeoLocationService);
   private readonly api = {
-    location: inject(LocationApi),
     gmap: inject(GMapsApi),
     csc: inject(CSCApi)
   } as const;
@@ -61,9 +63,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   @HostBinding() private readonly class = 'flex flex-col lg:flex-row';
 
   private readonly loading = generateLoadingState<[
-    'getting profile data',
     'getting geolocation',
-    'getting data',
+    'domains',
+    'industries',
     'ps-country',
     'ps-state',
     'ps-city',
@@ -73,7 +75,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     'pd-city',
   ]>();
   protected readonly isNew = this.route.snapshot.queryParamMap.has('new');
-  protected readonly loadingData$ = this.loading.has('getting data');
   private readonly section = this.initSection();
   private readonly allCountries = this.api.csc.allCountries();
 
@@ -102,9 +103,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     domain: (_: number, d: Domain) => d.key,
     domainOption: (_: number, d: SelectableOption<Domain>) => d.value.key,
     moduleOption: (_: number, m: SelectableOption<DomainModule>) => m.value.name,
-    softwareOption: (_: number, s: SelectableOption<DomainProduct>) => s.value.name,
+    softwareOption: (_: number, s: SelectableOption<SoftwareProduct>) => s.value.name,
     stringOption: (_: number, s: SelectableOption<string>) => s.value,
-    name: (_: number, i: { name: string }) => i.name,
+    name: (_: number, i: { name: string; }) => i.name,
     key: (_: number, kv: KeyValue<string, unknown>) => kv.key
   } as const;
 
@@ -155,7 +156,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       return {
         label: `Step ${s} of ${totalSteps}`,
         percent: ((s - 1) / totalSteps) * 100
-      }
+      };
     });
 
     const showStepControls$ = computed(() => {
@@ -186,9 +187,21 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       (step === 'availability' && this.availability.status$() === 'VALID') ||
       (step === 'profile-details' && this.profileDetails.status$() === 'VALID');
 
+    const waitingSteps: Step[] = [
+      'professional-summary',
+      'primary-domains',
+      'industry',
+      'profile-details'
+    ];
     const next = {
       visible$: computed(() => step$() !== lastStep),
-      disabled$: computed(() => this.loading.any$() || !isValidStep(step$())),
+      disabled$: computed(() => {
+        const step = step$();
+        const wait = waitingSteps.includes(step) && this.loading.any$();
+        if (wait)
+          return true;
+        return !isValidStep(step$());
+      }),
       click: () => {
         const current = stepIndex$();
         step$.set(order[current + 1]);
@@ -210,7 +223,121 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       disabled$: next.disabled$,
       visible$: computed(() => step$() === lastStep),
       click: () => {
-        // 
+
+        const fv = {
+          profileDetails: this.profileDetails.form.getRawValue(),
+          professionalSummary: this.professionalSummary.form.getRawValue(),
+          industries: this.industries.form.getRawValue(),
+          jobSearchStatus: this.jobSearchStatus.form.getRawValue(),
+          rates: this.rateExpectation.form.getRawValue(),
+          workingHrs: this.preferredWorkingHours.form.getRawValue(),
+          availability: this.availability.form.getRawValue(),
+          commitment: this.jobCommittment.form.getRawValue(),
+          preferredRoles: this.preferredRoles.$()?.form.getRawValue() || {},
+          domains: this.primaryDomains.form.getRawValue(),
+          services: this.services.$()?.form.getRawValue() || {},
+          modules: this.modules.$()?.form.getRawValue() || {},
+          software: this.software.$()?.form.getRawValue() || {},
+          roles: this.roles.$()?.form.getRawValue() || {},
+          techExp: this.techExp.form.getRawValue(),
+        } as const;
+
+        const p: FreelancerProfile = {
+          personalDetails: {
+            firstName: fv.profileDetails.personalInfo.firstName,
+            lastName: fv.profileDetails.personalInfo.lastName,
+            image: fv.profileDetails.personalInfo.image?.name || null,
+            resume: fv.profileDetails.personalInfo.resume?.name || null,
+            citizenship: fv.profileDetails.personalInfo.citizenship || null,
+            signupReason: fv.profileDetails.personalInfo.signupReason,
+            contact: {
+              address: fv.profileDetails.contact.address.postalCode ? fv.profileDetails.contact.address : null,
+              email: fv.profileDetails.contact.email,
+              phone: {
+                mobile: getCombinedNumber(fv.profileDetails.contact.phoneNumber.mobile),
+                whatsapp: getCombinedNumber(fv.profileDetails.contact.phoneNumber.whatsapp),
+                telegram: getCombinedNumber(fv.profileDetails.contact.phoneNumber.telegram),
+              }
+            },
+            social: {
+              github: fv.profileDetails.social.github || null,
+              linkedin: fv.profileDetails.social.linkedin || null,
+              gitlab: fv.profileDetails.social.gitlab || null,
+            },
+            location: {
+              country: fv.professionalSummary.country,
+              state: fv.professionalSummary.state,
+              city: fv.professionalSummary.city,
+              timezone: fv.professionalSummary.timezone,
+            },
+            education: fv.profileDetails.history.education
+              .map(v => ({
+                ...v,
+                specialization: v.specialization || null
+              })),
+          },
+          professionalDetails: {
+            overallExperience: fv.professionalSummary.experience,
+            currentRole: fv.profileDetails.information.currentRole[1],
+            englishProficiency: fv.profileDetails.information.englishProficiency.value,
+            summary: fv.professionalSummary.summary,
+            portfolio: fv.profileDetails.history.portfolio || null,
+            history: fv.profileDetails.history.work.map(v => ({
+              ...v,
+              domain: v.role[0],
+              role: v.role[1],
+            })),
+            wasFreelancer: fv.profileDetails.information.freelanceExperience
+          },
+          workPreference: {
+            searchStatus: fv.jobSearchStatus.status.value,
+            interest: fv.jobSearchStatus.opportunity.map(v => v.value),
+            rates: fv.rates,
+            time: fv.workingHrs,
+            availability: fv.availability.value,
+            commitment: [...fv.commitment],
+            roles: Object.entries(fv.preferredRoles).map(([domain, value]) => ({
+              domain,
+              roles: value.map(v => v.value)
+            }))
+          },
+          experience: {
+            domains: Object.entries(fv.domains)
+              .map(([key, years]) => ({
+                key,
+                years,
+                modules: [...fv.modules[key]].map(v => v.name),
+                services: Object.entries(fv.services[key]).map(([key, years]) => ({ key, years })),
+                products: Object.entries(fv.software[key]).map(([key, years]) => ({ key, years })),
+                roles: Object.entries(fv.roles[key]).map(([key, years]) => ({ key, years }))
+              })),
+            tech: Object.entries(fv.techExp).map(([group, value]) => ({
+              group,
+              items: value.map(v => v.value)
+            })),
+            industries: Object.entries(fv.industries).map(([group, value]) => ({
+              group,
+              items: value.map(v => v.value)
+            })),
+          },
+          profileCompletion: {
+            overall: 0,
+            summary: 0,
+            easExperience: 0,
+            easSystemPhases: 0,
+            jobRole: 0,
+            experience: 0,
+            techStacks: 0,
+            jobSearchStatus: 0,
+            rates: 0,
+            about: 0,
+            social: 0,
+            wsa: 0,
+            completed: false
+          }
+        };
+
+        console.debug(p);
       }
     } as const;
 
@@ -235,10 +362,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     type StepGroup = {
       label: StepGroupID;
-      enabled$: Signal<boolean>,
-      completed$: Signal<boolean>,
-      click: () => void
-    }
+      enabled$: Signal<boolean>;
+      completed$: Signal<boolean>;
+      click: () => void;
+    };
 
     const groupings: [StepGroupID, Step[]][] = [
       [
@@ -326,11 +453,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       timezone: new FormControl('', {
         validators: [
           Validators.required,
-          c => {
-            if (!IANAZone.isValidZone(c.value))
-              return { invalid: true };
-            return null;
-          }
+          isTimezone
         ],
         nonNullable: true
       })
@@ -342,12 +465,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       state: toSignal(controlValue$(form.controls.state), { requireSync: true }),
       city: toSignal(controlValue$(form.controls.city), { requireSync: true }),
       timezone: toSignal(controlValue$(form.controls.timezone), { requireSync: true })
-    }
+    };
 
     const status = {
       country: toSignal(controlStatus$(form.controls.country), { requireSync: true }),
       state: toSignal(controlStatus$(form.controls.state), { requireSync: true }),
-    }
+    };
 
     const allOptions = {
       country$: signal<Country[]>([]),
@@ -390,12 +513,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           return all.filter(c => c.zoneName.toLowerCase().includes(filter));
         return all;
       })
-    }
+    };
 
     const validation = {
       stateRequired$: computed(() => allOptions.state$().length > 0),
       cityRequired$: computed(() => allOptions.city$().length > 0)
-    }
+    };
 
     const loading = {
       geo$: this.loading.has('getting geolocation'),
@@ -419,24 +542,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     // dynamically add/remove validators for the state and city controls
     {
-      form.controls
-      // eslint-disable-next-line no-inner-declarations
-      function dynamicallyRequired(
-        isRequired: Signal<boolean>,
-        control: FormControl<string>
-      ) {
-        effect(() => {
-          if (isRequired()) {
-            control.addValidators(Validators.required);
-          }
-          else {
-            control.removeValidators(Validators.required);
-          }
-          control.updateValueAndValidity();
-        }, { allowSignalWrites: true })
-
-      }
-
       dynamicallyRequired(validation.stateRequired$, form.controls.state);
       dynamicallyRequired(validation.cityRequired$, form.controls.city);
     }
@@ -464,7 +569,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
               allOptions.timezone$.set(cscTz);
             else {
               const all = await this.api.csc.allTimezones();
-              allOptions.timezone$.set(all)
+              allOptions.timezone$.set(all);
             }
             this.loading.delete('ps-timezone');
           }
@@ -536,7 +641,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           form.controls.city.setValue(match.name);
         }
       }
-    }, { allowSignalWrites: true })
+    }, { allowSignalWrites: true });
 
     effect(() => {
       const options = allOptions.timezone$();
@@ -594,9 +699,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   private initPrimaryDomains() {
+    this.loading.react('domains', computed(() => this.domains.domains.list$().length === 0));
+    const loading$ = this.loading.has('domains');
+
     const domains$ = computed(() => {
       const optionMap = new Map<string, SelectableOption<Domain>>();
-      const options = this.domains.domains$().map(d => {
+      const options = this.domains.domains.list$().map(d => {
         const opt: SelectableOption<Domain> = {
           selected: false,
           value: d,
@@ -619,9 +727,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           const size = Object.keys(c.value).length;
           size$.set(size);
           if (size < 1)
-            return { minlength: 1 }
+            return { minlength: 1 };
           if (size > 3)
-            return { maxlength: 3 }
+            return { maxlength: 3 };
           return null;
         }
       ]
@@ -630,11 +738,11 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const selected$ = controlValue$(form, true)
       .pipe(
         map(v => {
-          const map = map$();
+          const dMap = map$();
           return Object.keys(v)
             .sort(sortString)
             .map(k => {
-              const o = map.get(k);
+              const o = dMap.get(k);
               if (!o)
                 throw new Error('invalid operation');
               return o.value;
@@ -651,13 +759,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         }
         else {
           option.selected = true;
-          form.addControl(option.value.key, createYearControl())
+          form.addControl(option.value.key, createYearControl());
         }
       }
     } as const;
 
 
     return {
+      loading$,
       form,
       status$,
       selected$,
@@ -686,7 +795,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           const options: Record<string, {
             all: SelectableOption<string>[],
             size$: Signal<number>,
-            toggle: (option: SelectableOption<string>) => void
+            toggle: (option: SelectableOption<string>) => void;
           }> = {};
 
           const optionMap = new Map<string, SelectableOption<string>>();
@@ -698,7 +807,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                   const size = Object.keys(c.value).length;
                   size$.set(size);
                   if (size < 1)
-                    return { minlength: 1 }
+                    return { minlength: 1 };
                   return null;
                 }
               ]
@@ -729,7 +838,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 }
               },
               size$
-            }
+            };
           });
 
           if (exists) {
@@ -742,9 +851,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                     throw new Error('invalid operation');
                   option.selected = true;
                   serviceForm.addControl(service, createYearControl(exists[domain][service]), { emitEvent: false });
-                })
+                });
               }
-            })
+            });
           }
 
           form.updateValueAndValidity();
@@ -780,8 +889,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             selectAll: {
               visible: boolean,
               value: boolean,
-              toggle: () => void
-            }
+              toggle: () => void;
+            };
           }> = {};
 
           const optionMap = new Map<string, SelectableOption<DomainModule>>();
@@ -821,7 +930,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
               size$,
               stopInput$,
               toggle: (option) => {
-                const v = moduleForm.getRawValue()
+                const v = moduleForm.getRawValue();
                 if (option.selected) {
                   option.selected = false;
                   v.delete(option.value);
@@ -855,7 +964,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                   options[d.key].selectAll.value = selected;
                 }
               }
-            }
+            };
           });
 
           if (exists) {
@@ -869,7 +978,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                   option.selected = true;
                   moduleForm.value.add(module);
                 });
-                moduleForm.updateValueAndValidity({ onlySelf: true })
+                moduleForm.updateValueAndValidity({ onlySelf: true });
                 options[domain].selectAll.value = moduleForm.value.size === options[domain].all.length;
               }
             });
@@ -916,11 +1025,11 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
 
           const options: Record<string, {
-            all: SelectableOption<DomainProduct>[],
+            all: SelectableOption<SoftwareProduct>[],
             size$: Signal<number>,
             stopInput$: Signal<boolean>,
-            toggle: (option: SelectableOption<DomainProduct>) => void,
-            record: Record<string, SelectableOption<DomainProduct>>
+            toggle: (option: SelectableOption<SoftwareProduct>) => void,
+            record: Record<string, SelectableOption<SoftwareProduct>>;
           }> = {};
 
           selected.forEach(s => {
@@ -941,10 +1050,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
               ]
             });
 
-            const record: Record<string, SelectableOption<DomainProduct>> = {};
+            const record: Record<string, SelectableOption<SoftwareProduct>> = {};
             s.modules.forEach(m => {
               m.products.forEach(p => {
-                const opt: SelectableOption<DomainProduct> = {
+                const opt: SelectableOption<SoftwareProduct> = {
                   selected: false,
                   value: p,
                   label: p.name
@@ -997,7 +1106,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 const domain = s.domain;
                 const modules = s.modules;
                 const software = Object.keys(v[domain.key])
-                  .map(s => options[domain.key].record[s].value)
+                  .map(s => options[domain.key].record[s].value);
                 return { domain, modules, software };
               })
               ),
@@ -1015,7 +1124,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const selected$ = obs$.pipe(
       switchMap(f => f.selected$),
       shareReplay({ refCount: true, bufferSize: 1 })
-    )
+    );
 
     return { $, stepLabel$, selected$ } as const;
 
@@ -1036,7 +1145,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
           const options: Record<string, {
             list: SelectableOption<string>[],
-            record: Record<string, SelectableOption<string>>
+            record: Record<string, SelectableOption<string>>;
             size$: Signal<number>,
             stopInput$: Signal<boolean>,
             toggle: (option: SelectableOption<string>) => void,
@@ -1093,7 +1202,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 }
               },
               record
-            }
+            };
           });
 
           if (exists) {
@@ -1120,8 +1229,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
               .reduce((prev, current) => {
                 prev[current] = Object.keys(v[current]);
                 return prev;
-              }, {} as { [key: string]: string[] });
-          })
+              }, {} as { [key: string]: string[]; });
+          });
 
           return { form, status$, options, domains, selected$ } as const;
         }),
@@ -1142,7 +1251,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     const size$ = computed(() => Object.values(value$()).reduce((p, c) => p + c.length, 0));
     const skippable$ = computed(() => size$() === 0);
-    const fullSize$ = computed(() => this.domains.tech$().reduce((p, c) => p + c.items.size, 0));
+    const fullSize$ = computed(() => this.domains.tech.list$().reduce((p, c) => p + c.items.size, 0));
     const stopInput$ = computed(() => size$() >= fullSize$());
 
     const query$ = signal<string | object>('');
@@ -1151,7 +1260,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       name: string;
       tech: SelectableOption<string>[];
     };
-    const all$ = computed(() => this.domains.tech$()
+    const all$ = computed(() => this.domains.tech.list$()
       .map<OptionGroup>(g => ({
         name: g.name,
         tech: [...g.items]
@@ -1189,6 +1298,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     const handlers = {
       add: (group: string, option: SelectableOption<string>) => {
+        if (option.selected)
+          return;
         option.selected = true;
         let control = form.controls[group];
         if (!control) {
@@ -1223,6 +1334,29 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       }
     } as const;
 
+    {
+      const selected$ = toSignal(this.software.selected$);
+
+      effect(() => {
+        const selected = selected$();
+        if (selected) {
+          const all = all$();
+          const list = selected.flatMap(s => s.software.flatMap(s => s.tech));
+          list.forEach(lg => {
+            const og = all.find(g => g.name === lg.name);
+            if (!og)
+              throw new Error('invalid operation');
+            lg.items.forEach(li => {
+              const opt = og.tech.find(t => t.value === li);
+              if (!opt)
+                throw new Error('invalid operation');
+              handlers.add(og.name, opt);
+            });
+          });
+        }
+      }, { allowSignalWrites: true });
+    }
+
     form.updateValueAndValidity();
 
     return {
@@ -1240,6 +1374,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   private initIndustries() {
+    {
+      this.loading.add('industries');
+      this.domains.loadIndustries()
+        .then(() => this.loading.delete('industries'));
+    }
+
+    const loading$ = this.loading.has('industries');
+
     const stepLabel$ = toSignal(this.primaryDomains.selected$
       .pipe(map(selected => (selected.length === 1 && selected[0].key) || 'Enterprise Application')),
       { initialValue: 'Enterprise Application' });
@@ -1345,6 +1487,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     form.updateValueAndValidity();
 
     return {
+      loading$,
       form,
       value$,
       status$,
@@ -1387,7 +1530,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         form.value.add(option.value);
       }
       form.updateValueAndValidity();
-    }
+    };
 
 
     return { form, status$, options, toggle };
@@ -1470,7 +1613,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                   label: r
                 };
                 record[r] = opt;
-              })
+              });
             });
 
             const list = Object.values(record)
@@ -1516,7 +1659,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 roleForm.updateValueAndValidity();
                 query$.mutate(v => v);
               }
-            }
+            };
           });
 
           if (exists) {
@@ -1543,16 +1686,17 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
   private initPreferredWorkingHours() {
 
-    const allHours = new Array<number>(24)
-      .fill(0).map((_, i) => i)
-
-    const options = allHours
-      .map(hour => DateTime.fromObject({ hour }).toFormat('hh a'));
-
-    const pfs = toSignal(controlValue$(this.professionalSummary.form, true));
-    const tz$ = computed(() => pfs()?.timezone);
+    const pfs$ = toSignal(controlValue$(this.professionalSummary.form, true));
+    const loading$ = signal(true);
 
     const form = new FormGroup({
+      timezone: new FormControl('', {
+        validators: [
+          Validators.required,
+          isTimezone
+        ],
+        nonNullable: true
+      }),
       start: new FormControl(null as unknown as string, {
         nonNullable: true,
         validators: [
@@ -1567,60 +1711,147 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       }),
     });
 
+    const allZones$ = signal<Timezone[]>([]);
+    this.api.csc.allTimezones()
+      .then(tz => {
+        allZones$.set(tz);
+        loading$.set(false);
+      });
+
+    const tzValue$ = toSignal(controlValue$(form.controls.timezone), { requireSync: true });
+
+    const options = {
+      timezone$: computed(() => {
+        const all = allZones$();
+        const value = tzValue$();
+        const filter = value && value.trim().toLowerCase();
+        if (filter)
+          return all.filter(tz => tz.zoneName.toLowerCase().includes(filter));
+        return all;
+      }),
+      hours: new Array<number>(24)
+        .fill(0).map((_, i) => i)
+        .map(hour => DateTime.fromObject({ hour }).toFormat('hh a'))
+    };
+
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    effect(() => {
+      const opts = options.timezone$();
+      const value = tzValue$();
+      if (opts.length < 25) {
+        const match = opts.find(o => o.tzName.toLowerCase() === value.trim().toLowerCase());
+        if (match && match.zoneName.length === value.length && match.zoneName !== value) {
+          form.controls.timezone.setValue(match.zoneName);
+        }
+      }
+    }, { allowSignalWrites: true });
+
+    effect(() => {
+      const v = pfs$();
+      if (!v)
+        return;
+      const { timezone } = v;
+      const control = form.controls.timezone;
+      const hasValidValue = (!this.isNew) || (control.valid);
+      if (!hasValidValue)
+        control.setValue(timezone);
+    }, { allowSignalWrites: true });
 
     return {
       form,
       status$,
-      tz$,
-      options
+      options,
+      loading$
     } as const;
   }
 
   private initJobSearchStatus() {
-    const form = new FormControl(null as unknown as SelectableOption<JobSearchStatus>, {
-      nonNullable: true,
-      validators: [Validators.required]
+
+    const form = new FormGroup({
+      status: new FormControl(null as unknown as SelectableOption<JobSearchStatus>, {
+        nonNullable: true,
+        validators: [Validators.required]
+      }),
+      opportunity: new FormControl([] as SelectableOption<EmploymentOpportunity>[], {
+        nonNullable: true,
+        validators: [Validators.required]
+      })
     });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
-    const options = JOB_SEARCH_STATUS_OPTIONS
-      .map<SelectableOption<JobSearchStatus>>(c => ({
-        selected: false,
-        value: c,
-        label: c
-      }));
+    const descriptions = {
+      status: {
+        'Active': 'We will match you with all available job opportunities',
+        'Passive': 'We will send you a daily digest of jobs that match your profile',
+        'Not Looking Actively': 'We will pause job match emails, but keep your account active'
+      } satisfies Record<JobSearchStatus, string>,
+      opportunity: {
+        'Short Term Freelance/Contract': '1 - 3 months',
+        'Long Term Freelance/Contract': '4 - 36 months',
+        'Full-Time Salaried Employee': ''
+      } satisfies Record<EmploymentOpportunity, string>
+    } as const;
 
-    const toggle = (option: SelectableOption<JobSearchStatus>) => {
-      if (option.selected)
-        return;
+    const options = {
+      status: JOB_SEARCH_STATUS_OPTIONS
+        .map<SelectableOption<JobSearchStatus>>(s => ({
+          selected: false,
+          value: s,
+          label: s,
+          description: descriptions.status[s]
+        })),
+      opportunity: EMPLOYMENT_OPPORTUNITY_OPTIONS
+        .map<SelectableOption<EmploymentOpportunity>>(o => ({
+          selected: false,
+          value: o,
+          label: o,
+          description: descriptions.opportunity[o]
+        }))
+    } as const;
 
-      option.selected = true;
-      const old = form.value;
-      if (old) {
-        old.selected = false;
+    const status = {
+      toggle: (option: SelectableOption<JobSearchStatus>) => {
+        if (option.selected)
+          return;
+
+        const control = form.controls.status;
+        option.selected = true;
+        const old = control.value;
+        if (old) {
+          old.selected = false;
+        }
+        control.setValue(option);
       }
-      form.setValue(option);
-    }
+    } as const;
 
-    return { form, status$, options, toggle } as const;
+    const opportunity = {
+      toggle: (option: SelectableOption<EmploymentOpportunity>) => {
+        option.selected = !option.selected;
+
+        const control = form.controls.opportunity;
+        control.setValue(options.opportunity.filter(o => o.selected));
+      }
+    } as const;
+
+    return { form, status$, options, status, opportunity } as const;
   }
 
   private initAvailability() {
-    const options = FREELANCER_AVAILABILITY_OPTIONS
-      .map<SelectableOption<FreelancerAvailability>>(v => ({
+    const options = PROJECT_KICKOFF_TIMELINE_OPTIONS
+      .map<SelectableOption<ProjectKickoffTimeline>>(v => ({
         selected: false,
         value: v,
         label: v
       }));
 
-    const form = new FormControl(null as unknown as SelectableOption<FreelancerAvailability>, {
+    const form = new FormControl(null as unknown as SelectableOption<ProjectKickoffTimeline>, {
       nonNullable: true,
       validators: [Validators.required]
     });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
-    const toggle = (option: SelectableOption<FreelancerAvailability>) => {
+    const toggle = (option: SelectableOption<ProjectKickoffTimeline>) => {
       if (option.selected)
         return;
 
@@ -1630,7 +1861,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         old.selected = false;
       }
       form.setValue(option);
-    }
+    };
 
     return { form, status$, options, toggle } as const;
   }
@@ -1642,13 +1873,13 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         start: FormControl<number>;
         end: FormControl<number | null>;
       }>;
-      client: FormControl<string>;
-      skills: FormControl<string>;
+      client: FormControl<string | null>;
+      skills: FormControl<string | null>;
     }>;
 
     type EducationHistoryForm = FormGroup<{
-      degree: FormControl<string>,
-      specialization: FormControl<string>,
+      qualification: FormControl<string>,
+      specialization: FormControl<string | null>,
       duration: FormGroup<{
         start: FormControl<number>;
         end: FormControl<number | null>;
@@ -1657,24 +1888,44 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       location: FormControl<string>;
     }>;
 
+    const acceptedMimes = {
+      image: 'image/png,image/jpeg,image/bmp',
+      cv: 'application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    };
+
     const user = this.user();
     const form = new FormGroup({
       personalInfo: new FormGroup({
         firstName: new FormControl(
-          user?.firstName, {
+          user?.firstName || '', {
           nonNullable: true,
           validators: [Validators.required]
         }),
         lastName: new FormControl(
-          user?.lastName, {
+          user?.lastName || '', {
           nonNullable: true,
           validators: [Validators.required]
         }),
-        citizenship: new FormControl('')
+        image: new FormControl<null | File>(
+          null, {
+          validators: [
+            FileValidators.size(5_000_000),
+            FileValidators.type(acceptedMimes.image.split(',')),
+          ]
+        }),
+        resume: new FormControl<null | File>(
+          null, {
+          validators: [
+            FileValidators.size(5_000_000),
+            FileValidators.type(acceptedMimes.cv.split(',')),
+          ]
+        }),
+        citizenship: new FormControl(''),
+        signupReason: new FormControl<FreelancerSignupReason | null>(null)
       }),
       contact: new FormGroup({
         email: new FormControl(
-          user?.email, {
+          user?.email || '', {
           nonNullable: true,
           validators: [Validators.required, Validators.email]
         }),
@@ -1706,6 +1957,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           nonNullable: true,
           validators: [Validators.required]
         }),
+        freelanceExperience: new FormControl(null as unknown as boolean, {
+          validators: [Validators.required],
+          nonNullable: true
+        }),
         englishProficiency: new FormControl(null as unknown as SelectableOption<EnglishProficiency>, {
           nonNullable: true,
           validators: [Validators.required]
@@ -1719,9 +1974,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         })
       }),
       social: new FormGroup({
-        linkedIn: new FormControl(''),
-        github: new FormControl(''),
-        gitlab: new FormControl(''),
+        linkedin: new FormControl('', { validators: [Validators.pattern(pattern.linkedin.profile)] }),
+        github: new FormControl('', { validators: [Validators.pattern(pattern.github.profile)] }),
+        gitlab: new FormControl('', { validators: [Validators.pattern(pattern.gitlab.profile)] }),
       })
     });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
@@ -1730,15 +1985,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       citizenship: toSignal(controlValue$(form.controls.personalInfo.controls.citizenship), { requireSync: true }),
       phone: {
         mobile: {
-          full: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.mobile), { requireSync: true }),
           code: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.mobile.controls.code), { requireSync: true }),
         },
         whatsapp: {
-          full: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.whatsapp), { requireSync: true }),
           code: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.whatsapp.controls.code), { requireSync: true }),
         },
         telegram: {
-          full: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.telegram), { requireSync: true }),
           code: toSignal(controlValue$(form.controls.contact.controls.phoneNumber.controls.telegram.controls.code), { requireSync: true }),
         },
       },
@@ -1754,21 +2006,11 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
     const allOptions = {
       countries: signal<Country[]>([]),
-      countryCode: signal<(Country & { plainPhoneCode: string })[]>([]),
+      countryCode: signal<(Country & { plainPhoneCode: string; })[]>([]),
       state$: signal<State[]>([]),
       city$: signal<City[]>([]),
     } as const;
 
-    function filterCountryCode(value$: Signal<string | null>) {
-      return computed(() => {
-        const all = allOptions.countryCode();
-        const value = value$();
-        const filter = value && value.replace(notNumber, '');
-        if (filter)
-          return all.filter(c => c.plainPhoneCode.toLowerCase().includes(filter));
-        return all;
-      });
-    }
 
     const filteredOptions = {
       citizenship$: computed(() => {
@@ -1779,9 +2021,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           return all.filter(c => c.name.toLowerCase().includes(filter));
         return all;
       }),
-      mobileCode$: filterCountryCode(values.phone.mobile.code),
-      whatsappCode$: filterCountryCode(values.phone.whatsapp.code),
-      telegramCode$: filterCountryCode(values.phone.telegram.code),
+      mobileCode$: filterCountryCode(allOptions.countryCode, values.phone.mobile.code),
+      whatsappCode$: filterCountryCode(allOptions.countryCode, values.phone.whatsapp.code),
+      telegramCode$: filterCountryCode(allOptions.countryCode, values.phone.telegram.code),
       country$: computed(() => {
         const value = values.address.country();
         const all = allOptions.countries();
@@ -1809,7 +2051,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       role$: computed(() => {
         const selected = this.roles.$()?.selected$() || {};
         const roles = Object.keys(selected)
-          .flatMap(domain => selected[domain].map<[string, string]>(role => [domain, role]))
+          .flatMap(domain => selected[domain].map<[string, string]>(role => [domain, role]));
         return roles;
       }),
       english: ENGLISH_PROFICIENCY_OPTIONS
@@ -1821,7 +2063,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       years: new Array(DateTime.now().year - 1980 + 1)
         .fill(1980)
         .map((base, i) => base + i)
-        .reverse()
+        .reverse(),
+      signupReason: FREEELANCER_SIGNUP_REASON_OPTIONS
     } as const;
 
     const english = {
@@ -1840,10 +2083,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const validateDuration = (c: AbstractControl) => {
       const { start, end } = c.value;
       if (end && (!start || (end < start)))
-        return { invalidEnd: true }
+        return { invalidEnd: true };
 
       return null;
-    }
+    };
 
     const work = {
       add: () => {
@@ -1863,31 +2106,29 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             validators: [Validators.required]
           }),
           client: new FormControl('', {
-            nonNullable: true,
-            validators: [Validators.required]
+            validators: [Validators.maxLength(300)]
           }),
           skills: new FormControl('', {
-            nonNullable: true,
-            validators: [Validators.required]
+            validators: [Validators.maxLength(1000)]
           })
         }));
       },
       remove: (i: number) => {
         form.controls.history.controls.work.removeAt(i);
       },
-      canRemove$: (() => {
-        const count = computed(() => values.work().length);
-        return computed(() => count() > 1)
-      })()
     } as const;
-    work.add();
 
     const education = {
       add: () => {
         const arr = form.controls.history.controls.education;
         arr.push(new FormGroup({
-          degree: new FormControl('', { nonNullable: true }),
-          specialization: new FormControl('', { nonNullable: true }),
+          qualification: new FormControl('', {
+            validators: [Validators.maxLength(300)],
+            nonNullable: true
+          }),
+          specialization: new FormControl('', {
+            validators: [Validators.maxLength(300)],
+          }),
           duration: new FormGroup({
             start: new FormControl(null as unknown as number, {
               nonNullable: true,
@@ -1897,59 +2138,28 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           }, {
             validators: [validateDuration]
           }),
-          institution: new FormControl('', { nonNullable: true }),
-          location: new FormControl('', { nonNullable: true })
+          institution: new FormControl('', {
+            validators: [Validators.maxLength(300)],
+            nonNullable: true
+          }),
+          location: new FormControl('', {
+            validators: [Validators.maxLength(300)],
+            nonNullable: true
+          })
         }));
       },
       remove: (i: number) => {
         form.controls.history.controls.education.removeAt(i);
       },
-      canRemove$: (() => {
-        const count = computed(() => values.education().length);
-        return computed(() => count() > 1)
-      })()
     } as const;
-    education.add();
 
     // update the validators on the fly for the phone controls
     {
-      type Form = FormGroup<{
-        code: FormControl<string | null>;
-        number: FormControl<string | null>;
-      }>
-      type FormValue = Form['value'];
-      const telPattern = Validators.pattern(pattern.telephone);
-
-      // eslint-disable-next-line no-inner-declarations
-      function updatePhoneValidator(form: Form, value$: Signal<FormValue>) {
-
-        const hasValue = computed(() => {
-          const value = value$();
-          return !!value.code || !!value.number;
-        });
-
-        const { code, number } = form.controls;
-        effect(() => {
-          if (hasValue()) {
-            code.setValidators([Validators.required]);
-            number.setValidators([Validators.required, telPattern]);
-          }
-          else {
-            code.clearValidators();
-            number.clearValidators();
-          }
-
-          code.updateValueAndValidity();
-          number.updateValueAndValidity();
-
-        }, { allowSignalWrites: true })
-      }
-
       const { mobile, whatsapp, telegram } = form.controls.contact.controls.phoneNumber.controls;
 
-      updatePhoneValidator(mobile, values.phone.mobile.full);
-      updatePhoneValidator(whatsapp, values.phone.whatsapp.full);
-      updatePhoneValidator(telegram, values.phone.telegram.full);
+      updatePhoneValidatorEffect(mobile);
+      updatePhoneValidatorEffect(whatsapp);
+      updatePhoneValidatorEffect(telegram);
     }
 
     const isRequired = {
@@ -1976,22 +2186,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       isRequired.state$ = computed(() => allOptions.state$().length > 0 && hasValue());
       isRequired.city$ = computed(() => allOptions.city$().length > 0 && hasValue());
       isRequired.postalCode$ = hasValue;
-
-      // eslint-disable-next-line no-inner-declarations
-      function dynamicallyRequired(
-        required$: Signal<boolean>,
-        control: FormControl
-      ) {
-        effect(() => {
-          if (required$()) {
-            control.addValidators(Validators.required);
-          }
-          else {
-            control.removeValidators(Validators.required);
-          }
-          control.updateValueAndValidity();
-        }, { allowSignalWrites: true });
-      }
 
       dynamicallyRequired(isRequired.line1$, line1);
       dynamicallyRequired(isRequired.country$, country);
@@ -2052,7 +2246,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                   const cities = await this.api.csc.allCities(match.iso2);
                   cities.sort((a, b) => sortString(a.name, b.name));
                   allOptions.city$.set(cities);
-                  this.loading.delete('pd-city')
+                  this.loading.delete('pd-city');
                 }
               }
             }
@@ -2144,14 +2338,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       english,
       isRequired,
       work,
-      education
+      education,
+      acceptedMimes
     } as const;
   }
 
   private async devModeInit() {
-    if (!isDevMode())
-      return;
-
     const injector = this.injector;
 
     const revert = [] as (() => void)[];
@@ -2187,10 +2379,17 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         injector
       );
 
-      this.primaryDomains.toggle(all[0]);
-      this.primaryDomains.toggle(all[1]);
-      this.primaryDomains.form.get(all[0].value.key)?.setValue(2);
-      this.primaryDomains.form.get(all[1].value.key)?.setValue(2);
+      const scm = all.find(o => o.value.key === 'SCM');
+      if (!scm)
+        throw new Error('invalid operation');
+
+      this.primaryDomains.toggle(scm);
+      this.primaryDomains.form.get(scm.value.key)?.setValue(2);
+
+      // this.primaryDomains.toggle(all[0]);
+      // this.primaryDomains.toggle(all[1]);
+      // this.primaryDomains.form.get(all[0].value.key)?.setValue(2);
+      // this.primaryDomains.form.get(all[1].value.key)?.setValue(2);
 
       this.stepper.next.click();
     }
@@ -2232,12 +2431,22 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       domains.forEach(d => {
         const all = options[d.key].all;
 
+        if (d.key === 'SCM') {
+          const bluJay = all.find(s => s.value.name === 'BluJay Solutions');
+          if (!bluJay)
+            throw new Error('invalid operation');
+
+          options[d.key].toggle(bluJay);
+          form.controls[d.key].controls[bluJay.value.name].setValue(2);
+          return;
+        }
+
         options[d.key].toggle(all[0]);
         options[d.key].toggle(all[1]);
 
         form.controls[d.key].controls[all[0].value.name].setValue(2);
         form.controls[d.key].controls[all[1].value.name].setValue(3);
-      })
+      });
 
       this.stepper.next.click();
     }
@@ -2304,17 +2513,18 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     {
       const { form, options } = this.preferredWorkingHours;
 
-      form.setValue({
-        start: options[20],
-        end: options[2]
+      form.patchValue({
+        start: options.hours[20],
+        end: options.hours[2]
       });
 
       this.stepper.next.click();
     }
 
     {
-      const { options, toggle } = this.jobSearchStatus;
-      toggle(options[0]);
+      const { options, status, opportunity } = this.jobSearchStatus;
+      status.toggle(options.status[0]);
+      opportunity.toggle(options.opportunity[0]);
 
       this.stepper.next.click();
     }
@@ -2328,12 +2538,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     }
 
     {
-      const { form, options, english } = this.profileDetails;
+      const { form, options, english, work, education } = this.profileDetails;
 
       form.controls.information.controls.currentRole.setValue(options.role$()[0]);
+      form.controls.information.controls.freelanceExperience.setValue(true);
       english.toggle(options.english[0]);
 
       {
+        work.add();
         const control = form.controls.history.controls.work.at(0);
         control.patchValue({
           client: 'Client 1',
@@ -2342,13 +2554,14 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           },
           role: options.role$()[0],
           skills: 'Skill 1'
-        })
+        });
       }
 
       {
+        education.add();
         const control = form.controls.history.controls.education.at(0);
         control.patchValue({
-          degree: 'Some Degree',
+          qualification: 'Some Qualification',
           specialization: 'Some Specialization',
           duration: {
             start: 2018,
@@ -2356,29 +2569,11 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           },
           institution: 'Some institute',
           location: 'Some city, Some state, Some country'
-        })
+        });
       }
     }
 
     revert.forEach(r => r());
-  }
-
-  private async getData() {
-    this.loading.add('getting data');
-    const toDo = [] as Promise<unknown>[];
-
-    if (!this.section || this.section === 'technology-stack') {
-      this.domains.getTech();
-    }
-
-    if (!this.section || this.section === 'industry') {
-      this.domains.getIndustries();
-    }
-
-    toDo.push(toPromise(this.domains.loading.any$, v => !v));
-
-    await Promise.all(toDo);
-    this.loading.delete('getting data');
   }
 
   private async getCurrentLocation() {
@@ -2387,7 +2582,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
 
       const device = this.injector.get(GeoLocationService);
 
-      const fromDevice = await device.get(true)
+      const fromDevice = await device.get(true);
 
       const coords: LatLng = fromDevice ?
         { lat: fromDevice.coords.latitude, lng: fromDevice.coords.longitude } :
@@ -2400,7 +2595,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       if (response.status !== 'OK')
         return null;
 
-      const components = response.results[0].address_components
+      const components = response.results[0].address_components;
 
       const country = components.find(c => c.types.includes('country'));
       const state = components.find(c => c.types.includes('administrative_area_level_1'));
@@ -2418,7 +2613,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.devModeInit();
+    if (isDevMode()) {
+      // this.devModeInit();
+    }
   }
 }
 
@@ -2450,27 +2647,3 @@ type Step =
   'availability' |
   'profile-details' |
   'end';
-
-const notNumber = /[^\d\s]/g;
-
-function getPhoneCodeOptions(countries: Country[]) {
-  const mapped = [] as Country[];
-
-  countries.forEach(c => {
-    if (c.phonecode.includes('and')) {
-      const codes = c.phonecode.split(' and ');
-      codes.forEach(code => mapped.push({
-        ...c,
-        phonecode: code,
-      }));
-    }
-    else mapped.push(c);
-  });
-
-  return mapped
-    .map(c => ({
-      ...c,
-      plainPhoneCode: c.phonecode.replace(notNumber, '')
-    }))
-    .sort((a, b) => sortString(a.plainPhoneCode, b.plainPhoneCode))
-}

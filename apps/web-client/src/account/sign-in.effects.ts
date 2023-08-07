@@ -28,9 +28,9 @@ export class SignInEffects {
           if (role === 'freelancer')
             this.router.navigateByUrl('/freelancer');
           else if (role === 'employer')
-            this.router.navigateByUrl('/enterprise');
+            this.router.navigateByUrl('/employer');
         }
-      })
+      });
   }
 
   private readonly auth = inject(AuthService);

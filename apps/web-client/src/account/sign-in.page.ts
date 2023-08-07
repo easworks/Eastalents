@@ -61,10 +61,8 @@ export class AccountSignInPageComponent {
       this.auth.signin.email(
         this.emailLogin.form.getRawValue(),
         this.returnUrl
-      ).subscribe({
-        next: () => this.loading.delete('signing in'),
-        error: () => this.loading.delete('signing in')
-      });
+      ).finally(() => this.loading.delete('signing in'));
+
     }
   } as const;
 

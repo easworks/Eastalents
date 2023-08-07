@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
-import { Domain } from '../api/talent.api';
+import { Domain } from '@easworks/models';
 import { DomainState } from '../state/domains';
 import { MenuItem, NOOP_CLICK, NavMenuState } from '../state/menu';
 import { SelectableOption } from '../utilities/options';
-import { sortString } from '../utilities/sort';
-import { toPromise } from '../utilities/to-promise';
 
 @Component({
   selector: 'app-vertical-menu',
@@ -28,7 +26,7 @@ export class AppVerticalMenuComponent {
 
   protected readonly staticMenuItems: MenuItem[] = [
     { name: 'Hire Talent', link: NOOP_CLICK },
-    { name: 'For Enterprises', link: NOOP_CLICK },
+    { name: 'For Employers', link: NOOP_CLICK },
     { name: 'Join EASWORKS', link: NOOP_CLICK },
     { name: 'For Freelancers', link: NOOP_CLICK },
   ];
@@ -51,7 +49,7 @@ export class AppVerticalMenuComponent {
 
   private initDomainSection() {
     const selected$ = signal<SelectableOption<Domain> | null>(null);
-    const domains$ = computed(() => this.domainState.domains$().map(d => ({
+    const domains$ = computed(() => this.domainState.domains.list$().map(d => ({
       value: d,
       selected: false
     } satisfies SelectableOption<Domain>)));
@@ -70,10 +68,7 @@ export class AppVerticalMenuComponent {
       const selected = selected$();
       if (!selected)
         return [];
-      const products = selected.value.modules
-        .map(m => m.products)
-        .flat();
-      return products.sort((a, b) => sortString(a.name, b.name));
+      return selected.value.products;
     });
 
     const filteredProducts$ = computed(() => {
@@ -83,11 +78,10 @@ export class AppVerticalMenuComponent {
         .map(p => Object.assign(p, { link: NOOP_CLICK }));
     });
 
-    toPromise(this.domainState.loading.set$, s => !s.has('domains'))
-      .then(() => selectDomain(domains$()[0]));
+    const loading$ = computed(() => domains$().length === 0);
 
     return {
-      loading$: this.domainState.loading.has('domains'),
+      loading$,
       selected$,
       domains$,
       filter$,
