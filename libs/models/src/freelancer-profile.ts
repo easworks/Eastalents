@@ -92,7 +92,7 @@ export interface FreelancerProfile {
     roles: {
       domain: string;
       roles: string[];
-    };
+    }[];
     time: {
       timezone: string;
       start: string;
@@ -114,8 +114,8 @@ export interface FreelancerProfile {
       city: string | null;
       timezone: string;
     };
-    citizenship: string;
-    signupReason: FreelancerSignupReason;
+    citizenship: string | null;
+    signupReason: FreelancerSignupReason | null;
     contact: {
       email: string;
       phone: {
@@ -137,7 +137,6 @@ export interface FreelancerProfile {
       github: string | null;
       gitlab: string | null;
     };
-    portfolio: string;
     education: EducationHistory[];
   };
 
@@ -147,6 +146,7 @@ export interface FreelancerProfile {
     currentRole: string;
     wasFreelancer: boolean;
     englishProficiency: EnglishProficiency;
+    portfolio: string | null;
     history: WorkHistory[];
     industries: {
       group: string;
@@ -177,13 +177,14 @@ export interface FreelancerProfile {
 }
 
 export interface WorkHistory {
+  domain: string;
   role: string;
   duration: {
     start: number;
     end: number | null;
   };
-  client: string;
-  skills: string;
+  client: string | null;
+  skills: string | null;
 }
 
 export interface EducationHistory {

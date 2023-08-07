@@ -961,9 +961,9 @@
               <span class="hint">5MB | .png, .jpeg, .bmp</span>
             </div>
 
-            <div *ngrxLet="form.controls.cv as control"
+            <div *ngrxLet="form.controls.resume as control"
                  [formFieldControl]="control" class="flex-grow">
-              <label>CV</label>
+              <label>Resume / CV</label>
               <file-upload [formControl]="control" [accept]="profileDetails.acceptedMimes.cv"></file-upload>
               <span class="error" *ngIf="control.hasError('size')">Allowed: 5MB</span>
               <span class="error" *ngIf="control.hasError('type')">Accepted: .docx, .pdf</span>
@@ -1492,7 +1492,7 @@
         <mat-divider></mat-divider>
         <div class="p-4" *ngrxLet="form.controls.social as form">
           <label class="font-medium"> Social Account Details </label>
-          <div *ngrxLet="form.controls.linkedIn as control"
+          <div *ngrxLet="form.controls.linkedin as control"
                [formFieldControl]="control" class="mt-4">
             <label>LinkedIn</label>
             <input type="text" [formControl]="control"

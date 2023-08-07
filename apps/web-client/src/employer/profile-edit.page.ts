@@ -1,10 +1,11 @@
 import { KeyValue } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, computed, effect, inject, signal } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { ActivatedRoute } from '@angular/router';
+import { AccountApi } from '@easworks/app-shell/api/account.api';
 import { CSCApi, City, Country, State, Timezone } from '@easworks/app-shell/api/csc';
 import { GMapsApi } from '@easworks/app-shell/api/gmap';
 import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator.component';
@@ -13,7 +14,7 @@ import { FormImportsModule } from '@easworks/app-shell/common/form.imports.modul
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { isTimezone } from '@easworks/app-shell/common/location';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
-import { filterCountryCode, getPhoneCodeOptions, updatePhoneValidatorEffect } from '@easworks/app-shell/common/phone-code';
+import { filterCountryCode, getCombinedNumber, getPhoneCodeOptions, updatePhoneValidatorEffect } from '@easworks/app-shell/common/phone-code';
 import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { DomainState } from '@easworks/app-shell/state/domains';
@@ -22,9 +23,8 @@ import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-r
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { EmployerProfile, IndustryGroup, LatLng, ORGANIZATION_SIZE_OPTIONS, ORGANIZATION_TYPE_OPTIONS, OrganizationSize, OrganizationType, pattern } from '@easworks/models';
 import { emailBlacklist } from '@easworks/app-shell/validators/email-blacklist';
-import { AccountApi } from '@easworks/app-shell/api/account.api';
+import { EmployerProfile, IndustryGroup, LatLng, ORGANIZATION_SIZE_OPTIONS, ORGANIZATION_TYPE_OPTIONS, OrganizationSize, OrganizationType, pattern } from '@easworks/models';
 
 @Component({
   selector: 'employer-profile-edit-page',
@@ -667,7 +667,7 @@ export class EmployerProfileEditPageComponent {
         })),
       contact: {
         email: fv.contact.email || null,
-        phone: fv.contact.phoneNumber.code ? `${fv.contact.phoneNumber.code}${fv.contact.phoneNumber.number}` : null,
+        phone: getCombinedNumber(fv.contact.phoneNumber),
         website: fv.contact.website || null
       },
       location: {
