@@ -22,6 +22,11 @@ export const PUBLIC_ROUTES: Routes = [
     loadComponent: () => import('./WhyEasworks/why-easworks.page').then(m => m.WhyeasworksComponent)
   },
   {
+    path: 'role-page',
+    pathMatch: 'full',
+    loadComponent: () => import('./roles-page/roles-page.page').then(m => m.RolePageComponent)
+  },
+  {
     path: '',
     pathMatch: 'full',
     loadComponent: () => import('./Home/home.page').then(m => m.HomePageComponent)
