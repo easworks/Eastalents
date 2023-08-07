@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { DomainState } from '@easworks/app-shell/state/domains';
+import { SoftwareTilesContainerComponent } from '../common/software-tiles-container.component';
 
 @Component({
   standalone: true,
@@ -10,10 +12,16 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
-    LottiePlayerDirective
+    LottiePlayerDirective,
+    SoftwareTilesContainerComponent
   ]
 })
 export class HomePageComponent {
+  private readonly domainState = inject(DomainState);
+
+  // TODO: figure how to get actual featured domains
+  protected readonly featuredDomains$ = computed(() => this.domainState.domains.list$().slice(0, 5));
+
   protected readonly customerLogos = [
     'client-1.png',
     'client-2.png',

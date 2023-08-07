@@ -168,6 +168,7 @@ function mapDomainEntities(ddto: DomainDictionaryDto, tdto: TechGroupDto) {
       longName: input['Primary Domain'],
       prefix: input['Role-Prefix and Product-Suffix'],
       services: input.Services,
+      featured: input.Icons,
       modules: Object.entries(input.Modules)
         .map(([mk, v]) => {
           const m: DomainModule = {

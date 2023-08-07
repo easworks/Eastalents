@@ -1,0 +1,25 @@
+<h2 class="text-[1.25em] font-bold mb-5">{{label$()}}</h2>
+
+<div class="grid gap-4 mb-3 text-sm" style="grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));">
+
+  <a *ngFor="let s of software$()" [routerLink]="s.link"
+     class="bg-white flex items-center justify-center p-3 relative 
+              rounded-md ring-1 ring-divider hover:ring-primary transition-all
+              shadow-md">
+    <!-- <img src="https://eas-works.onrender.com/images/sap.png" alt=""> -->
+    {{s.text}}
+  </a>
+
+  <a class="bg-white flex p-2 px-4
+            flex-col gap-2 content-center text-center
+            rounded-md shadow-md  transition-all
+            ring-1 ring-divider hover:ring-primary"
+     routerLink="/software/Custom ERP">
+    <!-- <img src="https://eas-works.onrender.com/images/sap.png" alt=""> -->
+    <i class="fa-solid fa-gear"></i>
+    Custom ERP Ops / Legacy Application
+  </a>
+
+</div>
+
+<button class="highlight-button mr-auto mt-4">+ See more ERP Ops skills</button>

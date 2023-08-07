@@ -7,6 +7,7 @@ export interface Domain {
     services: string[];
     modules: DomainModule[];
     products: SoftwareProduct[];
+    featured: boolean;
 }
 
 export interface DomainModule {
