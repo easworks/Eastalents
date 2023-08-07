@@ -936,7 +936,19 @@ export class CreateJobPostPageComponent implements OnInit {
 
   private initDescription() {
 
-    const stepLabel$ = toSignal(this.roles.selected$);
+    const roles$ = toSignal(this.roles.selected$);
+    const domains$ = toSignal(this.primaryDomain.selected$);
+
+    const stepLabel$ = computed(() => {
+      const roles = roles$();
+      if (roles) {
+        const entries = Object.entries(roles);
+        const single = entries.length === 1 && entries[0][1].role;
+        if (single)
+          return single;
+      }
+      return domains$()?.domain.value.longName;
+    });
 
     const form = new FormGroup({
       description: new FormControl('', {
