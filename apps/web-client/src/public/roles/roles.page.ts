@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { RoleLinkListContainerComponent } from '../common/role-link-list-container.component';
 
 @Component({
   standalone: true,
@@ -8,7 +9,8 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
   styleUrls: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    LottiePlayerDirective
+    LottiePlayerDirective,
+    RoleLinkListContainerComponent
   ]
 })
 export class RolesPageComponent {
