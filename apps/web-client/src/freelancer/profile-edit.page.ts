@@ -2344,9 +2344,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   private async devModeInit() {
-    if (!isDevMode())
-      return;
-
     const injector = this.injector;
 
     const revert = [] as (() => void)[];
@@ -2616,7 +2613,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.devModeInit();
+    if (isDevMode()) {
+      this.devModeInit();
+    }
   }
 }
 

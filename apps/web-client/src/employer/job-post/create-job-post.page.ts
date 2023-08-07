@@ -15,7 +15,7 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { Domain, DomainModule, ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REMOTE_WORK_OPTIONS, REQUIRED_EXPERIENCE_OPTIONS, RemoteWork, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType, SoftwareProduct, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
+import { Domain, DomainModule, ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, JobPost, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REMOTE_WORK_OPTIONS, REQUIRED_EXPERIENCE_OPTIONS, RemoteWork, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType, SoftwareProduct, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
 import { map, shareReplay, switchMap } from 'rxjs';
 
 @Component({
@@ -173,7 +173,64 @@ export class CreateJobPostPageComponent implements OnInit {
       disabled$: next.disabled$,
       visible$: computed(() => step$() === lastStep),
       click: () => {
-        // 
+        const fv = {
+          serviceType: this.serviceType.form.getRawValue(),
+          projectType: this.projectType.form.getRawValue(),
+          description: this.description.form.getRawValue(),
+          commitment: this.weeklyCommitment.form.getRawValue(),
+          engagementPeriod: this.engagementPeriod.form.getRawValue(),
+          reqExp: this.requiredExp.form.getRawValue(),
+          hourlyBudget: this.hourlyBudget.form.getRawValue(),
+          projectKickoff: this.projectKickoffTimeline.form.getRawValue(),
+          remote: this.remoteWork.form.getRawValue(),
+          techExp: this.techExp.form.getRawValue(),
+          industries: this.industries.form.getRawValue(),
+          domain: this.primaryDomain.form.getRawValue(),
+          services: this.services.$()?.form.getRawValue() || [],
+          modules: this.modules.$()?.form.getRawValue() || [],
+          products: this.software.$()?.form.getRawValue() || {},
+          roles: this.roles.$()?.form.getRawValue() || {},
+
+
+        } as const;
+
+        const jp: JobPost = {
+          serviceType: fv.serviceType.value,
+          projectType: fv.projectType.value,
+          description: fv.description.description,
+          requirements: {
+            commitment: fv.commitment.value,
+            engagementPeriod: fv.engagementPeriod.value,
+            experience: fv.reqExp.value,
+            hourlyBudget: fv.hourlyBudget.value,
+            projectKickoff: fv.projectKickoff.value,
+            remote: fv.remote.value,
+          },
+          domain: {
+            key: fv.domain.domain.value.key,
+            years: fv.domain.years,
+            services: fv.services.map(v => v.value),
+            modules: fv.modules.map(m => m.value.name),
+            products: Object.entries(fv.products).map(([key, years]) => ({
+              key,
+              years,
+              role: {
+                key: fv.roles[key].role,
+                years: fv.roles[key].years,
+              }
+            })),
+          },
+          tech: Object.entries(fv.techExp).map(([group, value]) => ({
+            group,
+            items: value.map(v => v.value)
+          })),
+          industries: Object.entries(fv.industries).map(([group, value]) => ({
+            group,
+            items: value.map(v => v.value)
+          })),
+        };
+
+        console.debug(jp);
       }
     } as const;
 
@@ -270,6 +327,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
   private initServiceType() {
     const form = new FormControl(null as unknown as SelectableOption<ServiceType>, {
+      nonNullable: true,
       validators: [Validators.required]
     });
 
@@ -1371,7 +1429,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
   ngOnInit(): void {
     if (isDevMode()) {
-      // this.devModeInit();
+      this.devModeInit();
     }
   }
 }

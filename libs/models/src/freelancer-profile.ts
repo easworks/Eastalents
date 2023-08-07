@@ -61,7 +61,23 @@ export type FreelancerSignupReason = typeof FREEELANCER_SIGNUP_REASON_OPTIONS[nu
 
 export interface FreelancerProfile {
   experience: {
-    domains: JobPost['domain'][],
+    domains: {
+      key: string;
+      years: number;
+      services: {
+        key: string;
+        years: number;
+      }[];
+      modules: string[];
+      products: {
+        key: string;
+        years: number;
+      }[];
+      roles: {
+        key: string;
+        years: number;
+      }[];
+    }[],
     tech: JobPost['tech'];
     industries: JobPost['industries'];
   };

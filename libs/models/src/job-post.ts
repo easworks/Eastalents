@@ -73,23 +73,20 @@ export const REMOTE_WORK_OPTIONS = [
 export type RemoteWork = typeof REMOTE_WORK_OPTIONS[number];
 
 export interface JobPost {
-  type: ServiceType;
+  serviceType: ServiceType;
 
   domain: {
     key: string;
     years: number;
-    services: {
-      key: string;
-      years: number;
-    }[];
+    services: string[];
     modules: string[];
     products: {
       key: string;
       years: number;
-    }[];
-    roles: {
-      key: string;
-      years: number;
+      role: {
+        key: string;
+        years: number;
+      };
     }[];
   };
 
@@ -108,7 +105,8 @@ export interface JobPost {
     experience: RequiredExperience;
     commitment: WeeklyCommitment;
     engagementPeriod: EngagementPeriod;
+    hourlyBudget: HourlyBudget;
+    projectKickoff: ProjectKickoffTimeline;
+    remote: RemoteWork;
   };
-  requiredExperience: RequiredExperience;
-
 }
