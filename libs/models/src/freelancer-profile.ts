@@ -1,4 +1,4 @@
-import { ProjectKickoffTimeline } from './job-post';
+import { JobPost, ProjectKickoffTimeline } from './job-post';
 
 export const OVERALL_EXPERIENCE_OPTIONS = [
   'Less than 2 years',
@@ -61,32 +61,9 @@ export type FreelancerSignupReason = typeof FREEELANCER_SIGNUP_REASON_OPTIONS[nu
 
 export interface FreelancerProfile {
   experience: {
-    domains: {
-      key: string;
-      years: number;
-      services: {
-        name: string;
-        years: number;
-      }[];
-      modules: string[];
-      products: {
-        name: string;
-        years: number;
-      }[];
-      roles: {
-        name: string;
-        years: number;
-      }[];
-
-    }[],
-    tech: {
-      group: string;
-      items: string[];
-    }[];
-    industries: {
-      group: string;
-      items: string[];
-    }[];
+    domains: JobPost['domain'][],
+    tech: JobPost['tech'];
+    industries: JobPost['industries'];
   };
 
   workPreference: {

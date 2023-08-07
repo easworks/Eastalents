@@ -307,10 +307,9 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 key,
                 years,
                 modules: [...fv.modules[key]].map(v => v.name),
-                services: Object.entries(fv.services[key]).map(([name, years]) => ({ name, years })),
-                products: Object.entries(fv.software[key]).map(([name, years]) => ({ name, years })),
-                roles: Object.entries(fv.roles[key]).map(([name, years]) => ({ name, years })),
-
+                services: Object.entries(fv.services[key]).map(([key, years]) => ({ key, years })),
+                products: Object.entries(fv.software[key]).map(([key, years]) => ({ key, years })),
+                roles: Object.entries(fv.roles[key]).map(([key, years]) => ({ key, years }))
               })),
             tech: Object.entries(fv.techExp).map(([group, value]) => ({
               group,
