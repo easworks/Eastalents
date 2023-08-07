@@ -5,6 +5,7 @@ import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 import { OpenAIApi } from '@easworks/app-shell/api/open-ai';
 import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
@@ -28,7 +29,8 @@ import { map, shareReplay, switchMap } from 'rxjs';
     MatPseudoCheckboxModule,
     MatCheckboxModule,
     FormImportsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSelectModule
   ]
 })
 export class CreateJobPostPageComponent implements OnInit {
@@ -487,6 +489,8 @@ export class CreateJobPostPageComponent implements OnInit {
 
     const stepLabel$ = this.services.stepLabel$;
 
+    type Product = SoftwareProduct & { modules: DomainModule[]; };
+
     const obs$ = this.modules.selected$
       .pipe(
         map(selected => {
@@ -509,15 +513,21 @@ export class CreateJobPostPageComponent implements OnInit {
           const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
 
           const optionSet = new Set<string>();
-          const options: SelectableOption<SoftwareProduct>[] = [];
+
+          const options: SelectableOption<Product>[] = [];
           selected.forEach(m => m.products.forEach(p => {
-            if (optionSet.has(p.name))
+            if (optionSet.has(p.name)) {
+              const exists = options.find(o => o.value.name === p.name);
+              if (!exists)
+                throw new Error('invalid operation');
+              exists.value.modules.push(m);
               return;
+            }
 
             optionSet.add(p.name);
             options.push({
               selected: false,
-              value: p,
+              value: { ...p, modules: [m] },
               label: p.name
             });
           }));
@@ -558,6 +568,7 @@ export class CreateJobPostPageComponent implements OnInit {
                     throw new Error('invalid operation');
                   return found.value;
                 })
+                .sort((a, b) => sortString(a.name, b.name))
               ),
               shareReplay({ refCount: true, bufferSize: 1 }));
 
@@ -598,79 +609,52 @@ export class CreateJobPostPageComponent implements OnInit {
       return this.services.stepLabel$();
     });
 
-    const obs$ = this.modules.selected$
+    const obs$ = this.software.selected$
       .pipe(
         map(selected => {
           const exists = this.roles?.$()?.form.getRawValue();
 
-          const form = new FormGroup({
-            role: new FormControl(null as unknown as SelectableOption<string>, {
+
+          const form = new FormRecord<FormGroup<{
+            role: FormControl<string>;
+            years: FormControl<number>;
+          }>>({});
+          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+
+          selected.forEach(s => form.registerControl(s.name, new FormGroup({
+            role: new FormControl<string>('', {
               nonNullable: true,
               validators: [Validators.required]
             }),
             years: createYearControl()
-          });
-          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+          })));
 
-          const optionSet = new Set<string>();
-          selected.forEach(m => m.roles.forEach(r => optionSet.add(r)));
-          const options = [...optionSet]
-            .sort(sortString)
-            .map<SelectableOption<string>>(o => ({
-              selected: false,
-              value: o,
-              label: o,
-            }));
+          const options = selected.reduce((prev, curr) => {
+            prev[curr.name] = [...new Set(curr.modules.flatMap(m => m.roles))]
+              .sort(sortString);
+            return prev;
+          }, {} as Record<string, string[]>);
 
-          const roleStatus$ = toSignal(controlStatus$(form.controls.role), { injector });
-          const stopInput$ = computed(() => roleStatus$() === 'VALID');
-
-          const handlers = {
-            toggle: (option: SelectableOption<string>) => {
-              const old = form.controls.role.value;
-              form.reset();
-              if (old) {
-                old.selected = false;
-
-                if (old === option) {
-                  form.setValue({
-                    role: null as unknown as SelectableOption<string>,
-                    years: null as unknown as number
-                  });
-                  return;
-                }
-              }
-
-              option.selected = true;
-              form.setValue({
-                role: option,
-                years: null as unknown as number,
-              });
-            }
-          } as const;
 
           if (exists) {
-            const found = exists.role?.value && options.find(o => o.value === exists.role.value);
-            if (found) {
-              form.setValue({
-                role: found,
-                years: exists.years
-              });
-            }
+            Object.entries(exists).forEach(([key, value]) => {
+              const control = form.get(key);
+              if (control && options[key].includes(value.role))
+                control.setValue(value);
+            });
           }
+
+          form.updateValueAndValidity();
 
           const selected$ = controlValue$(form, true)
             .pipe(
-              map(v => v.role.value),
               shareReplay({ refCount: true, bufferSize: 1 }));
 
           return {
             form,
             status$,
             selected$,
-            stopInput$,
             options,
-            ...handlers
           } as const;
         }),
         shareReplay({ refCount: true, bufferSize: 1 }));
@@ -1274,9 +1258,13 @@ export class CreateJobPostPageComponent implements OnInit {
         throw new Error('invalid operation');
 
       toggle(bluJay);
+      toggle(options[0]);
+      toggle(options[1]);
 
       form.patchValue({
-        [bluJay.value.name]: 3
+        [bluJay.value.name]: 3,
+        [options[0].value.name]: 3,
+        [options[1].value.name]: 3,
       });
 
       this.stepper.next.click();
@@ -1284,10 +1272,14 @@ export class CreateJobPostPageComponent implements OnInit {
 
     {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const { toggle, options, form } = this.roles.$()!;
+      const { options, form } = this.roles.$()!;
 
-      toggle(options[0]);
-      form.patchValue({ years: 2 });
+      Object.entries(options).forEach(([key, roles], i) => {
+        form.get(key)?.setValue({
+          role: roles[i],
+          years: 2
+        });
+      });
 
       this.stepper.next.click();
     }
