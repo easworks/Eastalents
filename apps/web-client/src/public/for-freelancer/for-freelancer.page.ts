@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { MatExpansionModule } from '@angular/material/expansion';
 
@@ -7,6 +7,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
   selector: 'for-freelancer-page',
   templateUrl: './for-freelancer.page.html',
   styleUrls: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     LottiePlayerDirective,
     MatExpansionModule

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 
 @Component({
@@ -6,6 +6,7 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
   selector: 'company-type-page',
   templateUrl: './company-type.page.html',
   styleUrls: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     LottiePlayerDirective
   ]
