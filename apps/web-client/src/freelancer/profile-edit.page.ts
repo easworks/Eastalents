@@ -282,10 +282,6 @@ export class FreelancerProfileEditPageComponent implements OnInit {
             englishProficiency: fv.profileDetails.information.englishProficiency.value,
             summary: fv.professionalSummary.summary,
             portfolio: fv.profileDetails.history.portfolio || null,
-            industries: Object.entries(fv.industries).map(([group, value]) => ({
-              group,
-              items: value.map(v => v.value)
-            })),
             history: fv.profileDetails.history.work.map(v => ({
               ...v,
               domain: v.role[0],
@@ -305,19 +301,26 @@ export class FreelancerProfileEditPageComponent implements OnInit {
               roles: value.map(v => v.value)
             }))
           },
-          experience: Object.entries(fv.domains)
-            .map(([dk, y]) => ({
-              domain: dk,
-              years: y,
-              modules: [...fv.modules[dk]].map(v => v.name),
-              services: Object.entries(fv.services[dk]).map(([name, years]) => ({ name, years })),
-              products: Object.entries(fv.software[dk]).map(([name, years]) => ({ name, years })),
-              roles: Object.entries(fv.roles[dk]).map(([name, years]) => ({ name, years })),
-              tech: Object.entries(fv.techExp).map(([group, value]) => ({
-                group,
-                items: value.map(v => v.value)
-              }))
+          experience: {
+            domains: Object.entries(fv.domains)
+              .map(([key, years]) => ({
+                key,
+                years,
+                modules: [...fv.modules[key]].map(v => v.name),
+                services: Object.entries(fv.services[key]).map(([name, years]) => ({ name, years })),
+                products: Object.entries(fv.software[key]).map(([name, years]) => ({ name, years })),
+                roles: Object.entries(fv.roles[key]).map(([name, years]) => ({ name, years })),
+
+              })),
+            tech: Object.entries(fv.techExp).map(([group, value]) => ({
+              group,
+              items: value.map(v => v.value)
             })),
+            industries: Object.entries(fv.industries).map(([group, value]) => ({
+              group,
+              items: value.map(v => v.value)
+            })),
+          },
           profileCompletion: {
             overall: 0,
             summary: 0,

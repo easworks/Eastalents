@@ -61,26 +61,33 @@ export type FreelancerSignupReason = typeof FREEELANCER_SIGNUP_REASON_OPTIONS[nu
 
 export interface FreelancerProfile {
   experience: {
-    domain: string;
-    years: number;
-    services: {
-      name: string;
+    domains: {
+      key: string;
       years: number;
-    }[];
-    modules: string[];
-    products: {
-      name: string;
-      years: number;
-    }[];
-    roles: {
-      name: string;
-      years: number;
-    }[];
+      services: {
+        name: string;
+        years: number;
+      }[];
+      modules: string[];
+      products: {
+        name: string;
+        years: number;
+      }[];
+      roles: {
+        name: string;
+        years: number;
+      }[];
+
+    }[],
     tech: {
       group: string;
       items: string[];
     }[];
-  }[];
+    industries: {
+      group: string;
+      items: string[];
+    }[];
+  };
 
   workPreference: {
     commitment: Commitment[];
@@ -148,10 +155,6 @@ export interface FreelancerProfile {
     englishProficiency: EnglishProficiency;
     portfolio: string | null;
     history: WorkHistory[];
-    industries: {
-      group: string;
-      items: string[];
-    }[];
   };
 
   // DISCUSS: for the profile completion, the value could be
