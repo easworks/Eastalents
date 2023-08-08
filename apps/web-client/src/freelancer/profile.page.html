@@ -6,34 +6,51 @@
     <section *ngrxLet="data.basic$()! as basic"
              class="col-span-4 lg:col-span-2 transition-all
               section mat-elevation-z1 p-2 
-              flex flex-wrap gap-4">
-      <div class="h-32 w-32 rounded bg-divider grid place-content-center mx-auto">
-        <img *ngIf="basic.image as image; else $noImage" [src]="image">
-        <ng-template #$noImage>
-          <i class="fa-solid fa-user text-white text-8xl"></i>
-        </ng-template>
+              grid gap-4 content-start">
+
+      <div class="flex gap-4">
+        <div class="flex-none h-32 w-32 rounded bg-divider grid place-content-center">
+          <img *ngIf="basic.image as image; else $noImage" [src]="image">
+          <ng-template #$noImage>
+            <i class="fa-solid fa-user text-white text-8xl"></i>
+          </ng-template>
+        </div>
+        <div class="flex-grow grid gap-4 content-start">
+          <div class="font-semibold text-xl">
+            {{basic.name}}
+          </div>
+
+          <div class="flex gap-2 justify-between">
+            <div>
+              <label class="font-bold">Current Role:</label>
+              <div>{{basic.currentRole}}</div>
+            </div>
+            <i class="fa-solid fa-pen-to-square mt-[0.05rem]"></i>
+          </div>
+        </div>
       </div>
 
-      <div class="grid content-start
-            gap-1 gap-x-4 flex-grow
-            text-sm md:text-base transition-all"
-           style="grid-template-columns: auto 1fr auto;">
-        <div class="col-span-3 font-semibold text-xl">
-          {{basic.name}}
+      <div class="flex gap-2">
+        <label class="font-bold">Location:</label>
+        <div>{{basic.location}}</div>
+        <i class="fa-solid fa-pen-to-square mt-[0.05rem] ml-auto"></i>
+      </div>
+
+      <div cl>
+        <div class="flex justify-between">
+          <label class="font-bold">Preferred Roles:</label>
+          <i class="fa-solid fa-pen-to-square mt-[0.05rem]"></i>
         </div>
 
-        <label>Current Role:</label>
-        <div>{{basic.currentRole}}</div>
-        <i class="fa-solid fa-pen-to-square mt-[0.05rem]"></i>
-
-        <label>Location:</label>
-        <div>{{basic.location}}</div>
-        <i class="fa-solid fa-pen-to-square mt-[0.05rem]"></i>
-
-        <label>Preferred Role:</label>
-        <div>{{basic.preferredRole}}</div>
-        <i class="fa-solid fa-pen-to-square mt-[0.05rem]"></i>
+        <div class="col-span-3 flex gap-2 flex-wrap">
+          <div *ngFor="let role of basic.preferredRoles"
+               class="p-1 px-2 rounded border">
+            {{role}}
+          </div>
+        </div>
       </div>
+
+
 
     </section>
 
@@ -51,7 +68,7 @@
       </div>
     </section>
 
-    <div class="grid gap-4 col-span-4 lg:col-span-1 lg:col-start-4 lg:row-start-1 lg:row-end-[9] transition-all">
+    <div class="flex flex-col gap-4  col-span-4 lg:col-span-1 lg:col-start-4 lg:row-start-1 lg:row-end-[9] transition-all">
       <div class="section mat-elevation-z1" *ngIf="data.profileCompletionBars$() as indicators">
         <div class="header">Profile Completeness</div>
         <mat-divider></mat-divider>
@@ -62,21 +79,60 @@
           </div>
         </div>
       </div>
-      <div class="demo-placeholder">
-        Contact Info
+      <div *ngIf="data.contact$() as contact"
+           class="section mat-elevation-z1">
+        <div class="header">Contact</div>
+        <mat-divider></mat-divider>
+        <div class="p-4 grid gap-2">
+          <div *ngIf="contact.address as address">
+            <label class="font-bold">Address</label>
+            <p>{{address}}</p>
+          </div>
+
+          <div>
+            <label class="font-bold">Timezone</label>
+            <p>{{contact.timezone}}</p>
+          </div>
+          <div>
+            <label class="font-bold">Email</label>
+            <p>{{contact.email}}</p>
+          </div>
+
+          <div *ngIf="contact.phone.mobile as mobile">
+            <label class="font-bold">Mobile</label>
+            <p>{{mobile}}</p>
+          </div>
+          <div *ngIf="contact.phone.whatsapp as whatsapp">
+            <label class="font-bold">WhatsApp</label>
+            <p>{{whatsapp}}</p>
+          </div>
+          <div *ngIf="contact.phone.telegram as telegram">
+            <label class="font-bold">Telegram</label>
+            <p>{{telegram}}</p>
+          </div>
+
+          <div *ngIf="contact.social.linkedin as linkedin">
+            <label class="font-bold">LinkedIn</label>
+            <p>{{linkedin}}</p>
+          </div>
+          <div *ngIf="contact.social.github as github">
+            <label class="font-bold">GitHub</label>
+            <p>{{github}}</p>
+          </div>
+          <div *ngIf="contact.social.gitlab as gitlab">
+            <label class="font-bold">GitLab</label>
+            <p>{{gitlab}}</p>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class=" col-span-4 lg:col-span-3 transition-all 
         section mat-elevation-z1">
-      <div class="header">Profile Summary</div>
+      <div class="header">Professional Summary</div>
       <mat-divider></mat-divider>
-      <div class="p-2">
-        <div class="field field-interactive">
-          <!-- <textarea [(ngModel)]="profile.summary"
-                    placeholder="Profile Summary"
-                    class="h-40 resize-none"></textarea> -->
-        </div>
+      <div class="p-4">
+        <pre class="font-sans">{{profile.professionalDetails.summary}}</pre>
       </div>
     </div>
 
@@ -85,43 +141,77 @@
       <div class="header">Primary Enterprise Application Domain</div>
       <mat-divider></mat-divider>
       <div class="p-4 flex justify-start">
-        <!-- <div *ngrxLet="profile.primaryDomainExperience as exp"
+        <div *ngFor="let domain of data.domains$()"
              class="exp-data">
-          <div class="label">{{exp.name}}</div>
+          <div class="label">{{domain.key}}</div>
           <div class="data">
-            <span>{{exp.years}}</span>
-            <span>{{exp.skill.charAt(0)}}</span>
+            <span>{{domain.years}} yrs</span>
+            <span>O</span>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
 
     <div class="col-span-4 lg:col-span-3 transition-all
         section mat-elevation-z1">
-      <div class="header">Enterprise Application Softaware Experience</div>
+      <div class="header">Enterprise Application Software Experience</div>
       <mat-divider></mat-divider>
       <div class="p-4 flex justify-start">
-        <!-- <div *ngrxLet="profile.primaryDomainExperience as exp"
+        <div *ngFor="let software of data.software$()"
              class="exp-data">
-          <div class="label">{{exp.name}}</div>
+          <div class="label">{{software.key}}</div>
           <div class="data">
-            <span>{{exp.years}}</span>
-            <span>{{exp.skill.charAt(0)}}</span>
+            <span>{{software.years}} yrs</span>
+            <span>O</span>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
-    <div class="demo-placeholder col-span-4 lg:col-span-3 transition-all">
-      Top Modules Experience
+
+    <div class="col-span-4 lg:col-span-3 transition-all
+          section mat-elevation-z1">
+      <div class="header">Top Modules Experience</div>
+      <mat-divider></mat-divider>
+      <div class="p-4 flex justify-start gap-4">
+        <div *ngFor="let module of data.modules$()"
+             class="exp-data">
+          <div class="label">{{module}}</div>
+        </div>
+      </div>
     </div>
+
     <div class="demo-placeholder col-span-4 lg:col-span-3 transition-all">
       System Phases Worked
     </div>
-    <div class="demo-placeholder col-span-4 lg:col-span-3 transition-all">
-      Industry
+
+    <div class="col-span-4 lg:col-span-3 transition-all
+          section mat-elevation-z1">
+      <div class="header">Industry</div>
+      <mat-divider></mat-divider>
+      <div class="p-4 grid gap-4">
+        <div *ngFor="let group of profile.experience.industries">
+          <label class="font-bold">{{group.group}}</label>
+          <div class="flex gap-2 mt-2">
+            <div *ngFor="let item of group.items"
+                 class="p-1 px-2 rounded border">{{item}}</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="demo-placeholder col-span-4 lg:col-span-3 transition-all">
-      Top Development Skills
+
+    <div class="col-span-4 lg:col-span-3 transition-all
+          section mar-elevation-z1">
+      <div class="header">Top Development Skills</div>
+      <mat-divider></mat-divider>
+      <div class="p-4 grid gap-4">
+        <div *ngFor="let group of profile.experience.tech">
+          <label class="font-bold">{{group.group}}</label>
+          <div class="flex gap-2 mt-2">
+            <div *ngFor="let item of group.items"
+                 class="p-1 px-2 rounded border">{{item}}</div>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>

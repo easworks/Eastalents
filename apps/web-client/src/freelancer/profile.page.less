@@ -23,16 +23,16 @@
   @apply flex gap-2 flex-col text-sm;
 
   > .label {
-    @apply flex-grow rounded border border-dashed border-blue-500
+    @apply flex-grow rounded border
       p-2 px-4 text-center
       grid place-content-center;
   }
 
   > .data {
-    @apply grid grid-cols-2 rounded overflow-hidden text-xs ;
+    @apply grid grid-cols-2 rounded overflow-hidden ;
 
     > span {
-      @apply p-1 text-center bg-slate-300 text-black;
+      @apply p-1 px-2 text-center bg-slate-300 text-black;
 
       &:first-child {
         @apply bg-black text-white;

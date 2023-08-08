@@ -6,6 +6,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { getTailwindColor } from '@easworks/app-shell/utilities/get-runtime-color';
+import { sortString } from '@easworks/app-shell/utilities/sort';
 import { FreelancerProfile } from '@easworks/models';
 import { ChartConfiguration } from 'chart.js';
 
@@ -46,9 +47,12 @@ export class FreelancerProfilePageComponent {
     if (!user)
       throw new Error('invalid operation');
 
-    this.api.talent.getTalentProfile(user._id)
-      .then(r => this.data.profile$.set(r))
-      .finally(() => this.loading.delete('loading profile'));
+    // TODO: use actual profile data
+    // this.api.talent.getTalentProfile(user._id)
+    //   .then(r => this.data.profile$.set(r))
+    //   .finally(() => this.loading.delete('loading profile'));
+    this.data.profile$.set(dummyData);
+    this.loading.delete('loading profile');
   }
 
   private initData() {
@@ -63,12 +67,21 @@ export class FreelancerProfilePageComponent {
         if (!p || !u)
           return null;
 
+        let location: string;
+        {
+          const { city, state, country } = p.personalDetails.location;
+          location = [city, state, country]
+            .filter(i => !!i)
+            .join(', ');
+        }
+
+
         return {
           name: `${u.firstName} ${u.lastName}`,
           image: p.personalDetails.image,
           currentRole: p.professionalDetails.currentRole,
-          location: p.personalDetails.location,
-          preferredRole: p.workPreference.roles,
+          location,
+          preferredRoles: p.workPreference.roles.flatMap(i => i.roles),
         };
       }),
       profileCompletionPie$: computed(() => {
@@ -118,15 +131,315 @@ export class FreelancerProfilePageComponent {
           ['Rates', completion.rates],
           ['About Yourself', completion.about],
           ['Social Media Links', completion.social],
-          ['Work Skill Assessment (WSA]', completion.wsa]
+          ['Work Skill Assessment (WSA)', completion.wsa]
         ];
 
         const indicators = data.map(([label, percentage]) => ({ label, percentage }));
         indicators.forEach(i => i.percentage = i.percentage * 100);
         return indicators;
+      }),
+      domains$: computed(() => profile$()?.experience.domains
+        .map(d => ({
+          key: d.key,
+          years: d.years
+        }))),
+      software$: computed(() => profile$()?.experience.domains
+        .flatMap(d => d.products)
+        .map(p => ({
+          key: p.key,
+          years: p.years
+        }))
+        .sort((a, b) => sortString(a.key, b.key))
+      ),
+      modules$: computed(() => profile$()?.experience.domains
+        .flatMap(d => d.modules)
+        .sort(sortString)
+      ),
+      contact$: computed(() => {
+        const p = profile$();
+        if (!p)
+          return undefined;
+        let address: string | null = null;
+        {
+          const input = p.personalDetails.contact.address;
+          if (input) {
+            address = [
+              input.line1,
+              input.line2,
+              input.city,
+              input.state,
+              input.country,
+              input.postalCode
+            ].filter(i => !!i).join(', ');
+          }
+        }
+
+        const timezone = p.personalDetails.location.timezone;
+        const phone = p.personalDetails.contact.phone;
+        const social = p.personalDetails.social;
+        const email = p.personalDetails.contact.email;
+
+        return {
+          address,
+          timezone,
+          email,
+          phone,
+          social
+        };
       })
     } as const;
   }
-
-
 }
+
+const dummyData: FreelancerProfile = {
+  "personalDetails": {
+    "firstName": "ram",
+    "lastName": "indalkar",
+    "image": null,
+    "resume": null,
+    "citizenship": "India",
+    "signupReason": null,
+    "contact": {
+      "address": null,
+      "email": "stevejohn121@gmail.com",
+      "phone": {
+        "mobile": null,
+        "whatsapp": null,
+        "telegram": null
+      }
+    },
+    "social": {
+      "github": null,
+      "linkedin": null,
+      "gitlab": null
+    },
+    "location": {
+      "country": "India",
+      "state": "West Bengal",
+      "city": "Kolkata",
+      "timezone": "Asia/Kolkata"
+    },
+    "education": [
+      {
+        "qualification": "Some Qualification",
+        "specialization": "Some Specialization",
+        "duration": {
+          "start": 2018,
+          "end": 2021
+        },
+        "institution": "Some institute",
+        "location": "Some city, Some state, Some country"
+      }
+    ]
+  },
+  "professionalDetails": {
+    "overallExperience": "2 to 5 years",
+    "currentRole": "Analyst",
+    "englishProficiency": "Basic",
+    "summary": "some professional summary",
+    "portfolio": null,
+    "history": [
+      {
+        "role": "Analyst",
+        "duration": {
+          "start": 2023,
+          "end": null
+        },
+        "client": "Client 1",
+        "skills": "Skill 1",
+        "domain": "SCM"
+      }
+    ],
+    "wasFreelancer": true
+  },
+  "workPreference": {
+    "searchStatus": "Active",
+    "interest": [
+      "Short Term Freelance/Contract"
+    ],
+    "rates": {
+      "hourly": null,
+      "monthly": null,
+      "annually": null
+    },
+    "time": {
+      "timezone": "Asia/Kolkata",
+      "start": "08 PM",
+      "end": "02 AM"
+    },
+    "availability": "Immediately",
+    "commitment": [
+      "Full-time (40hrs/week)"
+    ],
+    "roles": [
+      {
+        "domain": "SCM",
+        "roles": [
+          "Analyst",
+          "Back-end Developer"
+        ]
+      }
+    ]
+  },
+  "experience": {
+    "domains": [
+      {
+        "key": "SCM",
+        "years": 2,
+        "modules": [
+          "Advanced Planning and Scheduling",
+          "Contract Lifecycle Management"
+        ],
+        "services": [
+          {
+            "key": "Cloud-based SCM Solutions and Deployment",
+            "years": 2
+          },
+          {
+            "key": "Compliance and Regulatory Support for SCM",
+            "years": 3
+          }
+        ],
+        "products": [
+          {
+            "key": "BluJay Solutions",
+            "years": 2
+          }
+        ],
+        "roles": [
+          {
+            "key": "Analyst",
+            "years": 2
+          },
+          {
+            "key": "Back-end Developer",
+            "years": 3
+          }
+        ]
+      }
+    ],
+    "tech": [
+      {
+        "group": "Administration",
+        "items": [
+          "BluJay Solutions Admin Console"
+        ]
+      },
+      {
+        "group": "APIs",
+        "items": [
+          "BluJay Solutions API"
+        ]
+      },
+      {
+        "group": "Client-side customization",
+        "items": [
+          "CSS",
+          "HTML",
+          "JavaScript"
+        ]
+      },
+      {
+        "group": "Configuration",
+        "items": [
+          "BluJay Solutions Configuration Manager"
+        ]
+      },
+      {
+        "group": "Dashboard and Reporting Tools",
+        "items": [
+          "BluJay Solutions Analytics"
+        ]
+      },
+      {
+        "group": "Data Migration Utilities",
+        "items": [
+          "BluJay Solutions Data Migration Tool"
+        ]
+      },
+      {
+        "group": "Database",
+        "items": [
+          "Microsoft SQL Server",
+          "Oracle Database"
+        ]
+      },
+      {
+        "group": "DevOps Integration Tools",
+        "items": [
+          "Azure DevOps",
+          "Bamboo",
+          "CircleCI",
+          "GitLab",
+          "Jenkins"
+        ]
+      },
+      {
+        "group": "Frameworks",
+        "items": [
+          "AngularJS",
+          "Spring Framework"
+        ]
+      },
+      {
+        "group": "Integration Type",
+        "items": [
+          "API-based integration",
+          "EDI integration"
+        ]
+      },
+      {
+        "group": "Middleware and Integration Technologies",
+        "items": [
+          "Dell Boomi",
+          "MuleSoft"
+        ]
+      },
+      {
+        "group": "Programming Language",
+        "items": [
+          "Java",
+          "JavaScript"
+        ]
+      },
+      {
+        "group": "Server-side customization",
+        "items": [
+          "Java",
+          "Spring Framework"
+        ]
+      }
+    ],
+    "industries": [
+      {
+        "group": "Administrative Services",
+        "items": [
+          "Archiving Service",
+          "Call Center",
+          "Collection Agency"
+        ]
+      },
+      {
+        "group": "Advertising",
+        "items": [
+          "Ad Exchange"
+        ]
+      }
+    ]
+  },
+  "profileCompletion": {
+    "overall": 0,
+    "summary": 0,
+    "easExperience": 0,
+    "easSystemPhases": 0,
+    "jobRole": 0,
+    "experience": 0,
+    "techStacks": 0,
+    "jobSearchStatus": 0,
+    "rates": 0,
+    "about": 0,
+    "social": 0,
+    "wsa": 0,
+    "completed": false
+  }
+};
