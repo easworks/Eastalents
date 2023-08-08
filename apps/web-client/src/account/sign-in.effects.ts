@@ -18,7 +18,13 @@ export class SignInEffects {
     this.auth.afterSignIn$.pipe(takeUntilDestroyed())
       .subscribe(meta => {
         if (meta.isNewUser) {
-          console.debug('redirect to profile questions as per the role, with redirectUrl in the queryParams if it exists');
+          const role = this.state.user$()?.role;
+          if (role === 'freelancer') {
+            this.router.navigateByUrl('/freelancer/profile/edit?new');
+          }
+          else if (role === 'employer') {
+            this.router.navigateByUrl('/employer/profile/edit?new');
+          }
         }
         else if (meta.returnUrl && noRedirects.every(r => !meta.returnUrl?.startsWith(r))) {
           this.router.navigateByUrl(meta.returnUrl);
