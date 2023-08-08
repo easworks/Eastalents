@@ -334,116 +334,28 @@
         cases.</h2>
     </div>
     <div class="text-left mb-5">
-      <h2 class="text-[1.563em] font-bold">Hire Elite EAS Talent Based On <span
+      <h2 class="text-2xl font-bold">Hire Elite EAS Talent Based On <span
               class="text-primary">Enterprise
           Application Use Cases.</span>
       </h2>
     </div>
 
-    <div class="grid grid-cols-5 gap-8 items-center">
-      <div class="bg-white shadow-md rounded-md p-3 text-center h-full">
-        <div class="flex justify-center m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/4c9690fd-2f7c-4f2d-8d17-189cd10faa13/ZVqeAIMqEv.json"
+    <div class="flex gap-8 flex-wrap justify-center items-stretch">
+      <div *ngFor="let uc of useCases"
+           class="bg-white p-2 px-4 rounded-md 
+            shadow-md text-center transition-all
+            w-40 flex-grow md:w-48 lg:flex-none">
+        <div class="flex justify-center mx-auto mb-5">
+          <lottie-player [src]="uc.lottie"
                          background="transparent" speed="1"
-                         style="width: 100%; height: 200px;" loop
-                         autoplay></lottie-player>
+                         class="w-32"
+                         loop autoplay>
+          </lottie-player>
         </div>
-        <h4 class="text-lg font-semibold my-5">Digital Transformation (DX)</h4>
-      </div>
-
-      <div class="bg-white shadow-md rounded-md p-3 text-center h-full">
-        <div class="flex justify-center m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/24cc3e35-b8db-4ea0-a1ba-b32a2f697da6/AgufANxAwn.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 200px;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Innovation</h4>
-      </div>
-
-      <div class="bg-white shadow-md rounded-md p-3 text-center h-full">
-        <div class="flex justify-center m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/da0ab755-9ffb-44dd-acf1-af038e744642/AbXDubIFQZ.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 200px;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Prototyping</h4>
-      </div>
-
-      <div class="bg-white shadow-md rounded-md p-3 text-center h-full">
-        <div class="flex justify-center m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/6cd7a0ca-c8e5-4f78-bdcd-25f0d6d8066b/88foE2hAa4.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 200px;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Enterprise Application Design
-        </h4>
-      </div>
-
-      <div class="bg-white shadow-md rounded-md p-3 text-center h-full">
-        <div class="flex justify-center m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/fbafaf32-a5a8-4a76-ab00-6b0b882e187f/FrPuBm1o9l.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 200px;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Business Intelligence</h4>
+        <h4 class="font-semibold my-4">{{uc.title}}</h4>
       </div>
     </div>
 
-    <div class="grid grid-cols-5 gap-8 items-center mt-5">
-      <div class="bg-white shadow-md rounded-md p-3 text-center h-full">
-        <div class="flex justify-center m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/4c9690fd-2f7c-4f2d-8d17-189cd10faa13/ZVqeAIMqEv.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 200px;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Digital Transformation (DX)</h4>
-      </div>
 
-      <div class="bg-white shadow-md rounded-md p-3 text-center h-full">
-        <div class="flex justify-center m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/24cc3e35-b8db-4ea0-a1ba-b32a2f697da6/AgufANxAwn.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 200px;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Innovation</h4>
-      </div>
-
-      <div class="bg-white shadow-md rounded-md p-3 text-center h-full">
-        <div class="flex justify-center m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/da0ab755-9ffb-44dd-acf1-af038e744642/AbXDubIFQZ.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 200px;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Prototyping</h4>
-      </div>
-
-      <div class="bg-white shadow-md rounded-md p-3 text-center h-full">
-        <div class="flex justify-center m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/6cd7a0ca-c8e5-4f78-bdcd-25f0d6d8066b/88foE2hAa4.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 200px;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Enterprise Application Design
-        </h4>
-      </div>
-
-      <div class="bg-white shadow-md rounded-md p-3 text-center h-full">
-        <div class="flex justify-center m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/fbafaf32-a5a8-4a76-ab00-6b0b882e187f/FrPuBm1o9l.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 200px;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Business Intelligence</h4>
-      </div>
-    </div>
   </div>
 </section>

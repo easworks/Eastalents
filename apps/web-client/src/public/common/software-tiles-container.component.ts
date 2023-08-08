@@ -24,7 +24,6 @@ export class SoftwareTilesContainerComponent {
 
   protected readonly label$ = computed(() => {
     const d = this.domain$();
-    console.debug(d);
     return d ? `${d.key} - ${d.longName}` : '';
   });
 
