@@ -1,6 +1,6 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Domain, DomainDictionaryDto, DomainModule, IndustryGroup, IndustryGroupDto, SoftwareProduct, TechGroup, TechGroupDto } from '@easworks/models';
-import { TalentApi } from '../api/talent.api';
+import { DomainsApi } from '../api/domains.api';
 import { CACHE } from '../common/cache';
 import { sortString } from '../utilities/sort';
 
@@ -21,7 +21,7 @@ export class DomainState {
   }
 
   private readonly api = {
-    talent: inject(TalentApi)
+    domains: inject(DomainsApi)
   } as const;
 
   private readonly cache = CACHE.domains;
@@ -65,8 +65,8 @@ export class DomainState {
     }
 
     const [ddto, tdto] = await Promise.all([
-      this.api.talent.profileSteps(),
-      this.api.talent.techGroups()
+      this.api.domains.allDomains(),
+      this.api.domains.techGroups()
     ]);
 
     const { domains, tech, products } = mapDomainEntities(ddto, tdto);
@@ -86,7 +86,7 @@ export class DomainState {
     if (cached)
       this.industries$.set(cached);
 
-    const r = await this.api.talent.industryGroups();
+    const r = await this.api.domains.industryGroups();
     const ig = mapIndustryGroupDto(r);
     await this.cache.set(cacheKey, ig);
     this.industries$.set(ig);

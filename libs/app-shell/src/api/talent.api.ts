@@ -1,53 +1,49 @@
-import { INJECTOR, Injectable, inject } from '@angular/core';
-import { DomainDictionaryDto, FreelancerProfile, IndustryGroupDto, TechGroupDto } from '@easworks/models';
+import { Injectable } from '@angular/core';
+import { FreelancerProfile } from '@easworks/models';
 import { BackendApi } from './backend';
-import { CSCApi } from './csc.api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TalentApi extends BackendApi {
-  private readonly injector = inject(INJECTOR);
+  readonly profile = {
+    get: (userId: string) => {
+      const body = JSON.stringify({ userId });
+      return this.request(`${this.apiUrl}/talentProfile/getTalentProfile`, { body, method: 'POST' })
+        .then(this.handleJson)
+        .then(r => {
+          const steps = r['steps'];
+          console.debug(steps);
 
-  readonly techGroups = () => fetch('/assets/utils/tech.json')
-    .then<TechGroupDto>(this.handleJson)
-    .catch(this.handleError);
+          const p: FreelancerProfile = {} as FreelancerProfile;
+          return p;
+        })
+        .catch(this.handleError);
+    },
 
-  readonly industryGroups = () => fetch('/assets/utils/industries.json')
-    .then<IndustryGroupDto>(this.handleJson)
-    .catch(this.handleError);
+    create: (profile: FreelancerProfile) => {
+      const body = JSON.stringify({ profile });
+      return this.request(`${this.apiUrl}/talentProfile/createTalentProfile`, { body, method: 'POST' })
+        .then(this.handleJson)
+        .catch(this.handleError);
+    },
 
-  readonly profileSteps = () => this.request(`${this.apiUrl}/talentProfile/getTalentProfileSteps`)
-    .then(this.handleJson)
-    .then(r => r['talentProfile'] as DomainDictionaryDto)
-    .catch(this.handleError);
+    uploadResume: (resume: File) => {
+      const body = new FormData();
+      body.append('resume', resume);
 
+      return this.request(`${this.apiUrl}/talentProfile/setTalentProfileResume`, { body, method: 'POST' })
+        .then(this.handleJson)
+        .catch(this.handleError);
+    },
 
-  readonly getTalentProfile = (userId: string) => {
-    const body = JSON.stringify({ userId });
-    return this.request(`${this.apiUrl}/talentProfile/getTalentProfile`, { body, method: 'POST' })
-      .then(this.handleJson)
-      .then(r => {
-        const steps = r['steps'];
-        console.debug(steps);
+    uploadImage: (image: File) => {
+      const body = new FormData();
+      body.append('image', image);
 
-        const p: FreelancerProfile = {} as FreelancerProfile;
-        this.useDummyData(p);
-
-        return p;
-      })
-      .catch(this.handleError);
-  };
-
-  readonly createTalentProfile = (profile: FreelancerProfile) => {
-    const body = JSON.stringify({ profile });
-    return this.request(`${this.apiUrl}/talentProfile/createTalentProfile`, { body, method: 'POST' })
-      .then(this.handleJson)
-      .catch(this.handleError);
-  };
-
-  // THIS FUNCTION IS MEANT TO BE REMOVED
-  private async useDummyData(profile: FreelancerProfile) {
-    return profile;
-  }
+      return this.request(`${this.apiUrl}/talentProfile/setTalentProfilePhoto`, { body, method: 'POST' })
+        .then(this.handleJson)
+        .catch(this.handleError);
+    }
+  } as const;
 }

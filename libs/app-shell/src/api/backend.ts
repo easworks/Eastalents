@@ -13,7 +13,7 @@ export class BackendApi extends ApiService {
     });
     const token = await this.auth.token();
     if (token)
-      headers.set('authorization', `Bearer ${token}`)
+      headers.set('authorization', `Bearer ${token}`);
 
     new Headers(init).forEach((v, k) => headers.set(k, v));
 
@@ -23,6 +23,10 @@ export class BackendApi extends ApiService {
   protected async request(...args: Parameters<typeof fetch>) {
 
     const headers = await this.headers(args[1]?.headers);
+
+    if (args[1]?.body instanceof FormData) {
+      headers.delete('content-type');
+    }
 
     const response = await fetch(args[0], {
       ...args[1],
@@ -39,7 +43,7 @@ export class BackendApi extends ApiService {
         if (json.error)
           throw new Error(json.message);
         return json;
-      })
+      });
   }
 
   protected override verifyOk(response: Response) {
