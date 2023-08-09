@@ -34,8 +34,8 @@
     </lottie-player>
   </div>
 
-  <div class="mt-2 hidden md:flex">
-    <ng-container *ngFor="let group of stepperGroups; let i = index; let first = first; let last = last;">
+  <div class="mt-2 hidden md:flex" *ngIf="stepperGroups.isVisible$()">
+    <ng-container *ngFor="let group of stepperGroups.groups; let i = index; let first = first; let last = last;">
       <mat-divider *ngIf="!first" class="flex-grow !mt-8"></mat-divider>
       <button type="button" *ngrxLet="group.enabled$() as enabled"
               class="relative grid justify-items-center rounded transition-all
@@ -1520,6 +1520,36 @@
     </div>
 
     <!-- TODO: create the content for 'end' step -->
+
+    <div *ngIf="step === 'end'">
+      <div class="text-center">
+        <i class="fa-solid fa-circle-check text-5xl text-primary"></i>
+        <p class="font-bold text-2xl mt-4">Congrats {{user().firstName}}!</p>
+        <p class="text-lg mt-4">Looks like you could be a great fit for our platform!</p>
+      </div>
+      <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_8uojpeha.json"
+                     loop autoplay
+                     class="max-w-lg mx-auto">
+      </lottie-player>
+      <mat-divider class="!my-4"></mat-divider>
+      <div>
+        <h3 class="text-center font-bold">Next Steps</h3>
+        <div class="grid grid-cols-2 gap-4 gap-x-8 md:grid-cols-4 content-center mt-2">
+          <div *ngFor="let step of end.nextSteps">
+            <lottie-player [src]="step.lottie"
+                           loop autoplay
+                           class="h-24 w-24 mx-auto">
+            </lottie-player>
+            <p class="font-bold text-center text-sm">{{step.content}}</p>
+          </div>
+
+        </div>
+        <div class="my-8">
+          <a routerLink="/freelancer/profile"
+             class="block max-w-max shaded-button primary mx-auto">Go to My Profile</a>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Button Container -->

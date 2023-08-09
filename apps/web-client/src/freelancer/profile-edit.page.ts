@@ -8,7 +8,7 @@ import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CSCApi, City, Country, State, Timezone } from '@easworks/app-shell/api/csc.api';
 import { GMapsApi } from '@easworks/app-shell/api/gmap.api';
 import { TalentApi } from '@easworks/app-shell/api/talent.api';
@@ -49,7 +49,8 @@ import { map, shareReplay, switchMap } from 'rxjs';
     MatPseudoCheckboxModule,
     DropDownIndicatorComponent,
     FileUploadComponent,
-    MatRadioModule
+    MatRadioModule,
+    RouterModule
   ]
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
@@ -62,7 +63,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     talent: inject(TalentApi),
   } as const;
   private readonly domains = inject(DomainState);
-  private readonly user = inject(AuthState).guaranteedUser();
+  protected readonly user = inject(AuthState).guaranteedUser();
   private readonly snackbar = inject(MatSnackBar);
 
   @HostBinding() private readonly class = 'flex flex-col lg:flex-row';
@@ -99,6 +100,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   protected readonly jobSearchStatus = this.initJobSearchStatus();
   protected readonly availability = this.initAvailability();
   protected readonly profileDetails = this.initProfileDetails();
+  protected readonly end = this.initEnd();
 
   protected readonly stepper = this.initStepper();
   protected readonly stepperGroups = this.initStepperGroups();
@@ -231,6 +233,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       click: () => {
         const { profile, image, resume } = this.extractProfileFromValues();
 
+        console.debug(profile);
+        this.stepper.step$.set('end');
+        return;
+
         this.loading.add('submitting');
         this.api.talent.profile.create(profile)
           .then(() => image && this.api.talent.profile.uploadImage(image))
@@ -271,6 +277,11 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       click: () => void;
     };
 
+    const isVisible$ = computed(() => {
+      const step = this.stepper.step$();
+      return step !== 'start' && step !== 'end';
+    });
+
     const groupings: [StepGroupID, Step[]][] = [
       [
         'Professional Experience',
@@ -303,7 +314,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     ];
 
     const isValidStep = this.stepper.isValidStep;
-    const groupSteps = groupings
+    const groups = groupings
       .map<StepGroup>(([label, steps]) => ({
         label,
         enabled$: computed(() => true),
@@ -311,17 +322,20 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         click: () => this.stepper.step$.set(steps[0])
       }));
 
-    groupSteps.forEach((step, i) => {
+    groups.forEach((step, i) => {
       if (i > 0)
         step.enabled$ = computed(() => {
-          const prev = groupSteps[i - 1];
+          const prev = groups[i - 1];
           return prev.completed$() && prev.enabled$();
         });
       // const completed = step.completed$;
       // step.completed$ = computed(() => step.enabled$() && completed());
     });
 
-    return groupSteps;
+    return {
+      isVisible$,
+      groups,
+    } as const;
   }
 
   private initSection() {
@@ -2246,6 +2260,29 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       acceptedMimes
     } as const;
   }
+  private initEnd() {
+    const nextSteps = [
+      {
+        lottie: 'https://assets2.lottiefiles.com/packages/lf20_mcqtv0qr.json',
+        content: 'Profile review for completeness and feedback'
+      },
+      {
+        lottie: 'https://assets7.lottiefiles.com/packages/lf20_6ln47dih.json',
+        content: 'Profile Approval'
+      },
+      {
+        lottie: 'https://assets1.lottiefiles.com/packages/lf20_mlfv646z.json',
+        content: 'Apply for elite companies'
+      },
+      {
+        lottie: 'https://assets8.lottiefiles.com/packages/lf20_ssmd5ixl.json',
+        content: 'Onboard and start working after interview selection'
+      }
+    ];
+
+    return { nextSteps };
+  }
+
 
   private async devModeInit() {
     const injector = this.injector;
@@ -2474,6 +2511,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           institution: 'Some institute',
           location: 'Some city, Some state, Some country'
         });
+
+        this.stepper.next.click();
       }
     }
 
