@@ -1,7 +1,7 @@
 import { INJECTOR, Injectable, inject } from '@angular/core';
 import { DomainDictionaryDto, FreelancerProfile, IndustryGroupDto, TechGroupDto } from '@easworks/models';
 import { BackendApi } from './backend';
-import { CSCApi } from './csc';
+import { CSCApi } from './csc.api';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +36,13 @@ export class TalentApi extends BackendApi {
 
         return p;
       })
+      .catch(this.handleError);
+  };
+
+  readonly createTalentProfile = (profile: FreelancerProfile) => {
+    const body = JSON.stringify({ profile });
+    return this.request(`${this.apiUrl}/talentProfile/createTalentProfile`, { body, method: 'POST' })
+      .then(this.handleJson)
       .catch(this.handleError);
   };
 

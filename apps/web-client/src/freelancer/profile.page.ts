@@ -192,6 +192,7 @@ export class FreelancerProfilePageComponent {
 }
 
 const dummyData: FreelancerProfile = {
+  "id": "6481a3caf1e4e196271d0979",
   "personalDetails": {
     "firstName": "ram",
     "lastName": "indalkar",
