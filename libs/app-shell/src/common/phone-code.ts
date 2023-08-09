@@ -2,7 +2,7 @@ import { Signal, computed, effect } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { pattern } from '@easworks/models';
-import { Country } from '../api/csc';
+import { Country } from '../api/csc.api';
 import { sortString } from '../utilities/sort';
 import { controlValue$ } from './form-field.directive';
 

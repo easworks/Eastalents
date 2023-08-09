@@ -8,8 +8,8 @@ import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
-import { CSCApi, City, Country, State, Timezone } from '@easworks/app-shell/api/csc';
-import { GMapsApi } from '@easworks/app-shell/api/gmap';
+import { CSCApi, City, Country, State, Timezone } from '@easworks/app-shell/api/csc.api';
+import { GMapsApi } from '@easworks/app-shell/api/gmap.api';
 import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator.component';
 import { FileUploadComponent, FileValidators } from '@easworks/app-shell/common/file-upload/file-upload.component';
 import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
@@ -58,7 +58,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     csc: inject(CSCApi)
   } as const;
   private readonly domains = inject(DomainState);
-  private readonly user = inject(AuthState).user$;
+  private readonly user = inject(AuthState).guaranteedUser();
 
   @HostBinding() private readonly class = 'flex flex-col lg:flex-row';
 
@@ -1784,12 +1784,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const form = new FormGroup({
       personalInfo: new FormGroup({
         firstName: new FormControl(
-          user?.firstName || '', {
+          user.firstName, {
           nonNullable: true,
           validators: [Validators.required]
         }),
         lastName: new FormControl(
-          user?.lastName || '', {
+          user.lastName, {
           nonNullable: true,
           validators: [Validators.required]
         }),
@@ -1812,7 +1812,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       }),
       contact: new FormGroup({
         email: new FormControl(
-          user?.email || '', {
+          user.email, {
           nonNullable: true,
           validators: [Validators.required, Validators.email]
         }),
@@ -2520,6 +2520,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     } as const;
 
     const profile: FreelancerProfile = {
+      id: this.user()._id,
       personalDetails: {
         firstName: fv.profileDetails.personalInfo.firstName,
         lastName: fv.profileDetails.personalInfo.lastName,
