@@ -7,9 +7,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { CSCApi, City, Country, State, Timezone } from '@easworks/app-shell/api/csc.api';
 import { GMapsApi } from '@easworks/app-shell/api/gmap.api';
+import { TalentApi } from '@easworks/app-shell/api/talent.api';
 import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator.component';
 import { FileUploadComponent, FileValidators } from '@easworks/app-shell/common/file-upload/file-upload.component';
 import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
@@ -18,6 +20,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { isTimezone } from '@easworks/app-shell/common/location';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { filterCountryCode, getCombinedNumber, getPhoneCodeOptions, updatePhoneValidatorEffect } from '@easworks/app-shell/common/phone-code';
+import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { DomainState } from '@easworks/app-shell/state/domains';
@@ -55,10 +58,12 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private readonly geo = inject(GeoLocationService);
   private readonly api = {
     gmap: inject(GMapsApi),
-    csc: inject(CSCApi)
+    csc: inject(CSCApi),
+    talent: inject(TalentApi),
   } as const;
   private readonly domains = inject(DomainState);
   private readonly user = inject(AuthState).guaranteedUser();
+  private readonly snackbar = inject(MatSnackBar);
 
   @HostBinding() private readonly class = 'flex flex-col lg:flex-row';
 
@@ -73,6 +78,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     'pd-country',
     'pd-state',
     'pd-city',
+    'submitting'
   ]>();
   protected readonly isNew = this.route.snapshot.queryParamMap.has('new');
   private readonly section = this.initSection();
@@ -223,8 +229,19 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       disabled$: next.disabled$,
       visible$: computed(() => step$() === lastStep),
       click: () => {
-        const p = this.extractProfileFromValues();
-        console.debug(p);
+        const { profile, image, resume } = this.extractProfileFromValues();
+
+        this.loading.add('submitting');
+        this.api.talent.profile.create(profile)
+          .then(() => image && this.api.talent.profile.uploadImage(image))
+          .then(() => resume && this.api.talent.profile.uploadResume(resume))
+          .catch(e => this.snackbar.openFromComponent(SnackbarComponent, {
+            ...ErrorSnackbarDefaults,
+            data: {
+              message: e.message,
+            }
+          }))
+          .finally(() => this.loading.delete('submitting'));
       }
     } as const;
 
@@ -2519,13 +2536,16 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       techExp: this.techExp.form.getRawValue(),
     } as const;
 
+    const image = fv.profileDetails.personalInfo.image;
+    const resume = fv.profileDetails.personalInfo.resume;
+
     const profile: FreelancerProfile = {
       id: this.user()._id,
       personalDetails: {
         firstName: fv.profileDetails.personalInfo.firstName,
         lastName: fv.profileDetails.personalInfo.lastName,
-        image: fv.profileDetails.personalInfo.image?.name || null,
-        resume: fv.profileDetails.personalInfo.resume?.name || null,
+        image: null,
+        resume: null,
         citizenship: fv.profileDetails.personalInfo.citizenship || null,
         signupReason: fv.profileDetails.personalInfo.signupReason,
         contact: {
@@ -2615,7 +2635,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       }
     };
 
-    return profile;
+    return { profile, image, resume };
   }
 
   ngOnInit(): void {
