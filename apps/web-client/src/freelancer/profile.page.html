@@ -180,8 +180,20 @@
       </div>
     </div>
 
-    <div class="demo-placeholder col-span-4 lg:col-span-3 transition-all">
-      System Phases Worked
+    <div class="col-span-4 lg:col-span-3 transition-all
+          section mat-elevation-z1">
+      <div class="header">Top Services</div>
+      <mat-divider></mat-divider>
+      <div class="p-4 flex justify-start gap-4">
+        <div *ngFor="let service of data.services$()"
+             class="exp-data">
+          <div class="label">{{service.key}}</div>
+          <div class="data">
+            <span>{{service.years}} yrs</span>
+            <span>O</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="col-span-4 lg:col-span-3 transition-all

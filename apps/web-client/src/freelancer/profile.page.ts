@@ -155,6 +155,10 @@ export class FreelancerProfilePageComponent {
         .flatMap(d => d.modules)
         .sort(sortString)
       ),
+      services$: computed(() => profile$()?.experience.domains
+        .flatMap(d => d.services)
+        .sort((a, b) => sortString(a.key, b.key))
+      ),
       contact$: computed(() => {
         const p = profile$();
         if (!p)
