@@ -223,120 +223,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       disabled$: next.disabled$,
       visible$: computed(() => step$() === lastStep),
       click: () => {
-
-        const fv = {
-          profileDetails: this.profileDetails.form.getRawValue(),
-          professionalSummary: this.professionalSummary.form.getRawValue(),
-          industries: this.industries.form.getRawValue(),
-          jobSearchStatus: this.jobSearchStatus.form.getRawValue(),
-          rates: this.rateExpectation.form.getRawValue(),
-          workingHrs: this.preferredWorkingHours.form.getRawValue(),
-          availability: this.availability.form.getRawValue(),
-          commitment: this.jobCommittment.form.getRawValue(),
-          preferredRoles: this.preferredRoles.$()?.form.getRawValue() || {},
-          domains: this.primaryDomains.form.getRawValue(),
-          services: this.services.$()?.form.getRawValue() || {},
-          modules: this.modules.$()?.form.getRawValue() || {},
-          software: this.software.$()?.form.getRawValue() || {},
-          roles: this.roles.$()?.form.getRawValue() || {},
-          techExp: this.techExp.form.getRawValue(),
-        } as const;
-
-        const p: FreelancerProfile = {
-          personalDetails: {
-            firstName: fv.profileDetails.personalInfo.firstName,
-            lastName: fv.profileDetails.personalInfo.lastName,
-            image: fv.profileDetails.personalInfo.image?.name || null,
-            resume: fv.profileDetails.personalInfo.resume?.name || null,
-            citizenship: fv.profileDetails.personalInfo.citizenship || null,
-            signupReason: fv.profileDetails.personalInfo.signupReason,
-            contact: {
-              address: fv.profileDetails.contact.address.postalCode ? fv.profileDetails.contact.address : null,
-              email: fv.profileDetails.contact.email,
-              phone: {
-                mobile: getCombinedNumber(fv.profileDetails.contact.phoneNumber.mobile),
-                whatsapp: getCombinedNumber(fv.profileDetails.contact.phoneNumber.whatsapp),
-                telegram: getCombinedNumber(fv.profileDetails.contact.phoneNumber.telegram),
-              }
-            },
-            social: {
-              github: fv.profileDetails.social.github || null,
-              linkedin: fv.profileDetails.social.linkedin || null,
-              gitlab: fv.profileDetails.social.gitlab || null,
-            },
-            location: {
-              country: fv.professionalSummary.country,
-              state: fv.professionalSummary.state,
-              city: fv.professionalSummary.city,
-              timezone: fv.professionalSummary.timezone,
-            },
-            education: fv.profileDetails.history.education
-              .map(v => ({
-                ...v,
-                specialization: v.specialization || null
-              })),
-          },
-          professionalDetails: {
-            overallExperience: fv.professionalSummary.experience,
-            currentRole: fv.profileDetails.information.currentRole[1],
-            englishProficiency: fv.profileDetails.information.englishProficiency.value,
-            summary: fv.professionalSummary.summary,
-            portfolio: fv.profileDetails.history.portfolio || null,
-            history: fv.profileDetails.history.work.map(v => ({
-              ...v,
-              domain: v.role[0],
-              role: v.role[1],
-            })),
-            wasFreelancer: fv.profileDetails.information.freelanceExperience
-          },
-          workPreference: {
-            searchStatus: fv.jobSearchStatus.status.value,
-            interest: fv.jobSearchStatus.opportunity.map(v => v.value),
-            rates: fv.rates,
-            time: fv.workingHrs,
-            availability: fv.availability.value,
-            commitment: [...fv.commitment],
-            roles: Object.entries(fv.preferredRoles).map(([domain, value]) => ({
-              domain,
-              roles: value.map(v => v.value)
-            }))
-          },
-          experience: {
-            domains: Object.entries(fv.domains)
-              .map(([key, years]) => ({
-                key,
-                years,
-                modules: [...fv.modules[key]].map(v => v.name),
-                services: Object.entries(fv.services[key]).map(([key, years]) => ({ key, years })),
-                products: Object.entries(fv.software[key]).map(([key, years]) => ({ key, years })),
-                roles: Object.entries(fv.roles[key]).map(([key, years]) => ({ key, years }))
-              })),
-            tech: Object.entries(fv.techExp).map(([group, value]) => ({
-              group,
-              items: value.map(v => v.value)
-            })),
-            industries: Object.entries(fv.industries).map(([group, value]) => ({
-              group,
-              items: value.map(v => v.value)
-            })),
-          },
-          profileCompletion: {
-            overall: 0,
-            summary: 0,
-            easExperience: 0,
-            easSystemPhases: 0,
-            jobRole: 0,
-            experience: 0,
-            techStacks: 0,
-            jobSearchStatus: 0,
-            rates: 0,
-            about: 0,
-            social: 0,
-            wsa: 0,
-            completed: false
-          }
-        };
-
+        const p = this.extractProfileFromValues();
         console.debug(p);
       }
     } as const;
@@ -2610,6 +2497,124 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     finally {
       this.loading.delete('getting geolocation');
     }
+  }
+
+  private extractProfileFromValues() {
+
+    const fv = {
+      profileDetails: this.profileDetails.form.getRawValue(),
+      professionalSummary: this.professionalSummary.form.getRawValue(),
+      industries: this.industries.form.getRawValue(),
+      jobSearchStatus: this.jobSearchStatus.form.getRawValue(),
+      rates: this.rateExpectation.form.getRawValue(),
+      workingHrs: this.preferredWorkingHours.form.getRawValue(),
+      availability: this.availability.form.getRawValue(),
+      commitment: this.jobCommittment.form.getRawValue(),
+      preferredRoles: this.preferredRoles.$()?.form.getRawValue() || {},
+      domains: this.primaryDomains.form.getRawValue(),
+      services: this.services.$()?.form.getRawValue() || {},
+      modules: this.modules.$()?.form.getRawValue() || {},
+      software: this.software.$()?.form.getRawValue() || {},
+      roles: this.roles.$()?.form.getRawValue() || {},
+      techExp: this.techExp.form.getRawValue(),
+    } as const;
+
+    const profile: FreelancerProfile = {
+      personalDetails: {
+        firstName: fv.profileDetails.personalInfo.firstName,
+        lastName: fv.profileDetails.personalInfo.lastName,
+        image: fv.profileDetails.personalInfo.image?.name || null,
+        resume: fv.profileDetails.personalInfo.resume?.name || null,
+        citizenship: fv.profileDetails.personalInfo.citizenship || null,
+        signupReason: fv.profileDetails.personalInfo.signupReason,
+        contact: {
+          address: fv.profileDetails.contact.address.postalCode ? fv.profileDetails.contact.address : null,
+          email: fv.profileDetails.contact.email,
+          phone: {
+            mobile: getCombinedNumber(fv.profileDetails.contact.phoneNumber.mobile),
+            whatsapp: getCombinedNumber(fv.profileDetails.contact.phoneNumber.whatsapp),
+            telegram: getCombinedNumber(fv.profileDetails.contact.phoneNumber.telegram),
+          }
+        },
+        social: {
+          github: fv.profileDetails.social.github || null,
+          linkedin: fv.profileDetails.social.linkedin || null,
+          gitlab: fv.profileDetails.social.gitlab || null,
+        },
+        location: {
+          country: fv.professionalSummary.country,
+          state: fv.professionalSummary.state,
+          city: fv.professionalSummary.city,
+          timezone: fv.professionalSummary.timezone,
+        },
+        education: fv.profileDetails.history.education
+          .map(v => ({
+            ...v,
+            specialization: v.specialization || null
+          })),
+      },
+      professionalDetails: {
+        overallExperience: fv.professionalSummary.experience,
+        currentRole: fv.profileDetails.information.currentRole[1],
+        englishProficiency: fv.profileDetails.information.englishProficiency.value,
+        summary: fv.professionalSummary.summary,
+        portfolio: fv.profileDetails.history.portfolio || null,
+        history: fv.profileDetails.history.work.map(v => ({
+          ...v,
+          domain: v.role[0],
+          role: v.role[1],
+        })),
+        wasFreelancer: fv.profileDetails.information.freelanceExperience
+      },
+      workPreference: {
+        searchStatus: fv.jobSearchStatus.status.value,
+        interest: fv.jobSearchStatus.opportunity.map(v => v.value),
+        rates: fv.rates,
+        time: fv.workingHrs,
+        availability: fv.availability.value,
+        commitment: [...fv.commitment],
+        roles: Object.entries(fv.preferredRoles).map(([domain, value]) => ({
+          domain,
+          roles: value.map(v => v.value)
+        }))
+      },
+      experience: {
+        domains: Object.entries(fv.domains)
+          .map(([key, years]) => ({
+            key,
+            years,
+            modules: [...fv.modules[key]].map(v => v.name),
+            services: Object.entries(fv.services[key]).map(([key, years]) => ({ key, years })),
+            products: Object.entries(fv.software[key]).map(([key, years]) => ({ key, years })),
+            roles: Object.entries(fv.roles[key]).map(([key, years]) => ({ key, years }))
+          })),
+        tech: Object.entries(fv.techExp).map(([group, value]) => ({
+          group,
+          items: value.map(v => v.value)
+        })),
+        industries: Object.entries(fv.industries).map(([group, value]) => ({
+          group,
+          items: value.map(v => v.value)
+        })),
+      },
+      profileCompletion: {
+        overall: 0,
+        summary: 0,
+        easExperience: 0,
+        easSystemPhases: 0,
+        jobRole: 0,
+        experience: 0,
+        techStacks: 0,
+        jobSearchStatus: 0,
+        rates: 0,
+        about: 0,
+        social: 0,
+        wsa: 0,
+        completed: false
+      }
+    };
+
+    return profile;
   }
 
   ngOnInit(): void {
