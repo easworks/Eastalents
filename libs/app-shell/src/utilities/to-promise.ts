@@ -1,4 +1,4 @@
-import { Injector, Signal, effect } from '@angular/core';
+import { Injector, Signal, effect, signal } from '@angular/core';
 
 export function toPromise<T>(source: Signal<T>, predicate: (value: T) => boolean, injector?: Injector) {
   return new Promise<T>((resolve) => {
@@ -19,5 +19,11 @@ export function toPromise<T>(source: Signal<T>, predicate: (value: T) => boolean
       }, { injector });
     }
   });
+}
+
+export function fromPromise<T>(source: Promise<T>, initValue: T) {
+  const sig$ = signal(initValue);
+  source.then(r => sig$.set(r));
+  return sig$;
 }
 

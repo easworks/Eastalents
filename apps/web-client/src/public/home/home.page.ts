@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { DomainsApi } from '@easworks/app-shell/api/domains.api';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { DomainState } from '@easworks/app-shell/state/domains';
+import { fromPromise } from '@easworks/app-shell/utilities/to-promise';
 import { SoftwareTilesContainerComponent } from '../common/software-tiles-container.component';
 
 @Component({
@@ -18,9 +20,11 @@ import { SoftwareTilesContainerComponent } from '../common/software-tiles-contai
 })
 export class HomePageComponent {
   private readonly domainState = inject(DomainState);
+  private readonly api = {
+    domains: inject(DomainsApi)
+  } as const;
 
-  // TODO: figure how to get actual featured domains
-  protected readonly featuredDomains$ = computed(() => this.domainState.domains.list$().slice(0, 5));
+  protected readonly featuredDomains = this.initFeaturedDomains();
 
   protected readonly customerLogos = [
     'client-1.png',
@@ -157,4 +161,47 @@ export class HomePageComponent {
       title: 'Support & Maintenance'
     },
   ];
+
+  private initFeaturedDomains() {
+
+    const list$ = fromPromise(this.api.domains.homePageDomains(), []);
+
+
+    const featured$ = computed(() => {
+      const list = list$();
+      const domainMap = this.domainState.domains.map$();
+      const productMap = this.domainState.products.map$();
+
+      if (domainMap.size === 0 || productMap.size === 0)
+        return [];
+
+      const featured = list.map(l => {
+        const domain = domainMap.get(l.domain);
+        if (!domain)
+          throw new Error(`module '${l.domain}' not fond`);
+
+        const products = l.products
+          .map(p => {
+            const product = productMap.get(p);
+            if (!product)
+              throw new Error(`module '${l.domain}' has no product '${p}'`);
+            return product;
+          });
+
+        return {
+          ...domain,
+          products
+        } as const;
+      });
+
+      return featured;
+    });
+
+    const loading$ = computed(() => featured$().length === 0);
+
+    return {
+      domains$: featured$,
+      loading$
+    };
+  }
 }
