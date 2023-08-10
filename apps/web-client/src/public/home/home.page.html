@@ -46,7 +46,7 @@
 <section class="bg-white">
   <div class="page py-8 grid grid-cols-1 lg:grid-cols-2 gap-4 gap-y-8 items-center">
     <div class="relative">
-      <h2 class="text-2xl font-bold lg:text-4xl transition-all">
+      <h2 class="text-2xl font-bold lg:text-3xl transition-all">
         Adapt and evolve with EASWORKS.
       </h2>
       <p class="my-4">
@@ -76,14 +76,13 @@
 
 <section>
   <div class="page py-12">
-    <h2 class="mb-12 text-2xl lg:text-4xl text-center font-bold">EASWORKS promises it all</h2>
+    <h2 class="text-2xl lg:text-3xl text-center font-bold transition-all">EASWORKS promises it all</h2>
 
-    <div class="flex flex-wrap gap-8 justify-center">
+    <div class="flex mt-12 flex-wrap gap-8 justify-center">
       <div *ngFor="let promise of promises"
            class="flex flex-col gap-y-4 p-2 px-4 pb-4
            md:max-w-[14rem] lg:max-w-[16rem] xl:max-w-[20rem]
            bg-white shadow-md rounded-md text-center transition-all">
-        <!-- <div class="demo-placeholder h-24 w-24 mx-auto flex-none"></div> -->
         <lottie-player [src]="promise.lottie"
                        background="transparent"
                        class="w-24 h-24 mx-auto"
@@ -91,77 +90,29 @@
         </lottie-player>
         <h4 class="text-lg font-semibold">{{promise.title}}</h4>
         <p class="text-sm leading-6 text-center">{{promise.content}}</p>
-
-
       </div>
     </div>
   </div>
 </section>
 
 
-<section class="lg:py-[60px] py-4 bg-white">
-  <div class="page">
-    <div class="text-center mb-12">
-      <h2 class="lg:text-4xl text-2xl font-bold">How it Works</h2>
-    </div>
+<section class="bg-white">
+  <div class="page py-12">
+    <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all">How it Works</h2>
 
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-center">
-      <div class="bg-white shadow-lg rounded-md p-3 text-center h-full">
-        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/5bf7837c-438a-4a4e-a94d-7a36e8b9562a/cMaf4XaF50.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 100%;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Describe your needs</h4>
-        <p class="text-sm leading-6">Brief us on your Enterprise Application,
-          technology, domain,
-          enterprise
-          project requirements and describe your project using our job form.</p>
+    <div class="flex mt-12 flex-wrap gap-4 md:gap-8 justify-center xl:flex-nowrap">
+      <div *ngFor="let hitw of howItWorks"
+           class="flex flex-col gap-y-4 p-2 px-4 pb-4  transition-all
+           flex-grow w-48 lg:w-72
+           bg-white shadow-lg rounded-md text-center">
+        <lottie-player [src]="hitw.lottie"
+                       background="transparent"
+                       class="mx-auto w-20 h-20 md:w-24 md:h-24 transition-all"
+                       autoplay loop></lottie-player>
+        <h4 class="text-lg font-semibold">{{hitw.title}}</h4>
+        <p class="text-sm leading-6">{{hitw.content}}</p>
       </div>
 
-      <div class="bg-white shadow-lg rounded-md p-3 text-center h-full">
-        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/3a6e85a5-efa3-4b74-8850-f8595245abd1/gfULmGWGsu.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 100%;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Schedule a meeting to align on
-          goals</h4>
-        <p class="text-sm leading-6">We always create a unique team augmentation
-          strategy based on
-          business
-          goals.</p>
-      </div>
-
-      <div class="bg-white shadow-lg rounded-md p-3 text-center h-full">
-        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/e53c1145-18b9-42c3-9dd5-30ba9473df9e/XmL6zR3gAz.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 100%;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Interview & Approve</h4>
-        <p class="text-sm leading-6">Interview the EAS talent that we match you
-          with and approve the
-          candidate(s) who will join your enterprise project team.</p>
-      </div>
-
-      <div class="bg-white shadow-lg rounded-md p-3 text-center h-full">
-        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/f707add6-d1ed-49db-b0d2-224e018b4dca/4LiVNG5Um8.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 100%;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Start your Enterprise project
-          with remote talent</h4>
-        <p class="text-sm leading-6">Seal the deal with a contract based on your
-          engagement model
-          and launch
-          your remote team.</p>
-      </div>
     </div>
 
     <div class="flex justify-center mt-10 text-center">
