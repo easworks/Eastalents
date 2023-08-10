@@ -8,12 +8,17 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:webpack-browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/web-client",
         "index": "apps/web-client/src/index.html",
         "main": "apps/web-client/src/main.ts",
-        "polyfills": ["zone.js", "@lottiefiles/lottie-player"],
+        "polyfills": [
+          "zone.js",
+          "@lottiefiles/lottie-player"
+        ],
         "tsConfig": "apps/web-client/tsconfig.app.json",
         "assets": [
           {
@@ -28,28 +33,7 @@
           "libs/shared/styles/src/material.scss",
           "apps/web-client/src/styles.less"
         ],
-        "scripts": [
-          {
-            "bundleName": "font-awesome",
-            "input": "node_modules/@fortawesome/fontawesome-free/js/fontawesome.min.js",
-            "inject": true
-          },
-          {
-            "bundleName": "font-awesome",
-            "input": "node_modules/@fortawesome/fontawesome-free/js/solid.min.js",
-            "inject": true
-          },
-          {
-            "bundleName": "font-awesome",
-            "input": "node_modules/@fortawesome/fontawesome-free/js/regular.js",
-            "inject": true
-          },
-          {
-            "bundleName": "font-awesome",
-            "input": "node_modules/@fortawesome/fontawesome-free/js/brands.js",
-            "inject": true
-          }
-        ]
+        "scripts": []
       },
       "configurations": {
         "production": {
@@ -112,7 +96,9 @@
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
         "lintFilePatterns": [
           "apps/web-client/**/*.ts",
@@ -122,7 +108,9 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/web-client/jest.config.ts",
         "passWithNoTests": true
