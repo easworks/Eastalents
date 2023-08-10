@@ -5,6 +5,7 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { fromPromise } from '@easworks/app-shell/utilities/to-promise';
 import { SoftwareTilesContainerComponent } from '../common/software-tiles-container.component';
+import { UseCaseTilesContainerComponent } from '../common/use-case-tiles-container.component';
 
 @Component({
   standalone: true,
@@ -15,7 +16,8 @@ import { SoftwareTilesContainerComponent } from '../common/software-tiles-contai
   imports: [
     ImportsModule,
     LottiePlayerDirective,
-    SoftwareTilesContainerComponent
+    SoftwareTilesContainerComponent,
+    UseCaseTilesContainerComponent
   ]
 })
 export class HomePageComponent {

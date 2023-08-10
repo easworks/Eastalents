@@ -162,7 +162,6 @@
         <h3 class="text-xl lg:text-2xl font-bold mr-auto">
           80+ Enterprise Applications Supported
         </h3>
-        <!-- <div class="border-l"></div> -->
         <div class="flex gap-4 flex-none items-center
            lg:border-l lg:pl-8 transition-all">
           <button class="stroked-button">Apply for Jobs</button>
@@ -182,37 +181,18 @@
   </div>
 </section>
 
-<section class="py-[60px]">
-  <div class="page">
-    <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold">EASWORKS supports major critical enterprise
-        application
-        development use
-        cases.</h2>
-    </div>
-    <div class="text-left mb-5">
-      <h2 class="text-2xl font-bold">Hire Elite EAS Talent Based On <span
-              class="text-primary">Enterprise
-          Application Use Cases.</span>
-      </h2>
-    </div>
+<section>
+  <div class="page py-12">
+    <h2 class="text-2xl lg:text-3xl text-center font-bold">
+      EASWORKS supports major critical enterprise application development use cases.
+    </h2>
+    <h3 class="text-xl lg:text-2xl font-bold mt-8 text-center">
+      Hire Elite EAS Talent Based On <span class="text-primary">Enterprise Application Use Cases.</span>
+    </h3>
 
-    <div class="flex gap-8 flex-wrap justify-center items-stretch">
-      <div *ngFor="let uc of useCases"
-           class="bg-white p-2 px-4 rounded-md 
-            shadow-md text-center transition-all
-            w-40 flex-grow md:w-48 lg:flex-none">
-        <div class="flex justify-center mx-auto mb-5">
-          <lottie-player [src]="uc.lottie"
-                         background="transparent" speed="1"
-                         class="w-32"
-                         loop autoplay>
-          </lottie-player>
-        </div>
-        <h4 class="font-semibold my-4">{{uc.title}}</h4>
-      </div>
-    </div>
-
+    <use-case-tiles-container [useCases]="useCases" class="mt-8"></use-case-tiles-container>
+  </div>
+</section>
 
   </div>
 </section>
