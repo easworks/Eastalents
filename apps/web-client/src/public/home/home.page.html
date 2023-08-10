@@ -123,75 +123,27 @@
 </section>
 
 
-<section class="lg:py-[60px] py-4">
-  <div class="page">
-    <div class="text-center mb-12">
-      <h2 class="lg:text-4xl text-2xl font-bold">Accelerate your Enterprise
-        Application development
-        with scalable
-        on-demand
-        tech talent.</h2>
-    </div>
+<section>
+  <div class="page py-12">
+    <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all">
+      Accelerate your Enterprise Application development
+      with scalable on-demand tech talent.
+    </h2>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-center">
-      <div
-           class="bg-white shadow-md py-8 px-3 text-center h-full rounded-tr-[33px] rounded-bl-[33px] border border-b-4 border-primary">
-        <div class="flex justify-center w-[120px] m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/cdcfdf4a-7f11-46f6-b763-8aa0ddd63cb3/5cIAv6Pb81.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 100%;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Vetted Individuals</h4>
-        <p class="text-sm leading-6">Bridge the EAS Skill Gap in Your Team with
-          our pre-vetted EAS
-          professionals
-          who bring the enterprise application expertise and the skill set
-          you're looking for.</p>
+    <div class="flex mt-12 flex-wrap lg:flex-nowrap gap-8 justify-center">
+      <div *ngFor="let acc of accelerate"
+           class="flex flex-col gap-2 p-4 text-center
+              flex-grow w-60 lg:w-72
+              border border-primary bg-white shadow-md 
+              rounded-tr-[2rem] rounded-bl-[2rem] border-b-4">
+        <lottie-player [src]="acc.lottie"
+                       background="transparent"
+                       class="mx-auto w-full h-20 md:w-24 md:h-24 transition-all"
+                       autoplay loop></lottie-player>
+        <h4 class="text-lg font-semibold">{{acc.title}}</h4>
+        <p class="text-sm leading-6 my-auto">{{acc.content}}</p>
 
-        <div class="flex justify-center mt-3 text-center">
-          <button class="highlight-button primary mt-5">Get Started</button>
-        </div>
-      </div>
-
-      <div
-           class="bg-white shadow-md py-8 px-3 text-center h-full rounded-tr-[33px] rounded-bl-[33px] border border-b-4 border-primary">
-        <div class="flex justify-center w-[120px] m-[auto] mb-5">
-          <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_kcovw7lp.json"
-                         background="transparent" speed="1"
-                         style="width: 120px; height: 100%" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Full Teams</h4>
-        <p class="text-sm leading-6">Hire a fully equipped remote team on a
-          per-project basis with
-          needed EAS
-          skills, ready to start immediately.</p>
-        <div class="flex justify-center mt-3 text-center">
-          <button class="highlight-button primary mt-5">Get Started</button>
-        </div>
-      </div>
-
-      <div
-           class="bg-white shadow-md py-8 px-3 text-center h-full rounded-tr-[33px] rounded-bl-[33px] border border-b-4 border-primary">
-        <div class="flex justify-center w-[170px] m-[auto] mb-5">
-          <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_agykieqg.json"
-                         background="transparent" speed="1"
-                         style="width: 170px; height: 170px" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Enterprise Application Projects
-        </h4>
-        <p class="text-sm leading-6">EASWORKS platform allows us to pull from
-          the elite global
-          enterprise
-          application talent to create a hand-picked AND fully managed team to
-          reliably deliver on
-          your
-          enterprise project within your budget and deadlines.</p>
-        <div class="flex justify-center mt-3 text-center">
-          <button class="highlight-button primary mt-5">Get Started</button>
-        </div>
+        <button class="highlight-button primary max-w-max mx-auto mt-auto">Get Started</button>
       </div>
     </div>
   </div>

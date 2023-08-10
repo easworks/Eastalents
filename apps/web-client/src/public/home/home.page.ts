@@ -93,6 +93,27 @@ export class HomePageComponent {
     }
   ];
 
+  protected readonly accelerate = [
+    {
+      lottie: 'https://lottie.host/cdcfdf4a-7f11-46f6-b763-8aa0ddd63cb3/5cIAv6Pb81.json',
+      title: 'Vetted Individuals',
+      content: `Bridge the EAS Skill Gap in Your Team with our pre-vetted EAS professionals 
+        who bring the enterprise application expertise and the skill set you're looking for.`
+    },
+    {
+      lottie: 'https://assets2.lottiefiles.com/packages/lf20_kcovw7lp.json',
+      title: 'Full Teams',
+      content: `Hire a fully equipped remote team on a per-project basis with needed EAS
+        skills, ready to start immediately.`
+    },
+    {
+      lottie: 'https://assets6.lottiefiles.com/packages/lf20_agykieqg.json',
+      title: 'Enterprise Application Projects',
+      content: `EASWORKS platform allows us to pull from the elite global enterprise
+        application talent to create a hand-picked AND fully managed team to reliably deliver on your enterprise project within your budget and deadlines.`
+    }
+  ];
+
   protected readonly useCases = [
     {
       lottie: 'https://lottie.host/4c9690fd-2f7c-4f2d-8d17-189cd10faa13/ZVqeAIMqEv.json',
