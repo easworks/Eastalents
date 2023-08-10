@@ -27,9 +27,20 @@ export class SoftwareTilesContainerComponent {
     return d ? `${d.key} - ${d.longName}` : '';
   });
 
-  private readonly selected$ = computed(() => this.domain$()?.products.slice(0, 10) || []);
-  protected readonly software$ = computed(() => this.selected$().map(s => ({
-    text: s.name,
-    link: `/software/${s.name}`
-  })));
+  protected readonly shortName$ = computed(() => this.domain$()?.key || '');
+
+  protected readonly software$ = computed(() => {
+    const d = this.domain$();
+    if (!d)
+      return [];
+
+    return d.products
+      .slice(0, 15)
+      .map(p => ({
+        image: `/assets/software/products/${d.key}/${p.name}.png`,
+        link: `/software/${p.name}`
+      }));
+  });
+
+  protected readonly customSoftwareLink$ = computed(() => `/software/custom/${this.shortName$()}`);
 }

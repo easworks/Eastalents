@@ -1,25 +1,41 @@
 <h2 class="text-[1.25em] font-bold mb-5">{{label$()}}</h2>
 
-<div class="grid gap-4 mb-3 text-sm" style="grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));">
+<div class="grid gap-4 mb-3 text-sm" style="grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));">
 
   <a *ngFor="let s of software$()" [routerLink]="s.link"
-     class="bg-white flex items-center justify-center p-3 relative 
-              rounded-md ring-1 ring-divider hover:ring-primary transition-all
+     class="p-2  px-4 flex items-center justify-center relative 
+              rounded-md hover:ring-1 hover:ring-primary transition-all
               shadow-md">
-    <!-- <img src="https://eas-works.onrender.com/images/sap.png" alt=""> -->
-    {{s.text}}
+    <img class="h-16 object-contain"
+         [src]="s.image" alt="">
   </a>
 
-  <a class="bg-white flex p-2 px-4
+  <a [routerLink]="customSoftwareLink$()"
+     class="p-2 px-4 flex items-center justify-center relative
+              bg-primary/5 text-primary
+              rounded-md ring-1 ring-primary/5 hover:ring-primary transition-all
+              shadow-md">
+    <div class="h-16 flex flex-col gap-2 text-center">
+      <i class="fa-solid fa-gear text-xl"></i>
+      <span class="text-sm">Custom / Legacy Application</span>
+    </div>
+  </a>
+
+  <!-- <a class="bg-white flex p-2 px-4
             flex-col gap-2 content-center text-center
             rounded-md shadow-md  transition-all
             ring-1 ring-divider hover:ring-primary"
      routerLink="/software/Custom ERP">
-    <!-- <img src="https://eas-works.onrender.com/images/sap.png" alt=""> -->
+    <img src="https://eas-works.onrender.com/images/sap.png" alt="">
     <i class="fa-solid fa-gear"></i>
     Custom ERP Ops / Legacy Application
-  </a>
+  </a> -->
 
 </div>
 
-<button class="highlight-button mr-auto mt-4">+ See more ERP Ops skills</button>
+<button class="shaded-button mr-auto mt-4
+    flex items-center
+    hover:text-primary focus:text-primary">
+  <i class="fa-solid fa-circle-chevron-right mr-2 text-xl"></i>
+  See more {{shortName$()}} skills
+</button>
