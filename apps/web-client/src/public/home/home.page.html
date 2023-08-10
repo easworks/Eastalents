@@ -149,27 +149,30 @@
   </div>
 </section>
 
-<section class="lg:py-[60px] py-4 bg-white">
-  <div class="page">
-    <div class="text-left mb-5">
-      <h2 class="lg:text-4xl text-2xl font-bold">Hire elite EAS talent based on
-        <span
-              class="text-primary">Enterprise
-          Application Software (EAS).</span>
+<section class="bg-white">
+  <div class="page py-12">
+
+    <div class="max-w-screen-lg mx-auto">
+      <h2 class="text-2xl lg:text-3xl font-bold xl:text-center transition-all">
+        Hire elite EAS talent based on
+        <span class="text-primary">Enterprise Application Software (EAS).</span>
       </h2>
-    </div>
-    <div
-         class="flex justify-between mb-5 text-left pb-[60px] lg:flex-row flex-col">
-      <h2 class="lg:text-[1.625rem] text-2xl font-bold mb-5 lg:mb-0">80+
-        Enterprise Application
-        Supported</h2>
-      <div class="lg:border-l-2 flex gap-4 lg:pl-8">
-        <button class="stroked-button">Apply for Jobs</button>
-        <button class="highlight-button"> Hire Now</button>
+      <div class="mt-4 flex gap-4 gap-x-8 justify-between 
+            flex-wrap lg:flex-nowrap">
+        <h3 class="text-xl lg:text-2xl font-bold mr-auto">
+          80+ Enterprise Applications Supported
+        </h3>
+        <!-- <div class="border-l"></div> -->
+        <div class="flex gap-4 flex-none items-center
+           lg:border-l lg:pl-8 transition-all">
+          <button class="stroked-button">Apply for Jobs</button>
+          <button class="shaded-button primary"> Hire Now</button>
+        </div>
       </div>
     </div>
 
-    <div class="grid gap-8">
+
+    <div class="grid gap-8 mt-8">
       <software-tiles-container *ngFor="let domain of featuredDomains$()" [domain]="domain"></software-tiles-container>
     </div>
   </div>
