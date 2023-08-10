@@ -1,5 +1,32 @@
-<div class="flex gap-5 justify-center items-center mt-[40px]">
-    <div class="demo-placeholder w-[285px] h-[50px]"></div>
-    <div class="demo-placeholder w-[285px] h-[50px]"></div>
-    <div class="demo-placeholder w-[100px] h-[50px] bg-primary"></div>
+<div class="relative flex gap-4 justify-center items-center flex-col md:flex-row
+  px-2 md:px-0">
+  <div class="form-field mb-0 w-full md:w-64 md:max-w-xs flex-1">
+    <label>Domain</label>
+    <mat-select [ngModel]="selectedDomain$()"
+                (ngModelChange)="selectedDomain$.set($event)"
+                [ngModelOptions]="{ standalone: true }">
+      <mat-option *ngFor="let domain of domains$(); trackBy: trackBy.domain"
+                  [value]="domain">
+        {{domain.longName}}
+      </mat-option>
+    </mat-select>
   </div>
+  <div class="form-field mb-0 w-full md:w-64 md:max-w-xs flex-1">
+    <label>Software</label>
+    <mat-select [ngModel]="selectedProduct$()"
+                (ngModelChange)="selectedProduct$.set($event)"
+                [ngModelOptions]="{ standalone: true }">
+      <mat-option *ngFor="let software of software$(); trackBy: trackBy.software"
+                  [value]="software">
+        {{software.name}}
+      </mat-option>
+    </mat-select>
+  </div>
+  <button class="shaded-button primary 
+      mt-4 md:mt-6 whitespace-nowrap
+      flex-grow md:flex-none"
+          mat-ripple
+          (click)="emitSelection()">
+    Get Started
+  </button>
+</div>
