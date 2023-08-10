@@ -1,15 +1,13 @@
-<div class="flex gap-8 flex-wrap justify-center items-stretch">
-  <div *ngFor="let uc of useCases"
-       class="bg-white p-2 px-4 rounded-md 
+<div *ngFor="let uc of useCases"
+     class="bg-white p-2 px-4 rounded-md 
         shadow-md text-center transition-all
         w-40 flex-grow md:w-48 lg:flex-none">
-    <div class="flex justify-center mx-auto mb-5">
-      <lottie-player [src]="uc.lottie"
-                     background="transparent" speed="1"
-                     class="w-32"
-                     loop autoplay>
-      </lottie-player>
-    </div>
-    <h4 class="font-semibold my-4">{{uc.title}}</h4>
+  <div class="flex justify-center mx-auto mb-5">
+    <lottie-player [src]="uc.lottie"
+                   background="transparent" speed="1"
+                   class="w-32"
+                   loop autoplay>
+    </lottie-player>
   </div>
+  <h4 class="font-semibold my-4">{{uc.title}}</h4>
 </div>

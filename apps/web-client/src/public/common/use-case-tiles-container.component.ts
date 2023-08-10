@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 
 @Component({
@@ -9,11 +9,12 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
   imports: [
     CommonModule,
     LottiePlayerDirective
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UseCaseTilesContainerComponent {
   @HostBinding()
-  private readonly class = 'block';
+  private readonly class = 'flex gap-8 flex-wrap justify-center items-stretch';
 
   @Input({ required: true })
   useCases: {
