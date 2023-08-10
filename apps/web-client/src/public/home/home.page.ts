@@ -6,6 +6,7 @@ import { DomainState } from '@easworks/app-shell/state/domains';
 import { fromPromise } from '@easworks/app-shell/utilities/to-promise';
 import { SoftwareTilesContainerComponent } from '../common/software-tiles-container.component';
 import { UseCaseTilesContainerComponent } from '../common/use-case-tiles-container.component';
+import { DomainSoftwareSelectorComponent } from '../common/domain-software-selector.component';
 
 @Component({
   standalone: true,
@@ -17,7 +18,8 @@ import { UseCaseTilesContainerComponent } from '../common/use-case-tiles-contain
     ImportsModule,
     LottiePlayerDirective,
     SoftwareTilesContainerComponent,
-    UseCaseTilesContainerComponent
+    UseCaseTilesContainerComponent,
+    DomainSoftwareSelectorComponent
   ]
 })
 export class HomePageComponent {
