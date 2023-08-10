@@ -2,9 +2,9 @@ import { Routes } from '@angular/router';
 
 export const PUBLIC_ROUTES: Routes = [
   {
-    path: 'company-type',
+    path: 'for-employers',
     pathMatch: 'full',
-    loadComponent: () => import('./company-type/company-type.page').then(m => m.CompanyTypePageComponent)
+    loadComponent: () => import('./for-employers/for-employers.page').then(m => m.ForEmployersPageComponent)
   },
   {
     path: 'for-freelancer',
