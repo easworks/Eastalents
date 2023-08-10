@@ -85,6 +85,12 @@
 
   &:not(.mat-mdc-select-disabled) {
     @apply field-interactive;
+
+    &.with-non-empty-null {
+      .mat-mdc-select-placeholder {
+        @apply text-inherit;
+      }
+    }
   }
 }
 

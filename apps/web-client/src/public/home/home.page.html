@@ -184,10 +184,10 @@
 <section>
   <div class="page py-12">
     <h2 class="text-2xl lg:text-3xl text-center font-bold">
-      EASWORKS supports major critical enterprise application development use cases
+      Hire Elite EAS Talent Based On <span class="text-primary">Enterprise Application Use Cases</span>
     </h2>
     <h3 class="text-xl lg:text-2xl font-bold mt-8 text-center">
-      Hire Elite EAS Talent Based On <span class="text-primary">Enterprise Application Use Cases</span>
+      EASWORKS supports major critical enterprise application development use cases
     </h3>
 
     <use-case-tiles-container [useCases]="useCases" class="mt-8"></use-case-tiles-container>
@@ -199,5 +199,49 @@
     <h2 class="text-2xl text-center font-bold">Get Started with <span class="text-primary">Enterprise Applications</span></h2>
 
     <domain-software-selector class="mt-4"></domain-software-selector>
+  </div>
+</section>
+
+<section>
+  <div class="page py-12">
+    <h2 class="text-2xl lg:text-3xl text-center font-bold">
+      Hire Elite EAS Talent Based On <span class="text-primary">Enterprise Application Roles</span>
+    </h2>
+
+    <mat-progress-spinner *ngIf="roleList.loading$(); else $roleList" class="mx-auto mt-8"
+                          mode="indeterminate" diameter="32"></mat-progress-spinner>
+
+    <ng-template #$roleList>
+      <div class="grid mt-8 gap-8">
+        <div *ngFor="let domain of roleList.list$()">
+          <div class="flex gap-4 justify-between">
+            <h3 class="text-xl font-bold mt-1">{{domain.name}}</h3>
+            <!-- <div class="form-field mb-0 w-32 flex-none">
+              <mat-select [ngModel]="domain.selectedModule$()"
+                          (ngModelChange)="domain.selectedModule$.set($event)"
+                          placeholder="All"
+                          class="with-non-empty-null text-sm">
+                <mat-option *ngFor="let module of domain.modules"
+                            [value]="module">
+                  {{module?.name || 'All'}}
+                </mat-option>
+              </mat-select>
+            </div> -->
+          </div>
+
+          <div class="mt-4 grid gap-2
+          grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div *ngFor="let role of domain.roles$()">
+              <a class="flex gap-2 max-w-max"
+                 [routerLink]="'/roles/'+domain.key+'/'+role">
+                <i class="fa-solid fa-chevron-right text-sm mt-1"></i>
+                {{role}}
+              </a>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </section>

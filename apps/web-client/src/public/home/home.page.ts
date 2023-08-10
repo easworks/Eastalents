@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { DomainsApi } from '@easworks/app-shell/api/domains.api';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
@@ -7,6 +7,11 @@ import { fromPromise } from '@easworks/app-shell/utilities/to-promise';
 import { SoftwareTilesContainerComponent } from '../common/software-tiles-container.component';
 import { UseCaseTilesContainerComponent } from '../common/use-case-tiles-container.component';
 import { DomainSoftwareSelectorComponent } from '../common/domain-software-selector.component';
+import { DomainModule } from '@easworks/models';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
+import { sortString } from '@easworks/app-shell/utilities/sort';
+import { RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -19,7 +24,10 @@ import { DomainSoftwareSelectorComponent } from '../common/domain-software-selec
     LottiePlayerDirective,
     SoftwareTilesContainerComponent,
     UseCaseTilesContainerComponent,
-    DomainSoftwareSelectorComponent
+    DomainSoftwareSelectorComponent,
+    MatSelectModule,
+    FormsModule,
+    RouterModule
   ]
 })
 export class HomePageComponent {
@@ -166,6 +174,8 @@ export class HomePageComponent {
     },
   ];
 
+  protected readonly roleList = this.initRoleList();
+
   private initFeaturedDomains() {
 
     const list$ = fromPromise(this.api.domains.homePageDomains(), []);
@@ -207,5 +217,38 @@ export class HomePageComponent {
       domains$: featured$,
       loading$
     };
+  }
+
+  private initRoleList() {
+    const list$ = computed(() => this.domainState.domains.list$()
+      .map(domain => {
+        const modules = [
+          null,
+          ...domain.modules
+        ];
+
+        const selectedModule$ = signal<DomainModule | null>(null);
+
+        const roles$ = computed(() => {
+          const m = selectedModule$();
+          if (m)
+            return m.roles;
+          return [...new Set(domain.modules.flatMap(d => d.roles))]
+            .sort(sortString);
+
+        });
+
+        return {
+          name: domain.longName,
+          key: domain.key,
+          modules,
+          selectedModule$,
+          roles$
+        };
+      }));
+
+    const loading$ = computed(() => list$().length === 0);
+
+    return { list$, loading$ };
   }
 }
