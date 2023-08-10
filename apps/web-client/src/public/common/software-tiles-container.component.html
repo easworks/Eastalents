@@ -1,8 +1,9 @@
-<h2 class="text-[1.25em] font-bold mb-5">{{label$()}}</h2>
+<h3 class="text-[1.25em] font-bold mb-5">{{label$()}}</h3>
 
-<div class="grid gap-4 mb-3 text-sm" style="grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));">
+<div class="grid gap-4 mb-3 text-sm" style="grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));">
 
-  <a *ngFor="let s of software$()" [routerLink]="s.link"
+  <a *ngFor="let s of software$()"
+     [routerLink]="s.link" [title]="s.name"
      class="p-2  px-4 flex items-center justify-center relative 
               rounded-md hover:ring-1 hover:ring-primary transition-all
               shadow-md">
@@ -11,6 +12,7 @@
   </a>
 
   <a [routerLink]="customSoftwareLink$()"
+     title="Custom / Legacy Application for {{shortName$()}}"
      class="p-2 px-4 flex items-center justify-center relative
               bg-primary/5 text-primary
               rounded-md ring-1 ring-primary/5 hover:ring-primary transition-all
@@ -21,21 +23,11 @@
     </div>
   </a>
 
-  <!-- <a class="bg-white flex p-2 px-4
-            flex-col gap-2 content-center text-center
-            rounded-md shadow-md  transition-all
-            ring-1 ring-divider hover:ring-primary"
-     routerLink="/software/Custom ERP">
-    <img src="https://eas-works.onrender.com/images/sap.png" alt="">
-    <i class="fa-solid fa-gear"></i>
-    Custom ERP Ops / Legacy Application
-  </a> -->
-
 </div>
 
 <button class="shaded-button mr-auto mt-4
     flex items-center
     hover:text-primary focus:text-primary">
   <i class="fa-solid fa-circle-chevron-right mr-2 text-xl"></i>
-  See more {{shortName$()}} skills
+  See more {{shortName$()}} software
 </button>

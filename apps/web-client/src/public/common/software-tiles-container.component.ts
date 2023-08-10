@@ -35,8 +35,9 @@ export class SoftwareTilesContainerComponent {
       return [];
 
     return d.products
-      .slice(0, 15)
+      .slice(0, 13)
       .map(p => ({
+        name: p.name,
         image: `/assets/software/products/${d.key}/${p.name}.png`,
         link: `/software/${p.name}`
       }));
