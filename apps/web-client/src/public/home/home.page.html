@@ -5,7 +5,7 @@
 
   <div class="flex gap-4 justify-between 
         flex-wrap-reverse lg:flex-nowrap relative">
-    <div class="p-4 md:px-8 lg:max-w-2xl lg:mx-auto self-center">
+    <div class="mt-4 p-4 md:px-8 lg:max-w-2xl lg:mx-auto self-center transition-all">
       <p>
         EASWORKS is an on-demand platform for hiring Enterprise Application
         freelancers with deep expertise in various Enterprise Application
@@ -76,76 +76,23 @@
 
 <section>
   <div class="page py-12">
-    <h2 class="lg:text-4xl text-center text-2xl font-bold mb-12">EASWORKS promises it all</h2>
+    <h2 class="mb-12 text-2xl lg:text-4xl text-center font-bold">EASWORKS promises it all</h2>
 
-    <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
-      <div class="bg-white shadow-md rounded-md p-3 text-center h-full">
-        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/cdcfdf4a-7f11-46f6-b763-8aa0ddd63cb3/5cIAv6Pb81.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 100%;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Flexibility</h4>
-        <p class="text-sm leading-6">Enables on-demand workforce, accessing global talent, finding specialized skills, adapting to project needs, and optimizing resource utilization, providing agility in resource allocation.</p>
-      </div>
+    <div class="flex flex-wrap gap-8 justify-center">
+      <div *ngFor="let promise of promises"
+           class="flex flex-col gap-y-4 p-2 px-4 pb-4
+           md:max-w-[14rem] lg:max-w-[16rem] xl:max-w-[20rem]
+           bg-white shadow-md rounded-md text-center transition-all">
+        <!-- <div class="demo-placeholder h-24 w-24 mx-auto flex-none"></div> -->
+        <lottie-player [src]="promise.lottie"
+                       background="transparent"
+                       class="w-24 h-24 mx-auto"
+                       autoplay loop>
+        </lottie-player>
+        <h4 class="text-lg font-semibold">{{promise.title}}</h4>
+        <p class="text-sm leading-6 text-center">{{promise.content}}</p>
 
-      <div class="bg-white shadow-md rounded-md p-3 text-center h-full">
-        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/3203c356-64e8-4201-863e-81282f3506c9/PlX4Ox852r.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 100%;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Cost-effectiveness</h4>
-        <p class="text-sm leading-6">Transform your cost structure by harnessing
-          the skills of a
-          diverse and
-          adept multidisciplinary team that exceeds expectations while adhering
-          to your budget.</p>
-      </div>
 
-      <div class="bg-white shadow-md rounded-md p-3 text-center h-full">
-        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/7da03309-6e31-4baa-992a-7ee702e4e819/6HgdujnMus.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 100%;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Accountability</h4>
-        <p class="text-sm leading-6">Foster accountability through a quality
-          assurance process that
-          combines
-          technological tools and human interaction to evaluate and monitor
-          talents work.</p>
-      </div>
-
-      <div class="bg-white shadow-md rounded-md p-3 text-center h-full">
-        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/57b08bd3-d2c8-40a4-a671-9eace5cb0f6a/gmVxmaKxh2.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 100%;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Business value</h4>
-        <p class="text-sm leading-6">Expertise and Specialization: Enterprise
-          Application
-          Freelancers with deep
-          knowledge and experience</p>
-      </div>
-
-      <div class="bg-white shadow-md rounded-md p-3 text-center h-full">
-        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-          <lottie-player src="https://lottie.host/0ab10ae7-b278-4ff2-93c7-12c5702845ba/DyAyVPgYMt.json"
-                         background="transparent" speed="1"
-                         style="width: 100%; height: 100%;" loop
-                         autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Speed</h4>
-        <p class="text-sm leading-6">Ensure proposals from relevant EAS experts
-          within 48 hours,
-          allowing
-          employers to quickly connect with and engage talents.</p>
       </div>
     </div>
   </div>
