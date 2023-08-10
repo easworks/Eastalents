@@ -280,6 +280,41 @@
     ]
   },
   {
+    "domain": "AI",
+    "products": [
+      "IBM Watson",
+      "Google AI Platform",
+      "Microsoft Azure AI",
+      "Amazon Web Services (AWS) AI",
+      "OpenAI",
+      "TensorFlow (Google)",
+      "DataRobot",
+      "H2O",
+      "RapidMiner",
+      "Ayasdi (Mastercard)",
+      "Bonsai AI (Microsoft)",
+      "Salesforce Einstein",
+      "Infosys Nia",
+      "Oracle AI Platform Cloud Service",
+      "SAP Leonardo Machine Learning Foundation",
+      "Clarifai",
+      "Meya",
+      "Rainbird",
+      "Pega Systems",
+      "ABBYY",
+      "Nvidia Deep Learning AI",
+      "Wipro HOLMES",
+      "Sift Science",
+      "Albert",
+      "Darktrace",
+      "Databricks",
+      "Premonition",
+      "iFlytek",
+      "Cylance",
+      "Vicarious"
+    ]
+  },
+  {
     "domain": "EQMS",
     "products": [
       "MasterControl QMS",
