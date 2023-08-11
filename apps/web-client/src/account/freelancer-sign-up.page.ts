@@ -10,6 +10,8 @@ import { AuthService } from '@easworks/app-shell/services/auth';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { pattern } from '@easworks/models';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'account-freelancer-sign-up-page',
@@ -21,7 +23,8 @@ import { pattern } from '@easworks/models';
     ImportsModule,
     LottiePlayerDirective,
     FormImportsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    FontAwesomeModule
   ]
 })
 export class FreelancerSignUpPageComponent {
@@ -41,6 +44,10 @@ export class FreelancerSignUpPageComponent {
   protected readonly partial;
 
   private readonly snackbar = inject(MatSnackBar);
+
+  protected readonly icons = {
+    faCheck
+  } as const;
 
   @HostBinding()
   private readonly class = 'page grid grid-cols-10 gap-4';
@@ -79,11 +86,11 @@ export class FreelancerSignUpPageComponent {
         if (isMatch)
           return null;
         else
-          return { passwordMismatch: true }
+          return { passwordMismatch: true };
       }
     ],
     updateOn: 'submit'
-  })
+  });
 
   submit() {
     if (!this.form.valid)
