@@ -30,6 +30,7 @@ import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { COMMITMENT_OPTIONS, Commitment, Domain, DomainModule, EMPLOYMENT_OPPORTUNITY_OPTIONS, ENGLISH_PROFICIENCY_OPTIONS, EmploymentOpportunity, EnglishProficiency, FREEELANCER_SIGNUP_REASON_OPTIONS, FreelancerProfile, FreelancerSignupReason, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, LatLng, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, PROJECT_KICKOFF_TIMELINE_OPTIONS, ProjectKickoffTimeline, SoftwareProduct, pattern } from '@easworks/models';
+import { faCheck, faCircleCheck, faCircleInfo, faSquareXmark, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 import { map, shareReplay, switchMap } from 'rxjs';
 
@@ -65,6 +66,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private readonly domains = inject(DomainState);
   protected readonly user = inject(AuthState).guaranteedUser();
   private readonly snackbar = inject(MatSnackBar);
+
+  protected readonly icons = {
+    faCircleInfo, faSquareXmark, faThumbsUp, faCheck, faCircleCheck
+  } as const;
 
   @HostBinding() private readonly class = 'flex flex-col lg:flex-row';
 

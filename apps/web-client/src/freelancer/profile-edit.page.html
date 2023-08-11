@@ -51,7 +51,7 @@
                 w-8 h-8 leading-none"
              [class.bg-primary]="enabled">
           <div *ngIf="group.completed$(); else $stepNo">
-            <i class="fa-solid fa-check"></i>
+            <fa-icon [icon]="icons.faCheck"></fa-icon>
           </div>
 
           <ng-template #$stepNo>{{i + 1}}</ng-template>
@@ -238,7 +238,7 @@
           <span class="font-medium lg:pt-1 transition-all"> Please select your domain of expertise in enterprise applications </span>
           <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
             <span class="flex gap-1 items-center">
-              <span class="fa-solid fa-circle-info text-lg"></span>
+              <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
               <span>Select up to 3</span>
             </span>
             <span *ngrxLet="primaryDomains.size$() as size"
@@ -290,7 +290,7 @@
                 <span class="font-medium lg:pt-1 transition-all">Please specify your areas of expertise within <span class="text-primary">{{domain.longName}}</span></span>
                 <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
                   <span class="flex gap-1 items-center">
-                    <span class="fa-solid fa-circle-info text-lg"></span>
+                    <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
                     <span>Select at least 1</span>
                   </span>
                   <span *ngrxLet="options.size$() as size"
@@ -344,7 +344,7 @@
                 <span class="font-medium lg:pt-1 transition-all">Indicate the <span class="text-primary">{{domain.longName}}</span> modules you are proficient in</span>
                 <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
                   <span class="flex gap-1 items-center">
-                    <span class="fa-solid fa-circle-info text-lg"></span>
+                    <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
                     <span>Select up to 7</span>
                   </span>
                   <span *ngrxLet="options.size$() as size"
@@ -394,7 +394,7 @@
                 <span class="font-medium lg:pt-1 transition-all">Please indicate your proficiency level in <span class="text-primary">{{domain.longName}}</span> software</span>
                 <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
                   <span class="flex gap-1 items-center">
-                    <span class="fa-solid fa-circle-info text-lg"></span>
+                    <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
                     <span>Select up to 5</span>
                   </span>
                   <span *ngrxLet="options.size$() as size"
@@ -451,7 +451,7 @@
                 <span class="font-medium lg:pt-1 transition-all">Please select the <span class="text-primary">{{domain.longName}}</span> roles you are currently working or have worked in</span>
                 <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
                   <span class="flex gap-1 items-center">
-                    <span class="fa-solid fa-circle-info text-lg"></span>
+                    <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
                     <span>Select up to 5</span>
                   </span>
                   <span *ngrxLet="options.size$() as size"
@@ -526,7 +526,7 @@
                 <button type="button" mat-ripple class="icon-button"
                         (click)="techExp.remove(entry.key, i)"
                         title="Remove">
-                  <i class="fa-solid fa-square-xmark"></i>
+                  <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
                 </button>
               </div>
             </div>
@@ -568,7 +568,7 @@
           <span class="font-medium lg:pt-1 transition-all">Please select the industries you have worked in</span>
           <span class="flex-none flex gap-2 text-slate-500 items-center justify-center">
             <span class="flex gap-1 items-center">
-              <span class="fa-solid fa-circle-info text-lg"></span>
+              <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
               <span>Select up to 5</span>
             </span>
             <span *ngrxLet="industries.size$() as size"
@@ -592,7 +592,7 @@
                   <button type="button" mat-ripple class="icon-button"
                           (click)="industries.remove(entry.key, i)"
                           title="Remove">
-                    <i class="fa-solid fa-square-xmark"></i>
+                    <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
                   </button>
                 </div>
               </div>
@@ -637,7 +637,7 @@
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
           <span class="font-medium lg:pt-1 transition-all">Specify your preferred Job Commitment</span>
           <span class="flex-none flex gap-2 text-slate-500 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
             <span>Select at least 1</span>
           </span>
         </label>
@@ -651,7 +651,7 @@
             <div class="flex-grow flex gap-2 flex-wrap items-center justify-between">
               <span>{{option.label}}</span>
               <span *ngIf="i === 1" class="rounded text-sm text-emerald-400">
-                <span class="fa-solid fa-thumbs-up mr-2"></span>
+                <fa-icon [icon]="icons.faThumbsUp" class="mr-2"></fa-icon>
                 <span>Recommended</span>
               </span>
             </div>
@@ -670,7 +670,7 @@
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
           <span class="font-medium lg:pt-1 transition-all">Indicate your expected rate of remuneration</span>
           <span class="flex-none flex gap-2 text-slate-500 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
             <span>Optional</span>
           </span>
         </label>
@@ -734,7 +734,7 @@
               <span class="font-medium lg:pt-1 transition-all">Please select the roles related to <span class="text-primary">{{domain.longName}}</span> you would like to work in</span>
               <span class="flex-none flex gap-2 text-slate-500 items-center justify-center">
                 <span class="flex gap-1 items-center">
-                  <span class="fa-solid fa-circle-info text-lg"></span>
+                  <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
                   <span>Select up to 5</span>
                 </span>
                 <span *ngrxLet="options.size$() as size"
@@ -751,7 +751,7 @@
                 <button type="button" mat-ripple class="icon-button"
                         (click)="options.remove(i)"
                         title="Remove">
-                  <i class="fa-solid fa-square-xmark"></i>
+                  <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
                 </button>
               </div>
             </div>
@@ -839,7 +839,7 @@
           <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
             <span class="font-medium lg:pt-1 transition-all">Please select your job search status</span>
             <span class="flex-none flex gap-2 text-slate-500 items-center">
-              <span class="fa-solid fa-circle-info text-lg"></span>
+              <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
               <span>Select 1</span>
             </span>
           </label>
@@ -866,7 +866,7 @@
           <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
             <span class="font-medium lg:pt-1 transition-all">Please select the kind of opportunity you are interested in</span>
             <span class="flex-none flex gap-2 text-slate-500 items-center">
-              <span class="fa-solid fa-circle-info text-lg"></span>
+              <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
               <span>Select at least 1</span>
             </span>
           </label>
@@ -900,7 +900,7 @@
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
           <span class="font-medium lg:pt-1 transition-all">Please indicate you availability to join</span>
           <span class="flex-none flex gap-2 text-slate-500 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
             <span>Select 1</span>
           </span>
         </label>
@@ -1523,7 +1523,7 @@
 
     <div *ngIf="step === 'end'">
       <div class="text-center">
-        <i class="fa-solid fa-circle-check text-5xl text-primary"></i>
+        <fa-icon [icon]="icons.faCircleCheck" class="text-5xl text-primary"></fa-icon>
         <p class="font-bold text-2xl mt-4">Congrats {{user().firstName}}!</p>
         <p class="text-lg mt-4">Looks like you could be a great fit for our platform!</p>
       </div>
