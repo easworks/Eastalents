@@ -73,7 +73,7 @@
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
           <span class="font-medium lg:pt-1 transition-all">Organization Type</span>
           <span class="flex-none flex gap-2 text-slate-500 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
             <span>Select 1</span>
           </span>
         </label>
@@ -101,7 +101,7 @@
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
           <span class="font-medium lg:pt-1 transition-all">Number of Employees</span>
           <span class="flex-none flex gap-2 text-slate-500 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
             <span>Select 1</span>
           </span>
         </label>
@@ -130,7 +130,7 @@
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
           <span class="font-medium lg:pt-1 transition-all">Industry Group and Industry</span>
           <span class="flex-none flex gap-2 text-slate-500 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
             <span>Select 1</span>
           </span>
         </label>
@@ -147,7 +147,7 @@
                 <button type="button" mat-ripple class="icon-button"
                         (click)="industry.clear()"
                         title="Remove">
-                  <i class="fa-solid fa-square-xmark"></i>
+                  <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
                 </button>
               </div>
             </ng-container>
@@ -209,7 +209,7 @@
                   <button type="button" mat-ripple class="icon-button"
                           (click)="software.remove(entry.key, i)"
                           title="Remove">
-                    <i class="fa-solid fa-square-xmark"></i>
+                    <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
                   </button>
                 </div>
               </div>

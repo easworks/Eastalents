@@ -25,6 +25,7 @@ import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { emailBlacklist } from '@easworks/app-shell/validators/email-blacklist';
 import { EmployerProfile, IndustryGroup, LatLng, ORGANIZATION_SIZE_OPTIONS, ORGANIZATION_TYPE_OPTIONS, OrganizationSize, OrganizationType, pattern } from '@easworks/models';
+import { faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'employer-profile-edit-page',
@@ -58,6 +59,11 @@ export class EmployerProfileEditPageComponent {
     csc: inject(CSCApi),
     gmap: inject(GMapsApi),
     account: inject(AccountApi)
+  } as const;
+
+  protected readonly icons = {
+    faCircleInfo,
+    faSquareXmark
   } as const;
 
   @HostBinding() private readonly class = 'flex flex-col lg:flex-row';
