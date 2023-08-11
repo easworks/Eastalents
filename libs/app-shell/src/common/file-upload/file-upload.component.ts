@@ -9,6 +9,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { CanUpdateErrorState, ErrorStateMatcher } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Subject } from 'rxjs';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'file-upload',
@@ -20,9 +22,8 @@ import { Subject } from 'rxjs';
   ],
   imports: [
     CommonModule,
-    MatButtonModule,
     MatChipsModule,
-    MatIconModule,
+    FontAwesomeModule
   ]
 })
 export class FileUploadComponent
@@ -52,6 +53,10 @@ export class FileUploadComponent
   private readonly elRef = inject<ElementRef<HTMLElement>>(ElementRef);
   public readonly ngControl = inject(NgControl, { optional: true, self: true });
   private readonly cd = inject(ChangeDetectorRef);
+
+  protected readonly icons = {
+    faXmark
+  } as const;
 
   // @HostBinding('class') class = `block relative p-4
   //         rounded ring-inset ring-1 ring-divider transition-all
@@ -202,13 +207,13 @@ export class FileUploadComponent
 
 export const FileValidators = {
   size: (size: number) => (c: AbstractControl) => {
-    const v = c.value as File | File[]
+    const v = c.value as File | File[];
     if (v) {
       const tooLarge = Array.isArray(v) ?
         (v.find(f => f.size > size) || null) :
         (v.size > size ? v : null);
       if (tooLarge) {
-        return { 'size': tooLarge.name }
+        return { 'size': tooLarge.name };
       }
     }
     return null;
@@ -221,9 +226,9 @@ export const FileValidators = {
         (!accepted.some(m => v.type.match(m)) ? v : null);
 
       if (incorrectType) {
-        return { 'type': incorrectType.name }
+        return { 'type': incorrectType.name };
       }
     }
     return null;
   }
-} as const
+} as const;
