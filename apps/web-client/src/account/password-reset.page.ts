@@ -7,6 +7,8 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { pattern } from '@easworks/models';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'account-password-reset-page',
@@ -15,7 +17,8 @@ import { pattern } from '@easworks/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
-    FormImportsModule
+    FormImportsModule,
+    FontAwesomeModule
   ]
 })
 export class AccountPasswordResetPageComponent {
@@ -23,6 +26,10 @@ export class AccountPasswordResetPageComponent {
     account: inject(AccountApi)
   } as const;
   private readonly snackbar = inject(MatSnackBar);
+
+  protected readonly icons = {
+    faCircleCheck
+  } as const;
 
   @HostBinding()
   private readonly class = 'page grid content-center';
@@ -41,7 +48,7 @@ export class AccountPasswordResetPageComponent {
       if (!this.sendLink.form.valid)
         return;
 
-      this.loading.add('sending link')
+      this.loading.add('sending link');
       const { email } = this.sendLink.form.getRawValue();
       this.api.account.resetPassword.sendLink(email)
         .then(() => {
@@ -51,9 +58,9 @@ export class AccountPasswordResetPageComponent {
           this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
           this.sendLink.form.controls.email.setErrors({ server: e.message });
         })
-        .finally(() => this.loading.delete('sending link'))
+        .finally(() => this.loading.delete('sending link'));
     },
     sent$: signal(false)
-  }
+  };
 
 }
