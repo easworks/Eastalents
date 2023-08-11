@@ -7,6 +7,7 @@ import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { ActivatedRoute } from '@angular/router';
 import { AccountApi } from '@easworks/app-shell/api/account.api';
 import { CSCApi, City, Country, State, Timezone } from '@easworks/app-shell/api/csc.api';
+import { EmployerApi } from '@easworks/app-shell/api/employer.api';
 import { GMapsApi } from '@easworks/app-shell/api/gmap.api';
 import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator.component';
 import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
@@ -58,7 +59,8 @@ export class EmployerProfileEditPageComponent {
   private readonly api = {
     csc: inject(CSCApi),
     gmap: inject(GMapsApi),
-    account: inject(AccountApi)
+    account: inject(AccountApi),
+    employer: inject(EmployerApi),
   } as const;
 
   protected readonly icons = {
