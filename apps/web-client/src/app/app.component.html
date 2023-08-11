@@ -13,7 +13,7 @@
     </a>
     <button class="icon-button" mat-ripple
             (click)="appSidenav.toggle()">
-      <i class="fa-solid fa-bars"></i>
+      <fa-icon [icon]="icons.faBars"></fa-icon>
     </button>
   </div>
 
@@ -51,7 +51,7 @@
             <li *ngFor="let item of group.items"
                 class="py-1">
               <a [routerLink]="item.link" class="max-w-fit">
-                <i class="fa-solid fa-angle-right mx-2"></i>
+                <fa-icon [icon]="icons.faAngleRight" class="inline-block mx-2"></fa-icon>
                 <span>{{item.name}}</span>
               </a>
             </li>

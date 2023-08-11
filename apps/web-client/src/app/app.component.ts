@@ -6,6 +6,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { NavigationModule } from '@easworks/app-shell/navigation/navigation.module';
 import { MenuItem, NOOP_CLICK, NavMenuState } from '@easworks/app-shell/state/menu';
 import { UiState } from '@easworks/app-shell/state/ui';
+import { faAngleRight, faBars } from '@fortawesome/free-solid-svg-icons';
 import { AccountWidgetComponent } from '../account/account.widget';
 import { publicMenu } from './menu-items';
 
@@ -36,10 +37,15 @@ export class AppComponent {
   private readonly menuState = inject(NavMenuState);
   @ViewChild('appSidenav', { static: true }) private readonly appSideNav!: MatSidenav;
 
+  protected readonly icons = {
+    faBars,
+    faAngleRight
+  } as const;
+
   protected readonly navigating$ = signal(false);
   protected readonly showHorizontalMenu$ = computed(() => this.menuState.publicMenu.horizontal$().length > 0);
 
-  protected readonly footerNav: { group: string, items: MenuItem[] }[] = [
+  protected readonly footerNav: { group: string, items: MenuItem[]; }[] = [
     {
       group: 'Customers',
       items: [
@@ -84,12 +90,12 @@ export class AppComponent {
           this.menuState.publicMenu.horizontal$.set(publicMenu.full());
           this.menuState.publicMenu.vertical$.set([]);
       }
-    }, { allowSignalWrites: true })
+    }, { allowSignalWrites: true });
 
     effect(() => {
       this.navigating$();
       this.appSideNav.close();
-    })
+    });
   }
 
   private processRouterEvents() {
@@ -108,6 +114,6 @@ export class AppComponent {
           } break;
         }
       }
-    )
+    );
   }
 }
