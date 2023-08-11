@@ -9,6 +9,7 @@ import { getTailwindColor } from '@easworks/app-shell/utilities/get-runtime-colo
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { FreelancerProfile } from '@easworks/models';
 import { ChartConfiguration } from 'chart.js';
+import { faUser, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'freelancer-profile-page',
@@ -31,6 +32,8 @@ export class FreelancerProfilePageComponent {
     talent: inject(TalentApi)
   } as const;
   private readonly user$ = inject(AuthState).user$;
+
+  protected readonly icons = { faUser, faPenToSquare } as const;
 
   protected readonly data = this.initData();
 

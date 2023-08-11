@@ -12,7 +12,7 @@
         <div class="flex-none h-32 w-32 rounded bg-divider grid place-content-center">
           <img *ngIf="basic.image as image; else $noImage" [src]="image">
           <ng-template #$noImage>
-            <i class="fa-solid fa-user text-white text-8xl"></i>
+            <fa-icon [icon]="icons.faUser" class="text-white text-8xl"></fa-icon>
           </ng-template>
         </div>
         <div class="flex-grow grid gap-4 content-start">
@@ -25,7 +25,7 @@
               <label class="font-bold">Current Role:</label>
               <div>{{basic.currentRole}}</div>
             </div>
-            <i class="fa-solid fa-pen-to-square mt-[0.05rem]"></i>
+            <fa-icon [icon]="icons.faPenToSquare" class="mt-[0.05rem]"></fa-icon>
           </div>
         </div>
       </div>
@@ -33,13 +33,13 @@
       <div class="flex gap-2">
         <label class="font-bold">Location:</label>
         <div>{{basic.location}}</div>
-        <i class="fa-solid fa-pen-to-square mt-[0.05rem] ml-auto"></i>
+        <fa-icon [icon]="icons.faPenToSquare" class="mt-[0.05rem]"></fa-icon>
       </div>
 
       <div cl>
         <div class="flex justify-between">
           <label class="font-bold">Preferred Roles:</label>
-          <i class="fa-solid fa-pen-to-square mt-[0.05rem]"></i>
+          <fa-icon [icon]="icons.faPenToSquare" class="mt-[0.05rem]"></fa-icon>
         </div>
 
         <div class="col-span-3 flex gap-2 flex-wrap">
