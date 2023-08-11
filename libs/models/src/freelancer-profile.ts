@@ -60,7 +60,7 @@ export const FREEELANCER_SIGNUP_REASON_OPTIONS = [
 export type FreelancerSignupReason = typeof FREEELANCER_SIGNUP_REASON_OPTIONS[number];
 
 export interface FreelancerProfile {
-  id: string;
+  _id: string;
   experience: {
     domains: {
       key: string;

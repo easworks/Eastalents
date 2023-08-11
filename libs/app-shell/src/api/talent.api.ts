@@ -25,24 +25,37 @@ export class TalentApi extends BackendApi {
       const body = JSON.stringify({ profile });
       return this.request(`${this.apiUrl}/talentProfile/createTalentProfile`, { body, method: 'POST' })
         .then(this.handleJson)
+        .then(r => r.profile as FreelancerProfile)
         .catch(this.handleError);
     },
 
     uploadResume: (resume: File) => {
       const body = new FormData();
-      body.append('resume', resume);
+      body.append('talentProfileResume', resume);
 
       return this.request(`${this.apiUrl}/talentProfile/setTalentProfileResume`, { body, method: 'POST' })
         .then(this.handleJson)
+        .then(r => r.profile as FreelancerProfile)
         .catch(this.handleError);
     },
 
     uploadImage: (image: File) => {
       const body = new FormData();
-      body.append('image', image);
+      body.append('talentProfilePhoto', image);
 
       return this.request(`${this.apiUrl}/talentProfile/setTalentProfilePhoto`, { body, method: 'POST' })
         .then(this.handleJson)
+        .then(r => r.profile as FreelancerProfile)
+        .catch(this.handleError);
+    },
+
+    uploadVideo: (video: File) => {
+      const body = new FormData();
+      body.append('talentProfileVideo', video);
+
+      return this.request(`${this.apiUrl}/talentProfile/setTalentProfileVideo`, { body, method: 'POST' })
+        .then(this.handleJson)
+        .then(r => r.profile as FreelancerProfile)
         .catch(this.handleError);
     }
   } as const;

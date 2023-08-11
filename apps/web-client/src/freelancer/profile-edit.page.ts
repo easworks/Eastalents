@@ -20,7 +20,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { isTimezone } from '@easworks/app-shell/common/location';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { filterCountryCode, getCombinedNumber, getPhoneCodeOptions, updatePhoneValidatorEffect } from '@easworks/app-shell/common/phone-code';
-import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
+import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '@easworks/app-shell/notification/snackbar';
 import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { DomainState } from '@easworks/app-shell/state/domains';
@@ -235,17 +235,22 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const submit = {
       disabled$: next.disabled$,
       visible$: computed(() => step$() === lastStep),
+      submitting$: this.loading.has('submitting'),
       click: () => {
         const { profile, image, resume } = this.extractProfileFromValues();
 
-        console.debug(profile);
-        this.stepper.step$.set('end');
-        return;
-
         this.loading.add('submitting');
         this.api.talent.profile.create(profile)
-          .then(() => image && this.api.talent.profile.uploadImage(image))
-          .then(() => resume && this.api.talent.profile.uploadResume(resume))
+          .then(p => image ? this.api.talent.profile.uploadImage(image) : p)
+          .then(p => resume ? this.api.talent.profile.uploadResume(resume) : p)
+          // TODO: remove this console.debug after dev finished
+          .then(p => console.debug(p))
+          .then(() => this.snackbar.openFromComponent(SnackbarComponent, {
+            ...SuccessSnackbarDefaults,
+            data: {
+              message: 'Profile saved successfully'
+            }
+          }))
           .catch(e => this.snackbar.openFromComponent(SnackbarComponent, {
             ...ErrorSnackbarDefaults,
             data: {
@@ -2517,7 +2522,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           location: 'Some city, Some state, Some country'
         });
 
-        this.stepper.next.click();
+        // this.stepper.next.click();
       }
     }
 
@@ -2584,7 +2589,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const resume = fv.profileDetails.personalInfo.resume;
 
     const profile: FreelancerProfile = {
-      id: this.user()._id,
+      _id: this.user()._id,
       personalDetails: {
         firstName: fv.profileDetails.personalInfo.firstName,
         lastName: fv.profileDetails.personalInfo.lastName,
