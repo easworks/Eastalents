@@ -14,6 +14,11 @@ export const EMPLOYER_ROUTE: Route = {
       loadComponent: () => import('./dashboard.page').then(m => m.EmployerDashboardComponent)
     },
     {
+      path: 'profile',
+      pathMatch: 'full',
+      loadComponent: () => import('./profile.page').then(m => m.EmployerProfilePageComponent)
+    },
+    {
       path: 'profile/edit',
       pathMatch: 'full',
       loadComponent: () => import('./profile-edit.page').then(m => m.EmployerProfileEditPageComponent)
