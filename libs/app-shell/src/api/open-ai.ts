@@ -5,12 +5,13 @@ import { Injectable, isDevMode } from '@angular/core';
 })
 export class OpenAIApi {
   private readonly devMode = isDevMode();
-  private readonly apiUrl = 'https://api.openai.com/v1'
-  private readonly apiKey = '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';
-  private readonly chatModel = 'gpt-3.5-turbo'
+  private readonly apiUrl = 'https://api.openai.com/v1';
+  private readonly apiKey = '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';
+  private readonly chatModel = 'gpt-3.5-turbo';
 
   private readonly headers = new Headers({
-    'authorization': `bearer ${this.apiKey}`
+    'authorization': `Bearer ${this.apiKey}`,
+    'content-type': 'application/json'
   });
 
   async chat(messages: OpenAIChatMessage[]) {
@@ -42,5 +43,5 @@ export class OpenAIApi {
 
 export interface OpenAIChatMessage {
   role: 'system' | 'user' | 'assistant',
-  content: string
+  content: string;
 }
