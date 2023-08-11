@@ -55,7 +55,7 @@ export class EmployerProfileEditPageComponent {
   private readonly injector = inject(INJECTOR);
   private readonly route = inject(ActivatedRoute);
   private readonly domainState = inject(DomainState);
-  private readonly user = inject(AuthState).user$;
+  private readonly user = inject(AuthState).guaranteedUser();
   private readonly api = {
     csc: inject(CSCApi),
     gmap: inject(GMapsApi),
@@ -136,7 +136,7 @@ export class EmployerProfileEditPageComponent {
     software: new FormRecord<FormControl<SelectableOption<string>[]>>({}),
     contact: new FormGroup({
       email: new FormControl(
-        this.isNew && this.user()?.email || '', {
+        this.isNew && this.user().email || '', {
         nonNullable: true,
         validators: [Validators.required, Validators.pattern(pattern.email), Validators.maxLength(300)],
         asyncValidators: [
@@ -660,6 +660,7 @@ export class EmployerProfileEditPageComponent {
     const fv = this.form.getRawValue();
 
     const profile: EmployerProfile = {
+      _id: this.user()._id,
       orgName: fv.name,
       description: fv.description,
       orgType: fv.orgType.value,

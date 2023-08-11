@@ -33,7 +33,7 @@ export class FreelancerProfilePageComponent {
   private readonly api = {
     talent: inject(TalentApi)
   } as const;
-  private readonly user$ = inject(AuthState).user$;
+  private readonly user$ = inject(AuthState).guaranteedUser();
   private readonly snackbar = inject(MatSnackBar);
 
   protected readonly icons = { faUser, faPenToSquare } as const;
@@ -50,8 +50,6 @@ export class FreelancerProfilePageComponent {
   private getProfile() {
     this.loading.add('loading profile');
     const user = this.user$();
-    if (!user)
-      throw new Error('invalid operation');
 
     // TODO: use actual profile data
     // this.api.talent.profile.get(user._id)
@@ -76,7 +74,7 @@ export class FreelancerProfilePageComponent {
         const p = profile$();
         const u = this.user$();
 
-        if (!p || !u)
+        if (!p)
           return null;
 
         let location: string;
