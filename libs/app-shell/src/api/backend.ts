@@ -40,7 +40,7 @@ export class BackendApi extends ApiService {
     return response.json()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((json: any) => {
-        if (json.error)
+        if (json.error || !json.status)
           throw new Error(json.message);
         return json;
       });

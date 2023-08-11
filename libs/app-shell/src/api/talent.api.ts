@@ -11,13 +11,7 @@ export class TalentApi extends BackendApi {
       const body = JSON.stringify({ userId });
       return this.request(`${this.apiUrl}/talentProfile/getTalentProfile`, { body, method: 'POST' })
         .then(this.handleJson)
-        .then(r => {
-          const steps = r['steps'];
-          console.debug(steps);
-
-          const p: FreelancerProfile = {} as FreelancerProfile;
-          return p;
-        })
+        .then(r => r.profile as FreelancerProfile)
         .catch(this.handleError);
     },
 

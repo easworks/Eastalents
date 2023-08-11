@@ -1,15 +1,17 @@
 import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TalentApi } from '@easworks/app-shell/api/talent.api';
 import { ChartJsDirective } from '@easworks/app-shell/common/chart-js/chart-js.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { getTailwindColor } from '@easworks/app-shell/utilities/get-runtime-color';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { FreelancerProfile } from '@easworks/models';
+import { faPenToSquare, faUser } from '@fortawesome/free-solid-svg-icons';
 import { ChartConfiguration } from 'chart.js';
-import { faUser, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'freelancer-profile-page',
@@ -32,6 +34,7 @@ export class FreelancerProfilePageComponent {
     talent: inject(TalentApi)
   } as const;
   private readonly user$ = inject(AuthState).user$;
+  private readonly snackbar = inject(MatSnackBar);
 
   protected readonly icons = { faUser, faPenToSquare } as const;
 
@@ -51,8 +54,14 @@ export class FreelancerProfilePageComponent {
       throw new Error('invalid operation');
 
     // TODO: use actual profile data
-    // this.api.talent.getTalentProfile(user._id)
+    // this.api.talent.profile.get(user._id)
     //   .then(r => this.data.profile$.set(r))
+    //   .catch(e => {
+    //     this.snackbar.openFromComponent(SnackbarComponent, {
+    //       ...ErrorSnackbarDefaults,
+    //       data: { message: e.message }
+    //     });
+    //   })
     //   .finally(() => this.loading.delete('loading profile'));
     this.data.profile$.set(dummyData);
     this.loading.delete('loading profile');
