@@ -14,6 +14,8 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { emailBlacklist } from '@easworks/app-shell/validators/email-blacklist';
 import { pattern } from '@easworks/models';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'account-employer-sign-up-page',
@@ -24,7 +26,8 @@ import { pattern } from '@easworks/models';
   imports: [
     ImportsModule,
     FormImportsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    FontAwesomeModule
   ]
 })
 export class EmployerSignUpPageComponent {
@@ -41,6 +44,10 @@ export class EmployerSignUpPageComponent {
     account: inject(AccountApi)
   };
   private readonly snackbar = inject(MatSnackBar);
+
+  protected readonly icons = {
+    faCheck
+  } as const;
 
   @HostBinding()
   private readonly class = 'page grid grid-cols-10 gap-4';
