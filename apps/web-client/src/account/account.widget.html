@@ -1,7 +1,7 @@
 <ng-container *ngIf="user$() as user; else $noUser">
   <button mat-ripple class="icon-button text-emerald-400"
           [matMenuTriggerFor]="WidgetMenu">
-    <i class="fa-solid fa-circle-user"></i>
+    <fa-icon [icon]="icons.faCircleUser"></fa-icon>
   </button>
   <mat-menu #WidgetMenu="matMenu">
     <a [routerLink]="profileLink$()" mat-ripple

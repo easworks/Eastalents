@@ -6,6 +6,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@easworks/app-shell/services/auth';
 import { AuthState } from '@easworks/app-shell/state/auth';
+import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'account-widget',
@@ -17,7 +19,8 @@ import { AuthState } from '@easworks/app-shell/state/auth';
     MatMenuModule,
     MatDividerModule,
     MatRippleModule,
-    RouterModule
+    RouterModule,
+    FontAwesomeModule
   ]
 })
 export class AccountWidgetComponent {
@@ -25,6 +28,10 @@ export class AccountWidgetComponent {
   private readonly state = inject(AuthState);
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+
+  protected readonly icons = {
+    faCircleUser
+  };
 
   protected readonly profileLink$ = computed(() => {
     switch (this.state.user$()?.role) {
