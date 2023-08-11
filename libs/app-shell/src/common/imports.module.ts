@@ -4,6 +4,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LetDirective } from '@ngrx/component';
 import { ReplaceSpinnerComponent } from './replace-spinner/replace-spinner';
 
@@ -19,7 +20,8 @@ import { ReplaceSpinnerComponent } from './replace-spinner/replace-spinner';
     MatRippleModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    ReplaceSpinnerComponent
+    ReplaceSpinnerComponent,
+    FontAwesomeModule
   ]
 })
 export class ImportsModule { }
