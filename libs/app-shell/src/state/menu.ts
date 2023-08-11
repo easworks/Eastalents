@@ -1,10 +1,11 @@
 import { Injectable, isDevMode, signal } from '@angular/core';
+import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 export interface MenuItem {
   name: string;
   link: string;
   fragment?: string;
-  icon?: string;
+  icon?: IconDefinition;
   children?: MenuItem[];
 }
 

@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
 import { Domain } from '@easworks/models';
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { DomainState } from '../state/domains';
 import { MenuItem, NOOP_CLICK, NavMenuState } from '../state/menu';
 import { SelectableOption } from '../utilities/options';
+import { faFacebook, faInstagram, faPinterest, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-vertical-menu',
@@ -16,6 +18,8 @@ export class AppVerticalMenuComponent {
   private readonly class = 'grid gap-4 p-4';
   private readonly menuState = inject(NavMenuState);
   private readonly domainState = inject(DomainState);
+
+  protected readonly icons = { faAngleDown } as const;
 
   protected readonly domains = this.initDomainSection();
 
@@ -40,11 +44,11 @@ export class AppVerticalMenuComponent {
   ];
 
   protected readonly brandLinks: MenuItem[] = [
-    { name: 'twitter', icon: 'twitter', link: NOOP_CLICK },
-    { name: 'facebook', icon: 'facebook', link: NOOP_CLICK },
-    { name: 'instagram', icon: 'instagram', link: NOOP_CLICK },
-    { name: 'pinterest', icon: 'pinterest', link: NOOP_CLICK },
-    { name: 'youtube', icon: 'youtube', link: NOOP_CLICK },
+    { name: 'twitter', icon: faTwitter, link: NOOP_CLICK },
+    { name: 'facebook', icon: faFacebook, link: NOOP_CLICK },
+    { name: 'instagram', icon: faInstagram, link: NOOP_CLICK },
+    { name: 'pinterest', icon: faPinterest, link: NOOP_CLICK },
+    { name: 'youtube', icon: faYoutube, link: NOOP_CLICK },
   ];
 
   private initDomainSection() {

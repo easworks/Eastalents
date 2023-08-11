@@ -11,7 +11,7 @@
                [routerLink]="item.link" mat-ripple
                (click)="toggleOpen($event)">
               <span>{{item.name}}</span>
-              <i class="fa-solid fa-angle-down"></i>
+              <fa-icon [icon]="icons.faAngleDown"></fa-icon>
             </a>
             <ul class="hidden overflow-hidden">
               <li *ngFor="let subItem of item.children">

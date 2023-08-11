@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, computed, inject } from '@angular/core';
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { NavMenuState } from '../state/menu';
 import { UiState } from '../state/ui';
 
@@ -15,6 +16,8 @@ export class AppHorizontalMenuComponent {
   private readonly class = 'flex items-center';
   private readonly menuState = inject(NavMenuState);
   protected readonly uiState = inject(UiState);
+
+  protected readonly icons = { faAngleDown } as const;
 
   protected readonly menuItems$ = computed(() => {
     // TODO: make this react to auth changes
@@ -41,7 +44,7 @@ export class AppHorizontalMenuComponent {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         this.hostElement.classList.remove(this.collapseClass);
-      })
+      });
     });
   }
 }
