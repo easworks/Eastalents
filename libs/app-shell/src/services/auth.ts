@@ -29,6 +29,7 @@ export class AuthService {
 
 
   readonly afterSignIn$ = new Subject<SignInMeta>();
+  readonly beforeSignOut$ = new Subject<void>();
 
   readonly socialCallback = {
     set: (state: SocialCallbackState) => {
@@ -41,7 +42,7 @@ export class AuthService {
       return state.challenge;
     },
     get: () => {
-      const saved = localStorage.getItem(`socialCallback`)
+      const saved = localStorage.getItem(`socialCallback`);
       if (saved) {
         localStorage.removeItem(`socialCallback`);
         return JSON.parse(saved) as SocialCallbackState;
@@ -53,7 +54,7 @@ export class AuthService {
       this.api.account().socialLogin(input)
         .then(r => {
           if ('token' in r) {
-            this.handleSignIn(r, meta)
+            this.handleSignIn(r, meta);
           }
           return r;
         })
@@ -115,6 +116,7 @@ export class AuthService {
   }
 
   signOut() {
+    this.beforeSignOut$.next();
     this.state.user$.set(null);
     localStorage.removeItem(CURRENT_USER_KEY);
   }

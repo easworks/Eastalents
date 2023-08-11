@@ -26,7 +26,7 @@ export const FREELANCER_ROUTE: Route = {
     {
       path: '',
       pathMatch: 'full',
-      redirectTo: 'dashboard'
+      redirectTo: 'profile'
     }
   ]
-}
+};

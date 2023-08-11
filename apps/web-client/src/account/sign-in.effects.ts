@@ -37,6 +37,11 @@ export class SignInEffects {
             this.router.navigateByUrl('/employer');
         }
       });
+
+    this.auth.beforeSignOut$.pipe(takeUntilDestroyed())
+      .subscribe(() => {
+        this.router.navigateByUrl('/');
+      });
   }
 
   private readonly auth = inject(AuthService);

@@ -26,7 +26,7 @@ export const EMPLOYER_ROUTE: Route = {
     {
       path: '',
       pathMatch: 'full',
-      redirectTo: 'dashboard'
+      redirectTo: 'profile'
     }
   ]
 };
