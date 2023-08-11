@@ -12,7 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { RouterModule } from '@angular/router';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   standalone: true,
@@ -38,7 +38,7 @@ export class HomePageComponent {
   } as const;
 
   protected readonly icons = {
-    faChevronRight
+    faAngleRight
   } as const;
 
   protected readonly featuredDomains = this.initFeaturedDomains();
