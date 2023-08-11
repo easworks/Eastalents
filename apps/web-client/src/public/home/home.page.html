@@ -235,7 +235,7 @@
             <div *ngFor="let role of domain.roles$()">
               <a class="flex gap-2 max-w-max"
                  [routerLink]="'/roles/'+domain.key+'/'+role">
-                <i class="fa-solid fa-chevron-right text-sm mt-1"></i>
+                <fa-icon [icon]="icons.faChevronRight"></fa-icon>
                 {{role}}
               </a>
 
