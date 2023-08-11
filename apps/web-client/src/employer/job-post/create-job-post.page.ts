@@ -17,6 +17,7 @@ import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { Domain, DomainModule, ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, JobPost, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REMOTE_WORK_OPTIONS, REQUIRED_EXPERIENCE_OPTIONS, RemoteWork, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType, SoftwareProduct, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
 import { map, shareReplay, switchMap } from 'rxjs';
+import { faCircleInfo, faSquareXmark, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'employer-create-job-post',
@@ -38,6 +39,12 @@ export class CreateJobPostPageComponent implements OnInit {
   private readonly domains = inject(DomainState);
   private readonly api = {
     openai: inject(OpenAIApi)
+  } as const;
+
+  protected readonly icons = {
+    faCircleInfo,
+    faSquareXmark,
+    faCheck
   } as const;
 
   @HostBinding() private readonly class = 'page';

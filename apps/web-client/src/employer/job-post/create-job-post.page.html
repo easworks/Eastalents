@@ -18,7 +18,7 @@
                 w-8 h-8 leading-none"
            [class.bg-primary]="enabled">
         <div *ngIf="group.completed$(); else $stepNo">
-          <i class="fa-solid fa-check"></i>
+          <fa-icon [icon]="icons.faCheck"></fa-icon>
         </div>
 
         <ng-template #$stepNo>{{i + 1}}</ng-template>
@@ -50,7 +50,7 @@
         <span class="font-medium lg:pt-1 transition-all"> Please select the EASWORK service you want</span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
             <span>Select 1</span>
           </span>
         </span>
@@ -82,7 +82,7 @@
         <span class="font-medium lg:pt-1 transition-all">Please select the primary enterprise application domain</span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
             <span>Select 1</span>
           </span>
         </span>
@@ -127,7 +127,7 @@
           <span class="font-medium lg:pt-1 transition-all">Please specify the areas of expertise you require within <span class="text-primary">{{services.stepLabel$()}}</span></span>
           <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
             <span class="flex gap-1 items-center">
-              <span class="fa-solid fa-circle-info text-lg"></span>
+              <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
               <span>Select upto 7</span>
             </span>
             <span *ngrxLet="services$.count$() as count"
@@ -170,7 +170,7 @@
           <span class="font-medium lg:pt-1 transition-all">Indicate the <span class="text-primary">{{modules.stepLabel$()}}</span> modules you require proficiency in</span>
           <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
             <span class="flex gap-1 items-center">
-              <span class="fa-solid fa-circle-info text-lg"></span>
+              <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
               <span>Select up to 7</span>
             </span>
             <span *ngrxLet="modules$.count$() as count"
@@ -213,7 +213,7 @@
           <span class="font-medium lg:pt-1 transition-all">Please indicate the requred proficiency level in <span class="text-primary">{{software.stepLabel$()}}</span> software</span>
           <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
             <span class="flex gap-1 items-center">
-              <span class="fa-solid fa-circle-info text-lg"></span>
+              <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
               <span>Select up to 5</span>
             </span>
             <span *ngrxLet="software$.count$() as count"
@@ -324,7 +324,7 @@
                 <button type="button" mat-ripple class="icon-button"
                         (click)="techExp.remove(entry.key, i)"
                         title="Remove">
-                  <i class="fa-solid fa-square-xmark"></i>
+                  <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
                 </button>
               </div>
             </div>
@@ -368,7 +368,7 @@
         <span class="font-medium lg:pt-1 transition-all">Specify required industry-specific experience in <span class="text-primary">{{industries.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
             <span>Select upto 5</span>
           </span>
           <span *ngrxLet="industries.count$() as count"
@@ -391,7 +391,7 @@
                 <button type="button" mat-ripple class="icon-button"
                         (click)="industries.remove(entry.key, i)"
                         title="Remove">
-                  <i class="fa-solid fa-square-xmark"></i>
+                  <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
                 </button>
               </div>
             </div>
@@ -461,7 +461,7 @@
         <span class="font-medium lg:pt-1 transition-all"><span class="text-primary">{{projectType.stepLabel$()}}</span> Project Type</span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
             <span>Select 1</span>
           </span>
         </span>
@@ -491,7 +491,7 @@
         <span class="font-medium lg:pt-1 transition-all">Level of Experience needed for <span class="text-primary">{{requiredExp.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
             <span>Select 1</span>
           </span>
         </span>
@@ -521,7 +521,7 @@
         <span class="font-medium lg:pt-1 transition-all">Estimated no. of hours per week needed from <span class="text-primary">{{weeklyCommitment.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
             <span>Select 1</span>
           </span>
         </span>
@@ -551,7 +551,7 @@
         <span class="font-medium lg:pt-1 transition-all">Engagement Period for <span class="text-primary">{{engagementPeriod.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
             <span>Select 1</span>
           </span>
         </span>
@@ -581,7 +581,7 @@
         <span class="font-medium lg:pt-1 transition-all">Estimated hourly budget for <span class="text-primary">{{hourlyBudget.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
             <span>Select 1</span>
           </span>
         </span>
@@ -611,7 +611,7 @@
         <span class="font-medium lg:pt-1 transition-all">Please specify the tentative starting timeline for <span class="text-primary">{{projectKickoffTimeline.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
             <span>Select 1</span>
           </span>
         </span>
@@ -641,7 +641,7 @@
         <span class="font-medium lg:pt-1 transition-all">Remote Work for <span class="text-primary">{{remoteWork.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
-            <span class="fa-solid fa-circle-info text-lg"></span>
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
             <span>Select 1</span>
           </span>
         </span>
