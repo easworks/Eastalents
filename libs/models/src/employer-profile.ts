@@ -19,6 +19,7 @@ export const ORGANIZATION_SIZE_OPTIONS = [
 export type OrganizationSize = typeof ORGANIZATION_SIZE_OPTIONS[number];
 
 export interface EmployerProfile {
+  _id: string;
   orgName: string;
   description: string;
 
