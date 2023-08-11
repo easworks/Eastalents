@@ -94,17 +94,15 @@ export class AppVerticalMenuComponent {
     } as const;
   }
 
-  toggleOpen($event: MouseEvent) {
-    const target = $event.target as HTMLElement;
+  toggleOpen(listItem: HTMLLIElement) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const parent = target.parentElement!;
-    const shouldAdd = !parent.classList.contains('open');
+    const shouldAdd = !listItem.classList.contains('open');
 
     if (shouldAdd) {
-      parent.classList.add('open');
+      listItem.classList.add('open');
     }
     else {
-      parent.classList.remove('open');
+      listItem.classList.remove('open');
     }
   }
 }
