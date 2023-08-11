@@ -7,6 +7,7 @@ import { AuthService } from '@easworks/app-shell/services/auth';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { RETURN_URL_KEY, pattern } from '@easworks/models';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'account-sign-in-page',
@@ -37,6 +38,10 @@ export class AccountSignInPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly returnUrl = this.route.snapshot.queryParamMap.get(RETURN_URL_KEY) || undefined;
+
+  protected readonly icons = {
+    faCircleCheck
+  } as const;
 
   @HostBinding()
   private readonly class = 'page grid content-center';
