@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, computed, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Domain } from '@easworks/models';
+import { faGear, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 type DomainPartial = Pick<Domain, 'key' | 'longName' | 'products'>;
 
@@ -12,10 +14,13 @@ type DomainPartial = Pick<Domain, 'key' | 'longName' | 'products'>;
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FontAwesomeModule
   ]
 })
 export class SoftwareTilesContainerComponent {
+  protected readonly icons = { faGear, faAngleRight } as const;
+
   @Input({ required: true }) set domain(domain: DomainPartial) {
     this.domain$.set(domain);
   };
