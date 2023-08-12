@@ -16,8 +16,9 @@ import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { Domain, DomainModule, ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, JobPost, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REMOTE_WORK_OPTIONS, REQUIRED_EXPERIENCE_OPTIONS, RemoteWork, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType, SoftwareProduct, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
+import { faCheck, faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { map, shareReplay, switchMap } from 'rxjs';
-import { faCircleInfo, faSquareXmark, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { instructions, sampleResponse } from './prompt';
 
 @Component({
   selector: 'employer-create-job-post',
@@ -51,7 +52,8 @@ export class CreateJobPostPageComponent implements OnInit {
 
   private readonly loading = generateLoadingState<[
     'domains',
-    'industries'
+    'industries',
+    'description from chatgpt'
   ]>();
 
 
@@ -1023,6 +1025,14 @@ export class CreateJobPostPageComponent implements OnInit {
     });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
+    toPromise(this.stepper.step$, s => s === 'description')
+      .then(() => {
+        const shouldGenerate = !form.valid;
+
+        if (shouldGenerate)
+          this.generateDescriptionFromChatGPT();
+      });
+
     return {
       form,
       status$,
@@ -1432,6 +1442,53 @@ export class CreateJobPostPageComponent implements OnInit {
     }
 
     revert.forEach(r => r());
+  }
+
+  private generateDescriptionFromChatGPT() {
+    // this.loading.add('description from chatgpt');
+
+    const fv = {
+      serviceType: this.serviceType.form.getRawValue(),
+      domains: this.primaryDomain.form.getRawValue(),
+      products: this.software.$()?.form.getRawValue() || {},
+      roles: this.roles.$()?.form.getRawValue() || {},
+      tech: this.techExp.form.getRawValue(),
+      industries: this.industries.form.getRawValue()
+    } as const;
+
+    const serviceType = `Service Type: ${fv.serviceType.value}`;
+    const domain = `Business Domain: ${fv.domains.domain.value.longName}`;
+
+    const requiredExp = 'Required Experience: \n' + Object.entries(fv.products)
+      .map(([sk, v]) => '- ' + [sk, v, fv.roles[sk].role, fv.roles[sk].years].join('; '))
+      .join('\n');
+
+    const tech = 'Technology Stack: \n' + Object.entries(fv.tech)
+      .map(([ig, items]) => '- ' + `${ig}: ${items.map(i => i.value).join('; ')}`)
+      .join('\n');
+
+    const industries = 'Industries: \n' + Object.entries(fv.industries)
+      .map(([ig, items]) => '- ' + `${ig}: ${items.map(i => i.value).join('; ')}`)
+      .join('\n');
+
+    const input = [serviceType, domain, requiredExp, tech, industries].join('\n\n');
+
+
+
+    console.debug(input);
+    console.debug(instructions);
+    console.debug(sampleResponse);
+
+    // this.api.openai.chat([
+    //   { role: 'system', content: instructions },
+    //   { role: 'system', content: sampleResponse },
+    //   { role: 'user', content: input },
+    // ])
+    //   .then(r => {
+    //     console.debug(r);
+    //   })
+    //   .finally(() => this.loading.delete('description from chatgpt'));
+
   }
 
   ngOnInit(): void {
