@@ -1,4 +1,5 @@
-import { Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { USE_CASE_DATA } from './use-cases/data';
 
 export const PUBLIC_ROUTES: Routes = [
   {
@@ -32,9 +33,19 @@ export const PUBLIC_ROUTES: Routes = [
     loadComponent: () => import('./role-software/role-software.page').then(m => m.RoleSoftwarePageComponent)
   },
   {
-    path: 'use-cases',
+    path: 'use-cases/:useCaseKey',
     pathMatch: 'full',
-    loadComponent: () => import('./use-cases/use-cases.page').then(m => m.UseCasesPageComponent)
+    loadComponent: () => import('./use-cases/use-cases.page').then(m => m.UseCasesPageComponent),
+    runGuardsAndResolvers: 'pathParamsChange',
+    resolve: {
+      useCase: (route: ActivatedRouteSnapshot) => {
+        const key = route.paramMap.get('useCaseKey');
+        if (!key || !(key in USE_CASE_DATA))
+          throw new Error('invalid operation');
+
+        return USE_CASE_DATA[key];
+      }
+    }
   },
   {
     path: '',

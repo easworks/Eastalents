@@ -24,16 +24,16 @@ export const publicMenu = {
     useCases: {
       name: 'Use Cases', link: NOOP_CLICK,
       children: [
-        { name: 'Digital Transformation (DX)', link: NOOP_CLICK, icon: faMicrochip },
-        { name: 'Innovation', link: NOOP_CLICK, icon: faLightbulb },
-        { name: 'Prototyping', link: NOOP_CLICK, icon: faPenRuler },
-        { name: 'Enterprise Application Design', link: NOOP_CLICK, icon: faPaintBrush },
-        { name: 'Business Intelligence', link: NOOP_CLICK, icon: faBriefcase },
-        { name: 'Application Modernization', link: NOOP_CLICK, icon: faRocket },
-        { name: 'Enterprise Application Integration', link: NOOP_CLICK, icon: faGroupArrowsRotate },
-        { name: 'Custom Enterprise Application', link: NOOP_CLICK, icon: faCubes },
-        { name: 'Data Migration', link: NOOP_CLICK, icon: faDiagramNext },
-        { name: 'Support & Maintenance', link: NOOP_CLICK, icon: faHeadset },
+        { name: 'Digital Transformation (DX)', link: '/use-cases/digital-transformation', icon: faMicrochip },
+        { name: 'Innovation', link: '/use-cases/innovation', icon: faLightbulb },
+        { name: 'Prototyping', link: '/use-cases/prototyping', icon: faPenRuler },
+        { name: 'Enterprise Application Design', link: '/use-cases/enterprise-application', icon: faPaintBrush },
+        { name: 'Business Intelligence', link: '/use-cases/enterprise-application', icon: faBriefcase },
+        { name: 'Application Modernization', link: '/use-cases/application-modernization', icon: faRocket },
+        { name: 'Enterprise Application Integration', link: '/use-cases/enterprise-application-integration', icon: faGroupArrowsRotate },
+        { name: 'Custom Enterprise Application', link: '/use-cases/custom-enterprise-application', icon: faCubes },
+        { name: 'Data Migration', link: '/use-cases/data-migration', icon: faDiagramNext },
+        { name: 'Support & Maintenance', link: '/use-cases/suppport-and-maintenance', icon: faHeadset },
       ]
     },
     applyAsFreelancer: { name: 'Apply as Freelancer', link: '/account/sign-up/freelancer' }
