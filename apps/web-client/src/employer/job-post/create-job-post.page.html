@@ -202,6 +202,46 @@
     </ng-container>
   </div>
 
+  <div *ngIf="step === 'roles'"
+       class="rounded bg-white mat-elevation-z1">
+    <h2 class="p-4 text-xl font-semibold">Required {{roles.stepLabel$()}} Roles</h2>
+    <mat-divider></mat-divider>
+
+    <ng-container *ngIf="roles.$() as roles$">
+      <form *ngrxLet="roles$.form as form"
+            [formGroup]="form">
+        <ng-container *ngFor="let kv of form.controls | keyvalue; let last = last">
+          <div class="p-4" *ngrxLet="kv.value as form">
+            <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+              <span class="font-medium lg:pt-1 transition-all">Please select the role you are hiring for <span class="text-primary">{{kv.key}}</span></span>
+            </label>
+
+            <div class="grid gap-x-4 mt-2 transition-all"
+                 style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+              <div *ngrxLet="form.controls.role as control"
+                   [formFieldControl]="control"
+                   class="!mb-4">
+                <mat-select [formControl]="control" placeholder="Role *">
+                  <mat-option *ngFor="let option of roles$.options[kv.key]" [value]="option">{{option}}</mat-option>
+                </mat-select>
+              </div>
+              <div *ngrxLet="form.controls.years as control"
+                   [formFieldControl]="control"
+                   class="!mb-4">
+                <input type="number" [formControl]="control" placeholder="Years of Experience *"
+                       min="1" max="30">
+                <span class="error">1-30</span>
+                <span class="hint">1-30</span>
+              </div>
+            </div>
+
+          </div>
+          <mat-divider *ngIf="!last"></mat-divider>
+        </ng-container>
+      </form>
+    </ng-container>
+  </div>
+
   <div *ngIf="step === 'software'"
        class="rounded bg-white mat-elevation-z1">
     <h2 class="p-4 text-xl font-semibold">Proficiency required in {{software.stepLabel$()}} Software</h2>
@@ -253,46 +293,6 @@
 
     </ng-container>
 
-  </div>
-
-  <div *ngIf="step === 'roles'"
-       class="rounded bg-white mat-elevation-z1">
-    <h2 class="p-4 text-xl font-semibold">Required {{roles.stepLabel$()}} Roles</h2>
-    <mat-divider></mat-divider>
-
-    <ng-container *ngIf="roles.$() as roles$">
-      <form *ngrxLet="roles$.form as form"
-            [formGroup]="form">
-        <ng-container *ngFor="let kv of form.controls | keyvalue; let last = last">
-          <div class="p-4" *ngrxLet="kv.value as form">
-            <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-              <span class="font-medium lg:pt-1 transition-all">Please select the role you are hiring for <span class="text-primary">{{kv.key}}</span></span>
-            </label>
-
-            <div class="grid gap-x-4 mt-2 transition-all"
-                 style="grid-template-columns: repeat(2, minmax(0, 1fr));">
-              <div *ngrxLet="form.controls.role as control"
-                   [formFieldControl]="control"
-                   class="!mb-4">
-                <mat-select [formControl]="control" placeholder="Role *">
-                  <mat-option *ngFor="let option of roles$.options[kv.key]" [value]="option">{{option}}</mat-option>
-                </mat-select>
-              </div>
-              <div *ngrxLet="form.controls.years as control"
-                   [formFieldControl]="control"
-                   class="!mb-4">
-                <input type="number" [formControl]="control" placeholder="Years of Experience *"
-                       min="1" max="30">
-                <span class="error">1-30</span>
-                <span class="hint">1-30</span>
-              </div>
-            </div>
-
-          </div>
-          <mat-divider *ngIf="!last"></mat-divider>
-        </ng-container>
-      </form>
-    </ng-container>
   </div>
 
   <div *ngIf="step === 'technology-stack'"
