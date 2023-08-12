@@ -1,9 +1,8 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
+import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { USE_CASE_DATA, UseCase } from './data';
 
 @Component({
@@ -13,9 +12,8 @@ import { USE_CASE_DATA, UseCase } from './data';
   styleUrls: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     LottiePlayerDirective,
-    FontAwesomeModule
+    ImportsModule
   ]
 })
 export class UseCasesPageComponent {

@@ -1,4 +1,5 @@
-<section class="relative w-full h-full z-10 pb-10 bg-white">
+<section *ngrxLet="useCase$().hero as hero"
+         class="relative w-full h-full z-10 pb-10 bg-white">
     <div class="absolute inset-0 w-full h-full opacity-5">
         <img class="w-full h-full" src="../../assets/img/building.jpg" alt="">
     </div>
@@ -6,16 +7,15 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 items-start gap-6 relative">
             <div>
                 <h3 class="lg:text-[3rem] text-2xl font-bold leading-[60px] text-[#3e4450]">
-                    Digital Transformation <span class="text-primary">(DX)</span></h3>
-                <p class="my-4 text-base font-normal">EASWORKS helps on your Digital continuity & Transformation to
-                    transform your business using pioneering enterprise technologies skills to become digitally ready
-                    with all legacy applications. EASWORKS proven tech-skills and experience help businesses gain
-                    maximum benefits in your digital transformation journey. </p>
-
+                    {{hero.title.plain}}
+                    <span *ngIf="hero.title.highlight as highlighted" class="text-primary">{{highlighted}}</span>
+                </h3>
+                <p *ngFor="let paragraph of hero.content; let index = index" class="my-4 text-base font-normal"> {{paragraph}} </p>
                 <div class="flex items-center justify-between">
                     <div class="flex gap-4">
-                        <button class="highlight-button primary"> Start to Implement Digital Transformation
-                            Initiatives</button>
+                        <button class="highlight-button primary">
+                            {{hero.cta}}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -25,6 +25,7 @@
         </div>
     </div>
 </section>
+
 
 <section>
     <div class="page py-8 flex flex-wrap justify-around gap-4">
@@ -48,8 +49,8 @@
             <div class="bg-white shadow-lg rounded-md p-4 lg:p-10 text-center h-full">
                 <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
                     <lottie-player src="https://lottie.host/5bf7837c-438a-4a4e-a94d-7a36e8b9562a/cMaf4XaF50.json"
-                        background="transparent" speed="1" style="width: 100%; height: 100%;" loop
-                        autoplay></lottie-player>
+                                   background="transparent" speed="1" style="width: 100%; height: 100%;" loop
+                                   autoplay></lottie-player>
                 </div>
                 <h4 class="text-lg font-semibold my-5">We see the person and the engineer.</h4>
                 <p class="text-sm leading-6">You are more than your resume and deserve a dedicated Enterprise
@@ -59,8 +60,8 @@
             <div class="bg-white shadow-lg rounded-md p-4 lg:p-10 text-center h-full">
                 <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
                     <lottie-player src="https://lottie.host/3a6e85a5-efa3-4b74-8850-f8595245abd1/gfULmGWGsu.json"
-                        background="transparent" speed="1" style="width: 100%; height: 100%;" loop
-                        autoplay></lottie-player>
+                                   background="transparent" speed="1" style="width: 100%; height: 100%;" loop
+                                   autoplay></lottie-player>
                 </div>
                 <h4 class="text-lg font-semibold my-5">Grow your client base</h4>
                 <p class="text-sm leading-6">We give you the ideal platform to build a client base without too much
@@ -71,8 +72,8 @@
             <div class="bg-white shadow-lg rounded-md p-4 lg:p-10 text-center h-full">
                 <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
                     <lottie-player src="https://lottie.host/e53c1145-18b9-42c3-9dd5-30ba9473df9e/XmL6zR3gAz.json"
-                        background="transparent" speed="1" style="width: 100%; height: 100%;" loop
-                        autoplay></lottie-player>
+                                   background="transparent" speed="1" style="width: 100%; height: 100%;" loop
+                                   autoplay></lottie-player>
                 </div>
                 <h4 class="text-lg font-semibold my-5">We match your paycheck with your experience and skill set.</h4>
                 <p class="text-sm leading-6">Find the right opportunity at a salary that reflects your expertise and
@@ -98,7 +99,7 @@
                 <ul>
                     <li class="relative border-l border-dashed pl-[50px] pb-[20px] border-black">
                         <div
-                            class="absolute w-[45px] min-w-[45px] h-[45px] text-[16px] bg-primary flex items-center justify-center rounded-full top-[-10px] left-[-23px] border">
+                             class="absolute w-[45px] min-w-[45px] h-[45px] text-[16px] bg-primary flex items-center justify-center rounded-full top-[-10px] left-[-23px] border">
                             <span class="text-white font-semibold">01</span>
                         </div>
                         <div class="relative">
@@ -112,7 +113,7 @@
                     </li>
                     <li class="relative border-l border-dashed pl-[50px] pb-[20px] border-black">
                         <div
-                            class="absolute w-[45px] min-w-[45px] h-[45px] text-[16px] bg-primary flex items-center justify-center rounded-full top-[-10px] left-[-23px] border">
+                             class="absolute w-[45px] min-w-[45px] h-[45px] text-[16px] bg-primary flex items-center justify-center rounded-full top-[-10px] left-[-23px] border">
                             <span class="text-white font-semibold">02</span>
                         </div>
                         <div class="relative">
@@ -126,7 +127,7 @@
 
                     <li class="relative border-l border-dashed pl-[50px] pb-[20px] border-black">
                         <div
-                            class="absolute w-[45px] min-w-[45px] h-[45px] text-[16px] bg-primary flex items-center justify-center rounded-full top-[-10px] left-[-23px] border">
+                             class="absolute w-[45px] min-w-[45px] h-[45px] text-[16px] bg-primary flex items-center justify-center rounded-full top-[-10px] left-[-23px] border">
                             <span class="text-white font-semibold">03</span>
                         </div>
                         <div class="relative">
@@ -141,7 +142,7 @@
 
                     <li class="relative border-l border-dashed pl-[50px] pb-[20px] border-black">
                         <div
-                            class="absolute w-[45px] min-w-[45px] h-[45px] text-[16px] bg-primary flex items-center justify-center rounded-full top-[-10px] left-[-23px] border">
+                             class="absolute w-[45px] min-w-[45px] h-[45px] text-[16px] bg-primary flex items-center justify-center rounded-full top-[-10px] left-[-23px] border">
                             <span class="text-white font-semibold">04</span>
                         </div>
                         <div class="relative">
@@ -154,7 +155,7 @@
 
                     <li class="relative pl-[50px] pb-[20px] border-black">
                         <div
-                            class="absolute w-[45px] min-w-[45px] h-[45px] text-[16px] bg-primary flex items-center justify-center rounded-full top-[-10px] left-[-23px] border">
+                             class="absolute w-[45px] min-w-[45px] h-[45px] text-[16px] bg-primary flex items-center justify-center rounded-full top-[-10px] left-[-23px] border">
                             <span class="text-white font-semibold">05</span>
                         </div>
                         <div class="relative">
@@ -192,7 +193,7 @@
 
             <div class="flex justify-center mt-8 text-center">
                 <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_i4kj2vtq.json"
-                    background="transparent" speed="1" style="width: 100%; height: 100%" loop autoplay></lottie-player>
+                               background="transparent" speed="1" style="width: 100%; height: 100%" loop autoplay></lottie-player>
             </div>
         </div>
     </div>
@@ -244,26 +245,26 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </section>
 
 <section class="py-[60px] relative z-10 bg-primary">
     <div class="absolute inset-0 w-full h-full opacity-5">
-      <img class="h-full object-cover w-full" src="../../assets/img/map.jpeg" alt="">
+        <img class="h-full object-cover w-full" src="../../assets/img/map.jpeg" alt="">
     </div>
     <div class="page">
-      <div class="grid grid-cols-1 lg:grid-cols-1 items-center relative">
-        <div>
-          <h2 class="text-[2rem] leading-[50px] mb-[20px] text-white text-center">Helps you to Implement and transform your business with Digital continuity & Transformation Initiatives.</h2>
-  
-          <div class="text-center flex justify-center flex-col">
-            <div class="relative mb-6">
-              <button class="shaded-button m-[auto]">START TO IMPLEMENT DIGITAL TRANSFORMATION </button>
+        <div class="grid grid-cols-1 lg:grid-cols-1 items-center relative">
+            <div>
+                <h2 class="text-[2rem] leading-[50px] mb-[20px] text-white text-center">Helps you to Implement and transform your business with Digital continuity & Transformation Initiatives.</h2>
+
+                <div class="text-center flex justify-center flex-col">
+                    <div class="relative mb-6">
+                        <button class="shaded-button m-[auto]">START TO IMPLEMENT DIGITAL TRANSFORMATION </button>
+                    </div>
+                </div>
+
             </div>
-          </div>
-  
         </div>
-      </div>
     </div>
-  </section>
+</section>
