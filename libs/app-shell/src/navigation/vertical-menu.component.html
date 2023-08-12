@@ -8,7 +8,7 @@
           <li class="has-submenu" #listItem>
             <a class="p-2 px-4 rounded hover:bg-slate-500/10 focus:bg-slate-500/10
                 flex justify-between items-center"
-               [routerLink]="item.link" mat-ripple
+               href="javascript:void(0)" mat-ripple
                (click)="toggleOpen(listItem)">
               <span>{{item.name}}</span>
               <fa-icon [icon]="icons.faAngleDown"></fa-icon>
