@@ -19,7 +19,7 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div class="col-start-1 lg:col-auto">
                 <div class="demo-placeholder h-[400px]"></div>
             </div>
         </div>
@@ -85,86 +85,27 @@
 </section>
 
 
-<section class="py-[60px]">
+<section class="py-[60px]" *ngrxLet="useCase$().stepper as stepper">
     <div class="page">
         <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold">How <span class="text-primary">Digital continuity & transformation (DX) works
-                    ?</span></h2>
+            <h2 class="text-4xl font-bold">{{stepper.title.plain}} <span class="text-primary">{{stepper.title.highlight}}</span></h2>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
             <div class="relative">
-                <div class="demo-placeholder h-[400px]"></div>
+                <lottie-player *ngIf="stepper['lottie']" [src]="stepper['lottie']" background="transparent"
+                        speed="1" style="width: 100%; height: 100%;" loop autoplay>
+                    </lottie-player>
             </div>
-            <div class="relative">
+            <div class="relative lg:px-0 px-5">
                 <ul>
-                    <li class="relative border-l border-dashed pl-[50px] pb-[20px] border-black">
+                    <li *ngFor="let stepscontent of stepper.steps; let index = index" class="relative border-l border-dashed pl-[50px] pb-[20px] border-black">
                         <div
                              class="absolute w-[45px] min-w-[45px] h-[45px] text-[16px] bg-primary flex items-center justify-center rounded-full top-[-10px] left-[-23px] border">
-                            <span class="text-white font-semibold">01</span>
+                            <span class="text-white font-semibold">0{{index +1}}</span>
                         </div>
                         <div class="relative">
-                            <h1 class="text-[18px] text-black mb-5 font-semibold">Identify the problems you want to
-                                solve</h1>
-                            <p class="text-base leading-6">The first step is to start with WHY and clearly define your
-                                Digital transformation strategic objectives which may be to expand your business? Is it
-                                about keeping up with competitors? Or maybe you just want to improve overall efficiency.
-                            </p>
-                        </div>
-                    </li>
-                    <li class="relative border-l border-dashed pl-[50px] pb-[20px] border-black">
-                        <div
-                             class="absolute w-[45px] min-w-[45px] h-[45px] text-[16px] bg-primary flex items-center justify-center rounded-full top-[-10px] left-[-23px] border">
-                            <span class="text-white font-semibold">02</span>
-                        </div>
-                        <div class="relative">
-                            <h1 class="text-[18px] text-black mb-5 font-semibold">Create and foster a digital culture
-                            </h1>
-                            <p class="text-base leading-6">To provide new software onboarding for all your employees to
-                                teach them how to use new enterprise application solutions. Continuous support should
-                                also be available until they feel comfortable working with these tools.</p>
-                        </div>
-                    </li>
-
-                    <li class="relative border-l border-dashed pl-[50px] pb-[20px] border-black">
-                        <div
-                             class="absolute w-[45px] min-w-[45px] h-[45px] text-[16px] bg-primary flex items-center justify-center rounded-full top-[-10px] left-[-23px] border">
-                            <span class="text-white font-semibold">03</span>
-                        </div>
-                        <div class="relative">
-                            <h1 class="text-[18px] text-black mb-5 font-semibold">Map and analyze your current business
-                                processes</h1>
-                            <p class="text-base leading-6">Start with a few impactful and concrete initiatives that will
-                                show measurable results within the first few months. Mapping and analyzing existing
-                                business processes will help you identify inefficiencies and opportunities for
-                                improvement.</p>
-                        </div>
-                    </li>
-
-                    <li class="relative border-l border-dashed pl-[50px] pb-[20px] border-black">
-                        <div
-                             class="absolute w-[45px] min-w-[45px] h-[45px] text-[16px] bg-primary flex items-center justify-center rounded-full top-[-10px] left-[-23px] border">
-                            <span class="text-white font-semibold">04</span>
-                        </div>
-                        <div class="relative">
-                            <h1 class="text-[18px] text-black mb-5 font-semibold">Invest in the right digital solutions
-                            </h1>
-                            <p class="text-base leading-6">Redesign your operating processes to get the most out of the
-                                new technologies and start creating business value within few months.</p>
-                        </div>
-                    </li>
-
-                    <li class="relative pl-[50px] pb-[20px] border-black">
-                        <div
-                             class="absolute w-[45px] min-w-[45px] h-[45px] text-[16px] bg-primary flex items-center justify-center rounded-full top-[-10px] left-[-23px] border">
-                            <span class="text-white font-semibold">05</span>
-                        </div>
-                        <div class="relative">
-                            <h1 class="text-[18px] text-black mb-5 font-semibold">Focus on continuous improvement</h1>
-                            <p class="text-base leading-6">Reach out to customers, partners, employees, and other
-                                relevant stakeholders to ask for their feedback.</p>
-                            <p class="text-base leading-6">Digital transformation is not a one-time event. Businesses
-                                need to continuously transform to create new value, stay competitive, and thrive in the
-                                digital age.</p>
+                            <h1 class="text-[18px] text-black mb-5 font-semibold">{{stepscontent.title}}</h1>
+                            <p class="text-base leading-8" *ngFor="let stepsparagraph of stepscontent.content; let index = index">{{stepsparagraph}}</p>
                         </div>
                     </li>
                 </ul>
@@ -205,7 +146,7 @@
             <h2 class="text-4xl font-bold mb-5">The right EAS talent for the job</h2>
             <p class="text-base leading-6">Our Enterprise Application freelancers have years of experience rapidly in implementing Digital continuity and transformation initiatives</p>
         </div>
-        <div class="flex justify-center items-center gap-10">
+        <div class="flex justify-center items-center gap-10 flex-col lg:flex-row">
             <div class="columns-sm">
                 <div class="bg-white border flex flex-col items-center justify-center px-4 py-5 relative text-center">
                     <div class="text-center">
