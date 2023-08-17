@@ -27,7 +27,7 @@ export function controlStatus$(control: AbstractControl) {
 
 export function controlValue$<C extends AbstractControl>(control: C, validOnly = false): Observable<TRawValue<C>> {
   let v$ = control.valueChanges;
-  v$ = v$.pipe(startWith(control.value))
+  v$ = v$.pipe(startWith(control.value));
   if (validOnly)
     v$ = v$.pipe(filter(() => control.valid));
   return v$.pipe(shareReplay({ refCount: true, bufferSize: 1 }));

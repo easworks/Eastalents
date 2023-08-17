@@ -1,5 +1,5 @@
 import { KeyValue } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, computed, effect, inject, isDevMode, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, WritableSignal, computed, effect, inject, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -17,8 +17,7 @@ import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { Domain, DomainModule, ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, JobPost, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REMOTE_WORK_OPTIONS, REQUIRED_EXPERIENCE_OPTIONS, RemoteWork, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType, SoftwareProduct, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
 import { faCheck, faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
-import { map, shareReplay, switchMap } from 'rxjs';
-import { instructions, sampleResponse } from './prompt';
+import { combineLatest, map, shareReplay, switchMap } from 'rxjs';
 
 @Component({
   selector: 'employer-create-job-post',
@@ -77,8 +76,8 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly primaryDomain = this.initPrimaryDomain();
   protected readonly services = this.initServices();
   protected readonly modules = this.initModules();
-  protected readonly software = this.initSoftware();
   protected readonly roles = this.initRoles();
+  protected readonly experience = this.initExperience();
   protected readonly techExp = this.initTechExp();
   protected readonly industries = this.initIndustries();
   protected readonly description = this.initDescription();
@@ -96,8 +95,8 @@ export class CreateJobPostPageComponent implements OnInit {
       'primary-domain',
       'services',
       'modules',
-      'software',
       'roles',
+      'experience',
       'technology-stack',
       'industry',
       'description',
@@ -135,8 +134,8 @@ export class CreateJobPostPageComponent implements OnInit {
       (step === 'primary-domain' && this.primaryDomain.status$() === 'VALID') ||
       (step === 'services' && this.services.$()?.status$() === 'VALID') ||
       (step === 'modules' && this.modules.$()?.status$() === 'VALID') ||
-      (step === 'software' && this.software.$()?.status$() === 'VALID') ||
       (step === 'roles' && this.roles.$()?.status$() === 'VALID') ||
+      (step === 'experience' && this.experience.$()?.status$() === 'VALID') ||
       (step === 'technology-stack' && this.techExp.status$() === 'VALID') ||
       (step === 'industry' && this.industries.status$() === 'VALID') ||
       (step === 'description' && this.description.status$() === 'VALID') ||
@@ -197,8 +196,7 @@ export class CreateJobPostPageComponent implements OnInit {
           domain: this.primaryDomain.form.getRawValue(),
           services: this.services.$()?.form.getRawValue() || [],
           modules: this.modules.$()?.form.getRawValue() || [],
-          products: this.software.$()?.form.getRawValue() || {},
-          roles: this.roles.$()?.form.getRawValue() || {},
+          experience: this.experience.$()?.form.getRawValue() || {},
 
 
         } as const;
@@ -220,14 +218,11 @@ export class CreateJobPostPageComponent implements OnInit {
             years: fv.domain.years,
             services: fv.services.map(v => v.value),
             modules: fv.modules.map(m => m.value.name),
-            products: Object.entries(fv.products).map(([key, years]) => ({
-              key,
-              years,
-              role: {
-                key: fv.roles[key].role,
-                years: fv.roles[key].years,
-              }
-            })),
+            roles: Object.entries(fv.experience)
+              .map(([role, { years, quantity, software }]) => ({
+                role, years, quantity,
+                software: software.map(v => v.value.name),
+              }))
           },
           tech: Object.entries(fv.techExp).map(([group, value]) => ({
             group,
@@ -281,13 +276,13 @@ export class CreateJobPostPageComponent implements OnInit {
           'primary-domain',
           'services',
           'modules',
-          'software',
         ]
       ],
       [
         'Role & Technical Experience',
         [
           'roles',
+          'experience',
           'technology-stack',
         ]
       ],
@@ -361,10 +356,12 @@ export class CreateJobPostPageComponent implements OnInit {
     } as const;
 
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
+    const selected$ = controlValue$(form, true);
 
     return {
       form,
       status$,
+      selected$,
       options,
       ...handlers
     } as const;
@@ -382,8 +379,7 @@ export class CreateJobPostPageComponent implements OnInit {
       years: createYearControl()
     });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
-    const selected$ = controlValue$(form, true)
-      .pipe(shareReplay({ refCount: true, bufferSize: 1 }));
+    const selected$ = controlValue$(form, true);
 
     const domainStatus$ = toSignal(controlStatus$(form.controls.domain), { requireSync: true });
     const stopInput$ = computed(() => domainStatus$() === 'VALID');
@@ -551,180 +547,225 @@ export class CreateJobPostPageComponent implements OnInit {
     } as const;
   }
 
-  private initSoftware() {
+  private initRoles() {
     const injector = this.injector;
 
     const stepLabel$ = this.services.stepLabel$;
 
-    type Product = SoftwareProduct & { modules: DomainModule[]; };
+    const obs$ = combineLatest([
+      this.serviceType.selected$,
+      this.primaryDomain.selected$,
+    ]).pipe(
+      map(([serviceType, { domain }]) => {
+        const exists = this.roles?.$()?.form.getRawValue();
+        const limit = serviceType.value === 'Hire an Enterprise Application Talent' ?
+          1 : 5;
 
-    const obs$ = this.modules.selected$
-      .pipe(
-        map(selected => {
-          const exists = this.software?.$()?.form.getRawValue();
+        const form = new FormControl([] as SelectableOption<string>[], {
+          nonNullable: true,
+          validators: [
+            Validators.required,
+            Validators.maxLength(limit),
+          ]
+        });
+        const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+        const value$ = toSignal(controlValue$(form), { requireSync: true, injector });
 
-          const count$ = signal(0);
-          const form = new FormRecord<FormControl<number>>({}, {
-            validators: [
-              c => {
-                const count = Object.keys(c.value).length;
-                count$.set(count);
-                if (count < 1)
-                  return { minlength: 1 };
-                if (count > 5)
-                  return { maxlength: 5 };
-                return null;
-              }
-            ]
-          });
-          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
-
-          const optionSet = new Set<string>();
-
-          const options: SelectableOption<Product>[] = [];
-          selected.forEach(m => m.products.forEach(p => {
-            if (optionSet.has(p.name)) {
-              const exists = options.find(o => o.value.name === p.name);
-              if (!exists)
-                throw new Error('invalid operation');
-              exists.value.modules.push(m);
-              return;
-            }
-
-            optionSet.add(p.name);
-            options.push({
-              selected: false,
-              value: { ...p, modules: [m] },
-              label: p.name
-            });
+        const allRoles = domain.value.modules
+          .flatMap(m => m.roles);
+        const options = [...new Set(allRoles)]
+          .map<SelectableOption<string>>(r => ({
+            selected: false,
+            value: r,
+            label: r
           }));
-          options.sort((a, b) => sortString(a.value.name, b.value.name));
 
-          const stopInput$ = computed(() => count$() >= 5 || count$() >= options.length);
+        const count$ = computed(() => value$().length);
+        const stopInput$ = computed(() => {
+          const c = count$();
+          return c >= limit || c >= options.length;
+        });
 
-          const handlers = {
-            toggle: (option: SelectableOption<SoftwareProduct>) => {
-              if (option.selected) {
-                option.selected = false;
-                form.removeControl(option.value.name);
-              }
-              else {
-                option.selected = true;
-                form.addControl(option.value.name, createYearControl());
-              }
-            }
-          } as const;
 
-          if (exists) {
-            Object.keys(exists).forEach(software => {
-              const option = options.find(o => o.value.name === software);
-              if (option) {
-                option.selected = true;
-                form.addControl(option.value.name, createYearControl(exists[software]), { emitEvent: false });
-              }
-            });
+        const handlers = {
+          toggle: (option: SelectableOption<string>) => {
+            option.selected = !option.selected;
+            form.setValue(options.filter(o => o.selected));
           }
-          form.updateValueAndValidity();
+        } as const;
 
-          const selected$ = controlValue$(form, true)
-            .pipe(
-              map(v => Object.keys(v)
-                .map(k => {
-                  const found = options.find(o => o.value.name === k);
-                  if (!found)
-                    throw new Error('invalid operation');
-                  return found.value;
-                })
-                .sort((a, b) => sortString(a.name, b.name))
-              ),
-              shareReplay({ refCount: true, bufferSize: 1 }));
+        if (exists && (limit > 1) && (exists.length <= limit)) {
+          exists.forEach(old => {
+            const opt = options.find(o => o.value === old.value);
+            if (opt)
+              opt.selected = true;
+          });
+          form.setValue(options.filter(o => o.selected));
+        }
 
-          return {
-            form,
-            status$,
-            count$,
-            stopInput$,
-            selected$,
-            options,
-            ...handlers
-          } as const;
-        }),
-        shareReplay({ refCount: true, bufferSize: 1 }));
+        const selected$ = controlValue$(form, true)
+          .pipe(
+            map(v => v.map(o => o.value).sort(sortString)),
+            shareReplay({ refCount: true, bufferSize: 1 }));
+
+        return {
+          form,
+          status$,
+          selected$,
+          limit,
+          count$,
+          stopInput$,
+          options,
+          ...handlers
+        } as const;
+      }),
+      shareReplay({ refCount: true, bufferSize: 1 }));
 
     const $ = toSignal(obs$);
     const selected$ = obs$.pipe(
       switchMap(f => f.selected$),
-      shareReplay({ refCount: true, bufferSize: 1 })
-    );
+      shareReplay({ refCount: true, bufferSize: 1 }));
+
     return {
       $,
       selected$,
       stepLabel$
     } as const;
-
   }
 
-  private initRoles() {
+  private initExperience() {
     const injector = this.injector;
 
-    const selectedSoftware$ = toSignal(this.software.selected$);
-    const stepLabel$ = computed(() => {
-      const software = selectedSoftware$();
-      if (software?.length === 1)
-        return software[0].name;
+    const stepLabel$ = this.services.stepLabel$;
 
-      return this.services.stepLabel$();
-    });
+    const obs$ = combineLatest([
+      this.serviceType.selected$,
+      this.roles.selected$,
+    ]).pipe(
+      map(([serviceType, roles]) => {
+        const exists = this.experience?.$()?.form.getRawValue();
 
-    const obs$ = this.software.selected$
-      .pipe(
-        map(selected => {
-          const exists = this.roles?.$()?.form.getRawValue();
+        const individual = serviceType.value === 'Hire an Enterprise Application Talent';
 
 
-          const form = new FormRecord<FormGroup<{
-            role: FormControl<string>;
-            years: FormControl<number>;
-          }>>({});
-          const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
+        const form = new FormRecord<FormGroup<{
+          quantity: FormControl<number>;
+          years: FormControl<number>;
+          software: FormControl<SelectableOption<SoftwareProduct>[]>;
+        }>>({});
+        const status$ = toSignal(controlStatus$(form), { requireSync: true, injector });
 
-          selected.forEach(s => form.registerControl(s.name, new FormGroup({
-            role: new FormControl<string>('', {
+        const software: Record<string, {
+          readonly value$: Signal<SelectableOption<SoftwareProduct>[]>,
+          readonly query$: WritableSignal<string>,
+          readonly options$: Signal<SelectableOption<SoftwareProduct>[]>,
+          readonly allOptions: SelectableOption<SoftwareProduct>[];
+          readonly count$: Signal<number>;
+          readonly stopInput$: Signal<boolean>;
+          readonly add: (option: SelectableOption<SoftwareProduct>) => void;
+          readonly remove: (i: number) => void;
+        }> = {};
+
+        const allSoftwareProducts = this.primaryDomain.form.getRawValue()
+          .domain.value.products
+          .map<SelectableOption<SoftwareProduct>>(p => ({
+            selected: false,
+            value: p,
+            label: p.name
+          }));
+
+        roles.forEach(role => {
+          const roleForm = new FormGroup({
+            quantity: new FormControl(1, {
               nonNullable: true,
               validators: [Validators.required]
             }),
-            years: createYearControl()
-          })));
+            years: createYearControl(),
+            software: new FormControl(
+              [] as SelectableOption<SoftwareProduct>[], {
+              nonNullable: true,
+              validators: [Validators.required, Validators.maxLength(5)],
+            })
+          });
 
-          const options = selected.reduce((prev, curr) => {
-            prev[curr.name] = [...new Set(curr.modules.flatMap(m => m.roles))]
-              .sort(sortString);
-            return prev;
-          }, {} as Record<string, string[]>);
+          const softwareControl = roleForm.controls.software;
+          const softwareValue$ = toSignal(controlValue$(softwareControl), { requireSync: true, injector });
 
+          const count$ = computed(() => softwareValue$().length);
+          const stopInput$ = computed(() => count$() >= 5 || count$() >= allSoftwareProducts.length);
 
-          if (exists) {
-            Object.entries(exists).forEach(([key, value]) => {
-              const control = form.get(key);
-              if (control && options[key].includes(value.role))
-                control.setValue(value);
-            });
+          const allOptions = structuredClone(allSoftwareProducts);
+          const query$ = signal('');
+          const options$ = computed(() => {
+            const q = query$();
+
+            const filter = q && q.trim().toLowerCase();
+            if (filter) {
+              return allOptions.filter(o => !o.selected && o.label?.toLowerCase().includes(filter));
+            }
+
+            return allOptions.filter(o => !o.selected);
+          });
+
+          const updateSoftwareValue = () => {
+            softwareControl.setValue(allOptions.filter(o => o.selected));
+            query$.mutate(v => v);
+          };
+
+          software[role] = {
+            value$: softwareValue$,
+            query$,
+            allOptions,
+            options$,
+            count$,
+            stopInput$,
+            add: (option: SelectableOption<SoftwareProduct>) => {
+              if (option.selected)
+                return;
+              option.selected = true;
+              updateSoftwareValue();
+            },
+            remove: (i: number) => {
+              const opt = softwareControl.value[i];
+              opt.selected = false;
+              updateSoftwareValue();
+
+            }
+          } as const;
+
+          form.registerControl(role, roleForm);
+
+        });
+
+        if (exists) {
+          for (const role in exists) {
+            const roleControl = form.controls[role];
+            if (roleControl) {
+              roleControl.patchValue({
+                years: exists[role].years,
+                quantity: individual ? 1 : exists[role].quantity,
+                software: software[role].allOptions
+                  .filter(o => exists[role].software
+                    .some(s => s.value.name === o.value.name))
+              }, { emitEvent: false });
+            }
           }
 
           form.updateValueAndValidity();
+        }
 
-          const selected$ = controlValue$(form, true)
-            .pipe(
-              shareReplay({ refCount: true, bufferSize: 1 }));
+        const selected$ = controlValue$(form, true);
 
-          return {
-            form,
-            status$,
-            selected$,
-            options,
-          } as const;
-        }),
-        shareReplay({ refCount: true, bufferSize: 1 }));
+        return {
+          form,
+          status$,
+          selected$,
+          software,
+          roles,
+          individual
+        } as const;
+      }),
+      shareReplay({ refCount: true, bufferSize: 1 }));
 
     const $ = toSignal(obs$);
     const selected$ = obs$.pipe(
@@ -839,13 +880,20 @@ export class CreateJobPostPageComponent implements OnInit {
     } as const;
 
     {
-      const selected$ = toSignal(this.software.selected$);
+      const selected$ = toSignal(this.experience.selected$);
 
       effect(() => {
         const selected = selected$();
         if (selected) {
           const all = all$();
-          const list = selected.flatMap(s => s.tech);
+
+          const selectedSoftware = new Set<SoftwareProduct>();
+          Object.values(selected)
+            .forEach(v =>
+              v.software?.forEach(s =>
+                selectedSoftware.add(s.value)));
+
+          const list = [...selectedSoftware].flatMap(s => s.tech);
           list.forEach(lg => {
             const og = all.find(g => g.name === lg.name);
             if (!og)
@@ -1009,8 +1057,7 @@ export class CreateJobPostPageComponent implements OnInit {
     const stepLabel$ = computed(() => {
       const roles = roles$();
       if (roles) {
-        const entries = Object.entries(roles);
-        const single = entries.length === 1 && entries[0][1].role;
+        const single = roles.length === 1 && roles[0];
         if (single)
           return single;
       }
@@ -1297,7 +1344,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
     {
       const { options, toggle } = this.serviceType;
-      toggle(options[0]);
+      toggle(options[1]);
 
       this.stepper.next.click();
     }
@@ -1338,35 +1385,30 @@ export class CreateJobPostPageComponent implements OnInit {
 
     {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const { toggle, options, form } = this.software.$()!;
+      const { options, toggle } = this.roles.$()!;
 
-      const bluJay = options.find(s => s.value.name === 'BluJay Solutions');
-      if (!bluJay)
-        throw new Error('invalid operation');
-
-      toggle(bluJay);
       toggle(options[0]);
       toggle(options[1]);
-
-      form.patchValue({
-        [bluJay.value.name]: 3,
-        [options[0].value.name]: 3,
-        [options[1].value.name]: 3,
-      });
 
       this.stepper.next.click();
     }
 
     {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const { options, form } = this.roles.$()!;
+      const { form, software } = this.experience.$()!;
 
-      Object.entries(options).forEach(([key, roles], i) => {
-        form.get(key)?.setValue({
-          role: roles[i],
-          years: 2
+      Object.entries(software)
+        .forEach(([role, { add, allOptions }], i) => {
+          const roleControl = form.controls[role];
+          roleControl.patchValue({
+            quantity: i + 1,
+            years: i + 2
+          });
+
+          const startIndex = i * 2;
+          add(allOptions[startIndex]);
+          add(allOptions[startIndex + 1]);
         });
-      });
 
       this.stepper.next.click();
     }
@@ -1503,8 +1545,8 @@ type Step =
   'primary-domain' |
   'services' |
   'modules' |
-  'software' |
   'roles' |
+  'experience' |
   'technology-stack' |
   'industry' |
   'description' |

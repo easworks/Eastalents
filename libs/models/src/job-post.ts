@@ -80,13 +80,11 @@ export interface JobPost {
     years: number;
     services: string[];
     modules: string[];
-    products: {
-      key: string;
+    roles: {
+      role: string;
+      quantity: number;
       years: number;
-      role: {
-        key: string;
-        years: number;
-      };
+      software: string[];
     }[];
   };
 
