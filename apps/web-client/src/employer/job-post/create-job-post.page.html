@@ -466,26 +466,34 @@
     <h2 class="p-4 text-xl font-semibold">Job Description</h2>
     <mat-divider></mat-divider>
 
-    <form class="p-4" *ngrxLet="description.form as form"
-          [formGroup]="form">
-      <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Provide a comprehensive job description for <span class="text-primary">{{description.stepLabel$()}}</span></span>
-      </label>
+    <div *ngIf="description.generating$(); else $descriptionGenerated"
+         class="mt-4 p-4 grid gap-4 justify-items-center">
+      <p> Generating description. Please wait... </p>
+      <mat-progress-spinner mode="indeterminate" diameter="32"></mat-progress-spinner>
+    </div>
 
-      <div *ngrxLet="form.controls.description as control"
-           [formFieldControl]="control">
-        <div class="field field-interactive h-64 mt-2">
-          <textarea [formControl]="control"
-                    placeholder="Description *"
-                    class="resize-none"></textarea>
+    <ng-template #$descriptionGenerated>
+      <form class="p-4" *ngrxLet="description.form as form"
+            [formGroup]="form">
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Provide a comprehensive job description for <span class="text-primary">{{description.stepLabel$()}}</span></span>
+        </label>
+
+        <div *ngrxLet="form.controls.description as control"
+             [formFieldControl]="control">
+          <div class="field field-interactive mt-2">
+            <textarea [formControl]="control"
+                      cdkTextareaAutosize
+                      placeholder="Description *"
+                      class="resize-none max-h-[75vh]"></textarea>
+          </div>
+
+          <span class="error" *ngIf="control.hasError('required')">Required</span>
+          <span class="error" *ngIf="control.hasError('maxlength')">{{control.value.length || 0}}/1500</span>
+          <span class="hint">{{control.value.length || 0}}/4000</span>
         </div>
-
-        <span class="error" *ngIf="control.hasError('required')">Required</span>
-        <span class="error" *ngIf="control.hasError('maxlength')">{{control.value.length || 0}}/1500</span>
-        <span class="hint">{{control.value.length || 0}}/1500</span>
-      </div>
-    </form>
-
+      </form>
+    </ng-template>
   </div>
 
   <div *ngIf="step === 'project-type'"

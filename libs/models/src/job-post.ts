@@ -2,7 +2,7 @@ export const SERVICE_TYPE_OPTIONS = [
   'Hire an Enterprise Application Talent',
   'Assemble a Team',
   'Project Outsourcing',
-  'Others'
+  'Contract-to-Hire / Direct Hire an Individual'
 ] as const;
 
 export type ServiceType = typeof SERVICE_TYPE_OPTIONS[number];

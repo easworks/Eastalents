@@ -26,7 +26,9 @@ export class OpenAIApi {
     await this.handleErrorsIfAny(res);
 
     const response = await res.json();
-    return response.choices[0] as OpenAIChatMessage;
+    return response.choices[0] as {
+      message: OpenAIChatMessage;
+    };
   }
 
   private async handleErrorsIfAny(response: Response) {
