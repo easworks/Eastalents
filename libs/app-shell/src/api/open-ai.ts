@@ -6,7 +6,7 @@ import { Injectable, isDevMode } from '@angular/core';
 export class OpenAIApi {
   private readonly devMode = isDevMode();
   private readonly apiUrl = 'https://api.openai.com/v1';
-  private readonly apiKey = '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';
+  private readonly apiKey = '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';
   private readonly chatModel = 'gpt-3.5-turbo';
 
   private readonly headers = new Headers({
