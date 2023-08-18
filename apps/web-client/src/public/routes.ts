@@ -30,7 +30,7 @@ export const PUBLIC_ROUTES: Routes = [
   {
     path: 'software/:software',
     pathMatch: 'full',
-    loadComponent: () => import('./role-software/role-software.page').then(m => m.RoleSoftwarePageComponent)
+    loadComponent: () => import('./software/software.page').then(m => m.SoftwarePageComponent)
   },
   {
     path: 'use-cases/:useCaseKey',
