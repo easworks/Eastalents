@@ -44,7 +44,7 @@ export class SoftwareTilesContainerComponent {
       .map(p => ({
         name: p.name,
         image: `/assets/software/products/${d.key}/${p.name}.png`,
-        link: `/software/${p.name}`
+        link: `/software/${d.key}/${p.name}`
       }));
   });
 

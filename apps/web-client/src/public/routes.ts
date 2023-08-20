@@ -1,4 +1,7 @@
+import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { DomainState } from '@easworks/app-shell/state/domains';
+import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { USE_CASE_DATA } from './use-cases/data';
 
 export const PUBLIC_ROUTES: Routes = [
@@ -28,9 +31,38 @@ export const PUBLIC_ROUTES: Routes = [
     loadComponent: () => import('./roles/roles.page').then(m => m.RolesPageComponent)
   },
   {
-    path: 'software/:software',
+    path: 'software/:domain/:software',
     pathMatch: 'full',
-    loadComponent: () => import('./software/software.page').then(m => m.SoftwarePageComponent)
+    loadComponent: () => import('./software/software.page').then(m => m.SoftwarePageComponent),
+    runGuardsAndResolvers: 'pathParamsChange',
+    resolve: {
+      domain: async (route: ActivatedRouteSnapshot) => {
+        const key = route.paramMap.get('domain');
+        if (!key)
+          throw new Error('invalid operation');
+
+        const map$ = inject(DomainState).domains.map$;
+        await toPromise(map$, m => m.size > 0);
+
+        const domain = map$().get(key);
+        if (!domain)
+          throw new Error('invalid operation');
+        return domain;
+      },
+      software: async (route: ActivatedRouteSnapshot) => {
+        const key = route.paramMap.get('software');
+        if (!key)
+          throw new Error('invalid operation');
+
+        const map$ = inject(DomainState).products.map$;
+        await toPromise(map$, m => m.size > 0);
+
+        const software = map$().get(key);
+        if (!software)
+          throw new Error('invalid operation');
+        return software;
+      }
+    }
   },
   {
     path: 'use-cases/:useCaseKey',

@@ -1,8 +1,14 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { sortString } from '@easworks/app-shell/utilities/sort';
+import { Domain, SoftwareProduct } from '@easworks/models';
+import { DomainSoftwareSelectorComponent } from '../common/domain-software-selector.component';
 import { RoleLinkListContainerComponent } from '../common/role-link-list-container.component';
 import { RoleSoftwareTalentComponent } from '../common/role-software-talent.component';
-import { DomainSoftwareSelectorComponent } from '../common/domain-software-selector.component';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   standalone: true,
@@ -14,9 +20,55 @@ import { DomainSoftwareSelectorComponent } from '../common/domain-software-selec
     LottiePlayerDirective,
     RoleLinkListContainerComponent,
     RoleSoftwareTalentComponent,
-    DomainSoftwareSelectorComponent
+    DomainSoftwareSelectorComponent,
+    ImportsModule,
+    RouterModule
   ]
 })
 export class SoftwarePageComponent {
+  constructor() {
+    {
+      const domain$ = computed(() => this.domain$()?.key);
+      const software$ = computed(() => this.software$()?.name);
+      const combo$ = computed(() => {
+        const d = domain$();
+        const s = software$();
+        if (d && s)
+          return `${s} - ${d}`;
+        return '';
+      });
 
+      this.text = { domain$, software$, combo$ } as const;
+    }
+
+    this.route.data
+      .pipe(takeUntilDestroyed())
+      .subscribe(data => {
+        this.domain$.set(data['domain']);
+        this.software$.set(data['software']);
+      });
+  }
+
+  private readonly route = inject(ActivatedRoute);
+
+  protected readonly icons = { faAngleRight } as const;
+
+  private readonly domain$ = signal<Domain | null>(null);
+  private readonly software$ = signal<SoftwareProduct | null>(null);
+
+  protected readonly text;
+
+  protected readonly roleLinks$ = computed(() => {
+    const d = this.domain$();
+    if (!d)
+      return [];
+
+    const roles = [... new Set(d.modules.flatMap(m => m.roles))].sort(sortString);
+
+    const links = roles.map(role => ({
+      role,
+      link: `/roles/${d.key}/${role}`
+    }));
+    return links;
+  });
 }
