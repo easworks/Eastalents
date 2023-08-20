@@ -71,4 +71,13 @@ export class SoftwarePageComponent {
     }));
     return links;
   });
+
+  protected readonly clientImages = [
+    '/assets/img/client-1.png',
+    '/assets/img/client-2.png',
+    '/assets/img/client-3.png',
+    '/assets/img/client-4.png',
+    '/assets/img/client-5.png',
+    '/assets/img/client-1.png',
+  ];
 }
