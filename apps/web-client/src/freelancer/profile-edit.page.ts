@@ -8,7 +8,7 @@ import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CSCApi, City, Country, State, Timezone } from '@easworks/app-shell/api/csc.api';
 import { GMapsApi } from '@easworks/app-shell/api/gmap.api';
 import { TalentApi } from '@easworks/app-shell/api/talent.api';
@@ -56,8 +56,8 @@ import { map, shareReplay, switchMap } from 'rxjs';
 })
 export class FreelancerProfileEditPageComponent implements OnInit {
   private readonly injector = inject(INJECTOR);
+  private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly geo = inject(GeoLocationService);
   private readonly api = {
     gmap: inject(GMapsApi),
     csc: inject(CSCApi),
@@ -243,14 +243,15 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         this.api.talent.profile.create(profile)
           .then(p => image ? this.api.talent.profile.uploadImage(image) : p)
           .then(p => resume ? this.api.talent.profile.uploadResume(resume) : p)
-          // TODO: remove this console.debug after dev finished
-          .then(p => console.debug(p))
-          .then(() => this.snackbar.openFromComponent(SnackbarComponent, {
-            ...SuccessSnackbarDefaults,
-            data: {
-              message: 'Profile saved successfully'
-            }
-          }))
+          .then(() => {
+            this.snackbar.openFromComponent(SnackbarComponent, {
+              ...SuccessSnackbarDefaults,
+              data: {
+                message: 'Profile saved successfully'
+              }
+            });
+            this.router.navigateByUrl('/freelancer/profile');
+          })
           .catch(e => this.snackbar.openFromComponent(SnackbarComponent, {
             ...ErrorSnackbarDefaults,
             data: {
