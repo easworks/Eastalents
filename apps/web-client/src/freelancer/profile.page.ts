@@ -49,10 +49,9 @@ export class FreelancerProfilePageComponent {
 
   private getProfile() {
     this.loading.add('loading profile');
-    const user = this.user$();
 
     // TODO: use actual profile data
-    // this.api.talent.profile.get(user._id)
+    // this.api.talent.profile.get()
     //   .then(r => this.data.profile$.set(r))
     //   .catch(e => {
     //     this.snackbar.openFromComponent(SnackbarComponent, {

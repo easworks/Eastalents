@@ -7,9 +7,8 @@ import { BackendApi } from './backend';
 })
 export class TalentApi extends BackendApi {
   readonly profile = {
-    get: (userId: string) => {
-      const body = JSON.stringify({ userId });
-      return this.request(`${this.apiUrl}/talentProfile/getTalentProfile`, { body, method: 'POST' })
+    get: () => {
+      return this.request(`${this.apiUrl}/talentProfile/getTalentProfile`)
         .then(this.handleJson)
         .then(r => r.profile as FreelancerProfile)
         .catch(this.handleError);
