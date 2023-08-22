@@ -7,9 +7,8 @@ import { BackendApi } from './backend';
 })
 export class EmployerApi extends BackendApi {
   readonly profile = {
-    get: (userId: string) => {
-      const body = JSON.stringify({ userId });
-      return this.request(`${this.apiUrl}/employerProfile/getEmployerProfile`, { body, method: 'POST' })
+    get: () => {
+      return this.request(`${this.apiUrl}/employerProfile/getEmployerProfile`)
         .then(this.handleJson)
         .then(r => r.profile as EmployerProfile)
         .catch(this.handleError);

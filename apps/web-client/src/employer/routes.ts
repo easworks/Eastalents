@@ -1,4 +1,8 @@
+import { inject } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Route } from '@angular/router';
+import { EmployerApi } from '@easworks/app-shell/api/employer.api';
+import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AUTH_GUARD_CHECKS, AuthGuard } from '@easworks/app-shell/services/auth';
 
 export const EMPLOYER_ROUTE: Route = {
@@ -7,7 +11,7 @@ export const EMPLOYER_ROUTE: Route = {
   data: {
     auth: AUTH_GUARD_CHECKS.isInRole('employer')
   },
-  children: [
+  loadChildren: () => [
     {
       path: 'dashboard',
       pathMatch: 'full',
@@ -16,7 +20,22 @@ export const EMPLOYER_ROUTE: Route = {
     {
       path: 'profile',
       pathMatch: 'full',
-      loadComponent: () => import('./profile.page').then(m => m.EmployerProfilePageComponent)
+      loadComponent: () => import('./profile.page').then(m => m.EmployerProfilePageComponent),
+      resolve: {
+        profile: async () => {
+          const api = inject(EmployerApi);
+          const snackbar = inject(MatSnackBar);
+
+          return api.profile.get()
+            .catch(e => {
+              snackbar.openFromComponent(SnackbarComponent, {
+                ...ErrorSnackbarDefaults,
+                data: { message: e.message }
+              });
+              throw e;
+            });
+        }
+      }
     },
     {
       path: 'profile/edit',
