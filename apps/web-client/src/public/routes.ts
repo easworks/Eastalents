@@ -84,4 +84,14 @@ export const PUBLIC_ROUTES: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('./home/home.page').then(m => m.HomePageComponent)
   },
+  {
+    path: 'help-center',
+    pathMatch: 'full',
+    loadComponent: () => import('./help-center/help-center.page').then(m => m.HelpCenterPageComponent)
+  },
+  {
+    path: 'help-center-view',
+    pathMatch: 'full',
+    loadComponent: () => import('./help-center-view/help-center-view.page').then(m => m.HelpCenterViewPageComponent)
+  }
 ];

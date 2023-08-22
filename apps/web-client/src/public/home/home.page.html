@@ -28,9 +28,7 @@
     <div class="mx-auto self-start max-w-full xl:max-w-5xl
                 transition-all">
       <lottie-player src="https://lottie.host/6ba2be73-f581-4302-8a7e-d239af1b177b/i4dV3wJAo2.json"
-                     background="transparent" speed="1"
-                     loop autoplay
-                     class="contents"></lottie-player>
+        background="transparent" speed="1" loop autoplay class="contents"></lottie-player>
     </div>
   </div>
 </section>
@@ -68,8 +66,7 @@
     </div>
     <div>
       <lottie-player src="https://lottie.host/4b583250-12a2-4a40-baa9-45e2701f2c06/sHU0VRjvKR.json"
-                     background="transparent" speed="1"
-                     loop autoplay></lottie-player>
+        background="transparent" speed="1" loop autoplay></lottie-player>
     </div>
   </div>
 </section>
@@ -79,14 +76,10 @@
     <h2 class="text-2xl lg:text-3xl text-center font-bold transition-all">EASWORKS promises it all</h2>
 
     <div class="flex mt-12 flex-wrap gap-8 justify-center">
-      <div *ngFor="let promise of promises"
-           class="flex flex-col gap-y-4 p-2 px-4 pb-4
+      <div *ngFor="let promise of promises" class="flex flex-col gap-y-4 p-2 px-4 pb-4
            md:max-w-[14rem] lg:max-w-[16rem] xl:max-w-[20rem]
            bg-white shadow-md rounded-md text-center transition-all">
-        <lottie-player [src]="promise.lottie"
-                       background="transparent"
-                       class="w-24 h-24 mx-auto"
-                       autoplay loop>
+        <lottie-player [src]="promise.lottie" background="transparent" class="w-24 h-24 mx-auto" autoplay loop>
         </lottie-player>
         <h4 class="text-lg font-semibold">{{promise.title}}</h4>
         <p class="text-sm leading-6 text-center">{{promise.content}}</p>
@@ -101,14 +94,11 @@
     <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all">How it Works</h2>
 
     <div class="flex mt-12 flex-wrap gap-4 md:gap-8 justify-center xl:flex-nowrap">
-      <div *ngFor="let hitw of howItWorks"
-           class="flex flex-col gap-y-4 p-2 px-4 pb-4  transition-all
+      <div *ngFor="let hitw of howItWorks" class="flex flex-col gap-y-4 p-2 px-4 pb-4  transition-all
            flex-grow w-48 lg:w-72
            bg-white shadow-lg rounded-md text-center">
-        <lottie-player [src]="hitw.lottie"
-                       background="transparent"
-                       class="mx-auto w-20 h-20 md:w-24 md:h-24 transition-all"
-                       autoplay loop></lottie-player>
+        <lottie-player [src]="hitw.lottie" background="transparent"
+          class="mx-auto w-20 h-20 md:w-24 md:h-24 transition-all" autoplay loop></lottie-player>
         <h4 class="text-lg font-semibold">{{hitw.title}}</h4>
         <p class="text-sm leading-6">{{hitw.content}}</p>
       </div>
@@ -131,15 +121,12 @@
     </h2>
 
     <div class="flex mt-12 flex-wrap lg:flex-nowrap gap-8 justify-center">
-      <div *ngFor="let acc of accelerate"
-           class="flex flex-col gap-2 p-4 text-center
+      <div *ngFor="let acc of accelerate" class="flex flex-col gap-2 p-4 text-center
               flex-grow w-60 lg:w-72
               border border-primary bg-white shadow-md 
               rounded-tr-[2rem] rounded-bl-[2rem] border-b-4">
-        <lottie-player [src]="acc.lottie"
-                       background="transparent"
-                       class="mx-auto w-full h-20 md:w-24 md:h-24 transition-all"
-                       autoplay loop></lottie-player>
+        <lottie-player [src]="acc.lottie" background="transparent"
+          class="mx-auto w-full h-20 md:w-24 md:h-24 transition-all" autoplay loop></lottie-player>
         <h4 class="text-lg font-semibold">{{acc.title}}</h4>
         <p class="text-sm leading-6 my-auto">{{acc.content}}</p>
 
@@ -173,9 +160,10 @@
 
     <div class="grid gap-8 mt-16">
       <mat-progress-spinner *ngIf="featuredDomains.loading$(); else $featuredDomains" class="mx-auto"
-                            mode="indeterminate" diameter="32"></mat-progress-spinner>
+        mode="indeterminate" diameter="32"></mat-progress-spinner>
       <ng-template #$featuredDomains>
-        <software-tiles-container *ngFor="let domain of featuredDomains.domains$()" [domain]="domain"></software-tiles-container>
+        <software-tiles-container *ngFor="let domain of featuredDomains.domains$()"
+          [domain]="domain"></software-tiles-container>
       </ng-template>
     </div>
   </div>
@@ -196,7 +184,8 @@
 
 <section class="bg-white">
   <div class="page py-12">
-    <h2 class="text-2xl text-center font-bold">Get Started with <span class="text-primary">Enterprise Applications</span></h2>
+    <h2 class="text-2xl text-center font-bold">Get Started with <span class="text-primary">Enterprise
+        Applications</span></h2>
 
     <domain-software-selector class="mt-4"></domain-software-selector>
   </div>
@@ -208,8 +197,8 @@
       Hire Elite EAS Talent Based On <span class="text-primary">Enterprise Application Roles</span>
     </h2>
 
-    <mat-progress-spinner *ngIf="roleList.loading$(); else $roleList" class="mx-auto mt-8"
-                          mode="indeterminate" diameter="32"></mat-progress-spinner>
+    <mat-progress-spinner *ngIf="roleList.loading$(); else $roleList" class="mx-auto mt-8" mode="indeterminate"
+      diameter="32"></mat-progress-spinner>
 
     <ng-template #$roleList>
       <div class="grid mt-8 gap-8">
@@ -233,8 +222,7 @@
           <div class="mt-4 grid gap-2
           grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <div *ngFor="let role of domain.roles$()">
-              <a class="flex gap-2 max-w-max"
-                 [routerLink]="'/roles/'+domain.key+'/'+role">
+              <a class="flex gap-2 max-w-max" [routerLink]="'/roles/'+domain.key+'/'+role">
                 <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
                 {{role}}
               </a>
