@@ -6,13 +6,16 @@
   "include": [],
   "references": [
     {
+      "path": "./tsconfig.editor.json"
+    },
+    {
       "path": "./tsconfig.app.json"
     },
     {
-      "path": "./tsconfig.spec.json"
+      "path": "./tsconfig.worker.json"
     },
     {
-      "path": "./tsconfig.editor.json"
+      "path": "./tsconfig.spec.json"
     }
   ],
   "extends": "../../tsconfig.base.json"

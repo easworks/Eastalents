@@ -5,7 +5,9 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { AuthService } from '@easworks/app-shell/services/auth';
 import { DefaultSeoConfig, SEOService, SEO_DEFAULT_CONFIG } from '@easworks/app-shell/services/seo';
+import { SWManagementService, SW_URL } from '@easworks/app-shell/services/sw.manager';
 import { SignInEffects } from '../account/sign-in.effects';
+import { serviceWorkerUrl } from '../service-worker/sw.loader';
 import { provideEnvironment } from './environment';
 import { routes } from './routes';
 
@@ -26,12 +28,15 @@ export const appConfig: ApplicationConfig = {
       MatSnackBarModule,
       MatDialogModule
     ]),
+    { provide: SW_URL, useValue: serviceWorkerUrl },
     {
       provide: APP_INITIALIZER,
-      useFactory: (auth: AuthService) => async () => {
+      useFactory: (swm: SWManagementService, auth: AuthService) => async () => {
+        await swm.wb.controlling;
         await auth.ready;
       },
       deps: [
+        SWManagementService,
         AuthService,
         SEOService,
         SignInEffects

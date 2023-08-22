@@ -28,7 +28,11 @@
           "libs/shared/styles/src/material.scss",
           "apps/web-client/src/styles.less"
         ],
-        "scripts": []
+        "scripts": [],
+        "webWorkerTsConfig": "apps/web-client/tsconfig.worker.json",
+        "customWebpackConfig": {
+          "path": "apps/web-client/webpack.config.ts"
+        }
       },
       "configurations": {
         "production": {
