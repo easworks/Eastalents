@@ -31,12 +31,14 @@ export const appConfig: ApplicationConfig = {
     { provide: SW_URL, useValue: serviceWorkerUrl },
     {
       provide: APP_INITIALIZER,
-      useFactory: (swm: SWManagementService, auth: AuthService) => async () => {
-        await swm.wb.controlling;
-        await auth.ready;
-      },
+      useFactory: (swm: SWManagementService) => () => swm.wb.controlling,
+      deps: [SWManagementService],
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => () => undefined,
       deps: [
-        SWManagementService,
         AuthService,
         SEOService,
         SignInEffects
