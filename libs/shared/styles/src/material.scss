@@ -24,32 +24,3 @@ $theme: mat.define-light-theme((
 @include mat.select-theme($theme);
 @include mat.radio-theme($theme);
 @include mat.menu-theme($theme);
-
-.TabsHelpPage {
-  .mat-mdc-tab-labels {
-    display: flex;
-    flex-direction: column;
-}
-.mat-mdc-tab-group {
-  flex-direction: row;
-  align-items: flex-start;
-  width: 100%;
-  min-width: 100%;
-  gap: 50px;
-}
-.mat-mdc-tab-body-wrapper {
-  width: 100%;
-    box-shadow: 0 0 10px #ccc;
-    padding: 20px;
-}
-.mdc-tab {
-  justify-content: flex-start;
-  padding: 0;
-}
-.mat-mdc-tab-header {
-  max-width: 300px;
-}
-.mat-mdc-tab-header-pagination {
-  display: none !important;
-}
-}

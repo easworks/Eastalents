@@ -10,9 +10,9 @@
   <div class="page">
     <div class="flex TabsHelpPage">
       <mat-tab-group animationDuration="0ms">
-        <mat-tab *ngFor="let ClientsOverviewContent of ClientsOverview" label={{ClientsOverviewContent.title}}> 
-          <h4 class="text-[18px] font-semibold mb-4 text-black">{{ClientsOverviewContent.title}}</h4> 
-          <p *ngFor="let content of ClientsOverviewContent.content" class="text-base text-black mb-3">{{content}}</p> 
+        <mat-tab *ngFor="let ClientsOverviewContent of ClientsOverview" [label]="ClientsOverviewContent.title">
+          <h4 class="text-[18px] font-semibold mb-4 text-black">{{ClientsOverviewContent.title}}</h4>
+          <p *ngFor="let content of ClientsOverviewContent.content" class="text-base text-black mb-3">{{content}}</p>
         </mat-tab>
       </mat-tab-group>
     </div>
