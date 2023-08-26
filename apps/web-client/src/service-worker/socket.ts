@@ -13,8 +13,12 @@ export function setupSocket() {
       case 'SOCKET': {
         if (socket.disconnected)
           socket.connect();
-        const args = event.data.args;
-        socket.emit(args, (result: unknown) => event.ports[0].postMessage(result));
+        const { name, args, response } = event.data.payload;
+        socket.emit(name, args);
+        if (response)
+          socket.once(response, (results: unknown) => event.ports[0].postMessage(results));
+        else
+          event.ports[0].postMessage(undefined);
       } break;
       default: break;
     }
