@@ -1,10 +1,12 @@
-<div class="flex gap-8">
-  <div class="demo-placeholder">
-    Message Room Chat
-  </div>
-
-  <div class="demo-placeholder">
-    Message Room Info Panel
-  </div>
-
-</div>
+<mat-sidenav-container class="h-full">
+  <mat-sidenav [opened]="showInfoPanel$()" mode="side" position="end">
+    <div class="demo-placeholder">
+      Message Room Info Panel
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="demo-placeholder">
+      Message Room Chat
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

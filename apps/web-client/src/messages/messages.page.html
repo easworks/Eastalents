@@ -1,8 +1,8 @@
-<mat-sidenav-container>
-  <mat-sidenav>
+<mat-sidenav-container class="w-full">
+  <mat-sidenav [opened]="showBoard$()" mode="side">
     <message-board></message-board>
   </mat-sidenav>
   <mat-sidenav-content>
-    <message-room></message-room>
+    <message-room class="h-full"></message-room>
   </mat-sidenav-content>
 </mat-sidenav-container>
