@@ -1,7 +1,9 @@
 import { setupCaching } from './caching';
 import { setupUpdates } from './updates';
+import { setupSocket } from './socket';
 
 self.__WB_DISABLE_DEV_LOGS = true;
 
-setupCaching('new-town-property-registration-web-client');
+setupCaching('eastalents-web-client');
 setupUpdates();
+setupSocket();
