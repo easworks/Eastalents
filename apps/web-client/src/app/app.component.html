@@ -11,59 +11,70 @@
     <a routerLink="/account/sign-up/employer" class="shaded-button primary" mat-ripple>
       Hire Now
     </a>
-    <button class="icon-button" mat-ripple
-            (click)="appSidenav.toggle()">
+    <button class="icon-button" mat-ripple (click)="appSidenav.toggle()">
       <fa-icon [icon]="icons.faBars"></fa-icon>
     </button>
   </div>
 
-  <mat-progress-bar *ngIf="navigating$()"
-                    class="!absolute bottom-0 left-0"
-                    mode="indeterminate">
+  <mat-progress-bar *ngIf="navigating$()" class="!absolute bottom-0 left-0" mode="indeterminate">
   </mat-progress-bar>
 </div>
 
 <mat-sidenav-container class="flex-grow !flex flex-col !overflow-visible">
-  <mat-sidenav #appSidenav fixedInViewport
-               class="!top-16" mode="over" position="end">
+  <mat-sidenav #appSidenav fixedInViewport class="!top-16" mode="over" position="end">
     <app-vertical-menu></app-vertical-menu>
   </mat-sidenav>
   <mat-sidenav-content class="flex-grow !flex flex-col !overflow-visible
                       bg-slate-950/5">
     <router-outlet class="hidden [&_+_*]:flex-1"></router-outlet>
 
-    <mat-divider class="!mb-4"></mat-divider>
-
-
-    <div class="page flex flex-wrap gap-8">
+    <div class="flex flex-wrap gap-8 px-10 bg-white py-10 border-t">
       <div class="xl:max-w-[20rem] xl:mr-auto transition-all">
         <img src="/assets/brand/black-logo.png">
-        <p class="mt-8">
-          EASWORKS connects exceptional companies with exceptional
-          enterprise application developers & other talents.
+        <p class="mt-8 text-base">
+          EASWORKS serves as a specialized Enterprise Application Software (EAS) platform that connects businesses,
+          startups, and leading companies with a network of highly skilled enterprise software developers.
         </p>
+        <p class="mt-8 text-base">
+          Our primary goal is to meticulously match our clients with the most suitable technical talent, leveraging
+          their deep industry domain knowledge and expertise in enterprise applications.
+        </p>
+        <div class="mt-8">
+          <div class="flex gap-4 text-2xl">
+            <fa-icon [icon]="icons.faLinkedin"></fa-icon>
+            <fa-icon [icon]="icons.faFacebook"></fa-icon>
+            <fa-icon [icon]="icons.faGithub"></fa-icon>
+            <fa-icon [icon]="icons.faTwitter"></fa-icon>
+            <fa-icon [icon]="icons.faInstagram"></fa-icon>
+            <fa-icon [icon]="icons.faYoutube"></fa-icon>
+          </div>
+          <p class="mt-4">
+            4653 Carmel Mountain Rd, <br>
+            Ste 308 PMB 1024 San Diego, <br>
+            CA 92130-6650
+          </p>
+        </div>
       </div>
       <nav class="flex flex-col md:flex-row flex-wrap gap-8
         flex-grow justify-evenly">
-        <div *ngFor="let group of footerNav" class="flex-grow">
-          <p class="text-lg m-0">{{group.group}}</p>
+        <div *ngFor="let column of footerNav" class="flex-grow flex flex-col gap-6">
+          <div *ngFor="let group of column">
+            <p class="text-lg m-0 font-semibold">{{group.group}}</p>
           <ul class="mt-2">
-            <li *ngFor="let item of group.items"
-                class="py-1">
+            <li *ngFor="let item of group.items" class="py-1">
               <a [routerLink]="item.link" class="max-w-fit">
-                <fa-icon [icon]="icons.faAngleRight" class="inline-block mx-2"></fa-icon>
+                <fa-icon [icon]="icons.faAngleRight" class="inline-block mr-2"></fa-icon>
                 <span>{{item.name}}</span>
               </a>
             </li>
           </ul>
+          </div>
         </div>
       </nav>
     </div>
 
-    <mat-divider class="!mt-4"></mat-divider>
-
-    <div class="p-4 text-center text-sm">
-      © Copyright 2023 EASWORKS. All Rights Reserved.
+    <div class="py-4 px-8 text-center text-sm bg-secondary">
+        <p class="text-white"> © Copyright 2023 EASWORKS. All Rights Reserved.</p>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
