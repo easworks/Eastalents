@@ -1,3 +1,9 @@
-<div class="demo-placeholder">
-  Message Board Component
+<mat-progress-spinner *ngIf="loadingUsers$()"
+                      diameter="32" mode="indeterminate"
+                      class="mx-auto"></mat-progress-spinner>
+
+<div *ngFor="let room of rooms$()"
+     class="p-2 rounded hover:bg-slate-100">
+  <p>{{room.firstName}} {{room.lastName}}</p>
+  <p class="text-xs uppercase text-slate-500 italic">{{room.role}}</p>
 </div>

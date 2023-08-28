@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding, signal } from '@angular/core';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { MessageBoardComponent } from './message-board.component';
 import { MessageRoomComponent } from './message-room.component';
-import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
   standalone: true,
