@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
-import { MessagingApi } from '@easworks/app-shell/api/messaging.api';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { AuthState } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { User } from '@easworks/models';
 import { MessagesPageComponent } from './messages.page';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -19,35 +18,38 @@ import { MessagesPageComponent } from './messages.page';
 })
 export class MessageBoardComponent {
   constructor() {
+    this.listenForUsers();
     this.getUsers();
-    this.reactToRecipientChange();
   }
 
-  protected readonly loading$ = generateLoadingState<[
+  protected readonly loading = generateLoadingState<[
     'users'
   ]>();
 
-  private readonly user$ = inject(AuthState).guaranteedUser();
-  private readonly api = inject(MessagingApi);
   private readonly page = inject(MessagesPageComponent);
 
-  protected readonly loadingUsers$ = this.loading$.has('users');
+  protected readonly loadingUsers$ = this.loading.has('users');
   protected readonly recipients$ = signal<SelectableOption<User>[]>([]);
 
   private selectedRecipient?: SelectableOption<User>;
 
   private getUsers() {
-    const user = this.user$();
-    this.loading$.add('users');
-    return this.api.getUsers({ role: user.role, _id: user._id })
-      .then(result => {
+    const user = this.page.user$();
+    this.loading.add('users');
+    this.page.api.requests.getUsers({ role: user.role, _id: user._id });
+  }
+
+  private listenForUsers() {
+    this.page.api.events.getUsers$
+      .pipe(takeUntilDestroyed())
+      .subscribe(result => {
         const recipients = result.map<SelectableOption<User>>(u => ({
           selected: false,
           value: u
         }));
         this.recipients$.set(recipients);
-      })
-      .finally(() => this.loading$.delete('users'));
+        this.loading.delete('users');
+      });
   }
 
   protected selectRecipient(recipient: SelectableOption<User>) {
@@ -56,22 +58,6 @@ export class MessageBoardComponent {
     recipient.selected = true;
     this.selectedRecipient = recipient;
 
-    this.page.selectedRoom$.set(this.selectedRecipient.value);
-  }
-
-  private reactToRecipientChange() {
-    effect(() => {
-      const parentRoom = this.page.selectedRoom$();
-      if (!parentRoom)
-        return;
-      if (this.selectedRecipient?.value._id === parentRoom._id)
-        return;
-
-      const toSelect = this.recipients$().find(r => r.value._id === parentRoom._id);
-      if (!toSelect)
-        throw new Error('invalid operation');
-
-      this.selectRecipient(toSelect);
-    });
+    this.page.selectedRecipient$.set(this.selectedRecipient.value);
   }
 }
