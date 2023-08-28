@@ -11,5 +11,6 @@ export * from './domain';
 export * from './freelancer-profile';
 export * from './employer-profile';
 export * from './job-post';
+export * from './messaging';
 
 export * from './dto';
