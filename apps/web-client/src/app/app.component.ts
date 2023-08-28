@@ -116,6 +116,7 @@ export class AppComponent {
           { name: 'Careers', link: NOOP_CLICK },
           { name: 'Community', link: NOOP_CLICK },
           { name: 'Code of Conduct', link: NOOP_CLICK },
+          { name: 'Data Processing Agreement', link: NOOP_CLICK },
         ]
       },
       {
@@ -126,6 +127,34 @@ export class AppComponent {
         ],
       },
     ],
+  ];
+
+  protected readonly socialIcons = [
+    {
+      icon: this.icons.faLinkedin,
+      link: 'https://www.linkedin.com/company/easworks'
+    },
+    {
+      icon: this.icons.faFacebook,
+      link: 'https://web.facebook.com/easworks/'
+    },
+    {
+      icon: this.icons.faGithub,
+      link: 'https://github.com/easworks'
+    },
+    {
+      icon: this.icons.faTwitter,
+      link: 'https://twitter.com/easworks/'
+    },
+    {
+      icon: this.icons.faInstagram,
+      link: 'https://www.instagram.com/easworks121/'
+    },
+    {
+      icon: this.icons.faYoutube,
+      link: 'https://www.youtube.com/@easworks'
+    }
+
   ];
 
   private makeMenuReactive() {
