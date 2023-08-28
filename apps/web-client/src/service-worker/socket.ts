@@ -8,20 +8,23 @@ const socket = io('https://eas-works.onrender.com/', {
 });
 
 export function setupSocket() {
-  self.addEventListener('message', async (event) => {
-    switch (event.data?.type) {
+  self.addEventListener('message', async ({ data, ports }) => {
+    switch (data?.type) {
       case 'SOCKET': {
         if (socket.disconnected)
           socket.connect();
-        const { name, args, response } = event.data.payload;
-        socket.emit(name, args);
-        if (response)
-          socket.once(response, (results: unknown) => event.ports[0].postMessage(results));
-        else
-          event.ports[0].postMessage(undefined);
+        const { event, payload } = data;
+        socket.emit(event, payload);
+        ports[0].postMessage(undefined);
       } break;
       default: break;
     }
+  });
+
+  socket.onAny(async (event, payload) => {
+    const clients = await self.clients.matchAll({ type: 'all' });
+    clients.forEach(c =>
+      c.postMessage({ type: 'SOCKET', event, payload }));
   });
 
   closeConnectionWhenNoClients();
