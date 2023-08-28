@@ -11,11 +11,10 @@
       "options": {
         "platform": "node",
         "outputPath": "dist/apps/message-dev",
-        "format": ["cjs"],
-        "bundle": false,
+        "format": ["esm"],
+        "bundle": true,
         "main": "apps/message-dev/src/main.ts",
         "tsConfig": "apps/message-dev/tsconfig.app.json",
-        "assets": ["apps/message-dev/src/assets"],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
@@ -40,7 +39,8 @@
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "message-dev:build"
+        "buildTarget": "message-dev:build",
+        "port": 4201
       },
       "configurations": {
         "development": {
