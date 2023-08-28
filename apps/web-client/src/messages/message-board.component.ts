@@ -20,7 +20,7 @@ import { MessagesPageComponent } from './messages.page';
 export class MessageBoardComponent {
   constructor() {
     this.getUsers();
-    this.reactToRoomSelection();
+    this.reactToRecipientChange();
   }
 
   protected readonly loading$ = generateLoadingState<[
@@ -32,46 +32,46 @@ export class MessageBoardComponent {
   private readonly page = inject(MessagesPageComponent);
 
   protected readonly loadingUsers$ = this.loading$.has('users');
-  protected readonly rooms$ = signal<SelectableOption<User>[]>([]);
+  protected readonly recipients$ = signal<SelectableOption<User>[]>([]);
 
-  private selectedRoom?: SelectableOption<User>;
+  private selectedRecipient?: SelectableOption<User>;
 
   private getUsers() {
     const user = this.user$();
     this.loading$.add('users');
     return this.api.getUsers({ role: user.role, _id: user._id })
       .then(result => {
-        const rooms = result.map<SelectableOption<User>>(u => ({
+        const recipients = result.map<SelectableOption<User>>(u => ({
           selected: false,
           value: u
         }));
-        this.rooms$.set(rooms);
+        this.recipients$.set(recipients);
       })
       .finally(() => this.loading$.delete('users'));
   }
 
-  protected selectRoom(room: SelectableOption<User>) {
-    if (this.selectedRoom)
-      this.selectedRoom.selected = false;
-    room.selected = true;
-    this.selectedRoom = room;
+  protected selectRecipient(recipient: SelectableOption<User>) {
+    if (this.selectedRecipient)
+      this.selectedRecipient.selected = false;
+    recipient.selected = true;
+    this.selectedRecipient = recipient;
 
-    this.page.selectedRoom$.set(this.selectedRoom.value);
+    this.page.selectedRoom$.set(this.selectedRecipient.value);
   }
 
-  private reactToRoomSelection() {
+  private reactToRecipientChange() {
     effect(() => {
       const parentRoom = this.page.selectedRoom$();
       if (!parentRoom)
         return;
-      if (this.selectedRoom?.value._id === parentRoom._id)
+      if (this.selectedRecipient?.value._id === parentRoom._id)
         return;
 
-      const toSelect = this.rooms$().find(r => r.value._id === parentRoom._id);
+      const toSelect = this.recipients$().find(r => r.value._id === parentRoom._id);
       if (!toSelect)
         throw new Error('invalid operation');
 
-      this.selectRoom(toSelect);
+      this.selectRecipient(toSelect);
     });
   }
 }

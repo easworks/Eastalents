@@ -2,10 +2,10 @@
                       diameter="32" mode="indeterminate"
                       class="mx-auto mt-4"></mat-progress-spinner>
 
-<button *ngFor="let room of rooms$()"
+<button *ngFor="let recipient of recipients$()"
         class="room-selector"
-        [class.selected]="room.selected"
-        (click)="selectRoom(room)">
-  <p class="name">{{room.value.firstName}} {{room.value.lastName}}</p>
-  <p class="role">{{room.value.role}}</p>
+        [class.selected]="recipient.selected"
+        (click)="selectRecipient(recipient)">
+  <p class="name">{{recipient.value.firstName}} {{recipient.value.lastName}}</p>
+  <p class="role">{{recipient.value.role}}</p>
 </button>
