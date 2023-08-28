@@ -1,0 +1,21 @@
+:host {
+  @apply grid p-2 w-60;
+}
+
+.room-selector {
+  @apply p-2 rounded hover:bg-slate-100
+    text-left transition-all;
+
+  .role {
+    @apply text-xs uppercase text-slate-500 italic
+      transition-all;
+  }
+
+  &.selected {
+    @apply bg-primary/10 text-primary;
+
+    .role {
+      @apply text-primary;
+    }
+  }
+}
