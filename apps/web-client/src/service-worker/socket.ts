@@ -13,7 +13,7 @@ export function setupSocket() {
 
     if (user) {
       console.debug(user);
-      const socket = io('http://localhost:4201/', {
+      const socket = io('http://eas-works.onrender.com', {
         auth: {
           token: user.token
         },
