@@ -1,16 +1,39 @@
-import { io } from 'socket.io-client';
+import { BehaviorSubject } from 'rxjs';
+import { Socket, io } from 'socket.io-client';
+import { user$ } from './user';
 
 declare const self: ServiceWorkerGlobalScope;
 
-const socket = io('https://eas-works.onrender.com/', {
-  autoConnect: false,
-  transports: ['websocket']
-});
+const socket$ = new BehaviorSubject<Socket | null>(null);
 
 export function setupSocket() {
+  user$.subscribe(user => {
+    const old = socket$.value;
+    old?.disconnect();
+
+    if (user) {
+      console.debug(user);
+      const socket = io('http://localhost:4201/', {
+        auth: {
+          token: user.token
+        },
+        transports: ['websocket']
+      });
+
+      socket$.next(socket);
+    }
+    else {
+      socket$.next(null);
+    }
+  });
+
   self.addEventListener('message', async ({ data, ports }) => {
     switch (data?.type) {
       case 'SOCKET': {
+        const socket = socket$.value;
+        if (!socket)
+          return;
+
         if (socket.disconnected)
           socket.connect();
         const { event, payload, response, broadcast } = data;
@@ -49,6 +72,10 @@ export function setupSocket() {
 
 function closeConnectionWhenNoClients() {
   setInterval(async () => {
+    const socket = socket$.value;
+    if (!socket)
+      return;
+
     const tabs = await self.clients.matchAll({ type: 'window' });
 
     if (tabs.length === 0 && socket.connected) {
