@@ -1,4 +1,4 @@
-import { DestroyRef, INJECTOR, Injectable, inject } from '@angular/core';
+import { DestroyRef, INJECTOR, Injectable, effect, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRouteSnapshot, Route, Router, UrlSegment } from '@angular/router';
@@ -8,12 +8,14 @@ import { AccountApi } from '../api/account.api';
 import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '../notification/snackbar';
 import { AuthState } from '../state/auth';
 import { Deferred } from '../utilities/deferred';
+import { SWManagementService } from './sw.manager';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   constructor() {
+    this.syncUserWithServiceWorker();
     this.reactToLocalStorage();
   }
 
@@ -148,6 +150,20 @@ export class AuthService {
           location.reload();
         }
       });
+  }
+
+  private async syncUserWithServiceWorker() {
+    const swm = inject(SWManagementService);
+    await swm.wb.controlling;
+
+    effect(() => {
+      const user = this.state.user$();
+      swm.wb.messageSW({
+        type: 'USER CHANGE', payload: {
+          user
+        }
+      });
+    }, { injector: this.injector });
   }
 }
 
