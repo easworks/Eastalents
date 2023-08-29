@@ -13,18 +13,34 @@ export function setupSocket() {
       case 'SOCKET': {
         if (socket.disconnected)
           socket.connect();
-        const { event, payload } = data;
+        const { event, payload, response, broadcast } = data;
+
         socket.emit(event, payload);
-        ports[0].postMessage(undefined);
+
+        if (response) {
+          socket.once(response, (result: unknown) => {
+            if (broadcast) {
+              self.clients.matchAll({ type: 'all' })
+                .then(clients => clients.forEach(client =>
+                  client.postMessage({
+                    type: 'SOCKET',
+                    event: response,
+                    payload: result
+                  })
+                ));
+              ports[0].postMessage(undefined);
+            }
+            else {
+              ports[0].postMessage(result);
+            }
+          });
+        }
+        else {
+          ports[0].postMessage(undefined);
+        }
       } break;
       default: break;
     }
-  });
-
-  socket.onAny(async (event, payload) => {
-    const clients = await self.clients.matchAll({ type: 'all' });
-    clients.forEach(c =>
-      c.postMessage({ type: 'SOCKET', event, payload }));
   });
 
   closeConnectionWhenNoClients();

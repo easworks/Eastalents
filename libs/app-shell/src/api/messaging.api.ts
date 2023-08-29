@@ -10,17 +10,17 @@ export class MessagingApi {
 
   readonly requests = {
     getUsers: (input: { role: Role; _id: string; }) =>
-      this.socket.send('getUsers', input),
+      this.socket.send('getUsers', input, 'getUsersResponse')
+        .then(response => {
+          return (response.data as any[])
+            .find(item => item.key === 'freelancer')
+            .freelancers as User[];
+        }),
     getRoom: (input: { fromUserId: string, toUserId: string; }) =>
-      this.socket.send('createRoom', input)
+      this.socket.send('createRoom', input, 'createRoomResponse')
   } as const;
 
   readonly events = {
-    getUsers$: this.socket.listen('getUsersResponse', (result) => {
-      return (result.data as any[])
-        .find(item => item.key === 'freelancer')
-        .freelancers as User[];
-    }),
-    getRoom$: this.socket.listen('createRoomResponse'),
+
   } as const;
 }

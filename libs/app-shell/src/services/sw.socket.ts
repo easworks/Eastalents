@@ -8,8 +8,8 @@ import { Subject } from 'rxjs';
 export class SwSocketService {
   private readonly wb = inject(SWManagementService).wb;
 
-  send<T>(event: string, payload: T) {
-    return this.wb.messageSW({ type: 'SOCKET', event, payload });
+  send<T>(event: string, payload: T, response?: string, broadcast = false) {
+    return this.wb.messageSW({ type: 'SOCKET', event, payload, response, broadcast });
   }
 
   listen<T>(event: string, map = (result: any) => result as T) {

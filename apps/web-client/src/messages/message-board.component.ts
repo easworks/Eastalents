@@ -4,7 +4,6 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { User } from '@easworks/models';
 import { MessagesPageComponent } from './messages.page';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -18,7 +17,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class MessageBoardComponent {
   constructor() {
-    this.listenForUsers();
     this.getUsers();
   }
 
@@ -36,20 +34,16 @@ export class MessageBoardComponent {
   private getUsers() {
     const user = this.page.user$();
     this.loading.add('users');
-    this.page.api.requests.getUsers({ role: user.role, _id: user._id });
-  }
-
-  private listenForUsers() {
-    this.page.api.events.getUsers$
-      .pipe(takeUntilDestroyed())
-      .subscribe(result => {
-        const recipients = result.map<SelectableOption<User>>(u => ({
+    this.page.api.requests.getUsers({ role: user.role, _id: user._id })
+      .then(users => {
+        const recipients = users.map<SelectableOption<User>>(u => ({
           selected: false,
           value: u
         }));
         this.recipients$.set(recipients);
-        this.loading.delete('users');
-      });
+      })
+      .finally(() => this.loading.delete('users'));
+
   }
 
   protected selectRecipient(recipient: SelectableOption<User>) {
