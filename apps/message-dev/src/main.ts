@@ -6,10 +6,20 @@ server.register(fastifyIO);
 
 server.ready().then(() => {
   console.debug('ready');
-  // we need to wait for the server to be ready, else `server.io` is undefined
 
   server.io.on("connection", (socket) => {
     console.debug('new socket');
+
+    const token = socket.handshake.headers.authorization?.split('Bearer ')[0];
+
+    console.debug(token);
+
+    if (!token) {
+      socket.emit('error', 'auth token missing');
+      socket.disconnect(true);
+    }
+
+
   });
 });
 
