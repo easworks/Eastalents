@@ -5,8 +5,25 @@
     </div>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div class="demo-placeholder">
-      Message Room Chat
-    </div>
+    <mat-progress-spinner *ngIf="loadingRoom$(); else $roomLoaded"
+                          mode="indeterminate" diameter="24"
+                          class="mx-auto my-4">
+    </mat-progress-spinner>
+
+    <ng-template #$roomLoaded>
+      <div class="room" *ngIf="room$(); else $noRoom">
+        <pre>{{messages$() | json}}</pre>
+
+      </div>
+      <ng-template #$noRoom>
+        <div class="h-full grid place-content-center p-4
+      text-slate-300">
+          <fa-icon [icon]="icons.faComments"
+                   class="text-6xl mx-auto"></fa-icon>
+          <p class="mt-4">Please select a conversation to view messages</p>
+        </div>
+      </ng-template>
+    </ng-template>
+
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component, HostBinding, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject, signal } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MessagingApi } from '@easworks/app-shell/api/messaging.api';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { AuthState } from '@easworks/app-shell/state/auth';
+import { User } from '@easworks/models';
 import { MessageBoardComponent } from './message-board.component';
 import { MessageRoomComponent } from './message-room.component';
-import { User } from '@easworks/models';
 
 @Component({
   standalone: true,
@@ -19,8 +21,11 @@ import { User } from '@easworks/models';
   ]
 })
 export class MessagesPageComponent {
+  readonly api = inject(MessagingApi);
+  readonly user$ = inject(AuthState).guaranteedUser();
+
   @HostBinding() protected readonly class = 'flex';
   protected readonly showBoard$ = signal(true);
 
-  readonly selectedRoom$ = signal<User | null>(null);
+  readonly selectedRecipient$ = signal<User | null>(null);
 }
