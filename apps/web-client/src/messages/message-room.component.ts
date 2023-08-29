@@ -4,7 +4,8 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { MessagesPageComponent } from './messages.page';
 import { MessageRoom } from '@easworks/models';
-import { faComments } from '@fortawesome/free-solid-svg-icons';
+import { faComments, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { TextFieldModule } from '@angular/cdk/text-field';
 
 @Component({
   standalone: true,
@@ -14,7 +15,8 @@ import { faComments } from '@fortawesome/free-solid-svg-icons';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
-    MatSidenavModule
+    MatSidenavModule,
+    TextFieldModule
   ]
 })
 export class MessageRoomComponent {
@@ -26,7 +28,8 @@ export class MessageRoomComponent {
 
   @HostBinding() protected readonly class = 'block';
   protected readonly icons = {
-    faComments
+    faComments,
+    faPlay
   } as const;
   protected readonly showInfoPanel$ = signal(true);
   private readonly loading = generateLoadingState<[

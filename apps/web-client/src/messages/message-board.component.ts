@@ -41,6 +41,9 @@ export class MessageBoardComponent {
           value: u
         }));
         this.recipients$.set(recipients);
+        if (!this.selectedRecipient) {
+          this.selectRecipient(recipients[0]);
+        }
       })
       .finally(() => this.loading.delete('users'));
 
