@@ -5,6 +5,10 @@ import { getUserFromToken } from './context';
 const server = fastify();
 server.register(fastifyIO);
 
+export async function sleep(ms = 0) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 server.ready().then(() => {
   console.debug('ready');
 
@@ -19,8 +23,10 @@ server.ready().then(() => {
       auth: getUserFromToken(token)
     };
 
-    socket.on('getRooms', () => {
-      return context;
+    socket.on('getRooms', async (callback) => {
+      console.debug('getRooms');
+      await sleep(3000);
+      callback(context);
     });
   });
 });
