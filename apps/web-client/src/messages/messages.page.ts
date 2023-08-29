@@ -24,7 +24,7 @@ export class MessagesPageComponent {
   readonly api = inject(MessagingApi);
   readonly user$ = inject(AuthState).guaranteedUser();
 
-  @HostBinding() protected readonly class = 'flex';
+  @HostBinding() protected readonly class = '!flex-none';
   protected readonly showBoard$ = signal(true);
 
   readonly selectedRecipient$ = signal<User | null>(null);
