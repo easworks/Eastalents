@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Role, User } from '@easworks/models';
+import { MessageRoom, Role, User } from '@easworks/models';
 import { SwSocketService } from '../services/sw.socket';
 
 @Injectable({
@@ -9,18 +9,28 @@ export class MessagingApi {
   private readonly socket = inject(SwSocketService);
 
   readonly requests = {
-    getUsers: (input: { role: Role; _id: string; }) =>
-      this.socket.send('getUsers', input, 'getUsersResponse')
-        .then(response => {
-          return (response.data as any[])
-            .find(item => item.key === 'freelancer')
-            .freelancers as User[];
-        }),
-    getRoom: (input: { fromUserId: string, toUserId: string; }) =>
-      this.socket.send('createRoom', input, 'createRoomResponse')
+    getUsers: (input: {
+      _id: string;
+      role: Role;
+    }) => this.socket.send('getUsers', input, 'getUsersResponse')
+      .then(response => {
+        return (response.data as any[])
+          .find(item => item.key === 'freelancer')
+          .freelancers as User[];
+      }),
+
+    getRoom: (input: {
+      fromUserId: string;
+      toUserId: string;
+    }) => this.socket.send('createRoom', input, 'createRoomResponse')
+      .then(response => response.room as MessageRoom),
+
+    getRoomMessages: (input: {
+      chatRoomId: string;
+    }) => this.socket.send('getRoomMessages', input, 'getRoomMessagesResponse')
+      .then(response => response.messages as any[]),
   } as const;
 
   readonly events = {
-
   } as const;
 }
