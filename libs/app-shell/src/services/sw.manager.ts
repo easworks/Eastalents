@@ -17,8 +17,12 @@ export class SWManagementService {
         throw new Error('waiting service worker not in event');
 
       if (this.devMode) {
-        messageSW(event.sw, { type: 'SKIP_WAITING' })
+        // uncomment this when developing sw-related feature
+        // this.wb.addEventListener('controlling', () => {
+        //   window.location.reload();
+        // });
 
+        messageSW(event.sw, { type: 'SKIP_WAITING' });
       }
       else {
         this.wb.addEventListener('controlling', () => {
@@ -28,7 +32,7 @@ export class SWManagementService {
 
         if (event.wasWaitingBeforeRegister) {
           this.updating$.set(true);
-          messageSW(event.sw, { type: 'SKIP_WAITING' })
+          messageSW(event.sw, { type: 'SKIP_WAITING' });
         }
         else {
           this.updateAvailable$.set(true);
@@ -41,7 +45,7 @@ export class SWManagementService {
       if (!event.sw)
         throw new Error('activated service worker not in event');
 
-      messageSW(event.sw, { type: 'CLAIM_CLIENTS' })
+      messageSW(event.sw, { type: 'CLAIM_CLIENTS' });
     });
 
     navigator.serviceWorker.getRegistration()
@@ -51,7 +55,7 @@ export class SWManagementService {
           return;
 
         if (!navigator.serviceWorker.controller) {
-          await messageSW(active, { type: 'CLAIM_CLIENTS' })
+          await messageSW(active, { type: 'CLAIM_CLIENTS' });
         }
       })
       .then(() => this.wb.register())
