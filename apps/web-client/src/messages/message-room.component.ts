@@ -1,18 +1,19 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { ChangeDetectionStrategy, Component, HostBinding, computed, effect, inject, signal, untracked } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, INJECTOR, computed, effect, inject, signal, untracked } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, Validators } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { controlStatus$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
+import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { Message, MessageRoom } from '@easworks/models';
 import { faComments, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { repeat, switchMap, timer } from 'rxjs';
 import { MessagesPageComponent } from './messages.page';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 
 @Component({
   standalone: true,
@@ -33,8 +34,17 @@ export class MessageRoomComponent {
     this.reactToRecipientChange();
   }
 
+  private readonly injector = inject(INJECTOR);
   private readonly page = inject(MessagesPageComponent);
   private readonly snackbar = inject(MatSnackBar);
+  private readonly el = inject(ElementRef, { self: true }).nativeElement as HTMLElement;
+
+  get messagesContainer() {
+    const container = this.el.querySelector('.messages-container');
+    if (!container)
+      throw new Error('invalid operation');
+    return container;
+  }
 
   @HostBinding() protected readonly class = 'block';
   protected readonly icons = {
@@ -69,13 +79,15 @@ export class MessageRoomComponent {
             fromUserId: user._id,
             toUserId: recipient._id,
           });
-          const messages = await this.page.api.requests.getRoomMessages({ chatRoomId: room._id });
+          const messages = await this.page.api.requests
+            .getRoomMessages({ chatRoomId: room._id });
 
           this.room$.set(room);
           this.messages.data$.set(messages);
         }
         finally {
           this.loading.delete('getting room');
+          this.scrollMessagesToBottom();
         }
       }
     }, { allowSignalWrites: true });
@@ -109,15 +121,15 @@ export class MessageRoomComponent {
     });
 
     const status$ = toSignal(controlStatus$(form));
-    const isSending$ = this.loading.has('sending message');
-    const canSend$ = computed(() => isSending$() || status$() === 'VALID');
+    const sending$ = this.loading.has('sending message');
+    const cannotSend$ = computed(() => sending$() || status$() !== 'VALID');
 
     effect(() => {
       this.room$();
       form.patchValue('');
     }, { allowSignalWrites: true });
 
-    return { form, canSend$ } as const;
+    return { form, sending$, cannotSend$ } as const;
   }
 
   protected sendTextMessage() {
@@ -137,20 +149,17 @@ export class MessageRoomComponent {
       chatRoomId: room._id,
       message: content,
       userId: user._id
-    })
-      .then(() => {
-        form.reset('');
-      })
-      .catch((e) => {
-        this.snackbar.openFromComponent(SnackbarComponent, {
-          ...ErrorSnackbarDefaults,
-          data: { message: e.message }
-        });
-      }).finally(() => this.loading.delete('sending message'));
+    }).catch((e) => {
+      this.snackbar.openFromComponent(SnackbarComponent, {
+        ...ErrorSnackbarDefaults,
+        data: { message: e.message }
+      });
+      this.loading.delete('sending message');
+    });
   }
 
   private pollForMessages() {
-    return;
+    // return;
     timer(1000)
       .pipe(
         switchMap(async () => {
@@ -165,11 +174,42 @@ export class MessageRoomComponent {
           if (room._id !== this.room$()?._id)
             return;
 
-          this.messages.data$.set(messages);
+          const oldCount = this.messages.data$().length;
+          const newCount = messages.length;
+          const hasNewMessages = newCount && newCount > oldCount;
+
+          if (hasNewMessages) {
+            const { scrollHeight, scrollTop, clientHeight } = this.messagesContainer;
+            const wasAtBottom = scrollHeight === (scrollTop + clientHeight);
+
+            this.messages.data$.set(messages);
+
+            const lastSentBySelf = messages.at(-1)?.user._id === this.page.user$()._id;
+
+            if (lastSentBySelf) {
+              this.scrollMessagesToBottom();
+
+              if (this.loading.set$().has('sending message')) {
+                this.messages.text.form.reset('');
+                this.loading.delete('sending message');
+              }
+            }
+            else {
+              if (wasAtBottom)
+                this.scrollMessagesToBottom();
+            }
+          }
         }),
         repeat(),
         takeUntilDestroyed()
       )
       .subscribe();
+  }
+
+  private async scrollMessagesToBottom() {
+    await sleep();
+    this.messagesContainer.scrollTo({
+      top: this.messagesContainer.scrollHeight
+    });
   }
 }
