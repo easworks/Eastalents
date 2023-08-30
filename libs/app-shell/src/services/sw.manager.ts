@@ -1,5 +1,6 @@
 import { Injectable, InjectionToken, inject, isDevMode, signal } from '@angular/core';
 import { Workbox, messageSW } from 'workbox-window';
+import { Deferred } from '../utilities/deferred';
 
 export const SW_URL = new InjectionToken<string>('SW_URL: The service worker url');
 
@@ -11,17 +12,14 @@ export class SWManagementService {
     this.wb = new Workbox(this.swUrl);
     this.checkInterval = this.devMode ? 1000 : 7 * 60 * 60 * 1000;
 
+    this.ready = new Deferred();
+
     this.wb.addEventListener('waiting', event => {
 
       if (!event.sw)
         throw new Error('waiting service worker not in event');
 
       if (this.devMode) {
-        // uncomment this when developing sw-related feature
-        // this.wb.addEventListener('controlling', () => {
-        //   window.location.reload();
-        // });
-
         messageSW(event.sw, { type: 'SKIP_WAITING' });
       }
       else {
@@ -48,6 +46,10 @@ export class SWManagementService {
       messageSW(event.sw, { type: 'CLAIM_CLIENTS' });
     });
 
+    this.wb.addEventListener('controlling', async () => {
+      this.ready.resolve();
+    });
+
     navigator.serviceWorker.getRegistration()
       .then(async reg => {
         const active = reg?.active;
@@ -61,7 +63,12 @@ export class SWManagementService {
       .then(() => this.wb.register())
       .then(() => this.wb.active)
       .then(() => this.wb.messageSW({ type: 'CLAIM_CLIENTS' }))
-      .then(() => this.wb.update());
+      .then(() => this.wb.update())
+      .then(() => navigator.serviceWorker.getRegistration())
+      .then(reg => {
+        if (!reg?.installing)
+          this.ready.resolve();
+      });
   }
 
   private readonly swUrl = inject(SW_URL);
@@ -71,4 +78,5 @@ export class SWManagementService {
   private readonly checkInterval: number;
   readonly updateAvailable$ = signal(false);
   readonly updating$ = signal(false);
+  readonly ready;
 }
