@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, isDevMode, signal } from '@angular/core';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
@@ -42,6 +42,30 @@ export class MessageBoardComponent {
         }));
         this.recipients$.set(recipients);
         if (!this.selectedRecipient) {
+
+          // TODO: remove this code block
+          if (isDevMode()) {
+            const role = user.role === 'employer' ? 'freelancer' : 'employer';
+            const otherParty: SelectableOption<User> = {
+              selected: false,
+              value: {
+                role,
+                _id: role === 'employer' ?
+                  '646fa97b9f56f3d874be2ae3' :
+                  '6481a3caf1e4e196271d0979',
+                active: 1,
+                email: 'test@test',
+                firstName: '[DEV]',
+                lastName: role === 'employer' ?
+                  'steve cox' : 'ram indalkar',
+                verified: true
+              }
+            };
+            recipients.splice(0, 0, otherParty);
+            this.selectRecipient(otherParty);
+            return;
+          }
+
           this.selectRecipient(recipients[0]);
         }
       })

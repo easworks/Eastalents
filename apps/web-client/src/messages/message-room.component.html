@@ -11,9 +11,14 @@
     </mat-progress-spinner>
 
     <ng-template #$roomLoaded>
-      <div class="h-full flex flex-col" *ngIf="room$(); else $noRoom">
-        <div class="flex-grow">
-          <pre>{{messages$() | json}}</pre>
+      <div class="h-full flex flex-col justify-end" *ngIf="room$(); else $noRoom">
+        <div class="messages-container">
+          <div *ngFor="let message of messages.list$(); trackBy: trackBy.message"
+               class="message"
+               [class.self]="message.self">
+            <p>{{message.data.text}}</p>
+            <p class="time">{{message.data.createdAt}}</p>
+          </div>
         </div>
         <mat-divider></mat-divider>
         <div class="bg-white p-2">
