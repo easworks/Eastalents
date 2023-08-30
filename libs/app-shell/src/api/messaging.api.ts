@@ -29,6 +29,12 @@ export class MessagingApi {
       chatRoomId: string;
     }) => this.socket.send('getRoomMessages', input, 'getRoomMessagesResponse')
       .then(response => response.messages as any[]),
+
+    sendTextMessage: (input: {
+      chatRoomId: string;
+      userId: string;
+      message: string;
+    }) => this.socket.send('sendTextMessage', input, 'sendTextMessageResponse')
   } as const;
 
   readonly events = {

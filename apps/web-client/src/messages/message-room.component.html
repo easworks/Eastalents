@@ -15,15 +15,18 @@
         <div class="flex-grow">
           <pre>{{messages$() | json}}</pre>
         </div>
-        <div class="bg-white border-t-divider p-2">
-          <form class="flex gap-2">
-            <div id="text-message-field" class="form-field mb-0 flex-grow">
+        <mat-divider></mat-divider>
+        <div class="bg-white p-2">
+          <form class="flex gap-2" (ngSubmit)="sendTextMessage()">
+            <div id="text-message-field" class="form-field mb-0 flex-grow self-center">
               <div class="field field-interactive">
-                <textarea #textMessageInput cdkTextareaAutosize
-                          class="resize-none"></textarea>
+                <textarea [formControl]="messages.text.form"
+                          cdkTextareaAutosize
+                          class="resize-none"
+                          style="max-height: min(10rem, 30vh);"></textarea>
               </div>
             </div>
-            <button type="button" mat-ripple
+            <button type="submit" mat-ripple
                     class="icon-button self-end 
                     text-primary/70 hover:text-primary focus:text-primary">
               <fa-icon [icon]="icons.faPlay"></fa-icon>

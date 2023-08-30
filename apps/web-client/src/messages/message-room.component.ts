@@ -1,11 +1,15 @@
-import { ChangeDetectionStrategy, Component, HostBinding, effect, inject, signal, untracked } from '@angular/core';
+import { TextFieldModule } from '@angular/cdk/text-field';
+import { ChangeDetectionStrategy, Component, HostBinding, computed, effect, inject, signal, untracked } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
-import { MessagesPageComponent } from './messages.page';
 import { MessageRoom } from '@easworks/models';
 import { faComments, faPlay } from '@fortawesome/free-solid-svg-icons';
-import { TextFieldModule } from '@angular/cdk/text-field';
+import { MessagesPageComponent } from './messages.page';
+import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { controlStatus$ } from '@easworks/app-shell/common/form-field.directive';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -16,7 +20,8 @@ import { TextFieldModule } from '@angular/cdk/text-field';
   imports: [
     ImportsModule,
     MatSidenavModule,
-    TextFieldModule
+    TextFieldModule,
+    FormImportsModule
   ]
 })
 export class MessageRoomComponent {
@@ -40,6 +45,8 @@ export class MessageRoomComponent {
   protected readonly messages$ = signal<any[]>([]);
   protected readonly loadingRoom$ = this.loading.has('getting room');
 
+  protected readonly messages = this.initMessageControls();
+
   private reactToRecipientChange() {
     effect(async () => {
       const recipient = this.page.selectedRecipient$();
@@ -62,5 +69,37 @@ export class MessageRoomComponent {
         }
       }
     }, { allowSignalWrites: true });
+  }
+
+  private initMessageControls() {
+    const text = this.initTextMessage();
+
+    return { text } as const;
+
+  }
+
+  private initTextMessage() {
+    const form = new FormControl('', {
+      validators: [Validators.required]
+    });
+
+    const status$ = toSignal(controlStatus$(form));
+    const canSend$ = computed(() => status$() === 'VALID');
+
+    effect(() => {
+      this.room$();
+      form.patchValue('');
+    }, { allowSignalWrites: true });
+
+    return { form, canSend$ } as const;
+  }
+
+  protected sendTextMessage() {
+    const { form } = this.messages.text;
+    if (!form.valid)
+      return;
+
+    const content = form.value;
+    console.debug(content);
   }
 }
