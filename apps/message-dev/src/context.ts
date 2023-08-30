@@ -1,4 +1,4 @@
-export function getUserFromToken(token: string) {
+export async function getUserFromToken(token: string) {
   const payload = token.split('.')[1];
   const parsed = JSON.parse(atob(payload));
   return parsed as {

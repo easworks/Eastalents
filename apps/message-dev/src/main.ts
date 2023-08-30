@@ -21,12 +21,21 @@ server.ready().then(() => {
 
     const context = {
       auth: getUserFromToken(token)
+        .catch(e => {
+          socket.emit('error', 'auth token invalid');
+          socket.disconnect(true);
+          throw e;
+        })
     };
 
-    socket.on('getRooms', async (callback) => {
-      console.debug('getRooms');
-      await sleep(3000);
-      callback(context);
+    socket.on('getRooms', async ({ nonce }, callback) => {
+      const user = await context.auth;
+      // const rooms = await getRooms(user.userId);
+      const rooms = [] as string[];
+      callback({
+        nonce,
+        rooms
+      });
     });
   });
 });
