@@ -20,6 +20,10 @@ export function setupSocket() {
         transports: ['websocket']
       });
 
+      socket.onAny((event, ...args: []) => {
+        console.debug(event, args);
+      });
+
       socket$.next(socket);
     }
     else {

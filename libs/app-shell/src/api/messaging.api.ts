@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { MessageRoom, Role, User } from '@easworks/models';
+import { Message, MessageRoom, Role, User } from '@easworks/models';
 import { SwSocketService } from '../services/sw.socket';
 
 @Injectable({
@@ -28,13 +28,17 @@ export class MessagingApi {
     getRoomMessages: (input: {
       chatRoomId: string;
     }) => this.socket.send('getRoomMessages', input, 'getRoomMessagesResponse')
-      .then(response => response.messages as any[]),
+      .then(response => response.messages as Message[]),
 
     sendTextMessage: (input: {
       chatRoomId: string;
       userId: string;
       message: string;
     }) => this.socket.send('sendTextMessage', input, 'sendTextMessageResponse')
+      .then(response => {
+        if ('error' in response)
+          throw new Error(response.error);
+      })
   } as const;
 
   readonly events = {

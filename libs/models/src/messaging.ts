@@ -6,3 +6,14 @@ export interface MessageRoom {
   created: DateTime;
   updated: DateTime;
 }
+
+export interface Message {
+  _id: string;
+  createdAt: DateTime;
+  text: string;
+  user: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+}
