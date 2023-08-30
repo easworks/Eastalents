@@ -27,9 +27,12 @@
               </div>
             </div>
             <button type="submit" mat-ripple
+                    [disabled]="!messages.text.canSend$()"
                     class="icon-button self-end 
-                    text-primary/70 hover:text-primary focus:text-primary">
-              <fa-icon [icon]="icons.faPlay"></fa-icon>
+                    text-primary/70 disabled:text-slate-300
+                    enabled:hover:text-primary 
+                    enabled:focus:text-primary">
+              <fa-icon [icon]="icons.faPlay" class="ml-[0.3rem]"></fa-icon>
             </button>
           </form>
         </div>
