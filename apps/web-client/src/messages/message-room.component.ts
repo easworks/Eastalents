@@ -67,6 +67,32 @@ export class MessageRoomComponent {
 
   protected readonly messages = this.initMessageControls();
 
+  protected sendTextMessage() {
+    const room = this.room$();
+    const user = this.page.user$();
+    if (!room)
+      throw new Error('invalid opertaion');
+
+    const { form } = this.messages.text;
+    if (!form.valid)
+      return;
+
+    this.loading.add('sending message');
+
+    const content = form.value;
+    this.page.api.requests.sendTextMessage({
+      chatRoomId: room._id,
+      message: content,
+      userId: user._id
+    }).catch((e) => {
+      this.snackbar.openFromComponent(SnackbarComponent, {
+        ...ErrorSnackbarDefaults,
+        data: { message: e.message }
+      });
+      this.loading.delete('sending message');
+    });
+  }
+
   private reactToRecipientChange() {
     effect(async () => {
       const recipient = this.page.selectedRecipient$();
@@ -130,32 +156,6 @@ export class MessageRoomComponent {
     }, { allowSignalWrites: true });
 
     return { form, sending$, cannotSend$ } as const;
-  }
-
-  protected sendTextMessage() {
-    const room = this.room$();
-    const user = this.page.user$();
-    if (!room)
-      throw new Error('invalid opertaion');
-
-    const { form } = this.messages.text;
-    if (!form.valid)
-      return;
-
-    this.loading.add('sending message');
-
-    const content = form.value;
-    this.page.api.requests.sendTextMessage({
-      chatRoomId: room._id,
-      message: content,
-      userId: user._id
-    }).catch((e) => {
-      this.snackbar.openFromComponent(SnackbarComponent, {
-        ...ErrorSnackbarDefaults,
-        data: { message: e.message }
-      });
-      this.loading.delete('sending message');
-    });
   }
 
   private pollForMessages() {
