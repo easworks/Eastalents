@@ -40,7 +40,6 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "message-dev:build",
-        "port": 4201,
         "inspect": false
       },
       "configurations": {

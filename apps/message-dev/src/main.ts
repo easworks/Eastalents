@@ -1,43 +1,19 @@
 import fastify from "fastify";
 import fastifyIO from "fastify-socket.io";
-import { getUserFromToken } from './context';
+import { handlers } from './verify-software-images';
+import { messaging } from './messaging';
+import { environment } from './environment';
+
+const { port } = environment;
 
 const server = fastify();
+
 server.register(fastifyIO);
 
-export async function sleep(ms = 0) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+server.register(messaging);
 
-server.ready().then(() => {
-  console.debug('ready');
+server.register(handlers);
 
-  server.io.on("connection", (socket) => {
-    const { token } = socket.handshake.auth;
-    if (!token) {
-      socket.emit('error', 'auth token missing');
-      socket.disconnect(true);
-    }
+server.ready().then(() => console.debug(`server listening on port: ${port}`));
 
-    const context = {
-      auth: getUserFromToken(token)
-        .catch(e => {
-          socket.emit('error', 'auth token invalid');
-          socket.disconnect(true);
-          throw e;
-        })
-    };
-
-    socket.on('getRooms', async ({ nonce }, callback) => {
-      const user = await context.auth;
-      // const rooms = await getRooms(user.userId);
-      const rooms = [] as string[];
-      callback({
-        nonce,
-        rooms
-      });
-    });
-  });
-});
-
-server.listen({ port: 4201 });
+server.listen({ port });
