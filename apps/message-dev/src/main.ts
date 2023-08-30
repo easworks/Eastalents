@@ -1,8 +1,8 @@
 import fastify from "fastify";
 import fastifyIO from "fastify-socket.io";
-import { handlers } from './verify-software-images';
-import { messaging } from './messaging';
 import { environment } from './environment';
+import { handlers } from './handlers';
+import { messaging } from './messaging';
 
 const { port } = environment;
 
