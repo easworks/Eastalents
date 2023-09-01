@@ -99,4 +99,19 @@ export const PUBLIC_ROUTES: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('./about-us/about-us.page').then(m => m.AboutUsPageComponent)
   },
+  {
+    path: 'contact-us',
+    pathMatch: 'full',
+    loadComponent: () => import('./contact-us/contact-us.page').then(m => m.ContactUsPageComponent)
+  },
+  {
+    path: 'privacy',
+    pathMatch: 'full',
+    loadComponent: () => import('./privacy/privacy.page').then(m => m.PrivacyPageComponent)
+  },
+  {
+    path: 'terms-of-use',
+    pathMatch: 'full',
+    loadComponent: () => import('./terms-of-use/terms-of-use.page').then(m => m.TermsOfUsePageComponent)
+  },
 ];
