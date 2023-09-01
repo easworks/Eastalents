@@ -41,12 +41,10 @@
         </p>
         <div class="mt-8">
           <div class="flex gap-4 text-2xl">
-            <fa-icon [icon]="icons.faLinkedin"></fa-icon>
-            <fa-icon [icon]="icons.faFacebook"></fa-icon>
-            <fa-icon [icon]="icons.faGithub"></fa-icon>
-            <fa-icon [icon]="icons.faTwitter"></fa-icon>
-            <fa-icon [icon]="icons.faInstagram"></fa-icon>
-            <fa-icon [icon]="icons.faYoutube"></fa-icon>
+            <a *ngFor="let icon of socialIcons" [href]="icon.link">
+              <fa-icon [icon]="icon.icon" ></fa-icon>
+            </a>
+            
           </div>
           <p class="mt-4">
             4653 Carmel Mountain Rd, <br>
@@ -73,8 +71,16 @@
       </nav>
     </div>
 
-    <div class="py-4 px-8 text-center text-sm bg-secondary">
+    <div class="py-4 px-8 text-center text-sm bg-secondary flex justify-between">
         <p class="text-white"> © Copyright 2023 EASWORKS. All Rights Reserved.</p>
+        <ul class="flex text-white">
+          <li>
+            <a href="#" class="border-r pr-2">Privacy Policy</a>
+          </li>
+          <li>
+            <a href="#" class="pl-2">Terms of Service</a>
+          </li>
+        </ul>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

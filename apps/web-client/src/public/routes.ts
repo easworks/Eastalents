@@ -94,4 +94,9 @@ export const PUBLIC_ROUTES: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('./home/home.page').then(m => m.HomePageComponent)
   },
+  {
+    path: 'about-us',
+    pathMatch: 'full',
+    loadComponent: () => import('./about-us/about-us.page').then(m => m.AboutUsPageComponent)
+  },
 ];
