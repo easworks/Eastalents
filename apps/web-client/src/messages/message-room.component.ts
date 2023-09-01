@@ -62,7 +62,7 @@ export class MessageRoomComponent {
     message: (_: number, item: { data: Message; }) => item.data._id
   } as const;
 
-  protected readonly showInfoPanel$ = signal(true);
+  protected readonly showInfoPanel$ = signal(false);
   private readonly loading = generateLoadingState<[
     'getting room',
     'sending message'
