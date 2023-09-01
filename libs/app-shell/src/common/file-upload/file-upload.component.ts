@@ -4,13 +4,11 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, DoCheck, ElementRef, HostBinding, HostListener, Input, OnDestroy, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AbstractControl, ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { CanUpdateErrorState, ErrorStateMatcher } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
-import { Subject } from 'rxjs';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'file-upload',
@@ -38,19 +36,19 @@ export class FileUploadComponent
       this.ngControl.valueAccessor = this;
     }
 
-    this.fm.monitor(this.elRef.nativeElement, true)
+    this.fm.monitor(this.el, true)
       .pipe(takeUntilDestroyed())
       .subscribe(origin => {
         this.focused = !!origin;
         if (this.focused)
-          this.elRef.nativeElement.focus();
+          this.el.focus();
         this.stateChanges.next();
       });
   }
 
   private readonly fm = inject(FocusMonitor);
   private readonly _parentFormGroup = inject(FormGroupDirective);
-  private readonly elRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly el = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   public readonly ngControl = inject(NgControl, { optional: true, self: true });
   private readonly cd = inject(ChangeDetectorRef);
 
@@ -201,7 +199,7 @@ export class FileUploadComponent
 
   ngOnDestroy() {
     this.stateChanges.complete();
-    this.fm.stopMonitoring(this.elRef.nativeElement);
+    this.fm.stopMonitoring(this.el);
   }
 }
 
