@@ -38,7 +38,14 @@ export class MessagingApi {
       .then(response => {
         if ('error' in response)
           throw new Error(response.error);
-      })
+      }),
+
+    sendFileMessage: async (input: {
+      chatRoomId: string,
+      userId: string,
+      fileName: string,
+      fileData: ArrayBuffer;
+    }) => this.socket.send('sendFileMessage', input, 'getRoomMessagesResponse')
   } as const;
 
   readonly events = {

@@ -25,6 +25,10 @@ export function setupSocket() {
         console.debug(event, args);
       });
 
+      socket.onAnyOutgoing((event, ...args: []) => {
+        console.debug(event, args);
+      });
+
       socket$.next(socket);
     }
     else {

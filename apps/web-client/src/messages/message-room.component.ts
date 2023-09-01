@@ -222,14 +222,36 @@ export class MessageRoomComponent {
       }
     };
 
-    const send = () => {
-      console.debug($());
+    const remove = () => file$.set(null);
+
+    const send = async () => {
+      const file = $();
+      if (!file)
+        throw new Error('invalid operation');
+
+      const room = this.room$();
+      if (!room)
+        throw new Error('invalid operation');
+
+      this.loading.add('sending message');
+      this.page.api.requests.sendFileMessage({
+        chatRoomId: room._id,
+        userId: this.page.user$()._id,
+        fileName: file.file.name,
+        fileData: await file.file.arrayBuffer()
+      }).catch((e) => {
+        this.snackbar.openFromComponent(SnackbarComponent, {
+          ...ErrorSnackbarDefaults,
+          data: { message: e.message }
+        });
+        this.loading.delete('sending message');
+      });;
     };
 
     return {
       $,
       cannotSend$,
-      update, send
+      update, remove, send
     } as const;
   }
 

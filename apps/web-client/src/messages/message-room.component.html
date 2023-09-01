@@ -25,12 +25,13 @@
           <form class="flex gap-2" (ngSubmit)="messages.send()">
             <input #fileInput type="file" class="hidden"
                    (input)="messages.files.update(fileInput)"
-                   accept="*/*">
-            <button type="button" class="icon-button self-end text-slate-400 
+                   accept="image/*">
+            <!-- TODO: uncomment this button when work for files is done -->
+            <!-- <button type="button" class="icon-button self-end text-slate-400 
               enabled:hover:text-inherit enabled:focus:text-inherit"
                     (click)="fileInput.click()">
               <fa-icon [icon]="icons.faPaperclip"></fa-icon>
-            </button>
+            </button> -->
             <div id="text-message-field" *ngIf="messages.mode$() === 'text'; else $fileDisplay"
                  class="form-field mb-0 flex-grow self-center">
               <div class="field field-interactive">
@@ -52,7 +53,8 @@
                     <p class="text-xs">{{display.error}}</p>
                   </div>
                   <button class="icon-button ml-auto 
-                    text-slate-400 hover:text-black">
+                    text-slate-400 hover:text-black"
+                          (click)="messages.files.remove()">
                     <fa-icon [icon]="icons.faXmark"></fa-icon>
                   </button>
                 </div>
