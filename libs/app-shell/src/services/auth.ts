@@ -154,7 +154,7 @@ export class AuthService {
 
   private async syncUserWithServiceWorker() {
     const swm = inject(SWManagementService);
-    await swm.wb.controlling;
+    await swm.ready;
 
     effect(() => {
       const user = this.state.user$();
