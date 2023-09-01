@@ -1,0 +1,11 @@
+<mat-progress-spinner *ngIf="loadingUsers$()"
+                      diameter="32" mode="indeterminate"
+                      class="mx-auto mt-4"></mat-progress-spinner>
+
+<button *ngFor="let recipient of recipients$()"
+        class="room-selector"
+        [class.selected]="recipient.selected"
+        (click)="selectRecipient(recipient)">
+  <p class="name">{{recipient.value.firstName}} {{recipient.value.lastName}}</p>
+  <p class="role">{{recipient.value.role}}</p>
+</button>

@@ -33,6 +33,10 @@
       transition-all;
       
     @apply hover:bg-slate-500/10 focus:bg-slate-500/10;
+    
+    &:disabled  {
+      @apply bg-transparent transition-none;
+    }
 
   }
 
@@ -143,7 +147,7 @@
   }
 
   textarea {
-    @apply bg-transparent w-full h-full outline-none placeholder:text-sm;
+    @apply block bg-transparent w-full h-full outline-none placeholder:text-sm;
 
     &::-webkit-scrollbar {
       @apply absolute h-1 w-1 rounded-full;

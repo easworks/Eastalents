@@ -16,5 +16,5 @@ const env: Environment = devMode ?
 
 
 export function provideEnvironment(): Provider {
-  return { provide: ENVIRONMENT, useValue: env }
+  return { provide: ENVIRONMENT, useValue: env };
 }

@@ -1,0 +1,29 @@
+.messages-container {
+  @apply grid gap-4 p-2 overflow-auto;
+}
+
+.message {
+  @apply rounded p-2 px-4 bg-primary/5
+    max-w-[90%]
+    mr-auto;
+
+  .time {
+    @apply text-xs text-left;
+  }
+  
+  &.self {
+    @apply mr-0 ml-auto;
+
+    .time {
+      @apply text-right;
+    }
+  }
+}
+
+#file-message-field-container {
+  > .file {
+    &.error {
+      @apply text-warn;
+    }
+  }
+}

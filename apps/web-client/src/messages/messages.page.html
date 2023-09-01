@@ -1,12 +1,9 @@
-<div>
-  import ChangeDetectionStrategy, Component from '@angular/core';
-
-  @Component(
-  standalone: true,
-  selector: 'messages-page',
-  templateUrl: './messages.page.html',
-  styleUrls: ['./messages.page.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
-  )
-  export class MessagesPageComponent
-</div>
+<mat-sidenav-container class="w-full h-full">
+  <mat-sidenav [opened]="showBoard$()" mode="side"
+               class="w-60">
+    <message-board></message-board>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <message-room class="h-full"></message-room>
+  </mat-sidenav-content>
+</mat-sidenav-container>
