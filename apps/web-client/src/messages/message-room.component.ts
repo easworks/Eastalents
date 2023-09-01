@@ -11,9 +11,12 @@ import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/no
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { Message, MessageRoom } from '@easworks/models';
-import { faComments, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { faComments, faPlay, faPaperclip, faFile, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { repeat, switchMap, timer } from 'rxjs';
 import { MessagesPageComponent } from './messages.page';
+import { FileUploadComponent } from '@easworks/app-shell/common/file-upload/file-upload.component';
+
+const MB_5 = 5 * 1024 * 1024;
 
 @Component({
   standalone: true,
@@ -25,7 +28,8 @@ import { MessagesPageComponent } from './messages.page';
     ImportsModule,
     MatSidenavModule,
     TextFieldModule,
-    FormImportsModule
+    FormImportsModule,
+    FileUploadComponent
   ]
 })
 export class MessageRoomComponent {
@@ -49,7 +53,9 @@ export class MessageRoomComponent {
   @HostBinding() protected readonly class = 'block';
   protected readonly icons = {
     faComments,
-    faPlay
+    faPlay,
+    faPaperclip,
+    faXmark
   } as const;
 
   protected readonly trackBy = {
@@ -66,32 +72,6 @@ export class MessageRoomComponent {
   protected readonly loadingRoom$ = this.loading.has('getting room');
 
   protected readonly messages = this.initMessageControls();
-
-  protected sendTextMessage() {
-    const room = this.room$();
-    const user = this.page.user$();
-    if (!room)
-      throw new Error('invalid opertaion');
-
-    const { form } = this.messages.text;
-    if (!form.valid)
-      return;
-
-    this.loading.add('sending message');
-
-    const content = form.value;
-    this.page.api.requests.sendTextMessage({
-      chatRoomId: room._id,
-      message: content,
-      userId: user._id
-    }).catch((e) => {
-      this.snackbar.openFromComponent(SnackbarComponent, {
-        ...ErrorSnackbarDefaults,
-        data: { message: e.message }
-      });
-      this.loading.delete('sending message');
-    });
-  }
 
   private reactToRecipientChange() {
     effect(async () => {
@@ -122,6 +102,25 @@ export class MessageRoomComponent {
   private initMessageControls() {
     const text = this.initTextMessage();
 
+    const files = this.initFileMessage();
+
+    const mode$ = computed(() => files.$() ? 'file' : 'text');
+    const sending$ = this.loading.has('sending message');
+    const cannotSend$ = computed(() => {
+      if (sending$()) return true;
+      switch (mode$()) {
+        case 'file': return files.cannotSend$();
+        case 'text': return text.cannotSend$();
+      }
+    });
+
+    const send = () => {
+      switch (mode$()) {
+        case 'file': return files.send();
+        case 'text': return text.send();
+      }
+    };
+
     const data$ = signal<Message[]>([]);
     const list$ = computed(() => {
       const data = data$();
@@ -134,8 +133,12 @@ export class MessageRoomComponent {
     });
 
     return {
+      mode$,
+      sending$, cannotSend$,
       data$, list$,
-      text
+      text,
+      files,
+      send
     } as const;
 
   }
@@ -147,15 +150,87 @@ export class MessageRoomComponent {
     });
 
     const status$ = toSignal(controlStatus$(form));
-    const sending$ = this.loading.has('sending message');
-    const cannotSend$ = computed(() => sending$() || status$() !== 'VALID');
+    const cannotSend$ = computed(() => status$() !== 'VALID');
 
     effect(() => {
       this.room$();
       form.patchValue('');
     }, { allowSignalWrites: true });
 
-    return { form, sending$, cannotSend$ } as const;
+    const send = () => {
+      const room = this.room$();
+      const user = this.page.user$();
+      if (!room)
+        throw new Error('invalid opertaion');
+
+      const { form } = this.messages.text;
+      if (!form.valid)
+        return;
+
+      this.loading.add('sending message');
+
+      const content = form.value;
+      this.page.api.requests.sendTextMessage({
+        chatRoomId: room._id,
+        message: content,
+        userId: user._id
+      }).catch((e) => {
+        this.snackbar.openFromComponent(SnackbarComponent, {
+          ...ErrorSnackbarDefaults,
+          data: { message: e.message }
+        });
+        this.loading.delete('sending message');
+      });
+    };
+
+    return {
+      form,
+      cannotSend$,
+      send
+    } as const;
+  }
+
+  private initFileMessage() {
+    const file$ = signal<File | null>(null);
+
+    const $ = computed(() => {
+      const file = file$();
+      if (file) {
+        let error;
+        if (file.size > MB_5) {
+          error = 'must be less than 5 MB';
+        }
+
+        return {
+          file,
+          icon: faFile,
+          error
+        };
+      }
+
+      return null;
+    });
+
+    const cannotSend$ = computed(() => {
+      const f = $();
+      return !f || !!f.error;
+    });
+
+    const update = (input: HTMLInputElement) => {
+      if (input.files?.length) {
+        file$.set(input.files[0]);
+      }
+    };
+
+    const send = () => {
+      console.debug($());
+    };
+
+    return {
+      $,
+      cannotSend$,
+      update, send
+    } as const;
   }
 
   private pollForMessages() {
