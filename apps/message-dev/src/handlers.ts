@@ -1,8 +1,7 @@
 import { Domain, DomainDictionaryDto, DomainModule, SoftwareProduct, TechGroup, TechGroupDto } from '@easworks/models';
 import { FastifyPluginAsync } from 'fastify';
+import { readFile, readdir, stat } from 'fs/promises';
 import { fetch } from 'undici';
-import { serialize } from 'superjson';
-import { readFile } from 'fs/promises';
 
 export const handlers: FastifyPluginAsync = async server => {
   server.get('/verify-software-images', async () => {
@@ -10,11 +9,57 @@ export const handlers: FastifyPluginAsync = async server => {
       .then<any>(r => r.json())
       .then<DomainDictionaryDto>(r => r.talentProfile);
     const techDto = JSON.parse(await readFile('./libs/shared/assets/src/utils/tech.json', { encoding: 'utf-8' })) as TechGroupDto;
+    const featuredDomains = JSON.parse(await readFile('./libs/shared/assets/src/utils/featured-domains.json', { encoding: 'utf-8' })) as {
+      domain: string;
+      products: string[];
+    }[];
 
     try {
       const maps = mapDomainEntities(domainDto, techDto);
-      return serialize({ dto: domainDto, maps }).json;
 
+      const toDo = [] as string[];
+
+      for (const fd of featuredDomains) {
+        const domain = maps.domains.get(fd.domain);
+        if (!domain) {
+          toDo.push(`domain '${fd.domain}' not found`);
+          continue;
+        }
+
+        const imageFolder = `./libs/shared/assets/src/software/products/${domain.key}`;
+        const exists = await stat(imageFolder)
+          .catch(() => false);
+        if (!exists) {
+          toDo.push(`- image folder for domain ${domain.key} does not exist`);
+          continue;
+        }
+
+        const filesOnDisk = new Set(await readdir(imageFolder));
+        for (const p of fd.products) {
+          const product = maps.products.get(p);
+          if (!product) {
+            toDo.push(`- product '${p}' in domain '${domain.key}' not found`);
+            continue;
+          }
+
+          const imageFile = `${imageFolder}/${product.name}.png`;
+          filesOnDisk.delete(`${product.name}.png`);
+          // expectedFiles.add(path.resolve(imageFile));
+          const exists = await stat(imageFile)
+            .catch(() => false);
+          if (!exists) {
+            toDo.push(`- expected file '${domain.key}/${product.name}.png' not found`);
+            continue;
+          }
+        }
+
+        filesOnDisk.forEach(f =>
+          toDo.push(`- unexpected file '${domain.key}/${f}' was found`));
+
+        toDo.push('');
+      };
+
+      return toDo.join('\n');
     }
     catch (e) {
       console.error(e);
@@ -37,8 +82,6 @@ function mapDomainEntities(ddto: DomainDictionaryDto, tdto: TechGroupDto) {
 
   Object.keys(ddto).forEach(dk => {
     const input = ddto[dk];
-
-    console.debug(dk, input.Modules);
 
     const dp = new Set<string>();
 
