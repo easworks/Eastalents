@@ -77,6 +77,9 @@
       },
       "defaultConfiguration": "development"
     },
+    "build-tw": {
+      "command": "tailwind -o apps/web-client/src/assets/tw.css --config apps/web-client/tailwind.config.js --minify --content ' '"
+    },
     "analyze": {
       "executor": "nx:run-commands",
       "options": {
