@@ -102,7 +102,7 @@ export const PUBLIC_ROUTES: Routes = [
   {
     path: 'privacy-policy',
     pathMatch: 'full',
-    loadComponent: () => import('./privacy/privacy.page').then(m => m.PrivacyPageComponent),
+    loadComponent: () => import('./privacy-policy/privacy-policy.page').then(m => m.PrivacyPolicyPageComponent),
     resolve: {
       content: () => fetch('/assets/pages/privacy-policy/content.md')
         .then(r => r.text())
