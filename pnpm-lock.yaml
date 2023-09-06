@@ -53,6 +53,9 @@ dependencies:
   '@ngrx/component':
     specifier: 16.0.1
     version: 16.0.1(@angular/common@16.1.2)(@angular/core@16.1.2)(rxjs@7.8.1)
+  '@ngrx/store':
+    specifier: ^16.2.0
+    version: 16.2.0(@angular/core@16.1.2)(rxjs@7.8.1)
   '@tailwindcss/typography':
     specifier: ^0.5.10
     version: 0.5.10(tailwindcss@3.3.2)
@@ -3882,6 +3885,17 @@ packages:
       rxjs: ^6.5.3 || ^7.5.0
     dependencies:
       '@angular/common': 16.1.2(@angular/core@16.1.2)(rxjs@7.8.1)
+      '@angular/core': 16.1.2(rxjs@7.8.1)(zone.js@0.13.1)
+      rxjs: 7.8.1
+      tslib: 2.5.3
+    dev: false
+
+  /@ngrx/store@16.2.0(@angular/core@16.1.2)(rxjs@7.8.1):
+    resolution: {integrity: sha512-C7oIUC87xXV+1dTGUwYG/L4p0IZdYv/Ou1nTL/LffyAHllmmygTA5gzLB87abLOhucAxlFIQMQ8t/GSxdk/+QA==}
+    peerDependencies:
+      '@angular/core': ^16.0.0
+      rxjs: ^6.5.3 || ^7.5.0
+    dependencies:
       '@angular/core': 16.1.2(rxjs@7.8.1)(zone.js@0.13.1)
       rxjs: 7.8.1
       tslib: 2.5.3

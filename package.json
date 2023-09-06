@@ -72,6 +72,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@lottiefiles/lottie-player": "2.0.2",
     "@ngrx/component": "16.0.1",
+    "@ngrx/store": "^16.2.0",
     "@tailwindcss/typography": "^0.5.10",
     "axios": "^1.0.0",
     "chart.js": "^4.3.0",

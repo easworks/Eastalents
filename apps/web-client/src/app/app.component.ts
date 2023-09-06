@@ -5,9 +5,9 @@ import { EventType, Router, RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { NavigationModule } from '@easworks/app-shell/navigation/navigation.module';
 import { MenuItem, NOOP_CLICK, NavMenuState } from '@easworks/app-shell/state/menu';
-import { UiState } from '@easworks/app-shell/state/ui';
+import { UI_FEATURE } from '@easworks/app-shell/state/ui';
+import { faFacebook, faGithub, faInstagram, faLinkedin, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { faAngleRight, faBars, } from '@fortawesome/free-solid-svg-icons';
-import { faLinkedin, faFacebook, faGithub, faTwitter, faInstagram, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { AccountWidgetComponent } from '../account/account.widget';
 import { publicMenu } from './menu-items';
 
@@ -34,7 +34,7 @@ export class AppComponent {
 
   @HostBinding()
   private readonly class = 'flex flex-col min-h-screen';
-  private readonly uiState = inject(UiState);
+  private readonly ui = inject(UI_FEATURE);
   private readonly menuState = inject(NavMenuState);
   @ViewChild('appSidenav', { static: true }) private readonly appSideNav!: MatSidenav;
 
@@ -72,7 +72,7 @@ export class AppComponent {
           { name: 'FAQ -Talent', link: NOOP_CLICK },
         ],
       },
-  ],
+    ],
     [
       {
         group: 'Use cases',
@@ -159,7 +159,7 @@ export class AppComponent {
 
   private makeMenuReactive() {
     effect(() => {
-      const screenSize = this.uiState.screenSize$();
+      const screenSize = this.ui.selectors.screenSize$();
 
       switch (screenSize) {
         case 'sm':
