@@ -114,4 +114,9 @@ export const PUBLIC_ROUTES: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('./terms-of-use/terms-of-use.page').then(m => m.TermsOfUsePageComponent)
   },
+  {
+    path: 'company-type',
+    pathMatch: 'full',
+    loadComponent: () => import('./company-type/company-type.page').then(m => m.CompanyTypePageComponent)
+  },
 ];
