@@ -1,5 +1,3 @@
-## Cookie Policy
-
 This policy explains how Unicax utilises cookies on its website
 \_\_\_\_\_\_ ('Website'). For further understanding over how we acquire
 and use information from visitors to the Website, we advise that you

@@ -1,5 +1,3 @@
-## EASWORKS - Code of Conduct
-
 Welcome to EASWORKS. This Code of Conduct outlines our expectations for
 all those who participate in our community and use our platform and
 services (\"Services\"), provided by EASWORKS (\"we\", \"us\", or

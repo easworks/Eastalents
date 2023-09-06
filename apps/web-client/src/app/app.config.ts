@@ -31,7 +31,7 @@ export const appConfig: ApplicationConfig = {
     { provide: SW_URL, useValue: serviceWorkerUrl },
     {
       provide: APP_INITIALIZER,
-      useFactory: (swm: SWManagementService) => () => swm.wb.controlling,
+      useFactory: (swm: SWManagementService) => () => swm.ready,
       deps: [SWManagementService],
       multi: true
     },
@@ -39,6 +39,7 @@ export const appConfig: ApplicationConfig = {
       provide: APP_INITIALIZER,
       useFactory: () => () => undefined,
       deps: [
+        SWManagementService,
         AuthService,
         SEOService,
         SignInEffects

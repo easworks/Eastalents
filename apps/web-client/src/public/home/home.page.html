@@ -5,21 +5,24 @@
 
   <div class="flex gap-4 justify-between 
         flex-wrap-reverse lg:flex-nowrap relative">
-    <div class="mt-4 p-4 md:px-8 lg:max-w-2xl lg:mx-auto self-center transition-all">
-      <p>
-        EASWORKS is an on-demand platform for hiring Enterprise Application
-        freelancers with deep expertise in various Enterprise Application
-        Software (EAS) technologies and domains.
-      </p>
-      <h3 class="mt-4 lg:text-4xl text-2xl font-bold">
-        Unlock the potential of <span class="text-primary">enterprise
-          application development with ease.</span>
-      </h3>
-      <p class="mt-4">
-        Work with top pre-vetted enterprise application software experts with
-        deep industry knowledge, extensive project experience, strong
-        collaboration skills, and understanding of project requirements.
-      </p>
+    <div class="mt-4 p-4 md:px-8 lg:max-w-lg lg:mx-auto transition-all
+      flex flex-col">
+      <div class="grid content-center flex-grow">
+        <p>
+          EASWORKS is an on-demand platform for hiring Enterprise Application
+          freelancers with deep expertise in various Enterprise Application
+          Software (EAS) technologies and domains.
+        </p>
+        <h3 class="mt-4 lg:text-4xl text-2xl font-bold">
+          Unlock the potential of <span class="text-primary">enterprise
+            application development with ease.</span>
+        </h3>
+        <p class="mt-4">
+          Work with top pre-vetted enterprise application software experts with
+          deep industry knowledge, extensive project experience, strong
+          collaboration skills, and understanding of project requirements.
+        </p>
+      </div>
       <div class="flex mt-12 gap-4">
         <button class="shaded-button primary mat-elevation-z1">Hire Us</button>
         <button class="shaded-button mat-elevation-z1"> Work with us</button>
@@ -28,7 +31,7 @@
     <div class="mx-auto self-start max-w-full xl:max-w-5xl
                 transition-all">
       <lottie-player src="https://lottie.host/6ba2be73-f581-4302-8a7e-d239af1b177b/i4dV3wJAo2.json"
-        background="transparent" speed="1" loop autoplay class="contents"></lottie-player>
+                     background="transparent" speed="1" loop autoplay class="contents"></lottie-player>
     </div>
   </div>
 </section>
@@ -66,7 +69,7 @@
     </div>
     <div>
       <lottie-player src="https://lottie.host/4b583250-12a2-4a40-baa9-45e2701f2c06/sHU0VRjvKR.json"
-        background="transparent" speed="1" loop autoplay></lottie-player>
+                     background="transparent" speed="1" loop autoplay></lottie-player>
     </div>
   </div>
 </section>
@@ -98,7 +101,7 @@
            flex-grow w-48 lg:w-72
            bg-white shadow-lg rounded-md text-center">
         <lottie-player [src]="hitw.lottie" background="transparent"
-          class="mx-auto w-20 h-20 md:w-24 md:h-24 transition-all" autoplay loop></lottie-player>
+                       class="mx-auto w-20 h-20 md:w-24 md:h-24 transition-all" autoplay loop></lottie-player>
         <h4 class="text-lg font-semibold">{{hitw.title}}</h4>
         <p class="text-sm leading-6">{{hitw.content}}</p>
       </div>
@@ -126,7 +129,7 @@
               border border-primary bg-white shadow-md 
               rounded-tr-[2rem] rounded-bl-[2rem] border-b-4">
         <lottie-player [src]="acc.lottie" background="transparent"
-          class="mx-auto w-full h-20 md:w-24 md:h-24 transition-all" autoplay loop></lottie-player>
+                       class="mx-auto w-full h-20 md:w-24 md:h-24 transition-all" autoplay loop></lottie-player>
         <h4 class="text-lg font-semibold">{{acc.title}}</h4>
         <p class="text-sm leading-6 my-auto">{{acc.content}}</p>
 
@@ -160,10 +163,10 @@
 
     <div class="grid gap-8 mt-16">
       <mat-progress-spinner *ngIf="featuredDomains.loading$(); else $featuredDomains" class="mx-auto"
-        mode="indeterminate" diameter="32"></mat-progress-spinner>
+                            mode="indeterminate" diameter="32"></mat-progress-spinner>
       <ng-template #$featuredDomains>
         <software-tiles-container *ngFor="let domain of featuredDomains.domains$()"
-          [domain]="domain"></software-tiles-container>
+                                  [domain]="domain"></software-tiles-container>
       </ng-template>
     </div>
   </div>
@@ -198,7 +201,7 @@
     </h2>
 
     <mat-progress-spinner *ngIf="roleList.loading$(); else $roleList" class="mx-auto mt-8" mode="indeterminate"
-      diameter="32"></mat-progress-spinner>
+                          diameter="32"></mat-progress-spinner>
 
     <ng-template #$roleList>
       <div class="grid mt-8 gap-8">
