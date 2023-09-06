@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { MarkdownDirective } from '@easworks/app-shell/common/markdown.directive';
 
 @Component({
@@ -10,7 +9,6 @@ import { MarkdownDirective } from '@easworks/app-shell/common/markdown.directive
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: [],
   imports: [
-    LottiePlayerDirective,
     MarkdownDirective
   ]
 })

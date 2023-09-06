@@ -100,6 +100,16 @@ export const PUBLIC_ROUTES: Routes = [
     loadComponent: () => import('./contact-us/contact-us.page').then(m => m.ContactUsPageComponent)
   },
   {
+    path: 'data-processing-agreement',
+    pathMatch: 'full',
+    loadComponent: () => import('./data-processing-agreement/data-processing-agreement.page').then(m => m.DataProcessingAgreementPageComponent),
+    resolve: {
+      content: () => fetch('/assets/pages/data-processing-agreement/content.md')
+        .then(r => r.text())
+    }
+
+  },
+  {
     path: 'privacy-policy',
     pathMatch: 'full',
     loadComponent: () => import('./privacy-policy/privacy-policy.page').then(m => m.PrivacyPolicyPageComponent),
