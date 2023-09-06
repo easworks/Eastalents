@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { USE_CASE_DATA } from './use-cases/data';
+import { TransformerService } from '@easworks/app-shell/services/transformer';
 
 export const PUBLIC_ROUTES: Routes = [
   {
@@ -112,6 +113,10 @@ export const PUBLIC_ROUTES: Routes = [
   {
     path: 'terms-of-use',
     pathMatch: 'full',
-    loadComponent: () => import('./terms-of-use/terms-of-use.page').then(m => m.TermsOfUsePageComponent)
-  },
+    loadComponent: () => import('./terms-of-use/terms-of-use.page').then(m => m.TermsOfUsePageComponent),
+    resolve: {
+      content: () => fetch('/assets/pages/terms/terms-of-use.md')
+        .then(r => r.text())
+    }
+  }
 ];
