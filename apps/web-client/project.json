@@ -108,7 +108,8 @@
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "apps/web-client/jest.config.ts",
-        "passWithNoTests": true
+        "passWithNoTests": true,
+        "webWorkerTsConfig": "apps/web-client/tsconfig.worker.json"
       },
       "configurations": {
         "ci": {
