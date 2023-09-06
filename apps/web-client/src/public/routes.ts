@@ -3,7 +3,6 @@ import { ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { USE_CASE_DATA } from './use-cases/data';
-import { TransformerService } from '@easworks/app-shell/services/transformer';
 
 export const PUBLIC_ROUTES: Routes = [
   {
@@ -91,11 +90,6 @@ export const PUBLIC_ROUTES: Routes = [
     loadComponent: () => import('./help-center/help-center-view.page').then(m => m.HelpCenterViewPageComponent)
   },
   {
-    path: '',
-    pathMatch: 'full',
-    loadComponent: () => import('./home/home.page').then(m => m.HomePageComponent)
-  },
-  {
     path: 'about-us',
     pathMatch: 'full',
     loadComponent: () => import('./about-us/about-us.page').then(m => m.AboutUsPageComponent)
@@ -106,17 +100,26 @@ export const PUBLIC_ROUTES: Routes = [
     loadComponent: () => import('./contact-us/contact-us.page').then(m => m.ContactUsPageComponent)
   },
   {
-    path: 'privacy',
+    path: 'privacy-policy',
     pathMatch: 'full',
-    loadComponent: () => import('./privacy/privacy.page').then(m => m.PrivacyPageComponent)
+    loadComponent: () => import('./privacy/privacy.page').then(m => m.PrivacyPageComponent),
+    resolve: {
+      content: () => fetch('/assets/pages/privacy-policy/content.md')
+        .then(r => r.text())
+    }
   },
   {
     path: 'terms-of-use',
     pathMatch: 'full',
     loadComponent: () => import('./terms-of-use/terms-of-use.page').then(m => m.TermsOfUsePageComponent),
     resolve: {
-      content: () => fetch('/assets/pages/terms/terms-of-use.md')
+      content: () => fetch('/assets/pages/terms-of-use/content.md')
         .then(r => r.text())
     }
-  }
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    loadComponent: () => import('./home/home.page').then(m => m.HomePageComponent)
+  },
 ];
