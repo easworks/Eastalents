@@ -100,6 +100,15 @@ export const PUBLIC_ROUTES: Routes = [
     loadComponent: () => import('./contact-us/contact-us.page').then(m => m.ContactUsPageComponent)
   },
   {
+    path: 'code-of-conduct',
+    pathMatch: 'full',
+    loadComponent: () => import('./code-of-conduct/code-of-conduct.page').then(m => m.CodeOfConductPageComponent),
+    resolve: {
+      content: () => fetch('/assets/pages/code-of-conduct/content.md')
+        .then(r => r.text())
+    }
+  },
+  {
     path: 'cookie-policy',
     pathMatch: 'full',
     loadComponent: () => import('./cookie-policy/cookie-policy.page').then(m => m.CookiePolicyPageComponent),
