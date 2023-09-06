@@ -60,14 +60,22 @@ export class SWManagementService {
           await messageSW(active, { type: 'CLAIM_CLIENTS' });
         }
       })
-      .then(() => this.wb.register())
+      .then(() => this.wb.register({ immediate: true }))
       .then(() => this.wb.active)
-      .then(() => this.wb.messageSW({ type: 'CLAIM_CLIENTS' }))
-      .then(() => this.wb.update())
+      .then(active => messageSW(active, { type: 'CLAIM_CLIENTS' }))
+      .then(() => {
+        if (!this.devMode)
+          this.ready.resolve();
+        this.wb.update();
+      })
       .then(() => navigator.serviceWorker.getRegistration())
       .then(reg => {
         if (!reg?.installing)
           this.ready.resolve();
+      })
+      .catch((e) => {
+        this.ready.resolve();
+        throw e;
       });
   }
 

@@ -90,11 +90,6 @@ export const PUBLIC_ROUTES: Routes = [
     loadComponent: () => import('./help-center/help-center-view.page').then(m => m.HelpCenterViewPageComponent)
   },
   {
-    path: '',
-    pathMatch: 'full',
-    loadComponent: () => import('./home/home.page').then(m => m.HomePageComponent)
-  },
-  {
     path: 'about-us',
     pathMatch: 'full',
     loadComponent: () => import('./about-us/about-us.page').then(m => m.AboutUsPageComponent)
@@ -105,13 +100,53 @@ export const PUBLIC_ROUTES: Routes = [
     loadComponent: () => import('./contact-us/contact-us.page').then(m => m.ContactUsPageComponent)
   },
   {
-    path: 'privacy',
+    path: 'code-of-conduct',
     pathMatch: 'full',
-    loadComponent: () => import('./privacy/privacy.page').then(m => m.PrivacyPageComponent)
+    loadComponent: () => import('./code-of-conduct/code-of-conduct.page').then(m => m.CodeOfConductPageComponent),
+    resolve: {
+      content: () => fetch('/assets/pages/code-of-conduct/content.md')
+        .then(r => r.text())
+    }
+  },
+  {
+    path: 'cookie-policy',
+    pathMatch: 'full',
+    loadComponent: () => import('./cookie-policy/cookie-policy.page').then(m => m.CookiePolicyPageComponent),
+    resolve: {
+      content: () => fetch('/assets/pages/cookie-policy/content.md')
+        .then(r => r.text())
+    }
+  },
+  {
+    path: 'data-processing-agreement',
+    pathMatch: 'full',
+    loadComponent: () => import('./data-processing-agreement/data-processing-agreement.page').then(m => m.DataProcessingAgreementPageComponent),
+    resolve: {
+      content: () => fetch('/assets/pages/data-processing-agreement/content.md')
+        .then(r => r.text())
+    }
+  },
+  {
+    path: 'privacy-policy',
+    pathMatch: 'full',
+    loadComponent: () => import('./privacy-policy/privacy-policy.page').then(m => m.PrivacyPolicyPageComponent),
+    resolve: {
+      content: () => fetch('/assets/pages/privacy-policy/content.md')
+        .then(r => r.text())
+    }
   },
   {
     path: 'terms-of-use',
     pathMatch: 'full',
-    loadComponent: () => import('./terms-of-use/terms-of-use.page').then(m => m.TermsOfUsePageComponent)
+    loadComponent: () => import('./terms-of-use/terms-of-use.page').then(m => m.TermsOfUsePageComponent),
+    resolve: {
+      content: () => fetch('/assets/pages/terms-of-use/content.md')
+        .then(r => r.text())
+    }
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    loadComponent: () => import('./home/home.page').then(m => m.HomePageComponent)
   },
 ];

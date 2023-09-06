@@ -4,18 +4,17 @@ import { MarkdownDirective } from '@easworks/app-shell/common/markdown.directive
 
 @Component({
   standalone: true,
-  selector: 'terms-of-use-page',
-  templateUrl: './terms-of-use.page.html',
+  selector: 'privacy-policy-page',
+  templateUrl: './privacy-policy.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: [],
   imports: [
     MarkdownDirective
   ]
 })
-export class TermsOfUsePageComponent {
+export class PrivacyPolicyPageComponent {
   protected readonly content: string = inject(ActivatedRoute)
     .snapshot.data['content'];
 
   @HostBinding() private readonly class = 'page py-8';
-
 }

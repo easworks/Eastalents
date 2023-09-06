@@ -4,15 +4,15 @@ import { MarkdownDirective } from '@easworks/app-shell/common/markdown.directive
 
 @Component({
   standalone: true,
-  selector: 'terms-of-use-page',
-  templateUrl: './terms-of-use.page.html',
+  selector: 'cookie-policy-page',
+  templateUrl: './cookie-policy.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: [],
   imports: [
     MarkdownDirective
   ]
 })
-export class TermsOfUsePageComponent {
+export class CookiePolicyPageComponent {
   protected readonly content: string = inject(ActivatedRoute)
     .snapshot.data['content'];
 
