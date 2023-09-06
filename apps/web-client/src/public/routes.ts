@@ -100,6 +100,15 @@ export const PUBLIC_ROUTES: Routes = [
     loadComponent: () => import('./contact-us/contact-us.page').then(m => m.ContactUsPageComponent)
   },
   {
+    path: 'cookie-policy',
+    pathMatch: 'full',
+    loadComponent: () => import('./cookie-policy/cookie-policy.page').then(m => m.CookiePolicyPageComponent),
+    resolve: {
+      content: () => fetch('/assets/pages/cookie-policy/content.md')
+        .then(r => r.text())
+    }
+  },
+  {
     path: 'data-processing-agreement',
     pathMatch: 'full',
     loadComponent: () => import('./data-processing-agreement/data-processing-agreement.page').then(m => m.DataProcessingAgreementPageComponent),
@@ -107,7 +116,6 @@ export const PUBLIC_ROUTES: Routes = [
       content: () => fetch('/assets/pages/data-processing-agreement/content.md')
         .then(r => r.text())
     }
-
   },
   {
     path: 'privacy-policy',
