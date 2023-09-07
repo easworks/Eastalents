@@ -1,3 +1,18 @@
+@layer components {
+  .mat-expansion-panel {
+    --mat-expansion-header-collapsed-state-height: auto;
+    --mat-expansion-header-expanded-state-height: auto;
+
+    &-header {
+      @apply !py-2;
+    }
+  }
+
+  .mat-divider {
+    --mat-divider-color: theme('colors.divider');
+  }
+}
+
 .mat-mdc-progress-spinner {
   --mdc-circular-progress-active-indicator-color: theme('colors.primary');
 }
