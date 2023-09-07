@@ -33,7 +33,7 @@ export const publicMenu = {
         { name: 'Enterprise Application Integration', link: '/use-cases/enterprise-application-integration', icon: faGroupArrowsRotate },
         { name: 'Custom Enterprise Application', link: '/use-cases/custom-enterprise-application', icon: faCubes },
         { name: 'Data Migration', link: '/use-cases/data-migration', icon: faDiagramNext },
-        { name: 'Support & Maintenance', link: '/use-cases/suppport-and-maintenance', icon: faHeadset },
+        { name: 'Support & Maintenance', link: '/use-cases/support-and-maintenance', icon: faHeadset },
       ]
     },
     applyAsFreelancer: { name: 'Apply as Freelancer', link: '/account/sign-up/freelancer' }
