@@ -17,7 +17,7 @@
         </div>
       </div>
       <div><lottie-player src="https://assets1.lottiefiles.com/packages/lf20_tacawejm.json" background="transparent"
-          speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+                       speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
       </div>
     </div>
   </div>
@@ -172,7 +172,7 @@
   <div class="page">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
       <div class="relative w-[300px] h-[300px] m-[auto] demo-placeholder">
-        
+
       </div>
       <div class="relative">
         <span class="w-[45px] h-[45px] flex items-center justify-center rounded-full text-[22px] font-bold bg-primary text-white">05</span>
@@ -186,21 +186,21 @@
 
 <section class="py-[60px] relative z-10 bg-primary">
   <div class="absolute inset-0 w-full h-full opacity-5">
-      <img class="h-full object-cover w-full" src="../../assets/img/map.jpeg" alt="">
+    <img class="h-full object-cover w-full" src="../../assets/img/map.jpeg" alt="">
   </div>
   <div class="page">
-      <div class="grid grid-cols-1 lg:grid-cols-1 items-center relative">
-          <div class="text-center">
-              <h2 class="text-[2rem] leading-[50px] mb-[20px] text-white text-center">Grow your Enterprise Application team on demand with EAS global talent today.</h2>
-              <h3 class="text-[26px] text-white mb-[15px]">Tell us what you are looking for, we’ll take care of the rest.</h3>
-              <div class="text-center flex justify-center flex-col">
-                  <div class="relative mb-6">
-                      <button class="shaded-button m-[auto]">HIRE TALENT</button>
-                  </div>
-              </div>
-
+    <div class="grid grid-cols-1 lg:grid-cols-1 items-center relative">
+      <div class="text-center">
+        <h2 class="text-[2rem] leading-[50px] mb-[20px] text-white text-center">Grow your Enterprise Application team on demand with EAS global talent today.</h2>
+        <h3 class="text-[26px] text-white mb-[15px]">Tell us what you are looking for, we’ll take care of the rest.</h3>
+        <div class="text-center flex justify-center flex-col">
+          <div class="relative mb-6">
+            <button class="shaded-button m-[auto]">HIRE TALENT</button>
           </div>
+        </div>
+
       </div>
+    </div>
   </div>
 </section>
 
@@ -208,7 +208,7 @@
   <div class="page py-12">
     <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all">
       Accelerate Enterprise growth with EASWORKS
-by using EAS TALENTS to benefit your entire organization
+      by using EAS TALENTS to benefit your entire organization
     </h2>
 
     <div class="flex mt-12 flex-wrap lg:flex-nowrap gap-8 justify-center">
@@ -217,7 +217,7 @@ by using EAS TALENTS to benefit your entire organization
               border border-primary bg-white shadow-md 
               rounded-tr-[2rem] rounded-bl-[2rem] border-b-4">
         <lottie-player [src]="acc.lottie" background="transparent"
-          class="mx-auto w-[120px] h-[100px] md:w-24 md:h-24 transition-all" autoplay loop></lottie-player>
+                       class="mx-auto w-[120px] h-[100px] md:w-24 md:h-24 transition-all" autoplay loop></lottie-player>
         <h4 class="text-lg font-semibold">{{acc.title}}</h4>
         <p class="text-sm leading-6 my-auto">{{acc.content}}</p>
 
@@ -229,25 +229,10 @@ by using EAS TALENTS to benefit your entire organization
 
 <section class="py-[60px]">
   <div class="page">
-    <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold">Client FAQ</h2>
-    </div>
-    <div class="mb-10 space-y-5" *ngFor="let group of faqs">
-      <div class="text-left mb-4">
-        <h2 class="text-[1.563em] font-bold">{{group.name}}</h2>
-      </div>
-      <mat-accordion class="flex flex-col gap-4">
-        <mat-expansion-panel *ngFor="let item of group.items" (opened)="panelOpenState = true"
-          (closed)="panelOpenState = false" class="rounded-none bg-white text-black transition-all">
-          <mat-expansion-panel-header
-            class="h-[60px] flex cursor-pointer items-center bg-white p-5 justify-between hover:text-black">
-            <mat-panel-title class="text-[18px]">
-              {{item.question}}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <p class="text-[16px] leading-8 text-gray-500 pb-4" *ngFor="let paragraph of item.content">{{paragraph}}</p>
-        </mat-expansion-panel>
-      </mat-accordion>
+    <h2 class="text-center text-4xl font-bold">Client FAQ</h2>
+    <div *ngFor="let group of faqs">
+      <h3 class="text-left mt-8 text-2xl font-bold">{{group.name}}</h3>
+      <faq-list [faqs]="group.items" class="mt-4"></faq-list>
     </div>
   </div>
 </section>

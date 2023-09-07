@@ -3,7 +3,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { FAQGroup } from '../common/faq';
+import { FAQGroup, FAQListComponent } from '../common/faq-list.component';
 
 @Component({
   standalone: true,
@@ -15,6 +15,7 @@ import { FAQGroup } from '../common/faq';
     ImportsModule,
     MatExpansionModule,
     LottiePlayerDirective,
+    FAQListComponent
   ]
 })
 export class ForEmployersPageComponent {
@@ -358,7 +359,7 @@ export class ForEmployersPageComponent {
             'EASWORKS prioritizes the protection of your intellectual property. Through our contract agreements, we secure exclusive ownership of the work created by the EASWORKS talent assigned to your project. ',
             'This ensures that you have full control and rights over intellectual property. Our client agreement follows the principle of "work for hire," granting you the necessary legal rights.',
             ' This approach has been successful in safeguarding our clients IP over the years and has provided them with peace of mind. If you have specific requirements regarding IP ownership, we are open to discussing and accommodating them to meet your needs.',
-            
+
           ]
         }
       ]
@@ -393,6 +394,6 @@ export class ForEmployersPageComponent {
         }
       ]
     }
-  ]
+  ];
 
 }
