@@ -34,6 +34,14 @@ export class AppHorizontalMenuComponent {
   });
 
   private readonly collapseClass = 'collapse-all';
+  private readonly dark$ = computed(() => this.ui.selectors.topBar$().dark);
+  protected readonly linkClass$ = computed(() => {
+    if (this.dark$())
+      return 'group-hover:bg-white/90 group-focus-within:bg-white/90 group-hover:text-black hover:!text-primary';
+    else
+      return 'group-hover:bg-slate-500/10 group-focus-within:bg-slate-500/10';
+  });
+
 
   unfocus() {
     this.actions$.dispatch(this.ui.actions.touchDevice.update());
