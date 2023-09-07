@@ -1,6 +1,8 @@
 const colors = require('tailwindcss/colors');
 const defaultTheme = require('tailwindcss/defaultTheme');
 
+const offsetScreen = 'calc(100vh - 4rem)';
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   theme: {
@@ -33,6 +35,15 @@ module.exports = {
         'divider': colors.slate[300],
         'divider-text': colors.white,
         'warn': colors.red[600]
+      },
+      height: {
+        'offset-screen': offsetScreen
+      },
+      minHeight: {
+        'offset-screen': offsetScreen
+      },
+      maxHeight: {
+        'offset-screen': offsetScreen
       }
     },
   }
