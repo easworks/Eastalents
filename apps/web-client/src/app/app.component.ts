@@ -84,18 +84,7 @@ export class AppComponent {
     [
       {
         group: 'Use cases',
-        items: [
-          { name: 'Digital Transformation (DX)', link: NOOP_CLICK },
-          { name: 'Prototyping', link: NOOP_CLICK },
-          { name: 'Enterprise Application Design', link: NOOP_CLICK },
-          { name: 'Business Intelligence', link: NOOP_CLICK },
-          { name: 'Application Modernization', link: NOOP_CLICK },
-          { name: 'Enterprise Application Integration', link: NOOP_CLICK },
-          { name: 'Custom Enterprise Application', link: NOOP_CLICK },
-          { name: 'Enterprise Application Testing', link: NOOP_CLICK },
-          { name: 'Data Migration', link: NOOP_CLICK },
-          { name: 'Support & Maintenance', link: NOOP_CLICK },
-        ]
+        items: publicMenu.items.useCases.children
       },
     ],
     [
