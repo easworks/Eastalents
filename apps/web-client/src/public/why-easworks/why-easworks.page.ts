@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { MatTabsModule } from '@angular/material/tabs';
+import { UseCaseTilesContainerComponent } from '../common/use-case-tiles-container.component';
 
 @Component({
   standalone: true,
@@ -10,7 +11,8 @@ import { MatTabsModule } from '@angular/material/tabs';
   styleUrls: [],
   imports: [
     LottiePlayerDirective,
-    MatTabsModule
+    MatTabsModule,
+    UseCaseTilesContainerComponent
   ]
 })
 export class WhyEasworksPageComponent {
