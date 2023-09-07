@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { FAQGroup, FAQListComponent } from '../common/faq-list.component';
 
 @Component({
@@ -19,7 +19,6 @@ import { FAQGroup, FAQListComponent } from '../common/faq-list.component';
   ]
 })
 export class ForEmployersPageComponent {
-  panelOpenState = false;
   protected readonly icons = {
     faAngleRight
   } as const;
