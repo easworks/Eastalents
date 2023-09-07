@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { FAQGroup } from '../common/faq-list.component';
+import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { FAQGroup, FAQListComponent } from '../common/faq-list.component';
 
 @Component({
   standalone: true,
@@ -13,7 +13,8 @@ import { FAQGroup } from '../common/faq-list.component';
   imports: [
     ImportsModule,
     LottiePlayerDirective,
-    MatExpansionModule
+    MatExpansionModule,
+    FAQListComponent
   ]
 })
 export class ForFreelancerPageComponent {
