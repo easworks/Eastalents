@@ -2,7 +2,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { computed, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { createAction, props } from '@ngrx/store';
-import { distinctUntilChanged, map, shareReplay } from 'rxjs';
+import { distinctUntilChanged, filter, fromEvent, map, shareReplay } from 'rxjs';
 import { ACTIONS, createFeature, on } from './redux-signals';
 
 // mimic the breakpoints we configured in tailwind
@@ -17,6 +17,9 @@ export type ScreenSize = typeof screenSizes[number];
 export interface State {
   screenSize: ScreenSize;
   isTouchDevice: boolean;
+  topBar: {
+    dark: boolean;
+  };
 }
 
 const actions = {
@@ -25,12 +28,18 @@ const actions = {
   },
   touchDevice: {
     update: createAction('[UI] [COMPACT] [UPDATE]')
+  },
+  topBar: {
+    updateMode: createAction('[UI] [TOP BAR] [UPDATE MODE]', props<{ payload: { dark: boolean; }; }>())
   }
 } as const;
 
 const initialState: State = {
   screenSize: 'sm',
   isTouchDevice: false,
+  topBar: {
+    dark: true
+  }
 };
 
 export const UI_FEATURE = createFeature({
@@ -44,11 +53,16 @@ export const UI_FEATURE = createFeature({
     on(actions.touchDevice.update, (state) => {
       state.isTouchDevice = isTouchDevice();
       return state;
+    }),
+    on(actions.topBar.updateMode, (state, { payload }) => {
+      state.topBar.dark = payload.dark;
+      return state;
     })
   ],
   selectors: (state$) => ({
     screenSize$: computed(() => state$().screenSize),
     isTouchDevice$: computed(() => state$().isTouchDevice),
+    topBar$: computed(() => state$().topBar),
   }),
   initEffects: () => {
     const actions$ = inject(ACTIONS);
@@ -79,6 +93,22 @@ export const UI_FEATURE = createFeature({
       .subscribe(size =>
         actions$.dispatch(
           actions.screenSize.update({ payload: { size } })));
+
+    const scrollingElement = document.scrollingElement;
+    if (!scrollingElement)
+      throw new Error('invalid operation');
+
+    fromEvent(document, 'scroll')
+      .pipe(
+        map(() => scrollingElement.scrollTop),
+        filter(top => top <= 160),
+        map(top => top === 0),
+        distinctUntilChanged(),
+        takeUntilDestroyed()
+      )
+      .subscribe(dark =>
+        actions$.dispatch(
+          actions.topBar.updateMode({ payload: { dark } })));
   }
 });
 

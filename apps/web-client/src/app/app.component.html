@@ -1,7 +1,9 @@
-<div class="h-16 p-2 md:px-4 flex mat-elevation-z1 z-10 sticky top-0 bg-white justify-between transition-all">
+<div id="app-top-bar" *ngrxLet="topBar$() as topBar"
+     class="mat-elevation-z1"
+     [class.dark]="topBar.dark">
 
   <a routerLink="/" class="grid content-center">
-    <img src="/assets/brand/black-logo.png">
+    <img [src]="topBar.brandImage">
   </a>
 
   <app-horizontal-menu *ngIf="showHorizontalMenu$()"></app-horizontal-menu>
@@ -42,9 +44,9 @@
         <div class="mt-8">
           <div class="flex gap-4 text-2xl">
             <a *ngFor="let icon of socialIcons" [href]="icon.link">
-              <fa-icon [icon]="icon.icon" ></fa-icon>
+              <fa-icon [icon]="icon.icon"></fa-icon>
             </a>
-            
+
           </div>
           <p class="mt-4">
             4653 Carmel Mountain Rd, <br>
@@ -58,29 +60,29 @@
         <div *ngFor="let column of footerNav" class="flex-grow flex flex-col gap-6">
           <div *ngFor="let group of column">
             <p class="text-lg m-0 font-semibold">{{group.group}}</p>
-          <ul class="mt-2">
-            <li *ngFor="let item of group.items" class="py-1">
-              <a [routerLink]="item.link" class="max-w-fit">
-                <fa-icon [icon]="icons.faAngleRight" class="inline-block mr-2"></fa-icon>
-                <span>{{item.name}}</span>
-              </a>
-            </li>
-          </ul>
+            <ul class="mt-2">
+              <li *ngFor="let item of group.items" class="py-1">
+                <a [routerLink]="item.link" class="max-w-fit">
+                  <fa-icon [icon]="icons.faAngleRight" class="inline-block mr-2"></fa-icon>
+                  <span>{{item.name}}</span>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </nav>
     </div>
 
     <div class="py-4 px-8 text-center text-sm bg-secondary flex justify-between">
-        <p class="text-white"> © Copyright 2023 EASWORKS. All Rights Reserved.</p>
-        <ul class="flex text-white">
-          <li>
-            <a href="#" class="border-r pr-2">Privacy Policy</a>
-          </li>
-          <li>
-            <a href="#" class="pl-2">Terms of Service</a>
-          </li>
-        </ul>
+      <p class="text-white"> © Copyright 2023 EASWORKS. All Rights Reserved.</p>
+      <ul class="flex text-white">
+        <li>
+          <a href="#" class="border-r pr-2">Privacy Policy</a>
+        </li>
+        <li>
+          <a href="#" class="pl-2">Terms of Service</a>
+        </li>
+      </ul>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

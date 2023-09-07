@@ -52,6 +52,14 @@ export class AppComponent {
   protected readonly navigating$ = signal(false);
   protected readonly showHorizontalMenu$ = computed(() => this.menuState.publicMenu.horizontal$().length > 0);
 
+  protected readonly topBar$ = computed(() => {
+    const dark = this.ui.selectors.topBar$().dark;
+    return {
+      brandImage: dark ? '/assets/brand/white-logo.png' : '/assets/brand/black-logo.png',
+      dark
+    } as const;
+  });
+
   protected readonly footerNav: { group: string, items: MenuItem[]; }[][] = [
     [
       {
