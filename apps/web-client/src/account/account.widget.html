@@ -22,7 +22,9 @@
 </ng-container>
 
 <ng-template #$noUser>
-  <a mat-ripple class="highlight-button" routerLink="/account/sign-in"
+  <a mat-ripple class="highlight-button"
+     [class]="signInButtonClass$()"
+     routerLink="/account/sign-in"
      routerLinkActive="invisible">
     Sign In
   </a>
