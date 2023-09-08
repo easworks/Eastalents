@@ -21,253 +21,115 @@
 <section class=" bg-white">
   <mat-tab-group>
     <mat-tab label="Why EASWORKS">
-      <section class="page py-8 border-t">
-        <table class="w-full text-sm text-left text-gray-500">
-          <thead class="text-lg">
+      <section class="p-4 md:px-8 mx-auto py-8 border-t">
+        <table id="why-easworks-table">
+          <thead>
             <tr>
-              <th scope="col" class="px-6 py-3">
-
+              <th scope="col"></th>
+              <th scope="col" class="w-max">
+                <img alt="EASWORKS" src="/assets/brand/black-logo.png">
               </th>
-              <th scope="col" class="px-6 py-3">
-                <img src="/assets/brand/black-logo.png">
-              </th>
-              <th scope="col" class="px-6 py-3 text-black">
+              <th scope="col" class="w-max">
                 Typical Employment
               </th>
-              <th scope="col" class="px-6 py-3 text-black">
+              <th scope="col" class="w-max">
                 Freelance Marketplaces
               </th>
             </tr>
           </thead>
-          <tbody class="border">
-            <tr class="bg-white border">
-              <th scope="row"
-                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap border">
-                Expert Vetted
-              </th>
-              <td class="px-6 py-2 border text-center">
-                <i class="fa-regular fa-circle-check text-green-600 text-[26px]"></i>
-              </td>
-              <td class="px-6 py-2 border text-center">
-                <i class="fa-regular fa-circle-xmark text-red-600 text-[26px]"></i>
-              </td>
-              <td class="px-6 py-2 border text-center">
-                <i class="fa-regular fa-circle-xmark text-red-600 text-[26px]"></i>
-              </td>
-            </tr>
-            <tr class="bg-white border">
-              <th scope="row"
-                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap border">
-                Lead time to start
-              </th>
-              <td
-                  class="px-6 py-2 border text-primary text-center text-[14px] font-semibold">
-                0-2/ Weeks
-              </td>
-              <td
-                  class="px-6 py-2 border text-primary text-center text-[14px] font-semibold">
-                1-5/ Months
-              </td>
-              <td
-                  class="px-6 py-2 border text-primary text-center text-[14px] font-semibold">
-                1-4/ Weeks
-              </td>
+          <tbody>
+            <tr>
+              <th scope="row"> Expert Vetted </th>
+              <td> <fa-icon [icon]="icons.faCheckCircle" class="text-green-400"></fa-icon> </td>
+              <td> <fa-icon [icon]="icons.faXmarkCircle" class="text-red-400"></fa-icon> </td>
+              <td> <fa-icon [icon]="icons.faXmarkCircle" class="text-red-400"></fa-icon> </td>
             </tr>
 
-            <tr class="bg-white border">
-              <th scope="row"
-                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap border">
-                Enterprise Application Talent Platform
-              </th>
-              <td class="px-6 py-2 border text-center">
-                <i class="fa-regular fa-circle-check text-green-600 text-[26px]"></i>
-              </td>
-              <td class="px-6 py-2 border text-center">
-                <i class="fa-regular fa-circle-xmark text-red-600 text-[26px]"></i>
-              </td>
-              <td class="px-6 py-2 border text-center">
-                <i class="fa-regular fa-circle-xmark text-red-600 text-[26px]"></i>
-              </td>
+            <tr>
+              <th scope="row"> Lead time to start </th>
+              <td class="text-primary"> 0-2 Weeks </td>
+              <td class="text-primary"> 1-5 Months </td>
+              <td class="text-primary"> 1-4 Weeks </td>
             </tr>
 
-            <tr class="bg-white border">
-              <th scope="row"
-                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap border">
-                Trial period (20/40 hours)
-              </th>
-              <td class="px-6 py-2 border text-center">
-                <i class="fa-regular fa-circle-check text-green-600 text-[26px]"></i>
-              </td>
-              <td class="px-6 py-2 border text-center">
-                <i class="fa-regular fa-circle-xmark text-red-600 text-[26px]"></i>
-              </td>
-              <td class="px-6 py-2 border text-center">
-                <i class="fa-regular fa-circle-xmark text-red-600 text-[26px]"></i>
-              </td>
+            <tr>
+              <th scope="row"> Enterprise Application Talent Platform </th>
+              <td> <fa-icon [icon]="icons.faCheckCircle" class="text-green-400"></fa-icon> </td>
+              <td> <fa-icon [icon]="icons.faXmarkCircle" class="text-red-400"></fa-icon> </td>
+              <td> <fa-icon [icon]="icons.faXmarkCircle" class="text-red-400"></fa-icon> </td>
             </tr>
 
-            <tr class="bg-white border">
-              <th scope="row"
-                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap border">
-                Domain/Industry specific profiles
-              </th>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                Very High
-              </td>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                Low
-              </td>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                Low
-              </td>
+            <tr>
+              <th scope="row"> Trial period (20/40 hours) </th>
+              <td> <fa-icon [icon]="icons.faCheckCircle" class="text-green-400"></fa-icon> </td>
+              <td> <fa-icon [icon]="icons.faXmarkCircle" class="text-red-400"></fa-icon> </td>
+              <td> <fa-icon [icon]="icons.faXmarkCircle" class="text-red-400"></fa-icon> </td>
             </tr>
 
-            <tr class="bg-white border">
-              <th scope="row"
-                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap border">
-                Talent Guarantee
-              </th>
-              <td class="px-6 py-2 border text-center">
-                <i class="fa-regular fa-circle-check text-green-600 text-[26px]"></i>
-              </td>
-              <td class="px-6 py-2 border text-center">
-                <i class="fa-regular fa-circle-xmark text-red-600 text-[26px]"></i>
-              </td>
-              <td class="px-6 py-2 border text-center">
-                <i class="fa-regular fa-circle-xmark text-red-600 text-[26px]"></i>
-              </td>
+            <tr>
+              <th scope="row"> Domain/Industry specific profiles </th>
+              <td> Very High </td>
+              <td> Low </td>
+              <td> Low </td>
             </tr>
 
-            <tr class="bg-white border">
-              <th scope="row"
-                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap border">
-                Recruiting Fees
-              </th>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                0
-              </td>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                18-28%
-              </td>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                0
-              </td>
+            <tr>
+              <th scope="row"> Talent Guarantee </th>
+              <td> <fa-icon [icon]="icons.faCheckCircle" class="text-green-400"></fa-icon> </td>
+              <td> <fa-icon [icon]="icons.faXmarkCircle" class="text-red-400"></fa-icon> </td>
+              <td> <fa-icon [icon]="icons.faXmarkCircle" class="text-red-400"></fa-icon> </td>
             </tr>
 
-            <tr class="bg-white border">
-              <th scope="row"
-                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap border">
-                Failure Rate
-              </th>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                Less than 1%
-              </td>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                Low
-              </td>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                Very High
-              </td>
+            <tr>
+              <th scope="row"> Recruitment Fees </th>
+              <td> 0 </td>
+              <td> 18-28% </td>
+              <td> 0 </td>
             </tr>
 
-            <tr class="bg-white border">
-              <th scope="row"
-                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap border">
-                Pre-Screened Matches
-              </th>
-              <td class="px-6 py-2 border text-center">
-                <i class="fa-regular fa-circle-check text-green-600 text-[26px]"></i>
-              </td>
-              <td class="px-6 py-2 border text-center">
-                <i class="fa-regular fa-circle-xmark text-red-600 text-[26px]"></i>
-              </td>
-              <td class="px-6 py-2 border text-center">
-                <i class="fa-regular fa-circle-xmark text-red-600 text-[26px]"></i>
-              </td>
+            <tr>
+              <th scope="row"> Failure Rate </th>
+              <td> Less than 1% </td>
+              <td> Low </td>
+              <td> Very High </td>
             </tr>
 
-            <tr class="bg-white border">
-              <th scope="row"
-                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap border">
-                Overhead Costs
-              </th>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                Low
-              </td>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                High
-              </td>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                High
-              </td>
+            <tr>
+              <th scope="row"> Pre-Screened Matches </th>
+              <td> <fa-icon [icon]="icons.faCheckCircle" class="text-green-400"></fa-icon> </td>
+              <td> <fa-icon [icon]="icons.faXmarkCircle" class="text-red-400"></fa-icon> </td>
+              <td> <fa-icon [icon]="icons.faXmarkCircle" class="text-red-400"></fa-icon> </td>
             </tr>
 
-            <tr class="bg-white border">
-              <th scope="row"
-                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap border">
-                Quality of work
-              </th>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                High
-              </td>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                High
-              </td>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                Low
-              </td>
+            <tr>
+              <th scope="row"> Overhead Costs </th>
+              <td> Low </td>
+              <td> High </td>
+              <td> High </td>
             </tr>
 
-            <tr class="bg-white border">
-              <th scope="row"
-                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap border">
-                Termination Costs
-              </th>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                None
-              </td>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                Very High
-              </td>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                None
-              </td>
+            <tr>
+              <th scope="row"> Quality of Work </th>
+              <td> High </td>
+              <td> High </td>
+              <td> Low </td>
+            </tr>
+
+            <tr>
+              <th scope="row"> Termination Costs </th>
+              <td> None </td>
+              <td> Very High </td>
+              <td> None </td>
             </tr>
           </tbody>
           <tfoot>
             <tr class="bg-white">
-              <th scope="row"
-                  class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap">
-
-              </th>
-              <td
-                  class="px-6 py-2 border text-black text-center text-[14px] font-semibold">
-                <button class="shaded-button primary">START NOW</button>
+              <th></th>
+              <td>
+                <button class="shaded-button primary block mx-auto whitespace-nowrap" mat-ripple>START NOW</button>
               </td>
-              <td class="px-6 py-2 text-black text-center text-[14px] font-semibold">
-
-              </td>
-              <td class="px-6 py-2 text-black text-center text-[14px] font-semibold">
-
-              </td>
+              <td></td>
+              <td></td>
             </tr>
           </tfoot>
         </table>
@@ -282,7 +144,7 @@
               </h3>
 
               <ul
-                  class="max-w-lg space-y-1 text-gray-500 list-none list-inside dark:text-gray-400">
+                  class="max-w-lg space-y-1 text-gray-400 list-none list-inside dark:text-gray-400">
                 <li class="flex gap-2 pb-5 text-black">
                   <i class="fa-solid fa-check"></i>
                   <span><strong>Specialized Focus</strong> We specialize in enterprise
@@ -701,7 +563,7 @@
                   scenarios below:</p>
 
                 <ul
-                    class="max-w-lg space-y-1 text-gray-500 list-none list-inside dark:text-gray-400">
+                    class="max-w-lg space-y-1 text-gray-400 list-none list-inside dark:text-gray-400">
                   <li class="flex gap-2 pb-5 text-black">
                     <i class="fa-solid fa-check"></i>
                     <span>We have someone in our professional enterprise application
