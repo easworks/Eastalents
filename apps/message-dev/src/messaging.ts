@@ -16,8 +16,7 @@ io.on("connection", async (socket) => {
   }
 
   socket.on('listRooms', async (
-    { nonce, token }: {
-      nonce: string;
+    { token }: {
       token: string;
     },
     callback
@@ -25,13 +24,12 @@ io.on("connection", async (socket) => {
     const user = await getValidUserOrDisconnect(token, socket);
     const rooms = await listRoomsForUser(user._id);
 
-    callback({ nonce, rooms });
+    callback({ rooms });
   });
 
   socket.on('getRoom', async (
-    { roomId, nonce, token }: {
+    { roomId, token }: {
       roomId: string;
-      nonce: string;
       token: string;
     },
     callback
@@ -39,19 +37,18 @@ io.on("connection", async (socket) => {
     const user = await getValidUserOrDisconnect(token, socket);
     const room = await getRoomById(roomId);
     if (!room.users.includes(user._id)) {
-      callback({ nonce, error: 'you cannot access this room' });
+      callback({ error: 'you cannot access this room' });
       throw new Error('invalid operation');
     }
 
-    callback({ nonce, room });
+    callback({ room });
   });
 
   socket.on('listMessages', async (
-    { roomId, before, max, nonce, token }: {
+    { roomId, before, max, token }: {
       roomId: string;
       before: DateTime;
       max: number;
-      nonce: string;
       token: string;
     },
     callback
@@ -59,19 +56,18 @@ io.on("connection", async (socket) => {
     const user = await getValidUserOrDisconnect(token, socket);
     const room = await getRoomById(roomId);
     if (!room.users.includes(user._id)) {
-      callback({ nonce, error: 'you cannot access this room' });
+      callback({ error: 'you cannot access this room' });
       throw new Error('invalid operation');
     }
 
     const messages = await listMessagesForRoom(roomId, before, max);
 
-    callback({ nonce, messages });
+    callback({ messages });
   });
 
   socket.on('sendMessage', async (
-    { newMessage, nonce, token }: {
+    { newMessage, token }: {
       newMessage: MessageInput;
-      nonce: string;
       token: string;
     },
     callback
@@ -87,7 +83,7 @@ io.on("connection", async (socket) => {
       await getRoomById(newMessage.recipient)
         .then(room => {
           if (!room.users.includes(sender._id)) {
-            callback({ nonce, error: 'you cannot access this room' });
+            callback({ error: 'you cannot access this room' });
             throw new Error('invalid operation');
           }
           return room;
@@ -108,7 +104,7 @@ io.on("connection", async (socket) => {
 
     room.users.forEach(userId => {
       if (userId === sender._id) {
-        callback({ nonce, message });
+        callback({ message });
       }
       else {
         io.to(userId).emit('receivedMessage', message);
