@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+
+<body>
+  <script type="module">
+    import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
+
+    const socket = io('http://localhost:4201', {
+      transports: ['websocket']
+    });
+
+    socket.emit('event-1', { nonce: 1 }, (...args) => {
+      console.debug(...args);
+    });
+
+    socket.emit('event-1', { nonce: 2 }, (...args) => {
+      console.debug(...args);
+    });
+
+    socket.emit('event-1', { nonce: 3 }, (...args) => {
+      console.debug(...args);
+    });
+  </script>
+</body>
+
+</html>
