@@ -11,15 +11,15 @@
     });
 
     socket.emit('event-1', { nonce: 1 }, (...args) => {
-      console.debug(...args);
+      console.debug(1, ...args);
     });
 
     socket.emit('event-1', { nonce: 2 }, (...args) => {
-      console.debug(...args);
+      console.debug(2, ...args);
     });
 
     socket.emit('event-1', { nonce: 3 }, (...args) => {
-      console.debug(...args);
+      console.debug(3, ...args);
     });
   </script>
 </body>
