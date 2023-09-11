@@ -3,15 +3,6 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 const offsetScreen = 'calc(100vh - 4rem)';
 
-function buildPalette(name, shadeNumbers) {
-  const result = {};
-  shadeNumbers.forEach(s => {
-    const shade = `${name}-${s}`
-    result[shade] = `var(--${shade})`;
-  });
-  return result;
-}
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   theme: {
@@ -34,15 +25,36 @@ module.exports = {
       borderColor: {
         DEFAULT: colors.slate[300]
       },
+      // 1. generated from https://uicolors.app/create
       colors: {
-        ...buildPalette(
-          'primary',
-          [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
-        ),
-        ...buildPalette(
-          'secondary',
-          [600]
-        ),
+        // primary color original: #4949fc
+        'primary': {
+          '50': '#edf1ff',
+          '100': '#dee5ff',
+          '200': '#c3ceff',
+          '300': '#9eadff',
+          '400': '#7881ff',
+          '500': '#4949fc',
+          '600': '#4839f2',
+          '700': '#3d2cd6',
+          '800': '#3227ac',
+          '900': '#2d2788',
+          '950': '#1c174f',
+        },
+        // secondary color original: #0f0f0f
+        'secondary': {
+          '50': '#f6f6f6',
+          '100': '#e7e7e7',
+          '200': '#d1d1d1',
+          '300': '#b0b0b0',
+          '400': '#888888',
+          '500': '#6d6d6d',
+          '600': '#5d5d5d',
+          '700': '#4f4f4f',
+          '800': '#454545',
+          '900': '#3d3d3d',
+          '950': '#0f0f0f',
+        },
         'divider': colors.slate[300],
         'warn': colors.red[600]
       },

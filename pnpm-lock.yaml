@@ -9679,7 +9679,7 @@ packages:
       minimatch: 3.0.5
       node-abort-controller: 3.1.1
       schema-utils: 3.3.0
-      semver: 7.5.3
+      semver: 7.5.4
       tapable: 2.2.1
       typescript: 5.1.6
       webpack: 5.88.2(esbuild@0.19.2)
@@ -13641,7 +13641,7 @@ packages:
       cosmiconfig: 7.1.0
       klona: 2.0.6
       postcss: 8.4.29
-      semver: 7.5.3
+      semver: 7.5.4
       webpack: 5.88.2(esbuild@0.19.2)
     dev: true
 
@@ -15859,7 +15859,7 @@ packages:
       chalk: 4.1.2
       enhanced-resolve: 5.15.0
       micromatch: 4.0.5
-      semver: 7.5.3
+      semver: 7.5.4
       typescript: 5.1.6
       webpack: 5.88.2(esbuild@0.19.2)
     dev: true
