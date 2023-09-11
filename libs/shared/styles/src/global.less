@@ -1,3 +1,4 @@
+@import './colors.less';
 @import './snackbar.less';
 @import './material.overrides.less';
 @import './swiper.less';
@@ -51,10 +52,10 @@
     }
 
     &:where(.primary) {
-      @apply bg-primary text-primary-text;
+      @apply bg-primary-600 text-white;
 
       &:hover, &:focus {
-        @apply bg-primary-dark text-primary-text;
+        @apply bg-primary-700 text-white;
       }
     }
 
@@ -73,10 +74,10 @@
     }
 
     &:where(.primary) {
-      @apply bg-primary/10 text-primary;
+      @apply text-primary-600 bg-primary-200;
 
       &:hover, &:focus {
-        @apply bg-primary/20 text-primary-dark;
+        @apply bg-primary-300 text-primary-700;
       }
     }
 
@@ -111,7 +112,7 @@
     @apply transition-all outline-none;
     
     &:hover, &:focus {
-      @apply text-primary;
+      @apply text-primary-600;
     }
   }
 
@@ -120,7 +121,7 @@
       bg-slate-500/10 
       placeholder:text-slate-500/80 placeholder:text-sm
       outline-none
-      ring-inset ring-primary-light
+      ring-inset ring-primary-500
       transition-all;
 
     &-interactive {

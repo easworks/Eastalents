@@ -3,6 +3,15 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 const offsetScreen = 'calc(100vh - 4rem)';
 
+function buildPalette(name, shadeNumbers) {
+  const result = {};
+  shadeNumbers.forEach(s => {
+    const shade = `${name}-${s}`
+    result[shade] = `var(--${shade})`;
+  });
+  return result;
+}
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   theme: {
@@ -26,14 +35,15 @@ module.exports = {
         DEFAULT: colors.slate[300]
       },
       colors: {
-        'primary': '#4949fc',
-        'primary-text': colors.white,
-        'primary-dark': '#3939dc',
-        'primary-light': '#6a6afd',
-        'secondary': '#0f0f0f',
-        'secondary-text': colors.white,
+        ...buildPalette(
+          'primary',
+          [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
+        ),
+        ...buildPalette(
+          'secondary',
+          [600]
+        ),
         'divider': colors.slate[300],
-        'divider-text': colors.white,
         'warn': colors.red[600]
       },
       height: {
