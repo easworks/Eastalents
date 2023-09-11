@@ -43,8 +43,8 @@
         </p>
         <div class="mt-8">
           <div class="flex gap-4 text-2xl">
-            <a *ngFor="let icon of socialIcons" [href]="icon.link">
-              <fa-icon [icon]="icon.icon"></fa-icon>
+            <a *ngFor="let icon of brandLinks$()" [href]="icon.link">
+              <fa-icon [icon]="icon.icon!"></fa-icon>
             </a>
 
           </div>

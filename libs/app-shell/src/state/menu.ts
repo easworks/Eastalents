@@ -21,4 +21,6 @@ export class NavMenuState {
     horizontal$: signal<MenuItem[]>([]),
     vertical$: signal<MenuItem[]>([])
   } as const;
+
+  readonly brandLinks$ = signal<MenuItem[]>([]);
 }

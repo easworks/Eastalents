@@ -1,4 +1,5 @@
 import { MenuItem, NOOP_CLICK } from '@easworks/app-shell/state/menu';
+import { faFacebook, faGithub, faInstagram, faLinkedin, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { faBriefcase, faCubes, faDiagramNext, faGroupArrowsRotate, faHeadset, faLightbulb, faMicrochip, faPaintBrush, faPenRuler, faRocket } from '@fortawesome/free-solid-svg-icons';
 
 export const publicMenu = {
@@ -39,3 +40,37 @@ export const publicMenu = {
     applyAsFreelancer: { name: 'Apply as Freelancer', link: '/account/sign-up/freelancer' }
   } satisfies { readonly [key: string]: MenuItem; }
 } as const;
+
+
+export const socialIcons = [
+  {
+    name: 'LinkedIn',
+    icon: faLinkedin,
+    link: 'https://www.linkedin.com/company/easworks'
+  },
+  {
+    name: 'Facebook',
+    icon: faFacebook,
+    link: 'https://web.facebook.com/easworks/'
+  },
+  {
+    name: 'GitHub',
+    icon: faGithub,
+    link: 'https://github.com/easworks'
+  },
+  {
+    name: 'Twitter',
+    icon: faTwitter,
+    link: 'https://twitter.com/easworks/'
+  },
+  {
+    name: 'Instagram',
+    icon: faInstagram,
+    link: 'https://www.instagram.com/easworks121/'
+  },
+  {
+    name: 'YouTube',
+    icon: faYoutube,
+    link: 'https://www.youtube.com/@easworks'
+  }
+];

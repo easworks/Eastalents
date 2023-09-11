@@ -9,7 +9,7 @@ import { UI_FEATURE } from '@easworks/app-shell/state/ui';
 import { faFacebook, faGithub, faInstagram, faLinkedin, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { faAngleRight, faBars, } from '@fortawesome/free-solid-svg-icons';
 import { AccountWidgetComponent } from '../account/account.widget';
-import { publicMenu } from './menu-items';
+import { publicMenu, socialIcons } from './menu-items';
 
 @Component({
   standalone: true,
@@ -30,6 +30,8 @@ export class AppComponent {
   constructor() {
     this.processRouterEvents();
     this.makeMenuReactive();
+
+    this.menuState.brandLinks$.set(socialIcons);
   }
 
   @HostBinding()
@@ -126,33 +128,7 @@ export class AppComponent {
     ],
   ];
 
-  protected readonly socialIcons = [
-    {
-      icon: this.icons.faLinkedin,
-      link: 'https://www.linkedin.com/company/easworks'
-    },
-    {
-      icon: this.icons.faFacebook,
-      link: 'https://web.facebook.com/easworks/'
-    },
-    {
-      icon: this.icons.faGithub,
-      link: 'https://github.com/easworks'
-    },
-    {
-      icon: this.icons.faTwitter,
-      link: 'https://twitter.com/easworks/'
-    },
-    {
-      icon: this.icons.faInstagram,
-      link: 'https://www.instagram.com/easworks121/'
-    },
-    {
-      icon: this.icons.faYoutube,
-      link: 'https://www.youtube.com/@easworks'
-    }
-
-  ];
+  protected readonly brandLinks$ = this.menuState.brandLinks$;
 
   private makeMenuReactive() {
     effect(() => {

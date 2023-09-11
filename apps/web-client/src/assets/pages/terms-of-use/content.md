@@ -1,9 +1,11 @@
+# Terms Of Use
+
 PLEASE READ THESE TERMS AND CONDITIONS CAREFULLY. BY USING THIS WEBSITE
 AND/OR PLATFORM YOU AGREE TO BE BOUND BY ALL OF THE BELOW TERMS AND
 CONDITIONS AND PRIVACY POLICY.
 
 ***Unicax, Corp*** (**\"Company\"**, **"We"** or **"Us"** and their
-connotations) operates the website (URL: (\_\_\_\_) (together called
+connotations) operates the website (URL: [https://www.easworks.com](https://www.easworks.com)) (together called
 as **"Website/ EASWORKS Service"**) which serves as a specialized
 platform for enterprise application services and is engaged in the
 service of connecting businesses, start-ups, and companies

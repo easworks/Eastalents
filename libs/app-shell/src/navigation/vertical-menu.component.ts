@@ -43,13 +43,7 @@ export class AppVerticalMenuComponent {
     { name: 'Careers', link: NOOP_CLICK },
   ];
 
-  protected readonly brandLinks: MenuItem[] = [
-    { name: 'twitter', icon: faTwitter, link: NOOP_CLICK },
-    { name: 'facebook', icon: faFacebook, link: NOOP_CLICK },
-    { name: 'instagram', icon: faInstagram, link: NOOP_CLICK },
-    { name: 'pinterest', icon: faPinterest, link: NOOP_CLICK },
-    { name: 'youtube', icon: faYoutube, link: NOOP_CLICK },
-  ];
+  protected readonly brandLinks$ = this.menuState.brandLinks$;
 
   private initDomainSection() {
     const selected$ = signal<SelectableOption<Domain> | null>(null);

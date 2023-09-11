@@ -39,7 +39,7 @@ export class AppHorizontalMenuComponent {
     if (this.dark$())
       return 'group-hover:bg-white/90 group-focus-within:bg-white/90 group-hover:text-black hover:!text-primary-500';
     else
-      return 'group-hover:bg-slate-500/10 group-focus-within:bg-slate-500/10';
+      return 'group-hover:bg-slate-500/20 group-focus-within:bg-slate-500/20';
   });
 
 
