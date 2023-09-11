@@ -51,7 +51,7 @@
   }
 
   &.selected {
-    @apply bg-primary-50 ring-1 ring-primary;
+    @apply bg-primary-50 ring-1 ring-primary-600;
 
     input {
       @apply bg-primary-50 placeholder:text-primary-400;
@@ -71,7 +71,7 @@
   }
 
   .hint {
-    @apply text-primary/75;
+    @apply text-primary-400;
   }
 }
 
@@ -79,21 +79,21 @@
   @apply border rounded p-1 px-2 transition-all;
 
   &.selected {
-    @apply bg-primary/5 text-primary border-transparent;
+    @apply bg-primary-50 text-primary-600 border-transparent;
   }
 }
 
 .software-option,
 .tech-option,
 .industry-option {
-  @apply bg-primary/5 text-primary rounded flex gap-2 justify-between ring-inset ring-primary ring-2 overflow-hidden;
+  @apply bg-primary/5 text-primary-600 rounded flex gap-2 justify-between ring-inset ring-primary-600 ring-2 overflow-hidden;
 
   > span {
     @apply p-2 px-4;
   }
 
   > button {
-    @apply h-10 w-10 flex-none text-primary/70 hover:text-warn focus:text-warn;
+    @apply h-10 w-10 flex-none text-primary-500 hover:text-warn focus:text-warn;
   }
 }
 
