@@ -43,7 +43,7 @@ export class AboutUsPageComponent {
   ];
 
 
-  protected readonly CoreValues = [
+  protected readonly coreValues = [
     {
       title: 'GROW TOGETHER',
       img: '/assets/img/icon-value-grow.svg',
