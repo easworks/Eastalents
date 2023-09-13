@@ -1,5 +1,5 @@
 <div id="app-top-bar" *ngrxLet="topBar$() as topBar"
-     class="mat-elevation-z1"
+     class="shadow"
      [class.dark]="topBar.dark">
 
   <a routerLink="/" class="grid content-center">
@@ -26,8 +26,7 @@
   <mat-sidenav #appSidenav fixedInViewport class="!top-16" mode="over" position="end">
     <app-vertical-menu></app-vertical-menu>
   </mat-sidenav>
-  <mat-sidenav-content class="flex-grow !flex flex-col !overflow-visible
-                      bg-slate-950/5">
+  <mat-sidenav-content class="flex-grow !flex flex-col !overflow-visible bg-white">
     <router-outlet class="hidden [&_+_*]:flex-1"></router-outlet>
 
     <div class="flex flex-wrap gap-8 px-10 bg-white py-10 border-t">
