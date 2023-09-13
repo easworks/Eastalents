@@ -21,6 +21,12 @@
             "input": "libs/shared/assets/src",
             "output": "./assets"
           },
+          {
+            "glob": "**/*.min.css",
+            "input": "node_modules/swiper",
+            "ignore": ["**/*-element.min.css", "**/*-bundle.min.css"],
+            "output": "assets/swiper"
+          },
           "apps/web-client/src/assets"
         ],
         "styles": [
