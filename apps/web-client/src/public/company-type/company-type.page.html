@@ -20,7 +20,22 @@
                 </div>
             </div>
             <div>
-                <div class="demo-placeholder h-[500px] bg-primary"></div>
+                <swiper [options]="swiperOptions.hero.config" [modules]="swiperOptions.hero.modules">
+                    <div class="swiper-wrapper">
+                        <swiper-slide index="0">1</swiper-slide>
+                        <swiper-slide index="1">2</swiper-slide>
+                        <swiper-slide index="2">3</swiper-slide>
+
+                        <swiper-slide *ngFor="let i of [1,2,3]; let ix = index" [index]="ix">{{i}} </swiper-slide>
+                    </div>
+
+                    <div class="mt-4 flex justify-between gap-4">
+                        <fa-icon [icon]="icons.faAngleLeft"
+                                 mat-ripple class="swiper-button swiper-button-prev"></fa-icon>
+                        <fa-icon [icon]="icons.faAngleRight"
+                                 mat-ripple class="swiper-button swiper-button-next"></fa-icon>
+                    </div>
+                </swiper>
             </div>
         </div>
     </div>
@@ -42,7 +57,7 @@
 
         <div class="grid lg:grid-cols-5 grid-cols-1 gap-8 items-center">
             <div
-                class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
+                 class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
                 <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
                     <fa-icon [icon]="icons.faGraduationCap" class="text-[50px]"></fa-icon>
                 </div>
@@ -50,7 +65,7 @@
             </div>
 
             <div
-                class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
+                 class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
                 <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
                     <fa-icon [icon]="icons.faSackDollar" class="text-[50px]"></fa-icon>
                 </div>
@@ -58,7 +73,7 @@
             </div>
 
             <div
-                class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
+                 class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
                 <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
                     <fa-icon [icon]="icons.faBolt" class="text-[50px]"></fa-icon>
                 </div>
@@ -66,7 +81,7 @@
             </div>
 
             <div
-                class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
+                 class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
                 <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
                     <fa-icon [icon]="icons.faRotate" class="text-[50px]"></fa-icon>
                 </div>
@@ -74,7 +89,7 @@
             </div>
 
             <div
-                class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
+                 class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
                 <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
                     <fa-icon [icon]="icons.faTrophy" class="text-[50px]"></fa-icon>
                 </div>
@@ -103,22 +118,22 @@
                 <div class="py-4 px-5 text-center bg-white">
                     <div class="mb-3">
                         <h4 class="text-[20px] text-primary">
-                            <a href="">Heather F.</a> 
+                            <a href="">Heather F.</a>
                         </h4>
                     </div>
                     <div class="mb-3">
                         <h4 class="text-[14px] text-gray-400">
-                            <a href="">Growth Marketer</a> 
+                            <a href="">Growth Marketer</a>
                         </h4>
                     </div>
                     <div class="mb-3">
                         <h4 class="text-[14px] text-gray-400">
-                            <a href="">In Demand Skills</a> 
+                            <a href="">In Demand Skills</a>
                         </h4>
                     </div>
                     <div>
                         <h4 class="text-[18px] text-primary">
-                            <a href="">Strategy A/B Testing Paid Social Management Lead Generation Conversion Copywriting +3 More</a> 
+                            <a href="">Strategy A/B Testing Paid Social Management Lead Generation Conversion Copywriting +3 More</a>
                         </h4>
                     </div>
                 </div>
@@ -139,61 +154,61 @@
         <div class="grid lg:grid-cols-4 grid-cols-1 gap-8 items-center">
             <div
                  class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
-              <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-                <lottie-player
-                               src="https://lottie.host/cdcfdf4a-7f11-46f6-b763-8aa0ddd63cb3/5cIAv6Pb81.json"
-                               background="transparent" speed="1" style="width: 100%; height: 100%;" loop
-                               autoplay></lottie-player>
-              </div>
-              <h4 class="text-lg font-semibold my-5">Tailored Support</h4>
-              <p class="text-sm leading-6">Connect with Our Senior Enterprise Application Experts
-                for Detailed Enterprise Application Project Discussions. </p>
+                <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
+                    <lottie-player
+                                   src="https://lottie.host/cdcfdf4a-7f11-46f6-b763-8aa0ddd63cb3/5cIAv6Pb81.json"
+                                   background="transparent" speed="1" style="width: 100%; height: 100%;" loop
+                                   autoplay></lottie-player>
+                </div>
+                <h4 class="text-lg font-semibold my-5">Tailored Support</h4>
+                <p class="text-sm leading-6">Connect with Our Senior Enterprise Application Experts
+                    for Detailed Enterprise Application Project Discussions. </p>
             </div>
 
             <div
                  class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
-              <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-                <lottie-player
-                               src="https://lottie.host/3203c356-64e8-4201-863e-81282f3506c9/PlX4Ox852r.json"
-                               background="transparent" speed="1" style="width: 100%; height: 100%;" loop
-                               autoplay></lottie-player>
-              </div>
-              <h4 class="text-lg font-semibold my-5">Accelerated Results</h4>
-              <p class="text-sm leading-6">Using traditional hiring methods, it can take weeks or
-                months to pull together the right team. We present you with pre- qualified
-                candidates in 6-10 days in most cases.</p>
+                <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
+                    <lottie-player
+                                   src="https://lottie.host/3203c356-64e8-4201-863e-81282f3506c9/PlX4Ox852r.json"
+                                   background="transparent" speed="1" style="width: 100%; height: 100%;" loop
+                                   autoplay></lottie-player>
+                </div>
+                <h4 class="text-lg font-semibold my-5">Accelerated Results</h4>
+                <p class="text-sm leading-6">Using traditional hiring methods, it can take weeks or
+                    months to pull together the right team. We present you with pre- qualified
+                    candidates in 6-10 days in most cases.</p>
             </div>
 
             <div
                  class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
-              <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-                <lottie-player
-                               src="https://lottie.host/7da03309-6e31-4baa-992a-7ee702e4e819/6HgdujnMus.json"
-                               background="transparent" speed="1" style="width: 100%; height: 100%;" loop
-                               autoplay></lottie-player>
-              </div>
-              <h4 class="text-lg font-semibold my-5">Pre-Qualified Talent</h4>
-              <p class="text-sm leading-6">We never use automated matching. Its human curated and
-                we personally interview and test every candidate, presenting only those who are
-                a technical and cultural fit for your Enterprise Application project.</p>
+                <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
+                    <lottie-player
+                                   src="https://lottie.host/7da03309-6e31-4baa-992a-7ee702e4e819/6HgdujnMus.json"
+                                   background="transparent" speed="1" style="width: 100%; height: 100%;" loop
+                                   autoplay></lottie-player>
+                </div>
+                <h4 class="text-lg font-semibold my-5">Pre-Qualified Talent</h4>
+                <p class="text-sm leading-6">We never use automated matching. Its human curated and
+                    we personally interview and test every candidate, presenting only those who are
+                    a technical and cultural fit for your Enterprise Application project.</p>
             </div>
 
             <div
                  class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
-              <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-                <lottie-player
-                               src="https://lottie.host/57b08bd3-d2c8-40a4-a671-9eace5cb0f6a/gmVxmaKxh2.json"
-                               background="transparent" speed="1" style="width: 100%; height: 100%;" loop
-                               autoplay></lottie-player>
-              </div>
-              <h4 class="text-lg font-semibold my-5">Risk-Free Trial</h4>
-              <p class="text-sm leading-6">Try EASWORKS enterprise application freelancer for up
-                to 20/40 hours of work, and if you're not satisfied, you don't pay a cent during
-                trial period evaluation.</p>
+                <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
+                    <lottie-player
+                                   src="https://lottie.host/57b08bd3-d2c8-40a4-a671-9eace5cb0f6a/gmVxmaKxh2.json"
+                                   background="transparent" speed="1" style="width: 100%; height: 100%;" loop
+                                   autoplay></lottie-player>
+                </div>
+                <h4 class="text-lg font-semibold my-5">Risk-Free Trial</h4>
+                <p class="text-sm leading-6">Try EASWORKS enterprise application freelancer for up
+                    to 20/40 hours of work, and if you're not satisfied, you don't pay a cent during
+                    trial period evaluation.</p>
             </div>
-          </div>
+        </div>
 
-          <button class="shaded-button primary w-full mt-12">Start Hiring</button>
+        <button class="shaded-button primary w-full mt-12">Start Hiring</button>
     </div>
 </section>
 
@@ -202,20 +217,20 @@
         <div class="text-center mb-12">
             <h2 class="text-4xl font-bold"><span class="text-primary">{{Professional.title.highlight}}</span> {{Professional.title.plain}}</h2>
 
-            <p class="my-4 text-[20px] font-normal">Discover a diverse range of Enterprise Application Freelancer  on the EASWORKS network. Find the perfect fit for short or long-term engagements.</p>
+            <p class="my-4 text-[20px] font-normal">Discover a diverse range of Enterprise Application Freelancer on the EASWORKS network. Find the perfect fit for short or long-term engagements.</p>
         </div>
 
         <div class="mt-4 grid gap-2
           grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <div *ngFor="let prolist of Professional.ProfessionalList">
-              <a class="flex gap-2 max-w-max" href="">
-                <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
-                {{prolist.title}}
-              </a>
+                <a class="flex gap-2 max-w-max" href="">
+                    <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
+                    {{prolist.title}}
+                </a>
             </div>
-          </div>
+        </div>
 
-          <button class="shaded-button primary w-full mt-12">Start Hiring</button>
+        <button class="shaded-button primary w-full mt-12">Start Hiring</button>
     </div>
 </section>
 
@@ -255,7 +270,7 @@
                 </h3>
                 <div class="relative">
                     <ul class="text-lg">
-                        <li *ngFor="let listItem of EASServicesBlock.ServiceBlock">{{listItem.content.title}}</li> 
+                        <li *ngFor="let listItem of EASServicesBlock.ServiceBlock">{{listItem.content.title}}</li>
                     </ul>
                 </div>
             </div>
@@ -270,7 +285,7 @@
                 {{BottomHireSection.title.plain}} <span class="text-black">{{BottomHireSection.title.highlight}} </span> Get Started Today!
             </h3>
             <div class="flex items-center justify-center mt-10">
-                    <button class="shaded-button"> {{BottomHireSection.cta}}</button>
+                <button class="shaded-button"> {{BottomHireSection.cta}}</button>
             </div>
         </div>
     </div>

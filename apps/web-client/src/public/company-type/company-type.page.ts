@@ -1,10 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
-import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { faGraduationCap, faSackDollar, faBolt, faRotate, faTrophy, faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import { COMPANY_TYPE_DATA, CompanyType } from './data';
-import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
+import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { NgSwiperModule, SwiperModuleId } from '@easworks/app-shell/common/swiper.module';
+import { faAngleLeft, faAngleRight, faBolt, faGraduationCap, faRotate, faSackDollar, faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { SwiperOptions } from 'swiper/types';
+import { COMPANY_TYPE_DATA, CompanyType } from './data';
+
 @Component({
   standalone: true,
   selector: 'company-type-page',
@@ -13,19 +16,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrls: [],
   imports: [
     LottiePlayerDirective,
-    ImportsModule
+    ImportsModule,
+    NgSwiperModule
   ]
 })
 export class CompanyTypePageComponent {
-  protected readonly icons = {
-    faGraduationCap,
-    faSackDollar,
-    faBolt,
-    faRotate,
-    faTrophy,
-    faAngleRight
-  } as const;
-
   constructor() {
     inject(ActivatedRoute).data
       .pipe(takeUntilDestroyed())
@@ -34,7 +29,19 @@ export class CompanyTypePageComponent {
       });
   }
 
+  protected readonly icons = {
+    faGraduationCap,
+    faSackDollar,
+    faBolt,
+    faRotate,
+    faTrophy,
+    faAngleRight,
+    faAngleLeft
+  } as const;
+
   protected readonly CompanyType$ = signal<CompanyType>(COMPANY_TYPE_DATA['small-business']);
+
+  protected readonly swiperOptions = swiperOptions;
 
   protected readonly customerLogos = [
     'client-1.png',
@@ -45,3 +52,13 @@ export class CompanyTypePageComponent {
     'client-1.png',
   ].map(v => `/assets/img/${v}`);
 }
+
+const swiperOptions = {
+  hero: {
+    modules: ['autoplay', 'navigation'] as SwiperModuleId[],
+    config: {
+      autoplay: true,
+      navigation: true
+    } as SwiperOptions
+  }
+} as const;
