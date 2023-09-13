@@ -20,7 +20,7 @@ module.exports = {
         'emoji': ['Noto Color Emoji']
       },
       boxShadowColor: {
-        DEFAULT: colors.slate[500]
+        DEFAULT: colors.slate[400]
       },
       borderColor: {
         DEFAULT: colors.slate[300]

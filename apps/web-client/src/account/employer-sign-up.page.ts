@@ -50,7 +50,7 @@ export class EmployerSignUpPageComponent {
   } as const;
 
   @HostBinding()
-  private readonly class = 'page grid grid-cols-10 gap-4';
+  private readonly class = 'page';
   protected readonly loading = generateLoadingState<[
     'signing up',
     'form pending'
