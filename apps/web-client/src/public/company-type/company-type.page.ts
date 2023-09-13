@@ -30,7 +30,7 @@ export class CompanyTypePageComponent {
     inject(ActivatedRoute).data
       .pipe(takeUntilDestroyed())
       .subscribe(d => {
-        this.CompanyType$.set(d['useCase']);
+        this.CompanyType$.set(d['CompanyType']);
       });
   }
 

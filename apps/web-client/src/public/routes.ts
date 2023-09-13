@@ -156,7 +156,7 @@ export const PUBLIC_ROUTES: Routes = [
     loadComponent: () => import('./company-type/company-type.page').then(m => m.CompanyTypePageComponent),
     runGuardsAndResolvers: 'pathParamsChange',
     resolve: {
-      useCase: (route: ActivatedRouteSnapshot) => {
+      CompanyType: (route: ActivatedRouteSnapshot) => {
         const key = route.paramMap.get('CompanyType');
         if (!key || !(key in COMPANY_TYPE_DATA))
           throw new Error('invalid operation');
