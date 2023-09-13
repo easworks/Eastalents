@@ -12,8 +12,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: [],
   imports: [
-      LottiePlayerDirective,
-      ImportsModule
+    LottiePlayerDirective,
+    ImportsModule
   ]
 })
 export class CompanyTypePageComponent {
@@ -30,7 +30,7 @@ export class CompanyTypePageComponent {
     inject(ActivatedRoute).data
       .pipe(takeUntilDestroyed())
       .subscribe(d => {
-        this.CompanyType$.set(d['CompanyType']);
+        this.CompanyType$.set(d['useCase']);
       });
   }
 
