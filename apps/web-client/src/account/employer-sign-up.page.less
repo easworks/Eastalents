@@ -3,8 +3,20 @@
 }
 
 .sign-up-form {
-  @apply p-4 md:py-6 md:px-8 rounded shadow bg-white transition-all
+  @apply rounded shadow bg-white transition-all
     w-full lg:w-5/12;
+
+  .role-switch {
+    @apply flex uppercase text-center;
+
+    a {
+      @apply p-2 px-4 w-full transition-all border-b-2 hover:text-primary-400 hover:border-primary-300 hover:bg-slate-500/10;
+
+      &.active {
+        @apply font-medium border-primary-500 text-primary-500;
+      }
+    }
+  }
 }
 
 .info {
