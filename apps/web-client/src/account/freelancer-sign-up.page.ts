@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angula
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { RouterModule } from '@angular/router';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
@@ -24,7 +25,8 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
     LottiePlayerDirective,
     FormImportsModule,
     MatCheckboxModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    RouterModule
   ]
 })
 export class FreelancerSignUpPageComponent {
