@@ -19,9 +19,9 @@ module.exports = {
         'sans': ['Roboto', ...defaultTheme.fontFamily.sans],
         'emoji': ['Noto Color Emoji']
       },
-      boxShadowColor: {
-        DEFAULT: colors.slate[400]
-      },
+      boxShadowColor: ({ theme }) => ({
+        DEFAULT: theme('colors.black / 40%')
+      }),
       borderColor: {
         DEFAULT: colors.slate[300]
       },
