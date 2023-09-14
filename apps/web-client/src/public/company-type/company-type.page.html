@@ -3,13 +3,13 @@
         <img class="w-full h-full" src="/assets/img/building.jpg" alt="">
     </div>
     <div class="lg:px-10 p-5 mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-2 items-start gap-6 relative">
+        <div class="grid grid-cols-1 lg:grid-cols-2 items-start gap-12 relative">
             <div class="text-left">
                 <div class="w-[400px] mb-4">
-                    <img src="/assets/img/Small_medium_Business_Exp.webp" alt="" class="w-full">
+                    <img [src]="hero.logo" alt="" class="w-full">
                 </div>
                 <h3 class="lg:text-[2rem] text-2xl font-bold leading-[60px] text-black">
-                    {{hero.title.plain}} <span class="text-primary" *ngIf="hero.title.highlight as highlighted">{{highlighted}}</span>{{hero.title.plainLast}}
+                    {{hero.title.plain}} <span class="text-primary" *ngIf="hero.title.highlight as highlighted">{{highlighted}}</span> {{hero.title.plainLast}}
                 </h3>
                 <p *ngFor="let paragraph of hero.content" class="my-4 text-base font-normal text-black">{{paragraph}}</p>
 
@@ -21,17 +21,45 @@
             </div>
             <div>
                 <swiper [options]="swiperOptions.hero.config" [modules]="swiperOptions.hero.modules">
-                    <div class="swiper-wrapper">
-                        <swiper-slide index="0">1</swiper-slide>
-                        <swiper-slide index="1">2</swiper-slide>
-                        <swiper-slide index="2">3</swiper-slide>
-
-                        <swiper-slide *ngFor="let i of [1,2,3]; let ix = index" [index]="ix">{{i}} </swiper-slide>
-                    </div>
-
-                    <div class="mt-4 flex justify-between gap-4">
+                    <div class="absolute bottom-0 flex items-center left-0 m-auto text-center top-0 z-10">
                         <fa-icon [icon]="icons.faAngleLeft"
                                  mat-ripple class="swiper-button swiper-button-prev"></fa-icon>
+                    </div>
+                    <div class="swiper-wrapper">
+                        <swiper-slide *ngFor="let Slides of EASTalent; let index = index" index={{index}}>
+                            <div class="border rounded-md overflow-hidden h-full">
+                                <div class="flex justify-center p-5 bg-[#cbd5e1]">
+                                    <img [src]="Slides.image" class="w-[120px] h-[120px] rounded-full blur-[3px]" alt="">
+                                </div>
+                                <div class="py-4 px-5 text-center bg-white h-full">
+                                    <div class="mb-3">
+                                        <h4 class="text-[20px] text-primary">
+                                            <a href="">{{Slides.name}}</a>
+                                        </h4>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h4 class="text-[14px] text-gray-400">
+                                            <a href="">{{Slides.position}}</a>
+                                        </h4>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h4 class="text-[14px] text-gray-400">
+                                            <a href="">{{Slides.Skills}}</a>
+                                        </h4>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-[18px] text-primary">
+                                            <a href="">{{Slides.moreword}}</a>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </swiper-slide>
+
+                        <!-- <swiper-slide *ngFor="let i of [1,2,3]; let ix = index" [index]="ix">{{i}} </swiper-slide> -->
+                    </div>
+
+                    <div class="absolute bottom-0 flex items-center right-0 m-auto text-center top-0 z-10">
                         <fa-icon [icon]="icons.faAngleRight"
                                  mat-ripple class="swiper-button swiper-button-next"></fa-icon>
                     </div>
@@ -98,7 +126,7 @@
         </div>
 
         <div class="flex justify-center items-center text-center mt-10">
-            <button class="shaded-button primary"> Hire Now</button>
+            <button class="shaded-button primary"> {{Strategic.cta}} </button>
         </div>
 
     </div>
@@ -107,40 +135,36 @@
 <section class="py-[60px]">
     <div class="page">
         <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold">Your most important Enterprise Application <br> project deserve the world's
-                best EAS Talent</h2>
+            <h2 class="text-4xl font-bold">Your most important Enterprise Application <br> project deserve the world's best EAS Talent</h2>
         </div>
         <div class="grid lg:grid-cols-4 grid-cols-1 gap-10 items-center">
-            <div class="border rounded-md overflow-hidden">
+            <div class="border rounded-md overflow-hidden h-full" *ngFor="let Talent of EASTalent">
                 <div class="flex justify-center p-5 bg-[#cbd5e1]">
-                    <img src="/assets/img/profile2/David -Eng Manager.png" class="w-[120px] h-[120px] rounded-full blur-[2px]" alt="">
+                    <img [src]="Talent.image" class="w-[120px] h-[120px] rounded-full blur-[3px]" alt="">
                 </div>
-                <div class="py-4 px-5 text-center bg-white">
+                <div class="py-4 px-5 text-center bg-white h-full">
                     <div class="mb-3">
                         <h4 class="text-[20px] text-primary">
-                            <a href="">Heather F.</a>
+                            <a href="">{{Talent.name}}</a>
                         </h4>
                     </div>
                     <div class="mb-3">
                         <h4 class="text-[14px] text-gray-400">
-                            <a href="">Growth Marketer</a>
+                            <a href="">{{Talent.position}}</a>
                         </h4>
                     </div>
                     <div class="mb-3">
                         <h4 class="text-[14px] text-gray-400">
-                            <a href="">In Demand Skills</a>
+                            <a href="">{{Talent.Skills}}</a>
                         </h4>
                     </div>
                     <div>
                         <h4 class="text-[18px] text-primary">
-                            <a href="">Strategy A/B Testing Paid Social Management Lead Generation Conversion Copywriting +3 More</a>
+                            <a href="">{{Talent.moreword}}</a>
                         </h4>
                     </div>
                 </div>
             </div>
-            <div>02</div>
-            <div>03</div>
-            <div>04</div>
         </div>
     </div>
 </section>
@@ -236,23 +260,23 @@
 
 <section class="pb-[60px]">
     <div class="page">
-        <div class="mt-4 grid gap-2 grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-            <div class="border rounded-lg overflow-hidden">
+        <div class="mt-4 grid gap-3 grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
+            <div class="border rounded-lg overflow-hidden" *ngFor="let profile of ProfessionalProfile">
                 <div class="flex justify-center bg-[#cbd5e1]">
-                    <img src="/assets/img/profile2/David -Eng Manager.png" class="w-full h-full" alt="">
+                    <img [src]="profile.image" class="w-full h-full" alt="">
                 </div>
                 <div class="p-4 bg-white">
                     <div class="mb-3">
                         <h4 class="text-[20px] text-primary font-semibold">
-                            Gabriela Santos
+                            {{profile.name}}
                         </h4>
                     </div>
                     <div>
                         <ul class="text-[16px] text-gray-400">
-                            <li>Salesforce Developer</li>
-                            <li>Rio De Janeiro, Brazil</li>
-                            <li>Experience : 10 Years</li>
-                            <li>Industry/Sector:Retail</li>
+                            <li>{{profile.position}}</li>
+                            <li>{{profile.localtion}}</li>
+                            <li>{{profile.experience}}</li>
+                            <li>{{profile.industry}}</li>
                         </ul>
                     </div>
                 </div>
@@ -263,14 +287,14 @@
 
 <section class="py-[60px] bg-white" *ngrxLet="CompanyType$().EASServicesBlock as EASServicesBlock">
     <div class="page">
-        <div class="grid gap-2 grid-cols-1 lg:grid-cols-2 xl:grid-cols-2">
+        <div class="grid gap-10 grid-cols-1 lg:grid-cols-2 xl:grid-cols-2">
             <div class="relative" *ngFor="let servicebox of EASServicesBlock.ServiceBlock">
-                <h3 class="lg:text-[1.5rem] text-2xl font-bold leading-[60px] text-black">
-                    {{servicebox.title.plain}} <span class="text-primary">{{servicebox.title.highlight}} </span>:
+                <h3 class="lg:text-[1.5rem] text-2xl font-bold leading-[30px] text-black mb-5">
+                    {{servicebox.title.plain}} <span class="text-primary">{{servicebox.title.highlight}} </span>
                 </h3>
                 <div class="relative">
                     <ul class="text-lg">
-                        <li *ngFor="let listItem of EASServicesBlock.ServiceBlock">{{listItem.content.title}}</li>
+                        <li class="block w-full" *ngFor="let listItem of servicebox.content">{{listItem.title}}</li>
                     </ul>
                 </div>
             </div>
