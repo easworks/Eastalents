@@ -38,7 +38,8 @@ export const publicMenu = {
       ]
     },
     applyAsFreelancer: { name: 'Apply as Freelancer', link: '/account/sign-up/freelancer' },
-    aboutUs: { name: 'About Us', link: '/about-us' }
+    aboutUs: { name: 'About Us', link: '/about-us' },
+    codeOfConduct: { name: 'Code of Conduct', link: 'code-of-conduct' }
   } satisfies { readonly [key: string]: MenuItem; }
 } as const;
 
