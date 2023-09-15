@@ -66,6 +66,9 @@ module.exports = {
       },
       maxHeight: {
         'offset-screen': offsetScreen
+      },
+      opacity: {
+        '45': '.45'
       }
     },
   }
