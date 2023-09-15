@@ -1,316 +1,309 @@
 <section class="relative w-full h-full z-10 p-10 bg-white" *ngrxLet="CompanyType$().herosection as hero">
-    <div class="absolute inset-0 w-full h-full opacity-5">
-        <img class="w-full h-full" src="/assets/img/building.jpg" alt="">
-    </div>
-    <div class="lg:px-10 p-5 mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-2 items-start gap-12 relative">
-            <div class="text-left">
-                <div class="w-[400px] mb-4">
-                    <img [src]="hero.logo" alt="" class="w-full">
-                </div>
-                <h3 class="lg:text-[2rem] text-2xl font-bold leading-[60px] text-black">
-                    {{hero.title.plain}} <span class="text-primary" *ngIf="hero.title.highlight as highlighted">{{highlighted}}</span> {{hero.title.plainLast}}
-                </h3>
-                <p *ngFor="let paragraph of hero.content" class="my-4 text-base font-normal text-black">{{paragraph}}</p>
-
-                <div class="flex items-center justify-between">
-                    <div class="flex gap-4">
-                        <button class="stroked-button text-black"> {{hero.cta}} </button>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <swiper [options]="swiperOptions.hero.config" [modules]="swiperOptions.hero.modules">
-                    <div class="absolute bottom-0 flex items-center left-0 m-auto text-center top-0 z-10">
-                        <fa-icon [icon]="icons.faAngleLeft"
-                                 mat-ripple class="swiper-button swiper-button-prev"></fa-icon>
-                    </div>
-                    <div class="swiper-wrapper">
-                        <swiper-slide *ngFor="let Slides of EASTalent; let index = index" index={{index}}>
-                            <div class="border rounded-md overflow-hidden h-full">
-                                <div class="flex justify-center p-5 bg-[#cbd5e1]">
-                                    <img [src]="Slides.image" class="w-[120px] h-[120px] rounded-full blur-[3px]" alt="">
-                                </div>
-                                <div class="py-4 px-5 text-center bg-white h-full">
-                                    <div class="mb-3">
-                                        <h4 class="text-[20px] text-primary">
-                                            <a href="">{{Slides.name}}</a>
-                                        </h4>
-                                    </div>
-                                    <div class="mb-3">
-                                        <h4 class="text-[14px] text-gray-400">
-                                            <a href="">{{Slides.position}}</a>
-                                        </h4>
-                                    </div>
-                                    <div class="mb-3">
-                                        <h4 class="text-[14px] text-gray-400">
-                                            <a href="">{{Slides.Skills}}</a>
-                                        </h4>
-                                    </div>
-                                    <div>
-                                        <h4 class="text-[18px] text-primary">
-                                            <a href="">{{Slides.moreword}}</a>
-                                        </h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </swiper-slide>
-
-                        <!-- <swiper-slide *ngFor="let i of [1,2,3]; let ix = index" [index]="ix">{{i}} </swiper-slide> -->
-                    </div>
-
-                    <div class="absolute bottom-0 flex items-center right-0 m-auto text-center top-0 z-10">
-                        <fa-icon [icon]="icons.faAngleRight"
-                                 mat-ripple class="swiper-button swiper-button-next"></fa-icon>
-                    </div>
-                </swiper>
-            </div>
+  <div class="absolute inset-0 w-full h-full opacity-5">
+    <img class="w-full h-full" src="/assets/img/building.jpg" alt="">
+  </div>
+  <div class="lg:px-10 p-5 mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 items-start gap-12 relative">
+      <div class="text-left">
+        <div class="w-[400px] mb-4">
+          <img [src]="hero.logo" alt="" class="w-full">
         </div>
+        <h3 class="lg:text-[2rem] text-2xl font-bold leading-[60px] text-black">
+          {{hero.title.plain}} <span class="text-primary"
+            *ngIf="hero.title.highlight as highlighted">{{highlighted}}</span> {{hero.title.plainLast}}
+        </h3>
+        <p *ngFor="let paragraph of hero.content" class="my-4 text-base font-normal text-black">{{paragraph}}</p>
+
+        <div class="flex items-center justify-between">
+          <div class="flex gap-4">
+            <button class="stroked-button text-black"> {{hero.cta}} </button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <swiper [options]="swiperOptions.hero.config" [modules]="swiperOptions.hero.modules">
+          <div class="absolute bottom-0 flex items-center left-0 m-auto text-center top-0 z-10">
+            <fa-icon [icon]="icons.faAngleLeft" mat-ripple class="swiper-button swiper-button-prev"></fa-icon>
+          </div>
+          <div class="swiper-wrapper">
+            <swiper-slide *ngFor="let Slides of EASTalent; let index = index" index={{index}}>
+              <div class="border rounded-md overflow-hidden h-full">
+                <div class="flex justify-center p-5 bg-[#cbd5e1]">
+                  <img [src]="Slides.image" class="w-[120px] h-[120px] rounded-full blur-[3px]" alt="">
+                </div>
+                <div class="py-4 px-5 text-center bg-white h-full">
+                  <div class="mb-3">
+                    <h4 class="text-[20px] text-primary">
+                      <a href="">{{Slides.name}}</a>
+                    </h4>
+                  </div>
+                  <div class="mb-3">
+                    <h4 class="text-[14px] text-gray-400">
+                      <a href="">{{Slides.position}}</a>
+                    </h4>
+                  </div>
+                  <div class="mb-3">
+                    <h4 class="text-[14px] text-gray-400">
+                      <a href="">{{Slides.Skills}}</a>
+                    </h4>
+                  </div>
+                  <div>
+                    <h4 class="text-[18px] text-primary">
+                      <a href="">{{Slides.moreword}}</a>
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </swiper-slide>
+
+            <!-- <swiper-slide *ngFor="let i of [1,2,3]; let ix = index" [index]="ix">{{i}} </swiper-slide> -->
+          </div>
+
+          <div class="absolute bottom-0 flex items-center right-0 m-auto text-center top-0 z-10">
+            <fa-icon [icon]="icons.faAngleRight" mat-ripple class="swiper-button swiper-button-next"></fa-icon>
+          </div>
+        </swiper>
+      </div>
     </div>
+  </div>
 </section>
 
 <section>
-    <div class="page py-8 flex flex-wrap justify-around gap-4">
-        <div *ngFor="let logo of customerLogos">
-            <img class="w-32" [src]="logo" alt="">
-        </div>
+  <div class="page py-8 flex flex-wrap justify-around gap-4">
+    <div *ngFor="let logo of customerLogos">
+      <img class="w-32" [src]="logo" alt="">
     </div>
+  </div>
 </section>
 
 <section class="py-[60px] bg-white" *ngrxLet="CompanyType$().StrategicBenefits as Strategic">
-    <div class="page">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold">{{Strategic.title.plain}} <span class="text-primary">{{Strategic.title.highlight}}</span> {{Strategic.title.plainLast}}</h2>
-        </div>
-
-        <div class="grid lg:grid-cols-5 grid-cols-1 gap-8 items-center">
-            <div
-                 class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
-                <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
-                    <fa-icon [icon]="icons.faGraduationCap" class="text-[50px]"></fa-icon>
-                </div>
-                <h4 class="text-lg font-semibold mt-5">Access to Specialized Talent</h4>
-            </div>
-
-            <div
-                 class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
-                <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
-                    <fa-icon [icon]="icons.faSackDollar" class="text-[50px]"></fa-icon>
-                </div>
-                <h4 class="text-lg font-semibold mt-5">Cost-Effectiveness</h4>
-            </div>
-
-            <div
-                 class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
-                <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
-                    <fa-icon [icon]="icons.faBolt" class="text-[50px]"></fa-icon>
-                </div>
-                <h4 class="text-lg font-semibold mt-5">Speed and Efficiency</h4>
-            </div>
-
-            <div
-                 class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
-                <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
-                    <fa-icon [icon]="icons.faRotate" class="text-[50px]"></fa-icon>
-                </div>
-                <h4 class="text-lg font-semibold mt-5">Flexibility</h4>
-            </div>
-
-            <div
-                 class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
-                <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
-                    <fa-icon [icon]="icons.faTrophy" class="text-[50px]"></fa-icon>
-                </div>
-                <h4 class="text-lg font-semibold mt-5">Competitive Advantage</h4>
-            </div>
-        </div>
-
-        <div class="flex justify-center items-center text-center mt-10">
-            <button class="shaded-button primary"> {{Strategic.cta}} </button>
-        </div>
-
+  <div class="page">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold">{{Strategic.title.plain}} <span
+          class="text-primary">{{Strategic.title.highlight}}</span> {{Strategic.title.plainLast}}</h2>
     </div>
+
+    <div class="grid lg:grid-cols-5 grid-cols-1 gap-8 items-center">
+      <div
+        class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
+        <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
+          <fa-icon [icon]="icons.faGraduationCap" class="text-[50px]"></fa-icon>
+        </div>
+        <h4 class="text-lg font-semibold mt-5">Access to Specialized Talent</h4>
+      </div>
+
+      <div
+        class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
+        <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
+          <fa-icon [icon]="icons.faSackDollar" class="text-[50px]"></fa-icon>
+        </div>
+        <h4 class="text-lg font-semibold mt-5">Cost-Effectiveness</h4>
+      </div>
+
+      <div
+        class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
+        <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
+          <fa-icon [icon]="icons.faBolt" class="text-[50px]"></fa-icon>
+        </div>
+        <h4 class="text-lg font-semibold mt-5">Speed and Efficiency</h4>
+      </div>
+
+      <div
+        class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
+        <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
+          <fa-icon [icon]="icons.faRotate" class="text-[50px]"></fa-icon>
+        </div>
+        <h4 class="text-lg font-semibold mt-5">Flexibility</h4>
+      </div>
+
+      <div
+        class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
+        <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
+          <fa-icon [icon]="icons.faTrophy" class="text-[50px]"></fa-icon>
+        </div>
+        <h4 class="text-lg font-semibold mt-5">Competitive Advantage</h4>
+      </div>
+    </div>
+
+    <div class="flex justify-center items-center text-center mt-10">
+      <button class="shaded-button primary"> {{Strategic.cta}} </button>
+    </div>
+
+  </div>
 </section>
 
 <section class="py-[60px]">
-    <div class="page">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold">Your most important Enterprise Application <br> project deserve the world's best EAS Talent</h2>
-        </div>
-        <div class="grid lg:grid-cols-4 grid-cols-1 gap-10 items-center">
-            <div class="border rounded-md overflow-hidden h-full" *ngFor="let Talent of EASTalent">
-                <div class="flex justify-center p-5 bg-[#cbd5e1]">
-                    <img [src]="Talent.image" class="w-[120px] h-[120px] rounded-full blur-[3px]" alt="">
-                </div>
-                <div class="py-4 px-5 text-center bg-white h-full">
-                    <div class="mb-3">
-                        <h4 class="text-[20px] text-primary">
-                            <a href="">{{Talent.name}}</a>
-                        </h4>
-                    </div>
-                    <div class="mb-3">
-                        <h4 class="text-[14px] text-gray-400">
-                            <a href="">{{Talent.position}}</a>
-                        </h4>
-                    </div>
-                    <div class="mb-3">
-                        <h4 class="text-[14px] text-gray-400">
-                            <a href="">{{Talent.Skills}}</a>
-                        </h4>
-                    </div>
-                    <div>
-                        <h4 class="text-[18px] text-primary">
-                            <a href="">{{Talent.moreword}}</a>
-                        </h4>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="page">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold">Your most important Enterprise Application <br> project deserve the world's best
+        EAS Talent</h2>
     </div>
+    <div class="grid lg:grid-cols-4 grid-cols-1 gap-10 items-center">
+      <div class="border rounded-md overflow-hidden h-full" *ngFor="let Talent of EASTalent">
+        <div class="flex justify-center p-5 bg-[#cbd5e1]">
+          <img [src]="Talent.image" class="w-[120px] h-[120px] rounded-full blur-[3px]" alt="">
+        </div>
+        <div class="py-4 px-5 text-center bg-white h-full">
+          <div class="mb-3">
+            <h4 class="text-[20px] text-primary">
+              <a href="">{{Talent.name}}</a>
+            </h4>
+          </div>
+          <div class="mb-3">
+            <h4 class="text-[14px] text-gray-400">
+              <a href="">{{Talent.position}}</a>
+            </h4>
+          </div>
+          <div class="mb-3">
+            <h4 class="text-[14px] text-gray-400">
+              <a href="">{{Talent.Skills}}</a>
+            </h4>
+          </div>
+          <div>
+            <h4 class="text-[18px] text-primary">
+              <a href="">{{Talent.moreword}}</a>
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section class="py-[60px] bg-white" *ngrxLet="CompanyType$().HowdDoesEasworks as HowdDoes">
-    <div class="page">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold">{{HowdDoes.title.plain}} <span class="text-primary">{{HowdDoes.title.highlight}}</span> {{HowdDoes.title.plainLast}}</h2>
-        </div>
-
-        <div class="grid lg:grid-cols-4 grid-cols-1 gap-8 items-center">
-            <div
-                 class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
-                <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-                    <lottie-player
-                                   src="https://lottie.host/cdcfdf4a-7f11-46f6-b763-8aa0ddd63cb3/5cIAv6Pb81.json"
-                                   background="transparent" speed="1" style="width: 100%; height: 100%;" loop
-                                   autoplay></lottie-player>
-                </div>
-                <h4 class="text-lg font-semibold my-5">Tailored Support</h4>
-                <p class="text-sm leading-6">Connect with Our Senior Enterprise Application Experts
-                    for Detailed Enterprise Application Project Discussions. </p>
-            </div>
-
-            <div
-                 class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
-                <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-                    <lottie-player
-                                   src="https://lottie.host/3203c356-64e8-4201-863e-81282f3506c9/PlX4Ox852r.json"
-                                   background="transparent" speed="1" style="width: 100%; height: 100%;" loop
-                                   autoplay></lottie-player>
-                </div>
-                <h4 class="text-lg font-semibold my-5">Accelerated Results</h4>
-                <p class="text-sm leading-6">Using traditional hiring methods, it can take weeks or
-                    months to pull together the right team. We present you with pre- qualified
-                    candidates in 6-10 days in most cases.</p>
-            </div>
-
-            <div
-                 class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
-                <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-                    <lottie-player
-                                   src="https://lottie.host/7da03309-6e31-4baa-992a-7ee702e4e819/6HgdujnMus.json"
-                                   background="transparent" speed="1" style="width: 100%; height: 100%;" loop
-                                   autoplay></lottie-player>
-                </div>
-                <h4 class="text-lg font-semibold my-5">Pre-Qualified Talent</h4>
-                <p class="text-sm leading-6">We never use automated matching. Its human curated and
-                    we personally interview and test every candidate, presenting only those who are
-                    a technical and cultural fit for your Enterprise Application project.</p>
-            </div>
-
-            <div
-                 class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
-                <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-                    <lottie-player
-                                   src="https://lottie.host/57b08bd3-d2c8-40a4-a671-9eace5cb0f6a/gmVxmaKxh2.json"
-                                   background="transparent" speed="1" style="width: 100%; height: 100%;" loop
-                                   autoplay></lottie-player>
-                </div>
-                <h4 class="text-lg font-semibold my-5">Risk-Free Trial</h4>
-                <p class="text-sm leading-6">Try EASWORKS enterprise application freelancer for up
-                    to 20/40 hours of work, and if you're not satisfied, you don't pay a cent during
-                    trial period evaluation.</p>
-            </div>
-        </div>
-
-        <button class="shaded-button primary w-full mt-12">Start Hiring</button>
+  <div class="page">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold">{{HowdDoes.title.plain}} <span
+          class="text-primary">{{HowdDoes.title.highlight}}</span> {{HowdDoes.title.plainLast}}</h2>
     </div>
+
+    <div class="grid lg:grid-cols-4 grid-cols-1 gap-8 items-center">
+      <div class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
+        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
+          <lottie-player src="https://lottie.host/cdcfdf4a-7f11-46f6-b763-8aa0ddd63cb3/5cIAv6Pb81.json"
+            background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+        </div>
+        <h4 class="text-lg font-semibold my-5">Tailored Support</h4>
+        <p class="text-sm leading-6">Connect with Our Senior Enterprise Application Experts
+          for Detailed Enterprise Application Project Discussions. </p>
+      </div>
+
+      <div class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
+        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
+          <lottie-player src="https://lottie.host/3203c356-64e8-4201-863e-81282f3506c9/PlX4Ox852r.json"
+            background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+        </div>
+        <h4 class="text-lg font-semibold my-5">Accelerated Results</h4>
+        <p class="text-sm leading-6">Using traditional hiring methods, it can take weeks or
+          months to pull together the right team. We present you with pre- qualified
+          candidates in 6-10 days in most cases.</p>
+      </div>
+
+      <div class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
+        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
+          <lottie-player src="https://lottie.host/7da03309-6e31-4baa-992a-7ee702e4e819/6HgdujnMus.json"
+            background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+        </div>
+        <h4 class="text-lg font-semibold my-5">Pre-Qualified Talent</h4>
+        <p class="text-sm leading-6">We never use automated matching. Its human curated and
+          we personally interview and test every candidate, presenting only those who are
+          a technical and cultural fit for your Enterprise Application project.</p>
+      </div>
+
+      <div class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
+        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
+          <lottie-player src="https://lottie.host/57b08bd3-d2c8-40a4-a671-9eace5cb0f6a/gmVxmaKxh2.json"
+            background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+        </div>
+        <h4 class="text-lg font-semibold my-5">Risk-Free Trial</h4>
+        <p class="text-sm leading-6">Try EASWORKS enterprise application freelancer for up
+          to 20/40 hours of work, and if you're not satisfied, you don't pay a cent during
+          trial period evaluation.</p>
+      </div>
+    </div>
+
+    <button class="shaded-button primary w-full mt-12">Start Hiring</button>
+  </div>
 </section>
 
 <section class="py-[60px]" *ngrxLet="CompanyType$().ProfessionalsBased as Professional">
-    <div class="page">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold"><span class="text-primary">{{Professional.title.highlight}}</span> {{Professional.title.plain}}</h2>
+  <div class="page">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold"><span class="text-primary">{{Professional.title.highlight}}</span>
+        {{Professional.title.plain}}</h2>
 
-            <p class="my-4 text-[20px] font-normal">Discover a diverse range of Enterprise Application Freelancer on the EASWORKS network. Find the perfect fit for short or long-term engagements.</p>
-        </div>
-
-        <div class="mt-4 grid gap-2
-          grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            <div *ngFor="let prolist of Professional.ProfessionalList">
-                <a class="flex gap-2 max-w-max" href="">
-                    <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
-                    {{prolist.title}}
-                </a>
-            </div>
-        </div>
-
-        <button class="shaded-button primary w-full mt-12">Start Hiring</button>
+      <p class="my-4 text-[20px] font-normal">Discover a diverse range of Enterprise Application Freelancer on the
+        EASWORKS network. Find the perfect fit for short or long-term engagements.</p>
     </div>
+
+    <div class="mt-4 grid gap-2
+          grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div *ngFor="let prolist of Professional.ProfessionalList">
+        <a class="flex gap-2 max-w-max" href="">
+          <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
+          {{prolist.title}}
+        </a>
+      </div>
+    </div>
+
+    <button class="shaded-button primary w-full mt-12">Start Hiring</button>
+  </div>
 </section>
 
 <section class="pb-[60px]">
-    <div class="page">
-        <div class="mt-4 grid gap-3 grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-            <div class="border rounded-lg overflow-hidden" *ngFor="let profile of ProfessionalProfile">
-                <div class="flex justify-center bg-[#cbd5e1]">
-                    <img [src]="profile.image" class="w-full h-full" alt="">
-                </div>
-                <div class="p-4 bg-white">
-                    <div class="mb-3">
-                        <h4 class="text-[20px] text-primary font-semibold">
-                            {{profile.name}}
-                        </h4>
-                    </div>
-                    <div>
-                        <ul class="text-[16px] text-gray-400">
-                            <li>{{profile.position}}</li>
-                            <li>{{profile.localtion}}</li>
-                            <li>{{profile.experience}}</li>
-                            <li>{{profile.industry}}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+  <div class="page">
+    <div class="mt-4 grid gap-3 grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
+      <div class="border rounded-lg overflow-hidden" *ngFor="let profile of ProfessionalProfile">
+        <div class="flex justify-center bg-[#cbd5e1]">
+          <img [src]="profile.image" class="w-full h-full" alt="">
         </div>
+        <div class="p-4 bg-white">
+          <div class="mb-3">
+            <h4 class="text-[20px] text-primary font-semibold">
+              {{profile.name}}
+            </h4>
+          </div>
+          <div>
+            <ul class="text-[16px] text-gray-400">
+              <li>{{profile.position}}</li>
+              <li>{{profile.localtion}}</li>
+              <li>{{profile.experience}}</li>
+              <li>{{profile.industry}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
 <section class="py-[60px] bg-white" *ngrxLet="CompanyType$().EASServicesBlock as EASServicesBlock">
-    <div class="page">
-        <div class="grid gap-10 grid-cols-1 lg:grid-cols-2 xl:grid-cols-2">
-            <div class="relative" *ngFor="let servicebox of EASServicesBlock.ServiceBlock">
-                <h3 class="lg:text-[1.5rem] text-2xl font-bold leading-[30px] text-black mb-5">
-                    {{servicebox.title.plain}} <span class="text-primary">{{servicebox.title.highlight}} </span>
-                </h3>
-                <div class="relative">
-                    <ul class="text-lg">
-                        <li class="block w-full" *ngFor="let listItem of servicebox.content">{{listItem.title}}</li>
-                    </ul>
-                </div>
-            </div>
+  <div class="page">
+    <div class="grid gap-10 grid-cols-1 lg:grid-cols-2 xl:grid-cols-2">
+      <div class="relative" *ngFor="let servicebox of EASServicesBlock.ServiceBlock">
+        <h3 class="lg:text-[1.5rem] text-2xl font-bold leading-[30px] text-black mb-5">
+          {{servicebox.title.plain}} <span class="text-primary">{{servicebox.title.highlight}} </span>
+        </h3>
+        <div class="relative">
+          <ul class="text-lg">
+            <li class="block w-full" *ngFor="let listItem of servicebox.content">{{listItem.title}}</li>
+          </ul>
         </div>
+      </div>
     </div>
+  </div>
 </section>
 
 <section class="bg-primary py-[60px]" *ngrxLet="CompanyType$().BottomHireSection as BottomHireSection">
-    <div class="page">
-        <div class="text-center max-w-xl m-auto">
-            <h3 class="lg:text-[2rem] text-2xl font-bold leading-[40px] text-white">
-                {{BottomHireSection.title.plain}} <span class="text-black">{{BottomHireSection.title.highlight}} </span> Get Started Today!
-            </h3>
-            <div class="flex items-center justify-center mt-10">
-                <button class="shaded-button"> {{BottomHireSection.cta}}</button>
-            </div>
-        </div>
+  <div class="page">
+    <div class="text-center max-w-xl m-auto">
+      <h3 class="lg:text-[2rem] text-2xl font-bold leading-[40px] text-white">
+        {{BottomHireSection.title.plain}} <span class="text-black">{{BottomHireSection.title.highlight}} </span> Get
+        Started Today!
+      </h3>
+      <div class="flex items-center justify-center mt-10">
+        <button class="shaded-button"> {{BottomHireSection.cta}}</button>
+      </div>
     </div>
+  </div>
 </section>

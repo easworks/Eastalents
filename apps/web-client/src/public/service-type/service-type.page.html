@@ -1,0 +1,201 @@
+<section class="py-[60px] bg-white">
+  <div class="page">
+    <div class="text-center max-w-xxl m-auto">
+      <h3 class="lg:text-[2rem] text-2xl font-bold leading-[40px] text-black"> Your Go-To Dedicated Enterprise
+        Applications Software(EAS) Platform for <span class="text-primary"> Direct Hiring </span> of top Talents.
+      </h3>
+      <p class="my-4 text-base font-normal text-black">EASWORKS offers a specialized, reliable, and efficient avenue for
+        permanent hires in the enterprise application field, ensuring that you get the best talent with the relevant
+        deep industry experience needed for your EAS project.</p>
+      <div class="flex items-center justify-center mt-10">
+        <button class="shaded-button primary"> Start Hiring </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="page py-8 flex flex-wrap justify-around gap-4">
+    <div *ngFor="let logo of customerLogos">
+      <img class="w-32" [src]="logo" alt="">
+    </div>
+  </div>
+</section>
+
+<section class="py-[60px] bg-white">
+  <div class="page">
+    <div class="grid lg:grid-cols-4 grid-cols-1 gap-10 items-center">
+      <div class="border rounded-md overflow-hidden h-full" *ngFor="let Talent of EASTalent">
+        <div class="flex justify-center p-5 bg-[#cbd5e1]">
+          <img [src]="Talent.image" class="w-[120px] h-[120px] rounded-full blur-[3px]" alt="">
+        </div>
+        <div class="py-4 px-5 text-center bg-white h-full">
+          <div class="mb-3">
+            <h4 class="text-[20px] text-primary">
+              <a href="">{{Talent.name}}</a>
+            </h4>
+          </div>
+          <div class="mb-3">
+            <h4 class="text-[14px] text-gray-400">
+              <a href="">{{Talent.position}}</a>
+            </h4>
+          </div>
+          <div class="mb-3">
+            <h4 class="text-[14px] text-gray-400">
+              <a href="">{{Talent.Skills}}</a>
+            </h4>
+          </div>
+          <div>
+            <h4 class="text-[18px] text-primary">
+              <a href="">{{Talent.moreword}}</a>
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-[60px]">
+  <div class="page">
+    <div class="text-left mb-12">
+      <h3 class="lg:text-[2rem] text-2xl font-bold leading-[40px] text-black"> EASWORKS: Changing the Game in <span
+          class="text-primary"> Permanent Staffing </span> for Enterprise Applications
+      </h3>
+    </div>
+    <div class="grid lg:grid-cols-1 grid-cols-1 gap-10">
+      <p>🎓 Specialized Skillset: Tailored to the enterprise application sector, connecting you with technically and
+        industrially competent candidates.</p>
+      <p>🎯 Stringent Screening: Comprehensive evaluations to ensure only top-notch, qualified talent for your projects.
+      </p>
+      <p>🏭 Industry Depth: Offering candidates with not just the technical acumen but also in-depth industry experience
+        tailored to your project.</p>
+      <p>💰 Cost Savings: Minimize long-term expenses and risks by hiring the right talent from the get-go.</p>
+      <p>🛠️ Full-Scope Support: Comprehensive assistance from project conception to legal formalities, letting you
+        focus on what you do best.</p>
+    </div>
+  </div>
+</section>
+
+<section class="py-[60px] bg-white">
+  <div class="page">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold">Hire <span class="text-primary"> DIRECT STAFFING </span> for Enterprise Application
+        Software (EAS)</h2>
+
+      <p class="my-4 text-[20px] font-normal">Choosing Direct Staffing with EASWORKS offers you specialized talent,
+        stringent vetting, industry-specific expertise, cost-efficiency, and comprehensive support, simplifying your
+        hiring process and enhancing enterprise application project success.</p>
+    </div>
+
+    <div class="mt-4 grid gap-2
+          grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div>
+        <a class="flex gap-2 max-w-max" href="">
+          <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
+          ERP Operations and Services (ERP Ops)
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-[60px]">
+  <div class="page">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold">EASWORKS: 4-Step <span class="text-primary"> Direct Hiring </span> Process for
+        Enterprise Applications</h2>
+    </div>
+
+    <div class="grid lg:grid-cols-4 grid-cols-1 gap-8 items-center">
+      <div class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
+        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5 items-center">
+          <fa-icon [icon]="icons.faFileLines" class="text-[60px] mt-1 text-primary"></fa-icon>
+        </div>
+        <h4 class="text-lg font-semibold my-5">Requirement Gathering</h4>
+        <p class="text-sm leading-6">Define roles, skills, and responsibilities for targeted recruitment. </p>
+      </div>
+
+      <div class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
+        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5 items-center">
+          <fa-icon [icon]="icons.faMagnifyingGlass" class="text-[60px] mt-1 text-primary"></fa-icon>
+        </div>
+        <h4 class="text-lg font-semibold my-5">Candidate Pooling</h4>
+        <p class="text-sm leading-6">Choose from EASWORKS' vast network of Enterprise Application experts to assemble a
+          curated selection for evaluation.</p>
+      </div>
+
+      <div class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
+        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5 items-center">
+          <fa-icon [icon]="icons.faBullseye" class="text-[60px] mt-1 text-primary"></fa-icon>
+        </div>
+        <h4 class="text-lg font-semibold my-5">Interviews and Assessments</h4>
+        <p class="text-sm leading-6">Evaluate candidates for skills, culture fit, and job alignment.</p>
+      </div>
+
+      <div class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
+        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5 items-center">
+          <fa-icon [icon]="icons.faFilePen" class="text-[60px] mt-1 text-primary"></fa-icon>
+        </div>
+        <h4 class="text-lg font-semibold my-5">Offer and Onboarding</h4>
+        <p class="text-sm leading-6">Make offers and initiate streamlined onboarding for successful candidates to join
+          on your payroll & work with your team .</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pb-[60px]">
+  <div class="page">
+    <div class="mt-4 grid gap-3 grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
+      <div class="border rounded-lg overflow-hidden" *ngFor="let profile of ProfessionalProfile">
+        <div class="flex justify-center bg-[#cbd5e1]">
+          <img [src]="profile.image" class="w-full h-full" alt="">
+        </div>
+        <div class="p-4 bg-white">
+          <div class="mb-3">
+            <h4 class="text-[20px] text-primary font-semibold">
+              {{profile.name}}
+            </h4>
+          </div>
+          <div>
+            <ul class="text-[16px] text-gray-400">
+              <li>{{profile.position}}</li>
+              <li>{{profile.localtion}}</li>
+              <li>{{profile.experience}}</li>
+              <li>{{profile.industry}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-[60px] bg-primary">
+  <div class="page">
+    <div class="text-center max-w-xxl m-auto">
+      <h3 class="lg:text-[2rem] text-2xl font-bold leading-[40px] text-white">
+        Revolutionize Your Talent Search with EASWORKS: Streamlined Direct Hiring for Expertise That Fits Your
+        Enterprise Needs!
+      </h3>
+      <div class="flex items-center justify-center mt-10">
+        <button class="shaded-button"> Hire Now </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-[60px] bg-white">
+  <div class="page">
+    <div class="text-center max-w-xxl m-auto">
+      <h3 class="lg:text-[3rem] text-2xl font-bold leading-[50px] text-black">
+        Do you have further inquiries about how EASWORKS - <span class="text-primary"> Direct Hire </span> benefit your
+        business?
+      </h3>
+      <p class="my-4 text-[25px] font-normal">Reach out to us at <a href="tel:+1 858 753 3467">+1 858 753 3467</a> or
+        email us at <a href="mailto:info@easworks.com">info@easworks.com</a> </p>
+    </div>
+  </div>
+</section>
+

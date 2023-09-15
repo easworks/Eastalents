@@ -165,4 +165,9 @@ export const PUBLIC_ROUTES: Routes = [
       }
     }
   },
+  {
+    path: 'service-type',
+    pathMatch: 'full',
+    loadComponent: () => import('./service-type/service-type.page').then(m => m.ServiceTypePageComponent)
+  },
 ];
