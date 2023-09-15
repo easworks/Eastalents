@@ -1,0 +1,28 @@
+.swiper {
+  &-slide {
+    @apply h-auto;
+  }
+  
+  &-pagination {
+    &-bullet {
+      @apply transition-all;
+
+      &-active {
+        @apply w-4 rounded;
+      }
+    }
+  }
+
+  &-button {
+    &-prev, &-next {
+      @apply static mt-0 rounded-full box-border;
+      padding: 0.5rem;
+
+      stroke-width: 3rem;
+
+      &::after {
+        @apply hidden;
+      }
+    }
+  }
+}
