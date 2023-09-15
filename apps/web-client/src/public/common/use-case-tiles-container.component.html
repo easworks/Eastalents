@@ -1,11 +1,4 @@
-<a *ngFor="let uc of useCases"
-   class="block bg-white p-2 px-4 rounded-md 
-        text-center transition-all
-        shadow shadow-black/20 
-        hover:shadow-lg hover:shadow-black/20
-        bg-primary-400/5
-        w-40 flex-grow md:w-48 lg:flex-none"
-   [routerLink]="uc.link">
+<a *ngFor="let uc of useCases" [routerLink]="uc.link">
   <div class="flex justify-center mx-auto mb-5">
     <lottie-player [src]="uc.lottie"
                    background="transparent" speed="1"
@@ -13,5 +6,5 @@
                    loop autoplay>
     </lottie-player>
   </div>
-  <h4 class="font-semibold my-4 text-primary-500/80">{{uc.title}}</h4>
+  <h4 class="font-semibold my-4">{{uc.title}}</h4>
 </a>

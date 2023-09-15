@@ -7,6 +7,7 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
   standalone: true,
   selector: 'use-case-tiles-container',
   templateUrl: './use-case-tiles-container.component.html',
+  styleUrls: ['./use-case-tiles-container.component.less'],
   imports: [
     CommonModule,
     LottiePlayerDirective,
