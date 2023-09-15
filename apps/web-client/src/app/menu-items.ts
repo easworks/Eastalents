@@ -37,7 +37,8 @@ export const publicMenu = {
         { name: 'Support & Maintenance', link: '/use-cases/support-and-maintenance', icon: faHeadset },
       ]
     },
-    applyAsFreelancer: { name: 'Apply as Freelancer', link: '/account/sign-up/freelancer' }
+    applyAsFreelancer: { name: 'Apply as Freelancer', link: '/account/sign-up/freelancer' },
+    aboutUs: { name: 'About Us', link: '/about-us' }
   } satisfies { readonly [key: string]: MenuItem; }
 } as const;
 

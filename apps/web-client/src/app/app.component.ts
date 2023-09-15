@@ -110,7 +110,7 @@ export class AppComponent {
       {
         group: 'About',
         items: [
-          { name: 'About us', link: NOOP_CLICK },
+          publicMenu.items.aboutUs,
           { name: 'Blog', link: NOOP_CLICK },
           { name: 'Careers', link: NOOP_CLICK },
           { name: 'Community', link: NOOP_CLICK },

@@ -20,12 +20,11 @@
 <section class="page py-8">
   <div class="flex gap-4 flex-wrap">
     <div class="leading-8 w-full lg:w-6/12 lg:flex-1">
-      <h3 class="text-2xl lg:text-3xl font-bold text-primary-500
-        transition-all">
+      <h3 class="text-2xl lg:text-3xl font-bold transition-all">
         We combine people, platforms, <br>
         and enterprise application software (EAS)
       </h3>
-      <p class="mt-4 font-medium text-primary-400">
+      <p class="mt-4 font-medium text-primary-500">
         We're a human-centered enterprise application talent platform and software engineering company.
       </p>
       <p class="mt-4">
@@ -71,7 +70,7 @@
 
 
 
-<section class="bg-gradient-to-t from-blue-200 via-slate-50 to-blue-200 py-[60px]">
+<section class="py-8 bg-gradient-to-t from-blue-200 via-slate-50 to-blue-200">
   <div class="page">
     <div *ngFor="let values of coreValues" class="flex items-center gap-20 py-4">
       <div class="lg:w-[400px]">
@@ -87,17 +86,17 @@
   </div>
 </section>
 
-<section class="py-[60px] bg-white">
+<section class="py-8 bg-white">
   <div class="page">
-    <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all mb-10">
+    <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all">
       We empower enterprises in the following industries:
     </h2>
-    <p class="my-10 text-center">By creating on-demand EASWORKS platform that leverage top enterprise application professionals with relevant deep industry experience who are specialized in Enterprise Application Services in ERP, CRM, SCM, PLM, Analytics & BI, cloud, AI, and emerging technologies. </p>
+    <p class="mt-8 text-center">By creating on-demand EASWORKS platform that leverage top enterprise application professionals with relevant deep industry experience who are specialized in Enterprise Application Services in ERP, CRM, SCM, PLM, Analytics & BI, cloud, AI, and emerging technologies. </p>
 
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-5">
-      <div *ngFor="let industrie of industries" class="flex flex-col gap-y-4 p-4
+    <div class="mt-8 grid grid-cols-1 lg:grid-cols-4 gap-4">
+      <div *ngFor="let industrie of industries" class="flex flex-col gap-y-4 p-4  transition-all
             md:max-w-[14rem] lg:max-w-[16rem] xl:max-w-[20rem]
-            bg-white shadow-md rounded-md text-center transition-all">
+            bg-white shadow-md rounded-md text-center">
         <h4 class="text-lg font-semibold">{{industrie.title}}</h4>
       </div>
     </div>
