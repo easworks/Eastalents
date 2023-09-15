@@ -19,25 +19,43 @@
 </section>
 
 <section class="py-8">
-  <div class="page grid grid-cols-1 lg:grid-cols-2 gap-4">
+  <div class="page grid grid-cols-1 lg:grid-cols-2 gap-4 gap-y-8">
     <div class="relative">
-      <h3 class="mb-5 lg:text-3xl text-2xl text-black font-medium leading-[50px]">
-        Exploring EAS Services or <span class="text-primary font-semibold block">Thinking of Joining as EAS Talent?</span>
+      <h3 class="mb-5 lg:text-3xl text-2xl text-black font-medium">
+        <div>Exploring EAS Services or</div>
+        <div class="text-primary-500 font-semibold">Thinking of Joining as EAS Talent?</div>
       </h3>
-      <p class="text-base font-semibold leading-8">From Enterprise Application service details, no-obligation trials, to joining our talent pool or seeking press details — we're here to address all your queries.</p>
+      <p>From Enterprise Application service details, no-obligation trials, to joining our talent pool or seeking press details — we're here to address all your queries.</p>
     </div>
 
-    <div class="relative">
-      <form action="#" class="space-y-8">
-        <div class="demo-placeholder bg-primary h-[50px]"></div>
+    <div>
+      <form [formGroup]="form">
+        <div *ngrxLet="form.controls.name as control"
+             [formFieldControl]="control">
+          <label>Name *</label>
+          <input type="text" [formControl]="control">
+        </div>
 
-        <div class="demo-placeholder bg-primary h-[50px]"></div>
+        <div *ngrxLet="form.controls.email as control"
+             [formFieldControl]="control">
+          <label>Email *</label>
+          <input type="text" [formControl]="control">
+        </div>
 
-        <div class="demo-placeholder bg-primary h-[50px]"></div>
+        <div *ngrxLet="form.controls.subject as control"
+             [formFieldControl]="control">
+          <label>Subject *</label>
+          <input type="text" [formControl]="control">
+        </div>
 
-        <div class="demo-placeholder bg-primary h-[50px]"></div>
+        <div *ngrxLet="form.controls.message as control"
+             [formFieldControl]="control">
+          <label>Message</label>
+          <div class="field field-interactive">
+            <textarea [formControl]="control" class="resize-none" rows="5"></textarea>
+          </div>
+        </div>
 
-        <div class="demo-placeholder bg-primary h-[200px]"></div>
 
         <button type="button"
                 class="shaded-button primary"
