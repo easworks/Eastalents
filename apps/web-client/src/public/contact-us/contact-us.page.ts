@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MatRippleModule } from '@angular/material/core';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 
 @Component({
@@ -9,6 +10,7 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
   styleUrls: [],
   imports: [
     LottiePlayerDirective,
+    MatRippleModule
   ]
 })
 export class ContactUsPageComponent {
