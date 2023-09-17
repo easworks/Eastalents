@@ -4,6 +4,7 @@ import { DomainState } from '@easworks/app-shell/state/domains';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { USE_CASE_DATA } from './use-cases/data';
 import { COMPANY_TYPE_DATA } from './company-type/data';
+import { SERVICE_TYPE_DATA } from './service-type/data';
 
 export const PUBLIC_ROUTES: Routes = [
   {
@@ -166,8 +167,18 @@ export const PUBLIC_ROUTES: Routes = [
     }
   },
   {
-    path: 'service-type',
+    path: 'service-type/:ServiceType',
     pathMatch: 'full',
-    loadComponent: () => import('./service-type/service-type.page').then(m => m.ServiceTypePageComponent)
+    loadComponent: () => import('./service-type/service-type.page').then(m => m.ServiceTypePageComponent),
+    runGuardsAndResolvers: 'pathParamsChange',
+    resolve: {
+      ServiceType: (route: ActivatedRouteSnapshot) => {
+        const key = route.paramMap.get('ServiceType');
+        if (!key || !(key in SERVICE_TYPE_DATA))
+          throw new Error('invalid operation');
+
+        return SERVICE_TYPE_DATA[key];
+      }
+    }
   },
 ];

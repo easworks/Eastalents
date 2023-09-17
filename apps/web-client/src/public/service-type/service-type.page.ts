@@ -1,7 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { faAngleRight, faFileLines, faMagnifyingGlass, faBullseye, faFilePen } from '@fortawesome/free-solid-svg-icons';
+import { ActivatedRoute } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SERVICE_TYPE_DATA, ServiceType } from './data';
+
 @Component({
   standalone: true,
   selector: 'service-type-page',
@@ -14,6 +18,15 @@ import { faAngleRight, faFileLines, faMagnifyingGlass, faBullseye, faFilePen } f
   ]
 })
 export class ServiceTypePageComponent {
+
+  constructor() {
+    inject(ActivatedRoute).data
+      .pipe(takeUntilDestroyed())
+      .subscribe(d => {
+        this.ServiceType$.set(d['ServiceType']);
+      });
+  }
+
     protected readonly icons = {
         faAngleRight,
         faFileLines,
@@ -21,7 +34,9 @@ export class ServiceTypePageComponent {
         faBullseye,
         faFilePen
     } as const;
-    
+  
+    protected readonly ServiceType$ = signal<ServiceType>(SERVICE_TYPE_DATA['direct-hiring']);
+  
     protected readonly customerLogos = [
         'client-1.png',
         'client-2.png',
