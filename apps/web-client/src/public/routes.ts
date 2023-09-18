@@ -146,12 +146,7 @@ export const PUBLIC_ROUTES: Routes = [
         .then(r => r.text())
     }
   },
-  {
-    path: '',
-    pathMatch: 'full',
-    loadComponent: () => import('./home/home.page').then(m => m.HomePageComponent)
-  },
-  {
+   {
     path: 'company-type/:CompanyType',
     pathMatch: 'full',
     loadComponent: () => import('./company-type/company-type.page').then(m => m.CompanyTypePageComponent),
@@ -180,5 +175,10 @@ export const PUBLIC_ROUTES: Routes = [
         return SERVICE_TYPE_DATA[key];
       }
     }
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    loadComponent: () => import('./home/home.page').then(m => m.HomePageComponent)
   },
 ];
