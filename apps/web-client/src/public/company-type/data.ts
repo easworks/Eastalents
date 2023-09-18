@@ -1,4 +1,5 @@
 export interface CompanyType {
+  name: string;
   herosection: {
     logo: string;
     title: {
@@ -62,6 +63,7 @@ export interface CompanyType {
 
 export const COMPANY_TYPE_DATA: Readonly<Record<string, CompanyType>> = {
   'small-business': {
+    name: 'Small Business',
     herosection: {
       logo: '/assets/img/Small_medium_Business_Exp.webp',
       title: {
@@ -217,6 +219,7 @@ export const COMPANY_TYPE_DATA: Readonly<Record<string, CompanyType>> = {
   },
 
   'startups': {
+    name: 'Startups',
     herosection: {
       logo: '/assets/img/StartupsCom.webp',
       title: {
@@ -375,6 +378,7 @@ export const COMPANY_TYPE_DATA: Readonly<Record<string, CompanyType>> = {
   },
 
   'enterprise': {
+    name: 'Enterprise',
     herosection: {
       logo: '/assets/img/EnterpriseCom.webp',
       title: {
@@ -542,6 +546,7 @@ export const COMPANY_TYPE_DATA: Readonly<Record<string, CompanyType>> = {
   },
 
   'professional-service-provider': {
+    name: 'Professional Service Provider',
     herosection: {
       logo: '/assets/img/ProfessionalServiceProviderCom.webp',
       title: {
@@ -707,6 +712,4 @@ export const COMPANY_TYPE_DATA: Readonly<Record<string, CompanyType>> = {
       cta: 'Hire Now'
     },
   },
-
-
 };
