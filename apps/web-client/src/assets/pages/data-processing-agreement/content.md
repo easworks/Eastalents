@@ -1,4 +1,4 @@
-# Data Processing Agreement
+# EASWORKS Data Processing Agreement
 
 This Data Processing Agreement (hereafter referred to as "DPA") is established between the User and EASWORKS, in conjunction with the Agreement, which includes the EASWORKS Terms of Service and Use Agreement. This DPA is an integral part of the Agreement and should be treated as such.
 
