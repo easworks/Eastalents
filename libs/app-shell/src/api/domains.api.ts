@@ -19,7 +19,7 @@ export class DomainsApi extends BackendApi {
     .then(r => r['talentProfile'] as DomainDictionaryDto)
     .catch(this.handleError);
 
-  readonly homePageDomains = () => fetch('/assets/utils/featured-domains.json')
+  readonly featuredDomains = () => fetch('/assets/utils/featured-domains.json')
     .then<{
       domain: string;
       products: string[];

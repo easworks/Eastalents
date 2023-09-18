@@ -423,7 +423,7 @@ export class ForFreelancerPageComponent {
 
   private initFeaturedDomains() {
 
-    const list$ = fromPromise(this.api.domains.homePageDomains(), []);
+    const list$ = fromPromise(this.api.domains.featuredDomains(), []);
 
 
     const featured$ = computed(() => {
