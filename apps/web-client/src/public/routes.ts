@@ -4,6 +4,7 @@ import { DomainState } from '@easworks/app-shell/state/domains';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { USE_CASE_DATA } from './use-cases/data';
 import { COMPANY_TYPE_DATA } from './company-type/data';
+import { SERVICE_TYPE_DATA } from './service-type/data';
 
 export const PUBLIC_ROUTES: Routes = [
   {
@@ -145,12 +146,7 @@ export const PUBLIC_ROUTES: Routes = [
         .then(r => r.text())
     }
   },
-  {
-    path: '',
-    pathMatch: 'full',
-    loadComponent: () => import('./home/home.page').then(m => m.HomePageComponent)
-  },
-  {
+   {
     path: 'company-type/:CompanyType',
     pathMatch: 'full',
     loadComponent: () => import('./company-type/company-type.page').then(m => m.CompanyTypePageComponent),
@@ -164,5 +160,25 @@ export const PUBLIC_ROUTES: Routes = [
         return COMPANY_TYPE_DATA[key];
       }
     }
+  },
+  {
+    path: 'service-type/:ServiceType',
+    pathMatch: 'full',
+    loadComponent: () => import('./service-type/service-type.page').then(m => m.ServiceTypePageComponent),
+    runGuardsAndResolvers: 'pathParamsChange',
+    resolve: {
+      ServiceType: (route: ActivatedRouteSnapshot) => {
+        const key = route.paramMap.get('ServiceType');
+        if (!key || !(key in SERVICE_TYPE_DATA))
+          throw new Error('invalid operation');
+
+        return SERVICE_TYPE_DATA[key];
+      }
+    }
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    loadComponent: () => import('./home/home.page').then(m => m.HomePageComponent)
   },
 ];
