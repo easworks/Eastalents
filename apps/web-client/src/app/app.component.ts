@@ -115,7 +115,7 @@ export class AppComponent {
           { name: 'Careers', link: NOOP_CLICK },
           { name: 'Community', link: NOOP_CLICK },
           publicMenu.items.codeOfConduct,
-          { name: 'Data Processing Agreement', link: NOOP_CLICK },
+          publicMenu.items.dataProcessingAgreement
         ]
       },
       {

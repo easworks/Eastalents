@@ -40,7 +40,8 @@ export const publicMenu = {
     applyAsFreelancer: { name: 'Apply as Freelancer', link: '/account/sign-up/freelancer' },
     aboutUs: { name: 'About Us', link: '/about-us' },
     codeOfConduct: { name: 'Code of Conduct', link: 'code-of-conduct' },
-    contactUs: { name: 'Contact Us', link: '/contact-us' }
+    contactUs: { name: 'Contact Us', link: '/contact-us' },
+    dataProcessingAgreement: { name: 'Data Processing Agreement', link: '/data-processing-agreement' }
   } satisfies { readonly [key: string]: MenuItem; }
 } as const;
 
