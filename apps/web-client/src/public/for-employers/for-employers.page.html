@@ -1,4 +1,4 @@
-<section class="relative bg-white pb-8">
+<section class="relative pb-8">
   <div class="absolute inset-0">
     <img class="w-full h-full opacity-5" src="../../assets/img/building.jpg" alt="">
   </div>
@@ -28,54 +28,50 @@
   </div>
 </section>
 
-<section class="bg-white">
-  <div class="page py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
-    <div>
-      <h3 class="text-xl font-semibold">Services</h3>
-      <div class="mt-4 grid gap-4">
-        <a *ngFor="let service of serviceTypes"
-           [routerLink]="service.link"
-           class="flex gap-4">
-          <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
-          {{service.name}}
-        </a>
-      </div>
+<section class="page py-8 flex flex-wrap justify-between gap-8">
+  <div>
+    <h3 class="text-xl font-semibold">Services</h3>
+    <div class="mt-4 grid gap-4">
+      <a *ngFor="let service of serviceTypes"
+         [routerLink]="service.link"
+         class="flex gap-4">
+        <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
+        {{service.name}}
+      </a>
     </div>
-    <div>
-      <h3 class="text-xl font-semibold">Enterprise (EAS) Talent Solutions</h3>
-      <div class="mt-5">
-        <a class="flex gap-2 max-w-max">
-          <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
-          Test one
-        </a>
-      </div>
+  </div>
+  <div>
+    <h3 class="text-xl font-semibold">Enterprise (EAS) Talent Solutions</h3>
+    <div class="mt-5">
+      <a class="flex gap-2 max-w-max">
+        <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
+        Test one
+      </a>
     </div>
-    <div>
-      <h3 class="text-xl font-semibold">Company Types</h3>
-      <div class="mt-4 grid gap-4">
-        <a *ngFor="let company of companyTypes"
-           [routerLink]="company.link"
-           class="flex gap-4">
-          <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
-          {{company.name}}
-        </a>
-      </div>
+  </div>
+  <div>
+    <h3 class="text-xl font-semibold">Company Types</h3>
+    <div class="mt-4 grid gap-4">
+      <a *ngFor="let company of companyTypes"
+         [routerLink]="company.link"
+         class="flex gap-4">
+        <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
+        {{company.name}}
+      </a>
     </div>
   </div>
 </section>
 
-<section class="py-[60px]">
-  <div class="page">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-      <div class="relative w-[300px] h-[300px] m-[auto]">
-        <img src="../../assets/img/understanding.svg" alt="">
-      </div>
-      <div class="relative">
-        <span class="w-[45px] h-[45px] flex items-center justify-center rounded-full text-[22px] font-bold bg-primary text-white">01</span>
-        <h2 class="text-4xl font-bold my-5">Understand Your Enterprise Application Project & Talent Needs
-        </h2>
-        <p class="my-4 text-base font-normal">One of our Enterprise Application experts takes a deep dive into your company's technical needs, culture, and long-term goals to propose the best suited engagement model for your project.</p>
-      </div>
+<section class="page py-8">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+    <div class="relative w-80 h-80 m-auto">
+      <img src="../../assets/img/understanding.svg" alt="">
+    </div>
+    <div class="relative">
+      <span class="w-[45px] h-[45px] flex items-center justify-center rounded-full text-[22px] font-bold bg-primary text-white">01</span>
+      <h2 class="text-4xl font-bold my-5">Understand Your Enterprise Application Project & Talent Needs
+      </h2>
+      <p class="my-4 text-base font-normal">One of our Enterprise Application experts takes a deep dive into your company's technical needs, culture, and long-term goals to propose the best suited engagement model for your project.</p>
     </div>
   </div>
 </section>
