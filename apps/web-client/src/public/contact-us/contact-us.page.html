@@ -29,7 +29,7 @@
     </div>
 
     <div>
-      <form [formGroup]="form">
+      <form *ngrxLet="contact.form as form" [formGroup]="form">
         <div *ngrxLet="form.controls.name as control"
              [formFieldControl]="control">
           <label>Name *</label>
@@ -40,6 +40,38 @@
              [formFieldControl]="control">
           <label>Email *</label>
           <input type="text" [formControl]="control">
+        </div>
+
+        <div *ngrxLet="form.controls.phoneNumber as form"
+             [formFieldControl]="form">
+
+          <label>Phone Number</label>
+
+          <div class="flex gap-2 justify-start">
+            <div *ngrxLet="form.controls.code as control" class="relative">
+              <input type="tel" class="!w-24 !pr-4"
+                     [matAutocomplete]="codeOptions"
+                     [formControl]="control" placeholder="ISD Code">
+              <drop-down-indicator class="absolute top-2 right-0"></drop-down-indicator>
+
+              <mat-autocomplete #codeOptions panelWidth="auto" hideSingleSelectionIndicator>
+                <mat-option *ngFor="let country of contact.options.code$(); trackBy: trackBy.country"
+                            [value]="country.phonecode" (onSelectionChange)="$event.source.deselect();">
+                  <div class="flex gap-4 items-center">
+                    <span class="font-emoji">{{country.emoji}}</span>
+                    <span>{{country.phonecode}}</span>
+                  </div>
+                </mat-option>
+              </mat-autocomplete>
+            </div>
+
+            <input type="tel"
+                   *ngrxLet="form.controls.number as control"
+                   [formControl]="control" placeholder="Number">
+          </div>
+          <span class="error" *ngIf="form.controls.code.invalid">Invalid Code</span>
+          <span class="error" *ngIf="form.controls.number.hasError('pattern')">Invalid number</span>
+          <span class="error" *ngIf="form.controls.number.hasError('required')">Number required</span>
         </div>
 
         <div *ngrxLet="form.controls.subject as control"
@@ -56,8 +88,7 @@
           </div>
         </div>
 
-
-        <button type="button"
+        <button type="submit"
                 class="shaded-button primary"
                 mat-ripple>
           Send message
