@@ -29,7 +29,8 @@
     </div>
 
     <div>
-      <form *ngrxLet="contact.form as form" [formGroup]="form">
+      <form *ngrxLet="contact.form as form" [formGroup]="form"
+            (ngSubmit)="contact.submit()">
         <div *ngrxLet="form.controls.name as control"
              [formFieldControl]="control">
           <label>Name *</label>

@@ -67,7 +67,7 @@ export class ContactUsPageComponent {
       }),
       message: new FormControl('', {
         nonNullable: true,
-        validators: [Validators.required]
+        validators: [Validators.maxLength(2048)]
       }),
     }, {
       updateOn: 'submit'
@@ -99,9 +99,17 @@ export class ContactUsPageComponent {
         .finally(() => this.loading.delete('countries'));
     }
 
+    const submit = () => {
+      if (!form.valid)
+        return;
+
+      console.debug(form.getRawValue());
+    };
+
     return {
       form,
-      options: filteredOptions
+      options: filteredOptions,
+      submit
     } as const;
   }
 }
