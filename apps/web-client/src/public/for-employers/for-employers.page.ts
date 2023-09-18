@@ -1,9 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { MenuItem } from '@easworks/app-shell/state/menu';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { FAQGroup, FAQListComponent } from '../common/faq-list.component';
+import { SERVICE_TYPE_DATA } from '../service-type/data';
+import { COMPANY_TYPE_DATA } from '../company-type/data';
 
 @Component({
   standalone: true,
@@ -15,7 +19,8 @@ import { FAQGroup, FAQListComponent } from '../common/faq-list.component';
     ImportsModule,
     MatExpansionModule,
     LottiePlayerDirective,
-    FAQListComponent
+    FAQListComponent,
+    RouterModule
   ]
 })
 export class ForEmployersPageComponent {
@@ -394,5 +399,21 @@ export class ForEmployersPageComponent {
       ]
     }
   ];
+
+  protected readonly serviceTypes = Object.entries(SERVICE_TYPE_DATA)
+    .map(([key, value]) => {
+      return {
+        link: `/service-type/${key}`,
+        name: value.herosection.title.highlight
+      } as MenuItem;
+    });
+
+  protected readonly companyTypes = Object.entries(COMPANY_TYPE_DATA)
+    .map(([key, value]) => {
+      return {
+        link: `/service-type/${key}`,
+        name: value.name
+      } as MenuItem;
+    });
 
 }
