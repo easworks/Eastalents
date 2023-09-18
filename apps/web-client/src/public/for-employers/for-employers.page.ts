@@ -411,7 +411,7 @@ export class ForEmployersPageComponent {
   protected readonly companyTypes = Object.entries(COMPANY_TYPE_DATA)
     .map(([key, value]) => {
       return {
-        link: `/service-type/${key}`,
+        link: `/company-type/${key}`,
         name: value.name
       } as MenuItem;
     });

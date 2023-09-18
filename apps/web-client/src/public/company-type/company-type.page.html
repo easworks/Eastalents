@@ -9,8 +9,8 @@
           <img [src]="hero.logo" alt="" class="w-full">
         </div>
         <h3 class="lg:text-[2rem] text-2xl font-bold leading-[60px] text-black">
-          {{hero.title.plain}} <span class="text-primary"
-            *ngIf="hero.title.highlight as highlighted">{{highlighted}}</span> {{hero.title.plainLast}}
+          {{hero.title.plain}} <span class="text-primary-500"
+                *ngIf="hero.title.highlight as highlighted">{{highlighted}}</span> {{hero.title.plainLast}}
         </h3>
         <p *ngFor="let paragraph of hero.content" class="my-4 text-base font-normal text-black">{{paragraph}}</p>
 
@@ -33,7 +33,7 @@
                 </div>
                 <div class="py-4 px-5 text-center bg-white h-full">
                   <div class="mb-3">
-                    <h4 class="text-[20px] text-primary">
+                    <h4 class="text-[20px] text-primary-500">
                       <a href="">{{Slides.name}}</a>
                     </h4>
                   </div>
@@ -48,7 +48,7 @@
                     </h4>
                   </div>
                   <div>
-                    <h4 class="text-[18px] text-primary">
+                    <h4 class="text-[18px] text-primary-500">
                       <a href="">{{Slides.moreword}}</a>
                     </h4>
                   </div>
@@ -80,12 +80,12 @@
   <div class="page">
     <div class="text-center mb-12">
       <h2 class="text-4xl font-bold">{{Strategic.title.plain}} <span
-          class="text-primary">{{Strategic.title.highlight}}</span> {{Strategic.title.plainLast}}</h2>
+              class="text-primary-500">{{Strategic.title.highlight}}</span> {{Strategic.title.plainLast}}</h2>
     </div>
 
     <div class="grid lg:grid-cols-5 grid-cols-1 gap-8 items-center">
       <div
-        class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
+           class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
         <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
           <fa-icon [icon]="icons.faGraduationCap" class="text-[50px]"></fa-icon>
         </div>
@@ -93,7 +93,7 @@
       </div>
 
       <div
-        class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
+           class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
         <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
           <fa-icon [icon]="icons.faSackDollar" class="text-[50px]"></fa-icon>
         </div>
@@ -101,7 +101,7 @@
       </div>
 
       <div
-        class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
+           class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
         <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
           <fa-icon [icon]="icons.faBolt" class="text-[50px]"></fa-icon>
         </div>
@@ -109,7 +109,7 @@
       </div>
 
       <div
-        class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
+           class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
         <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
           <fa-icon [icon]="icons.faRotate" class="text-[50px]"></fa-icon>
         </div>
@@ -117,7 +117,7 @@
       </div>
 
       <div
-        class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
+           class="bg-white flex flex-col h-full items-center justify-center p-3 rounded-md shadow-[0px_0px_20px_rgba(0,0,0,0.1)] text-center">
         <div class="flex h-[50px] justify-center w-[50px] m-[auto]">
           <fa-icon [icon]="icons.faTrophy" class="text-[50px]"></fa-icon>
         </div>
@@ -145,7 +145,7 @@
         </div>
         <div class="py-4 px-5 text-center bg-white h-full">
           <div class="mb-3">
-            <h4 class="text-[20px] text-primary">
+            <h4 class="text-[20px] text-primary-500">
               <a href="">{{Talent.name}}</a>
             </h4>
           </div>
@@ -160,7 +160,7 @@
             </h4>
           </div>
           <div>
-            <h4 class="text-[18px] text-primary">
+            <h4 class="text-[18px] text-primary-500">
               <a href="">{{Talent.moreword}}</a>
             </h4>
           </div>
@@ -174,14 +174,14 @@
   <div class="page">
     <div class="text-center mb-12">
       <h2 class="text-4xl font-bold">{{HowdDoes.title.plain}} <span
-          class="text-primary">{{HowdDoes.title.highlight}}</span> {{HowdDoes.title.plainLast}}</h2>
+              class="text-primary-500">{{HowdDoes.title.highlight}}</span> {{HowdDoes.title.plainLast}}</h2>
     </div>
 
     <div class="grid lg:grid-cols-4 grid-cols-1 gap-8 items-center">
       <div class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
         <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
           <lottie-player src="https://lottie.host/cdcfdf4a-7f11-46f6-b763-8aa0ddd63cb3/5cIAv6Pb81.json"
-            background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+                         background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
         </div>
         <h4 class="text-lg font-semibold my-5">Tailored Support</h4>
         <p class="text-sm leading-6">Connect with Our Senior Enterprise Application Experts
@@ -191,7 +191,7 @@
       <div class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
         <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
           <lottie-player src="https://lottie.host/3203c356-64e8-4201-863e-81282f3506c9/PlX4Ox852r.json"
-            background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+                         background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
         </div>
         <h4 class="text-lg font-semibold my-5">Accelerated Results</h4>
         <p class="text-sm leading-6">Using traditional hiring methods, it can take weeks or
@@ -202,7 +202,7 @@
       <div class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
         <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
           <lottie-player src="https://lottie.host/7da03309-6e31-4baa-992a-7ee702e4e819/6HgdujnMus.json"
-            background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+                         background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
         </div>
         <h4 class="text-lg font-semibold my-5">Pre-Qualified Talent</h4>
         <p class="text-sm leading-6">We never use automated matching. Its human curated and
@@ -213,7 +213,7 @@
       <div class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
         <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
           <lottie-player src="https://lottie.host/57b08bd3-d2c8-40a4-a671-9eace5cb0f6a/gmVxmaKxh2.json"
-            background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+                         background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
         </div>
         <h4 class="text-lg font-semibold my-5">Risk-Free Trial</h4>
         <p class="text-sm leading-6">Try EASWORKS enterprise application freelancer for up
@@ -229,7 +229,7 @@
 <section class="py-[60px]" *ngrxLet="CompanyType$().ProfessionalsBased as Professional">
   <div class="page">
     <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold"><span class="text-primary">{{Professional.title.highlight}}</span>
+      <h2 class="text-4xl font-bold"><span class="text-primary-500">{{Professional.title.highlight}}</span>
         {{Professional.title.plain}}</h2>
 
       <p class="my-4 text-[20px] font-normal">Discover a diverse range of Enterprise Application Freelancer on the
@@ -259,7 +259,7 @@
         </div>
         <div class="p-4 bg-white">
           <div class="mb-3">
-            <h4 class="text-[20px] text-primary font-semibold">
+            <h4 class="text-[20px] text-primary-500 font-semibold">
               {{profile.name}}
             </h4>
           </div>
@@ -282,7 +282,7 @@
     <div class="grid gap-10 grid-cols-1 lg:grid-cols-2 xl:grid-cols-2">
       <div class="relative" *ngFor="let servicebox of EASServicesBlock.ServiceBlock">
         <h3 class="lg:text-[1.5rem] text-2xl font-bold leading-[30px] text-black mb-5">
-          {{servicebox.title.plain}} <span class="text-primary">{{servicebox.title.highlight}} </span>
+          {{servicebox.title.plain}} <span class="text-primary-500">{{servicebox.title.highlight}} </span>
         </h3>
         <div class="relative">
           <ul class="text-lg">
@@ -294,7 +294,7 @@
   </div>
 </section>
 
-<section class="bg-primary py-[60px]" *ngrxLet="CompanyType$().BottomHireSection as BottomHireSection">
+<section class="bg-primary-500 py-[60px]" *ngrxLet="CompanyType$().BottomHireSection as BottomHireSection">
   <div class="page">
     <div class="text-center max-w-xl m-auto">
       <h3 class="lg:text-[2rem] text-2xl font-bold leading-[40px] text-white">
