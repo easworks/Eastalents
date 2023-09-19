@@ -22,6 +22,9 @@ module.exports = {
       boxShadowColor: ({ theme }) => ({
         DEFAULT: theme('colors.black / 40%')
       }),
+      borderWidth: {
+        '3': 3
+      },
       borderColor: {
         DEFAULT: colors.slate[300]
       },

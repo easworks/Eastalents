@@ -13,7 +13,7 @@ import { COMPANY_TYPE_DATA } from '../company-type/data';
   standalone: true,
   selector: 'for-employers-page',
   templateUrl: './for-employers.page.html',
-  styleUrls: [],
+  styleUrls: ['./for-employers.page.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
