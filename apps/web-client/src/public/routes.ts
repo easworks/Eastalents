@@ -30,7 +30,34 @@ export const PUBLIC_ROUTES: Routes = [
   {
     path: 'roles/:domain/:role',
     pathMatch: 'full',
-    loadComponent: () => import('./roles/roles.page').then(m => m.RolesPageComponent)
+    loadComponent: () => import('./roles/roles.page').then(m => m.RolesPageComponent),
+    resolve: {
+      domain: async (route: ActivatedRouteSnapshot) => {
+        const key = route.paramMap.get('domain');
+        if (!key)
+          throw new Error('invalid operation');
+
+        return await getDomain(inject(DomainState), key);
+      },
+      role: async (route: ActivatedRouteSnapshot) => {
+        const key = route.paramMap.get('domain');
+        if (!key)
+          throw new Error('invalid operation');
+
+        const domain = await getDomain(inject(DomainState), key);
+
+        const roleInput = route.paramMap.get('role');
+        if (!roleInput)
+          throw new Error('invalid operation');
+
+        const found = domain.modules.some(m => m.roles.includes(roleInput));
+
+        if (!found)
+          throw new Error(`role '${roleInput}' not found in domain '${domain.key}'`);
+
+        return roleInput;
+      }
+    }
   },
   {
     path: 'software/:domain/:software',
@@ -43,13 +70,7 @@ export const PUBLIC_ROUTES: Routes = [
         if (!key)
           throw new Error('invalid operation');
 
-        const map$ = inject(DomainState).domains.map$;
-        await toPromise(map$, m => m.size > 0);
-
-        const domain = map$().get(key);
-        if (!domain)
-          throw new Error('invalid operation');
-        return domain;
+        return await getDomain(inject(DomainState), key);
       },
       software: async (route: ActivatedRouteSnapshot) => {
         const key = route.paramMap.get('software');
@@ -146,7 +167,7 @@ export const PUBLIC_ROUTES: Routes = [
         .then(r => r.text())
     }
   },
-   {
+  {
     path: 'company-type/:CompanyType',
     pathMatch: 'full',
     loadComponent: () => import('./company-type/company-type.page').then(m => m.CompanyTypePageComponent),
@@ -182,3 +203,13 @@ export const PUBLIC_ROUTES: Routes = [
     loadComponent: () => import('./home/home.page').then(m => m.HomePageComponent)
   },
 ];
+
+async function getDomain(state: DomainState, key: string) {
+  const map$ = inject(DomainState).domains.map$;
+  await toPromise(map$, m => m.size > 0);
+
+  const domain = map$().get(key);
+  if (!domain)
+    throw new Error('invalid operation');
+  return domain;
+}

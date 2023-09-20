@@ -5,8 +5,8 @@
   <div class="lg:px-10 p-5 mx-auto">
     <div class="grid grid-cols-1 lg:grid-cols-2 items-start gap-6 relative">
       <div>
-        <h3 class="lg:text-[3rem] text-2xl font-bold leading-[60px] text-[#3e4450]">
-          Hire ERP Ops Back-end Developer And Start Building <span class="text-primary-500">Winning ERP Ops Team</span> Remotely
+        <h3 class="lg:text-[3rem] lg:leading-[3.5rem] text-2xl font-bold  text-[#3e4450]">
+          Hire {{text.combo$()}} And Start Building A <span class="text-primary-500">Winning {{text.domain$()}} Team</span> Remotely
         </h3>
         <p class="my-4 text-base font-normal">EASWORKS is a platform for top ERP Ops Back-end Developer, Application Consultant, Developers, Engineers, programmers, coders, Analyst, Solution Architects, Consultants, QA and Project managers. Elite companies and start-ups hire top freelance ERP Ops Back-end Developer experts from EASWORKS for their mission critical ERP Ops - ERP Operations and Services (ERP Ops). </p>
 
@@ -32,7 +32,7 @@
   </div>
 </section>
 
-<role-software-talent [comboText]="'NEED TO CHANGE'"></role-software-talent>
+<role-software-talent [comboText]="text.combo$()"></role-software-talent>
 
 <section class="py-[60px]">
   <div class="page">
