@@ -156,7 +156,7 @@
   </div>
 </section>
 
-<section class="py-8 relative bg-primary-500">
+<section class="mt-8 py-8 relative bg-primary-500">
   <div class="absolute inset-0 w-full h-full opacity-15">
     <img class="h-full object-cover w-full" src="../../assets/img/map.jpeg" alt="">
   </div>
@@ -168,25 +168,23 @@
   </div>
 </section>
 
-<section class="py-[60px] bg-white">
-  <div class="page py-12">
-    <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all">
-      Accelerate Enterprise growth with EASWORKS
-      by using EAS TALENTS to benefit your entire organization
-    </h2>
+<section class="mt-8 page py-8">
+  <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all">
+    Accelerate Enterprise growth with EASWORKS
+    by using EAS TALENTS to benefit your entire organization
+  </h2>
 
-    <div class="flex mt-12 flex-wrap lg:flex-nowrap gap-8 justify-center">
-      <div *ngFor="let acc of accelerate" class="flex flex-col gap-2 p-4 text-center
+  <div class="flex mt-12 flex-wrap lg:flex-nowrap gap-8 justify-center">
+    <div *ngFor="let acc of accelerate" class="flex flex-col gap-2 p-4 text-center
               flex-grow w-60 lg:w-72
               border border-primary-500 bg-white shadow-md 
               rounded-tr-[2rem] rounded-bl-[2rem] border-b-4">
-        <lottie-player [src]="acc.lottie" background="transparent"
-                       class="mx-auto w-[120px] h-[100px] md:w-24 md:h-24 transition-all" autoplay loop></lottie-player>
-        <h4 class="text-lg font-semibold">{{acc.title}}</h4>
-        <p class="text-sm leading-6 my-auto">{{acc.content}}</p>
+      <lottie-player [src]="acc.lottie" background="transparent"
+                     class="mx-auto h-24 transition-all" autoplay loop></lottie-player>
+      <h4 class="text-lg font-semibold">{{acc.title}}</h4>
+      <p class="text-sm leading-6 my-auto">{{acc.content}}</p>
 
-        <button class="highlight-button primary max-w-max mx-auto mt-auto">Get Started</button>
-      </div>
+      <button class="highlight-button primary max-w-max mx-auto mt-auto">Get Started</button>
     </div>
   </div>
 </section>
