@@ -83,9 +83,9 @@ export class HelpCenterViewPageComponent {
     {
       title: 'How does payment work -when, how much & for what will be charged?',
       content: [
-        'EASWORKS engagement contract will detail the payment terms of the agreement, including rate where EASWORKS fees are already baked into the rates you see, number of hours, payment intervals and due dates.',
-        'We will send invoices to your billing contact in accordance with upcoming payments, regardless of payment method. If you retain an ACH or credit card payment method with us, we will process payment on the date specified in the invoice (or after an approvals process, in some cases).',
-        'Most importantly, You don’t pay a dime until you start working with a candidate you love.'
+        `EASWORKS engagement contract will detail the payment terms of the agreement, including rate where EASWORKS fees are already baked into the rates you see, number of hours, payment intervals and due dates.`,
+        `We will send invoices to your billing contact in accordance with upcoming payments, regardless of payment method. If you retain an ACH or credit card payment method with us, we will process payment on the date specified in the invoice (or after an approvals process, in some cases).`,
+        `Most importantly, You don't pay a dime until you start working with a candidate you love.`
       ]
     },
   ];
