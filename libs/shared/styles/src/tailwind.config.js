@@ -71,7 +71,8 @@ module.exports = {
         'offset-screen': offsetScreen
       },
       opacity: {
-        '45': '.45'
+        '15': 0.15,
+        '45': 0.45
       }
     },
   }
