@@ -41,7 +41,8 @@ export const publicMenu = {
     aboutUs: { name: 'About Us', link: '/about-us' },
     codeOfConduct: { name: 'Code of Conduct', link: 'code-of-conduct' },
     contactUs: { name: 'Contact Us', link: '/contact-us' },
-    dataProcessingAgreement: { name: 'Data Processing Agreement', link: '/data-processing-agreement' }
+    dataProcessingAgreement: { name: 'Data Processing Agreement', link: '/data-processing-agreement' },
+    helpCenter: { name: 'Help Center', link: '/help-center' }
   } satisfies { readonly [key: string]: MenuItem; }
 } as const;
 

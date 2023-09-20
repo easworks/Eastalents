@@ -122,7 +122,7 @@ export class AppComponent {
         group: 'Contact Us',
         items: [
           publicMenu.items.contactUs,
-          { name: 'Help Center', link: NOOP_CLICK },
+          publicMenu.items.helpCenter
         ],
       },
     ],
