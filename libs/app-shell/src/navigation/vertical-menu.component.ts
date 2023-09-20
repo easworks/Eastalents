@@ -4,7 +4,6 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { DomainState } from '../state/domains';
 import { MenuItem, NOOP_CLICK, NavMenuState } from '../state/menu';
 import { SelectableOption } from '../utilities/options';
-import { faFacebook, faInstagram, faPinterest, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-vertical-menu',
@@ -66,14 +65,17 @@ export class AppVerticalMenuComponent {
       const selected = selected$();
       if (!selected)
         return [];
-      return selected.value.products;
+      return selected.value.products
+        .map(p => ({
+          name: p.name,
+          link: `/software/${selected.value.key}/${p.name}`
+        } as MenuItem));
     });
 
     const filteredProducts$ = computed(() => {
       const filter = filter$().toLowerCase();
       return products$()
-        .filter(p => p.name.toLowerCase().includes(filter))
-        .map(p => Object.assign(p, { link: NOOP_CLICK }));
+        .filter(p => p.name.toLowerCase().includes(filter));
     });
 
     const loading$ = computed(() => domains$().length === 0);
