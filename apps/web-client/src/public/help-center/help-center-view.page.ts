@@ -34,7 +34,7 @@ export class HelpCenterViewPageComponent {
       title: 'How is EASWORKS different from other platforms?',
       content: [
         'Fundamentally there are three major differences when compared to other platforms:',
-        'EASWORKS is world’s first niche Enterprise Application Talent platform focusing on Enterprise Application which is heart & soul for any business function of an organization which is built by enterprise architects.',
+        'EASWORKS is world\'s first niche Enterprise Application Talent platform focusing on Enterprise Application which is heart & soul for any business function of an organization which is built by enterprise architects.',
         'We test and interview every EAS developer who applies to join our network. Our rigorous screening & vetting process allows ensuring every client gets to work with solid professionals who have strong work ethics and soft skills. and we curate & match you with best enterprise application talent at a time.',
         'Commitment to results -we always aim at candidates who is been hand selected as right match for you & who we believe suit your EAS project best and are available to start right away & the success of your projects is the only metric that really matters to us.'
       ]

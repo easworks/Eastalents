@@ -51,7 +51,7 @@ export class SoftwarePageComponent {
 
   protected readonly icons = { faAngleRight } as const;
 
-  private readonly domain$ = signal<Domain | null>(null);
+  protected readonly domain$ = signal<Domain | null>(null);
   private readonly software$ = signal<SoftwareProduct | null>(null);
 
   protected readonly text;

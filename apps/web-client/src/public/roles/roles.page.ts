@@ -6,6 +6,7 @@ import { DomainSoftwareSelectorComponent } from '../common/domain-software-selec
 import { Domain } from '@easworks/models';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SoftwareTilesContainerComponent } from '../common/software-tiles-container.component';
 
 @Component({
   standalone: true,
@@ -17,13 +18,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     ImportsModule,
     LottiePlayerDirective,
     RoleSoftwareTalentComponent,
-    DomainSoftwareSelectorComponent
+    DomainSoftwareSelectorComponent,
+    SoftwareTilesContainerComponent
   ]
 })
 export class RolesPageComponent {
   constructor() {
     {
-      const domain$ = computed(() => this.domain$()?.key);
       const combo$ = computed(() => {
         const d = this.domain$();
         const r = this.role$();
@@ -32,7 +33,7 @@ export class RolesPageComponent {
         return '';
       });
 
-      this.text = { domain$, combo$ } as const;
+      this.text = { combo$ } as const;
     }
 
     this.route.data
@@ -44,7 +45,7 @@ export class RolesPageComponent {
   }
 
   private readonly route = inject(ActivatedRoute);
-  private readonly domain$ = signal<Domain | null>(null);
+  protected readonly domain$ = signal<Domain | null>(null);
   private readonly role$ = signal<string | null>(null);
 
   protected readonly text;

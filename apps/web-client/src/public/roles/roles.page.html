@@ -6,7 +6,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 items-start gap-6 relative">
       <div>
         <h3 class="lg:text-[3rem] lg:leading-[3.5rem] text-2xl font-bold  text-[#3e4450]">
-          Hire {{text.combo$()}} And Start Building A <span class="text-primary-500">Winning {{text.domain$()}} Team</span> Remotely
+          Hire {{text.combo$()}} And Start Building A <span class="text-primary-500">Winning {{domain$()?.key}} Team</span> Remotely
         </h3>
         <p class="my-4 text-base font-normal">EASWORKS is a platform for top ERP Ops Back-end Developer, Application Consultant, Developers, Engineers, programmers, coders, Analyst, Solution Architects, Consultants, QA and Project managers. Elite companies and start-ups hire top freelance ERP Ops Back-end Developer experts from EASWORKS for their mission critical ERP Ops - ERP Operations and Services (ERP Ops). </p>
 
@@ -24,34 +24,28 @@
   </div>
 </section>
 
-<section>
-  <div class="page py-8 flex flex-wrap justify-around gap-4">
-    <div *ngFor="let logo of customerLogos">
-      <img class="w-32" [src]="logo" alt="">
-    </div>
+<section class="page py-8 flex flex-wrap justify-around gap-4">
+  <div *ngFor="let logo of customerLogos">
+    <img class="w-32" [src]="logo" alt="">
   </div>
 </section>
 
 <role-software-talent [comboText]="text.combo$()"></role-software-talent>
 
-<section class="py-[60px]">
-  <div class="page">
-    <div class="text-center">
-      <h2 class="lg:text-4xl text-2xl font-bold pb-3">Hiring for a specific</h2>
-      <h2 class="lg:text-4xl text-2xl font-bold text-primary-500 mb-[40px]">ERP Operations and Services (ERP Ops) skills?
-      </h2>
+<section class="page py-8">
+  <div class="text-center">
+    <h2 class="lg:text-4xl text-2xl font-bold pb-3">Hiring for a specific</h2>
+    <h2 class="lg:text-4xl text-2xl font-bold text-primary-500 mb-[40px]">{{domain$()?.longName}} skills?
+    </h2>
 
-      <p class="text-base font-normal">The EASWORKS platform includes experts across a very wide array of Enterprise Application Software (EAS) development languages and technologies. See the list below to find EAS freelance developer profiles and contractors with your desired skill. </p>
+    <p class="text-base font-normal">The EASWORKS platform includes experts across a very wide array of Enterprise Application Software (EAS) development languages and technologies. See the list below to find EAS freelance developer profiles and contractors with your desired skill. </p>
 
-      <domain-software-selector></domain-software-selector>
-    </div>
+    <domain-software-selector class="mt-8"></domain-software-selector>
   </div>
 </section>
 
-<section class="py-[60px] bg-white">
-  <div class="page">
-    <div class="demo-placeholder w-100 h-10"></div>
-  </div>
+<section *ngIf="domain$() as domain" class="page py-8">
+  <software-tiles-container [domain]="domain"></software-tiles-container>
 </section>
 
 
