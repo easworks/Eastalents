@@ -1,0 +1,45 @@
+[
+  {
+    "slug": "describe-your-needs",
+    "title": "Describe your needs",
+    "items": [
+      {
+        "slug": "what-is-easworks",
+        "title": "What is EASWORKS?"
+      },
+      {
+        "slug": "how-does-easworks-work",
+        "title": "How does EASWORKS work?"
+      },
+      {
+        "slug": "how-is-easworks-different",
+        "title": "How is EASWORKS different?"
+      },
+      {
+        "slug": "what-type-of-projects-can-i-hire-easworks-for",
+        "title": "What type of projects can I hire EASWORKS for?"
+      }
+    ]
+  },
+  {
+    "slug": "getting-started",
+    "title": "Getting Started",
+    "items": [
+      {
+        "slug": "how-can-i-view-candidates-after-registration",
+        "title": "How can I view candidates after registration?"
+      },
+      {
+        "slug": "how-do-i-start-a-project",
+        "title": "How do I start a project?"
+      },
+      {
+        "slug": "how-can-i-communicate-with-candidates",
+        "title": "How can I communicate with candidates?"
+      },
+      {
+        "slug": ""
+      }
+    ]
+  }
+]

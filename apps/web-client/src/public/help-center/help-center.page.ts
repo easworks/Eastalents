@@ -70,7 +70,7 @@ export class HelpCenterPageComponent {
         'What payment method does EASWORKS accept?',
       ]
     },
-  ]
+  ];
 
 
 
@@ -135,5 +135,5 @@ export class HelpCenterPageComponent {
         'How does a Work skill Assessment (WSA) work?'
       ]
     },
-  ]
+  ];
 }
