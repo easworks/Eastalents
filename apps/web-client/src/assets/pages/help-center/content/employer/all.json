@@ -1,7 +1,7 @@
 [
   {
-    "slug": "describe-your-needs",
-    "title": "Describe your needs",
+    "slug": "client-overview",
+    "title": "Client Overview",
     "items": [
       {
         "slug": "what-is-easworks",
@@ -39,6 +39,24 @@
       },
       {
         "slug": ""
+      }
+    ]
+  },
+  {
+    "title": "Testing and Screening",
+    "slug": "testing-and-screening",
+    "items": [
+      {
+        "title": "What is your Screening Process?",
+        "slug": "what-is-your-screening-process"
+      },
+      {
+        "title": "What is your vcreening Process?",
+        "slug": "what-is-your-vetting-process"
+      },
+      {
+        "title": "Do EASWORKS developers speak English?",
+        "slug": "do-easworks-developers-speak-English"
       }
     ]
   }

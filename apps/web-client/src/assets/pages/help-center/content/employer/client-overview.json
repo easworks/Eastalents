@@ -1,9 +1,17 @@
 {
   "what-is-easworks": {
-    "content": []
+    "content": [
+      "Paragraph 1",
+      "Paragraph 2",
+      "Paragraph 3"
+    ]
   },
   "how-does-easworks-work": {
-    "content": []
+    "content": [
+      "Paragraph 1",
+      "Paragraph 2",
+      "Paragraph 3"
+    ]
   },
   "how-is-easworks-different": {
     "content": []
