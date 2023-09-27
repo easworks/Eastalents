@@ -9,15 +9,18 @@
 
 <div class="flex mt-4 gap-8 flex-col md:flex-row">
   <section *ngrxLet="group$() as group">
-    <h1 class="font-bold text-xl">{{group.title}}</h1>
-    <ul class="mt-4 on-this-page" *ngrxLet="item$() as selected">
-      <li *ngFor="let item of group.items">
-        <a routerLink="./" [fragment]="item.slug"
-           [class.active]="selected.slug === item.slug">
-          {{item.title}}
-        </a>
-      </li>
-    </ul>
+    <div class="sticky top-20">
+      <h1 class="font-bold text-xl">{{group.title}}</h1>
+      <ul class="mt-4 on-this-page" *ngrxLet="item$() as selected">
+        <li *ngFor="let item of group.items">
+          <a routerLink="./" [fragment]="item.slug"
+             [class.active]="selected.slug === item.slug">
+            {{item.title}}
+          </a>
+        </li>
+      </ul>
+    </div>
+
   </section>
 
   <div *ngrxLet="group$() as group"
