@@ -103,20 +103,20 @@ export const PUBLIC_ROUTES: Routes = [
     }
   },
   {
+    path: 'help-center/:category/:group',
+    pathMatch: 'full',
+    loadComponent: () => import('./help-center/help-center-group.page').then(m => m.HelpCenterGroupPageComponent)
+  },
+  {
     path: 'help-center',
+    pathMatch: 'full',
     loadComponent: () => import('./help-center/help-center.page').then(m => m.HelpCenterPageComponent),
     resolve: {
       freelancer: () => fetch('/assets/pages/help-center/content/freelancer/all.json')
         .then(r => r.json()),
       employer: () => fetch('/assets/pages/help-center/content/employer/all.json')
         .then(r => r.json())
-    },
-    children: [
-      // {
-      //   path: ':category/:group',
-      //   loadComponent: () => import('')
-      // }
-    ]
+    }
   },
   {
     path: 'about-us',

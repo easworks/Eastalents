@@ -9,14 +9,14 @@
   <div class="help-group-list mt-8">
     <div *ngFor="let group of employer$();"
          class="help-group">
-      <a class="title" [href]="group.link">{{group.title}}</a>
+      <a class="title" [routerLink]="group.link">{{group.title}}</a>
       <ul class="item-list">
         <li *ngFor="let item of group.items">
-          <a [href]="item.link">{{item.title}}</a>
+          <a [routerLink]="group.link" [fragment]="item.slug">{{item.title}}</a>
         </li>
       </ul>
 
-      <a [href]="group.link" class="group-link">
+      <a [routerLink]="group.link" class="group-link">
         View All <fa-icon [icon]="icons.faCircleArrowRight"></fa-icon>
       </a>
     </div>
@@ -29,14 +29,14 @@
   <div class="help-group-list mt-8">
     <div *ngFor="let group of freelancer$();"
          class="help-group">
-      <a class="title" [href]="group.link">{{group.title}}</a>
+      <a class="title" [routerLink]="group.link">{{group.title}}</a>
       <ul class="item-list">
         <li *ngFor="let item of group.items">
-          <a [href]="item.link">{{item.title}}</a>
+          <a [routerLink]="group.link" [fragment]="item.slug">{{item.title}}</a>
         </li>
       </ul>
 
-      <a [href]="group.link" class="group-link">
+      <a [routerLink]="group.link" class="group-link">
         View All <fa-icon [icon]="icons.faCircleArrowRight"></fa-icon>
       </a>
     </div>

@@ -3,7 +3,7 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { HelpGroup } from './data';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -14,7 +14,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     LottiePlayerDirective,
-    ImportsModule
+    ImportsModule,
+    RouterModule
   ]
 })
 export class HelpCenterPageComponent {
@@ -42,9 +43,6 @@ export class HelpCenterPageComponent {
 function hydrateLinksForHelpCenter(groups: HelpGroup[], category: string) {
   groups.forEach(g => {
     g.link = `/help-center/${category}/${g.slug}`;
-    g.items.forEach(i => {
-      i.link = `${g.link}#${i.slug}`;
-    });
   });
 
   return groups;
