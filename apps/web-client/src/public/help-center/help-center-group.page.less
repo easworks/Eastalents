@@ -1,13 +1,11 @@
 .on-this-page {
-  @apply bg-secondary-100/50 rounded overflow-hidden 
-    md:max-w-xs
-    transition-all;
+  @apply grid lg:max-w-xs transition-all text-sm;
 
   a {
-    @apply block p-2 px-4;
+    @apply block p-2 px-4 rounded;
 
     &.active {
-      @apply bg-primary-400 text-white;
+      @apply bg-primary-200/20 text-primary-500;
     }
   }
 }
