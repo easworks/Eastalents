@@ -5,7 +5,8 @@ import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
 @Component({
   standalone: true,
   selector: 'help-center-page',
-  templateUrl: './help-center.page.html',
+  template: ``,
+  // templateUrl: './help-center.page.html',
   styleUrls: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -70,7 +71,7 @@ export class HelpCenterPageComponent {
         'What payment method does EASWORKS accept?',
       ]
     },
-  ]
+  ];
 
 
 
@@ -135,5 +136,5 @@ export class HelpCenterPageComponent {
         'How does a Work skill Assessment (WSA) work?'
       ]
     },
-  ]
+  ];
 }

@@ -1,0 +1,34 @@
+.help-group-list {
+  @apply flex gap-8 flex-wrap justify-center;
+}
+
+.help-group {
+  @apply p-4 w-96 rounded-md 
+  grid gap-8 content-start
+  bg-primary-100/30 text-primary-500/80 transition-all;
+
+  > .title {
+    @apply block text-xl font-semibold;
+  }
+
+  > .item-list {
+    @apply grid gap-4;
+
+    a {
+      @apply block p-2 px-4 rounded
+      bg-white text-primary-400 transition-all;
+
+      &:hover, &:focus {
+        @apply ring-1 ring-inset ring-primary-500 text-primary-500;
+      }
+    }
+  }
+
+  &:hover, &:focus-within {
+    @apply shadow-z8;
+  }
+
+  > .group-link {
+    @apply flex items-center gap-2 font-medium w-fit;
+  }
+}
