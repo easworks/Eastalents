@@ -23,8 +23,8 @@ export class HelpCenterPageComponent {
     const route = inject(ActivatedRoute);
 
     route.data.pipe(takeUntilDestroyed()).subscribe(d => {
-      this.employer$.set(d['employer']);
-      this.freelancer$.set(d['freelancer']);
+      this.employer$.set(hydrateLinksForHelpCenter(d['employer'], 'employer'));
+      this.freelancer$.set(hydrateLinksForHelpCenter(d['freelancer'], 'freelancer'));
     });
   }
 
@@ -37,4 +37,15 @@ export class HelpCenterPageComponent {
 
   protected readonly employer$ = signal([] as HelpGroup[]);
   protected readonly freelancer$ = signal([] as HelpGroup[]);
+}
+
+function hydrateLinksForHelpCenter(groups: HelpGroup[], category: string) {
+  groups.forEach(g => {
+    g.link = `/help-center/${category}/${g.slug}`;
+    g.items.forEach(i => {
+      i.link = `${g.link}#${i.slug}`;
+    });
+  });
+
+  return groups;
 }
