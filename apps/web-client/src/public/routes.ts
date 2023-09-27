@@ -108,7 +108,7 @@ export const PUBLIC_ROUTES: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('./help-center/help-center-group.page').then(m => m.HelpCenterGroupPageComponent),
     resolve: {
-      items: async (route: ActivatedRouteSnapshot) => {
+      group: async (route: ActivatedRouteSnapshot) => {
         const router = inject(Router);
 
         const category = route.paramMap.get('category');
