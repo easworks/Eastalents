@@ -1,47 +1,44 @@
-<section class="py-[60px]">
-    <div class="page">
-        <div class="flex justify-center items-center flex-col">
-            <h1 class="text-black text-[2.441rem] font-bold mb-5">How can we help you today?</h1>
-            <p class="text-base text-black">Get information about setting up and using EASWORKS to its fullest.</p>
-        </div>
+<div class="text-center">
+  <h1 class="text-4xl font-bold">How can we help you today?</h1>
+  <p class="mt-4">Get information about setting up and using EASWORKS to its fullest.</p>
+</div>
+
+<section class="mt-16">
+  <h2 class="text-2xl text-center font-bold">Help for Employers</h2>
+
+  <div class="help-group-list mt-8">
+    <div *ngFor="let group of employer$();"
+         class="help-group">
+      <a class="title" [routerLink]="group.link">{{group.title}}</a>
+      <ul class="item-list">
+        <li *ngFor="let item of group.items">
+          <a [routerLink]="group.link" [fragment]="item.slug">{{item.title}}</a>
+        </li>
+      </ul>
+
+      <a [routerLink]="group.link" class="group-link">
+        View All <fa-icon [icon]="icons.faCircleArrowRight"></fa-icon>
+      </a>
     </div>
+  </div>
 </section>
 
-<section class="py-[60px] bg-white">
-    <div class="page">
-        <div class="relative text-center">
-            <h1 class="text-black text-[2.441rem] font-bold mb-10">Help by Client</h1>
-        </div>
+<section class="mt-16">
+  <h2 class="text-2xl text-center font-bold">Help for Freelancers</h2>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
-            <div *ngFor="let helpcontent of HelpbyClient" class="bg-white p-5 rounded-lg border shadow-[0_0_20px_0_#3e1c831a]">
-                <h4 class="text-[18px] text-black mb-3 font-semibold">{{helpcontent.title}}</h4>
-                <ul *ngFor="let content of helpcontent.content">
-                    <li class="block text-black w-100 overflow-hidden text-ellipsis whitespace-nowrap py-1">{{content}}</li>
-                </ul>
-                <div class="mt-4">
-                    <a href="#" class="flex items-center gap-2 text-primary font-medium">View All Articles <fa-icon [icon]="icons.faCircleArrowRight"></fa-icon></a>
-                </div>
-            </div>
-        </div>
+  <div class="help-group-list mt-8">
+    <div *ngFor="let group of freelancer$();"
+         class="help-group">
+      <a class="title" [routerLink]="group.link">{{group.title}}</a>
+      <ul class="item-list">
+        <li *ngFor="let item of group.items">
+          <a [routerLink]="group.link" [fragment]="item.slug">{{item.title}}</a>
+        </li>
+      </ul>
+
+      <a [routerLink]="group.link" class="group-link">
+        View All <fa-icon [icon]="icons.faCircleArrowRight"></fa-icon>
+      </a>
     </div>
-
-    <div class="page">
-        <div class="relative text-center">
-            <h1 class="text-black text-[2.441rem] font-bold mb-10">Help by Freelancer</h1>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
-            <div *ngFor="let helpcontent of HelpbyFreelancer" class="bg-white p-5 rounded-lg border shadow-[0_0_20px_0_#3e1c831a]">
-                <h4 class="text-[18px] text-black mb-3 font-semibold">{{helpcontent.title}}</h4>
-                <ul *ngFor="let content of helpcontent.content">
-                    <li class="block text-black w-100 overflow-hidden text-ellipsis whitespace-nowrap py-1">{{content}}</li>
-                </ul>
-                <div class="mt-4">
-                    <a href="#" class="flex items-center gap-2 text-primary font-medium">View All Articles <fa-icon [icon]="icons.faCircleArrowRight"></fa-icon></a>
-                </div>
-            </div>
-        </div>
-    </div>
+  </div>
 </section>
-

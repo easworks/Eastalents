@@ -1,7 +1,7 @@
 export interface ContactUsRequest {
   name: string;
   email: string;
-  phoneNumber: string | null;
+  phone: string | null;
   subject: string;
-  body: string | null;
+  message: string | null;
 }

@@ -19,8 +19,11 @@ module.exports = {
         'sans': ['Roboto', ...defaultTheme.fontFamily.sans],
         'emoji': ['Noto Color Emoji']
       },
+      boxShadow: {
+        ...generateShadows()
+      },
       boxShadowColor: ({ theme }) => ({
-        DEFAULT: theme('colors.black / 40%')
+        DEFAULT: theme('colors.black / 30%')
       }),
       borderWidth: {
         '3': 3
@@ -77,3 +80,27 @@ module.exports = {
     },
   }
 };
+
+function generateShadows() {
+  const length = 16;
+  const dps = new Array(length).fill(0)
+    .map((_, i) => i + 1);
+
+  const result = {};
+
+  const opacityMax = 20;
+  const opacityMin = 4;
+  const opacityRange = opacityMax - opacityMin;
+
+  dps.forEach(dp => {
+    const key = `z${dp}`;
+    const layers = [
+      `0px 0px ${dp * 2}px -${dp / 2}px rgb(0 0 0 / ${opacityMax - (opacityRange * (dp / length))}%)`,
+      `${dp}px ${dp}px ${dp * 2}px -${dp}px rgb(0 0 0 / 30%)`
+    ].join(', ');
+
+    result[key] = layers;
+  });
+
+  return result;
+}

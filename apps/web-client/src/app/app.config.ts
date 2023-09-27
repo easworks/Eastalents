@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
       provide: APP_INITIALIZER, multi: true,
       deps: [ViewportScroller],
       useFactory: (vs: ViewportScroller) => () => {
-        vs.setOffset([0, 64]);
+        vs.setOffset([0, 80]);
       }
     },
     provideRouter(routes,

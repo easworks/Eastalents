@@ -1,0 +1,24 @@
+[
+  {
+    "title": "Freelancer Overview",
+    "slug": "freelancer-overview",
+    "items": [
+      {
+        "title": "What is EASWORKS talent?",
+        "slug": "what-is-easworks-talent"
+      },
+      {
+        "title": "How do I join EASWORKS as a freelancer?",
+        "slug": "how-do-i-join-easworks-as-a-freelancer"
+      },
+      {
+        "title": "How does Easworks help Enterprise Application Talent like you?",
+        "slug": "how-does-easworks-help-enterprise-application-talent-like-you"
+      },
+      {
+        "title": "If I complete my profile, how will EASWORKS use it?",
+        "slug": "if-i-complete-my-profile-how-will-easworks-use-it"
+      }
+    ]
+  }
+]
