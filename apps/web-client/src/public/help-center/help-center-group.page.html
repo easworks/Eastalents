@@ -20,11 +20,14 @@
     </ul>
   </section>
 
-  <section *ngrxLet="item$() as item"
-           [id]="item.slug" class="content">
-    <h2 class="font-bold text-xl">{{item.title}}</h2>
-    <div class="mt-4 grid gap-2">
-      <p *ngFor="let para of item.content">{{para}}</p>
-    </div>
-  </section>
+  <div *ngrxLet="group$() as group"
+       class="grid gap-8">
+    <section *ngFor="let item of group.items"
+             [id]="item.slug">
+      <h2 class="font-bold text-xl">{{item.title}}</h2>
+      <div class="mt-4 grid gap-2">
+        <p *ngFor="let para of item.content">{{para}}</p>
+      </div>
+    </section>
+  </div>
 </div>
