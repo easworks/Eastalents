@@ -42,32 +42,34 @@
     </div>
 </section>
 
-<section class="py-[60px]" *ngrxLet="GenericRole$().Skillssection as skills">
+<section class="py-[60px] border-b" *ngrxLet="GenericRole$().Skillssection as skills">
     <div class="page py-0">
         <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all pb-[60px]">
             Hiring for <span class="text-primary-500">{{skills.title.highlight}}</span> specific skill?
         </h2>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center pb-5">
-            <div class="">
-                <lottie-player src="/assets/img/Responsibilities/1st_icon.json" background="transparent" speed="1"
-                    style="width: 250px; height: 100%;" loop autoplay></lottie-player>
+            <div class="relative flex items-center gap-5">
+                <div class="relative">
+                    <lottie-player src="/assets/img/Responsibilities/1st_icon.json" background="transparent" speed="1"
+                        style="width: 100px; height: 100%;" loop autoplay></lottie-player>
+                </div>
+                <div class="relative" *ngIf="skills.responsibilities as response">
+                    <h2 class="text-4xl font-bold my-5"> {{response.title}} </h2>
+                    <p class="my-4 text-base font-normal">{{response.content}}</p>
+                </div>
             </div>
-            <div class="relative" *ngIf="skills.responsibilities as response">
-                <h2 class="text-4xl font-bold my-5"> {{response.title}} </h2>
-                <p class="my-4 text-base font-normal">{{response.content}}</p>
+            <div class="relative flex items-center gap-5">
+                <div class="relative">
+                    <img src="/assets/img/Skills-Icon-1.webp" class="w-[100px] min-w-[100px]" alt="">
+                </div>
+                <div class="relative" *ngIf="skills.Skills as skill">
+                    <h2 class="text-4xl font-bold my-5"> {{skill.title}} </h2>
+                    <p class="my-4 text-base font-normal">{{skill.content}}</p>
+                </div>
+                
             </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center pt-5">
-
-            <div class="relative" *ngIf="skills.Skills as skill">
-                <h2 class="text-4xl font-bold my-5"> {{skill.title}} </h2>
-                <p class="my-4 text-base font-normal">{{skill.content}}</p>
-            </div>
-            <div class="ml-auto">
-                <img src="/assets/img/Skills-Icon-1.webp" class="w-[250px]" alt="">
-            </div>
+            
         </div>
     </div>
 </section>
