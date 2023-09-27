@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, INJECTOR, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, INJECTOR, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -11,7 +11,8 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
 import { PhoneCodeOption, filterCountryCode, getPhoneCodeOptions, updatePhoneValidatorEffect } from '@easworks/app-shell/common/phone-code';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { sortString } from '@easworks/app-shell/utilities/sort';
-import { pattern } from '@easworks/models';
+import { ContactUsRequest, pattern } from '@easworks/models';
+import { ContactUsApi } from '@easworks/app-shell/api/contact-us';
 
 @Component({
   standalone: true,
@@ -29,9 +30,9 @@ import { pattern } from '@easworks/models';
 })
 export class ContactUsPageComponent {
 
-  private readonly injector = inject(INJECTOR);
   private readonly api = {
-    csc: inject(CSCApi)
+    csc: inject(CSCApi),
+    contactUs: inject(ContactUsApi)
   };
 
   protected readonly trackBy = {
@@ -40,7 +41,8 @@ export class ContactUsPageComponent {
 
   private readonly allCountries = this.api.csc.allCountries();
   protected readonly loading = generateLoadingState<[
-    'countries'
+    'countries',
+    'submitting'
   ]>();
 
   protected readonly contact = this.initForm();
@@ -59,7 +61,7 @@ export class ContactUsPageComponent {
         code: new FormControl(''),
         number: new FormControl('')
       }, {
-        updateOn: 'blur'
+        updateOn: 'change'
       }),
       subject: new FormControl('', {
         nonNullable: true,
@@ -103,13 +105,35 @@ export class ContactUsPageComponent {
       if (!form.valid)
         return;
 
-      console.debug(form.getRawValue());
+      this.loading.add('submitting');
+
+      const v = form.getRawValue();
+
+      const input: ContactUsRequest = {
+        name: v.name,
+        email: v.email,
+        phone: v.phoneNumber && v.phoneNumber.code && v.phoneNumber.number ?
+          v.phoneNumber.code + v.phoneNumber.number :
+          null,
+        subject: v.subject,
+        message: v.message || null
+      };
+
+      this.api.contactUs.create(input)
+        .then(r => {
+          console.debug(r);
+        })
+        .catch(e => console.error(e))
+        .finally(() => {
+          this.loading.delete('submitting');
+        });
     };
 
     return {
       form,
       options: filteredOptions,
-      submit
+      submit,
+      submitting$: this.loading.has('submitting')
     } as const;
   }
 }

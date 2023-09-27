@@ -91,8 +91,11 @@
 
         <button type="submit"
                 class="shaded-button primary"
-                mat-ripple>
-          Send message
+                mat-ripple
+                [disabled]="loading.any$()">
+          <replace-spinner [showSpinner]="contact.submitting$()">
+            Send message
+          </replace-spinner>
         </button>
       </form>
     </div>
