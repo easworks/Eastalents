@@ -29,7 +29,7 @@ export class AppVerticalMenuComponent {
 
   protected readonly staticMenuItems: MenuItem[] = [
     { name: 'Hire Talent', link: NOOP_CLICK },
-    { name: 'For Employers', link: NOOP_CLICK },
+    { name: 'For Client', link: NOOP_CLICK },
     { name: 'Join EASWORKS', link: NOOP_CLICK },
     { name: 'For Freelancers', link: NOOP_CLICK },
   ];
