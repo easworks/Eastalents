@@ -1,10 +1,11 @@
 import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, Routes } from '@angular/router';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { USE_CASE_DATA } from './use-cases/data';
 import { COMPANY_TYPE_DATA } from './company-type/data';
+import { HelpGroup, HelpItem } from './help-center/data';
 import { SERVICE_TYPE_DATA } from './service-type/data';
+import { USE_CASE_DATA } from './use-cases/data';
 
 export const PUBLIC_ROUTES: Routes = [
   {
@@ -105,7 +106,35 @@ export const PUBLIC_ROUTES: Routes = [
   {
     path: 'help-center/:category/:group',
     pathMatch: 'full',
-    loadComponent: () => import('./help-center/help-center-group.page').then(m => m.HelpCenterGroupPageComponent)
+    loadComponent: () => import('./help-center/help-center-group.page').then(m => m.HelpCenterGroupPageComponent),
+    resolve: {
+      items: async (route: ActivatedRouteSnapshot) => {
+        const router = inject(Router);
+
+        const category = route.paramMap.get('category');
+        if (!category)
+          throw new Error('invalid operation');
+        const group = route.paramMap.get('group');
+        if (!group)
+          throw new Error('invalid operation');
+
+        const all: HelpGroup[] = await fetch(`/assets/pages/help-center/content/${category}/all.json`)
+          .then(r => r.json());
+
+        const foundGroup = all.find(g => g.slug === group);
+        if (!foundGroup) {
+          router.navigateByUrl(`/error-404`, { skipLocationChange: true });
+          throw new Error('not found');
+        }
+
+        const data: Record<string, HelpItem> = await fetch(`/assets/pages/help-center/content/${category}/${group}.json`)
+          .then(r => r.json());
+
+        foundGroup.items.forEach(i => Object.assign(i, data[i.slug]));
+
+        return foundGroup;
+      }
+    }
   },
   {
     path: 'help-center',
