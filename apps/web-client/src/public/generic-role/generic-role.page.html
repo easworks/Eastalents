@@ -1,0 +1,193 @@
+<section class="relative w-full h-full z-10 p-10 bg-white" *ngrxLet="GenericRole$().herosection as hero">
+    <div class="absolute inset-0 w-full h-full opacity-5">
+        <img class="w-full h-full" src="/assets/img/building.jpg" alt="">
+    </div>
+    <div class="lg:px-10 p-5 mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 items-start gap-12 relative">
+            <div class="text-left">
+                <h3 class="lg:text-[2rem] text-2xl font-bold leading-[60px] text-black">
+                    Hire a Top-Tier <span class="text-primary-500">{{hero.title.highlight}}</span> for Your Industry Domain
+                </h3>
+                <p class="my-4 text-base font-normal text-black">EASWORKS serves as a specialized platform for the
+                    industry's finest developers, engineers, coders, architects, and consultants, all vetted to meet the
+                    unique challenges of enterprise application projects.</p>
+
+                <p class="my-4 text-base font-normal text-black">Elevate Your Mission-Critical Enterprise Application
+                    Projects with EASWORKS</p>
+
+                <p class="my-4 text-base font-normal text-black">Pioneering enterprises and forward-thinking startups
+                    choose EASWORKS freelancers for their most essential enterprise application development tasks.</p>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex gap-4">
+                        <button class="stroked-button text-black"> Hire {{hero.cta}} </button>
+                    </div>
+                </div>
+                <p class="my-4 text-base font-normal text-black">Initiate a Risk-Free Collaboration, with Payment
+                    Required Only Upon Your Satisfaction.</p>
+            </div>
+            <div>
+                <lottie-player src="/assets/img/circle_icon_page/circle_icon_page.json" background="transparent"
+                    speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-gray-300">
+    <div class="page py-8 flex flex-wrap justify-around gap-4">
+        <div *ngFor="let logo of customerLogos">
+            <img class="w-32" [src]="logo" alt="">
+        </div>
+    </div>
+</section>
+
+<section class="py-[60px]" *ngrxLet="GenericRole$().Skillssection as skills">
+    <div class="page py-0">
+        <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all pb-[60px]">
+            Hiring for <span class="text-primary-500">{{skills.title.highlight}}</span> specific skill?
+        </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center pb-5">
+            <div class="">
+                <lottie-player src="/assets/img/Responsibilities/1st_icon.json" background="transparent" speed="1"
+                    style="width: 250px; height: 100%;" loop autoplay></lottie-player>
+            </div>
+            <div class="relative" *ngIf="skills.responsibilities as response">
+                <h2 class="text-4xl font-bold my-5"> {{response.title}} </h2>
+                <p class="my-4 text-base font-normal">{{response.content}}</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center pt-5">
+
+            <div class="relative" *ngIf="skills.Skills as skill">
+                <h2 class="text-4xl font-bold my-5"> {{skill.title}} </h2>
+                <p class="my-4 text-base font-normal">{{skill.content}}</p>
+            </div>
+            <div class="ml-auto">
+                <img src="/assets/img/Skills-Icon-1.webp" class="w-[250px]" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="py-[60px] border-b" *ngrxLet="GenericRole$().howtohire as hire">
+    <div class="page">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold">How to hire top remote <span class="text-primary-500">{{hire.title.highlight}}</span> through EASWORKS?</h2>
+        </div>
+
+        <div class="grid lg:grid-cols-3 grid-cols-1 gap-8 items-center">
+
+            <div class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
+                <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
+                    <lottie-player src="/assets/img/1_Search/1_Search.json" background="transparent" speed="1"
+                        style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+                </div>
+                <h4 class="text-lg font-semibold my-5">Describe your needs </h4>
+                <p class="text-sm leading-6">Brief us on your Enterprise Application, technology, domain, enterprise
+                    project requirements and describe your project using our job form.</p>
+            </div>
+
+            <div class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
+                <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
+                    <lottie-player src="https://lottie.host/7da03309-6e31-4baa-992a-7ee702e4e819/6HgdujnMus.json"
+                        background="transparent" speed="1" style="width: 100%; height: 100%;" loop
+                        autoplay></lottie-player>
+                </div>
+                <h4 class="text-lg font-semibold my-5">Pre-Qualified Talent</h4>
+                <p class="text-sm leading-6">We never use automated matching. Its human curated and
+                    we personally interview and test every candidate, presenting only those who are
+                    a technical and cultural fit for your Enterprise Application project.</p>
+            </div>
+
+            <div class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
+                <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
+                    <lottie-player src="https://lottie.host/57b08bd3-d2c8-40a4-a671-9eace5cb0f6a/gmVxmaKxh2.json"
+                        background="transparent" speed="1" style="width: 100%; height: 100%;" loop
+                        autoplay></lottie-player>
+                </div>
+                <h4 class="text-lg font-semibold my-5">Risk-Free Trial</h4>
+                <p class="text-sm leading-6">Try EASWORKS enterprise application freelancer for up
+                    to 20/40 hours of work, and if you're not satisfied, you don't pay a cent during
+                    trial period evaluation.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="py-[60px] border-b" *ngrxLet="GenericRole$().specifysection as specify">
+    <div class="page">
+        <div class="grid lg:grid-cols-2 grid-cols-1 gap-8 items-center pb-10">
+            <div class="relative">
+                <div class="flex items-center">
+                    <span class="text-[70px] text-primary-500 block">01</span>
+                    <div class="text-black pl-8">
+                        <h4 class="text-[18px] mb-4 font-bold">Specify the Expertise You're Looking For</h4>
+                        <p class="text-[16px]">Initiate a conversation with us to articulate the technical skills
+                            essential for your enterprise application project & roles.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative">
+                <div class="flex items-center">
+                    <span class="text-[70px] text-primary-500 block">02</span>
+                    <div class="text-black pl-8">
+                        <h4 class="text-[18px] mb-4 font-bold">We Curate Top Talent for Your Enterprise Needs </h4>
+                        <p class="text-[16px]">Receive a selection of vetted developers tailored to your enterprise
+                            application specifications within a few days.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid lg:grid-cols-2 grid-cols-1 gap-8 items-center pt-10">
+            <div class="relative">
+                <div class="flex items-center">
+                    <span class="text-[70px] text-primary-500 block">03</span>
+                    <div class="text-black pl-8">
+                        <h4 class="text-[18px] mb-4 font-bold">Conduct Targeted Interviews </h4>
+                        <p class="text-[16px]">Meet with handpicked developers to ensure they meet the unique demands of
+                            your enterprise application project.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative">
+                <div class="flex items-center">
+                    <span class="text-[70px] text-primary-500 block">04</span>
+                    <div class="text-black pl-8">
+                        <h4 class="text-[18px] mb-4 font-bold">Launch with a Zero-Risk Evaluation Period </h4>
+                        <p class="text-[16px]">Begin actual development with a two-week, no-risk trial to confirm the
+                            developer's alignment with your enterprise application objectives.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-center pt-10">
+            <div class="flex gap-4">
+                <button class="shaded-button primary text-white"> Hire {{specify.cta}} </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="py-[60px] border-b bg-primary-500">
+    <div class="page">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-white">Require Specialized Technical Capabilities?</h2>
+            <p class="my-4 text-base font-normal text-white">For unique enterprise application initiatives, a developer with specialized skill sets may be essential. </p>
+            <p class="my-4 text-base font-normal text-white">We're here to assist in finding the right fit for your enterprise application project's specific needs.</p>
+        </div>
+        <div class="flex items-center justify-center">
+            <div class="flex gap-4">
+                <button class="stroked-button text-white"> Schedule a call </button>
+            </div>
+        </div>
+    </div>
+</section>

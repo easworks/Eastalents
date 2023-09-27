@@ -5,6 +5,7 @@ import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { USE_CASE_DATA } from './use-cases/data';
 import { COMPANY_TYPE_DATA } from './company-type/data';
 import { SERVICE_TYPE_DATA } from './service-type/data';
+import { GENERIC_ROLE_DATA } from './generic-role/data';
 
 export const PUBLIC_ROUTES: Routes = [
   {
@@ -197,6 +198,23 @@ export const PUBLIC_ROUTES: Routes = [
       }
     }
   },
+
+  {
+    path: 'generic-role/:GenericRole',
+    pathMatch: 'full',
+    loadComponent: () => import('./generic-role/generic-role.page').then(m => m.GenericRolePageComponent),
+    runGuardsAndResolvers: 'pathParamsChange',
+    resolve: {
+      GenericRole: (route: ActivatedRouteSnapshot) => {
+        const key = route.paramMap.get('GenericRole');
+        if (!key || !(key in GENERIC_ROLE_DATA))
+          throw new Error('invalid operation');
+
+        return GENERIC_ROLE_DATA[key];
+      }
+    }
+  },
+  
   {
     path: '',
     pathMatch: 'full',
