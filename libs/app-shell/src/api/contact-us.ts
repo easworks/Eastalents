@@ -14,6 +14,6 @@ export class ContactUsApi extends BackendApi {
         console.debug(r);
         return r;
       })
-      .catch(this.handleError);;
+      .catch(this.handleError);
   };
 }
