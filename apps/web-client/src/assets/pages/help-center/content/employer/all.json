@@ -1,63 +1,189 @@
 [
   {
-    "slug": "client-overview",
     "title": "Client Overview",
+    "slug": "client-overview",
     "items": [
       {
-        "slug": "what-is-easworks",
-        "title": "What is EASWORKS?"
+        "title": "What is EASWORKS?",
+        "slug": "what-is-easworks"
       },
       {
-        "slug": "how-does-easworks-work",
-        "title": "How does EASWORKS work?"
+        "title": "How does EASWORKS work?",
+        "slug": "how-does-easworks-work"
       },
       {
-        "slug": "how-is-easworks-different",
-        "title": "How is EASWORKS different?"
+        "title": "How is EASWORKS different from other platforms?",
+        "slug": "how-is-easworks-different-from-other-platforms"
       },
       {
-        "slug": "what-type-of-projects-can-i-hire-easworks-for",
-        "title": "What type of projects can I hire EASWORKS for?"
+        "title": "What is the definition of EAS Talent as referred to companies by EASWORKS?",
+        "slug": "what-is-the-definition-of-eas-talent"
+      },
+      {
+        "title": "What types of projects can be undertaken by hiring EASWORKS?",
+        "slug": "what-types-of-projects-can-be-undertaken"
+      },
+      {
+        "title": "What is the role of an Enterprise Success Manager (ESM) with companies?",
+        "slug": "what-is-the-role-of-an-enterprise-success-manager"
+      },
+      {
+        "title": "Is there a cost associated with being matched with or interviewing candidates on EASWORKS?",
+        "slug": "is-there-a-cost-associated-with-matching-on-easworks"
+      },
+      {
+        "title": "What is the typical timeframe for the hiring process at EASWORKS?",
+        "slug": "what-is-the-typical-timeframe-for-hiring-on-easworks"
+      },
+      {
+        "title": "Is there a fee to be matched with or interview candidates on EASWORKS?",
+        "slug": "is-there-a-fee-to-be-matched-or-interviewed-on-easworks"
+      },
+      {
+        "title": "What engagement options does EASWORKS offer to meet clients enterprise application needs",
+        "slug": "what-engagement-options-does-easworks-offer"
+      },
+      {
+        "title": "Is there a minimum contract duration?",
+        "slug": "is-there-a-minimum-contract-duration"
+      },
+      {
+        "title": "Is it possible to hire a full-time worker from EASWORKS and integrate them into our company?",
+        "slug": "is-it-possible-to-hire-a-full-time-worker-from-easworks"
+      },
+      {
+        "title": "What are the payment terms and conditions on EASWORKS?",
+        "slug": "what-are-the-payment-terms-and-conditions"
+      },
+      {
+        "title": "How does the Work Skill Assessment (WSA) performed on talents help clients in their project engagements?",
+        "slug": "how-does-the-work-skill-assessment-help-clients"
       }
     ]
   },
   {
-    "slug": "getting-started",
-    "title": "Getting Started",
+    "title": "Getting Started With EASWORKS",
+    "slug": "getting-started-with-easworks",
     "items": [
       {
-        "slug": "how-can-i-view-candidates-after-registration",
-        "title": "How can I view candidates after registration?"
+        "title": "How can I get started with EASWORKS as an employer?",
+        "slug": "how-can-i-get-started-with-easworks-as-an-employer"
       },
       {
-        "slug": "how-do-i-start-a-project",
-        "title": "How do I start a project?"
+        "title": "How can I initiate a project with EASWORKS?",
+        "slug": "how-can-i-initiate-a-project-with-easworks"
       },
       {
-        "slug": "how-can-i-communicate-with-candidates",
-        "title": "How can I communicate with candidates?"
+        "title": "How can I view candidates after registration?",
+        "slug": "how-can-i-view-candidates-after-registration"
       },
       {
-        "title": "How soon can EASWORKS developers join my team?",
-        "slug": "how-soon-can-easworks-developers-join-my-team"
+        "title": "How can I interact with candidates on EASWORKS?",
+        "slug": "how-can-i-interact-with-candidates-on-easworks"
+      },
+      {
+        "title": "How soon can EASWORKS developers become part of my team?",
+        "slug": "how-soon-can-easworks-developers-become-part-of-my-team"
+      },
+      {
+        "title": "If there is currently no available talent to meet the requirements of my work request, how long should I anticipate waiting for the right talent?",
+        "slug": "if-there-is-currently-no-available-talent-to-meet-the-requirements-of-my-work-request-how-long-should-i-anticipate-waiting-for-the-right-talent"
       }
     ]
   },
   {
-    "title": "Testing and Screening",
+    "title": "Testing & Screening",
     "slug": "testing-and-screening",
     "items": [
       {
-        "title": "What is your Screening Process?",
-        "slug": "what-is-your-screening-process"
+        "title": "Do the developers at EASWORKS possess fluency in English?",
+        "slug": "do-the-developers-at-easworks-possess-fluency-in-english"
       },
       {
-        "title": "What is your vcreening Process?",
-        "slug": "what-is-your-vetting-process"
+        "title": "How does your screening process work?",
+        "slug": "how-does-your-screening-process-work"
       },
       {
-        "title": "Do EASWORKS developers speak English?",
-        "slug": "do-easworks-developers-speak-English"
+        "title": "How does your EAS talent vetting process work?",
+        "slug": "how-does-your-eas-talent-vetting-process-work"
+      }
+    ]
+  },
+  {
+    "title": "Working With Global Talent",
+    "slug": "working-with-global-talent",
+    "items": [
+      {
+        "title": "What are the various engagement models available for hiring EAS talent?",
+        "slug": "what-are-the-various-engagement-models-available-for-hiring-eas-talent"
+      },
+      {
+        "title": "What is the geographical distribution and time zone of EASWORKS developers?",
+        "slug": "what-is-the-geographical-distribution-and-time-zone-of-easworks-developers"
+      },
+      {
+        "title": "Where do EASWORKS experts primarily work?",
+        "slug": "where-do-easworks-experts-primarily-work"
+      },
+      {
+        "title": "How can I track and monitor the progress of my EAS project?",
+        "slug": "how-can-i-track-and-monitor-the-progress-of-my-eas-project"
+      },
+      {
+        "title": "How does EASWORKS facilitate and oversee project collaboration?",
+        "slug": "how-does-easworks-facilitate-and-oversee-project-collaboration"
+      },
+      {
+        "title": "Can I make changes to my current engagement with EASWORKS?",
+        "slug": "can-i-make-changes-to-my-current-engagement-with-easworks"
+      },
+      {
+        "title": "Is it possible to have EASWORKS experts work on-site as needed?",
+        "slug": "is-it-possible-to-have-easworks-experts-work-on-site-as-needed"
+      },
+      {
+        "title": "What if Im not satisfied with the EASWORKS services?",
+        "slug": "what-if-im-not-satisfied-with-the-easworks-services"
+      },
+      {
+        "title": "What if my EAS Talent is unavailable during their scheduled workdays or times?",
+        "slug": "what-if-my-eas-talent-is-unavailable-during-their-scheduled-workdays-or-times"
+      }
+    ]
+  },
+  {
+    "title": "Intellectual Property",
+    "slug": "intellectual-property",
+    "items": [
+      {
+        "title": "Who holds the legal rights to the work produced by an EASWORKS talent?",
+        "slug": "who-holds-the-legal-rights-to-the-work-produced-by-an-easworks-talent"
+      },
+      {
+        "title": "How can I protect my intellectual property (IP) with EASWORKS?",
+        "slug": "how-can-i-protect-my-intellectual-property-ip-with-easworks"
+      },
+      {
+        "title": "How does EASWORKS ensure the protection of our intellectual property (IP)?",
+        "slug": "how-does-easworks-ensure-the-protection-of-our-intellectual-property-ip"
+      }
+    ]
+  },
+  {
+    "title": "Pricing And Payments",
+    "slug": "pricing-and-payments",
+    "items": [
+      {
+        "title": "What are the pricing details for hiring a developer through EASWORKS?",
+        "slug": "what-are-the-pricing-details-for-hiring-a-developer-through-easworks"
+      },
+      {
+        "title": "What is the payment process for EASWORKS services?",
+        "slug": "what-is-the-payment-process-for-easworks-services"
+      },
+      {
+        "title": "What payment methods are accepted by EASWORKS?",
+        "slug": "what-payment-methods-are-accepted-by-easworks"
       }
     ]
   }
