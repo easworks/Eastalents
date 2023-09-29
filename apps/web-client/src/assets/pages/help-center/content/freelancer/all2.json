@@ -39,64 +39,23 @@
   },
   {
     "title": "Requirements",
-    "slug": "",
-    "link": "",
+    "slug": "requirements",
     "items": [
       {
         "title": "What are the requirements for becoming an enterprise application developer through EASWORKS?",
-        "slug": "",
-        "content": [
-          "Prerequisites for working as an EASWORKS talent include:",
-          "•\tPossessing the necessary professional skills.",
-          "•\tDemonstrating strong spoken and written English skills.",
-          "•\tHaving a stable internet connection.",
-          "•\tWillingness to align with clients working schedules.",
-          "•\tCommitment to delivering high-quality work.",
-          "•\tMaintaining a positive and professional attitude.",
-          "•\tBeing a team player.",
-          "•\tHaving a desire to continuously learn and improve oneself."
-        ]
+        "slug": "requirements-for-enterprise-application-developer"
       },
       {
         "title": "What is the vetting process like for EASWORKS?",
-        "slug": "",
-        "content": [
-          "The vetting process for EASWORKS can be summarized as follows:",
-          "1.\tProfile Approval:",
-          "•\tComplete your profile, ensuring it is comprehensive and accurate.",
-          "•\tThe EASWORKS team will review and approve your profile.",
-          "2.\tRole Application:",
-          "•\tOnce your profile is approved, you may receive invitations to apply for roles that match your skills and time zone.",
-          "3.\tFirst Interview:",
-          "•\tIf your application is thorough and relevant, you may be invited to a first interview with the EASWORKS Talent team.",
-          "•\tThis interview focuses on your work experience and its relevance to the specific role.",
-          "4.\tTechnical Interview:",
-          "•\tSuccessful completion of the first interview leads to a second \"technical\" interview conducted by a member of the technical team.",
-          "•\tThis interview delves deeper into technical discussions.",
-          "5.\tVetting Outcome:",
-          "•\tIf you pass the vetting process, you will be presented to the client.",
-          "•\tThe client will have access to your public profile and may request an interview.",
-          "6.\tClient Interview:",
-          "•\tEach client follows their own interview approach.",
-          "•\tPrior to your client interview, you will receive instructions specific to that process.",
-          "Note: The specific details and instructions may vary depending on the client and role."
-        ]
+        "slug": "vetting-process-for-easworks"
       },
       {
         "title": "Why is the vetting process necessary for EAS Talents?",
-        "slug": "",
-        "content": [
-          "The vetting process is essential for EAS Talents on the platform to ensure seamless project execution.",
-          "All applicants must undergo a thorough screening that assesses their technical skills, behavior, domain expertise, industry experience, and professional skills necessary for their roles. ",
-          "This process guarantees that our talent is well-equipped to excel in their positions and deliver successful outcomes."
-        ]
+        "slug": "necessity-of-vetting-process-for-eas-talents"
       },
       {
         "title": "What is the typical duration of the vetting process?",
-        "slug": "",
-        "content": [
-          "The vetting process usually takes 1-2 weeks, although it can be expedited based on the alignment and urgency of the role for both the EAS Talent and the employer. Its important to note that expediting the process does not mean skipping any crucial steps, as thorough candidate vetting is vital for the success of the engagement. "
-        ]
+        "slug": "typical-duration-of-vetting-process"
       }
     ]
   },
