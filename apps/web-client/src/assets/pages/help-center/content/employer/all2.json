@@ -111,90 +111,43 @@
   },
   {
     "title": "Working With Global Talent",
-    "slug": "",
-    "link": "",
+    "slug": "working-with-global-talent",
     "items": [
       {
         "title": "What are the various engagement models available for hiring EAS talent?",
-        "slug": "",
-        "content": [
-          "At EASWORKS, we understand that every project and organization is unique. We offer tailored engagement models to cater to your specific project needs, situation, and company goals. ",
-          "Our aim is to ensure your success in enterprise application projects by leveraging our core expertise. We work closely with you to create a customized team augmentation strategy that aligns with your requirements and maximizes project outcomes."
-        ]
+        "slug": "what-are-the-various-engagement-models-available-for-hiring-eas-talent"
       },
       {
         "title": "What is the geographical distribution and time zone of EASWORKS developers?",
-        "slug": "",
-        "content": [
-          "EASWORKS boasts a global network of talented freelancers located across different geographies and time zones. ",
-          "We commonly collaborate with top enterprise application software (EAS) developers from regions such as Latin America, Asia, Eastern Europe, and the United States. ",
-          "This approach allows us to offer competitive rates while ensuring effective communication and collaboration between teams and clients within the same time zones."
-        ]
+        "slug": "what-is-the-geographical-distribution-and-time-zone-of-easworks-developers"
       },
       {
         "title": "Where do EASWORKS experts primarily work?",
-        "slug": "",
-        "content": [
-          "The majority of EASWORKS experts work remotely from their home, office, or co-working spaces.",
-          "However, if there is a requirement for enterprise talents to work on your premises, we can coordinate and make necessary arrangements based on mutual agreement between all parties involved."
-        ]
+        "slug": "where-do-easworks-experts-primarily-work"
       },
       {
         "title": "How can I track and monitor the progress of my EAS project?",
-        "slug": "",
-        "content": [
-          "For staff augmentation projects, EAS Talent will provide daily updates and status reports through EASWORKS online tools, which you will have access to. ",
-          "For fully managed projects, weekly/monthly timesheet submissions and project status reports are utilized to keep you informed about the progress of the project."
-        ]
+        "slug": "how-can-i-track-and-monitor-the-progress-of-my-eas-project"
       },
       {
         "title": "How does EASWORKS facilitate and oversee project collaboration?",
-        "slug": "",
-        "content": [
-          "When you start working with EASWORKS, we will invite you to join our Slack workspace for project collaboration.",
-          " We set up two main channels for communication: \"Project Mgt\" and \"GO LIVE\" (Production).",
-          "•\tThe \"Project Mgt\" channel includes you, your Enterprise Success Manager (ESM), and EASWORKS senior staff. This channel is used for any changes or questions regarding your current engagement.",
-          "•\tThe \"GO LIVE\" channel includes everyone from the \"Prj Mgt\" channel, as well as your hired company and the scrum team if needed. This channel is used for regular project updates and discussions.",
-          "Participating in these Slack channels is optional, and if you already have your own Slack workspace, you can use that instead."
-        ]
+        "slug": "how-does-easworks-facilitate-and-oversee-project-collaboration"
       },
       {
         "title": "Can I make changes to my current engagement with EASWORKS?",
-        "slug": "",
-        "content": [
-          "Absolutely! We understand that enterprise application project needs can evolve over time. You have the flexibility to make adjustments to your EASWORKS engagement. Here are some of the changes you can make:",
-          "•\tIncrease or decrease the monthly hours allocated to your project.",
-          "•\tTransition between different engagement types based on your evolving requirements.",
-          "•\tAdd additional freelancers to your EAS project as needed.",
-          "To request any changes, simply reach out to your dedicated Enterprise Success Manager (ESM), and they will guide you through the process. Were here to ensure that your engagement with EASWORKS aligns with your changing needs."
-        ]
+        "slug": "can-i-make-changes-to-my-current-engagement-with-easworks"
       },
       {
         "title": "Is it possible to have EASWORKS experts work on-site as needed?",
-        "slug": "",
-        "content": [
-          "While it is not a common occurrence, we understand that certain projects may require on-site presence. If this is the case, we are open to coordinating the relocation of our EAS Talent or a team to your location for a specific period of time.",
-          "Our priority is to ensure that your project receives the necessary support and expertise to achieve success."
-        ]
+        "slug": "is-it-possible-to-have-easworks-experts-work-on-site-as-needed"
       },
       {
         "title": "What if Im not satisfied with the EASWORKS services?",
-        "slug": "",
-        "content": [
-          "At EASWORKS, we prioritize customer satisfaction and take measures to address any concerns:",
-          "•\tRigorous Screening: We carefully select top enterprise application talent through a thorough screening process.",
-          "•\tTrial Period: We offer a trial period for long-term projects to ensure a good fit with the assigned developer.",
-          "•\tFair Resolution: If customers are unsatisfied with their Talent, our Enterprise Success Team seeks a fair resolution, including the possibility of replacing the EAS Talent at no additional cost.",
-          "Our ultimate aim is to ensure that you have a positive and satisfactory experience throughout your engagement with EASWORKS."
-        ]
+        "slug": "what-if-im-not-satisfied-with-the-easworks-services"
       },
       {
         "title": "What if my EAS Talent is unavailable during their scheduled workdays or times?",
-        "slug": "",
-        "content": [
-          "At EASWORKS, we prioritize dependability and understand the importance of meeting enterprise project goals. While we take steps to ensure availability and reliability of our talent, if an unforeseen circumstance arises where your Talent is unavailable, we will promptly match you with a new Talent and credit you for the time lost.",
-          "Our aim is to ensure uninterrupted progress and seamless collaboration on your EAS project."
-        ]
+        "slug": "what-if-my-eas-talent-is-unavailable-during-their-scheduled-workdays-or-times"
       }
     ]
   },
