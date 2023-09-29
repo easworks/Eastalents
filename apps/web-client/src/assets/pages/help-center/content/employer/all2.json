@@ -171,36 +171,19 @@
   },
   {
     "title": "Pricing And Payments",
-    "slug": "",
-    "link": "",
+    "slug": "pricing-and-payments",
     "items": [
       {
         "title": "What are the pricing details for hiring a developer through EASWORKS?",
-        "slug": "",
-        "content": [
-          "At EASWORKS, the cost of hiring a developer varies depending on several factors. While we work with remote developers located worldwide, our common talent pool comes from Latin America, South Asia, and Eastern Europe. This allows us to offer competitive rates while ensuring collaboration in overlapping time zones.",
-          "The rates for developers typically range between $40-$110 USD per hour. However, its important to note that these rates can vary based on factors such as enterprise application skills, technologies, experience, and geographic location.",
-          "When hiring through EASWORKS, there are no hidden or extra fees. You only pay for the hours worked by the candidates you select, as per the agreed terms and conditions outlined in the contract."
-        ]
+        "slug": "what-are-the-pricing-details-for-hiring-a-developer-through-easworks",
       },
       {
         "title": "What is the payment process for EASWORKS services?",
-        "slug": "",
-        "content": [
-          "The payment process for EASWORKS services depends on the type of engagement you have with us. Here is an overview:",
-          "1.\tBilling Cycle: For most engagements, you will be billed at the end of each month for the work performed during that month. However, for milestone-based projects or projects with fixed monthly rates, the payment schedule may vary.",
-          "2.\tHourly Tracking: To track the hours worked by freelancers on your project, you can log into your account and review the hours submitted. This allows you to monitor the progress and ensure transparency in the billing process.",
-          "3.\tPayment Due: Payment for the services provided is due upon receipt of the invoice. You will receive the invoice detailing the services rendered and the amount owed.",
-          "Please note that specific payment terms and details will be outlined in your contract with EASWORKS. It is important to review the terms and follow the agreed-upon payment schedule to ensure a smooth payment process."
-        ]
+        "slug": "what-is-the-payment-process-for-easworks-services",
       },
       {
         "title": "What payment methods are accepted by EASWORKS?",
-        "slug": "",
-        "content": [
-          "EASWORKS accepts ACH, wire transfers, and credit card payments as payment methods.",
-          "Please note that specific instructions and details regarding payment methods will be provided to you during the invoicing process or in your contract with EASWORKS."
-        ]
+        "slug": "what-payment-methods-are-accepted-by-easworks",
       }
     ]
   }
