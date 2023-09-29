@@ -1,14 +1,75 @@
 {
-  "what-is-easworks-talent": {
-    "content": []
+  "what-is-easworks-and-how-does-it-benefit-freelancers": {
+    "content": [
+      "EASWORKS is a dedicated platform for Enterprise Application Software(EAS) developers, offering them the opportunity to become part of a niche EAS community.",
+      "Freelancers who join EASWORKS gain access to exclusive opportunities to showcase their highly sought-after enterprise skills to top-tier companies. ",
+      "Through EASWORKS, freelancers can connect with elite companies, allowing them to secure exciting enterprise application projects and expand their professional growth prospects."
+    ]
   },
-  "how-do-i-join-easworks-as-a-contractor": {
-    "content": []
+  "what-is-the-definition-of-eas-talent-as-referred-to-freelancers-by-easworks": {
+    "content": [
+      "EAS Talent, short for Enterprise Application Software Talent, represents skilled professionals within the EASWORKS network who possess deep industry domain knowledge and technical expertise.",
+      "These experts specialize in various work categories related to enterprise application software and can be engaged on a part-time or full-time basis.",
+      "They work closely with the Enterprise Success Manager (ESM) and the Customer to complete specific tasks and deliverables, utilizing their industry knowledge and technical skills. EAS Talent typically tracks their time on an hourly basis for each client and contract."
+    ]
   },
-  "how-does-easworks-help-enterprise-application": {
-    "content": []
+  "how-can-i-become-an-eas-talent-with-easworks": {
+    "content": [
+      "To become an EAS Talent with EASWORKS, you can follow these steps:",
+      "1.\tFill out the application at EASWORKS.com/join to apply.",
+      "2.\tYour application will be reviewed to assess your technical expertise and communication skills for working with top clients.",
+      "3.\tBased on the available opportunities, candidates are selected for each enterprise application project, considering their professional skills, experience, domain expertise, and availability.",
+      "4.\tIf you are selected for a specific enterprise application role, you will receive a link to apply for that position.",
+      "5.\tYou will then undergo an interview process with the client for the specific project.",
+      "6.\tUpon selection, you will be required to sign a mutually agreed contract between you, EASWORKS, and the client, following the \"work for hire\" principle.",
+      "7.\tOnce onboarded, you will be integrated into the clients project and team, and you can start working on the assigned tasks."
+    ]
   },
-  "if-i-complete-profile-how-will-easworks-use": {
-    "content": []
+  "how-does-easworks-support-enterprise-application-talent-like-you": {
+    "content": [
+      " EASWORKS is a dedicated platform for Enterprise Application Tech Talent like you. Our primary goal is to connect you with highly sought-after Enterprise Application jobs from elite companies that match your skills and interests. ",
+      "Additionally, we provide a dedicated community for enterprise application software, where you can stay informed about the latest technology trends specific to your industry."
+    ]
+  },
+  "how-will-easworks-utilize-my-completed-profile": {
+    "content": [
+      "Your completed and approved profile is a prerequisite for being considered for upcoming enterprise application job opportunities. It is recommended to complete your profile in advance if you are actively seeking an EAS job opportunity.",
+      "After completing your profile, our Enterprise Technical team will schedule a profile approval meeting to evaluate your professional enterprise application skills, interests, and aspirations."
+    ]
+  },
+  "how-can-i-apply-for-a-job-opportunity-in-the-enterprise-application-space": {
+    "content": [
+      " To apply for job opportunities in the enterprise application space, follow these steps:",
+      "1.\tComplete your profile and ensure it is approved on our dedicated enterprise application platform.",
+      "2.\tSet your status as \"Actively looking for new jobs\" to indicate your availability and interest.",
+      "3.\tOnce your profile is active and marked as \"Actively looking,\" we will actively promote your profile to clients and share relevant EAS job opportunities with you.",
+      "4.\tYour profile serves as a universal job application, saving you time and effort in the application process.",
+      "5.\tWhen we find an opportunity that aligns with your EAS skills and preferences, we will contact you to gauge your interest.",
+      "6.\tAfter expressing interest, the vetting process begins, which includes answering position-specific questions and completing work skill assessments to provide a comprehensive understanding of your capabilities."
+    ]
+  },
+  "what-is-the-role-of-an-enterprise-success-manager-esm-with-eas-talents": {
+    "content": [
+      "The Enterprise Success Manager (ESM) is a key member of the EASWORKS team who serves as the primary point of contact for both customers and EAS Talent.",
+      "The ESM works closely with customers and talent to ensure that projects are successfully delivered and that the goals of both parties are achieved.",
+      "They play a crucial role in facilitating communication, resolving any issues or concerns, and ensuring overall satisfaction and success throughout the project engagement."
+    ]
+  },
+  "what-are-the-guidelines-for-contacting-easworks-clients-during-different-phases-of-engagement": {
+    "content": [
+      "Guidelines for different engagement phases:",
+      "•\tApplying for a new job role:",
+      "o\tAll communication with clients is handled by EASWORKS until youre selected for an interview.",
+      "•\tAfter an interview:",
+      "o\tAs an EASWORKS talent, you agree not to contact clients outside of the platform until you begin working together.",
+      "o\tAvoid messaging them on any social platforms.",
+      "•\tWhile working on an engagement:",
+      "o\tOnce a contract is in place, clients will decide how the work unfolds.",
+      "o\tYou will be directly in touch with the client using project collaboration tools like SLACK, aligning with the project cadence.",
+      "•\tAfter an engagement:",
+      "o\tClients sign a two-year non-solicitation agreement before working with you on the EASWORKS platform.",
+      "o\tIf they want to work with you again after the initial engagement, they will reach out via EASWORKS.",
+      "o\tYou can maintain a professional relationship with past EASWORKS clients, knowing they are committed to the two-year non-solicitation agreement."
+    ]
   }
 }
