@@ -214,7 +214,11 @@ export const PUBLIC_ROUTES: Routes = [
       }
     }
   },
-  
+  {
+    path: 'landing',
+    pathMatch: 'full',
+    loadComponent: () => import('./landing/landing.page').then(m => m.LandingPageComponent)
+  },
   {
     path: '',
     pathMatch: 'full',
