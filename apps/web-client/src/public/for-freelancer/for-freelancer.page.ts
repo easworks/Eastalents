@@ -32,7 +32,7 @@ export class ForFreelancerPageComponent {
 
     route.data.pipe(takeUntilDestroyed())
       .subscribe(d => {
-        const helpGroups = d['faq'] as HelpGroup[];
+        const helpGroups = d['help'] as HelpGroup[];
         this.faqs$.set(helpGroups.map(hg => ({
           name: hg.title,
           items: hg.items.map(i => ({

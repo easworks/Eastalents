@@ -15,7 +15,7 @@ export const PUBLIC_ROUTES: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('./for-employers/for-employers.page').then(m => m.ForEmployersPageComponent),
     resolve: {
-      faq: async () => {
+      help: () => {
         const hcs = inject(HelpCenterService);
         return hcs.getGroups('employer', true);
       }
@@ -26,7 +26,7 @@ export const PUBLIC_ROUTES: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('./for-freelancer/for-freelancer.page').then(m => m.ForFreelancerPageComponent),
     resolve: {
-      faq: async () => {
+      help: async () => {
         const hcs = inject(HelpCenterService);
         return hcs.getGroups('freelancer', true);
       }
