@@ -1,0 +1,6 @@
+<mat-progress-spinner *ngIf="featured.loading$(); else $featured" class="mx-auto"
+                      mode="indeterminate" diameter="32"></mat-progress-spinner>
+<ng-template #$featured>
+  <software-tiles-container *ngFor="let domain of featured.domains$()"
+                            [domain]="domain"></software-tiles-container>
+</ng-template>
