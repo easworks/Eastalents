@@ -12,7 +12,20 @@ export const PUBLIC_ROUTES: Routes = [
   {
     path: 'for-employers',
     pathMatch: 'full',
-    loadComponent: () => import('./for-employers/for-employers.page').then(m => m.ForEmployersPageComponent)
+    loadComponent: () => import('./for-employers/for-employers.page').then(m => m.ForEmployersPageComponent),
+    resolve: {
+      faq: async () => {
+        const all: HelpGroup[] = await fetch(`/assets/pages/help-center/content/employer/all.json`)
+          .then(r => r.json());
+
+        await Promise.all(all.map(async g => {
+          const d = await fetch(`/assets/pages/help-center/content/employer/${g.slug}.json`).then(r => r.json());
+          g.items.forEach(i => Object.assign(i, d[i.slug]));
+        }));
+
+        return all;
+      }
+    }
   },
   {
     path: 'for-freelancer',
