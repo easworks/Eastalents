@@ -30,7 +30,20 @@ export const PUBLIC_ROUTES: Routes = [
   {
     path: 'for-freelancer',
     pathMatch: 'full',
-    loadComponent: () => import('./for-freelancer/for-freelancer.page').then(m => m.ForFreelancerPageComponent)
+    loadComponent: () => import('./for-freelancer/for-freelancer.page').then(m => m.ForFreelancerPageComponent),
+    resolve: {
+      faq: async () => {
+        const all: HelpGroup[] = await fetch(`/assets/pages/help-center/content/freelancer/all.json`)
+          .then(r => r.json());
+
+        await Promise.all(all.map(async g => {
+          const d = await fetch(`/assets/pages/help-center/content/freelancer/${g.slug}.json`).then(r => r.json());
+          g.items.forEach(i => Object.assign(i, d[i.slug]));
+        }));
+
+        return all;
+      }
+    }
   },
   {
     path: 'easworks-talent',
