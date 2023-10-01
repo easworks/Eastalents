@@ -7,6 +7,7 @@ import { GENERIC_ROLE_DATA } from './generic-role/data';
 import { HelpGroup, HelpItem } from './help-center/data';
 import { SERVICE_TYPE_DATA } from './service-type/data';
 import { USE_CASE_DATA } from './use-cases/data';
+import { HelpCenterService } from '@easworks/app-shell/services/help';
 
 export const PUBLIC_ROUTES: Routes = [
   {
@@ -15,15 +16,8 @@ export const PUBLIC_ROUTES: Routes = [
     loadComponent: () => import('./for-employers/for-employers.page').then(m => m.ForEmployersPageComponent),
     resolve: {
       faq: async () => {
-        const all: HelpGroup[] = await fetch(`/assets/pages/help-center/content/employer/all.json`)
-          .then(r => r.json());
-
-        await Promise.all(all.map(async g => {
-          const d = await fetch(`/assets/pages/help-center/content/employer/${g.slug}.json`).then(r => r.json());
-          g.items.forEach(i => Object.assign(i, d[i.slug]));
-        }));
-
-        return all;
+        const hcs = inject(HelpCenterService);
+        return hcs.getGroups('employer', true);
       }
     }
   },
@@ -33,15 +27,8 @@ export const PUBLIC_ROUTES: Routes = [
     loadComponent: () => import('./for-freelancer/for-freelancer.page').then(m => m.ForFreelancerPageComponent),
     resolve: {
       faq: async () => {
-        const all: HelpGroup[] = await fetch(`/assets/pages/help-center/content/freelancer/all.json`)
-          .then(r => r.json());
-
-        await Promise.all(all.map(async g => {
-          const d = await fetch(`/assets/pages/help-center/content/freelancer/${g.slug}.json`).then(r => r.json());
-          g.items.forEach(i => Object.assign(i, d[i.slug]));
-        }));
-
-        return all;
+        const hcs = inject(HelpCenterService);
+        return hcs.getGroups('freelancer', true);
       }
     }
   },
