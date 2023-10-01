@@ -1,13 +1,12 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, Routes } from '@angular/router';
+import { HelpCenterService } from '@easworks/app-shell/services/help';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { COMPANY_TYPE_DATA } from './company-type/data';
 import { GENERIC_ROLE_DATA } from './generic-role/data';
-import { HelpGroup, HelpItem } from './help-center/data';
 import { SERVICE_TYPE_DATA } from './service-type/data';
 import { USE_CASE_DATA } from './use-cases/data';
-import { HelpCenterService } from '@easworks/app-shell/services/help';
 
 export const PUBLIC_ROUTES: Routes = [
   {
@@ -124,6 +123,7 @@ export const PUBLIC_ROUTES: Routes = [
     resolve: {
       group: async (route: ActivatedRouteSnapshot) => {
         const router = inject(Router);
+        const hsc = inject(HelpCenterService);
 
         const category = route.paramMap.get('category');
         if (!category)
@@ -132,8 +132,7 @@ export const PUBLIC_ROUTES: Routes = [
         if (!group)
           throw new Error('invalid operation');
 
-        const all: HelpGroup[] = await fetch(`/assets/pages/help-center/content/${category}/all.json`)
-          .then(r => r.json());
+        const all = await hsc.getGroups(category);
 
         const foundGroup = all.find(g => g.slug === group);
         if (!foundGroup) {
@@ -141,10 +140,7 @@ export const PUBLIC_ROUTES: Routes = [
           throw new Error('not found');
         }
 
-        const data: Record<string, HelpItem> = await fetch(`/assets/pages/help-center/content/${category}/${group}.json`)
-          .then(r => r.json());
-
-        foundGroup.items.forEach(i => Object.assign(i, data[i.slug]));
+        await hsc.hydrateGroup(category, foundGroup);
 
         return foundGroup;
       }
@@ -155,10 +151,8 @@ export const PUBLIC_ROUTES: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('./help-center/help-center.page').then(m => m.HelpCenterPageComponent),
     resolve: {
-      freelancer: () => fetch('/assets/pages/help-center/content/freelancer/all.json')
-        .then(r => r.json()),
-      employer: () => fetch('/assets/pages/help-center/content/employer/all.json')
-        .then(r => r.json())
+      freelancer: () => inject(HelpCenterService).getGroups('freelancer'),
+      employer: () => inject(HelpCenterService).getGroups('employer')
     }
   },
   {

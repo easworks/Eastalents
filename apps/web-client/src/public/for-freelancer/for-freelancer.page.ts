@@ -5,11 +5,11 @@ import { ActivatedRoute } from '@angular/router';
 import { DomainsApi } from '@easworks/app-shell/api/domains.api';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { HelpGroup } from '@easworks/app-shell/services/help';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { fromPromise } from '@easworks/app-shell/utilities/to-promise';
 import { FAQGroup, FAQListComponent } from '../common/faq-list.component';
 import { SoftwareTilesContainerComponent } from '../common/software-tiles-container.component';
-import { HelpGroup } from '../help-center/data';
 
 @Component({
   standalone: true,

@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, HostBinding, inject, signal } from '@angular/core';
-import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
-import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { HelpGroup } from './data';
-import { ActivatedRoute, RouterModule } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { HelpGroup } from '@easworks/app-shell/services/help';
+import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   standalone: true,

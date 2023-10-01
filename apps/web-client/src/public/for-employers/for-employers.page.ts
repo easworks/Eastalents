@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { HelpGroup } from '@easworks/app-shell/services/help';
 import { MenuItem } from '@easworks/app-shell/state/menu';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { FAQGroup, FAQListComponent } from '../common/faq-list.component';
-import { SERVICE_TYPE_DATA } from '../service-type/data';
 import { COMPANY_TYPE_DATA } from '../company-type/data';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { HelpGroup } from '../help-center/data';
+import { SERVICE_TYPE_DATA } from '../service-type/data';
 
 @Component({
   standalone: true,
