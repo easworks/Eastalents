@@ -162,12 +162,7 @@
 
 
     <div class="grid gap-8 mt-16">
-      <mat-progress-spinner *ngIf="featuredDomains.loading$(); else $featuredDomains" class="mx-auto"
-                            mode="indeterminate" diameter="32"></mat-progress-spinner>
-      <ng-template #$featuredDomains>
-        <software-tiles-container *ngFor="let domain of featuredDomains.domains$()"
-                                  [domain]="domain"></software-tiles-container>
-      </ng-template>
+      <featured-domains></featured-domains>
     </div>
   </div>
 </section>
