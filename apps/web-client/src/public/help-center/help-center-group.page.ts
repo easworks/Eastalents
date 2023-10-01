@@ -59,7 +59,7 @@ export class HelpCenterGroupPageComponent {
       },
       {
         text: g.title,
-        link: `/help-center/${g.slug}`
+        link: `/help-center/${c.slug}/${g.slug}`
       }
     ];
   });
