@@ -121,7 +121,7 @@ export const PUBLIC_ROUTES: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('./help-center/help-center-group.page').then(m => m.HelpCenterGroupPageComponent),
     resolve: {
-      group: async (route: ActivatedRouteSnapshot) => {
+      content: async (route: ActivatedRouteSnapshot) => {
         const router = inject(Router);
         const hsc = inject(HelpCenterService);
 
@@ -131,6 +131,14 @@ export const PUBLIC_ROUTES: Routes = [
         const group = route.paramMap.get('group');
         if (!group)
           throw new Error('invalid operation');
+
+        const categories = await hsc.getCategories();
+
+        const foundCategory = categories.find(c => c.slug === category);
+        if (!foundCategory) {
+          router.navigateByUrl(`/error-404`, { skipLocationChange: true });
+          throw new Error('not found');
+        }
 
         const all = await hsc.getGroups(category);
 
@@ -142,7 +150,10 @@ export const PUBLIC_ROUTES: Routes = [
 
         await hsc.hydrateGroup(category, foundGroup);
 
-        return foundGroup;
+        return {
+          category: foundCategory,
+          group: foundGroup
+        };
       }
     }
   },

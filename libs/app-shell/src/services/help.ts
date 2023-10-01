@@ -4,6 +4,11 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class HelpCenterService {
+  async getCategories() {
+    return fetch(`/assets/pages/help-center/content/categories.json`)
+      .then(r => r.json() as Promise<HelpCategory[]>);
+  }
+
   async getGroups(category: string, hydrate = false) {
     const all = await fetch(`/assets/pages/help-center/content/${category}/all.json`)
       .then(r => r.json() as Promise<HelpGroup[]>);
@@ -33,4 +38,10 @@ export interface HelpGroup {
   title: string;
   items: HelpItem[];
   link: string;
+}
+
+export interface HelpCategory {
+  title: string;
+  slug: string;
+  groups: HelpGroup[];
 }
