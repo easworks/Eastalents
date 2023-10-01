@@ -1,11 +1,15 @@
 .help-group-list {
-  @apply flex gap-8 flex-wrap justify-center;
+  @apply grid gap-8 grid-flow-row-dense;
+
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr))
 }
 
 .help-group {
-  @apply p-4 w-96 rounded-md 
+  @apply p-4 rounded-md 
   grid gap-8 content-start
   bg-primary-100/30 text-primary-500/80 transition-all;
+
+  grid-row: span var(--row-span);
 
   > .title {
     @apply block text-xl font-semibold;
