@@ -7,7 +7,7 @@
 
 <div class="flex mt-4 gap-16 flex-col lg:flex-row">
   <section *ngrxLet="group$() as group">
-    <div class="sticky top-20">
+    <div class="sticky top-20 lg:w-80">
       <h1 class="font-bold">{{group.title}}</h1>
       <p class="text-secondary-400 mt-2">On this page</p>
       <ul class="mt-2 on-this-page" *ngrxLet="item$() as selected">
