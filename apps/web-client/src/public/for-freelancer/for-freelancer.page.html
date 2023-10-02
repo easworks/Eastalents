@@ -250,16 +250,8 @@
   </div>
 </section>
 
-<section class="bg-white">
-  <div class="page py-12 grid gap-8">
-    <mat-progress-spinner *ngIf="featuredDomains.loading$(); else $featuredDomains" class="mx-auto"
-                          mode="indeterminate" diameter="32"></mat-progress-spinner>
-    <ng-template #$featuredDomains>
-      <software-tiles-container *ngFor="let domain of featuredDomains.domains$()"
-                                [domain]="domain"></software-tiles-container>
-    </ng-template>
-  </div>
-
+<section class="page py-12">
+  <featured-domains></featured-domains>
 </section>
 
 <section class="py-[60px] bg-white">
@@ -291,7 +283,7 @@
   <div class="page">
     <h2 class="text-4xl font-bold">FAQs</h2>
     <p class="text-gray-500 mt-2">Answers to frequently asked questions from EASWORKS freelancers</p>
-    <div *ngFor="let group of faqs">
+    <div *ngFor="let group of faqs$()">
       <h3 class="text-left mt-8 text-2xl font-bold">{{group.name}}</h3>
       <faq-list [faqs]="group.items" class="mt-4"></faq-list>
     </div>

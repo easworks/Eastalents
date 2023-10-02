@@ -1,14 +1,16 @@
 <div class="flex gap-2 items-center flex-wrap text-sm md:text-base">
-  <a routerLink="/help-center">Help Center</a>
-  <fa-icon [icon]="icons.faChevronRight" class="text-xs"></fa-icon>
-  <a routerLink="./">{{group$().title}}</a>
+  <ng-container *ngFor="let crumb of breadcrumb$(); let last = last;">
+    <a [routerLink]="crumb.link" [fragment]="crumb.fragment">{{crumb.text}}</a>
+    <fa-icon *ngIf="!last" [icon]="icons.faChevronRight" class="text-xs"></fa-icon>
+  </ng-container>
 </div>
 
 <div class="flex mt-4 gap-16 flex-col lg:flex-row">
   <section *ngrxLet="group$() as group">
-    <div class="sticky top-20">
+    <div class="sticky top-20 lg:w-80">
       <h1 class="font-bold">{{group.title}}</h1>
-      <ul class="mt-4 on-this-page" *ngrxLet="item$() as selected">
+      <p class="text-secondary-400 mt-2">On this page</p>
+      <ul class="mt-2 on-this-page" *ngrxLet="item$() as selected">
         <li *ngFor="let item of group.items">
           <a routerLink="./" [fragment]="item.slug"
              [class.active]="selected.slug === item.slug">

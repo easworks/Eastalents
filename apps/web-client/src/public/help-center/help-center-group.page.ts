@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, sign
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { HelpCategory, HelpGroup } from '@easworks/app-shell/services/help';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { HelpGroup } from './data';
 
 @Component({
   standalone: true,
@@ -27,12 +27,9 @@ export class HelpCenterGroupPageComponent {
     faChevronRight
   } as const;
 
-  protected readonly group$ = signal<HelpGroup>({
-    title: '',
-    slug: '',
-    link: '',
-    items: []
-  });
+  private readonly category$ = signal(null as unknown as HelpCategory);
+
+  protected readonly group$ = signal(null as unknown as HelpGroup);
 
   private readonly fragment$ = signal<string | null>(null);
   protected readonly item$ = computed(() => {
@@ -47,8 +44,8 @@ export class HelpCenterGroupPageComponent {
   });
 
   protected readonly breadcrumb$ = computed(() => {
+    const c = this.category$();
     const g = this.group$();
-    const i = this.item$();
 
     return [
       {
@@ -56,13 +53,13 @@ export class HelpCenterGroupPageComponent {
         link: '/help-center'
       },
       {
-        text: g.title,
-        link: `/help-center/${g.slug}`
+        text: c.title,
+        link: '/help-center',
+        fragment: c.slug
       },
       {
-        text: i.title,
-        link: `/help-center/${g.slug}`,
-        fragment: i.slug
+        text: g.title,
+        link: `/help-center/${c.slug}/${g.slug}`
       }
     ];
   });
@@ -72,7 +69,9 @@ export class HelpCenterGroupPageComponent {
 
     route.data.pipe(takeUntilDestroyed())
       .subscribe(d => {
-        this.group$.set(d['group']);
+        const content = d['content'];
+        this.category$.set(content.category);
+        this.group$.set(content.group);
       });
 
     route.fragment.pipe(takeUntilDestroyed())

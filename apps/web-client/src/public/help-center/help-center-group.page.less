@@ -1,5 +1,10 @@
 .on-this-page {
-  @apply grid lg:max-w-xs transition-all text-sm;
+  @apply grid transition-all text-sm;
+
+  @media (min-width: theme('screens.lg')) {
+    overflow: auto;
+    max-height: calc(100vh - 10rem);
+  }
 
   a {
     @apply block p-2 px-4 rounded;

@@ -1,10 +1,10 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, Routes } from '@angular/router';
+import { HelpCenterService } from '@easworks/app-shell/services/help';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { COMPANY_TYPE_DATA } from './company-type/data';
 import { GENERIC_ROLE_DATA } from './generic-role/data';
-import { HelpGroup, HelpItem } from './help-center/data';
 import { SERVICE_TYPE_DATA } from './service-type/data';
 import { USE_CASE_DATA } from './use-cases/data';
 
@@ -12,12 +12,24 @@ export const PUBLIC_ROUTES: Routes = [
   {
     path: 'for-employers',
     pathMatch: 'full',
-    loadComponent: () => import('./for-employers/for-employers.page').then(m => m.ForEmployersPageComponent)
+    loadComponent: () => import('./for-employers/for-employers.page').then(m => m.ForEmployersPageComponent),
+    resolve: {
+      help: () => {
+        const hcs = inject(HelpCenterService);
+        return hcs.getGroups('employer', true);
+      }
+    }
   },
   {
     path: 'for-freelancer',
     pathMatch: 'full',
-    loadComponent: () => import('./for-freelancer/for-freelancer.page').then(m => m.ForFreelancerPageComponent)
+    loadComponent: () => import('./for-freelancer/for-freelancer.page').then(m => m.ForFreelancerPageComponent),
+    resolve: {
+      help: async () => {
+        const hcs = inject(HelpCenterService);
+        return hcs.getGroups('freelancer', true);
+      }
+    }
   },
   {
     path: 'easworks-talent',
@@ -109,8 +121,9 @@ export const PUBLIC_ROUTES: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('./help-center/help-center-group.page').then(m => m.HelpCenterGroupPageComponent),
     resolve: {
-      group: async (route: ActivatedRouteSnapshot) => {
+      content: async (route: ActivatedRouteSnapshot) => {
         const router = inject(Router);
+        const hsc = inject(HelpCenterService);
 
         const category = route.paramMap.get('category');
         if (!category)
@@ -119,8 +132,15 @@ export const PUBLIC_ROUTES: Routes = [
         if (!group)
           throw new Error('invalid operation');
 
-        const all: HelpGroup[] = await fetch(`/assets/pages/help-center/content/${category}/all.json`)
-          .then(r => r.json());
+        const categories = await hsc.getCategories();
+
+        const foundCategory = categories.find(c => c.slug === category);
+        if (!foundCategory) {
+          router.navigateByUrl(`/error-404`, { skipLocationChange: true });
+          throw new Error('not found');
+        }
+
+        const all = await hsc.getGroups(category);
 
         const foundGroup = all.find(g => g.slug === group);
         if (!foundGroup) {
@@ -128,12 +148,12 @@ export const PUBLIC_ROUTES: Routes = [
           throw new Error('not found');
         }
 
-        const data: Record<string, HelpItem> = await fetch(`/assets/pages/help-center/content/${category}/${group}.json`)
-          .then(r => r.json());
+        await hsc.hydrateGroup(category, foundGroup);
 
-        foundGroup.items.forEach(i => Object.assign(i, data[i.slug]));
-
-        return foundGroup;
+        return {
+          category: foundCategory,
+          group: foundGroup
+        };
       }
     }
   },
@@ -142,10 +162,8 @@ export const PUBLIC_ROUTES: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('./help-center/help-center.page').then(m => m.HelpCenterPageComponent),
     resolve: {
-      freelancer: () => fetch('/assets/pages/help-center/content/freelancer/all.json')
-        .then(r => r.json()),
-      employer: () => fetch('/assets/pages/help-center/content/employer/all.json')
-        .then(r => r.json())
+      freelancer: () => inject(HelpCenterService).getGroups('freelancer'),
+      employer: () => inject(HelpCenterService).getGroups('employer')
     }
   },
   {

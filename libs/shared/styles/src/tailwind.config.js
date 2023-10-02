@@ -1,7 +1,7 @@
 const colors = require('tailwindcss/colors');
 const defaultTheme = require('tailwindcss/defaultTheme');
 
-const offsetScreen = 'calc(100vh - 4rem)';
+const offsetScreen = 'calc(100vh - 5rem)';
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

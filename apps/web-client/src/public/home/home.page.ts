@@ -2,16 +2,14 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
-import { DomainsApi } from '@easworks/app-shell/api/domains.api';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { sortString } from '@easworks/app-shell/utilities/sort';
-import { fromPromise } from '@easworks/app-shell/utilities/to-promise';
 import { DomainModule } from '@easworks/models';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { DomainSoftwareSelectorComponent } from '../common/domain-software-selector.component';
-import { SoftwareTilesContainerComponent } from '../common/software-tiles-container.component';
+import { FeaturedDomainsComponent } from '../common/featured-domains.component';
 import { UseCaseTilesContainerComponent } from '../common/use-case-tiles-container.component';
 
 @Component({
@@ -23,7 +21,7 @@ import { UseCaseTilesContainerComponent } from '../common/use-case-tiles-contain
   imports: [
     ImportsModule,
     LottiePlayerDirective,
-    SoftwareTilesContainerComponent,
+    FeaturedDomainsComponent,
     UseCaseTilesContainerComponent,
     DomainSoftwareSelectorComponent,
     MatSelectModule,
@@ -33,15 +31,10 @@ import { UseCaseTilesContainerComponent } from '../common/use-case-tiles-contain
 })
 export class HomePageComponent {
   private readonly domainState = inject(DomainState);
-  private readonly api = {
-    domains: inject(DomainsApi)
-  } as const;
 
   protected readonly icons = {
     faAngleRight
   } as const;
-
-  protected readonly featuredDomains = this.initFeaturedDomains();
 
   protected readonly customerLogos = [
     'client-1.png',
@@ -138,49 +131,6 @@ export class HomePageComponent {
 
 
   protected readonly roleList = this.initRoleList();
-
-  private initFeaturedDomains() {
-
-    const list$ = fromPromise(this.api.domains.featuredDomains(), []);
-
-
-    const featured$ = computed(() => {
-      const list = list$();
-      const domainMap = this.domainState.domains.map$();
-      const productMap = this.domainState.products.map$();
-
-      if (domainMap.size === 0 || productMap.size === 0)
-        return [];
-
-      const featured = list.map(l => {
-        const domain = domainMap.get(l.domain);
-        if (!domain)
-          throw new Error(`module '${l.domain}' not fond`);
-
-        const products = l.products
-          .map(p => {
-            const product = productMap.get(p);
-            if (!product)
-              throw new Error(`module '${l.domain}' has no product '${p}'`);
-            return product;
-          });
-
-        return {
-          ...domain,
-          products
-        } as const;
-      });
-
-      return featured;
-    });
-
-    const loading$ = computed(() => featured$().length === 0);
-
-    return {
-      domains$: featured$,
-      loading$
-    };
-  }
 
   private initRoleList() {
     const list$ = computed(() => this.domainState.domains.list$()

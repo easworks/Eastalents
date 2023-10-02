@@ -4,6 +4,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { GENERIC_ROLE_DATA, GenericRole } from './data';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FeaturedDomainsComponent } from '../common/featured-domains.component';
 @Component({
   standalone: true,
   selector: 'generic-role-page',
@@ -11,7 +12,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     LottiePlayerDirective,
-    ImportsModule
+    ImportsModule,
+    FeaturedDomainsComponent
   ]
 })
 export class GenericRolePageComponent {

@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, HostBinding, inject, signal } from '@angular/core';
-import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
-import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { HelpGroup } from './data';
-import { ActivatedRoute, RouterModule } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { HelpGroup } from '@easworks/app-shell/services/help';
+import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   standalone: true,
@@ -24,8 +24,8 @@ export class HelpCenterPageComponent {
     const route = inject(ActivatedRoute);
 
     route.data.pipe(takeUntilDestroyed()).subscribe(d => {
-      this.employer$.set(hydrateLinksForHelpCenter(d['employer'], 'employer'));
-      this.freelancer$.set(hydrateLinksForHelpCenter(d['freelancer'], 'freelancer'));
+      this.employer$.set(mapItemsForHelpCenter(d['employer'], 'employer'));
+      this.freelancer$.set(mapItemsForHelpCenter(d['freelancer'], 'freelancer'));
     });
   }
 
@@ -36,14 +36,18 @@ export class HelpCenterPageComponent {
     faCircleArrowRight
   } as const;
 
-  protected readonly employer$ = signal([] as HelpGroup[]);
-  protected readonly freelancer$ = signal([] as HelpGroup[]);
+  protected readonly employer$ = signal([] as MappedHelpGroup[]);
+  protected readonly freelancer$ = signal([] as MappedHelpGroup[]);
 }
 
-function hydrateLinksForHelpCenter(groups: HelpGroup[], category: string) {
-  groups.forEach(g => {
-    g.link = `/help-center/${category}/${g.slug}`;
-  });
+function mapItemsForHelpCenter(groups: HelpGroup[], category: string) {
+  const mapped = groups.map(g => ({
+    ...g,
+    link: `/help-center/${category}/${g.slug}`,
+    rowSpan: Math.ceil(g.items.length / 2)
+  }));
 
-  return groups;
+  return mapped;
 }
+
+type MappedHelpGroup = ReturnType<typeof mapItemsForHelpCenter>[number];
