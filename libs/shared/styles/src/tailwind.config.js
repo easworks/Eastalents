@@ -96,7 +96,7 @@ function generateShadows() {
     const key = `z${dp}`;
     const layers = [
       `0px 0px ${dp * 2}px -${dp / 2}px rgb(0 0 0 / ${opacityMax - (opacityRange * (dp / length))}%)`,
-      `${dp}px ${dp}px ${dp * 2}px -${dp}px rgb(0 0 0 / 30%)`
+      `0px ${dp}px ${dp * 2}px -0px rgb(0 0 0 / 30%)`
     ].join(', ');
 
     result[key] = layers;

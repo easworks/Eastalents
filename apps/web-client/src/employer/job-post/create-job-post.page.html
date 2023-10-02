@@ -23,8 +23,8 @@
 
         <ng-template #$stepNo>{{i + 1}}</ng-template>
       </div>
-      <div class="transition-all relative"
-           [class]="group.completed$()  ? 'font-medium text-base' : 'text-sm'">
+      <div class="transition-all relative text-sm"
+           [class]="group.completed$()  ? 'font-medium' : ''">
         <span class="w-fit">{{group.label}}</span>
       </div>
     </button>
@@ -710,18 +710,14 @@
 <!-- Button Container -->
 <div class="flex mt-4">
   <button *ngIf="stepper.prev.visible$()" mat-ripple
-          type="button" class="shaded-button mr-auto mat-elevation-z1 disabled:shadow-none 
-                enabled:hover:bg-secondary enabled:hover:text-secondary-text
-                enabled:focus:bg-secondary enabled:focus:text-secondary-text"
+          type="button" class="shaded-button secondary mr-auto"
           (click)="this.stepper.prev.click()">
     Previous
   </button>
 
   <ng-container *ngIf="stepper.next.visible$()">
     <button *ngrxLet="stepper.next.disabled$() as disabled"
-            type="button" class="shaded-button ml-auto mat-elevation-z1 disabled:shadow-none 
-                  enabled:hover:bg-secondary enabled:hover:text-secondary-text
-                  enabled:focus:bg-secondary enabled:focus:text-secondary-text"
+            type="button" class="shaded-button secondary ml-auto"
             mat-ripple
             [disabled]="disabled"
             (click)="this.stepper.next.click()">

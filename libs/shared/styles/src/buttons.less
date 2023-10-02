@@ -21,7 +21,7 @@
 
     @apply bg-white;
 
-    &:hover, &:focus {
+    &:where(:hover), &:where(:focus) {
       @apply bg-slate-100;
     }
 
@@ -30,6 +30,14 @@
 
       &:hover, &:focus {
         @apply bg-primary-600 text-white;
+      }
+    }
+
+    &:where(.secondary) {
+      @apply bg-secondary-950 text-white;
+
+      &:hover, &:focus {
+        @apply bg-secondary-900 text-white;
       }
     }
 
