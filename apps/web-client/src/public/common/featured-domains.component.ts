@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, computed, inject } from '@angular/core';
 import { SoftwareTilesContainerComponent } from './software-tiles-container.component';
 import { DomainsApi } from '@easworks/app-shell/api/domains.api';
 import { fromPromise } from '@easworks/app-shell/utilities/to-promise';
@@ -24,6 +24,8 @@ export class FeaturedDomainsComponent {
   private readonly domainState = inject(DomainState);
 
   protected readonly featured = this.initFeaturedDomains();
+
+  @HostBinding() private readonly class = 'grid gap-8';
 
   private initFeaturedDomains() {
 
