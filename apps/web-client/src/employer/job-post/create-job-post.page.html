@@ -16,7 +16,7 @@
       <mat-divider *ngIf="!last" class="absolute right-0 top-8 -z-10" style="width: calc(50% - 1.5rem);"></mat-divider>
       <div class="rounded-full grid place-content-center bg-divider text-white
                 w-8 h-8 leading-none"
-           [class.bg-primary]="enabled">
+           [class.bg-primary-500]="enabled">
         <div *ngIf="group.completed$(); else $stepNo">
           <fa-icon [icon]="icons.faCheck"></fa-icon>
         </div>
@@ -42,7 +42,7 @@
 <div class="relative mt-8" *ngrxLet="stepper.step$() as step">
 
   <div *ngIf="step === 'service-type'"
-       class="rounded bg-white mat-elevation-z1">
+       class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Service Type</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
@@ -72,7 +72,7 @@
   </div>
 
   <div *ngIf="step === 'primary-domain'"
-       class="rounded bg-white mat-elevation-z1">
+       class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Enterprise Application Domain</h2>
     <mat-divider></mat-divider>
 
@@ -118,13 +118,13 @@
   </div>
 
   <div *ngIf="step === 'services'"
-       class="rounded bg-white mat-elevation-z1">
+       class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Expertise in {{services.stepLabel$()}} Services</h2>
     <mat-divider></mat-divider>
     <ng-container *ngIf="services.$() as services$">
       <form class="p-4">
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all">Please specify the areas of expertise you require within <span class="text-primary">{{services.stepLabel$()}}</span></span>
+          <span class="font-medium lg:pt-1 transition-all">Please specify the areas of expertise you require within <span class="text-primary-500">{{services.stepLabel$()}}</span></span>
           <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
             <span class="flex gap-1 items-center">
               <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -161,13 +161,13 @@
   </div>
 
   <div *ngIf="step === 'modules'"
-       class="rounded bg-white mat-elevation-z1">
+       class="rounded border">
     <h2 class="p-4 text-xl font-semibold">{{modules.stepLabel$()}} Modules Expertise</h2>
     <mat-divider></mat-divider>
     <ng-container *ngIf="modules.$() as modules$">
       <form class="p-4">
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all">Indicate the <span class="text-primary">{{modules.stepLabel$()}}</span> modules you require proficiency in</span>
+          <span class="font-medium lg:pt-1 transition-all">Indicate the <span class="text-primary-500">{{modules.stepLabel$()}}</span> modules you require proficiency in</span>
           <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
             <span class="flex gap-1 items-center">
               <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -203,14 +203,14 @@
   </div>
 
   <div *ngIf="step === 'roles'"
-       class="rounded bg-white mat-elevation-z1">
+       class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Required {{roles.stepLabel$()}} Roles</h2>
     <mat-divider></mat-divider>
 
     <ng-container *ngIf="roles.$() as roles$">
       <form class="p-4">
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all">Please select the <span class="text-primary">{{roles.stepLabel$()}}</span> role(s) you are hiring for</span>
+          <span class="font-medium lg:pt-1 transition-all">Please select the <span class="text-primary-500">{{roles.stepLabel$()}}</span> role(s) you are hiring for</span>
           <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
             <span class="flex gap-1 items-center">
               <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -246,7 +246,7 @@
   </div>
 
   <div *ngIf="step === 'experience'"
-       class="rounded bg-white mat-elevation-z1">
+       class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Experience required in {{experience.stepLabel$()}}</h2>
     <mat-divider></mat-divider>
     <ng-container *ngIf="experience.$() as experience$">
@@ -254,7 +254,7 @@
         <ng-container *ngFor="let role of experience$.roles; let last = last">
           <div class="p-4" *ngrxLet="form.controls[role] as form">
             <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-              <span class="font-medium lg:pt-1 transition-all">Please indicate the requirements for the <span class="text-primary">{{role}}</span> role</span>
+              <span class="font-medium lg:pt-1 transition-all">Please indicate the requirements for the <span class="text-primary-500">{{role}}</span> role</span>
             </label>
 
             <div class="mt-4">
@@ -332,13 +332,13 @@
   </div>
 
   <div *ngIf="step === 'technology-stack'"
-       class="rounded bg-white mat-elevation-z1">
+       class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Describe required Technical Experience</h2>
     <mat-divider></mat-divider>
 
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Choose the technology stack expertise in <span class="text-primary">{{techExp.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Choose the technology stack expertise in <span class="text-primary-500">{{techExp.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span *ngrxLet="techExp.count$() as count"
                 class="selection-counter" [class.selected]="count > 0">
@@ -395,13 +395,13 @@
   </div>
 
   <div *ngIf="step === 'industry'"
-       class="rounded bg-white mat-elevation-z1">
+       class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Industry Experience</h2>
     <mat-divider></mat-divider>
 
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Specify required industry-specific experience in <span class="text-primary">{{industries.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Specify required industry-specific experience in <span class="text-primary-500">{{industries.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -462,7 +462,7 @@
   </div>
 
   <div *ngIf="step === 'description'"
-       class="rounded bg-white mat-elevation-z1">
+       class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Job Description</h2>
     <mat-divider></mat-divider>
 
@@ -476,7 +476,7 @@
       <form class="p-4" *ngrxLet="description.form as form"
             [formGroup]="form">
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all">Provide a comprehensive job description for <span class="text-primary">{{description.stepLabel$()}}</span></span>
+          <span class="font-medium lg:pt-1 transition-all">Provide a comprehensive job description for <span class="text-primary-500">{{description.stepLabel$()}}</span></span>
         </label>
 
         <div *ngrxLet="form.controls.description as control"
@@ -497,12 +497,12 @@
   </div>
 
   <div *ngIf="step === 'project-type'"
-       class="rounded bg-white mat-elevation-z1">
+       class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Project Type</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
-        <span class="font-medium lg:pt-1 transition-all"><span class="text-primary">{{projectType.stepLabel$()}}</span> Project Type</span>
+        <span class="font-medium lg:pt-1 transition-all"><span class="text-primary-500">{{projectType.stepLabel$()}}</span> Project Type</span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -527,12 +527,12 @@
   </div>
 
   <div *ngIf="step === 'required-experience'"
-       class="rounded bg-white mat-elevation-z1">
+       class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Required Experience</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Level of Experience needed for <span class="text-primary">{{requiredExp.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Level of Experience needed for <span class="text-primary-500">{{requiredExp.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -557,12 +557,12 @@
   </div>
 
   <div *ngIf="step === 'weekly-commitment'"
-       class="rounded bg-white mat-elevation-z1">
+       class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Weekly Commitment</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Estimated no. of hours per week needed from <span class="text-primary">{{weeklyCommitment.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Estimated no. of hours per week needed from <span class="text-primary-500">{{weeklyCommitment.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -587,12 +587,12 @@
   </div>
 
   <div *ngIf="step === 'engagement-period'"
-       class="rounded bg-white mat-elevation-z1">
+       class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Engagement Period</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Engagement Period for <span class="text-primary">{{engagementPeriod.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Engagement Period for <span class="text-primary-500">{{engagementPeriod.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -617,12 +617,12 @@
   </div>
 
   <div *ngIf="step === 'hourly-budget'"
-       class="rounded bg-white mat-elevation-z1">
+       class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Hourly Budget</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Estimated hourly budget for <span class="text-primary">{{hourlyBudget.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Estimated hourly budget for <span class="text-primary-500">{{hourlyBudget.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -647,12 +647,12 @@
   </div>
 
   <div *ngIf="step === 'project-kickoff-timeline'"
-       class="rounded bg-white mat-elevation-z1">
+       class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Project Kickoff</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Please specify the tentative starting timeline for <span class="text-primary">{{projectKickoffTimeline.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Please specify the tentative starting timeline for <span class="text-primary-500">{{projectKickoffTimeline.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -677,12 +677,12 @@
   </div>
 
   <div *ngIf="step === 'remote-work'"
-       class="rounded bg-white mat-elevation-z1">
+       class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Remote Work</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Remote Work for <span class="text-primary">{{remoteWork.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Remote Work for <span class="text-primary-500">{{remoteWork.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
