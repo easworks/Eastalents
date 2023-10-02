@@ -1,3 +1,5 @@
+# EASWORKS Data Processing Agreement
+
 This Data Processing Agreement (hereafter referred to as "DPA") is established between the User and EASWORKS, in conjunction with the Agreement, which includes the EASWORKS Terms of Service and Use Agreement. This DPA is an integral part of the Agreement and should be treated as such.
 
 This DPA is an addendum to the EASWORKS Agreement, existing between the Customer and EASWORKS, and pertains to the extent that EASWORKS processes or subprocesses Personal Data on the Customer's behalf in the provision of Services (as defined in the Agreement). This DPA does not apply where EASWORKS is the Controller or when EASWORKS is not acting as a Processor in relation to the Customer's data.

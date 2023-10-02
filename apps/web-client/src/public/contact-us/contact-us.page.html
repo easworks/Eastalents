@@ -1,48 +1,103 @@
-<section class="bg-white flex h-[400px] items-center relative">
-    <div class="absolute top-0 left-0 w-full h-full after:content-[''] after:absolute after:h-full after:w-full after:top-0 after:bg-black/80">
-        <img class="w-full h-full object-cover" src="/assets/img/banner-bg.jpg" alt="">
-    </div>
+<section class="flex h-96 items-center relative">
+  <div class="absolute inset-0 bg-black">
+    <img class="w-full h-full object-cover opacity-20 object-top" src="/assets/img/banner-bg.jpg" alt="">
+  </div>
 
-    <div class="page">
-        <div class="flex gap-4 justify-between 
+  <div class="page">
+    <div class="flex gap-4 justify-between 
           flex-wrap-reverse lg:flex-nowrap relative">
-            <div class="mt-4 lg:max-w-2xl self-center transition-all">
-                <p class="text-white">
-                    Contact us
-                </p>
-                <h3 class="mt-4 lg:text-5xl text-2xl text-white font-normal leading-6">
-                    We’d love to hear from you
-                </h3>
-            </div>
-        </div>
+      <div class="mt-4 lg:max-w-2xl self-center transition-all">
+        <p class="text-white">
+          Contact us
+        </p>
+        <h3 class="mt-4 lg:text-5xl text-2xl text-white transition-all">
+          We'd love to hear from you
+        </h3>
+      </div>
     </div>
+  </div>
 </section>
 
-<section class="py-[60px]">
-    <div class="page">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div class="relative">
-                <h3 class="mb-5 lg:text-3xl text-2xl text-black font-medium leading-[50px]">
-                    Exploring EAS Services or <span class="text-primary font-semibold block">Thinking of Joining as EAS Talent?</span>
-                </h3>
-                <p class="text-base font-semibold leading-8">From Enterprise Application service details, no-obligation trials, to joining our talent pool or seeking press details — we're here to address all your queries.</p>
-            </div>
-
-            <div class="relative">
-                <form action="#" class="space-y-8">
-                    <div class="demo-placeholder bg-primary h-[50px]"></div>
-
-                    <div class="demo-placeholder bg-primary h-[50px]"></div>
-
-                    <div class="demo-placeholder bg-primary h-[50px]"></div>
-
-                    <div class="demo-placeholder bg-primary h-[50px]"></div>
-
-                    <div class="demo-placeholder bg-primary h-[200px]"></div>
-                    
-                    <button type="submit" class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Send message</button>
-                </form>
-            </div>
-        </div>
+<section class="py-8">
+  <div class="page grid grid-cols-1 lg:grid-cols-2 gap-4 gap-y-8">
+    <div class="relative">
+      <h3 class="mb-5 lg:text-3xl text-2xl text-black font-medium">
+        <div>Exploring EAS Services or</div>
+        <div class="text-primary-500 font-semibold">Thinking of Joining as EAS Talent?</div>
+      </h3>
+      <p>From Enterprise Application service details, no-obligation trials, to joining our talent pool or seeking press details — we're here to address all your queries.</p>
     </div>
+
+    <div>
+      <form *ngrxLet="contact.form as form" [formGroup]="form"
+            (ngSubmit)="contact.submit()">
+        <div *ngrxLet="form.controls.name as control"
+             [formFieldControl]="control">
+          <label>Name *</label>
+          <input type="text" [formControl]="control">
+        </div>
+
+        <div *ngrxLet="form.controls.email as control"
+             [formFieldControl]="control">
+          <label>Email *</label>
+          <input type="text" [formControl]="control">
+        </div>
+
+        <div *ngrxLet="form.controls.phoneNumber as form"
+             [formFieldControl]="form">
+
+          <label>Phone Number</label>
+
+          <div class="flex gap-2 justify-start">
+            <div *ngrxLet="form.controls.code as control" class="relative">
+              <input type="tel" class="!w-24 !pr-4"
+                     [matAutocomplete]="codeOptions"
+                     [formControl]="control" placeholder="ISD Code">
+              <drop-down-indicator class="absolute top-2 right-0"></drop-down-indicator>
+
+              <mat-autocomplete #codeOptions panelWidth="auto" hideSingleSelectionIndicator>
+                <mat-option *ngFor="let country of contact.options.code$(); trackBy: trackBy.country"
+                            [value]="country.phonecode" (onSelectionChange)="$event.source.deselect();">
+                  <div class="flex gap-4 items-center">
+                    <span class="font-emoji">{{country.emoji}}</span>
+                    <span>{{country.phonecode}}</span>
+                  </div>
+                </mat-option>
+              </mat-autocomplete>
+            </div>
+
+            <input type="tel"
+                   *ngrxLet="form.controls.number as control"
+                   [formControl]="control" placeholder="Number">
+          </div>
+          <span class="error" *ngIf="form.controls.code.invalid">Invalid Code</span>
+          <span class="error" *ngIf="form.controls.number.hasError('pattern')">Invalid number</span>
+          <span class="error" *ngIf="form.controls.number.hasError('required')">Number required</span>
+        </div>
+
+        <div *ngrxLet="form.controls.subject as control"
+             [formFieldControl]="control">
+          <label>Subject *</label>
+          <input type="text" [formControl]="control">
+        </div>
+
+        <div *ngrxLet="form.controls.message as control"
+             [formFieldControl]="control">
+          <label>Message</label>
+          <div class="field field-interactive">
+            <textarea [formControl]="control" class="resize-none" rows="5"></textarea>
+          </div>
+        </div>
+
+        <button type="submit"
+                class="shaded-button primary"
+                mat-ripple
+                [disabled]="loading.any$()">
+          <replace-spinner [showSpinner]="contact.submitting$()">
+            Send message
+          </replace-spinner>
+        </button>
+      </form>
+    </div>
+  </div>
 </section>

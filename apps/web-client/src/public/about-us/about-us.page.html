@@ -1,135 +1,132 @@
-<section class="bg-white flex h-[400px] items-center relative">
-    <div class="absolute top-0 left-0 w-full h-full ">
-        <img class="w-full h-full" src="/assets/img/about-us-head-1x.jpg" alt="">
-    </div>
+<section class="relative flex h-96 items-center text-white">
+  <div class="absolute inset-0 -z-10">
+    <img class="w-full h-full" src="/assets/img/about-us-head-1x.jpg" alt="">
+  </div>
 
-    <div class="page">
-        <div class="flex gap-4 justify-between 
+  <div class="page">
+    <div class="flex gap-4 justify-between 
           flex-wrap-reverse lg:flex-nowrap relative">
-            <div class="mt-4 lg:max-w-2xl self-center transition-all">
-                <p class="text-white">
-                    ABOUT US
-                </p>
-                <h3 class="mt-4 lg:text-5xl text-2xl text-white font-normal leading-6">
-                    With EASWORKS outcomes, <br>
-                    you're set to excel
-                </h3>
-            </div>
-        </div>
+      <div class="lg:max-w-2xl self-center transition-all">
+        <p> ABOUT US </p>
+        <h3 class="mt-4 text-3xl lg:text-5xl font-medium">
+          With EASWORKS outcomes, <br>
+          you're set to excel
+        </h3>
+      </div>
     </div>
+  </div>
 </section>
 
-<section class="py-[60px] bg-white">
-    <div class="page">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div>
-                <h3 class="mb-10 lg:text-3xl text-2xl text-black font-medium leading-8">
-                    We combine people, platform, <br>
-                    and enterprise application software (EAS)
-                </h3>
-                <p class="text-base font-semibold leading-8">
-                    We’re a human-centered enterprise application talent platform and software engineering company.
-                </p>
-                <p class="leading-8">
-                    EASWORKS serves as a specialized <b> Enterprise Application Software (EAS)</b> platform that
-                    connects businesses, startups, and leading companies with a network of highly skilled pre-vetted
-                    enterprise software developers.
-                </p>
-                <p class="leading-8">Our primary goal is to meticulously match our clients with the most suitable
-                    technical talent, leveraging their deep industry domain knowledge and expertise in enterprise
-                    applications.</p>
-                <p class="leading-8">This ensures that our clients' projects have the highest probability of success and
-                    are delivered with exceptional quality.</p>
-                <p class="leading-8">Our leadership team brings decades of clarity, experience, and confidence to this
-                    bold journey.</p>
-            </div>
-            <div class="lg:-mt-36 relative">
-                <img class="lg:ml-auto" src="/assets/img/about-usass.png" alt="">
-            </div>
-        </div>
-        <div class="pt-[60px]">
-            <ul class="flex justify-around items-center">
-                <li class="text-center">
-                    <h1 class="font-bold my-4 text-5xl text-primary">97%</h1>
-                    <p class="font-medium uppercase">Client Retention Rate</p>
-                </li>
-                <li class="text-center">
-                    <img src="/assets/img/dotted-seperator-black.svg" alt="">
-                </li>
-                <li class="text-center">
-                    <h1 class="font-bold my-4 text-5xl text-primary">12</h1>
-                    <p class="font-medium uppercase">CLIENTS</p>
-                </li>
-                <li class="text-center">
-                    <img src="/assets/img/dotted-seperator-black.svg" alt="">
-                </li>
-                <li class="text-center">
-                    <h1 class="font-bold my-4 text-5xl text-primary">100+</h1>
-                    <p class="font-medium uppercase">Freelancer</p>
-                </li>
-            </ul>
-        </div>
+<section class="page py-8">
+  <div class="flex gap-4 flex-wrap">
+    <div class="leading-8 w-full lg:w-6/12 lg:flex-1">
+      <h3 class="text-2xl lg:text-3xl font-bold transition-all">
+        We combine people, platforms, <br>
+        and enterprise application software (EAS)
+      </h3>
+      <p class="mt-4 font-medium text-primary-500">
+        We're a human-centered enterprise application talent platform and software engineering company.
+      </p>
+      <p class="mt-4">
+        EASWORKS serves as a specialized <b> Enterprise Application Software (EAS)</b> platform that
+        connects businesses, startups, and leading companies with a network of highly skilled pre-vetted
+        enterprise software developers.
+      </p>
+      <p>Our primary goal is to meticulously match our clients with the most suitable
+        technical talent, leveraging their deep industry domain knowledge and expertise in enterprise
+        applications.</p>
+      <p>This ensures that our clients' projects have the highest probability of success and
+        are delivered with exceptional quality.</p>
+      <p>Our leadership team brings decades of clarity, experience, and confidence to this
+        bold journey.</p>
     </div>
+    <div class="lg:-mt-36 relative w-full lg:w-6/12 lg:flex-1">
+      <img class="rounded" src="/assets/img/about-usass.png" alt="">
+    </div>
+  </div>
+  <div class="pt-12">
+    <ul class="flex justify-around items-center">
+      <li class="text-center">
+        <h1 class="font-bold my-4 text-5xl text-primary-500">97%</h1>
+        <p class="font-medium uppercase">Client Retention Rate</p>
+      </li>
+      <li class="text-center">
+        <img src="/assets/img/dotted-seperator-black.svg" alt="">
+      </li>
+      <li class="text-center">
+        <h1 class="font-bold my-4 text-5xl text-primary-500">12</h1>
+        <p class="font-medium uppercase">CLIENTS</p>
+      </li>
+      <li class="text-center">
+        <img src="/assets/img/dotted-seperator-black.svg" alt="">
+      </li>
+      <li class="text-center">
+        <h1 class="font-bold my-4 text-5xl text-primary-500">100+</h1>
+        <p class="font-medium uppercase">Freelancers</p>
+      </li>
+    </ul>
+  </div>
 </section>
 
 
 
-<section class="bg-gradient-to-t from-blue-200 via-slate-50 to-blue-200 py-[60px]">
-    <div class="page">
-        <div *ngFor="let values of CoreValues" class="flex items-center gap-20 py-4">
-            <div class="lg:w-[400px]">
-                <div class="flex items-center gap-5">
-                    <img class="w-[50px]" src={{values.img}} alt="">
-                    <p class="text-[1.2em] font-medium">{{values.title}}</p>
-                </div>
-            </div>
-            <div>
-                <p>{{values.content}}</p>
-            </div>
+<section class="py-8 bg-gradient-to-t from-blue-200 via-slate-50 to-blue-200">
+  <div class="page">
+    <div *ngFor="let values of coreValues" class="flex items-center gap-20 py-4">
+      <div class="lg:w-[400px]">
+        <div class="flex items-center gap-5">
+          <img class="w-[50px]" src={{values.img}} alt="">
+          <p class="text-[1.2em] font-medium">{{values.title}}</p>
         </div>
+      </div>
+      <div>
+        <p>{{values.content}}</p>
+      </div>
     </div>
+  </div>
 </section>
 
-<section class="py-[60px] bg-white">
-    <div class="page">
-        <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all mb-10">
-            We empower enterprises in the following industries:
-        </h2>
-        <p class="my-10 text-center">By creating on-demand EASWORKS platform that leverage top enterprise application professionals with relevant deep industry experience  who are specialized in Enterprise Application Services in ERP, CRM, SCM, PLM, Analytics & BI, cloud, AI, and emerging technologies. </p>
+<section class="py-8 bg-white">
+  <div class="page">
+    <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all">
+      We empower enterprises in the following industries:
+    </h2>
+    <p class="mt-8 text-center">By creating on-demand EASWORKS platform that leverage top enterprise application professionals with relevant deep industry experience who are specialized in Enterprise Application Services in ERP, CRM, SCM, PLM, Analytics & BI, cloud, AI, and emerging technologies. </p>
 
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-5">
-            <div *ngFor="let industrie of industries" class="flex flex-col gap-y-4 p-4
+    <div class="mt-8 grid grid-cols-1 lg:grid-cols-4 gap-4">
+      <div *ngFor="let industrie of industries" class="flex flex-col gap-y-4 p-4  transition-all
             md:max-w-[14rem] lg:max-w-[16rem] xl:max-w-[20rem]
-            bg-white shadow-md rounded-md text-center transition-all">
-                <h4 class="text-lg font-semibold">{{industrie.title}}</h4>
-            </div>
-        </div>
-        
+            bg-white shadow-md rounded-md text-center">
+        <h4 class="text-lg font-semibold">{{industrie.title}}</h4>
+      </div>
     </div>
+
+  </div>
 </section>
 
-<section class="bg-white flex items-center relative py-[100px]">
-    <div class="absolute top-0 left-0 w-full h-full ">
-        <img class="w-full h-full object-cover" src="/assets/img/leadership-blade-1x.jpg" alt="">
-    </div>
+<section class="py-24 flex items-center relative">
+  <div class="absolute inset-0 w-full h-full -z-10">
+    <img class="w-full h-full object-cover" src="/assets/img/leadership-blade-1x.jpg" alt="">
+    <div class="absolute inset-0 bg-black/45"></div>
+  </div>
 
-    <div class="page">
-        <div class="flex gap-4 justify-between 
+  <div class="page">
+    <div class="flex gap-4 justify-between 
           flex-wrap-reverse lg:flex-nowrap relative">
-            <div class="mt-4 lg:max-w-2xl self-center transition-all">
-                <h3 class="mt-4 lg:text-5xl text-2xl text-white font-normal leading-6 mb-5">
-                    Our Mission
-                </h3>
-                <p class="text-white py-4">
-                    We are driven by dual objectives:
-                </p>
-                <p class="text-white py-4">
-                    To stand out as the premier platform for enterprise application services, bridging top-tier companies with outstanding enterprise application developers and other professionals while ensuring the highest quality of enterprise application services.
-                </p>
-                <p class="text-white py-4">
-                    To champion global economic equity by discovering and cultivating the world's most exceptional enterprise application talent.
-                </p>
-            </div>
-        </div>
+      <div class="mt-4 lg:max-w-2xl self-center transition-all">
+        <h3 class="mt-4 lg:text-5xl text-2xl text-white font-normal leading-6 mb-5">
+          Our Mission
+        </h3>
+        <p class="text-white py-4">
+          We are driven by dual objectives:
+        </p>
+        <p class="text-white py-4">
+          To stand out as the premier platform for enterprise application services, bridging top-tier companies with outstanding enterprise application developers and other professionals while ensuring the highest quality of enterprise application services.
+        </p>
+        <p class="text-white py-4">
+          To champion global economic equity by discovering and cultivating the world's most exceptional enterprise application talent.
+        </p>
+      </div>
     </div>
+  </div>
 </section>

@@ -1,21 +1,35 @@
 import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, Routes } from '@angular/router';
+import { HelpCenterService } from '@easworks/app-shell/services/help';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { USE_CASE_DATA } from './use-cases/data';
 import { COMPANY_TYPE_DATA } from './company-type/data';
+import { GENERIC_ROLE_DATA } from './generic-role/data';
 import { SERVICE_TYPE_DATA } from './service-type/data';
+import { USE_CASE_DATA } from './use-cases/data';
 
 export const PUBLIC_ROUTES: Routes = [
   {
     path: 'for-employers',
     pathMatch: 'full',
-    loadComponent: () => import('./for-employers/for-employers.page').then(m => m.ForEmployersPageComponent)
+    loadComponent: () => import('./for-employers/for-employers.page').then(m => m.ForEmployersPageComponent),
+    resolve: {
+      help: () => {
+        const hcs = inject(HelpCenterService);
+        return hcs.getGroups('employer', true);
+      }
+    }
   },
   {
     path: 'for-freelancer',
     pathMatch: 'full',
-    loadComponent: () => import('./for-freelancer/for-freelancer.page').then(m => m.ForFreelancerPageComponent)
+    loadComponent: () => import('./for-freelancer/for-freelancer.page').then(m => m.ForFreelancerPageComponent),
+    resolve: {
+      help: async () => {
+        const hcs = inject(HelpCenterService);
+        return hcs.getGroups('freelancer', true);
+      }
+    }
   },
   {
     path: 'easworks-talent',
@@ -30,7 +44,34 @@ export const PUBLIC_ROUTES: Routes = [
   {
     path: 'roles/:domain/:role',
     pathMatch: 'full',
-    loadComponent: () => import('./roles/roles.page').then(m => m.RolesPageComponent)
+    loadComponent: () => import('./roles/roles.page').then(m => m.RolesPageComponent),
+    resolve: {
+      domain: async (route: ActivatedRouteSnapshot) => {
+        const key = route.paramMap.get('domain');
+        if (!key)
+          throw new Error('invalid operation');
+
+        return await getDomain(inject(DomainState), key);
+      },
+      role: async (route: ActivatedRouteSnapshot) => {
+        const key = route.paramMap.get('domain');
+        if (!key)
+          throw new Error('invalid operation');
+
+        const domain = await getDomain(inject(DomainState), key);
+
+        const roleInput = route.paramMap.get('role');
+        if (!roleInput)
+          throw new Error('invalid operation');
+
+        const found = domain.modules.some(m => m.roles.includes(roleInput));
+
+        if (!found)
+          throw new Error(`role '${roleInput}' not found in domain '${domain.key}'`);
+
+        return roleInput;
+      }
+    }
   },
   {
     path: 'software/:domain/:software',
@@ -43,13 +84,7 @@ export const PUBLIC_ROUTES: Routes = [
         if (!key)
           throw new Error('invalid operation');
 
-        const map$ = inject(DomainState).domains.map$;
-        await toPromise(map$, m => m.size > 0);
-
-        const domain = map$().get(key);
-        if (!domain)
-          throw new Error('invalid operation');
-        return domain;
+        return await getDomain(inject(DomainState), key);
       },
       software: async (route: ActivatedRouteSnapshot) => {
         const key = route.paramMap.get('software');
@@ -82,14 +117,54 @@ export const PUBLIC_ROUTES: Routes = [
     }
   },
   {
-    path: 'help-center',
+    path: 'help-center/:category/:group',
     pathMatch: 'full',
-    loadComponent: () => import('./help-center/help-center.page').then(m => m.HelpCenterPageComponent)
+    loadComponent: () => import('./help-center/help-center-group.page').then(m => m.HelpCenterGroupPageComponent),
+    resolve: {
+      content: async (route: ActivatedRouteSnapshot) => {
+        const router = inject(Router);
+        const hsc = inject(HelpCenterService);
+
+        const category = route.paramMap.get('category');
+        if (!category)
+          throw new Error('invalid operation');
+        const group = route.paramMap.get('group');
+        if (!group)
+          throw new Error('invalid operation');
+
+        const categories = await hsc.getCategories();
+
+        const foundCategory = categories.find(c => c.slug === category);
+        if (!foundCategory) {
+          router.navigateByUrl(`/error-404`, { skipLocationChange: true });
+          throw new Error('not found');
+        }
+
+        const all = await hsc.getGroups(category);
+
+        const foundGroup = all.find(g => g.slug === group);
+        if (!foundGroup) {
+          router.navigateByUrl(`/error-404`, { skipLocationChange: true });
+          throw new Error('not found');
+        }
+
+        await hsc.hydrateGroup(category, foundGroup);
+
+        return {
+          category: foundCategory,
+          group: foundGroup
+        };
+      }
+    }
   },
   {
-    path: 'help-center-view',
+    path: 'help-center',
     pathMatch: 'full',
-    loadComponent: () => import('./help-center/help-center-view.page').then(m => m.HelpCenterViewPageComponent)
+    loadComponent: () => import('./help-center/help-center.page').then(m => m.HelpCenterPageComponent),
+    resolve: {
+      freelancer: () => inject(HelpCenterService).getGroups('freelancer'),
+      employer: () => inject(HelpCenterService).getGroups('employer')
+    }
   },
   {
     path: 'about-us',
@@ -146,7 +221,7 @@ export const PUBLIC_ROUTES: Routes = [
         .then(r => r.text())
     }
   },
-   {
+  {
     path: 'company-type/:CompanyType',
     pathMatch: 'full',
     loadComponent: () => import('./company-type/company-type.page').then(m => m.CompanyTypePageComponent),
@@ -176,9 +251,40 @@ export const PUBLIC_ROUTES: Routes = [
       }
     }
   },
+
+  {
+    path: 'generic-role/:GenericRole',
+    pathMatch: 'full',
+    loadComponent: () => import('./generic-role/generic-role.page').then(m => m.GenericRolePageComponent),
+    runGuardsAndResolvers: 'pathParamsChange',
+    resolve: {
+      GenericRole: (route: ActivatedRouteSnapshot) => {
+        const key = route.paramMap.get('GenericRole');
+        if (!key || !(key in GENERIC_ROLE_DATA))
+          throw new Error('invalid operation');
+
+        return GENERIC_ROLE_DATA[key];
+      }
+    }
+  },
+  {
+    path: 'landing',
+    pathMatch: 'full',
+    loadComponent: () => import('./landing/landing.page').then(m => m.LandingPageComponent)
+  },
   {
     path: '',
     pathMatch: 'full',
     loadComponent: () => import('./home/home.page').then(m => m.HomePageComponent)
   },
 ];
+
+async function getDomain(state: DomainState, key: string) {
+  const map$ = inject(DomainState).domains.map$;
+  await toPromise(map$, m => m.size > 0);
+
+  const domain = map$().get(key);
+  if (!domain)
+    throw new Error('invalid operation');
+  return domain;
+}

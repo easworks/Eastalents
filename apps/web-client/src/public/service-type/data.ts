@@ -1,11 +1,12 @@
 export interface ServiceType {
-    herosection: {
-      title: {
-        plain: string;
-        highlight: string;
-        plainLast: string;
-      };
-      content: string[];
+  name: string;
+  herosection: {
+    title: {
+      plain: string;
+      highlight: string;
+      plainLast: string;
+    };
+    content: string[];
   };
 
   ApplicationData: {
@@ -59,7 +60,7 @@ export interface ServiceType {
     };
     cta: string;
   };
-  
+
   BenefitBusiness: {
     title: {
       plain: string;
@@ -71,6 +72,7 @@ export interface ServiceType {
 
 export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
   'direct-hiring': {
+    name: 'Direct Hiring',
     herosection: {
       title: {
         plain: 'Your Go-To Dedicated Enterprise Applications Software(EAS) Platform for',
@@ -99,73 +101,73 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
 
     ProfessionalsBased: {
       title: {
-          plain: 'Hire',
+        plain: 'Hire',
         highlight: 'DIRECT STAFFING',
         plainLast: 'for Enterprise Application Software (EAS)'
-          
+
       },
       content: [
         'Choosing Direct Staffing with EASWORKS offers you specialized talent, stringent vetting, industry-specific expertise, cost-efficiency, and comprehensive support, simplifying your hiring process and enhancing enterprise application project success.'
       ],
       ProfessionalList: [
-          {
-              title: 'ERP Operations and Services (ERP Ops)'
-          },
-          {
-              title: 'Enterprise Content Management (ECM)'
-          },
-          {
-              title: 'Artificial Intelligence (AI)'
-          },
-          {
-              title: 'ERP Financial Management (ERP Finance)'
-          },
-          {
-              title: 'Human Capital Management (HCM)'
-          },
-          {
-              title: 'Enterprise Quality Management Software (EQMS)'
-          },
-          {
-              title: 'Customer Relationship Management  (CRM)'
-          },
-          {
-              title: 'Business Analytics and BI (BI)'
-          },
-          {
-              title: 'IT Service Management (ITSM)'
-          },
-          {
-              title: 'Product Lifecycle Management (PLM)'
-          },
-          {
-              title: 'Supply Chain Management (SCM)'
-          },
-          {
-              title: 'Manufacturing Execution System (MES)'
-          },
-          {
-              title: 'Project Portfolio Management (PPM)'
-          },
-          {
-              title: 'Infrastructure as a Service (IaaS)'
-          },
-          {
-              title: 'Internet of Things (IoT)'
-          },
-          {
-              title: 'ERP Operations and Services (ERP Ops)'
-          },
-          {
-              title: 'Enterprise Content Management (ECM)'
-          },
-          {
-              title: 'Artificial Intelligence (AI)'
-          },
+        {
+          title: 'ERP Operations and Services (ERP Ops)'
+        },
+        {
+          title: 'Enterprise Content Management (ECM)'
+        },
+        {
+          title: 'Artificial Intelligence (AI)'
+        },
+        {
+          title: 'ERP Financial Management (ERP Finance)'
+        },
+        {
+          title: 'Human Capital Management (HCM)'
+        },
+        {
+          title: 'Enterprise Quality Management Software (EQMS)'
+        },
+        {
+          title: 'Customer Relationship Management  (CRM)'
+        },
+        {
+          title: 'Business Analytics and BI (BI)'
+        },
+        {
+          title: 'IT Service Management (ITSM)'
+        },
+        {
+          title: 'Product Lifecycle Management (PLM)'
+        },
+        {
+          title: 'Supply Chain Management (SCM)'
+        },
+        {
+          title: 'Manufacturing Execution System (MES)'
+        },
+        {
+          title: 'Project Portfolio Management (PPM)'
+        },
+        {
+          title: 'Infrastructure as a Service (IaaS)'
+        },
+        {
+          title: 'Internet of Things (IoT)'
+        },
+        {
+          title: 'ERP Operations and Services (ERP Ops)'
+        },
+        {
+          title: 'Enterprise Content Management (ECM)'
+        },
+        {
+          title: 'Artificial Intelligence (AI)'
+        },
 
       ]
     },
-    
+
     ForSteps: {
       title: {
         plain: 'EASWORKS: 4-Step',
@@ -211,12 +213,12 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
           contentB: '',
         }
       ]
-      },
+    },
 
     BottomHireSection: {
       title: {
-          plain: 'Revolutionize Your Talent Search with EASWORKS: Streamlined Direct Hiring for Expertise That Fits Your Enterprise Needs!',
-          highlight: ''
+        plain: 'Revolutionize Your Talent Search with EASWORKS: Streamlined Direct Hiring for Expertise That Fits Your Enterprise Needs!',
+        highlight: ''
       },
       cta: 'Hire Now'
     },
@@ -232,6 +234,7 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
   },
 
   'fully-managed-team': {
+    name: 'Fully-Managed Team',
     herosection: {
       title: {
         plain: 'End-to-End Enterprise Application Lifecycle Management Services with EASWORKS',
@@ -256,79 +259,79 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
 
     ProfessionalsBased: {
       title: {
-          plain: 'Hire',
+        plain: 'Hire',
         highlight: 'Fully-Managed Team',
         plainLast: 'for Enterprise Application Software (EAS)'
-          
+
       },
       content: [
         'Fully-Managed Team service offering allows you to outsource  enterprise applications you are working in, whether it be CRM, Enterprise Resource Planning (ERP), PLM, Business Intelligence (BI), or any other specialized area.'
       ],
       ProfessionalList: [
-          {
-              title: 'Solution Architect'
-          },
-          {
-              title: 'Functional Consultant'
-          },
-          {
-              title: 'Solution Architect'
-          },
-          {
-              title: 'Functional Consultant'
-          },
-          {
-              title: 'ERP Project Manager'
-          },
-          {
-              title: 'CRP Project Manager'
-          },
-          {
-              title: 'PLM Project Manager'
-          },
-          {
-              title: 'HRMS Project Manager'
-          },
-          {
-              title: 'ERP Developer'
-          },
-          {
-              title: 'Developer'
-          },
-          {
-              title: 'PLM Developer'
-          },
-          {
-              title: 'Developer'
-          },
-          {
-              title: 'Business Analyst'
-          },
-          {
-              title: 'Developer'
-          },
-          {
-              title: 'PLM Developer'
-          },
-          {
-              title: 'Security Engineer'
-          },
-          {
-              title: 'Quality Assurance (QA) Engineer'
-          },
-          {
-              title: 'Quality Assurance (QA) Engineer'
+        {
+          title: 'Solution Architect'
+        },
+        {
+          title: 'Functional Consultant'
+        },
+        {
+          title: 'Solution Architect'
+        },
+        {
+          title: 'Functional Consultant'
+        },
+        {
+          title: 'ERP Project Manager'
+        },
+        {
+          title: 'CRP Project Manager'
+        },
+        {
+          title: 'PLM Project Manager'
+        },
+        {
+          title: 'HRMS Project Manager'
+        },
+        {
+          title: 'ERP Developer'
+        },
+        {
+          title: 'Developer'
+        },
+        {
+          title: 'PLM Developer'
+        },
+        {
+          title: 'Developer'
+        },
+        {
+          title: 'Business Analyst'
+        },
+        {
+          title: 'Developer'
+        },
+        {
+          title: 'PLM Developer'
+        },
+        {
+          title: 'Security Engineer'
+        },
+        {
+          title: 'Quality Assurance (QA) Engineer'
+        },
+        {
+          title: 'Quality Assurance (QA) Engineer'
         },
         {
           title: 'Test Engineer'
         },
         {
           title: 'Quality Assurance (QA) Engineer'
-      },
+        },
 
       ]
     },
-    
+
     ForSteps: {
       title: {
         plain: 'Process for',
@@ -414,12 +417,12 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
           contentB: 'Yes',
         }
       ]
-      },
+    },
 
     BottomHireSection: {
       title: {
-          plain: 'Transform Your Enterprise Goals into Reality—Hire EASWORKS Fully-Managed Team Today!',
-          highlight: ''
+        plain: 'Transform Your Enterprise Goals into Reality—Hire EASWORKS Fully-Managed Team Today!',
+        highlight: ''
       },
       cta: 'Hire Fully-Managed Team'
     },
@@ -437,6 +440,7 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
 
 
   'individual-talent': {
+    name: 'Individual Talent',
     herosection: {
       title: {
         plain: 'Hire Top',
@@ -461,79 +465,79 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
 
     ProfessionalsBased: {
       title: {
-          plain: 'Hire',
+        plain: 'Hire',
         highlight: 'Top Freelancers',
         plainLast: 'by role and skills'
-          
+
       },
       content: [
         'Discover a diverse range of Freelancer  on the EASWORKS network. Find the perfect fit for short or long-term engagements.'
       ],
       ProfessionalList: [
-          {
-              title: 'Enterprise Application Developer'
-          },
-          {
-              title: 'Business Analyst'
-          },
-          {
-              title: 'Database Administrator (DBA)'
-          },
-          {
-              title: 'Integration Specialist'
-          },
-          {
-              title: 'Solution Architect'
-          },
-          {
-              title: 'Mobile App Developer'
-          },
-          {
-              title: 'Software Engineer'
-          },
-          {
-              title: 'System Administrator'
-          },
-          {
-              title: 'Full Stack Developer'
-          },
-          {
-              title: 'Cloud Engineer'
-          },
-          {
-              title: 'Front-end Developer'
-          },
-          {
-              title: 'Security Engineer'
-          },
-          {
-              title: 'Data Analyst'
-          },
-          {
-              title: 'DevOps Engineer'
-          },
-          {
-              title: 'Back-end Developer'
-          },
-          {
-              title: 'IT Infrastructure Architect'
-          },
-          {
-              title: 'Quality Assurance (QA) Engineer'
-          },
-          {
-              title: 'Project Manager'
+        {
+          title: 'Enterprise Application Developer'
+        },
+        {
+          title: 'Business Analyst'
+        },
+        {
+          title: 'Database Administrator (DBA)'
+        },
+        {
+          title: 'Integration Specialist'
+        },
+        {
+          title: 'Solution Architect'
+        },
+        {
+          title: 'Mobile App Developer'
+        },
+        {
+          title: 'Software Engineer'
+        },
+        {
+          title: 'System Administrator'
+        },
+        {
+          title: 'Full Stack Developer'
+        },
+        {
+          title: 'Cloud Engineer'
+        },
+        {
+          title: 'Front-end Developer'
+        },
+        {
+          title: 'Security Engineer'
+        },
+        {
+          title: 'Data Analyst'
+        },
+        {
+          title: 'DevOps Engineer'
+        },
+        {
+          title: 'Back-end Developer'
+        },
+        {
+          title: 'IT Infrastructure Architect'
+        },
+        {
+          title: 'Quality Assurance (QA) Engineer'
+        },
+        {
+          title: 'Project Manager'
         },
         {
           title: 'Test Automation Engineer'
         },
         {
           title: 'UI/UX Designer'
-      },
+        },
 
       ]
     },
-    
+
     ForSteps: {
       title: {
         plain: 'Process for',
@@ -567,19 +571,19 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
     TeamsOnDemand: {
       title: '',
       content: '',
-      TableData: [  
+      TableData: [
         {
           TableTitle: '',
           contentA: '',
           contentB: '',
         },
       ]
-      },
+    },
 
     BottomHireSection: {
       title: {
-          plain: 'Hire Top Enterprise Application Freelancers with flexible engagement model. Get Started Today!',
-          highlight: ''
+        plain: 'Hire Top Enterprise Application Freelancers with flexible engagement model. Get Started Today!',
+        highlight: ''
       },
       cta: 'Start Hiring'
     },
@@ -597,6 +601,7 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
 
 
   'teams-on-demand': {
+    name: 'Teams-on-Demand',
     herosection: {
       title: {
         plain: 'Accelerate Enterprise Application Projects with EASWORKS',
@@ -621,79 +626,79 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
 
     ProfessionalsBased: {
       title: {
-          plain: 'Hire',
+        plain: 'Hire',
         highlight: 'Teams On-Demand',
         plainLast: 'by Enterprise Application Domain'
-          
+
       },
       content: [
         'Teams On-Demand service offering allows you to hire teams that are tailored to the specific domain of enterprise applications you are working in, whether it be CRM, Enterprise Resource Planning (ERP), PLM, Business Intelligence (BI), or any other specialized area.'
       ],
       ProfessionalList: [
-          {
-              title: 'ERP'
-          },
-          {
-              title: 'CRP'
-          },
-          {
-              title: 'PLM'
-          },
-          {
-              title: 'HRMS'
-          },
-          {
-              title: 'Solution Architect'
-          },
-          {
-              title: 'Functional Consultant'
-          },
-          {
-              title: 'Solution Architect'
-          },
-          {
-              title: 'Functional Consultant'
-          },
-          {
-              title: 'ERP Developer'
-          },
-          {
-              title: 'Developer'
-          },
-          {
-              title: 'PLM Developer'
-          },
-          {
-              title: 'Developer'
-          },
-          {
-              title: 'Business Analyst'
-          },
-          {
-              title: 'Developer'
-          },
-          {
-              title: 'PLM Developer'
-          },
-          {
-              title: 'Security Engineer'
-          },
-          {
-              title: 'Quality Assurance (QA) Engineer'
-          },
-          {
-              title: 'Quality Assurance (QA) Engineer'
+        {
+          title: 'ERP'
+        },
+        {
+          title: 'CRP'
+        },
+        {
+          title: 'PLM'
+        },
+        {
+          title: 'HRMS'
+        },
+        {
+          title: 'Solution Architect'
+        },
+        {
+          title: 'Functional Consultant'
+        },
+        {
+          title: 'Solution Architect'
+        },
+        {
+          title: 'Functional Consultant'
+        },
+        {
+          title: 'ERP Developer'
+        },
+        {
+          title: 'Developer'
+        },
+        {
+          title: 'PLM Developer'
+        },
+        {
+          title: 'Developer'
+        },
+        {
+          title: 'Business Analyst'
+        },
+        {
+          title: 'Developer'
+        },
+        {
+          title: 'PLM Developer'
+        },
+        {
+          title: 'Security Engineer'
+        },
+        {
+          title: 'Quality Assurance (QA) Engineer'
+        },
+        {
+          title: 'Quality Assurance (QA) Engineer'
         },
         {
           title: 'Test Engineer'
         },
         {
           title: 'Quality Assurance (QA) Engineer'
-      },
+        },
 
       ]
     },
-    
+
     ForSteps: {
       title: {
         plain: 'Process for hiring',
@@ -727,7 +732,7 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
     TeamsOnDemand: {
       title: 'Teams On-Demand vs. Fully Managed',
       content: 'Is Teams On-Demand right for you and your next Enterprise Application project?',
-      TableData: [  
+      TableData: [
         {
           TableTitle: 'Global Talent Pool',
           contentA: 'Yes',
@@ -774,12 +779,12 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
           contentB: 'Yes',
         },
       ]
-      },
+    },
 
     BottomHireSection: {
       title: {
-          plain: 'Unlock Rapid Success: Hire Specialized',
-          highlight: 'Teams On-Demand with EASWORKS!'
+        plain: 'Unlock Rapid Success: Hire Specialized',
+        highlight: 'Teams On-Demand with EASWORKS!'
       },
       cta: 'Hire your Teams On-Demand'
     },
@@ -795,4 +800,4 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
 
   }
 
-}
+};

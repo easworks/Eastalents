@@ -1,22 +1,37 @@
+@layer components {
+  .mat-expansion-panel {
+    --mat-expansion-header-collapsed-state-height: auto;
+    --mat-expansion-header-expanded-state-height: auto;
+
+    &-header {
+      @apply !py-2;
+    }
+  }
+
+  .mat-divider {
+    --mat-divider-color: theme('colors.divider');
+  }
+}
+
 .mat-mdc-progress-spinner {
-  --mdc-circular-progress-active-indicator-color: theme('colors.primary');
+  --mdc-circular-progress-active-indicator-color: theme('colors.primary.500');
 }
 
 .mat-mdc-checkbox {
   --mdc-checkbox-disabled-selected-icon-color: theme('colors.divider');
   --mdc-checkbox-disabled-unselected-icon-color: theme('colors.divider');
   --mdc-checkbox-selected-checkmark-color: theme('colors.white');
-  --mdc-checkbox-selected-focus-icon-color: theme('colors.secondary');
-  --mdc-checkbox-selected-hover-icon-color: theme('colors.secondary');
-  --mdc-checkbox-selected-icon-color: theme('colors.secondary');
-  --mdc-checkbox-selected-pressed-icon-color: theme('colors.secondary');
+  --mdc-checkbox-selected-focus-icon-color: theme('colors.secondary.950');
+  --mdc-checkbox-selected-hover-icon-color: theme('colors.secondary.950');
+  --mdc-checkbox-selected-icon-color: theme('colors.secondary.950');
+  --mdc-checkbox-selected-pressed-icon-color: theme('colors.secondary.950');
   --mdc-checkbox-unselected-focus-icon-color: #212121;
   --mdc-checkbox-unselected-hover-icon-color: #212121;
   --mdc-checkbox-unselected-icon-color: theme('colors.black');
   --mdc-checkbox-unselected-pressed-icon-color: theme('colors.black');
-  --mdc-checkbox-selected-focus-state-layer-color: theme('colors.secondary');
-  --mdc-checkbox-selected-hover-state-layer-color: theme('colors.secondary');
-  --mdc-checkbox-selected-pressed-state-layer-color: theme('colors.secondary');
+  --mdc-checkbox-selected-focus-state-layer-color: theme('colors.secondary.950');
+  --mdc-checkbox-selected-hover-state-layer-color: theme('colors.secondary.950');
+  --mdc-checkbox-selected-pressed-state-layer-color: theme('colors.secondary.950');
   --mdc-checkbox-unselected-focus-state-layer-color: black;
   --mdc-checkbox-unselected-hover-state-layer-color: black;
   --mdc-checkbox-unselected-pressed-state-layer-color: black;
@@ -24,21 +39,21 @@
   &.primary {
     --mdc-checkbox-disabled-selected-icon-color: theme('colors.divider');
     --mdc-checkbox-disabled-unselected-icon-color: theme('colors.divider');
-    --mdc-checkbox-selected-checkmark-color: theme('colors.primary-text');
-    --mdc-checkbox-selected-focus-icon-color: theme('colors.primary');
-    --mdc-checkbox-selected-hover-icon-color: theme('colors.primary');
-    --mdc-checkbox-selected-icon-color: theme('colors.primary');
-    --mdc-checkbox-selected-pressed-icon-color: theme('colors.secondary');
-    --mdc-checkbox-unselected-focus-icon-color: theme('colors.primary');
-    --mdc-checkbox-unselected-hover-icon-color: theme('colors.primary');;
+    --mdc-checkbox-selected-checkmark-color: theme('colors.white');
+    --mdc-checkbox-selected-focus-icon-color: theme('colors.primary.500');
+    --mdc-checkbox-selected-hover-icon-color: theme('colors.primary.500');
+    --mdc-checkbox-selected-icon-color: theme('colors.primary.500');
+    --mdc-checkbox-selected-pressed-icon-color: theme('colors.secondary.950');
+    --mdc-checkbox-unselected-focus-icon-color: theme('colors.primary.500');
+    --mdc-checkbox-unselected-hover-icon-color: theme('colors.primary.500');
     --mdc-checkbox-unselected-icon-color: theme('colors.black');
     --mdc-checkbox-unselected-pressed-icon-color: theme('colors.black');
-    --mdc-checkbox-selected-focus-state-layer-color: theme('colors.primary');
-    --mdc-checkbox-selected-hover-state-layer-color: theme('colors.primary');
-    --mdc-checkbox-selected-pressed-state-layer-color: theme('colors.primary');
-    --mdc-checkbox-unselected-focus-state-layer-color: theme('colors.primary');
-    --mdc-checkbox-unselected-hover-state-layer-color: theme('colors.primary');
-    --mdc-checkbox-unselected-pressed-state-layer-color: theme('colors.primary');
+    --mdc-checkbox-selected-focus-state-layer-color: theme('colors.primary.500');
+    --mdc-checkbox-selected-hover-state-layer-color: theme('colors.primary.500');
+    --mdc-checkbox-selected-pressed-state-layer-color: theme('colors.primary.500');
+    --mdc-checkbox-unselected-focus-state-layer-color: theme('colors.primary.500');
+    --mdc-checkbox-unselected-hover-state-layer-color: theme('colors.primary.500');
+    --mdc-checkbox-unselected-pressed-state-layer-color: theme('colors.primary.500');
   }
 }
 
@@ -46,34 +61,34 @@
   --mdc-radio-disabled-selected-icon-color: theme('colors.divider');
   --mdc-radio-disabled-unselected-icon-color: theme('colors.divider');
   --mat-radio-disabled-label-color: theme('colors.divider');
-  --mdc-radio-unselected-hover-icon-color: theme('colors.secondary');
-  --mdc-radio-unselected-icon-color: theme('colors.secondary');
-  --mdc-radio-unselected-pressed-icon-color: theme('colors.secondary');
-  --mdc-radio-selected-focus-icon-color: theme('colors.secondary');
-  --mdc-radio-selected-hover-icon-color: theme('colors.secondary');
-  --mdc-radio-selected-icon-color: theme('colors.secondary');
-  --mdc-radio-selected-pressed-icon-color: theme('colors.secondary');
-  --mat-radio-ripple-color: theme('colors.secondary');
-  --mat-radio-checked-ripple-color: theme('colors.secondary');
+  --mdc-radio-unselected-hover-icon-color: theme('colors.secondary.950');
+  --mdc-radio-unselected-icon-color: theme('colors.secondary.950');
+  --mdc-radio-unselected-pressed-icon-color: theme('colors.secondary.950');
+  --mdc-radio-selected-focus-icon-color: theme('colors.secondary.950');
+  --mdc-radio-selected-hover-icon-color: theme('colors.secondary.950');
+  --mdc-radio-selected-icon-color: theme('colors.secondary.950');
+  --mdc-radio-selected-pressed-icon-color: theme('colors.secondary.950');
+  --mat-radio-ripple-color: theme('colors.secondary.950');
+  --mat-radio-checked-ripple-color: theme('colors.secondary.950');
 
   &.primary {
     --mdc-radio-disabled-selected-icon-color: theme('colors.divider');
     --mdc-radio-disabled-unselected-icon-color: theme('colors.divider');
     --mat-radio-disabled-label-color: theme('colors.divider');
-    --mdc-radio-unselected-hover-icon-color: theme('colors.primary');
-    --mdc-radio-unselected-icon-color: theme('colors.secondary');
-    --mdc-radio-unselected-pressed-icon-color: theme('colors.primary');
-    --mdc-radio-selected-focus-icon-color: theme('colors.primary');
-    --mdc-radio-selected-hover-icon-color: theme('colors.primary');
-    --mdc-radio-selected-icon-color: theme('colors.primary');
-    --mdc-radio-selected-pressed-icon-color: theme('colors.primary');
-    --mat-radio-ripple-color: theme('colors.primary');
-    --mat-radio-checked-ripple-color: theme('colors.primary');
+    --mdc-radio-unselected-hover-icon-color: theme('colors.primary.500');
+    --mdc-radio-unselected-icon-color: theme('colors.secondary.500');
+    --mdc-radio-unselected-pressed-icon-color: theme('colors.primary.500');
+    --mdc-radio-selected-focus-icon-color: theme('colors.primary.500');
+    --mdc-radio-selected-hover-icon-color: theme('colors.primary.500');
+    --mdc-radio-selected-icon-color: theme('colors.primary.500');
+    --mdc-radio-selected-pressed-icon-color: theme('colors.primary.500');
+    --mat-radio-ripple-color: theme('colors.primary.500');
+    --mat-radio-checked-ripple-color: theme('colors.primary.500');
   }
 }
 
 .mat-mdc-progress-bar {
-  --mdc-linear-progress-active-indicator-color: theme('colors.primary-light');
+  --mdc-linear-progress-active-indicator-color: theme('colors.primary.400');
 }
 
 .mat-mdc-menu-content {
@@ -129,7 +144,7 @@
 
   &--selected, &--activated {
     .mdc-list-item__primary-text {
-      @apply text-primary;
+      @apply text-primary-600;
     }
   }
 }
@@ -140,10 +155,10 @@
   }
   
   &.mat-pseudo-checkbox-checked {
-    @apply bg-secondary;
+    @apply bg-secondary-600;
 
     &.primary {
-      @apply bg-primary;
+      @apply bg-primary-600;
     }
   }
 }

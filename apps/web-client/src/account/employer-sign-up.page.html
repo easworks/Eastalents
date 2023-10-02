@@ -1,109 +1,121 @@
-<div class="sign-up-form mat-elevation-z1 max-w-xl">
-  <h2 class="text-xl font-bold text-center">Try EASWORKS For Free</h2>
-  <p class="text-center mt-2 text-sm">We have thousands of qualified candidates waiting for you!</p>
+<div class="sign-up-form">
+  <div class="role-switch">
+    <a mat-ripple routerLink="/account/sign-up/freelancer"
+       routerLinkActive="active">
+      Freelancer
+    </a>
+    <a mat-ripple routerLink="/account/sign-up/employer"
+       routerLinkActive="active">
+      Employer
+    </a>
+  </div>
+  <div class="content">
+    <h2 class="mt-2 text-xl font-bold text-center">Try EASWORKS For Free</h2>
+    <p class="text-center mt-2 text-sm">We have thousands of qualified candidates waiting for you!</p>
 
-  <ng-container *ngrxLet="prefillSocial$() as prefill">
+    <ng-container *ngrxLet="prefillSocial$() as prefill">
 
-    <div class="social" *ngIf="prefill !== true">
-      <h2 class="text-center col-span-2">Sign Up With</h2>
-      <button mat-ripple (click)="auth.signup.social('github','employer')">
-        <img src="/assets/github/github-mark.svg">
-        <span>GitHub</span>
-      </button>
-      <button mat-ripple (click)="auth.signup.social('linkedin','employer')">
-        <img src="/assets/linkedin/LI-In-Bug.png">
-        <span>LinkedIn</span>
-      </button>
-      <button mat-ripple (click)="auth.signup.social('google','employer')">
-        <img src="/assets/google/colored.svg">
-        <span>Google</span>
-      </button>
-    </div>
-
-    <div *ngIf="prefill === true"
-         class="mt-4 rounded p-2 bg-emerald-200/10 text-sm text-center text-emerald-500">
-      We have pre-filled your social login details. You can edit them if needed, except for the email.
-      We shall sign you up once you have given your consent.
-    </div>
-
-    <div *ngIf="prefill === false"
-         class="mt-8 rounded p-2 bg-red-300/10 text-sm text-center text-red-500">
-      The email you provided (<b>{{prefilledEmail}}</b>) is a personal email. Personal emails cannot be used to sign up as an employer.
-      Please use your organization's email, for example: 'my-name@my-organization.com'
-    </div>
-
-  </ng-container>
-
-  <form [formGroup]="form" class="mt-8"
-        (ngSubmit)="submit()" resubmitIfPending>
-    <div class="grid grid-flow-col gap-4">
-      <div *ngrxLet="form.controls.firstName as control"
-           [formFieldControl]="control">
-        <label>First Name</label>
-        <input type="text" [formControl]="control" placeholder="First Name">
-        <span class="error" *ngIf="control.hasError('required')">Required</span>
+      <div class="social" *ngIf="prefill !== true">
+        <h2 class="text-center col-span-2">Sign Up With</h2>
+        <button mat-ripple (click)="auth.signup.social('github','employer')">
+          <img src="/assets/github/github-mark.svg">
+          <span>GitHub</span>
+        </button>
+        <button mat-ripple (click)="auth.signup.social('linkedin','employer')">
+          <img src="/assets/linkedin/LI-In-Bug.png">
+          <span>LinkedIn</span>
+        </button>
+        <button mat-ripple (click)="auth.signup.social('google','employer')">
+          <img src="/assets/google/colored.svg">
+          <span>Google</span>
+        </button>
       </div>
 
-      <div *ngrxLet="form.controls.lastName as control"
-           [formFieldControl]="control">
-        <label>Last Name</label>
-        <input type="text" [formControl]="control" placeholder="Last Name">
-        <span class="error" *ngIf="control.hasError('required')">Required</span>
+      <div *ngIf="prefill === true"
+           class="mt-4 rounded p-2 bg-emerald-200/10 text-sm text-center text-emerald-500">
+        We have pre-filled your social login details. You can edit them if needed, except for the email.
+        We shall sign you up once you have given your consent.
       </div>
-    </div>
 
-    <div *ngrxLet="form.controls.email as control"
-         [formFieldControl]="control">
-      <label>Work Email</label>
-      <input type="email" [formControl]="control" placeholder="Email Address" [readOnly]="prefillSocial$() === true">
-      <span class="error" *ngIf="control.hasError('required')">Required</span>
-      <span class="error" *ngIf="control.hasError('pattern')">Invalid email</span>
-      <span class="error" *ngIf="control.hasError('blacklisted')">Please enter a business email</span>
-    </div>
+      <div *ngIf="prefill === false"
+           class="mt-8 rounded p-2 bg-red-300/10 text-sm text-center text-red-500">
+        The email you provided (<b>{{prefilledEmail}}</b>) is a personal email. Personal emails cannot be used to sign up as an employer.
+        Please use your organization's email, for example: 'my-name@my-organization.com'
+      </div>
 
-    <ng-container *ngIf="form.controls.password.enabled">
-      <div *ngrxLet="form.controls.password as control"
-           [formFieldControl]="control" class="mb-12">
-        <label>Password</label>
-        <input type="password" [formControl]="control" [crossValidate]="['passwordMismatch']"
-               placeholder="Enter your Password">
-        <span class="error" *ngIf="control.hasError('required')">Required</span>
-        <span class="error" *ngIf="control.hasError('pattern')">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character</span>
-        <span class="error" *ngIf="control.hasError('passwordMismatch')">Passwords do not match</span>
-        <span class="hint">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character</span>
-      </div>
-      <div *ngrxLet="form.controls.confirmPassword as control"
-           [formFieldControl]="control">
-        <label>Confirm Password</label>
-        <input type="password" [formControl]="control" [crossValidate]="['passwordMismatch']"
-               placeholder="Confirm your Password">
-        <span class="error" *ngIf="control.hasError('required')">Required</span>
-        <span class="error" *ngIf="control.hasError('passwordMismatch')">Passwords do not match</span>
-      </div>
     </ng-container>
 
-    <div class="border rounded p-2 flex gap-2">
-      <mat-checkbox [formControl]="form.controls.tncAgreement"></mat-checkbox>
-      <p class="flex-grow text-sm w-min">
-        You acknowledge that the EASWORKS screening process is confidential and that you will not publicly disclose details about this process.
-        By submitting this form, you acknowledge that you have read and agreed to our
-        <a class="text-primary">Terms of Use</a>,
-        <a class="text-primary">Privacy Policy</a> and
-        <a class="text-primary">Cookie Policy</a>.
-      </p>
-    </div>
+    <form [formGroup]="form" class="mt-8"
+          (ngSubmit)="submit()" resubmitIfPending>
+      <div class="grid grid-flow-col gap-4">
+        <div *ngrxLet="form.controls.firstName as control"
+             [formFieldControl]="control">
+          <label>First Name</label>
+          <input type="text" [formControl]="control" placeholder="First Name">
+          <span class="error" *ngIf="control.hasError('required')">Required</span>
+        </div>
 
-    <button type="submit" *ngrxLet="loading.any$() as loading"
-            class="shaded-button primary w-full mt-6 font-medium"
-            [disabled]="loading">
-      <replace-spinner [showSpinner]="loading">
-        Get Started
-      </replace-spinner>
-    </button>
-  </form>
+        <div *ngrxLet="form.controls.lastName as control"
+             [formFieldControl]="control">
+          <label>Last Name</label>
+          <input type="text" [formControl]="control" placeholder="Last Name">
+          <span class="error" *ngIf="control.hasError('required')">Required</span>
+        </div>
+      </div>
+
+      <div *ngrxLet="form.controls.email as control"
+           [formFieldControl]="control">
+        <label>Work Email</label>
+        <input type="email" [formControl]="control" placeholder="Email Address" [readOnly]="prefillSocial$() === true">
+        <span class="error" *ngIf="control.hasError('required')">Required</span>
+        <span class="error" *ngIf="control.hasError('pattern')">Invalid email</span>
+        <span class="error" *ngIf="control.hasError('blacklisted')">Please enter a business email</span>
+      </div>
+
+      <ng-container *ngIf="form.controls.password.enabled">
+        <div *ngrxLet="form.controls.password as control"
+             [formFieldControl]="control" class="mb-12">
+          <label>Password</label>
+          <input type="password" [formControl]="control" [crossValidate]="['passwordMismatch']"
+                 placeholder="Enter your Password">
+          <span class="error" *ngIf="control.hasError('required')">Required</span>
+          <span class="error" *ngIf="control.hasError('pattern')">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character</span>
+          <span class="error" *ngIf="control.hasError('passwordMismatch')">Passwords do not match</span>
+          <span class="hint">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character</span>
+        </div>
+        <div *ngrxLet="form.controls.confirmPassword as control"
+             [formFieldControl]="control">
+          <label>Confirm Password</label>
+          <input type="password" [formControl]="control" [crossValidate]="['passwordMismatch']"
+                 placeholder="Confirm your Password">
+          <span class="error" *ngIf="control.hasError('required')">Required</span>
+          <span class="error" *ngIf="control.hasError('passwordMismatch')">Passwords do not match</span>
+        </div>
+      </ng-container>
+
+      <div class="border rounded p-2 flex gap-2">
+        <mat-checkbox [formControl]="form.controls.tncAgreement"></mat-checkbox>
+        <p class="flex-grow text-sm w-min">
+          You acknowledge that the EASWORKS screening process is confidential and that you will not publicly disclose details about this process.
+          By submitting this form, you acknowledge that you have read and agreed to our
+          <a class="text-primary">Terms of Use</a>,
+          <a class="text-primary">Privacy Policy</a> and
+          <a class="text-primary">Cookie Policy</a>.
+        </p>
+      </div>
+
+      <button type="submit" *ngrxLet="loading.any$() as loading"
+              class="shaded-button primary w-full mt-6 font-medium"
+              [disabled]="loading">
+        <replace-spinner [showSpinner]="loading">
+          Get Started
+        </replace-spinner>
+      </button>
+    </form>
+  </div>
 </div>
 
-<div class="info mat-elevation-z1">
+<div class="info">
   <h2>Why Enterprises Love EASWORKS</h2>
   <ul class="mt-4">
     <li>

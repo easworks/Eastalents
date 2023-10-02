@@ -8,6 +8,7 @@ import { AuthService } from '@easworks/app-shell/services/auth';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { UI_FEATURE } from '@easworks/app-shell/state/ui';
 
 @Component({
   selector: 'account-widget',
@@ -28,6 +29,12 @@ export class AccountWidgetComponent {
   private readonly state = inject(AuthState);
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly ui = inject(UI_FEATURE);
+  protected readonly signInButtonClass$ = computed(() => {
+    return this.ui.selectors.topBar$().dark ?
+      'hover:bg-white/90 focus:bg-white/90' :
+      '';
+  });
 
   protected readonly icons = {
     faCircleUser

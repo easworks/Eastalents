@@ -5,11 +5,11 @@ import { EventType, Router, RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { NavigationModule } from '@easworks/app-shell/navigation/navigation.module';
 import { MenuItem, NOOP_CLICK, NavMenuState } from '@easworks/app-shell/state/menu';
-import { UiState } from '@easworks/app-shell/state/ui';
+import { UI_FEATURE } from '@easworks/app-shell/state/ui';
+import { faFacebook, faGithub, faInstagram, faLinkedin, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { faAngleRight, faBars, } from '@fortawesome/free-solid-svg-icons';
-import { faLinkedin, faFacebook, faGithub, faTwitter, faInstagram, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { AccountWidgetComponent } from '../account/account.widget';
-import { publicMenu } from './menu-items';
+import { publicMenu, socialIcons } from './menu-items';
 
 @Component({
   standalone: true,
@@ -30,11 +30,13 @@ export class AppComponent {
   constructor() {
     this.processRouterEvents();
     this.makeMenuReactive();
+
+    this.menuState.brandLinks$.set(socialIcons);
   }
 
   @HostBinding()
   private readonly class = 'flex flex-col min-h-screen';
-  private readonly uiState = inject(UiState);
+  private readonly ui = inject(UI_FEATURE);
   private readonly menuState = inject(NavMenuState);
   @ViewChild('appSidenav', { static: true }) private readonly appSideNav!: MatSidenav;
 
@@ -51,6 +53,14 @@ export class AppComponent {
 
   protected readonly navigating$ = signal(false);
   protected readonly showHorizontalMenu$ = computed(() => this.menuState.publicMenu.horizontal$().length > 0);
+
+  protected readonly topBar$ = computed(() => {
+    const dark = this.ui.selectors.topBar$().dark;
+    return {
+      brandImage: dark ? '/assets/brand/white-logo.png' : '/assets/brand/black-logo.png',
+      dark
+    } as const;
+  });
 
   protected readonly footerNav: { group: string, items: MenuItem[]; }[][] = [
     [
@@ -72,22 +82,11 @@ export class AppComponent {
           { name: 'FAQ -Talent', link: NOOP_CLICK },
         ],
       },
-  ],
+    ],
     [
       {
         group: 'Use cases',
-        items: [
-          { name: 'Digital Transformation (DX)', link: NOOP_CLICK },
-          { name: 'Prototyping', link: NOOP_CLICK },
-          { name: 'Enterprise Application Design', link: NOOP_CLICK },
-          { name: 'Business Intelligence', link: NOOP_CLICK },
-          { name: 'Application Modernization', link: NOOP_CLICK },
-          { name: 'Enterprise Application Integration', link: NOOP_CLICK },
-          { name: 'Custom Enterprise Application', link: NOOP_CLICK },
-          { name: 'Enterprise Application Testing', link: NOOP_CLICK },
-          { name: 'Data Migration', link: NOOP_CLICK },
-          { name: 'Support & Maintenance', link: NOOP_CLICK },
-        ]
+        items: publicMenu.items.useCases.children
       },
     ],
     [
@@ -111,55 +110,29 @@ export class AppComponent {
       {
         group: 'About',
         items: [
-          { name: 'About us', link: NOOP_CLICK },
+          publicMenu.items.aboutUs,
           { name: 'Blog', link: NOOP_CLICK },
           { name: 'Careers', link: NOOP_CLICK },
           { name: 'Community', link: NOOP_CLICK },
-          { name: 'Code of Conduct', link: NOOP_CLICK },
-          { name: 'Data Processing Agreement', link: NOOP_CLICK },
+          publicMenu.items.codeOfConduct,
+          publicMenu.items.dataProcessingAgreement
         ]
       },
       {
         group: 'Contact Us',
         items: [
-          { name: 'Contact Us', link: NOOP_CLICK },
-          { name: 'Help Center', link: NOOP_CLICK },
+          publicMenu.items.contactUs,
+          publicMenu.items.helpCenter
         ],
       },
     ],
   ];
 
-  protected readonly socialIcons = [
-    {
-      icon: this.icons.faLinkedin,
-      link: 'https://www.linkedin.com/company/easworks'
-    },
-    {
-      icon: this.icons.faFacebook,
-      link: 'https://web.facebook.com/easworks/'
-    },
-    {
-      icon: this.icons.faGithub,
-      link: 'https://github.com/easworks'
-    },
-    {
-      icon: this.icons.faTwitter,
-      link: 'https://twitter.com/easworks/'
-    },
-    {
-      icon: this.icons.faInstagram,
-      link: 'https://www.instagram.com/easworks121/'
-    },
-    {
-      icon: this.icons.faYoutube,
-      link: 'https://www.youtube.com/@easworks'
-    }
-
-  ];
+  protected readonly brandLinks$ = this.menuState.brandLinks$;
 
   private makeMenuReactive() {
     effect(() => {
-      const screenSize = this.uiState.screenSize$();
+      const screenSize = this.ui.selectors.screenSize$();
 
       switch (screenSize) {
         case 'sm':

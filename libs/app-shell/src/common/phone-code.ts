@@ -6,7 +6,7 @@ import { Country } from '../api/csc.api';
 import { sortString } from '../utilities/sort';
 import { controlValue$ } from './form-field.directive';
 
-type PhoneCodeOption = Country & { plainPhoneCode: string; };
+export type PhoneCodeOption = Country & { plainPhoneCode: string; };
 
 const notNumber = /[^\d\s]/g;
 export function getPhoneCodeOptions(countries: Country[]) {
@@ -42,13 +42,13 @@ export function filterCountryCode(all$: Signal<PhoneCodeOption[]>, value$: Signa
   });
 }
 
-type Form = FormGroup<{
+export type PhoneCodeForm = FormGroup<{
   code: FormControl<string | null>;
   number: FormControl<string | null>;
 }>;
 const telPattern = Validators.pattern(pattern.telephone);
 
-export function updatePhoneValidatorEffect(form: Form) {
+export function updatePhoneValidatorEffect(form: PhoneCodeForm) {
   const value$ = toSignal(controlValue$(form), { requireSync: true });
   const hasValue = computed(() => {
     const value = value$();
@@ -73,6 +73,6 @@ export function updatePhoneValidatorEffect(form: Form) {
   }, { allowSignalWrites: true });
 }
 
-export function getCombinedNumber(value: ReturnType<Form['getRawValue']>) {
+export function getCombinedNumber(value: ReturnType<PhoneCodeForm['getRawValue']>) {
   return value.code ? `${value.code}${value.number}` : null;
 }

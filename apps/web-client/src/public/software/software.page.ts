@@ -5,10 +5,9 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { Domain, SoftwareProduct } from '@easworks/models';
-import { DomainSoftwareSelectorComponent } from '../common/domain-software-selector.component';
-import { RoleLinkListContainerComponent } from '../common/role-link-list-container.component';
-import { RoleSoftwareTalentComponent } from '../common/role-software-talent.component';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { DomainSoftwareSelectorComponent } from '../common/domain-software-selector.component';
+import { RoleSoftwareTalentComponent } from '../common/role-software-talent.component';
 
 @Component({
   standalone: true,
@@ -18,7 +17,6 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     LottiePlayerDirective,
-    RoleLinkListContainerComponent,
     RoleSoftwareTalentComponent,
     DomainSoftwareSelectorComponent,
     ImportsModule,
@@ -53,7 +51,7 @@ export class SoftwarePageComponent {
 
   protected readonly icons = { faAngleRight } as const;
 
-  private readonly domain$ = signal<Domain | null>(null);
+  protected readonly domain$ = signal<Domain | null>(null);
   private readonly software$ = signal<SoftwareProduct | null>(null);
 
   protected readonly text;

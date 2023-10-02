@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, computed, inject, signal } from '@angular/core';
+import { MatRippleModule } from '@angular/material/core';
 import { RouterModule } from '@angular/router';
+import { ScreenSize, UI_FEATURE } from '@easworks/app-shell/state/ui';
 import { Domain } from '@easworks/models';
-import { faGear, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faAngleRight, faGear } from '@fortawesome/free-solid-svg-icons';
 
 type DomainPartial = Pick<Domain, 'key' | 'longName' | 'products'>;
 
@@ -15,10 +17,12 @@ type DomainPartial = Pick<Domain, 'key' | 'longName' | 'products'>;
   imports: [
     CommonModule,
     RouterModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatRippleModule
   ]
 })
 export class SoftwareTilesContainerComponent {
+  private readonly screenSize$ = inject(UI_FEATURE).selectors.screenSize$;
   protected readonly icons = { faGear, faAngleRight } as const;
 
   @Input({ required: true }) set domain(domain: DomainPartial) {
@@ -26,6 +30,17 @@ export class SoftwareTilesContainerComponent {
   };
 
   private readonly domain$ = signal<DomainPartial | null>(null);
+  private readonly products$ = computed(() => {
+    const d = this.domain$();
+    if (!d)
+      return [];
+
+    return d.products.map(p => ({
+      name: p.name,
+      image: `/assets/software/products/${d.key}/${p.name}.png`,
+      link: `/software/${d.key}/${p.name}`
+    }));
+  });
 
   protected readonly label$ = computed(() => {
     const d = this.domain$();
@@ -34,19 +49,31 @@ export class SoftwareTilesContainerComponent {
 
   protected readonly shortName$ = computed(() => this.domain$()?.key || '');
 
-  protected readonly software$ = computed(() => {
-    const d = this.domain$();
-    if (!d)
-      return [];
+  protected readonly showAll = {
+    $: signal(false),
+    toggle: () => this.showAll.$.update(s => !s)
+  } as const;
 
-    return d.products
-      .slice(0, 13)
-      .map(p => ({
-        name: p.name,
-        image: `/assets/software/products/${d.key}/${p.name}.png`,
-        link: `/software/${d.key}/${p.name}`
-      }));
+  protected readonly visibleProducts$ = computed(() => {
+    const ss = this.screenSize$();
+    const products = this.products$();
+    const showAll = this.showAll.$();
+
+    const toShow = showAll ?
+      products :
+      products.slice(0, mapScreenSizeToVisibleItems(ss));
+
+    return toShow;
   });
 
   protected readonly customSoftwareLink$ = computed(() => `/software/custom/${this.shortName$()}`);
+}
+
+function mapScreenSizeToVisibleItems(size: ScreenSize) {
+  switch (size) {
+    case 'sm': return 5;
+    case 'md': return 8;
+    case 'lg': return 9;
+    case 'xl': return 13;
+  }
 }

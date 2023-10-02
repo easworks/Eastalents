@@ -3,6 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { RouterModule } from '@angular/router';
 import { AccountApi } from '@easworks/app-shell/api/account.api';
 import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
@@ -27,7 +28,8 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
     ImportsModule,
     FormImportsModule,
     MatCheckboxModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    RouterModule
   ]
 })
 export class EmployerSignUpPageComponent {
@@ -50,7 +52,7 @@ export class EmployerSignUpPageComponent {
   } as const;
 
   @HostBinding()
-  private readonly class = 'page grid grid-cols-10 gap-4';
+  private readonly class = 'page';
   protected readonly loading = generateLoadingState<[
     'signing up',
     'form pending'

@@ -1,0 +1,12 @@
+:host {
+  > a {
+    @apply block bg-white p-2 px-4 rounded-md 
+      w-40 flex-grow md:w-48 lg:flex-none
+      text-center transition-all
+      shadow shadow-black/20;
+
+    &:hover, &:focus {
+      @apply bg-primary-400/5 text-primary-500/80;
+    }
+  }
+}

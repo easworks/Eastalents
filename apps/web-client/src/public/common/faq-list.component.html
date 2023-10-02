@@ -1,0 +1,18 @@
+<mat-accordion>
+  <mat-expansion-panel #panel *ngFor="let faq of faqs">
+    <mat-expansion-panel-header class="group hover:!bg-primary-500 hover:!text-white
+                                  transition-all"
+                                [class.!bg-primary-500]="panel.expanded"
+                                [class.!text-white]="panel.expanded">
+      <mat-panel-title class="group-hover:!text-white"
+                       [class.!text-white]="panel.expanded"
+                       [class.font-bold]="panel.expanded">
+        {{faq.question}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="mt-4 text-slate-600">
+      <p *ngFor="let paragraph of faq.content; let first = first">{{paragraph}}</p>
+    </div>
+  </mat-expansion-panel>
+
+</mat-accordion>

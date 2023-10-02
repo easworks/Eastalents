@@ -1,5 +1,5 @@
 <ng-container *ngIf="state.user$() as user; else $noUser">
-  <div class="bg-white rounded mat-elevation-z1 p-4">
+  <div class="bg-white rounded shadow p-4">
     <div class="text-center p-4">
       <fa-icon [icon]="icons.faCircleCheck" class="text-2xl text-emerald-400 mx-auto"></fa-icon>
       <p class="my-1">
@@ -21,31 +21,31 @@
 <ng-template #$noUser>
   <div class="social">
     <h2 class="text-center text-lg col-span-2">Sign In With</h2>
-    <button class="mat-elevation-z1" mat-ripple
+    <button class="shadow" mat-ripple
             (click)="auth.signin.social('github')">
       <img src="/assets/github/github-mark.svg">
       <span>GitHub</span>
     </button>
-    <button class="mat-elevation-z1" mat-ripple
+    <button class="shadow" mat-ripple
             (click)="auth.signin.social('linkedin')">
       <img src="/assets/linkedin/LI-In-Bug.png">
       <span>LinkedIn</span>
     </button>
-    <button class="mat-elevation-z1" mat-ripple
+    <button class="shadow" mat-ripple
             (click)="auth.signin.social('google')">
       <img src="/assets/google/colored.svg">
       <span>Google</span>
     </button>
   </div>
 
-  <div class="flex items-center gap-2 my-4">
+  <div class="flex items-center gap-2 mt-8">
     <mat-divider class="flex-grow"></mat-divider>
     <div class="px-4 text-slate-500 italic">OR</div>
     <mat-divider class="flex-grow"></mat-divider>
   </div>
 
-  <h2 class="text-center text-lg">Sign In With Email</h2>
-  <div class="email-sign-in bg-white rounded p-4 mat-elevation-z1 mt-4">
+  <h2 class="text-center text-lg mt-4">Sign In With Email</h2>
+  <div class="email-sign-in bg-white rounded p-4 shadow mt-4">
 
     <form [formGroup]="emailLogin.form"
           (ngSubmit)="emailLogin.submit()">

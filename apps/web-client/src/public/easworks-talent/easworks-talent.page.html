@@ -1,26 +1,25 @@
-<section class="relative w-full h-full z-10 pb-10 bg-white">
-  <div class="absolute inset-0 w-full h-full opacity-5">
-    <img class="w-full h-full" src="../../assets/img/building.jpg" alt="">
+<section class="relative grid min-h-offset-screen">
+  <div class="absolute inset-0 -z-10">
+    <img class="w-full h-full opacity-5" src="../../assets/img/building.jpg" alt="">
   </div>
-  <div class="lg:px-10 px-4 mx-auto">
-    <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-6 relative">
-      <div>
-        <h3 class="text-4xl font-bold leading-[50px]">
-          Increase Enterprise resiliency with a dynamic, distributed team that combines technical skills with industry-specific knowledge.
-        </h3>
-        <p class="my-4 text-base font-normal">Your organisation's greatest asset is its workforce. EASworks lets you invest in this asset by providing a platform of EAS developers on-demand who assist your existing team of Enterprise FTEs and contractors to deliver greater capacity and skills across the workplace.</p>
+  <div class="flex items-center flex-col-reverse lg:flex-row gap-8 pb-8">
+    <div class="max-w-screen-md p-4 sm:py-8 lg:mx-auto transition-all">
+      <h3 class="text-2xl lg:text-3xl font-bold transition-all">
+        Increase Enterprise resiliency with a dynamic, distributed team that combines technical skills with industry-specific knowledge.
+      </h3>
+      <p class="mt-4">Your organisation's greatest asset is its workforce. EASworks lets you invest in this asset by providing a platform of EAS developers on-demand who assist your existing team of Enterprise FTEs and contractors to deliver greater capacity and skills across the workplace.</p>
 
-        <p class="my-4 text-base font-normal">Our enterprise software developers bring domain expertise in finance, healthcare, manufacturing, retail, insurance and tech.</p>
+      <p class="mt-4">Our enterprise software developers bring domain expertise in finance, healthcare, manufacturing, retail, insurance and tech.</p>
 
-        <p class="my-4 text-base font-normal">We designed our talent profiles to answer the questions to know them 360 degrees from a technical and personality perspective, so you are one step closer to make hiring decision.</p>
+      <p class="mt-4">We designed our talent profiles to answer the questions to know them 360 degrees from a technical and personality perspective, so you are one step closer to make hiring decision.</p>
 
-        <div class="flex mt-[45px] gap-4">
-          <button class="highlight-button primary">Start Hiring</button>
-        </div>
+      <div class="flex mt-12 gap-4 justify-center lg:justify-normal transition-all">
+        <button class="shaded-button primary">Start Hiring</button>
       </div>
-      <div>
-        <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_ureyqxyw.json" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
-      </div>
+    </div>
+    <div class="max-w-xl lg:max-w-3xl">
+      <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_ureyqxyw.json"
+                     background="transparent" speed="1" loop autoplay></lottie-player>
     </div>
   </div>
 </section>
@@ -79,71 +78,16 @@
   </div>
 </section>
 
-<section class="py-[60px] bg-white">
-  <div class="text-center mb-12">
-    <h2 class="text-4xl font-bold">Browse by Enterprise Application Software (EAS) Talent</h2>
-  </div>
-  <div class="page">
-    <div class="w-100">
-      <h2 class="text-[1.25em] font-bold mb-5">ERP Ops - ERP Operations And Services (ERP Ops)
-      </h2>
-      <ul class="flex gap-2 items-center mb-3 flex-wrap">
-        <li
-            class="bg-white flex items-center justify-center p-3 relative border-dashed border-primary border rounded-md shadow-md">
-          <img src="https://eas-works.onrender.com//images/sap.png" alt="">
-        </li>
-        <li
-            class="bg-white flex items-center justify-center p-3 relative border-dashed border-primary border rounded-md shadow-md">
-          <img src="https://eas-works.onrender.com//images/sap.png" alt="">
-        </li>
-        <li
-            class="bg-white flex items-center justify-center p-3 relative border-dashed border-primary border rounded-md shadow-md">
-          <img src="https://eas-works.onrender.com//images/sap.png" alt="">
-        </li>
-        <li
-            class="bg-white flex items-center justify-center p-3 relative border-dashed border-primary border rounded-md shadow-md">
-          <img src="https://eas-works.onrender.com//images/sap.png" alt="">
-        </li>
-        <li
-            class="bg-white flex items-center justify-center p-3 relative border-dashed border-primary border rounded-md shadow-md">
-          <img src="https://eas-works.onrender.com//images/sap.png" alt="">
-        </li>
-        <li
-            class="bg-white flex items-center justify-center p-3 relative border-dashed border-primary border rounded-md shadow-md">
-          <img src="https://eas-works.onrender.com//images/sap.png" alt="">
-        </li>
-        <li
-            class="bg-white flex items-center justify-center p-3 relative border-dashed border-primary border rounded-md shadow-md">
-          <img src="https://eas-works.onrender.com//images/sap.png" alt="">
-        </li>
-        <li
-            class="bg-white flex items-center justify-center p-3 relative border-dashed border-primary border rounded-md shadow-md">
-          <img src="https://eas-works.onrender.com//images/sap.png" alt="">
-        </li>
-        <li
-            class="bg-white flex items-center justify-center p-3 relative border-dashed border-primary border rounded-md shadow-md">
-          <img src="https://eas-works.onrender.com//images/sap.png" alt="">
-        </li>
-        <li
-            class="bg-white border border-dashed border-primary flex flex-col gap-1 items-center justify-center p-1 relative rounded-md shadow-md text-[12px] text-center w-[130px]">
-          <i class="fa-solid fa-gear"></i>
-          Custom ERP Ops / Legacy Application
-        </li>
-      </ul>
-      <div class="flex items-center justify-end">
-        <a href="#" class="text-primary">+ See more ERP Ops skills </a>
-      </div>
-    </div>
-
-  </div>
+<section class="page py-8">
+  <h2 class="text-4xl font-bold">Browse by Enterprise Application Software (EAS) Talent</h2>
+  <featured-domains class="mt-8"></featured-domains>
 </section>
 
-<section class="py-[60px]">
-  <div class="page">
-    <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold">Sample Preview Profile</h2>
-    </div>
-  </div>
+<section class="page py-8">
+  <h2 class="text-4xl font-bold">Sample Preview Profile</h2>
+  <!-- TODO: after the profile and wsa is finalized, add an actual profile card here -->
+  <img src="/assets/pages/easworks-talent/sample-profile.png"
+       class="rounded shadow mt-8">
 </section>
 
 <section class="py-[60px] relative z-10 bg-[#494b4e]">

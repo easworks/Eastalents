@@ -16,5 +16,5 @@ export class PrivacyPolicyPageComponent {
   protected readonly content: string = inject(ActivatedRoute)
     .snapshot.data['content'];
 
-  @HostBinding() private readonly class = 'page py-8';
+  @HostBinding() private readonly class = ' bg-white';
 }

@@ -4,7 +4,6 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { DomainState } from '../state/domains';
 import { MenuItem, NOOP_CLICK, NavMenuState } from '../state/menu';
 import { SelectableOption } from '../utilities/options';
-import { faFacebook, faInstagram, faPinterest, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-vertical-menu',
@@ -30,7 +29,7 @@ export class AppVerticalMenuComponent {
 
   protected readonly staticMenuItems: MenuItem[] = [
     { name: 'Hire Talent', link: NOOP_CLICK },
-    { name: 'For Employers', link: NOOP_CLICK },
+    { name: 'For Client', link: NOOP_CLICK },
     { name: 'Join EASWORKS', link: NOOP_CLICK },
     { name: 'For Freelancers', link: NOOP_CLICK },
   ];
@@ -43,13 +42,7 @@ export class AppVerticalMenuComponent {
     { name: 'Careers', link: NOOP_CLICK },
   ];
 
-  protected readonly brandLinks: MenuItem[] = [
-    { name: 'twitter', icon: faTwitter, link: NOOP_CLICK },
-    { name: 'facebook', icon: faFacebook, link: NOOP_CLICK },
-    { name: 'instagram', icon: faInstagram, link: NOOP_CLICK },
-    { name: 'pinterest', icon: faPinterest, link: NOOP_CLICK },
-    { name: 'youtube', icon: faYoutube, link: NOOP_CLICK },
-  ];
+  protected readonly brandLinks$ = this.menuState.brandLinks$;
 
   private initDomainSection() {
     const selected$ = signal<SelectableOption<Domain> | null>(null);
@@ -72,14 +65,17 @@ export class AppVerticalMenuComponent {
       const selected = selected$();
       if (!selected)
         return [];
-      return selected.value.products;
+      return selected.value.products
+        .map(p => ({
+          name: p.name,
+          link: `/software/${selected.value.key}/${p.name}`
+        } as MenuItem));
     });
 
     const filteredProducts$ = computed(() => {
       const filter = filter$().toLowerCase();
       return products$()
-        .filter(p => p.name.toLowerCase().includes(filter))
-        .map(p => Object.assign(p, { link: NOOP_CLICK }));
+        .filter(p => p.name.toLowerCase().includes(filter));
     });
 
     const loading$ = computed(() => domains$().length === 0);

@@ -5,15 +5,15 @@
       <ng-container *ngIf="item.children?.length; else $noChildren">
         <li class="has-submenu relative group"
             (mouseenter)="unfocus()">
-          <a class="p-2 rounded flex gap-2 items-center
-              group-hover:bg-slate-500/10 group-focus-within:bg-slate-500/10"
+          <a class="p-2 rounded flex gap-2 items-center"
+             [class]="linkClass$()"
              href="javascript:void(0)" mat-ripple>
             <span>{{item.name}}</span>
             <fa-icon [icon]="icons.faAngleDown"></fa-icon>
           </a>
           <ul class="hidden group-focus-within:grid"
               [class.large]="item.children!.length > 4"
-              [class.group-hover:grid]="!(uiState.isTouchDevice$())">
+              [class.group-hover:grid]="!(ui.selectors.isTouchDevice$())">
             <li *ngFor="let subItem of item.children">
               <a [routerLink]="subItem.link" (click)="collapseAll()">
                 <span *ngIf="subItem.icon" class="icon">
@@ -30,8 +30,9 @@
       </ng-container>
 
       <ng-template #$noChildren>
-        <li>
-          <a class="p-2 block rounded hover:bg-slate-500/10 focus:bg-slate-500/10"
+        <li class="group">
+          <a class="p-2 block rounded"
+             [class]="linkClass$()"
              [routerLink]="item.link" mat-ripple>
             {{item.name}}
           </a>

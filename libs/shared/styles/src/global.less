@@ -1,5 +1,6 @@
 @import './snackbar.less';
 @import './material.overrides.less';
+@import './buttons.less';
 @import './swiper.less';
 
 @layer base {
@@ -10,7 +11,7 @@
 
 @layer components {
   .page {
-    @apply p-4 md:px-8 container xl:max-w-screen-xl transition-all;
+    @apply p-4 md:p-8 container xl:max-w-screen-xl transition-all;
   }
 
   .demo-placeholder {
@@ -23,104 +24,12 @@
     @apply block w-max h-max !leading-none;
   }
 
-  // buttons
-  button {
-    @apply outline-none;
-  }
-  
-  .icon-button {
-    @apply grid place-content-center rounded-full
-      text-2xl w-12 h-12
-      transition-all;
-      
-    @apply hover:bg-slate-500/10 focus:bg-slate-500/10;
-    
-    &:disabled  {
-      @apply bg-transparent transition-none;
-    }
-
-  }
-
-  .shaded-button {
-    @apply rounded py-2 px-4 transition-all;
-
-    @apply bg-white;
-
-    &:hover, &:focus {
-      @apply bg-slate-100;
-    }
-
-    &:where(.primary) {
-      @apply bg-primary text-primary-text;
-
-      &:hover, &:focus {
-        @apply bg-primary-dark text-primary-text;
-      }
-    }
-
-    &:disabled {
-      @apply bg-slate-300 text-slate-500;
-    }
-  }
-
-  .highlight-button {
-    @apply block rounded py-2 px-4 transition-all;
-
-    @apply bg-slate-500/10;
-
-    &:hover, &:focus {
-      @apply bg-slate-500/20;
-    }
-
-    &:where(.primary) {
-      @apply bg-primary/10 text-primary;
-
-      &:hover, &:focus {
-        @apply bg-primary/20 text-primary-dark;
-      }
-    }
-
-    &:disabled {
-      @apply text-slate-500;
-    }
-  }
-
-  .stroked-button {
-    @apply block border rounded py-2 px-4
-    transition-all;
-
-    &.small {
-      @apply py-1;
-    }
-
-    &:hover, &:focus {
-      @apply bg-slate-500/10;
-    }
-
-    &:where(.warn) {
-      @apply text-warn;
-    }
-
-    &:disabled {
-      @apply bg-slate-300 text-slate-500;
-    }
-  }
-
-  // links
-  a:where([href]) {
-    @apply transition-all outline-none;
-    
-    &:hover, &:focus {
-      @apply text-primary;
-    }
-  }
-
   .field {
     @apply block w-full rounded p-2
       bg-slate-500/10 
       placeholder:text-slate-500/80 placeholder:text-sm
       outline-none
-      ring-inset ring-primary-light
+      ring-inset ring-primary-500
       transition-all;
 
     &-interactive {

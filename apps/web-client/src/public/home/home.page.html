@@ -1,5 +1,5 @@
 <section class="relative bg-white pb-8">
-  <div class="absolute top-0 left-0 w-full h-full ">
+  <div class="absolute inset-0">
     <img class="w-full h-full opacity-5" src="/assets/img/building.jpg" alt="">
   </div>
 
@@ -14,7 +14,7 @@
           Software (EAS) technologies and domains.
         </p>
         <h3 class="mt-4 lg:text-4xl text-2xl font-bold">
-          Unlock the potential of <span class="text-primary">enterprise
+          Unlock the potential of <span class="text-primary-500">enterprise
             application development with ease.</span>
         </h3>
         <p class="mt-4">
@@ -126,7 +126,7 @@
     <div class="flex mt-12 flex-wrap lg:flex-nowrap gap-8 justify-center">
       <div *ngFor="let acc of accelerate" class="flex flex-col gap-2 p-4 text-center
               flex-grow w-60 lg:w-72
-              border border-primary bg-white shadow-md 
+              border border-primary-500 bg-white shadow-md 
               rounded-tr-[2rem] rounded-bl-[2rem] border-b-4">
         <lottie-player [src]="acc.lottie" background="transparent"
                        class="mx-auto w-full h-20 md:w-24 md:h-24 transition-all" autoplay loop></lottie-player>
@@ -145,7 +145,7 @@
     <div class="max-w-screen-lg mx-auto">
       <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all">
         Hire elite EAS talent based on
-        <span class="text-primary">Enterprise Application Software (EAS)</span>
+        <span class="text-primary-500">Enterprise Application Software (EAS)</span>
       </h2>
       <div class="mt-8 flex gap-4 gap-x-8 justify-center items-center
             flex-wrap lg:flex-nowrap">
@@ -160,34 +160,26 @@
       </div>
     </div>
 
-
-    <div class="grid gap-8 mt-16">
-      <mat-progress-spinner *ngIf="featuredDomains.loading$(); else $featuredDomains" class="mx-auto"
-                            mode="indeterminate" diameter="32"></mat-progress-spinner>
-      <ng-template #$featuredDomains>
-        <software-tiles-container *ngFor="let domain of featuredDomains.domains$()"
-                                  [domain]="domain"></software-tiles-container>
-      </ng-template>
-    </div>
+    <featured-domains class="mt-16"></featured-domains>
   </div>
 </section>
 
 <section>
   <div class="page py-12">
     <h2 class="text-2xl lg:text-3xl text-center font-bold">
-      Hire Elite EAS Talent Based On <span class="text-primary">Enterprise Application Use Cases</span>
+      Hire Elite EAS Talent Based On <span class="text-primary-500">Enterprise Application Use Cases</span>
     </h2>
     <h3 class="text-xl lg:text-2xl font-bold mt-8 text-center">
       EASWORKS supports major critical enterprise application development use cases
     </h3>
 
-    <use-case-tiles-container [useCases]="useCases" class="mt-8"></use-case-tiles-container>
+    <use-case-tiles-container class="mt-8"></use-case-tiles-container>
   </div>
 </section>
 
 <section class="bg-white">
   <div class="page py-12">
-    <h2 class="text-2xl text-center font-bold">Get Started with <span class="text-primary">Enterprise
+    <h2 class="text-2xl text-center font-bold">Get Started with <span class="text-primary-500">Enterprise
         Applications</span></h2>
 
     <domain-software-selector class="mt-4"></domain-software-selector>
@@ -197,7 +189,7 @@
 <section>
   <div class="page py-12">
     <h2 class="text-2xl lg:text-3xl text-center font-bold">
-      Hire Elite EAS Talent Based On <span class="text-primary">Enterprise Application Roles</span>
+      Hire Elite EAS Talent Based On <span class="text-primary-500">Enterprise Application Roles</span>
     </h2>
 
     <mat-progress-spinner *ngIf="roleList.loading$(); else $roleList" class="mx-auto mt-8" mode="indeterminate"

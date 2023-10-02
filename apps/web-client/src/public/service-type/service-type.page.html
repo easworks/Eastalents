@@ -2,7 +2,7 @@
   <div class="page">
     <div class="text-center max-w-xxl m-auto">
       <h3 class="lg:text-[2rem] text-2xl font-bold leading-[40px] text-black"> {{hero.title.plain}} <span
-          class="text-primary"> {{hero.title.highlight}} </span> {{hero.title.plainLast}}
+              class="text-primary-500"> {{hero.title.highlight}} </span> {{hero.title.plainLast}}
       </h3>
       <p class="my-4 text-base font-normal text-black">{{hero.content}}</p>
       <div class="flex items-center justify-center mt-10">
@@ -25,11 +25,11 @@
     <div class="grid lg:grid-cols-4 grid-cols-1 gap-10 items-center">
       <div class="border rounded-md overflow-hidden h-full" *ngFor="let Talent of EASTalent">
         <div class="flex justify-center p-5 bg-[#cbd5e1]">
-          <img [src]="Talent.image" class="w-[120px] h-[120px] rounded-full blur-[3px]" alt="">
+          <img [src]="Talent.image" class="w-[120px] h-[120px] rounded-full" alt="">
         </div>
         <div class="py-4 px-5 text-center bg-white h-full">
           <div class="mb-3">
-            <h4 class="text-[20px] text-primary">
+            <h4 class="text-[20px] text-primary-500">
               <a href="">{{Talent.name}}</a>
             </h4>
           </div>
@@ -44,7 +44,7 @@
             </h4>
           </div>
           <div>
-            <h4 class="text-[18px] text-primary">
+            <h4 class="text-[18px] text-primary-500">
               <a href="">{{Talent.moreword}}</a>
             </h4>
           </div>
@@ -58,7 +58,7 @@
   <div class="page">
     <div class="text-left mb-12">
       <h3 class="lg:text-[2rem] text-2xl font-bold leading-[40px] text-black">{{application.title.plain}} <span
-          class="text-primary"> {{application.title.highlight}} </span> {{application.title.plainLast}}
+              class="text-primary-500"> {{application.title.highlight}} </span> {{application.title.plainLast}}
       </h3>
     </div>
     <div class="grid lg:grid-cols-1 grid-cols-1 gap-10">
@@ -71,7 +71,7 @@
 <section class="py-[60px] bg-white" *ngrxLet="ServiceType$().ProfessionalsBased as Professional">
   <div class="page">
     <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold">{{Professional.title.plain}}<span class="text-primary">
+      <h2 class="text-4xl font-bold">{{Professional.title.plain}}<span class="text-primary-500">
           {{Professional.title.highlight}} </span>{{Professional.title.plainLast}}</h2>
 
       <p class="my-4 text-[20px] font-normal">{{Professional.content}}</p>
@@ -92,16 +92,16 @@
 <section class="py-[60px]" *ngrxLet="ServiceType$().ForSteps as Steps">
   <div class="page">
     <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold">{{Steps.title.plain}} <span class="text-primary"> {{Steps.title.highlight}} </span>
+      <h2 class="text-4xl font-bold">{{Steps.title.plain}} <span class="text-primary-500"> {{Steps.title.highlight}} </span>
         {{Steps.title.plainLast}}</h2>
     </div>
 
     <div class="grid lg:grid-cols-4 grid-cols-1 gap-8 items-center">
 
       <div *ngFor="let StepsBox of Steps.ContentBox"
-        class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
+           class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
         <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5 items-center">
-          <fa-icon [icon]="icons.faFileLines" class="text-[60px] mt-1 text-primary"></fa-icon>
+          <fa-icon [icon]="icons.faFileLines" class="text-[60px] mt-1 text-primary-500"></fa-icon>
         </div>
         <h4 class="text-lg font-semibold my-5">{{StepsBox.title}}</h4>
         <p class="text-sm leading-6">{{StepsBox.content}}</p>
@@ -119,7 +119,7 @@
         </div>
         <div class="p-4 bg-white">
           <div class="mb-3">
-            <h4 class="text-[20px] text-primary font-semibold">
+            <h4 class="text-[20px] text-primary-500 font-semibold">
               {{profile.name}}
             </h4>
           </div>
@@ -146,18 +146,18 @@
         </h3>
         <p>{{TeansOn.content}}</p>
       </div>
-  
+
       <div class="pt-10">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead class="text-lg">
             <tr>
-              <th scope="col" class="px-6 py-3 text-primary">
-                
+              <th scope="col" class="px-6 py-3 text-primary-500">
+
               </th>
-              <th scope="col" class="px-6 py-3 text-primary text-center">
-                Teams On-Demand	
+              <th scope="col" class="px-6 py-3 text-primary-500 text-center">
+                Teams On-Demand
               </th>
-              <th scope="col" class="px-6 py-3 text-primary text-center">
+              <th scope="col" class="px-6 py-3 text-primary-500 text-center">
                 Fully-Managed, Fixed Bid
               </th>
             </tr>
@@ -177,13 +177,13 @@
           </tbody>
         </table>
       </div>
-  
+
     </div>
   </section>
 </ng-container>
 
 
-<section class="bg-primary py-[60px]" *ngrxLet="ServiceType$().BottomHireSection as BottomHireSection">
+<section class="bg-primary-500 py-[60px]" *ngrxLet="ServiceType$().BottomHireSection as BottomHireSection">
   <div class="page">
     <div class="text-center max-w-xxl m-auto">
       <h3 class="lg:text-[2rem] text-2xl font-bold leading-[40px] text-white">
@@ -200,7 +200,7 @@
   <div class="page">
     <div class="text-center max-w-xxl m-auto">
       <h3 class="lg:text-[3rem] text-2xl font-bold leading-[50px] text-black">
-        {{BenefitBusiness.title.plain}} <span class="text-primary"> {{BenefitBusiness.title.highlight}} </span> {{BenefitBusiness.title.plainLast}}
+        {{BenefitBusiness.title.plain}} <span class="text-primary-500"> {{BenefitBusiness.title.highlight}} </span> {{BenefitBusiness.title.plainLast}}
       </h3>
       <p class="my-4 text-[25px] font-normal">Reach out to us at <a href="tel:+1 858 753 3467">+1 858 753 3467</a> or
         email us at <a href="mailto:info@easworks.com">info@easworks.com</a> </p>

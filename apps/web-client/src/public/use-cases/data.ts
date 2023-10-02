@@ -46,31 +46,31 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
           title: 'Identify the problems you want to solve',
           content: [
             'The first step is to start with WHY and clearly define your Digital transformation strategic objectives which may be to expand your business? Is it about keeping up with competitors? Or maybe you just want to improve overall efficiency.'
-          ] 
+          ]
         },
         {
           title: 'Create and foster a digital culture',
           content: [
             'To provide new software onboarding for all your employees to teach them how to use new enterprise application solutions. Continuous support should also be available until they feel comfortable working with these tools.'
-          ] 
+          ]
         },
         {
           title: 'Map and analyze your current business processes',
           content: [
             'Start with a few impactful and concrete initiatives that will show measurable results within the first few months. Mapping and analyzing existing business processes will help you identify inefficiencies and opportunities for improvement.'
-          ] 
+          ]
         },
         {
           title: 'Invest in the right digital solutions',
           content: [
             'Redesign your operating processes to get the most out of the new technologies and start creating business value within few months.'
-          ] 
+          ]
         },
         {
           title: 'Focus on continuous improvement',
           content: [
             'Reach out to customers, partners, employees, and other relevant stakeholders to ask for their feedback. Digital transformation is not a one-time event. Businesses need to continuously transform to create new value, stay competitive, and thrive in the digital age.'
-          ] 
+          ]
         },
       ]
     }
@@ -99,31 +99,31 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
           title: 'Problem Analysis from Different Perspective',
           content: [
             'Define the problem, the end goal and work towards the solution to achieve the desired objectives.'
-          ] 
+          ]
         },
         {
           title: 'Determine Its Root Cause',
           content: [
             'Professionals get the chance to explore the problem for themselves from the perspective of Customer’s needs.'
-          ] 
+          ]
         },
         {
           title: 'Encourages Innovative Thinking & Creative Problem Solving',
           content: [
             'The process involves a great deal of brainstorming and formulating new ideas that can help to expand your organization & enables innovation and creativity to solve the problems that customers face daily.'
-          ] 
+          ]
         },
         {
           title: 'Outcome Meet Clients Requirements',
           content: [
             'This involves prototyping with iterative approach that are designed with the design thinking approach will meet the objectives and client expectations.'
-          ] 
+          ]
         },
         {
           title: 'Create Value While Solving Real Problems',
           content: [
             'Innovation enabled by Design Thinking process specifically directed at creating value and solving problems, from small to large, in almost any industry.'
-          ] 
+          ]
         },
       ]
     }
@@ -152,7 +152,7 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
           content: [
             '(i) For prototyping new enterprise application or technology. ',
             '(ii) Engineer writes just enough code to see if it`s feasible.',
-          '(iii) Helps understand technical risk, often related to performance.'
+            '(iii) Helps understand technical risk, often related to performance.'
           ],
         },
         {
@@ -161,7 +161,7 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
             '(i) Essentially an interactive wireframe (doesn`t look real).',
             '(ii)Created by interactive designers to test the workflow.',
             '(iii)Simulates process to identify usability issues early.'
-          ] 
+          ]
         },
         {
           title: 'HIGH-FIDELITY USER PROTOTYPES',
@@ -169,7 +169,7 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
             '(i) Realistic looking, working simulation.',
             '(ii)Good for communicating a proposed product to stakeholders.',
             '(iii)Used in defensive user testing, not to see if they`ll like it, but to learn if they wo`t.'
-          ] 
+          ]
         },
         {
           title: 'LIVE-DATA PROTOTYPES',
@@ -177,7 +177,7 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
             '(i) Very limited implementation created by developers to prove it works.',
             '(ii)Has access to real data and is sent real live traffic.',
             '(iii)Hasn`t been "productized" (no test automation, SEO, localization, etc.).'
-          ] 
+          ]
         },
       ]
     }
@@ -212,25 +212,25 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
           title: 'Hub-and-spoke integration',
           content: [
             'This approach uses a central program to facilitate the data and steps between the participation applications. The program can handle the data reformatting and keep workflows moving in the event of an application slowdown.'
-          ] 
+          ]
         },
         {
           title: 'Enterprise Bus integration (ESB)',
           content: [
             'In a common bus design, all participating applications use a set of standards to send and receive data or workflows.'
-          ] 
+          ]
         },
         {
           title: 'Middleware integration',
           content: [
             'This involves an intermediary program that sits between the end user and the underlying application. Middleware supports interface integration and may have an underlying hub-and-spoke or bus design.'
-          ] 
+          ]
         },
         {
           title: 'Microservices',
           content: [
             'These can be serverless functions or dedicated apps designed to integrate easily or quickly connect programs. Microservices can often be easily offloaded as cloud workloads.'
-          ] 
+          ]
         },
       ]
     }
@@ -271,31 +271,31 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
           title: 'Migration Designing & Planning',
           content: [
             'Choose type of migration environment (hybrid, cloud or on-premises) and work on the design and planning by gaining a 360-degree view of the dependencies of the application.'
-          ] 
+          ]
         },
         {
           title: 'Working on Architecture & Code',
           content: [
             'In the application migration service, there is a need to adjust and update the application code and design as per the new software environment which requires various code conversion tools work on the code and design.'
-          ] 
+          ]
         },
         {
           title: 'Data Migration',
           content: [
             'Creating a script to automate the migration, data preparation, extracting, loading, and shifting to the new environment.'
-          ] 
+          ]
         },
         {
           title: 'Trial Migration',
           content: [
             'Trial application migration step is performed to minimize the risk and perform the final migration in a real-time environment.'
-          ] 
+          ]
         },
         {
           title: 'Final Migration, Testing & Deployment',
           content: [
             'The final migration occurs in this stage after multiple iteration of validating the Trial mock-up results and to set up the new environment, DevOps tools, and migrate the application.'
-          ] 
+          ]
         },
       ]
     }
@@ -330,13 +330,13 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
           title: 'Greenfield Design',
           content: [
             'EASWORKS Designers will work closely with the user community to ensure that the UX meets their needs. As the software is developed, they provide critical feedback that will guarantee that the UX of the final product remains focused and productive.'
-          ] 
+          ]
         },
         {
           title: 'Redesign - Legacy Application Support',
           content: [
             'EASWORKS helps to completely redesign an application`s UX or help minimize the impact on the application`s design while allowing new features to be integrated as Enterprise applications evolve throughout their lifetimes.'
-          ] 
+          ]
         },
       ]
     }
@@ -373,13 +373,13 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
             'BI team helps together representatives from different departments to department-specific insights about required data and its sources.',
             '(i) Domain represntatives',
             '(ii) BI-specific roles'
-          ] 
+          ]
         },
         {
           title: 'Document your BI strategy',
           content: [
             'Start developing a BI strategy and document your strategy using traditional strategic documents such as a product roadmap.'
-          ] 
+          ]
         },
         {
           title: 'Set up data integration tools',
@@ -388,7 +388,7 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
             'a) Data extraction : The ETL tool retrieves data from the data sources including ERP, CRM, PLM, SCM , analytics, and spreadsheets.',
             'b) Data transformation : Once extracted, the ETL tool starts data processing. All extracted data is analyzed, have duplicates removed, and then is standardized, sorted, filtered, and verified.',
             'c) Data loading : At this phase, transformed data is uploaded into the warehouse.'
-          ] 
+          ]
         },
         {
           title: 'Configure a data warehouse and choose an architectural approach',
@@ -441,37 +441,37 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
           title: 'Enterprise software planning and design',
           content: [
             'Deciding on the architectural style of the new enterprise software system (mostly, point-to-point/event-driven service-based or microservices) and developing its detailed design.'
-          ] 
+          ]
         },
         {
           title: 'UX and UI design',
           content: [
             'UX designers and Business Analysts collaborate on UX research to understand the target audience and UX designers create wireframes that demonstrate basic content layout and functionality.'
-          ] 
+          ]
         },
         {
           title: 'EAS development and testing',
           content: [
             'Front end & Back-end development – to build both client & the server side and APIs of new enterprise software. Testing usually runs in parallel with development.'
-          ] 
+          ]
         },
         {
           title: 'Data conversion and uploading',
           content: [
             'Inspecting the legacy data to migrate & Deciding on the supported data formats and handling the required conversions by ETL migration process.'
-          ] 
+          ]
         },
         {
           title: 'EAS deployment',
           content: [
             'Enterprise Application Software (EAS) gets deployed and integrated with the required corporate infrastructure through staging and testing environments.'
-          ] 
+          ]
         },
         {
           title: 'Further EAS evolution in iterations',
           content: [
             'The development and delivery of new working software modules continue iteratively until business requirement is met.'
-          ] 
+          ]
         },
       ]
     }
@@ -513,20 +513,20 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
           title: 'EXECUTE',
           content: [
             'Data preparation, extraction, transformation, and loading happens during Execute phase and duration is determined upon data migration approach- big bang or phase-based approach migration.'
-          ] 
+          ]
         },
         {
           title: 'VERIFY',
           content: [
             'Validate migration: Check whether all the required data is transferred, if there are correct values in the target tables and if there was any data loss.',
             'Retire old systems: The final step in the migration process is to shut down and dispose of the legacy systems which supported your source data.'
-          ] 
+          ]
         },
       ]
     }
   },
 
-  'suppport-and-maintenance': {
+  'support-and-maintenance': {
     hero: {
       title: {
         plain: 'Enterprise Application Maintenance & Support',
@@ -562,7 +562,7 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
             '(i) Application evolution -upgrade',
             '(ii) Application performance management',
             '(iii) Application security management',
-          ] 
+          ]
         },
       ]
     }

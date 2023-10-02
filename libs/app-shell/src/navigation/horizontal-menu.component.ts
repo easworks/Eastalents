@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, computed, inject } from '@angular/core';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { NavMenuState } from '../state/menu';
-import { UiState } from '../state/ui';
+import { ACTIONS } from '../state/redux-signals';
+import { UI_FEATURE } from '../state/ui';
 
 @Component({
   selector: 'app-horizontal-menu',
@@ -11,11 +12,13 @@ import { UiState } from '../state/ui';
 })
 export class AppHorizontalMenuComponent {
   private readonly hostElement = inject(ElementRef).nativeElement as HTMLElement;
+  private readonly menuState = inject(NavMenuState);
+  private readonly actions$ = inject(ACTIONS);
+  protected readonly ui = inject(UI_FEATURE);
 
   @HostBinding()
   private readonly class = 'flex items-center';
-  private readonly menuState = inject(NavMenuState);
-  protected readonly uiState = inject(UiState);
+
 
   protected readonly icons = { faAngleDown } as const;
 
@@ -31,9 +34,17 @@ export class AppHorizontalMenuComponent {
   });
 
   private readonly collapseClass = 'collapse-all';
+  private readonly dark$ = computed(() => this.ui.selectors.topBar$().dark);
+  protected readonly linkClass$ = computed(() => {
+    if (this.dark$())
+      return 'group-hover:bg-white/90 group-focus-within:bg-white/90 group-hover:text-black hover:!text-primary-500';
+    else
+      return 'group-hover:bg-slate-500/20 group-focus-within:bg-slate-500/20';
+  });
+
 
   unfocus() {
-    this.uiState.updateTouchDetection();
+    this.actions$.dispatch(this.ui.actions.touchDevice.update());
     (document.activeElement as HTMLElement).blur();
   }
 

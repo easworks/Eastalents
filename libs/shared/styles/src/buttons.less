@@ -1,0 +1,100 @@
+@layer components {
+  button {
+    @apply outline-none;
+  }
+  
+  .icon-button {
+    @apply grid place-content-center rounded-full
+      text-2xl w-12 h-12
+      transition-all;
+      
+    @apply hover:bg-slate-500/10 focus:bg-slate-500/10;
+    
+    &:disabled  {
+      @apply bg-transparent transition-none;
+    }
+
+  }
+
+  .shaded-button {
+    @apply rounded py-2 px-4 font-medium transition-all;
+
+    @apply bg-white;
+
+    &:where(:hover), &:where(:focus) {
+      @apply bg-slate-100;
+    }
+
+    &:where(.primary) {
+      @apply bg-primary-500 text-white;
+
+      &:hover, &:focus {
+        @apply bg-primary-600 text-white;
+      }
+    }
+
+    &:where(.secondary) {
+      @apply bg-secondary-950 text-white;
+
+      &:hover, &:focus {
+        @apply bg-secondary-900 text-white;
+      }
+    }
+
+    &:disabled {
+      @apply bg-slate-300 text-slate-500;
+    }
+  }
+
+  .highlight-button {
+    @apply block rounded py-2 px-4 font-medium transition-all;
+
+    @apply bg-slate-300/20;
+
+    &:hover, &:focus {
+      @apply bg-slate-300/40;
+    }
+
+    &:where(.primary) {
+      @apply bg-primary-500/5 text-primary-500;
+
+      &:hover, &:focus {
+        @apply bg-primary-500/10 text-primary-500;
+      }
+    }
+
+    &:disabled {
+      @apply text-slate-500;
+    }
+  }
+
+  .stroked-button {
+    @apply block border rounded py-2 px-4
+    transition-all;
+
+    &.small {
+      @apply py-1;
+    }
+
+    &:hover, &:focus {
+      @apply bg-slate-500/10;
+    }
+
+    &:where(.warn) {
+      @apply text-warn;
+    }
+
+    &:disabled {
+      @apply bg-slate-300 text-slate-500;
+    }
+  }
+
+  // links
+  a:where([href]) {
+    @apply transition-all outline-none;
+    
+    &:hover, &:focus {
+      @apply text-primary-500;
+    }
+  }
+}
