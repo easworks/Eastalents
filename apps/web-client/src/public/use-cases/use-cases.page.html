@@ -8,7 +8,7 @@
             <div>
                 <h3 class="lg:text-[3rem] text-2xl font-bold leading-[60px] text-[#3e4450]">
                     {{hero.title.plain}}
-                    <span *ngIf="hero.title.highlight as highlighted" class="text-primary">{{highlighted}}</span>
+                    <span *ngIf="hero.title.highlight as highlighted" class="text-primary-500">{{highlighted}}</span>
                 </h3>
                 <p *ngFor="let paragraph of hero.content; let index = index" class="my-4 text-base font-normal"> {{paragraph}} </p>
                 <div class="flex items-center justify-between">
@@ -38,7 +38,7 @@
 <section class="py-[60px] bg-white">
     <div class="page">
         <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold">Advantages of using <span class="text-primary">EASWORKS</span></h2>
+            <h2 class="text-4xl font-bold">Advantages of using <span class="text-primary-500">EASWORKS</span></h2>
             <p class="my-4 text-base font-normal">Our flexible engagement models allow to have access to some of Top
                 Enterprise Tech Leaders in your enterprise domain to help and transform your business.
 
@@ -88,19 +88,19 @@
 <section class="py-[60px]" *ngrxLet="useCase$().stepper as stepper">
     <div class="page">
         <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold">{{stepper.title.plain}} <span class="text-primary">{{stepper.title.highlight}}</span></h2>
+            <h2 class="text-4xl font-bold">{{stepper.title.plain}} <span class="text-primary-500">{{stepper.title.highlight}}</span></h2>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
             <div class="relative">
                 <lottie-player *ngIf="stepper['lottie']" [src]="stepper['lottie']" background="transparent"
-                        speed="1" style="width: 100%; height: 100%;" loop autoplay>
-                    </lottie-player>
+                               speed="1" style="width: 100%; height: 100%;" loop autoplay>
+                </lottie-player>
             </div>
             <div class="relative lg:px-0 px-5">
                 <ul>
                     <li *ngFor="let stepscontent of stepper.steps; let index = index" class="relative border-l border-dashed pl-[50px] pb-[20px] border-black">
                         <div
-                             class="absolute w-[45px] min-w-[45px] h-[45px] text-[16px] bg-primary flex items-center justify-center rounded-full top-[-10px] left-[-23px] border">
+                             class="absolute w-[45px] min-w-[45px] h-[45px] text-[16px] bg-primary-500 flex items-center justify-center rounded-full top-[-10px] left-[-23px] border">
                             <span class="text-white font-semibold">0{{index +1}}</span>
                         </div>
                         <div class="relative">
@@ -158,9 +158,9 @@
                         <p class="text-[#667488] text-base my-2">Co-Founder of YC Startup, EIR at the VR fund</p>
 
                         <div class="flex justify-center items-center gap-2">
-                            <a href="#" class="py-1 px-3 bg-primary text-white text-[14px] rounded-full hover:text-white">Photoshop</a>
-                            <a href="#" class="py-1 px-3 bg-primary text-white text-[14px] rounded-full hover:text-white">Sketch</a>
-                            <a href="#" class="py-1 px-3 bg-primary text-white text-[14px] rounded-full hover:text-white">Illustrator</a>
+                            <a href="#" class="py-1 px-3 bg-primary-500 text-white text-[14px] rounded-full hover:text-white">Photoshop</a>
+                            <a href="#" class="py-1 px-3 bg-primary-500 text-white text-[14px] rounded-full hover:text-white">Sketch</a>
+                            <a href="#" class="py-1 px-3 bg-primary-500 text-white text-[14px] rounded-full hover:text-white">Illustrator</a>
                         </div>
                         <h6 class="mt-5 font-medium">EASWORKS Since 2015</h6>
                     </div>
@@ -177,9 +177,9 @@
                         <p class="text-[#667488] text-base my-2">Co-Founder of YC Startup, EIR at the VR fund</p>
 
                         <div class="flex justify-center items-center gap-2">
-                            <a href="#" class="py-1 px-3 bg-primary text-white text-[14px] rounded-full hover:text-white">Photoshop</a>
-                            <a href="#" class="py-1 px-3 bg-primary text-white text-[14px] rounded-full hover:text-white">Ux</a>
-                            <a href="#" class="py-1 px-3 bg-primary text-white text-[14px] rounded-full hover:text-white">Illustrator</a>
+                            <a href="#" class="py-1 px-3 bg-primary-500 text-white text-[14px] rounded-full hover:text-white">Photoshop</a>
+                            <a href="#" class="py-1 px-3 bg-primary-500 text-white text-[14px] rounded-full hover:text-white">Ux</a>
+                            <a href="#" class="py-1 px-3 bg-primary-500 text-white text-[14px] rounded-full hover:text-white">Illustrator</a>
                         </div>
                         <h6 class="mt-5 font-medium">EASWORKS Since 2010</h6>
                     </div>
@@ -190,7 +190,7 @@
     </div>
 </section>
 
-<section class="py-[60px] relative z-10 bg-primary">
+<section class="py-[60px] relative z-10 bg-primary-500">
     <div class="absolute inset-0 w-full h-full opacity-5">
         <img class="h-full object-cover w-full" src="../../assets/img/map.jpeg" alt="">
     </div>
