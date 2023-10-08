@@ -2,6 +2,7 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import { Domain, DomainDictionaryDto, DomainModule, IndustryGroup, IndustryGroupDto, SoftwareProduct, TechGroup, TechGroupDto } from '@easworks/models';
 import { DomainsApi } from '../api/domains.api';
 import { CACHE } from '../common/cache';
+import { sleep } from '../utilities/sleep';
 import { sortString } from '../utilities/sort';
 
 const ONE_HOUR_MS = 60 * 60 * 1000;
@@ -32,9 +33,10 @@ export class DomainState {
   readonly industries$ = signal<IndustryGroup[]>([]);
 
 
-  private async loadDomains() {
+  private async loadDomains(forceCache = false) {
     try {
-      const cached = await this.cache.get<Map<string, Domain>>('domains', ONE_HOUR_MS);
+      const expiry = forceCache ? undefined : ONE_HOUR_MS;
+      const cached = await this.cache.get<Map<string, Domain>>('domains', expiry);
       if (cached) {
         const domains = cached;
         const products = await this.cache.get<Map<string, SoftwareProduct>>('products');
@@ -61,23 +63,39 @@ export class DomainState {
       }
     }
     catch (e) {
-      console.error(e);
+      if (forceCache)
+        throw e;
+      else
+        console.error(e);
     }
 
-    const [ddto, tdto] = await Promise.all([
-      this.api.domains.allDomains(),
-      this.api.domains.techGroups()
-    ]);
+    try {
+      const ddto = await Promise.race([
+        this.api.domains.allDomains(),
+        sleep(10000)
+      ])
+        .then(result => {
+          if (!result)
+            throw new Error('timed out');
+          return result as Awaited<ReturnType<typeof this.api.domains.allDomains>>;
+        });
 
-    const { domains, tech, products } = mapDomainEntities(ddto, tdto);
+      const tdto = await this.api.domains.techGroups();
 
-    await this.cache.set('domains', domains);
-    await this.cache.set('tech', tech);
-    await this.cache.set('products', products);
+      const { domains, tech, products } = mapDomainEntities(ddto, tdto);
 
-    this.domains.map$.set(domains);
-    this.products.map$.set(products);
-    this.tech.map$.set(tech);
+      await this.cache.set('domains', domains);
+      await this.cache.set('tech', tech);
+      await this.cache.set('products', products);
+
+      this.domains.map$.set(domains);
+      this.products.map$.set(products);
+      this.tech.map$.set(tech);
+    }
+    catch (e) {
+      console.error(e);
+      await this.loadDomains(true);
+    }
   }
 
   async loadIndustries() {
