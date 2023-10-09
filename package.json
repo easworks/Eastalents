@@ -21,7 +21,7 @@
     "@nx/node": "16.10.0",
     "@nx/web": "16.10.0",
     "@nx/workspace": "16.10.0",
-    "@schematics/angular": "16.2.1",
+    "@schematics/angular": "16.2.5",
     "@types/hast": "^2.3.6",
     "@types/jest": "^29.5.5",
     "@types/luxon": "^3.3.2",
@@ -39,7 +39,7 @@
     "jest-environment-jsdom": "29.5.0",
     "jest-environment-node": "^29.7.0",
     "jest-preset-angular": "~13.1.2",
-    "ng-packagr": "16.2.2",
+    "ng-packagr": "16.2.3",
     "nx": "16.10.0",
     "postcss": "^8.4.31",
     "postcss-import": "15.1.0",
@@ -71,8 +71,8 @@
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@lottiefiles/lottie-player": "2.0.2",
-    "@ngrx/component": "16.0.1",
-    "@ngrx/store": "^16.3.0",
+    "@ngrx/component": "16.3.0",
+    "@ngrx/store": "16.3.0",
     "@tailwindcss/typography": "^0.5.10",
     "axios": "^1.5.1",
     "chart.js": "^4.4.0",
@@ -105,3 +105,4 @@
     "zone.js": "~0.13.3"
   }
 }
+
