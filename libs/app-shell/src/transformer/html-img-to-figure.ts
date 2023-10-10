@@ -21,7 +21,8 @@ export const htmlImgToFigure: Plugin<[], Root> = () => {
                   node.children.push({
                     type: 'element',
                     tagName: 'figcaption',
-                    children: [{ type: 'text', value: caption }]
+                    children: [{ type: 'text', value: caption }],
+                    properties: {}
                   });
                 }
               }

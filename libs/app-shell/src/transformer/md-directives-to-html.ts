@@ -1,5 +1,6 @@
 import { h } from 'hastscript';
 import type { Root } from 'mdast';
+import type { } from 'mdast-util-directive';
 import { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
