@@ -12,7 +12,7 @@ import { mdDirectivesToHtml } from './md-directives-to-html';
 const allowedSchema = structuredClone(defaultSchema);
 {
   allowedSchema.attributes ||= {};
-  allowedSchema.attributes['*'].push('slassName');
+  allowedSchema.attributes['*'].push('className');
 }
 
 export const mdToHtml = unified()
