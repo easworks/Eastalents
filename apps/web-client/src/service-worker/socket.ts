@@ -13,7 +13,7 @@ export function setupSocket() {
 
     if (user) {
       console.debug(user);
-      const socket = io('http://eas-works.onrender.com', {
+      const socket = io('http://eas-prod-pipeline.eba-fhahuw9u.us-west-1.elasticbeanstalk.com', {
         autoConnect: false,
         auth: {
           token: user.token

@@ -5,7 +5,7 @@ import { fetch } from 'undici';
 
 export const handlers: FastifyPluginAsync = async server => {
   server.get('/verify-software-images', async () => {
-    const domainDto = await fetch('https://eas-works.onrender.com/api/talentProfile/getTalentProfileSteps')
+    const domainDto = await fetch('http://eas-prod-pipeline.eba-fhahuw9u.us-west-1.elasticbeanstalk.com/api/talentProfile/getTalentProfileSteps')
       .then<any>(r => r.json())
       .then<DomainDictionaryDto>(r => r.talentProfile);
     const techDto = JSON.parse(await readFile('./libs/shared/assets/src/utils/tech.json', { encoding: 'utf-8' })) as TechGroupDto;

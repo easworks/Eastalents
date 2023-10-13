@@ -6,12 +6,12 @@ const devMode = isDevMode();
 
 const env: Environment = devMode ?
   {
-    apiUrl: 'https://eas-works.onrender.com/api',
-    imageUrl: 'http://eas-works.onrender.com',
+    apiUrl: 'http://eas-prod-pipeline.eba-fhahuw9u.us-west-1.elasticbeanstalk.com/api',
+    imageUrl: 'http://eas-prod-pipeline.eba-fhahuw9u.us-west-1.elasticbeanstalk.com',
   } :
   {
-    apiUrl: 'https://eas-works.onrender.com/api',
-    imageUrl: 'https://eas-works.onrender.com',
+    apiUrl: 'http://eas-prod-pipeline.eba-fhahuw9u.us-west-1.elasticbeanstalk.com/api',
+    imageUrl: 'http://eas-prod-pipeline.eba-fhahuw9u.us-west-1.elasticbeanstalk.com',
   };
 
 
