@@ -4,6 +4,12 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class HelpCenterService {
+  private readonly contentLocation = '/assets/pages/help-center/content';
+  async getSection(section?: string) {
+    const sectionFile = `${this.contentLocation}/${section ?? 'all'}.json`;
+    return;
+  }
+
   async getCategories() {
     return fetch(`/assets/pages/help-center/content/categories.json`)
       .then(r => r.json() as Promise<HelpCategory[]>);
@@ -45,3 +51,11 @@ export interface HelpCategory {
   slug: string;
   groups: HelpGroup[];
 }
+
+export type HelpSection = {
+  slug: string;
+  title: string;
+} & (
+    { children: HelpSection[]; } |
+    { items: HelpItem[]; }
+  );

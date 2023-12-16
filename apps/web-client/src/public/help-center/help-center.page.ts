@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
@@ -15,7 +16,8 @@ import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
   imports: [
     LottiePlayerDirective,
     ImportsModule,
-    RouterModule
+    RouterModule,
+    MatTabsModule
   ]
 })
 export class HelpCenterPageComponent {
@@ -23,10 +25,10 @@ export class HelpCenterPageComponent {
   constructor() {
     const route = inject(ActivatedRoute);
 
-    route.data.pipe(takeUntilDestroyed()).subscribe(d => {
-      this.employer$.set(mapItemsForHelpCenter(d['employer'], 'employer'));
-      this.freelancer$.set(mapItemsForHelpCenter(d['freelancer'], 'freelancer'));
-    });
+    // route.data.pipe(takeUntilDestroyed()).subscribe(d => {
+    //   this.employer$.set(mapItemsForHelpCenter(d['employer'], 'employer'));
+    //   this.freelancer$.set(mapItemsForHelpCenter(d['freelancer'], 'freelancer'));
+    // });
   }
 
   @HostBinding()

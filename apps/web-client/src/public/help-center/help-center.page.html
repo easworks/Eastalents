@@ -3,6 +3,14 @@
   <p class="mt-4">Get information about setting up and using EASWORKS to its fullest.</p>
 </div>
 
+<section class="mt-16">
+  <nav mat-tab-nav-bar [tabPanel]="$helpContent">
+    <a mat-tab-link routerLink="./employer">Clients</a>
+    <a mat-tab-link routerLink="./freelancer">Freelancers</a>
+  </nav>
+  <mat-tab-nav-panel #$helpContent></mat-tab-nav-panel>
+</section>
+
 <section id="employer" class="mt-16">
   <h2 class="text-2xl text-center font-bold">Help for Clients</h2>
 
