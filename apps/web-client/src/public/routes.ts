@@ -1,10 +1,11 @@
 import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { HelpCenterService } from '@easworks/app-shell/services/help';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { COMPANY_TYPE_DATA } from './company-type/data';
 import { GENERIC_ROLE_DATA } from './generic-role/data';
+import { HELP_CENTER_ROUTES } from './help-center/routes';
 import { SERVICE_TYPE_DATA } from './service-type/data';
 import { USE_CASE_DATA } from './use-cases/data';
 
@@ -116,56 +117,7 @@ export const PUBLIC_ROUTES: Routes = [
       }
     }
   },
-  {
-    path: 'help-center/:category/:group',
-    pathMatch: 'full',
-    loadComponent: () => import('./help-center/help-center-group.page').then(m => m.HelpCenterGroupPageComponent),
-    resolve: {
-      content: async (route: ActivatedRouteSnapshot) => {
-        const router = inject(Router);
-        const hsc = inject(HelpCenterService);
-
-        const category = route.paramMap.get('category');
-        if (!category)
-          throw new Error('invalid operation');
-        const group = route.paramMap.get('group');
-        if (!group)
-          throw new Error('invalid operation');
-
-        const categories = await hsc.getCategories();
-
-        const foundCategory = categories.find(c => c.slug === category);
-        if (!foundCategory) {
-          router.navigateByUrl(`/error-404`, { skipLocationChange: true });
-          throw new Error('not found');
-        }
-
-        const all = await hsc.getGroups(category);
-
-        const foundGroup = all.find(g => g.slug === group);
-        if (!foundGroup) {
-          router.navigateByUrl(`/error-404`, { skipLocationChange: true });
-          throw new Error('not found');
-        }
-
-        await hsc.hydrateGroup(category, foundGroup);
-
-        return {
-          category: foundCategory,
-          group: foundGroup
-        };
-      }
-    }
-  },
-  {
-    path: 'help-center',
-    pathMatch: 'full',
-    loadComponent: () => import('./help-center/help-center.page').then(m => m.HelpCenterPageComponent),
-    resolve: {
-      freelancer: () => inject(HelpCenterService).getGroups('freelancer'),
-      employer: () => inject(HelpCenterService).getGroups('employer')
-    }
-  },
+  ...HELP_CENTER_ROUTES,
   {
     path: 'about-us',
     pathMatch: 'full',
