@@ -38,7 +38,7 @@ export class AppVerticalMenuComponent {
     { name: 'Resources', link: NOOP_CLICK },
     { name: 'Blog', link: NOOP_CLICK },
     { name: 'Press Center', link: NOOP_CLICK },
-    { name: 'About Andela', link: NOOP_CLICK },
+    { name: 'About EASWORKS', link: NOOP_CLICK },
     { name: 'Careers', link: NOOP_CLICK },
   ];
 
