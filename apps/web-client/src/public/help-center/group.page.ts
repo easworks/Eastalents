@@ -54,8 +54,7 @@ export class HelpCenterGroupPageComponent {
       },
       {
         text: c.title,
-        link: '/help-center',
-        fragment: c.slug
+        link: `/help-center/${c.slug}`,
       },
       {
         text: g.title,

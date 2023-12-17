@@ -3,56 +3,6 @@ import { ActivatedRouteSnapshot, Router, Routes } from '@angular/router';
 import { HelpCategory, HelpCenterService } from '@easworks/app-shell/services/help';
 
 export const HELP_CENTER_ROUTES: Routes = [
-  // {
-  //   path: 'help-center/:category/:group',
-  //   pathMatch: 'full',
-  //   loadComponent: () => import('./help-center-group.page').then(m => m.HelpCenterGroupPageComponent),
-  //   resolve: {
-  //     content: async (route: ActivatedRouteSnapshot) => {
-  //       const router = inject(Router);
-  //       const hsc = inject(HelpCenterService);
-
-  //       const category = route.paramMap.get('category');
-  //       if (!category)
-  //         throw new Error('invalid operation');
-  //       const group = route.paramMap.get('group');
-  //       if (!group)
-  //         throw new Error('invalid operation');
-
-  //       const categories = await hsc.getCategories();
-
-  //       const foundCategory = categories.find(c => c.slug === category);
-  //       if (!foundCategory) {
-  //         router.navigateByUrl(`/error-404`, { skipLocationChange: true });
-  //         throw new Error('not found');
-  //       }
-
-  //       const all = await hsc.getGroups(category);
-
-  //       const foundGroup = all.find(g => g.slug === group);
-  //       if (!foundGroup) {
-  //         router.navigateByUrl(`/error-404`, { skipLocationChange: true });
-  //         throw new Error('not found');
-  //       }
-
-  //       await hsc.hydrateGroup(category, foundGroup);
-
-  //       return {
-  //         category: foundCategory,
-  //         group: foundGroup
-  //       };
-  //     }
-  //   }
-  // },
-  // {
-  //   path: 'help-center',
-  //   pathMatch: 'full',
-  //   loadComponent: () => import('./help-center.page').then(m => m.HelpCenterPageComponent),
-  //   resolve: {
-  //     freelancer: () => inject(HelpCenterService).getGroups('freelancer'),
-  //     employer: () => inject(HelpCenterService).getGroups('employer')
-  //   }
-  // },
   {
     path: 'help-center',
     loadComponent: () => import('./help-center.page').then(m => m.HelpCenterPageComponent),
@@ -72,10 +22,7 @@ export const HELP_CENTER_ROUTES: Routes = [
             const router = inject(Router);
             const service = inject(HelpCenterService);
 
-            const category = route.paramMap.get('category');
-            if (!category)
-              throw new Error('invalid operation');
-
+            const category = ensureParameter('category', route);
             const categories: HelpCategory[] = route.parent?.data['categories'];
 
             const foundCategory = categories.find(c => c.slug === category);
@@ -96,5 +43,50 @@ export const HELP_CENTER_ROUTES: Routes = [
         redirectTo: 'freelancer'
       }
     ]
-  }
+  },
+  {
+    path: 'help-center/:category/:group',
+    pathMatch: 'full',
+    loadComponent: () => import('./group.page')
+      .then(m => m.HelpCenterGroupPageComponent),
+    resolve: {
+      content: async (route: ActivatedRouteSnapshot) => {
+        const router = inject(Router);
+        const service = inject(HelpCenterService);
+
+        const catKey = ensureParameter('category', route);
+        const gKey = ensureParameter('group', route);
+
+        const categories = await service.getCategories();
+
+        const category = categories.find(c => c.slug === catKey);
+        if (!category) {
+          router.navigateByUrl(`/error-404`, { skipLocationChange: true });
+          throw new Error('not found');
+        }
+
+        category.groups = await service.getGroups(catKey);
+
+        const group = category.groups.find(g => g.slug === gKey);
+        if (!group) {
+          router.navigateByUrl(`/error-404`, { skipLocationChange: true });
+          throw new Error('not found');
+        }
+
+        await service.hydrateGroup(category.slug, group);
+
+        return {
+          category,
+          group
+        };
+      }
+    }
+  },
 ];
+
+function ensureParameter(key: string, route: ActivatedRouteSnapshot) {
+  const value = route.paramMap.get(key);
+  if (!value)
+    throw new Error('invalid operation');
+  return value;
+}

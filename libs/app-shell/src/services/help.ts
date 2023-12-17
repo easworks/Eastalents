@@ -4,19 +4,15 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class HelpCenterService {
-  private readonly contentLocation = '/assets/pages/help-center/content';
-  async getSection(section?: string) {
-    const sectionFile = `${this.contentLocation}/${section ?? 'all'}.json`;
-    return;
-  }
+  private readonly assets = '/assets/pages/help-center/content';
 
   async getCategories() {
-    return fetch(`/assets/pages/help-center/content/categories.json`)
+    return fetch(`${this.assets}/all.json`)
       .then(r => r.json() as Promise<HelpCategory[]>);
   }
 
   async getGroups(category: string, hydrate = false) {
-    const all = await fetch(`/assets/pages/help-center/content/${category}/all.json`)
+    const all = await fetch(`${this.assets}/${category}/all.json`)
       .then(r => r.json() as Promise<HelpGroup[]>);
 
     if (hydrate)
@@ -26,7 +22,7 @@ export class HelpCenterService {
   }
 
   async hydrateGroup(category: string, group: HelpGroup) {
-    const d = await fetch(`/assets/pages/help-center/content/${category}/${group.slug}.json`)
+    const d = await fetch(`${this.assets}/${category}/${group.slug}.json`)
       .then(r => r.json());
     group.items.forEach(i => Object.assign(i, d[i.slug]));
   }
@@ -51,11 +47,3 @@ export interface HelpCategory {
   slug: string;
   groups: HelpGroup[];
 }
-
-export type HelpSection = {
-  slug: string;
-  title: string;
-} & (
-    { children: HelpSection[]; } |
-    { items: HelpItem[]; }
-  );
