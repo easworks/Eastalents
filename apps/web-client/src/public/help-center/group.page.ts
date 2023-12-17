@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, computed, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { HelpCategory, HelpGroup } from '@easworks/app-shell/services/help';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { FAQ, FAQListComponent } from '../common/faq-list.component';
 
 @Component({
   standalone: true,
@@ -13,7 +14,8 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
-    RouterModule
+    RouterModule,
+    FAQListComponent
   ]
 })
 export class HelpCenterGroupPageComponent {
@@ -32,20 +34,24 @@ export class HelpCenterGroupPageComponent {
   protected readonly group$ = signal(null as unknown as HelpGroup);
 
   private readonly fragment$ = signal<string | null>(null);
-  protected readonly item$ = computed(() => {
-    const g = this.group$();
-    const f = this.fragment$();
-    if (!f) return g.items[0];
 
-    const found = g.items.find(i => i.slug === f);
-    if (!found) return g.items[0];
+  protected readonly faqs$ = computed(() => {
+    const items = this.group$().items;
 
-    return found;
+    return items.map<FAQ>(i => ({
+      content: i.content,
+      question: i.title
+    }));
+  });
+
+  protected readonly expandIndex$ = computed(() => {
+    const fragment = this.fragment$();
+    const faqs = this.group$().items;
+    return faqs.findIndex(f => f.slug === fragment);
   });
 
   protected readonly breadcrumb$ = computed(() => {
     const c = this.category$();
-    const g = this.group$();
 
     return [
       {
@@ -56,10 +62,6 @@ export class HelpCenterGroupPageComponent {
         text: c.title,
         link: `/help-center/${c.slug}`,
       },
-      {
-        text: g.title,
-        link: `/help-center/${c.slug}/${g.slug}`
-      }
     ];
   });
 

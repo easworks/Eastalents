@@ -36,10 +36,11 @@ export class AppHorizontalMenuComponent {
   private readonly collapseClass = 'collapse-all';
   private readonly dark$ = computed(() => this.ui.selectors.topBar$().dark);
   protected readonly linkClass$ = computed(() => {
-    if (this.dark$())
-      return 'group-hover:bg-white/90 group-focus-within:bg-white/90 group-hover:text-black hover:!text-primary-500';
-    else
-      return 'group-hover:bg-slate-500/20 group-focus-within:bg-slate-500/20';
+    const colors = this.dark$() ?
+      'group-hover:bg-white/90 group-focus-within:bg-white/90 group-hover:text-black hover:!text-primary-500' :
+      'group-hover:bg-slate-500/20 group-focus-within:bg-slate-500/20';
+
+    return `text-sm ${colors}`;
   });
 
 

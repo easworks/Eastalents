@@ -24,5 +24,6 @@ export interface FAQGroup {
 })
 export class FAQListComponent {
   @HostBinding() private readonly class = 'block';
-  @Input() faqs: FAQ[] = [];
+  @Input({ required: true }) faqs: FAQ[] = [];
+  @Input() expand: number = -1;
 }
