@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, Routes } from '@angular/router';
-import { HelpCenterService } from '@easworks/app-shell/services/help';
+import { HelpCategory, HelpCenterService } from '@easworks/app-shell/services/help';
 
 export const HELP_CENTER_ROUTES: Routes = [
   // {
@@ -57,32 +57,26 @@ export const HELP_CENTER_ROUTES: Routes = [
     path: 'help-center',
     loadComponent: () => import('./help-center.page').then(m => m.HelpCenterPageComponent),
     resolve: {
-      content: async () => {
-        const all = await inject(HelpCenterService).getCategories();
-        const category = all[0];
-        return {
-          all,
-          category
-        };
+      categories: async () => {
+        const service = inject(HelpCenterService);
+        const all = await service.getCategories();
+        return all;
       }
     },
     children: [
       {
         path: ':category',
-        loadComponent: () => import('./help-center.page').then(m => m.HelpCenterPageComponent),
+        loadComponent: () => import('./category.page').then(m => m.HelpCenterCategoryPageComponent),
         resolve: {
-          content: (route: ActivatedRouteSnapshot) => {
+          groups: async (route: ActivatedRouteSnapshot) => {
             const router = inject(Router);
-
-            const content = route.parent?.data['content'] as {
-              a;
-            };
+            const service = inject(HelpCenterService);
 
             const category = route.paramMap.get('category');
             if (!category)
               throw new Error('invalid operation');
 
-
+            const categories: HelpCategory[] = route.parent?.data['categories'];
 
             const foundCategory = categories.find(c => c.slug === category);
             if (!foundCategory) {
@@ -90,9 +84,16 @@ export const HELP_CENTER_ROUTES: Routes = [
               throw new Error('not found');
             }
 
-            return category;
+            const groups = await service.getGroups(category);
+
+            return groups;
           }
         }
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'freelancer'
       }
     ]
   }
