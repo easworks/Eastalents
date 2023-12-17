@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
@@ -10,7 +10,7 @@ import { FAQ, FAQListComponent } from '../common/faq-list.component';
   standalone: true,
   selector: 'help-center-group-page',
   templateUrl: './group.page.html',
-  styleUrls: ['./group.page.less'],
+  styleUrl: './group.page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
