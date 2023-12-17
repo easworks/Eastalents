@@ -8,8 +8,8 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 @Component({
   standalone: true,
   selector: 'help-center-group-page',
-  templateUrl: './help-center-group.page.html',
-  styleUrls: ['./help-center-group.page.less'],
+  templateUrl: './group.page.html',
+  styleUrls: ['./group.page.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
