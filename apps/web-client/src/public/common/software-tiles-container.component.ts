@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { ScreenSize, UI_FEATURE } from '@easworks/app-shell/state/ui';
 import { Domain } from '@easworks/models';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faAngleRight, faGear } from '@fortawesome/free-solid-svg-icons';
+import { faGear, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 type DomainPartial = Pick<Domain, 'key' | 'longName' | 'products'>;
 
@@ -23,7 +23,11 @@ type DomainPartial = Pick<Domain, 'key' | 'longName' | 'products'>;
 })
 export class SoftwareTilesContainerComponent {
   private readonly screenSize$ = inject(UI_FEATURE).selectors.screenSize$;
-  protected readonly icons = { faGear, faAngleRight } as const;
+  protected readonly icons = {
+    faGear,
+    faPlus,
+    faMinus
+  } as const;
 
   @Input({ required: true }) set domain(domain: DomainPartial) {
     this.domain$.set(domain);
@@ -72,8 +76,8 @@ export class SoftwareTilesContainerComponent {
 function mapScreenSizeToVisibleItems(size: ScreenSize) {
   switch (size) {
     case 'sm': return 5;
-    case 'md': return 8;
-    case 'lg': return 9;
-    case 'xl': return 13;
+    case 'md': return 5;
+    case 'lg': return 5;
+    case 'xl': return 7;
   }
 }

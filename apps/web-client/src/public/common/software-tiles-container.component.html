@@ -1,33 +1,39 @@
 <h3 class="text-xl font-bold mb-5">{{label$()}}</h3>
 
-<div class="grid gap-4 mb-3 text-sm" style="grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));">
-
-  <a *ngFor="let s of visibleProducts$()"
-     [routerLink]="s.link" [title]="s.name"
+<div class="grid gap-4 mb-3 text-sm" style="grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));">
+  @for(software of visibleProducts$(); track software.link) {
+  <a [routerLink]="software.link" [title]="software.name"
      class="p-2 flex items-center justify-center relative 
-              rounded-md transition-all
-              border-2 border-blue-400 border-dashed hover:border-solid">
-    <img class="h-16 object-contain"
-         [src]="s.image" alt="">
+           rounded-md transition-all
+           border-2 border-blue-400 border-dashed hover:border-solid">
+    <img class="h-12 object-contain"
+         [src]="software.image" alt="">
   </a>
+  }
 
   <a [routerLink]="customSoftwareLink$()"
      title="Custom / Legacy Application for {{shortName$()}}"
      class="p-2 px-4 flex items-center justify-center relative
               !text-secondary-950 rounded-md transition-all
               border-2 border-blue-400 border-dashed hover:border-solid">
-    <div class="h-16 flex flex-col gap-2 text-center">
-      <fa-icon [icon]="icons.faGear" class="text-xl mx-auto"></fa-icon>
-      <span class="font-bold">Custom / Legacy Application</span>
+    <div class="h-12 flex flex-col justify-between text-center">
+      <fa-icon [icon]="icons.faGear" class="mx-auto"></fa-icon>
+      <span class="font-bold text-xs">Custom / Legacy Application</span>
     </div>
   </a>
 
 </div>
 
-<button class="highlight-button mr-auto mt-4 flex items-center
-      font-normal"
+<button class="highlight-button ml-auto mt-4 flex items-center font-normal text-sm"
         mat-ripple
         (click)="showAll.toggle()">
-  <fa-icon [icon]="icons.faAngleRight" class="mr-2"></fa-icon>
-  See more {{shortName$()}} software
+  @if(showAll.$()) {
+  <fa-icon [icon]="icons.faMinus" class="mr-2"></fa-icon>
+  See less
+  }
+  @else {
+  <fa-icon [icon]="icons.faPlus" class="mr-2"></fa-icon>
+  See more
+  }
+  {{shortName$()}} software
 </button>
