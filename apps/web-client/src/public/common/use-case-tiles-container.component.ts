@@ -17,7 +17,7 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
 })
 export class UseCaseTilesContainerComponent {
   @HostBinding()
-  private readonly class = 'flex gap-8 flex-wrap justify-center items-stretch';
+  private readonly class = 'flex gap-8 flex-wrap justify-center';
 
   protected readonly useCases = [
     {
