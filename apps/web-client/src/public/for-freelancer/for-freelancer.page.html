@@ -19,7 +19,7 @@
           support and global community to grow your career with one of our flexible engagement models.</p>
 
         <div class="flex mt-[45px] gap-4">
-          <button class="highlight-button primary">Apply As Freelancer</button>
+          <button class="shaded-button secondary">Apply As Freelancer</button>
         </div>
       </div>
       <div><lottie-player src="https://assets1.lottiefiles.com/packages/lf20_gm0l0bbp.json" background="transparent"
@@ -35,78 +35,23 @@
       <h2 class="text-4xl font-bold">Why join the <span class="text-primary-500">EASWORKS network</span></h2>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-center">
-      <div class="bg-white shadow-lg rounded-md p-4 lg:p-10 text-center h-full">
-        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-          <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_xoih8e2r.json" background="transparent"
+    <div class="flex flex-wrap gap-8 items-stretch justify-center">
+      @for(why of whyJoin; track why.title) {
+      <div class="bg-white shadow-lg rounded-md p-4 text-center 
+        w-56 lg:w-64 xl:w-72
+        flex-grow transition-all">
+        <div class="flex m-auto justify-center h-20 w-20">
+          <lottie-player [src]="why.lottie" background="transparent"
                          speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
         </div>
-        <h4 class="text-lg font-semibold my-5">We see the person and the engineer.</h4>
-        <p class="text-sm leading-6">You are more than your resume and deserve a dedicated Enterprise
-          Application Platform to share your skills and do what you love.</p>
+        <h4 class="text-lg font-semibold my-4">{{why.title}}</h4>
+        <p class="text-sm leading-6">{{why.content}}</p>
       </div>
-
-      <div class="bg-white shadow-lg rounded-md p-4 lg:p-10 text-center h-full">
-        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-          <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_4ufjcjnn.json" background="transparent"
-                         speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">Grow your client base</h4>
-        <p class="text-sm leading-6">We give you the ideal platform to build a client base without too much
-          effort so that you can form long-lasting professional relationships in the enterprise software
-          field.</p>
-      </div>
-
-      <div class="bg-white shadow-lg rounded-md p-4 lg:p-10 text-center h-full">
-        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-          <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_ssmd5ixl.json" background="transparent"
-                         speed="1" style="width: 100%; height: 100%;" loop autoplay>
-          </lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">We match your paycheck with your experience and skill set.</h4>
-        <p class="text-sm leading-6">Find the right opportunity at a salary that reflects your expertise and
-          skills, with room for additional benefits via Deel.</p>
-      </div>
+      }
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-center lg:pt-10">
-      <div class="bg-white shadow-lg rounded-md p-4 lg:p-10 text-center h-full">
-        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-          <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_mlfv646z.json" background="transparent"
-                         speed="1" style="width: 100%; height: 100px;" loop autoplay>
-          </lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">We work with you.</h4>
-        <p class="text-sm leading-6">We believe in working with each other and not for each other. We work with
-          you to identify the client role with the best overall fit, catering to your work schedule, tech
-          stacks, and team dynamics among other factors.</p>
-      </div>
-
-      <div class="bg-white shadow-lg rounded-md p-4 lg:p-10 text-center h-full">
-        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-          <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_6ln47dih.json" background="transparent"
-                         speed="1" style="width: 100%; height: 100px;" loop autoplay>
-          </lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">You’ll never get bored.</h4>
-        <p class="text-sm leading-6">We work with innovative companies around the world and match our
-          consultants with enterprise projects they're passionate about.</p>
-      </div>
-
-      <div class="bg-white shadow-lg rounded-md p-4 lg:p-10 text-center h-full">
-        <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5">
-          <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_eqez4yrv.json" background="transparent"
-                         speed="1" style="width: 100%; height: 100px;" loop autoplay>
-          </lottie-player>
-        </div>
-        <h4 class="text-lg font-semibold my-5">We value our freelancers and clients equally.</h4>
-        <p class="text-sm leading-6">We give our freelancers full transparency around the vetting and hiring
-          process to ensure all parties are on the same page when it comes to how we work.</p>
-      </div>
-    </div>
-
-    <div class="flex justify-center mt-10 text-center">
-      <button class="highlight-button primary mt-5">Apply to Join</button>
+    <div class="flex justify-center mt-8 text-center">
+      <button class="shaded-button secondary mt-4">Apply to Join</button>
     </div>
 
   </div>
@@ -123,7 +68,7 @@
         <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_tzqodrys.json" background="transparent"
                        speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
         <div class="flex justify-center mt-10 text-center">
-          <button class="highlight-button primary mt-5">Apply to Join</button>
+          <button class="shaded-button secondary mt-5">Apply to Join</button>
         </div>
       </div>
       <div class="relative">
@@ -250,25 +195,27 @@
   </div>
 </section>
 
-<section class="page py-12">
+<section class="page max-w-screen-xl py-12">
   <featured-domains></featured-domains>
 </section>
 
 <section class="py-[60px] bg-white">
   <div class="page">
     <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold">EASWORKS IS TWO WAY STREET - You Still Get to Choose</h2>
+      <h2 class="text-4xl font-bold">EASWORKS IS A TWO WAY STREET - You Still Get to Choose</h2>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-6 relative">
       <div class="relative">
         <p class="my-4 text-base font-normal leading-8">We will only offer you Enterprise projects that match
           your application expertise, tech stack, experience, and availability but you will always have the
           last word for whatever and we truly know that you are more than just Resume. </p>
-        <ul class="leading-9">
-          <li><i class="fa-solid fa-check"></i> The Enterprise task/project doesn't seem challenging enough?
+        <ul class="flex flex-col gap-y-4">
+          @for(point of youChoose; track point) {
+          <li class="flex gap-4">
+            <fa-icon [icon]="icons.faCheck" class="text-blue-500 relative top-1"></fa-icon>
+            <span>{{point}}</span>
           </li>
-          <li><i class="fa-solid fa-check"></i> Didn't click with the client? </li>
-          <li><i class="fa-solid fa-check"></i> Expection is higher for the compensation paid?</li>
+          }
         </ul>
       </div>
       <div>
