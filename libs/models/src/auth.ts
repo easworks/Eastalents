@@ -16,10 +16,10 @@ interface SignUpDetails {
   firstName: string;
   lastName: string;
   email: string;
+  userRole: Role;
 }
 
 export interface EmailSignUpRequest extends SignUpDetails {
-  role: Role;
   password: string;
 }
 

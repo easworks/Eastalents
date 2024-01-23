@@ -116,7 +116,7 @@ export class EmployerSignUpPageComponent {
         { authType: 'signup', userRole: 'employer', email, firstName, lastName },
         { isNewUser: true }
       ) :
-      this.auth.signup.email({ email, firstName, lastName, password, role: 'employer' });
+      this.auth.signup.email({ email, firstName, lastName, password, userRole: 'employer' });
 
     query$
       .catch(() => {
