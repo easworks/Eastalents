@@ -1,22 +1,24 @@
 <h3 class="text-xl font-bold mb-5">{{label$()}}</h3>
 
-<div class="grid gap-4 mb-3 text-sm" style="grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));">
-  @for(software of visibleProducts$(); track software.link) {
+<div class="grid gap-4 mb-3 text-sm justify-center overflow-y-hidden"
+     style="grid-template-columns: repeat(auto-fill, 8rem);"
+     [style.grid-template-rows]="rowTemplate$()"
+     [style.height]="gridHeight$()">
+  @for(software of products$(); track software.link) {
   <a [routerLink]="software.link" [title]="software.name"
-     class="p-2 flex items-center justify-center relative 
-           rounded-md transition-all
-           border-2 border-blue-400 border-dashed hover:border-solid">
-    <img class="h-12 object-contain"
+     class="p-1 h-16 rounded-md transition-all
+          border-2 border-blue-400 border-dashed hover:border-solid">
+    <img class="h-full w-full object-contain"
          [src]="software.image" alt="">
   </a>
   }
 
   <a [routerLink]="customSoftwareLink$()"
      title="Custom / Legacy Application for {{shortName$()}}"
-     class="p-2 px-4 flex items-center justify-center relative
-              !text-secondary-950 rounded-md transition-all
-              border-2 border-blue-400 border-dashed hover:border-solid">
-    <div class="h-12 flex flex-col justify-between text-center">
+     class="p-1 px-4 h-16 !text-secondary-950 rounded-md transition-all
+            border-2 border-blue-400 border-dashed hover:border-solid"
+     [style]="customCellPosition$()">
+    <div class="h-full w-full flex flex-col justify-between text-center">
       <fa-icon [icon]="icons.faGear" class="mx-auto"></fa-icon>
       <span class="font-bold text-xs">Custom / Legacy Application</span>
     </div>
