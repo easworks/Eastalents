@@ -10,9 +10,9 @@ module.exports = {
       center: true
     },
     screens: {
-      'md': '37.5rem',
+      'md': '36rem',
       'lg': '60rem',
-      'xl': '80rem'
+      'xl': '72rem'
     },
     extend: {
       fontFamily: {
@@ -78,7 +78,10 @@ module.exports = {
         '45': 0.45
       }
     },
-  }
+  },
+  plugins: [
+    require('@tailwindcss/container-queries'),
+  ]
 };
 
 function generateShadows() {

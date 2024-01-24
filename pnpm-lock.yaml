@@ -56,6 +56,9 @@ dependencies:
   '@ngrx/store':
     specifier: 17.0.1
     version: 17.0.1(@angular/core@17.0.7)(rxjs@7.8.1)
+  '@tailwindcss/container-queries':
+    specifier: ^0.1.1
+    version: 0.1.1(tailwindcss@3.3.6)
   '@tailwindcss/typography':
     specifier: ^0.5.10
     version: 0.5.10(tailwindcss@3.3.6)
@@ -6416,6 +6419,14 @@ packages:
       magic-string: 0.25.9
       string.prototype.matchall: 4.0.10
     dev: true
+
+  /@tailwindcss/container-queries@0.1.1(tailwindcss@3.3.6):
+    resolution: {integrity: sha512-p18dswChx6WnTSaJCSGx6lTmrGzNNvm2FtXmiO6AuA1V4U5REyoqwmT6kgAsIMdjo07QdAfYXHJ4hnMtfHzWgA==}
+    peerDependencies:
+      tailwindcss: '>=3.2.0'
+    dependencies:
+      tailwindcss: 3.3.6(ts-node@10.9.2)
+    dev: false
 
   /@tailwindcss/typography@0.5.10(tailwindcss@3.3.6):
     resolution: {integrity: sha512-Pe8BuPJQJd3FfRnm6H0ulKIGoMEQS+Vq01R6M5aCrFB/ccR/shT+0kXLjouGC1gFLm9hopTFN+DMP0pfwRWzPw==}

@@ -62,8 +62,73 @@ export class AppComponent {
     } as const;
   });
 
-  protected readonly footerNav: { group: string, items: MenuItem[]; }[][] = [
-    [
+  protected readonly footerNav = {
+    clients: {
+      group: 'For Clients',
+      items: [
+        { name: 'Hire EAS Talents', link: NOOP_CLICK },
+        { name: 'Book a Call', link: NOOP_CLICK },
+        { name: 'Explore Services', link: NOOP_CLICK },
+        { name: 'Hire for specific skills', link: NOOP_CLICK },
+        { name: 'FAQ-Client', link: NOOP_CLICK }
+      ],
+    },
+    freelancers: {
+      group: 'For Talents',
+      items: [
+        { name: 'Apply for Jobs', link: NOOP_CLICK },
+        { name: 'Freelancer Login', link: NOOP_CLICK },
+        { name: 'FAQ -Talent', link: NOOP_CLICK },
+      ],
+    },
+    useCase: {
+      group: 'Use cases',
+      items: publicMenu.items.useCases.children,
+    },
+    industries: {
+      group: 'Industries',
+      items: [
+        { name: 'Automotive', link: NOOP_CLICK },
+        { name: 'Aerospace and Defense', link: NOOP_CLICK },
+        { name: 'Retail and E-commerce', link: NOOP_CLICK },
+        { name: 'Manufacturing', link: NOOP_CLICK },
+        { name: 'Retail and E-commerce', link: NOOP_CLICK },
+        { name: 'Healthcare', link: NOOP_CLICK },
+        { name: 'Financial Services', link: NOOP_CLICK },
+        { name: 'Electronics and High Tech', link: NOOP_CLICK },
+        { name: 'Consumer Packaged Goods', link: NOOP_CLICK },
+        { name: 'Pharmaceuticals', link: NOOP_CLICK },
+      ],
+    },
+    about: {
+      group: 'About',
+      items: [
+        publicMenu.items.aboutUs,
+        { name: 'Blog', link: NOOP_CLICK },
+        { name: 'Careers', link: NOOP_CLICK },
+        { name: 'Community', link: NOOP_CLICK },
+        publicMenu.items.codeOfConduct,
+        publicMenu.items.dataProcessingAgreement
+      ],
+    },
+    contact: {
+      group: 'Contact Us',
+      items: [
+        publicMenu.items.contactUs,
+        publicMenu.items.helpCenter
+      ],
+    }
+  } satisfies {
+    [key: string]: {
+      group: string,
+      items: MenuItem[];
+    };
+  };
+
+  protected readonly footerNav2: {
+    group: string,
+    items: MenuItem[];
+  }[] = [
       {
         group: 'For Clients',
         items: [
@@ -82,14 +147,10 @@ export class AppComponent {
           { name: 'FAQ -Talent', link: NOOP_CLICK },
         ],
       },
-    ],
-    [
       {
         group: 'Use cases',
-        items: publicMenu.items.useCases.children
+        items: publicMenu.items.useCases.children,
       },
-    ],
-    [
       {
         group: 'Industries',
         items: [
@@ -103,10 +164,8 @@ export class AppComponent {
           { name: 'Electronics and High Tech', link: NOOP_CLICK },
           { name: 'Consumer Packaged Goods', link: NOOP_CLICK },
           { name: 'Pharmaceuticals', link: NOOP_CLICK },
-        ]
+        ],
       },
-    ],
-    [
       {
         group: 'About',
         items: [
@@ -116,7 +175,7 @@ export class AppComponent {
           { name: 'Community', link: NOOP_CLICK },
           publicMenu.items.codeOfConduct,
           publicMenu.items.dataProcessingAgreement
-        ]
+        ],
       },
       {
         group: 'Contact Us',
@@ -124,9 +183,8 @@ export class AppComponent {
           publicMenu.items.contactUs,
           publicMenu.items.helpCenter
         ],
-      },
-    ],
-  ];
+      }
+    ];
 
   protected readonly brandLinks$ = this.menuState.brandLinks$;
 
@@ -141,12 +199,13 @@ export class AppComponent {
           this.menuState.publicMenu.vertical$.set(publicMenu.full());
           break;
         case 'lg':
-          this.menuState.publicMenu.horizontal$.set(publicMenu.firstPart());
-          this.menuState.publicMenu.vertical$.set(publicMenu.secondPart());
-          break;
         case 'xl':
+          // this.menuState.publicMenu.horizontal$.set(publicMenu.firstPart());
+          // this.menuState.publicMenu.vertical$.set(publicMenu.secondPart());
+          // break;
           this.menuState.publicMenu.horizontal$.set(publicMenu.full());
           this.menuState.publicMenu.vertical$.set([]);
+          break;
       }
     }, { allowSignalWrites: true });
 

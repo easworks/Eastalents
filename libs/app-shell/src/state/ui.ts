@@ -69,9 +69,9 @@ export const UI_FEATURE = createFeature({
     const bo = inject(BreakpointObserver);
 
     const Breakpoints = {
-      md: '(min-width: 37.5rem)',
+      md: '(min-width: 36rem)',
       lg: '(min-width: 60rem)',
-      xl: '(min-width: 80rem)'
+      xl: '(min-width: 72rem)'
     } satisfies { [k in ScreenSize]?: string };
     const searchable = Object.keys(Breakpoints) as (keyof typeof Breakpoints)[];
 

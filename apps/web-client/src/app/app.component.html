@@ -28,8 +28,8 @@
   <mat-sidenav-content class="flex-grow !flex flex-col !overflow-visible bg-white">
     <router-outlet class="hidden [&_+_*]:flex-1"></router-outlet>
 
-    <div class="flex flex-wrap gap-8 px-10 bg-white py-10 border-t 
-          lg:flex-nowrap lg:justify-evenly">
+    <div class="flex flex-wrap gap-8 gap-x-16 px-10 bg-white py-10 border-t 
+          lg:flex-nowrap lg:justify-between">
       <div class="lg:max-w-[20rem] transition-all">
         <img src="/assets/brand/black-logo.png">
         <p class="mt-8 text-base">
@@ -54,20 +54,54 @@
           </p>
         </div>
       </div>
-      <nav class="flex flex-col md:flex-row flex-wrap gap-8">
-        <div *ngFor="let column of footerNav" class="flex flex-col gap-6">
-          <div *ngFor="let group of column">
-            <p class="text-lg m-0 font-semibold">{{group.group}}</p>
-            <ul class="mt-2">
-              <li *ngFor="let item of group.items" class="py-1">
-                <a [routerLink]="item.link" class="max-w-fit">
-                  <fa-icon [icon]="icons.faAngleRight" class="inline-block mr-2"></fa-icon>
-                  <span>{{item.name}}</span>
-                </a>
-              </li>
-            </ul>
+      <nav class="@container flex-1">
+        <div class="lg:ml-auto grid gap-4 @lg:gap-x-8 grid-cols-12 grid-flow-row-dense w-max">
+
+          <div *ngrxLet="footerNav.clients as group"
+               class="col-span-12 @md:col-span-6 @4xl:col-span-4 @6xl:col-span-3">
+            <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
           </div>
+
+          <div *ngrxLet="footerNav.freelancers as group"
+               class="col-span-12 @md:col-span-6 @4xl:col-span-4 @6xl:col-span-3">
+            <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
+          </div>
+
+          <div *ngrxLet="footerNav.useCase as group"
+               class="row-span-2 col-span-12 @md:col-span-6 @4xl:col-span-4 @4xl:col-start-1 @6xl:col-span-3 @6xl:col-start-7">
+            <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
+          </div>
+
+          <div *ngrxLet="footerNav.industries as group"
+               class=" row-span-2 col-span-12 @md:col-span-6 @4xl:col-span-4 @4xl:col-start-5 @6xl:col-span-3 @6xl:col-start-10">
+            <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
+          </div>
+
+          <div *ngrxLet="footerNav.about as group"
+               class="col-span-12 @md:col-span-6 @4xl:col-span-4 @4xl:col-start-9 @6xl:col-span-3">
+            <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
+          </div>
+
+          <div *ngrxLet="footerNav.contact as group"
+               class="col-span-12 @md:col-span-6 @4xl:col-span-4 @4xl:col-start-9 @6xl:col-span-3">
+            <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
+          </div>
+
         </div>
+
+        <ng-template let-group #footerNavGroup>
+          <p class="text-lg m-0 font-semibold">{{group.group}}</p>
+          <ul class="mt-2">
+            @for(item of group.items; track item) {
+            <li class="py-1">
+              <a [routerLink]="item.link" class="flex gap-2 max-w-fit">
+                <fa-icon [icon]="icons.faAngleRight" class="inline-block mt-1"></fa-icon>
+                <span>{{item.name}}</span>
+              </a>
+            </li>
+            }
+          </ul>
+        </ng-template>
       </nav>
     </div>
 
