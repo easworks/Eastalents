@@ -32,7 +32,7 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
       content: [
         'EASWORKS helps on your Digital continuity & Transformation to transform your business using pioneering enterprise technologies skills to become digitally ready with all legacy applications. EASWORKS proven tech-skills and experience help businesses gain maximum benefits in your digital transformation journey.',
       ],
-      lottie: '',
+      lottie: 'https://lottie.host/4c9690fd-2f7c-4f2d-8d17-189cd10faa13/ZVqeAIMqEv.json',
       cta: 'Start to Implement Digital Transformation Initiatives',
     },
     stepper: {
@@ -85,7 +85,7 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
       content: [
         'EASWORKS enables Innovation led by Design thinking software development with focus on SOLUTION to reinvent your enterprise application portfolio, making use of emerging technology and building with speed and agility to enable you to meet business needs, now and in the future.',
       ],
-      lottie: '',
+      lottie: 'https://lottie.host/24cc3e35-b8db-4ea0-a1ba-b32a2f697da6/AgufANxAwn.json',
       cta: 'Start Innovation-led approach',
     },
     stepper: {
@@ -128,6 +128,7 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
       ]
     }
   },
+
   'prototyping': {
     hero: {
       title: {
@@ -137,7 +138,7 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
       content: [
         'EASWORKS helps to generate simple experimental model of a proposed Enterprise Application solution with different technologies & approaches to test or validate ideas, design assumptions and other aspects of its conceptualization quickly and cheaply.',
       ],
-      lottie: '',
+      lottie: 'https://lottie.host/da0ab755-9ffb-44dd-acf1-af038e744642/AbXDubIFQZ.json',
       cta: 'Start Prototyping',
     },
     stepper: {
@@ -192,7 +193,7 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
       content: [
         'EASWORKS helps data flow freely between applications without significant changes to database configurations or the applications themselves, leading to a streamlined process and increased data availability.',
       ],
-      lottie: '',
+      lottie: 'https://lottie.host/c0792fd1-027a-4eeb-801b-52b35b8e9624/VorTfvoJLp.json',
       cta: 'Implement Enterprise Application Integration',
     },
     stepper: {
@@ -251,7 +252,7 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
         '(v) Refactoting (rearchitect)',
         '(vi) Replatforming (lift & optimize)',
       ],
-      lottie: '',
+      lottie: 'https://lottie.host/b49f7ed3-7477-4e11-b459-ba4e84f73f41/Pl7fmKo631.json',
       cta: 'Start Application Integration',
     },
     stepper: {
@@ -310,7 +311,7 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
       content: [
         'EASWORKS helps to provide effective and efficient Enterprise Application UI Design & Enterprise Software UX Design to streamline business processes, reduce errors, and reduce user frustration to deliver best in class design for your Enterprise Application.',
       ],
-      lottie: '',
+      lottie: 'https://lottie.host/6cd7a0ca-c8e5-4f78-bdcd-25f0d6d8066b/88foE2hAa4.json',
       cta: 'Start UX/UI Designing',
     },
     stepper: {
@@ -351,7 +352,7 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
       content: [
         'EASWORKS helps to use Business Analytics & Business Intelligence technologies used for the data analysis of business information and refers to a range of tools that provide quick, easy-to-digest access to insights of your organization`s current state, based on available data.',
       ],
-      lottie: '',
+      lottie: 'https://lottie.host/fbafaf32-a5a8-4a76-ab00-6b0b882e187f/FrPuBm1o9l.json',
       cta: 'Start using Business Analytics & Business Intelligence tools',
     },
     stepper: {
@@ -421,7 +422,7 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
       content: [
         'EASWORKS helps to build Custom Enterprise Application software development which are aimed to serve a particular set of business requirements for your organization which is not possible in Commercial off-the-shelf Applications (COTS).',
       ],
-      lottie: '',
+      lottie: 'https://lottie.host/61f54bac-ee62-484d-8908-2aa4644c600b/Cf0ihIA945.json',
       cta: 'Start to develop Custom Enterprise Application',
     },
     stepper: {
@@ -493,7 +494,7 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
         '(v) Datacenter migration',
         '(vi) Cloud migration',
       ],
-      lottie: '',
+      lottie: 'https://lottie.host/74dd853e-638d-4dbf-9120-4420cfae8331/lO1RikmPXS.json',
       cta: 'Start Data migration',
     },
     stepper: {
@@ -535,7 +536,7 @@ export const USE_CASE_DATA: Readonly<Record<string, UseCase>> = {
       content: [
         'EASWORKS provides Enterprise Application support and maintenance with different service offerings depending on the type, business criticality, and specific requirements of your applications.',
       ],
-      lottie: '',
+      lottie: 'https://lottie.host/0eac63f0-c4f9-4871-978c-a0022af48c10/E0JHkNudaq.json',
       cta: 'Start EAS Support',
     },
     stepper: {
