@@ -54,6 +54,8 @@ export class SoftwarePageComponent {
   protected readonly domain$ = signal<Domain | null>(null);
   private readonly software$ = signal<SoftwareProduct | null>(null);
 
+  protected readonly seeMore = this.initSeeMore();
+
   protected readonly text;
 
   protected readonly roleLinks$ = computed(() => {
@@ -78,4 +80,29 @@ export class SoftwarePageComponent {
     '/assets/img/client-5.png',
     '/assets/img/client-1.png',
   ];
+
+  private initSeeMore() {
+    const $ = signal(false);
+
+    const buttonText$ = computed(() => $() ? 'See Less' : 'See More');
+    const rowStyle$ = computed(() => {
+      const more = $();
+
+      if (more) {
+        return '';
+      }
+      else {
+        return `grid-template-rows: repeat(4, auto); grid-auto-rows: 0; overflow-y: hidden`;
+      }
+    });
+
+    const toggle = () => $.update(s => !s);
+
+    return {
+      $,
+      buttonText$,
+      rowStyle$,
+      toggle
+    };
+  }
 }
