@@ -10,6 +10,7 @@ import { faFacebook, faGithub, faInstagram, faLinkedin, faTwitter, faYoutube } f
 import { faAngleRight, faBars, } from '@fortawesome/free-solid-svg-icons';
 import { AccountWidgetComponent } from '../account/account.widget';
 import { publicMenu, socialIcons } from './menu-items';
+import { Store } from '@ngrx/store';
 
 @Component({
   standalone: true,
@@ -34,10 +35,14 @@ export class AppComponent {
     this.menuState.brandLinks$.set(socialIcons);
   }
 
+  private readonly store = inject(Store);
+  private readonly menuState = inject(NavMenuState);
+
+  private readonly ui$ = this.store.selectSignal(UI_FEATURE.selectUiState);
+
   @HostBinding()
   private readonly class = 'flex flex-col min-h-screen';
-  private readonly ui = inject(UI_FEATURE);
-  private readonly menuState = inject(NavMenuState);
+
   @ViewChild('appSidenav', { static: true }) private readonly appSideNav!: MatSidenav;
 
   protected readonly icons = {
@@ -55,7 +60,7 @@ export class AppComponent {
   protected readonly showHorizontalMenu$ = computed(() => this.menuState.publicMenu.horizontal$().length > 0);
 
   protected readonly topBar$ = computed(() => {
-    const dark = this.ui.selectors.topBar$().dark;
+    const dark = this.ui$().topBar.dark;
     return {
       brandImage: dark ? '/assets/brand/logo-full-light.png' : '/assets/brand/logo-full-dark.png',
       dark
@@ -190,7 +195,7 @@ export class AppComponent {
 
   private makeMenuReactive() {
     effect(() => {
-      const screenSize = this.ui.selectors.screenSize$();
+      const screenSize = this.ui$().screenSize;
 
       switch (screenSize) {
         case 'sm':

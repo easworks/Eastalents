@@ -9,6 +9,7 @@ import { AuthState } from '@easworks/app-shell/state/auth';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UI_FEATURE } from '@easworks/app-shell/state/ui';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'account-widget',
@@ -29,9 +30,11 @@ export class AccountWidgetComponent {
   private readonly state = inject(AuthState);
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly ui = inject(UI_FEATURE);
+  private readonly store = inject(Store);
+
+  private readonly ui$ = this.store.selectSignal(UI_FEATURE.selectUiState);
   protected readonly signInButtonClass$ = computed(() => {
-    return this.ui.selectors.topBar$().dark ?
+    return this.ui$().topBar.dark ?
       'hover:bg-white/90 focus:bg-white/90' :
       '';
   });

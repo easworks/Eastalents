@@ -6,6 +6,7 @@ import { UI_FEATURE } from '@easworks/app-shell/state/ui';
 import { Domain } from '@easworks/models';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faGear, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
 
 type DomainPartial = Pick<Domain, 'key' | 'longName' | 'products'>;
 
@@ -22,7 +23,10 @@ type DomainPartial = Pick<Domain, 'key' | 'longName' | 'products'>;
   ]
 })
 export class SoftwareTilesContainerComponent {
-  private readonly screenSize$ = inject(UI_FEATURE).selectors.screenSize$;
+  private readonly store = inject(Store);
+
+  private readonly screenSize$ = this.store.selectSignal(UI_FEATURE.selectScreenSize);
+
   protected readonly icons = {
     faGear,
     faPlus,
