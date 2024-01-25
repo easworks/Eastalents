@@ -13,7 +13,7 @@ import { RoleSoftwareTalentComponent } from '../common/role-software-talent.comp
   standalone: true,
   selector: 'software-page',
   templateUrl: './software.page.html',
-  styleUrls: [],
+  styleUrl: './software.page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     LottiePlayerDirective,
