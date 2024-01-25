@@ -12,7 +12,7 @@ import { SoftwareTilesContainerComponent } from '../common/software-tiles-contai
   standalone: true,
   selector: 'roles-page',
   templateUrl: './roles.page.html',
-  styleUrls: [],
+  styleUrl: './roles.page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
@@ -46,7 +46,7 @@ export class RolesPageComponent {
 
   private readonly route = inject(ActivatedRoute);
   protected readonly domain$ = signal<Domain | null>(null);
-  private readonly role$ = signal<string | null>(null);
+  protected readonly role$ = signal<string | null>(null);
 
   protected readonly text;
 
