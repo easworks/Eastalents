@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 
@@ -16,9 +16,6 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UseCaseTilesContainerComponent {
-  @HostBinding()
-  private readonly class = 'flex gap-8 flex-wrap justify-center';
-
   protected readonly useCases = [
     {
       lottie: 'https://lottie.host/4c9690fd-2f7c-4f2d-8d17-189cd10faa13/ZVqeAIMqEv.json',

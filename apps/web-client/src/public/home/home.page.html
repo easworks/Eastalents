@@ -74,22 +74,20 @@
   </div>
 </section>
 
-<section>
-  <div class="page max-w-screen-xl py-12">
-    <h2 class="text-2xl lg:text-3xl text-center font-bold transition-all">EASWORKS promises it all</h2>
+<section class="page py-12 max-w-none @container">
+  <h2 class="text-2xl lg:text-3xl text-center font-bold transition-all">EASWORKS promises it all</h2>
 
-    <div class="flex mt-12 flex-wrap gap-4 justify-center">
-      @for (promise of promises; track promise.title) {
-      <div class="flex flex-col gap-y-4 p-2 px-4 pb-4 
+  <div class="flex flex-wrap mt-12 gap-4 mx-auto justify-center @3xl:max-w-3xl @6xl:max-w-none @6xl:flex-nowrap">
+    @for (promise of promises; track promise.title) {
+    <div class="flex flex-col gap-y-4 p-2 px-4 pb-4 
         w-56 flex-grow md:flex-none
         bg-white shadow-md rounded-md text-center transition-all">
-        <lottie-player [src]="promise.lottie" background="transparent" class="w-24 h-24 mx-auto" autoplay loop>
-        </lottie-player>
-        <h4 class="text-lg font-semibold">{{promise.title}}</h4>
-        <p class="text-sm leading-6 text-center">{{promise.content}}</p>
-      </div>
-      }
+      <lottie-player [src]="promise.lottie" background="transparent" class="w-24 h-24 mx-auto" autoplay loop>
+      </lottie-player>
+      <h4 class="text-lg font-semibold">{{promise.title}}</h4>
+      <p class="text-sm leading-6 text-center">{{promise.content}}</p>
     </div>
+    }
   </div>
 </section>
 
