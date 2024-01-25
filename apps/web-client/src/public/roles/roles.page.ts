@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
-import { RoleSoftwareTalentComponent } from '../common/role-software-talent.component';
-import { DomainSoftwareSelectorComponent } from '../common/domain-software-selector.component';
+import { sortString } from '@easworks/app-shell/utilities/sort';
 import { Domain } from '@easworks/models';
-import { ActivatedRoute } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { DomainSoftwareSelectorComponent } from '../common/domain-software-selector.component';
+import { RoleSoftwareTalentComponent } from '../common/role-software-talent.component';
 import { SoftwareTilesContainerComponent } from '../common/software-tiles-container.component';
 
 @Component({
@@ -19,7 +21,8 @@ import { SoftwareTilesContainerComponent } from '../common/software-tiles-contai
     LottiePlayerDirective,
     RoleSoftwareTalentComponent,
     DomainSoftwareSelectorComponent,
-    SoftwareTilesContainerComponent
+    SoftwareTilesContainerComponent,
+    RouterModule
   ]
 })
 export class RolesPageComponent {
@@ -45,8 +48,33 @@ export class RolesPageComponent {
   }
 
   private readonly route = inject(ActivatedRoute);
+
+  protected readonly icons = {
+    faAngleRight
+  } as const;
+
   protected readonly domain$ = signal<Domain | null>(null);
   protected readonly role$ = signal<string | null>(null);
+
+  protected readonly roleList$ = computed(() => {
+    const domain = this.domain$();
+
+    if (!domain)
+      return [];
+
+    const allRoles = new Set(domain.modules
+      .map(m => m.roles)
+      .flat());
+
+    const list = [...allRoles]
+      .sort(sortString)
+      .map(r => ({
+        name: r,
+        link: `/roles/${domain.key}/${r}`
+      }));
+
+    return list;
+  });
 
   protected readonly text;
 

@@ -51,8 +51,21 @@
     </h2>
 
     <p class="text-base font-normal">The EASWORKS platform includes experts across a very wide array of Enterprise Application Software (EAS) development languages and technologies. See the list below to find EAS freelance developer profiles and contractors with your desired skill. </p>
+  </div>
 
-    <domain-software-selector class="mt-8"></domain-software-selector>
+  <domain-software-selector class="mt-8"></domain-software-selector>
+
+  <div class="mt-12 grid gap-2
+          grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    @for(role of roleList$(); track $index) {
+    <div>
+      <a class="flex gap-2 max-w-max" [routerLink]="role.link">
+        <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
+        {{role.name}}
+      </a>
+    </div>
+    }
+
   </div>
 </section>
 
