@@ -4,7 +4,7 @@
   </div>
 
   <div class="@container">
-    <div class="grid grid-cols-12 gap-4 items-center min-h-offset-screen">
+    <div class="grid grid-cols-12 gap-4 items-start min-h-offset-screen">
       <div class="p-4 md:px-8 col-span-12 
           @4xl:col-span-7">
         <h2 class="text-3xl font-bold">
@@ -19,33 +19,34 @@
           strong collaboration skills, and understanding of project requirements.
         </p>
 
-        <div class="mt-4 flex flex-wrap gap-x-12 gap-y-4 items-center justify-between"
+        <div *ngrxLet="text.domain$() as domain"
+             class="flex gap-4 justify-stretch mt-8">
+          <button class="shaded-button secondary text-left text-sm ml-auto">Hire for {{domain}} Role</button>
+          <button class="stroked-button border-primary-950 border-2 font-medium text-left text-sm">Apply for {{domain}} Jobs</button>
+        </div>
+
+        <div class="mt-4"
              *ngrxLet="text.domain$() as domain">
           <h3 class="font-bold text-xl">
             <span class="text-primary-500">{{domain}}</span>
             Roles
           </h3>
 
-          <div class="flex flex-wrap gap-4 justify-stretch">
-            <button class="shaded-button secondary text-left text-sm">Hire for {{domain}} Role</button>
-            <button class="stroked-button border-primary-950 border-2 font-medium text-left text-sm">Apply for {{domain}} Jobs</button>
-          </div>
+          <ul class="mt-8 grid gap-x-4 text-sm"
+              style="grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));"
+              [style]="seeMore.rowStyle$()">
+            <li *ngFor="let item of roleLinks$()" class="mb-2">
+              <a [routerLink]="item.link" class="flex gap-2">
+                <fa-icon [icon]="icons.faAngleRight" class="mt-[0.15rem]"></fa-icon>
+                {{item.role}}
+              </a>
+            </li>
+          </ul>
+          <button class="stroked-button small mx-auto mt-8 border-secondary-950 border-2" mat-ripple
+                  (click)="seeMore.toggle()">
+            {{seeMore.buttonText$()}}
+          </button>
         </div>
-
-        <ul class="mt-8 grid gap-x-4 text-sm"
-            style="grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));"
-            [style]="seeMore.rowStyle$()">
-          <li *ngFor="let item of roleLinks$()" class="mb-2">
-            <a [routerLink]="item.link" class="flex gap-2">
-              <fa-icon [icon]="icons.faAngleRight" class="mt-[0.15rem]"></fa-icon>
-              {{item.role}}
-            </a>
-          </li>
-        </ul>
-        <button class="stroked-button small mx-auto mt-8 border-secondary-950 border-2" mat-ripple
-                (click)="seeMore.toggle()">
-          {{seeMore.buttonText$()}}
-        </button>
       </div>
 
       <div class="h-full w-full relative

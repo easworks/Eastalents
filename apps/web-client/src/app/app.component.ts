@@ -57,7 +57,7 @@ export class AppComponent {
   protected readonly topBar$ = computed(() => {
     const dark = this.ui.selectors.topBar$().dark;
     return {
-      brandImage: dark ? '/assets/brand/white-logo.png' : '/assets/brand/black-logo.png',
+      brandImage: dark ? '/assets/brand/logo-full-light.png' : '/assets/brand/logo-full-dark.png',
       dark
     } as const;
   });
