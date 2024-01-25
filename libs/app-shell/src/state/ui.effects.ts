@@ -1,7 +1,7 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { inject } from '@angular/core';
 import { createEffect } from '@ngrx/effects';
-import { distinctUntilChanged, filter, fromEvent, map } from 'rxjs';
+import { distinctUntilChanged, fromEvent, map, startWith, tap } from 'rxjs';
 import { ScreenSize, uiActions } from './ui';
 
 
@@ -42,7 +42,7 @@ export const uiEffects = {
       return fromEvent(document, 'scroll')
         .pipe(
           map(() => scrollingElement.scrollTop),
-          filter(top => top <= 160),
+          startWith(scrollingElement.scrollTop),
           map(top => top === 0),
           distinctUntilChanged(),
           map(dark => uiActions.updateTopBarMode({ payload: { dark } }))
