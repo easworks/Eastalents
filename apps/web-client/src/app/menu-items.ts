@@ -18,7 +18,7 @@ export const publicMenu = {
     ...publicMenu.secondPart()
   ],
   items: {
-    forClients: { name: 'For Clients', link: '/for-employers' },
+    forClients: { name: 'For Clients', link: '/for-clients' },
     forFreelancers: { name: 'For Freelancers', link: '/for-freelancer' },
     whyEasWorks: { name: 'Why EASWORKS?', link: '/why-easworks' },
     easeworksTalent: { name: 'EASWORKS Talent', link: '/easworks-talent' },

@@ -109,22 +109,19 @@ export class HomePageComponent {
 
   protected readonly accelerate = [
     {
-      lottie: 'https://lottie.host/cdcfdf4a-7f11-46f6-b763-8aa0ddd63cb3/5cIAv6Pb81.json',
+      lottie: 'https://lottie.host/d1c2490c-af63-4ea7-a623-0b51dd9764ca/AO13AxjtHq.json',
       title: 'Vetted Individuals',
-      content: `Bridge the EAS Skill Gap in Your Team with our pre-vetted EAS professionals 
-        who bring the enterprise application expertise and the skill set you're looking for.`
+      content: `Fill Enterprise Application talent gaps in your next project by hiring a pre-vetted EAS professional, who brings a niche skillset and industry-specific knowledge.`
     },
     {
-      lottie: 'https://assets2.lottiefiles.com/packages/lf20_kcovw7lp.json',
+      lottie: 'https://lottie.host/1ff30c54-0496-4946-a30c-0d0690e85c81/MDWAKwRlZi.json',
       title: 'Full Teams',
-      content: `Hire a fully equipped remote team on a per-project basis with needed EAS
-        skills, ready to start immediately.`
+      content: `With a fully-equipped EAS Team of professionals, you get the knowledge and support you need for Enterprise Software projects. We assemble your ideal team members, facilitate their on-boarding, and ensure everyone is off to a great start`
     },
     {
-      lottie: 'https://assets6.lottiefiles.com/packages/lf20_agykieqg.json',
+      lottie: 'https://lottie.host/b9233ad0-d539-4160-86c4-747d871ccac2/JlLPj9U19M.json',
       title: 'Enterprise Application Projects',
-      content: `EASWORKS platform allows us to pull from the elite global enterprise
-        application talent to create a hand-picked AND fully managed team to reliably deliver on your enterprise project within your budget and deadlines.`
+      content: `Partner with a distributed enterprise software team to handle a variety of projects including Configuration/Customization, Development , UI/UX design, analysis, project management, quality assurance, maintenance, and support`
     }
   ];
 

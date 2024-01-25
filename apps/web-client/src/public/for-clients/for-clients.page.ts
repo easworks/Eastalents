@@ -13,9 +13,9 @@ import { SERVICE_TYPE_DATA } from '../service-type/data';
 
 @Component({
   standalone: true,
-  selector: 'for-employers-page',
-  templateUrl: './for-employers.page.html',
-  styleUrls: ['./for-employers.page.less'],
+  selector: 'for-clients-page',
+  templateUrl: './for-clients.page.html',
+  styleUrls: ['./for-clients.page.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
@@ -25,7 +25,7 @@ import { SERVICE_TYPE_DATA } from '../service-type/data';
     RouterModule
   ]
 })
-export class ForEmployersPageComponent {
+export class ForClientsPageComponent {
 
   constructor() {
     const route = inject(ActivatedRoute);
