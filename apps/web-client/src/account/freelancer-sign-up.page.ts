@@ -106,7 +106,7 @@ export class FreelancerSignUpPageComponent {
         { authType: 'signup', userRole: 'freelancer', email, firstName, lastName, },
         { isNewUser: true }
       ) :
-      this.auth.signup.email({ email, firstName, lastName, password, role: 'freelancer' });
+      this.auth.signup.email({ email, firstName, lastName, password, userRole: 'freelancer' });
 
     query$
       .catch(() => {

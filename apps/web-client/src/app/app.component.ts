@@ -10,6 +10,7 @@ import { faFacebook, faGithub, faInstagram, faLinkedin, faTwitter, faYoutube } f
 import { faAngleRight, faBars, } from '@fortawesome/free-solid-svg-icons';
 import { AccountWidgetComponent } from '../account/account.widget';
 import { publicMenu, socialIcons } from './menu-items';
+import { Store } from '@ngrx/store';
 
 @Component({
   standalone: true,
@@ -34,10 +35,14 @@ export class AppComponent {
     this.menuState.brandLinks$.set(socialIcons);
   }
 
+  private readonly store = inject(Store);
+  private readonly menuState = inject(NavMenuState);
+
+  private readonly ui$ = this.store.selectSignal(UI_FEATURE.selectUiState);
+
   @HostBinding()
   private readonly class = 'flex flex-col min-h-screen';
-  private readonly ui = inject(UI_FEATURE);
-  private readonly menuState = inject(NavMenuState);
+
   @ViewChild('appSidenav', { static: true }) private readonly appSideNav!: MatSidenav;
 
   protected readonly icons = {
@@ -55,84 +60,81 @@ export class AppComponent {
   protected readonly showHorizontalMenu$ = computed(() => this.menuState.publicMenu.horizontal$().length > 0);
 
   protected readonly topBar$ = computed(() => {
-    const dark = this.ui.selectors.topBar$().dark;
+    const dark = this.ui$().topBar.dark;
     return {
-      brandImage: dark ? '/assets/brand/white-logo.png' : '/assets/brand/black-logo.png',
+      brandImage: dark ? '/assets/brand/logo-full-light.png' : '/assets/brand/logo-full-dark.png',
       dark
     } as const;
   });
 
-  protected readonly footerNav: { group: string, items: MenuItem[]; }[][] = [
-    [
-      {
-        group: 'For Clients',
-        items: [
-          { name: 'Hire EAS Talents', link: NOOP_CLICK },
-          { name: 'Book a Call', link: NOOP_CLICK },
-          { name: 'Explore Services', link: NOOP_CLICK },
-          { name: 'Hire for specific skills', link: NOOP_CLICK },
-          { name: 'FAQ-Client', link: NOOP_CLICK }
-        ],
-      },
-      {
-        group: 'For Talents',
-        items: [
-          { name: 'Apply for Jobs', link: NOOP_CLICK },
-          { name: 'Freelancer Login', link: NOOP_CLICK },
-          { name: 'FAQ -Talent', link: NOOP_CLICK },
-        ],
-      },
-    ],
-    [
-      {
-        group: 'Use cases',
-        items: publicMenu.items.useCases.children
-      },
-    ],
-    [
-      {
-        group: 'Industries',
-        items: [
-          { name: 'Automotive', link: NOOP_CLICK },
-          { name: 'Aerospace and Defense', link: NOOP_CLICK },
-          { name: 'Retail and E-commerce', link: NOOP_CLICK },
-          { name: 'Manufacturing', link: NOOP_CLICK },
-          { name: 'Retail and E-commerce', link: NOOP_CLICK },
-          { name: 'Healthcare', link: NOOP_CLICK },
-          { name: 'Financial Services', link: NOOP_CLICK },
-          { name: 'Electronics and High Tech', link: NOOP_CLICK },
-          { name: 'Consumer Packaged Goods', link: NOOP_CLICK },
-          { name: 'Pharmaceuticals', link: NOOP_CLICK },
-        ]
-      },
-    ],
-    [
-      {
-        group: 'About',
-        items: [
-          publicMenu.items.aboutUs,
-          { name: 'Blog', link: NOOP_CLICK },
-          { name: 'Careers', link: NOOP_CLICK },
-          { name: 'Community', link: NOOP_CLICK },
-          publicMenu.items.codeOfConduct,
-          publicMenu.items.dataProcessingAgreement
-        ]
-      },
-      {
-        group: 'Contact Us',
-        items: [
-          publicMenu.items.contactUs,
-          publicMenu.items.helpCenter
-        ],
-      },
-    ],
-  ];
+  protected readonly footerNav = {
+    companies: {
+      group: 'For Companies',
+      items: [
+        { name: 'Hire EAS Talents', link: NOOP_CLICK },
+        { name: 'Book a Call', link: NOOP_CLICK },
+        { name: 'Explore Services', link: NOOP_CLICK },
+        { name: 'Hire for specific skills', link: NOOP_CLICK },
+        { name: 'FAQ-Client', link: NOOP_CLICK }
+      ],
+    },
+    freelancers: {
+      group: 'For Talents',
+      items: [
+        { name: 'Apply for Jobs', link: NOOP_CLICK },
+        { name: 'Freelancer Login', link: NOOP_CLICK },
+        { name: 'FAQ -Talent', link: NOOP_CLICK },
+      ],
+    },
+    useCase: {
+      group: 'Use cases',
+      items: publicMenu.items.useCases.children,
+    },
+    industries: {
+      group: 'Industries',
+      items: [
+        { name: 'Automotive', link: NOOP_CLICK },
+        { name: 'Aerospace and Defense', link: NOOP_CLICK },
+        { name: 'Retail and E-commerce', link: NOOP_CLICK },
+        { name: 'Manufacturing', link: NOOP_CLICK },
+        { name: 'Retail and E-commerce', link: NOOP_CLICK },
+        { name: 'Healthcare', link: NOOP_CLICK },
+        { name: 'Financial Services', link: NOOP_CLICK },
+        { name: 'Electronics and High Tech', link: NOOP_CLICK },
+        { name: 'Consumer Packaged Goods', link: NOOP_CLICK },
+        { name: 'Pharmaceuticals', link: NOOP_CLICK },
+      ],
+    },
+    about: {
+      group: 'About',
+      items: [
+        publicMenu.items.aboutUs,
+        { name: 'Blog', link: NOOP_CLICK },
+        { name: 'Careers', link: NOOP_CLICK },
+        { name: 'Community', link: NOOP_CLICK },
+        publicMenu.items.codeOfConduct,
+        publicMenu.items.dataProcessingAgreement
+      ],
+    },
+    contact: {
+      group: 'Contact Us',
+      items: [
+        publicMenu.items.contactUs,
+        publicMenu.items.helpCenter
+      ],
+    }
+  } satisfies {
+    [key: string]: {
+      group: string,
+      items: MenuItem[];
+    };
+  };
 
   protected readonly brandLinks$ = this.menuState.brandLinks$;
 
   private makeMenuReactive() {
     effect(() => {
-      const screenSize = this.ui.selectors.screenSize$();
+      const screenSize = this.ui$().screenSize;
 
       switch (screenSize) {
         case 'sm':
@@ -141,12 +143,13 @@ export class AppComponent {
           this.menuState.publicMenu.vertical$.set(publicMenu.full());
           break;
         case 'lg':
-          this.menuState.publicMenu.horizontal$.set(publicMenu.firstPart());
-          this.menuState.publicMenu.vertical$.set(publicMenu.secondPart());
-          break;
         case 'xl':
+          // this.menuState.publicMenu.horizontal$.set(publicMenu.firstPart());
+          // this.menuState.publicMenu.vertical$.set(publicMenu.secondPart());
+          // break;
           this.menuState.publicMenu.horizontal$.set(publicMenu.full());
           this.menuState.publicMenu.vertical$.set([]);
+          break;
       }
     }, { allowSignalWrites: true });
 

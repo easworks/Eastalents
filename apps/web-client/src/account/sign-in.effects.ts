@@ -6,7 +6,7 @@ import { AuthState } from '@easworks/app-shell/state/auth';
 
 const noRedirects = [
   '/account/sign-in',
-  '/account/sign-up',
+  '/account/register',
   '/account/social'
 ] as const;
 

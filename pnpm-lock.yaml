@@ -53,9 +53,18 @@ dependencies:
   '@ngrx/component':
     specifier: 17.0.1
     version: 17.0.1(@angular/common@17.0.7)(@angular/core@17.0.7)(rxjs@7.8.1)
+  '@ngrx/effects':
+    specifier: ^17.1.0
+    version: 17.1.0(@angular/core@17.0.7)(@ngrx/store@17.0.1)(rxjs@7.8.1)
   '@ngrx/store':
     specifier: 17.0.1
     version: 17.0.1(@angular/core@17.0.7)(rxjs@7.8.1)
+  '@ngrx/store-devtools':
+    specifier: ^17.1.0
+    version: 17.1.0(@ngrx/store@17.0.1)(rxjs@7.8.1)
+  '@tailwindcss/container-queries':
+    specifier: ^0.1.1
+    version: 0.1.1(tailwindcss@3.3.6)
   '@tailwindcss/typography':
     specifier: ^0.5.10
     version: 0.5.10(tailwindcss@3.3.6)
@@ -80,6 +89,9 @@ dependencies:
   idb-keyval:
     specifier: ^6.2.1
     version: 6.2.1
+  immer:
+    specifier: ^10.0.3
+    version: 10.0.3
   luxon:
     specifier: ^3.4.4
     version: 3.4.4
@@ -5225,6 +5237,40 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@ngrx/effects@17.1.0(@angular/core@17.0.7)(@ngrx/store@17.0.1)(rxjs@7.8.1):
+    resolution: {integrity: sha512-aU/4KUCHdr5Vk/fOwtEnJ/AHhI6ZLHRTKxdkRw89qAtaJJiK0JAiuGIDlOvnP7alPi6SvIpMohD+Bz7M/jUAKQ==}
+    peerDependencies:
+      '@angular/core': ^17.0.0
+      '@ngrx/store': 17.1.0
+      rxjs: ^6.5.3 || ^7.5.0
+    dependencies:
+      '@angular/core': 17.0.7(rxjs@7.8.1)(zone.js@0.14.2)
+      '@ngrx/operators': 17.0.0-beta.0(rxjs@7.8.1)
+      '@ngrx/store': 17.0.1(@angular/core@17.0.7)(rxjs@7.8.1)
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
+
+  /@ngrx/operators@17.0.0-beta.0(rxjs@7.8.1):
+    resolution: {integrity: sha512-EbO8AONuQ6zo2v/mPyBOi4y0CTAp1x4Z+bx7ZF+Pd8BL5ma53BTCL1TmzaeK5zPUe0yApudLk9/ZbHXPnVox5A==}
+    peerDependencies:
+      rxjs: ^6.5.3 || ^7.4.0
+    dependencies:
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
+
+  /@ngrx/store-devtools@17.1.0(@ngrx/store@17.0.1)(rxjs@7.8.1):
+    resolution: {integrity: sha512-sJxyyrMul6lh555PHjbCwk3uaw7bVOX1RNw7rPDpZSiD+CQwvtnD3xZxzx2Q21v7OPMlqr/ncjzbht9lSiGDRw==}
+    peerDependencies:
+      '@ngrx/store': 17.1.0
+      rxjs: ^6.5.3 || ^7.5.0
+    dependencies:
+      '@ngrx/store': 17.0.1(@angular/core@17.0.7)(rxjs@7.8.1)
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
+
   /@ngrx/store@17.0.1(@angular/core@17.0.7)(rxjs@7.8.1):
     resolution: {integrity: sha512-BmVzN+fqyz0ZrVEmJ+jrNwePMKcpNL49vb8sbQ3yDDftxgZz2HqRKFMexqlXpz5ixwK5LqTOblHNQOgi9irsTw==}
     peerDependencies:
@@ -6416,6 +6462,14 @@ packages:
       magic-string: 0.25.9
       string.prototype.matchall: 4.0.10
     dev: true
+
+  /@tailwindcss/container-queries@0.1.1(tailwindcss@3.3.6):
+    resolution: {integrity: sha512-p18dswChx6WnTSaJCSGx6lTmrGzNNvm2FtXmiO6AuA1V4U5REyoqwmT6kgAsIMdjo07QdAfYXHJ4hnMtfHzWgA==}
+    peerDependencies:
+      tailwindcss: '>=3.2.0'
+    dependencies:
+      tailwindcss: 3.3.6(ts-node@10.9.2)
+    dev: false
 
   /@tailwindcss/typography@0.5.10(tailwindcss@3.3.6):
     resolution: {integrity: sha512-Pe8BuPJQJd3FfRnm6H0ulKIGoMEQS+Vq01R6M5aCrFB/ccR/shT+0kXLjouGC1gFLm9hopTFN+DMP0pfwRWzPw==}
@@ -10835,6 +10889,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /immer@10.0.3:
+    resolution: {integrity: sha512-pwupu3eWfouuaowscykeckFmVTpqbzW+rXFCX8rQLkZzM9ftBmU/++Ra+o+L27mz03zJTlyV4UUr+fdKNffo4A==}
+    dev: false
 
   /immutable@3.8.2:
     resolution: {integrity: sha512-15gZoQ38eYjEjxkorfbcgBKBL6R7T459OuK+CpcWt7O3KF4uPCx2tD0uFETlUDIyo+1789crbMhTvQBSR5yBMg==}

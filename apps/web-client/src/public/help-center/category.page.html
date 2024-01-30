@@ -1,0 +1,14 @@
+@for(group of groups$(); track group.slug) {
+<div class="help-group">
+  <a class="title" [routerLink]="group.slug">{{group.title}}</a>
+  <ul class="item-list">
+    <li *ngFor="let item of group.items">
+      <a [routerLink]="group.slug" [fragment]="item.slug">{{item.title}}</a>
+    </li>
+  </ul>
+
+  <a [routerLink]="group.slug" class="group-link">
+    View All <fa-icon [icon]="icons.faCircleArrowRight"></fa-icon>
+  </a>
+</div>
+}

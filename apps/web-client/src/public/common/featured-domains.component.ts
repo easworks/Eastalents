@@ -25,7 +25,7 @@ export class FeaturedDomainsComponent {
 
   protected readonly featured = this.initFeaturedDomains();
 
-  @HostBinding() private readonly class = 'grid gap-8';
+  @HostBinding() private readonly class = 'page grid gap-8';
 
   private initFeaturedDomains() {
 

@@ -74,7 +74,7 @@ export function createFeature<T, A = undefined, S = undefined>(
   return new InjectionToken('', {
     providedIn: 'root',
     factory: () => {
-      const state$ = signal(initialState);
+      const state$ = signal(initialState, { equal: () => false });
       const actions$ = inject(ACTIONS);
       reducers.forEach(r => r(actions$, state$));
 

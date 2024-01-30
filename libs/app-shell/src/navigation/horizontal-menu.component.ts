@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, computed, inject } from '@angular/core';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
 import { NavMenuState } from '../state/menu';
 import { ACTIONS } from '../state/redux-signals';
-import { UI_FEATURE } from '../state/ui';
+import { UI_FEATURE, uiActions } from '../state/ui';
 
 @Component({
   selector: 'app-horizontal-menu',
@@ -14,7 +15,9 @@ export class AppHorizontalMenuComponent {
   private readonly hostElement = inject(ElementRef).nativeElement as HTMLElement;
   private readonly menuState = inject(NavMenuState);
   private readonly actions$ = inject(ACTIONS);
-  protected readonly ui = inject(UI_FEATURE);
+  private readonly store = inject(Store);
+
+  protected readonly ui$ = this.store.selectSignal(UI_FEATURE.selectUiState);
 
   @HostBinding()
   private readonly class = 'flex items-center';
@@ -34,17 +37,19 @@ export class AppHorizontalMenuComponent {
   });
 
   private readonly collapseClass = 'collapse-all';
-  private readonly dark$ = computed(() => this.ui.selectors.topBar$().dark);
+  private readonly dark$ = computed(() => this.ui$().topBar.dark);
+  protected readonly isTouchDevice$ = computed(() => this.ui$().isTouchDevice);
   protected readonly linkClass$ = computed(() => {
-    if (this.dark$())
-      return 'group-hover:bg-white/90 group-focus-within:bg-white/90 group-hover:text-black hover:!text-primary-500';
-    else
-      return 'group-hover:bg-slate-500/20 group-focus-within:bg-slate-500/20';
+    const colors = this.dark$() ?
+      'group-hover:bg-white/90 group-focus-within:bg-white/90 group-hover:text-black hover:!text-primary-500' :
+      'group-hover:bg-slate-500/20 group-focus-within:bg-slate-500/20';
+
+    return `text-sm ${colors}`;
   });
 
 
   unfocus() {
-    this.actions$.dispatch(this.ui.actions.touchDevice.update());
+    this.actions$.dispatch(uiActions.updateTouchDevice());
     (document.activeElement as HTMLElement).blur();
   }
 

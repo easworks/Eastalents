@@ -138,7 +138,13 @@ export class AuthService {
   private async reactToLocalStorage() {
     const storedUser = localStorage.getItem(CURRENT_USER_KEY);
     if (storedUser) {
-      const cu = JSON.parse(storedUser) as UserWithToken;
+      let cu: UserWithToken | null;
+      try {
+        cu = JSON.parse(storedUser);
+      }
+      catch (e) {
+        cu = null;
+      }
       this.state.user$.set(cu);
     }
     this.ready.resolve();

@@ -1,0 +1,20 @@
+.bouncing-text {
+  @apply absolute rounded border border-primary-300 p-1 px-2
+    bg-white text-sm text-primary-500 w-max z-10
+    left-1/2 -translate-x-1/2;
+  
+  left: 50%;
+  transform: translateX(-50%);
+
+  top: 1%;
+  animation: bouncing-text 2s alternate-reverse infinite;
+}
+
+@keyframes bouncing-text {
+  0% { 
+    top: 1%;
+  }
+  100% {
+    top: 5%;
+  }
+}

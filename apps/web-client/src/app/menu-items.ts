@@ -4,7 +4,7 @@ import { faBriefcase, faCubes, faDiagramNext, faGroupArrowsRotate, faHeadset, fa
 
 export const publicMenu = {
   firstPart: () => [
-    publicMenu.items.forClients,
+    publicMenu.items.forCompanies,
     publicMenu.items.forFreelancers,
     publicMenu.items.whyEasWorks,
   ],
@@ -18,7 +18,7 @@ export const publicMenu = {
     ...publicMenu.secondPart()
   ],
   items: {
-    forClients: { name: 'For Clients', link: '/for-employers' },
+    forCompanies: { name: 'For Companies', link: '/for-companies' },
     forFreelancers: { name: 'For Freelancers', link: '/for-freelancer' },
     whyEasWorks: { name: 'Why EASWORKS?', link: '/why-easworks' },
     easeworksTalent: { name: 'EASWORKS Talent', link: '/easworks-talent' },
@@ -37,7 +37,7 @@ export const publicMenu = {
         { name: 'Support & Maintenance', link: '/use-cases/support-and-maintenance', icon: faHeadset },
       ]
     },
-    applyAsFreelancer: { name: 'Apply as Freelancer', link: '/account/sign-up/freelancer' },
+    applyAsFreelancer: { name: 'Apply as Freelancer', link: '/register/freelancer' },
     aboutUs: { name: 'About Us', link: '/about-us' },
     codeOfConduct: { name: 'Code of Conduct', link: 'code-of-conduct' },
     contactUs: { name: 'Contact Us', link: '/contact-us' },

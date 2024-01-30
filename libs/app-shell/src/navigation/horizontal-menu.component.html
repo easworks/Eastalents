@@ -13,7 +13,7 @@
           </a>
           <ul class="hidden group-focus-within:grid"
               [class.large]="item.children!.length > 4"
-              [class.group-hover:grid]="!(ui.selectors.isTouchDevice$())">
+              [class.group-hover:grid]="!(isTouchDevice$())">
             <li *ngFor="let subItem of item.children">
               <a [routerLink]="subItem.link" (click)="collapseAll()">
                 <span *ngIf="subItem.icon" class="icon">

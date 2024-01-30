@@ -8,5 +8,5 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 })
 export class NotFoundPageComponent {
   @HostBinding()
-  private readonly class = 'page grid place-content-center'
+  private readonly class = 'page grid place-content-center';
 }
