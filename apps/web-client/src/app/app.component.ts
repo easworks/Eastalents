@@ -68,8 +68,8 @@ export class AppComponent {
   });
 
   protected readonly footerNav = {
-    clients: {
-      group: 'For Clients',
+    companies: {
+      group: 'For Companies',
       items: [
         { name: 'Hire EAS Talents', link: NOOP_CLICK },
         { name: 'Book a Call', link: NOOP_CLICK },
@@ -129,67 +129,6 @@ export class AppComponent {
       items: MenuItem[];
     };
   };
-
-  protected readonly footerNav2: {
-    group: string,
-    items: MenuItem[];
-  }[] = [
-      {
-        group: 'For Clients',
-        items: [
-          { name: 'Hire EAS Talents', link: NOOP_CLICK },
-          { name: 'Book a Call', link: NOOP_CLICK },
-          { name: 'Explore Services', link: NOOP_CLICK },
-          { name: 'Hire for specific skills', link: NOOP_CLICK },
-          { name: 'FAQ-Client', link: NOOP_CLICK }
-        ],
-      },
-      {
-        group: 'For Talents',
-        items: [
-          { name: 'Apply for Jobs', link: NOOP_CLICK },
-          { name: 'Freelancer Login', link: NOOP_CLICK },
-          { name: 'FAQ -Talent', link: NOOP_CLICK },
-        ],
-      },
-      {
-        group: 'Use cases',
-        items: publicMenu.items.useCases.children,
-      },
-      {
-        group: 'Industries',
-        items: [
-          { name: 'Automotive', link: NOOP_CLICK },
-          { name: 'Aerospace and Defense', link: NOOP_CLICK },
-          { name: 'Retail and E-commerce', link: NOOP_CLICK },
-          { name: 'Manufacturing', link: NOOP_CLICK },
-          { name: 'Retail and E-commerce', link: NOOP_CLICK },
-          { name: 'Healthcare', link: NOOP_CLICK },
-          { name: 'Financial Services', link: NOOP_CLICK },
-          { name: 'Electronics and High Tech', link: NOOP_CLICK },
-          { name: 'Consumer Packaged Goods', link: NOOP_CLICK },
-          { name: 'Pharmaceuticals', link: NOOP_CLICK },
-        ],
-      },
-      {
-        group: 'About',
-        items: [
-          publicMenu.items.aboutUs,
-          { name: 'Blog', link: NOOP_CLICK },
-          { name: 'Careers', link: NOOP_CLICK },
-          { name: 'Community', link: NOOP_CLICK },
-          publicMenu.items.codeOfConduct,
-          publicMenu.items.dataProcessingAgreement
-        ],
-      },
-      {
-        group: 'Contact Us',
-        items: [
-          publicMenu.items.contactUs,
-          publicMenu.items.helpCenter
-        ],
-      }
-    ];
 
   protected readonly brandLinks$ = this.menuState.brandLinks$;
 

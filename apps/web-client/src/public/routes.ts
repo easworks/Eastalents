@@ -11,9 +11,9 @@ import { USE_CASE_DATA } from './use-cases/data';
 
 export const PUBLIC_ROUTES: Routes = [
   {
-    path: 'for-clients',
+    path: 'for-companies',
     pathMatch: 'full',
-    loadComponent: () => import('./for-clients/for-clients.page').then(m => m.ForClientsPageComponent),
+    loadComponent: () => import('./for-companies/for-companies.page').then(m => m.ForCompaniesPageComponent),
     resolve: {
       help: () => {
         const hcs = inject(HelpCenterService);

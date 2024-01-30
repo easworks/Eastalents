@@ -14,9 +14,9 @@ import { GENERIC_ROLE_DATA } from '../generic-role/data';
 
 @Component({
   standalone: true,
-  selector: 'for-clients-page',
-  templateUrl: './for-clients.page.html',
-  styleUrls: ['./for-clients.page.less'],
+  selector: 'for-companies-page',
+  templateUrl: './for-companies.page.html',
+  styleUrls: ['./for-companies.page.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
@@ -26,7 +26,7 @@ import { GENERIC_ROLE_DATA } from '../generic-role/data';
     RouterModule
   ]
 })
-export class ForClientsPageComponent {
+export class ForCompaniesPageComponent {
 
   constructor() {
     const route = inject(ActivatedRoute);

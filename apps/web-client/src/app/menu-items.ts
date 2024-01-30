@@ -4,7 +4,7 @@ import { faBriefcase, faCubes, faDiagramNext, faGroupArrowsRotate, faHeadset, fa
 
 export const publicMenu = {
   firstPart: () => [
-    publicMenu.items.forClients,
+    publicMenu.items.forCompanies,
     publicMenu.items.forFreelancers,
     publicMenu.items.whyEasWorks,
   ],
@@ -18,7 +18,7 @@ export const publicMenu = {
     ...publicMenu.secondPart()
   ],
   items: {
-    forClients: { name: 'For Clients', link: '/for-clients' },
+    forCompanies: { name: 'For Companies', link: '/for-companies' },
     forFreelancers: { name: 'For Freelancers', link: '/for-freelancer' },
     whyEasWorks: { name: 'Why EASWORKS?', link: '/why-easworks' },
     easeworksTalent: { name: 'EASWORKS Talent', link: '/easworks-talent' },
