@@ -89,22 +89,24 @@
   </div>
 </section>
 
-<section class="py-[60px]" *ngrxLet="ServiceType$().ForSteps as Steps">
-  <div class="page">
-    <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold">{{Steps.title.plain}} <span class="text-primary-500"> {{Steps.title.highlight}} </span>
-        {{Steps.title.plainLast}}</h2>
-    </div>
+<section class="page py-8" *ngrxLet="ServiceType$().ForSteps as steps">
+  <div class="text-center mb-12">
+    <h2 class="text-4xl font-bold">{{steps.title.plain}} <span class="text-primary-500"> {{steps.title.highlight}} </span>
+      {{steps.title.plainLast}}</h2>
+  </div>
 
-    <div class="grid lg:grid-cols-4 grid-cols-1 gap-8 items-center">
+  <div class="@container">
+    <div class="flex gap-8 justify-center flex-wrap"
+         [class]="stepsBreakpointClasses$()">
 
-      <div *ngFor="let StepsBox of Steps.ContentBox"
-           class="bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-md p-3 text-center h-full">
+      <div *ngFor="let stepBox of steps.ContentBox"
+           class="bg-white shadow-lg rounded-md p-4 text-center
+            w-48 flex-grow @lg:w-60 @md:flex-none">
         <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5 items-center">
           <fa-icon [icon]="icons.faFileLines" class="text-[60px] mt-1 text-primary-500"></fa-icon>
         </div>
-        <h4 class="text-lg font-semibold my-5">{{StepsBox.title}}</h4>
-        <p class="text-sm leading-6">{{StepsBox.content}}</p>
+        <h4 class="text-lg font-semibold my-5">{{stepBox.title}}</h4>
+        <p class="text-sm leading-6">{{stepBox.content}}</p>
       </div>
     </div>
   </div>
