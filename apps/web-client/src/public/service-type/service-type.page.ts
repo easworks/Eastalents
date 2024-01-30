@@ -42,11 +42,17 @@ export class ServiceTypePageComponent {
 
     const items = service.ForSteps.ContentBox.length;
 
-    if (items >= 5) {
-      return '@5xl:flex-nowrap';
+    if (items === 5) {
+      return {
+        container: 'max-w-4xl @6xl:flex-nowrap @6xl:max-w-none',
+        item: '@6xl:flex-shrink'
+      };
     }
     else {
-      return '@3xl:flex-nowrap';
+      return {
+        container: 'max-w-3xl @4xl:flex-nowrap @4xl:max-w-none',
+        item: '@4xl:flex-shrink'
+      };
     }
   });
 

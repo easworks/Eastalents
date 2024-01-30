@@ -89,19 +89,20 @@
   </div>
 </section>
 
-<section class="page py-8" *ngrxLet="ServiceType$().ForSteps as steps">
+<section class="page max-w-none py-8" *ngrxLet="ServiceType$().ForSteps as steps">
   <div class="text-center mb-12">
     <h2 class="text-4xl font-bold">{{steps.title.plain}} <span class="text-primary-500"> {{steps.title.highlight}} </span>
       {{steps.title.plainLast}}</h2>
   </div>
 
-  <div class="@container">
-    <div class="flex gap-8 justify-center flex-wrap"
-         [class]="stepsBreakpointClasses$()">
+  <div class="@container" *ngrxLet="stepsBreakpointClasses$() as bpClasses">
+    <div class="flex gap-8 justify-center flex-wrap mx-auto"
+         [class]="bpClasses.container">
 
       <div *ngFor="let stepBox of steps.ContentBox"
            class="bg-white shadow-lg rounded-md p-4 text-center
-            w-48 flex-grow @lg:w-60 @md:flex-none">
+            w-48 flex-grow @lg:w-60 @md:flex-none @4xl:flex-shrink"
+           [class]="bpClasses.item">
         <div class="flex h-[80px] justify-center w-[80px] m-[auto] mb-5 items-center">
           <fa-icon [icon]="icons.faFileLines" class="text-[60px] mt-1 text-primary-500"></fa-icon>
         </div>
