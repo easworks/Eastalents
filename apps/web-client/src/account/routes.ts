@@ -44,6 +44,11 @@ export const ACCOUNT_ROUTES: Route[] = [
           }
         }
       },
+      {
+        path: '',
+        pathMatch: 'full',
+        loadComponent: () => import('./sign-up-choice.page').then(m => m.AccountRegistrationTypeChoicePageComponent)
+      }
     ]
   },
   {
