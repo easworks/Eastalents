@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { NgSwiperModule, SwiperModuleId } from '@easworks/app-shell/common/swiper.module';
-import { faAngleLeft, faAngleRight, faBolt, faGraduationCap, faRotate, faSackDollar, faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faAngleLeft, faAngleRight, faBolt, faGraduationCap, faRotate, faSackDollar, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { SwiperOptions } from 'swiper/types';
 import { COMPANY_TYPE_DATA, CompanyType } from './data';
 
@@ -40,6 +40,32 @@ export class CompanyTypePageComponent {
   } as const;
 
   protected readonly CompanyType$ = signal<CompanyType>(COMPANY_TYPE_DATA['small-business']);
+
+  protected readonly strategicBenefitItems: {
+    icon: IconDefinition,
+    text: string;
+  }[] = [
+      {
+        icon: faGraduationCap,
+        text: 'Access to Specialized Talent'
+      },
+      {
+        icon: faSackDollar,
+        text: 'Cost-Effectiveness'
+      },
+      {
+        icon: faBolt,
+        text: 'Speed and Efficiency'
+      },
+      {
+        icon: faRotate,
+        text: 'Flexibility'
+      },
+      {
+        icon: faTrophy,
+        text: 'Competitive Advantage'
+      },
+    ];
 
   protected readonly swiperOptions = swiperOptions;
 
@@ -82,7 +108,7 @@ export class CompanyTypePageComponent {
       Skills: 'In Demand Skills',
       moreword: 'Analytics Social Media Strategy Facebook Ads Manager Campaign Management Inbound Lead Gen Copywriting +5 More'
     }
-  ]
+  ];
 
   protected readonly ProfessionalProfile = [
     {
@@ -149,7 +175,7 @@ export class CompanyTypePageComponent {
       experience: 'Experience: 12+ Years',
       industry: 'Industry/Healthcare'
     }
-  ]
+  ];
 
 }
 
