@@ -2,33 +2,40 @@
   <div class="absolute inset-0 w-full h-full opacity-5">
     <img class="w-full h-full" src="/assets/img/building.jpg" alt="">
   </div>
-  <div class="lg:px-10 p-5 mx-auto">
-    <div class="grid grid-cols-1 lg:grid-cols-2 items-start gap-12 relative">
-      <div class="text-left">
-        <h3 class="lg:text-[2rem] text-2xl font-bold leading-[60px] text-black">
-          Hire a Top-Tier <span class="text-primary-500">{{hero.title.highlight}}</span> for Your Industry Domain
-        </h3>
-        <p class="my-4 text-base font-normal text-black">EASWORKS serves as a specialized platform for the
-          industry's finest developers, engineers, coders, architects, and consultants, all vetted to meet the
-          unique challenges of enterprise application projects.</p>
 
-        <p class="my-4 text-base font-normal text-black">Elevate Your Mission-Critical Enterprise Application
-          Projects with EASWORKS</p>
+  <div class="@container">
+    <div class="grid grid-cols-12 gap-4 items-start">
 
-        <p class="my-4 text-base font-normal text-black">Pioneering enterprises and forward-thinking startups
-          choose EASWORKS freelancers for their most essential enterprise application development tasks.</p>
+      <div class="p-8 col-span-12 @4xl:col-span-7 transition-all">
+        <div class="text-left">
+          <h3 class="lg:text-3xl text-2xl font-bold !leading-snug text-black">
+            Hire a Top-Tier <span class="text-primary-500">{{hero.title.highlight}}</span> for Your Industry Domain
+          </h3>
+          <p class="my-4 text-base font-normal text-black">EASWORKS serves as a specialized platform for the
+            industry's finest developers, engineers, coders, architects, and consultants, all vetted to meet the
+            unique challenges of enterprise application projects.</p>
 
-        <div class="flex items-center justify-between">
-          <div class="flex gap-4">
-            <button class="stroked-button text-black"> Hire {{hero.cta}} </button>
+          <p class="my-4 text-base font-normal text-black">Elevate Your Mission-Critical Enterprise Application
+            Projects with EASWORKS</p>
+
+          <p class="my-4 text-base font-normal text-black">Pioneering enterprises and forward-thinking startups
+            choose EASWORKS freelancers for their most essential enterprise application development tasks.</p>
+
+          <div class="flex items-center justify-between">
+            <div class="flex gap-4">
+              <button class="stroked-button text-black"> Hire {{hero.cta}} </button>
+            </div>
           </div>
+          <p class="my-4 text-base font-normal text-black">Initiate a Risk-Free Collaboration, with Payment
+            Required Only Upon Your Satisfaction.</p>
         </div>
-        <p class="my-4 text-base font-normal text-black">Initiate a Risk-Free Collaboration, with Payment
-          Required Only Upon Your Satisfaction.</p>
       </div>
-      <div>
+
+      <div class="h-full w-full relative
+      col-span-12 max-h-[50vh]
+      @4xl:col-span-5 @4xl:row-start-auto @4xl:max-h-none @4xl:h-auto">
         <lottie-player src="/assets/img/circle_icon_page.json" background="transparent"
-                       speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+                       speed="1" loop autoplay></lottie-player>
       </div>
     </div>
   </div>
@@ -188,7 +195,7 @@
     </div>
     <div class="flex items-center justify-center">
       <div class="flex gap-4">
-        <button class="stroked-button text-white"> Schedule a call </button>
+        <button class="stroked-button font-semibold"> Schedule a call </button>
       </div>
     </div>
   </div>
