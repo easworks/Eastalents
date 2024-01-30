@@ -37,7 +37,7 @@ export const publicMenu = {
         { name: 'Support & Maintenance', link: '/use-cases/support-and-maintenance', icon: faHeadset },
       ]
     },
-    applyAsFreelancer: { name: 'Apply as Freelancer', link: '/account/sign-up/freelancer' },
+    applyAsFreelancer: { name: 'Apply as Freelancer', link: '/register/freelancer' },
     aboutUs: { name: 'About Us', link: '/about-us' },
     codeOfConduct: { name: 'Code of Conduct', link: 'code-of-conduct' },
     contactUs: { name: 'Contact Us', link: '/contact-us' },

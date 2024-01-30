@@ -18,62 +18,70 @@ const redirectUser: CanActivateFn = () => {
 };
 
 
-export const ACCOUNT_ROUTE: Route = {
-  path: 'account',
-  children: [
-    {
-      path: 'sign-up/freelancer',
-      pathMatch: 'full',
-      canActivate: [redirectUser],
-      loadComponent: () => import('./freelancer-sign-up.page').then(m => m.FreelancerSignUpPageComponent),
-      data: {
-        seo: {
-          title: () => 'Sign Up as Freelancer'
+export const ACCOUNT_ROUTES: Route[] = [
+  {
+    path: 'register',
+    children: [
+      {
+        path: 'freelancer',
+        pathMatch: 'full',
+        canActivate: [redirectUser],
+        loadComponent: () => import('./freelancer-sign-up.page').then(m => m.FreelancerSignUpPageComponent),
+        data: {
+          seo: {
+            title: () => 'Sign Up as Freelancer'
+          }
         }
-      }
-    },
-    {
-      path: 'sign-up/employer',
-      pathMatch: 'full',
-      canActivate: [redirectUser],
-      loadComponent: () => import('./employer-sign-up.page').then(m => m.EmployerSignUpPageComponent),
-      data: {
-        seo: {
-          title: () => 'Sign Up as an Employer'
+      },
+      {
+        path: 'employer',
+        pathMatch: 'full',
+        canActivate: [redirectUser],
+        loadComponent: () => import('./employer-sign-up.page').then(m => m.EmployerSignUpPageComponent),
+        data: {
+          seo: {
+            title: () => 'Sign Up as an Employer'
+          }
         }
-      }
-    },
-    {
-      path: 'sign-in',
-      pathMatch: 'full',
-      loadComponent: () => import('./sign-in.page').then(m => m.AccountSignInPageComponent),
-      data: {
-        seo: {
-          title: () => 'Sign In'
+      },
+    ]
+  },
+  {
+    path: 'account',
+    children: [
+
+      {
+        path: 'sign-in',
+        pathMatch: 'full',
+        loadComponent: () => import('./sign-in.page').then(m => m.AccountSignInPageComponent),
+        data: {
+          seo: {
+            title: () => 'Sign In'
+          }
         }
-      }
-    },
-    {
-      path: 'reset-password',
-      pathMatch: 'full',
-      loadComponent: () => import('./password-reset.page').then(m => m.AccountPasswordResetPageComponent),
-      data: {
-        seo: {
-          title: () => 'Reset Password'
+      },
+      {
+        path: 'reset-password',
+        pathMatch: 'full',
+        loadComponent: () => import('./password-reset.page').then(m => m.AccountPasswordResetPageComponent),
+        data: {
+          seo: {
+            title: () => 'Reset Password'
+          }
         }
+      },
+      {
+        path: 'email-verification',
+        pathMatch: 'full',
+        canActivate: [emailVerificationGuard],
+        loadComponent: () => NotFoundPageComponent
+      },
+      {
+        path: 'social/callback',
+        pathMatch: 'full',
+        canActivate: [socialCallbackGuard],
+        loadComponent: () => NotFoundPageComponent
       }
-    },
-    {
-      path: 'email-verification',
-      pathMatch: 'full',
-      canActivate: [emailVerificationGuard],
-      loadComponent: () => NotFoundPageComponent
-    },
-    {
-      path: 'social/callback',
-      pathMatch: 'full',
-      canActivate: [socialCallbackGuard],
-      loadComponent: () => NotFoundPageComponent
-    }
-  ]
-};
+    ]
+  }
+];
