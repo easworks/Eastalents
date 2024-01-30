@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
-import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { faAngleRight, faFileLines, faMagnifyingGlass, faBullseye, faFilePen } from '@fortawesome/free-solid-svg-icons';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SERVICE_TYPE_DATA, ServiceType } from './data';
+import { ActivatedRoute } from '@angular/router';
+import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { IconDefinition, faAngleRight, faBullseye, faCheckCircle, faFileLines, faFilePen, faMagnifyingGlass, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
+import { GenericServiceType } from './data';
 
 @Component({
   standalone: true,
@@ -35,7 +35,7 @@ export class ServiceTypePageComponent {
     faFilePen
   } as const;
 
-  protected readonly ServiceType$ = signal<ServiceType>(SERVICE_TYPE_DATA['direct-hiring']);
+  protected readonly ServiceType$ = signal(null as unknown as GenericServiceType);
 
   protected readonly stepsBreakpointClasses$ = computed(() => {
     const service = this.ServiceType$();
@@ -55,6 +55,8 @@ export class ServiceTypePageComponent {
       };
     }
   });
+
+  protected readonly teamComparison = this.initTeamComparisons();
 
   protected readonly customerLogos = [
     'client-1.png',
@@ -162,4 +164,54 @@ export class ServiceTypePageComponent {
       industry: 'Industry/Healthcare'
     }
   ];
+
+  private initTeamComparisons() {
+
+    const data$ = computed(() => this.ServiceType$().teamComparison);
+
+    const headers$ = signal<string[]>([]);
+    const rows$ = signal<{
+      title: string,
+      columns: {
+        icon: IconDefinition;
+        class: string;
+      }[];
+    }[]>([]);
+
+    effect(async () => {
+      const data = data$();
+      if (data !== null) {
+        const cmp = await import('./team-comparison');
+
+        const headers = data.columnOrder.map(c => cmp.TEAM_COMPARISON_DATA[c].title);
+        const rows = cmp.COMPARABLES.map(r => ({
+          title: r,
+          columns: data.columnOrder.map(c => {
+            const columnValue = cmp.TEAM_COMPARISON_DATA[c][r];
+            if (columnValue) {
+              return {
+                icon: faCheckCircle,
+                class: 'text-green-400'
+              };
+            }
+            else {
+              return {
+                icon: faXmarkCircle,
+                class: 'text-red-400'
+              };
+            }
+          })
+        }));
+
+        headers$.set(headers);
+        rows$.set(rows);
+      }
+    });
+
+    return {
+      data$,
+      headers$,
+      rows$,
+    };
+  }
 }

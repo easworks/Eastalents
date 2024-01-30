@@ -9,7 +9,7 @@ import { MenuItem } from '@easworks/app-shell/state/menu';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { FAQGroup, FAQListComponent } from '../common/faq-list.component';
 import { COMPANY_TYPE_DATA } from '../company-type/data';
-import { SERVICE_TYPE_DATA } from '../service-type/data';
+import { GENERIC_SERVICE_TYPE_DATA } from '../service-type/data';
 import { GENERIC_ROLE_DATA } from '../generic-role/data';
 
 @Component({
@@ -68,7 +68,7 @@ export class ForCompaniesPageComponent {
 
   protected readonly faqs$ = signal<FAQGroup[]>([]);
 
-  protected readonly serviceTypes = Object.entries(SERVICE_TYPE_DATA)
+  protected readonly serviceTypes = Object.entries(GENERIC_SERVICE_TYPE_DATA)
     .map(([key, value]) => {
       return {
         link: `/service-type/${key}`,

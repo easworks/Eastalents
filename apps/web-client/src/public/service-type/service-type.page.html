@@ -1,13 +1,11 @@
-<section class="py-[60px] bg-white" *ngrxLet="ServiceType$().herosection as hero">
-  <div class="page">
-    <div class="text-center max-w-xxl m-auto">
-      <h3 class="lg:text-[2rem] text-2xl font-bold leading-[40px] text-black"> {{hero.title.plain}} <span
-              class="text-primary-500"> {{hero.title.highlight}} </span> {{hero.title.plainLast}}
-      </h3>
-      <p class="my-4 text-base font-normal text-black">{{hero.content}}</p>
-      <div class="flex items-center justify-center mt-10">
-        <button class="shaded-button primary"> Start Hiring </button>
-      </div>
+<section class="page mt-8" *ngrxLet="ServiceType$().herosection as hero">
+  <div class="text-center max-w-xxl m-auto">
+    <h3 class="lg:text-[2rem] text-2xl font-bold leading-[40px] text-black"> {{hero.title.plain}} <span
+            class="text-primary-500"> {{hero.title.highlight}} </span> {{hero.title.plainLast}}
+    </h3>
+    <p class="my-4 text-base font-normal text-black">{{hero.content}}</p>
+    <div class="flex items-center justify-center mt-10">
+      <button class="shaded-button primary"> Start Hiring </button>
     </div>
   </div>
 </section>
@@ -20,82 +18,77 @@
   </div>
 </section>
 
-<section class="py-[60px] bg-white">
-  <div class="page">
-    <div class="grid lg:grid-cols-4 grid-cols-1 gap-10 items-center">
-      <div class="border rounded-md overflow-hidden h-full" *ngFor="let Talent of EASTalent">
-        <div class="flex justify-center p-5 bg-[#cbd5e1]">
-          <img [src]="Talent.image" class="w-[120px] h-[120px] rounded-full" alt="">
+<section class="page">
+  <div class="grid lg:grid-cols-4 grid-cols-1 gap-10 items-center">
+    <div class="border rounded-md overflow-hidden h-full" *ngFor="let Talent of EASTalent">
+      <div class="flex justify-center p-5 bg-[#cbd5e1]">
+        <img [src]="Talent.image" class="w-[120px] h-[120px] rounded-full" alt="">
+      </div>
+      <div class="py-4 px-5 text-center bg-white h-full">
+        <div class="mb-3">
+          <h4 class="text-[20px] text-primary-500">
+            <a href="">{{Talent.name}}</a>
+          </h4>
         </div>
-        <div class="py-4 px-5 text-center bg-white h-full">
-          <div class="mb-3">
-            <h4 class="text-[20px] text-primary-500">
-              <a href="">{{Talent.name}}</a>
-            </h4>
-          </div>
-          <div class="mb-3">
-            <h4 class="text-[14px] text-gray-400">
-              <a href="">{{Talent.position}}</a>
-            </h4>
-          </div>
-          <div class="mb-3">
-            <h4 class="text-[14px] text-gray-400">
-              <a href="">{{Talent.Skills}}</a>
-            </h4>
-          </div>
-          <div>
-            <h4 class="text-[18px] text-primary-500">
-              <a href="">{{Talent.moreword}}</a>
-            </h4>
-          </div>
+        <div class="mb-3">
+          <h4 class="text-[14px] text-gray-400">
+            <a href="">{{Talent.position}}</a>
+          </h4>
+        </div>
+        <div class="mb-3">
+          <h4 class="text-[14px] text-gray-400">
+            <a href="">{{Talent.Skills}}</a>
+          </h4>
+        </div>
+        <div>
+          <h4 class="text-[18px] text-primary-500">
+            <a href="">{{Talent.moreword}}</a>
+          </h4>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="py-[60px]" *ngrxLet="ServiceType$().ApplicationData as application">
-  <div class="page">
-    <div class="text-left mb-12">
-      <h3 class="lg:text-[2rem] text-2xl font-bold leading-[40px] text-black">{{application.title.plain}} <span
-              class="text-primary-500"> {{application.title.highlight}} </span> {{application.title.plainLast}}
-      </h3>
-    </div>
-    <div class="grid lg:grid-cols-1 grid-cols-1 gap-10">
-      <p *ngFor="let pera of application.content">{{pera}}</p>
-    </div>
+<section class="page mt-8" *ngrxLet="ServiceType$().ApplicationData as application">
+  <div class="mb-8">
+    <h3 class="text-3xl font-bold text-center">{{application.title.plain}} <span
+            class="text-primary-500"> {{application.title.highlight}} </span> {{application.title.plainLast}}
+    </h3>
+  </div>
+  <div>
+    @for (para of application.content; track $index) {
+    <p class="my-2">{{para}}</p>
+    }
   </div>
 </section>
 
 
-<section class="py-[60px] bg-white" *ngrxLet="ServiceType$().ProfessionalsBased as Professional">
-  <div class="page">
-    <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold">{{Professional.title.plain}}<span class="text-primary-500">
-          {{Professional.title.highlight}} </span>{{Professional.title.plainLast}}</h2>
-
-      <p class="my-4 text-[20px] font-normal">{{Professional.content}}</p>
-    </div>
-
-    <div class="mt-4 grid gap-2 grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-      <div *ngFor="let prolist of Professional.ProfessionalList">
-        <a class="flex gap-2 max-w-max" href="">
-          <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
-          {{prolist.title}}
-        </a>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<section class="page xl:max-w-none py-8" *ngrxLet="ServiceType$().ForSteps as steps">
+<section class="page mt-8" *ngrxLet="ServiceType$().ProfessionalsBased as Professional">
   <div class="text-center mb-12">
-    <h2 class="text-4xl font-bold">{{steps.title.plain}} <span class="text-primary-500"> {{steps.title.highlight}} </span>
+    <h2 class="text-3xl font-bold">{{Professional.title.plain}}<span class="text-primary-500">
+        {{Professional.title.highlight}} </span>{{Professional.title.plainLast}}</h2>
+
+    <p class="my-4 text-lg">{{Professional.content}}</p>
+  </div>
+
+  <div class="mt-4 grid gap-2 grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+    <div *ngFor="let prolist of Professional.ProfessionalList">
+      <a class="flex gap-2 max-w-max">
+        <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
+        {{prolist.title}}
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="page xl:max-w-none mt-8" *ngrxLet="ServiceType$().ForSteps as steps">
+  <div class="text-center">
+    <h2 class="text-3xl font-bold">{{steps.title.plain}} <span class="text-primary-500"> {{steps.title.highlight}} </span>
       {{steps.title.plainLast}}</h2>
   </div>
 
-  <div class="@container" *ngrxLet="stepsBreakpointClasses$() as bpClasses">
+  <div class="@container mt-8" *ngrxLet="stepsBreakpointClasses$() as bpClasses">
     <div class="flex gap-8 justify-center flex-wrap mx-auto"
          [class]="bpClasses.container">
 
@@ -113,82 +106,77 @@
   </div>
 </section>
 
-<section class="pb-[60px]">
-  <div class="page">
-    <div class="mt-4 grid gap-3 grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-      <div class="border rounded-lg overflow-hidden" *ngFor="let profile of ProfessionalProfile">
-        <div class="flex justify-center bg-[#cbd5e1]">
-          <img [src]="profile.image" class="w-full h-full" alt="">
+<section class="page mt-8">
+  <div class="grid gap-3 grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
+    <div class="border rounded-lg overflow-hidden" *ngFor="let profile of ProfessionalProfile">
+      <div class="flex justify-center bg-[#cbd5e1]">
+        <img [src]="profile.image" class="w-full h-full" alt="">
+      </div>
+      <div class="p-4 bg-white">
+        <div class="mb-3">
+          <h4 class="text-[20px] text-primary-500 font-semibold">
+            {{profile.name}}
+          </h4>
         </div>
-        <div class="p-4 bg-white">
-          <div class="mb-3">
-            <h4 class="text-[20px] text-primary-500 font-semibold">
-              {{profile.name}}
-            </h4>
-          </div>
-          <div>
-            <ul class="text-[16px] text-gray-400">
-              <li>{{profile.position}}</li>
-              <li>{{profile.localtion}}</li>
-              <li>{{profile.experience}}</li>
-              <li>{{profile.industry}}</li>
-            </ul>
-          </div>
+        <div>
+          <ul class="text-[16px] text-gray-400">
+            <li>{{profile.position}}</li>
+            <li>{{profile.localtion}}</li>
+            <li>{{profile.experience}}</li>
+            <li>{{profile.industry}}</li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<ng-container *ngIf="ServiceType$().TeamsOnDemand.title">
-  <section class="py-[60px] bg-white" *ngrxLet="ServiceType$().TeamsOnDemand as TeansOn">
-    <div class="page">
-      <div class="text-center m-auto">
-        <h3 class="lg:text-[2rem] text-2xl font-bold leading-[40px] text-black">
-          {{TeansOn.title}}
-        </h3>
-        <p>{{TeansOn.content}}</p>
-      </div>
+@if (teamComparison.data$(); as section) {
+<section class="page">
+  <div class="text-center m-auto">
+    <h3 class="text-2xl font-bold text-black">
+      {{section.title}}
+    </h3>
+    <p class="mt-4">{{section.content}}</p>
+  </div>
 
-      <div class="pt-10">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-lg">
+  <div class="mt-10">
+    <div class="table-container">
+      <div>
+        <table class="text-base">
+          <thead>
             <tr>
-              <th scope="col" class="px-6 py-3 text-primary-500">
-
-              </th>
-              <th scope="col" class="px-6 py-3 text-primary-500 text-center">
-                Teams On-Demand
-              </th>
-              <th scope="col" class="px-6 py-3 text-primary-500 text-center">
-                Fully-Managed, Fixed Bid
-              </th>
+              <th> </th>
+              @for (header of teamComparison.headers$(); track $index) {
+              <th class="p-2 px-4 text-primary-500 text-center">{{header}}</th>
+              }
             </tr>
           </thead>
-          <tbody class="border">
-            <tr class="bg-white border" *ngFor="let TabData of TeansOn.TableData">
-              <td class="px-6 py-5 border text-black text-left text-[14px] font-semibold">
-                {{TabData.TableTitle}}
+          <tbody class="">
+            @for(row of teamComparison.rows$(); track $index) {
+            <tr>
+              <td class="!p-4 !px-6 font-semibold">{{row.title}}</td>
+              @for(column of row.columns; track $index) {
+              <td>
+                <fa-icon [icon]="column.icon"
+                         class="mx-auto text-lg"
+                         [class]="column.class"></fa-icon>
               </td>
-              <td class="px-6 py-5 border text-black text-center text-[14px] font-semibold">
-                {{TabData.contentA}}
-              </td>
-              <td class="px-6 py-5 border text-black text-center text-[14px] font-semibold">
-                {{TabData.contentB}}
-              </td>
+              }
             </tr>
+            }
           </tbody>
         </table>
       </div>
-
     </div>
-  </section>
-</ng-container>
+  </div>
+</section>
+}
 
 
-<section class="bg-primary-500 py-[60px]" *ngrxLet="ServiceType$().BottomHireSection as BottomHireSection">
-  <div class="page">
-    <div class="text-center max-w-xxl m-auto">
+<section class="bg-primary-500 mt-8" *ngrxLet="ServiceType$().BottomHireSection as BottomHireSection">
+  <div class="page py-16">
+    <div class="text-center m-auto">
       <h3 class="lg:text-[2rem] text-2xl font-bold leading-[40px] text-white">
         {{BottomHireSection.title.plain}}
       </h3>
@@ -199,14 +187,15 @@
   </div>
 </section>
 
-<section class="py-[60px] bg-white" *ngrxLet="ServiceType$().BenefitBusiness as BenefitBusiness">
-  <div class="page">
-    <div class="text-center max-w-xxl m-auto">
-      <h3 class="lg:text-[3rem] text-2xl font-bold leading-[50px] text-black">
-        {{BenefitBusiness.title.plain}} <span class="text-primary-500"> {{BenefitBusiness.title.highlight}} </span> {{BenefitBusiness.title.plainLast}}
-      </h3>
-      <p class="my-4 text-[25px] font-normal">Reach out to us at <a href="tel:+1 858 753 3467">+1 858 753 3467</a> or
-        email us at <a href="mailto:info@easworks.com">info&#64;easworks.com</a> </p>
-    </div>
+<section class="page mt-8" *ngrxLet="ServiceType$().BenefitBusiness as BenefitBusiness">
+  <div class="text-center  mx-auto">
+    <h3 class="text-2xl font-bold">
+      <span>{{BenefitBusiness.title.plain}}</span> <br />
+      <span class="text-primary-500">{{BenefitBusiness.title.highlight}}</span> <br />
+      <span>{{BenefitBusiness.title.plainLast}}</span>
+
+    </h3>
+    <p class="my-4 text-lg ">Reach out to us at <a href="tel:+1 858 753 3467">+1 858 753 3467</a> or
+      email us at <a href="mailto:info@easworks.com">info&#64;easworks.com</a> </p>
   </div>
 </section>

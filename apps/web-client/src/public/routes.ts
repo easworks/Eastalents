@@ -6,7 +6,7 @@ import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { COMPANY_TYPE_DATA } from './company-type/data';
 import { GENERIC_ROLE_DATA } from './generic-role/data';
 import { HELP_CENTER_ROUTES } from './help-center/routes';
-import { SERVICE_TYPE_DATA } from './service-type/data';
+import { GENERIC_SERVICE_TYPE_DATA, GenericTeamServiceID } from './service-type/data';
 import { USE_CASE_DATA } from './use-cases/data';
 
 export const PUBLIC_ROUTES: Routes = [
@@ -195,11 +195,11 @@ export const PUBLIC_ROUTES: Routes = [
     runGuardsAndResolvers: 'pathParamsChange',
     resolve: {
       ServiceType: (route: ActivatedRouteSnapshot) => {
-        const key = route.paramMap.get('ServiceType');
-        if (!key || !(key in SERVICE_TYPE_DATA))
+        const key = route.paramMap.get('ServiceType') as GenericTeamServiceID;
+        if (!key || !(key in GENERIC_SERVICE_TYPE_DATA))
           throw new Error('invalid operation');
 
-        return SERVICE_TYPE_DATA[key];
+        return GENERIC_SERVICE_TYPE_DATA[key];
       }
     }
   },

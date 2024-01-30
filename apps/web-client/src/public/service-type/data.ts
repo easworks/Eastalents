@@ -1,4 +1,21 @@
-export interface ServiceType {
+export const GENERIC_TEAM_SERVICE_IDS = [
+  'fully-managed-team',
+  'teams-on-demand',
+] as const;
+
+export type GenericTeamServiceID = typeof GENERIC_TEAM_SERVICE_IDS[number];
+
+const GENERIC_SERVICE_IDS = [
+  'direct-hiring',
+  'individual-talent',
+  ...GENERIC_TEAM_SERVICE_IDS
+] as const;
+
+type GenericServiceID = typeof GENERIC_SERVICE_IDS[number];
+
+
+export interface GenericServiceType {
+  id: GenericServiceID;
   name: string;
   herosection: {
     title: {
@@ -43,15 +60,11 @@ export interface ServiceType {
     }[];
   };
 
-  TeamsOnDemand: {
+  teamComparison: {
     title: string,
     content: string,
-    TableData: {
-      TableTitle: string;
-      contentA: string;
-      contentB: string;
-    }[];
-  };
+    columnOrder: GenericTeamServiceID[];
+  } | null;
 
   BottomHireSection: {
     title: {
@@ -70,8 +83,9 @@ export interface ServiceType {
   };
 }
 
-export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
+export const GENERIC_SERVICE_TYPE_DATA: Readonly<Record<GenericServiceID, GenericServiceType>> = {
   'direct-hiring': {
+    id: 'direct-hiring',
     name: 'Direct Hiring',
     herosection: {
       title: {
@@ -198,22 +212,7 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
       ]
     },
 
-    TeamsOnDemand: {
-      title: '',
-      content: '',
-      TableData: [
-        {
-          TableTitle: '',
-          contentA: '',
-          contentB: '',
-        },
-        {
-          TableTitle: '',
-          contentA: '',
-          contentB: '',
-        }
-      ]
-    },
+    teamComparison: null,
 
     BottomHireSection: {
       title: {
@@ -234,6 +233,7 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
   },
 
   'fully-managed-team': {
+    id: 'fully-managed-team',
     name: 'Fully-Managed Team',
     herosection: {
       title: {
@@ -367,56 +367,10 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
       ]
     },
 
-    TeamsOnDemand: {
-      title: 'Teams On-Demand vs. Fully Managed',
-      content: 'Is Fully Managed services right for you and your next Enterprise Application software(EAS) project?',
-      TableData: [
-        {
-          TableTitle: 'Project Delivery Accountability',
-          contentA: 'No',
-          contentB: 'Yes',
-        },
-        {
-          TableTitle: 'Global Talent Pool',
-          contentA: 'Yes',
-          contentB: 'Yes',
-        },
-        {
-          TableTitle: 'Flexible Talent Matching',
-          contentA: 'Yes',
-          contentB: 'No',
-        },
-        {
-          TableTitle: 'Team Integration',
-          contentA: 'Yes',
-          contentB: 'Yes',
-        },
-        {
-          TableTitle: 'Project Management Outsourcing',
-          contentA: 'No',
-          contentB: 'Yes',
-        },
-        {
-          TableTitle: 'Self-Management',
-          contentA: 'Yes',
-          contentB: 'No',
-        },
-        {
-          TableTitle: 'Comprehensive Team Support',
-          contentA: 'Yes',
-          contentB: 'Yes',
-        },
-        {
-          TableTitle: 'Budget and Timeline Flexibility',
-          contentA: 'Yes',
-          contentB: 'No',
-        },
-        {
-          TableTitle: 'Reduced Workload for In-House team',
-          contentA: 'Yes',
-          contentB: 'Yes',
-        }
-      ]
+    teamComparison: {
+      title: 'Fully Managed vs. Teams On-Demand',
+      content: 'Is Fully Managed services right for you and your next Enterprise Application Software (EAS) project?',
+      columnOrder: ['fully-managed-team', 'teams-on-demand']
     },
 
     BottomHireSection: {
@@ -440,6 +394,7 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
 
 
   'individual-talent': {
+    id: 'individual-talent',
     name: 'Individual Talent',
     herosection: {
       title: {
@@ -568,17 +523,7 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
       ]
     },
 
-    TeamsOnDemand: {
-      title: '',
-      content: '',
-      TableData: [
-        {
-          TableTitle: '',
-          contentA: '',
-          contentB: '',
-        },
-      ]
-    },
+    teamComparison: null,
 
     BottomHireSection: {
       title: {
@@ -601,6 +546,7 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
 
 
   'teams-on-demand': {
+    id: 'teams-on-demand',
     name: 'Teams-on-Demand',
     herosection: {
       title: {
@@ -729,56 +675,10 @@ export const SERVICE_TYPE_DATA: Readonly<Record<string, ServiceType>> = {
       ]
     },
 
-    TeamsOnDemand: {
+    teamComparison: {
       title: 'Teams On-Demand vs. Fully Managed',
       content: 'Is Teams On-Demand right for you and your next Enterprise Application project?',
-      TableData: [
-        {
-          TableTitle: 'Global Talent Pool',
-          contentA: 'Yes',
-          contentB: 'Yes',
-        },
-        {
-          TableTitle: 'Flexible Talent Matching',
-          contentA: 'Yes',
-          contentB: 'No',
-        },
-        {
-          TableTitle: 'Team Integration',
-          contentA: 'Yes',
-          contentB: 'Yes',
-        },
-        {
-          TableTitle: 'Project Management Outsourcing',
-          contentA: 'No',
-          contentB: 'Yes',
-        },
-        {
-          TableTitle: 'Self-Management',
-          contentA: 'Yes',
-          contentB: 'No',
-        },
-        {
-          TableTitle: 'Comprehensive Team Support',
-          contentA: 'Yes',
-          contentB: 'Yes',
-        },
-        {
-          TableTitle: 'Budget and Timeline Flexibility',
-          contentA: 'Yes',
-          contentB: 'No',
-        },
-        {
-          TableTitle: 'Reduced Workload for In-House team',
-          contentA: 'Yes',
-          contentB: 'Yes',
-        },
-        {
-          TableTitle: 'Project Delivery Accountability',
-          contentA: 'No',
-          contentB: 'Yes',
-        },
-      ]
+      columnOrder: ['teams-on-demand', 'fully-managed-team']
     },
 
     BottomHireSection: {
