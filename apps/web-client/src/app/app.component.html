@@ -58,40 +58,58 @@
         <div class="w-full lg:w-max lg:m-auto grid gap-4 @lg:gap-x-8 grid-cols-12 grid-flow-row-dense">
 
           <div *ngrxLet="footerNav.clients as group"
-               class="col-span-12 @md:col-span-6 @4xl:col-span-4 @6xl:col-span-3">
+               class="col-span-6
+                @sm:col-span-6 
+                @3xl:col-span-4 
+                @6xl:col-span-3">
             <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
           </div>
 
           <div *ngrxLet="footerNav.freelancers as group"
-               class="col-span-12 @md:col-span-6 @4xl:col-span-4 @6xl:col-span-3">
+               class="col-span-6
+                @sm:col-span-6 
+                @3xl:col-span-4 
+                @6xl:col-span-3">
             <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
           </div>
 
           <div *ngrxLet="footerNav.useCase as group"
-               class="row-span-2 col-span-12 @md:col-span-6 @4xl:col-span-4 @4xl:col-start-1 @6xl:col-span-3 @6xl:col-start-7">
+               class="col-span-12 
+                @sm:col-span-6 
+                @3xl:col-span-4 @3xl:row-span-2 @3xl:col-start-1 
+                @6xl:col-span-3 @6xl:col-start-7">
             <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
           </div>
 
           <div *ngrxLet="footerNav.industries as group"
-               class=" row-span-2 col-span-12 @md:col-span-6 @4xl:col-span-4 @4xl:col-start-5 @6xl:col-span-3 @6xl:col-start-10">
+               class="col-span-12 
+                @sm:col-span-6 
+                @3xl:col-span-4 @3xl:row-span-2 @3xl:col-start-5 
+                @6xl:col-span-3 @6xl:col-start-10">
             <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
           </div>
 
           <div *ngrxLet="footerNav.about as group"
-               class="col-span-12 @md:col-span-6 @4xl:col-span-4 @4xl:col-start-9 @6xl:col-span-3">
+               class="col-span-12 
+                @sm:col-span-6 
+                @3xl:col-span-4 @3xl:col-start-9 
+                @6xl:col-span-3">
             <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
           </div>
 
           <div *ngrxLet="footerNav.contact as group"
-               class="col-span-12 @md:col-span-6 @4xl:col-span-4 @4xl:col-start-9 @6xl:col-span-3">
+               class="col-span-12 
+                @sm:col-span-6 
+                @3xl:col-span-4 @3xl:col-start-9 
+                @6xl:col-span-3">
             <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
           </div>
 
         </div>
 
         <ng-template let-group #footerNavGroup>
-          <p class="text-lg m-0 font-semibold">{{group.group}}</p>
-          <ul class="mt-2">
+          <p class="m-0 font-semibold @sm:text-lg">{{group.group}}</p>
+          <ul class="mt-2 text-sm @sm:text-base">
             @for(item of group.items; track item) {
             <li class="py-1">
               <a [routerLink]="item.link" class="flex gap-2 max-w-fit">
