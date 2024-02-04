@@ -77,10 +77,7 @@ export class AuthService {
     },
     email: (input: EmailSignUpRequest) =>
       this.api.account().signup(input)
-        .then(r => {
-          this.handleSignIn(r, { isNewUser: true });
-          return r;
-        })
+        .then(r => r.mailSent)
         .catch(e => {
           this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
           throw e;

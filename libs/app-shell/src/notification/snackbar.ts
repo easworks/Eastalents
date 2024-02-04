@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MAT_SNACK_BAR_DATA, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'common-snackbar',
@@ -9,10 +9,21 @@ import { MAT_SNACK_BAR_DATA, MatSnackBarConfig } from '@angular/material/snack-b
 })
 export class SnackbarComponent {
   protected data = inject<{
-    message: string
+    message: string;
   }>(MAT_SNACK_BAR_DATA) ?? {
     message: 'Hello There!'
   };
+
+  static forError(snackbar: MatSnackBar, error: unknown) {
+    if (error instanceof Error) {
+      snackbar.openFromComponent(this, {
+        ...ErrorSnackbarDefaults,
+        data: {
+          message: error.message
+        }
+      });
+    }
+  }
 }
 export const ErrorSnackbarDefaults: MatSnackBarConfig = {
   ...new MatSnackBarConfig(),
