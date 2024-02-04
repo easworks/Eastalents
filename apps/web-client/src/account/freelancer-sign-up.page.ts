@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angula
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
-import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
+import { SnackbarComponent, SuccessSnackbarDefaults } from '@easworks/app-shell/notification/snackbar';
 import { AuthService } from '@easworks/app-shell/services/auth';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
@@ -43,9 +43,10 @@ export class FreelancerSignUpPageComponent {
   }
 
   protected readonly auth = inject(AuthService);
+  private readonly snackbar = inject(MatSnackBar);
+  protected readonly router = inject(Router);
   protected readonly partial;
 
-  private readonly snackbar = inject(MatSnackBar);
 
   protected readonly icons = {
     faCheck
@@ -94,26 +95,35 @@ export class FreelancerSignUpPageComponent {
     updateOn: 'submit'
   });
 
-  submit() {
+  async submit() {
     if (!this.form.valid)
       return;
 
-    const { email, firstName, lastName, password } = this.form.getRawValue();
-    this.loading.add('signing up');
+    try {
+      const { email, firstName, lastName, password } = this.form.getRawValue();
+      this.loading.add('signing up');
 
-    const query$ = this.partial ?
-      this.auth.socialCallback.getToken(
-        { authType: 'signup', userRole: 'freelancer', email, firstName, lastName, },
-        { isNewUser: true }
-      ) :
-      this.auth.signup.email({ email, firstName, lastName, password, userRole: 'freelancer' });
+      if (this.partial) {
+        console.error('social signin not implemented');
+        // await this.auth.socialCallback.getToken(
+        //   { authType: 'signup', userRole: 'freelancer', email, firstName, lastName, },
+        //   { isNewUser: true }
+        // )
+      }
+      else {
+        const mailSent = await this.auth.signup.email({ email, firstName, lastName, password, userRole: 'freelancer' });
+        if (!mailSent)
+          throw new Error('verification email was not sent');
 
-    query$
-      .catch(() => {
-        this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
-      })
-      .finally(() => {
-        this.loading.delete('signing up');
-      });
+        this.snackbar.openFromComponent(SnackbarComponent, SuccessSnackbarDefaults);
+        this.router.navigateByUrl('/register/verify-email');
+      }
+    }
+    catch (err) {
+      SnackbarComponent.forError(this.snackbar, err);
+    }
+    finally {
+      this.loading.delete('signing up');
+    }
   }
 }
