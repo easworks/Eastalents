@@ -75,13 +75,25 @@ export class AuthService {
       const authUrl = AuthRedirect.getUrl(provider, state);
       location.href = authUrl.toString();
     },
-    email: (input: EmailSignUpRequest) =>
-      this.api.account().signup(input)
-        .then(r => r.mailSent)
-        .catch(e => {
-          this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
-          throw e;
-        })
+    email: async (input: EmailSignUpRequest) => {
+      const mailSent = await this.api.account().signup(input)
+        .then(r => r.mailSent);
+
+      if (!mailSent)
+        throw new Error('verification email was not sent');
+
+      this.snackbar.openFromComponent(SnackbarComponent, SuccessSnackbarDefaults);
+      this.router.navigateByUrl('/register/verify-email');
+    },
+    verifyEmail: async (token: string) => {
+      await this.api.account().verifyEmail(token);
+
+      // TODO: depending on result of activation, either directly sign him in or redirect to sign in page
+
+      this.snackbar.openFromComponent(SnackbarComponent, SuccessSnackbarDefaults);
+
+      this.router.navigateByUrl('/account/sign-in');
+    }
   } as const;
 
   readonly signin = {

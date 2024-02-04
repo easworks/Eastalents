@@ -6,6 +6,7 @@ import { AccountApi } from '@easworks/app-shell/api/account.api';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { SnackbarComponent, SuccessSnackbarDefaults } from '@easworks/app-shell/notification/snackbar';
+import { AuthService } from '@easworks/app-shell/services/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 
 @Component({
@@ -19,7 +20,7 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 })
 export class VerificationEmailSentPageComponent {
 
-  private readonly api = inject(AccountApi);
+  private readonly auth = inject(AuthService);
   private readonly snackbar = inject(MatSnackBar);
   private readonly router = inject(Router);
 
@@ -60,17 +61,10 @@ export class VerificationEmailSentPageComponent {
         return;
       }
 
-      await this.api.verifyEmail(token);
-
-      // TODO: depending on result of activation, either directly sign him in or redirect to sign in page
-
-      this.snackbar.openFromComponent(SnackbarComponent, SuccessSnackbarDefaults);
-
-      this.router.navigateByUrl('/account/signin');
+      await this.auth.signup.verifyEmail(token);
     }
     catch (err) {
       SnackbarComponent.forError(this.snackbar, err);
-
     }
     finally {
       this.loading.delete('verifying link');
