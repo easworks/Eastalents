@@ -33,7 +33,7 @@ export class AccountApi extends BackendApi {
     const body = JSON.stringify(input);
     return this.request(`${this.apiUrl}/users/signup`, { body, method: 'POST' })
       .then(this.handleJson)
-      .then<UserWithToken>(r => r.result?.user)
+      .then<{ mailSent: boolean; }>(r => r.result)
       .catch(this.handleError);
   };
 

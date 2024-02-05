@@ -714,7 +714,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
           const updateSoftwareValue = () => {
             softwareControl.setValue(allOptions.filter(o => o.selected));
-            query$.mutate(v => v);
+            // query$.mutate(v => v);
           };
 
           software[role] = {
@@ -864,7 +864,7 @@ export class CreateJobPostPageComponent implements OnInit {
         control.value.push(option);
         control.value.sort((a, b) => sortString(a.value, b.value));
         control.updateValueAndValidity();
-        query$.mutate(v => v);
+        // query$.mutate(v => v);
       },
       remove: (group: string, i: number) => {
         const control = form.controls[group];
@@ -880,7 +880,7 @@ export class CreateJobPostPageComponent implements OnInit {
           control.updateValueAndValidity();
         else
           form.removeControl(group);
-        query$.mutate(v => v);
+        // query$.mutate(v => v);
       }
     } as const;
 
@@ -1020,7 +1020,7 @@ export class CreateJobPostPageComponent implements OnInit {
         control.value.push(option);
         control.value.sort((a, b) => sortString(a.value, b.value));
         control.updateValueAndValidity();
-        query$.mutate(v => v);
+        // query$.mutate(v => v);
       },
       remove: (group: string, i: number) => {
         const control = form.controls[group];
@@ -1036,7 +1036,7 @@ export class CreateJobPostPageComponent implements OnInit {
           control.updateValueAndValidity();
         else
           form.removeControl(group);
-        query$.mutate(v => v);
+        // query$.mutate(v => v);
       }
     } as const;
 

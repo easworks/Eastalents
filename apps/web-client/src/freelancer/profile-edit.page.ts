@@ -1238,7 +1238,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         control.value.push(option);
         control.value.sort((a, b) => sortString(a.value, b.value));
         control.updateValueAndValidity();
-        query$.mutate(v => v);
+        // query$.mutate(v => v);
       },
       remove: (group: string, i: number) => {
         const control = form.controls[group];
@@ -1254,7 +1254,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           control.updateValueAndValidity();
         else
           form.removeControl(group);
-        query$.mutate(v => v);
+        // query$.mutate(v => v);
       },
       skip: () => {
         Object.keys(form.controls).forEach(k => form.removeControl(k, { emitEvent: false }));
@@ -1393,7 +1393,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         control.value.push(option);
         control.value.sort((a, b) => sortString(a.value, b.value));
         control.updateValueAndValidity();
-        query$.mutate(v => v);
+        // query$.mutate(v => v);
       },
       remove: (group: string, i: number) => {
         const control = form.controls[group];
@@ -1409,7 +1409,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           control.updateValueAndValidity();
         else
           form.removeControl(group);
-        query$.mutate(v => v);
+        // query$.mutate(v => v);
       }
     } as const;
 
@@ -1578,7 +1578,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 value.push(option);
                 value.sort((a, b) => sortString(a.value, b.value));
                 roleForm.updateValueAndValidity();
-                query$.mutate(v => v);
+                // query$.mutate(v => v);
               },
               remove: (i) => {
                 const { value } = roleForm;
@@ -1586,7 +1586,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 value.splice(i, 1);
                 option.selected = false;
                 roleForm.updateValueAndValidity();
-                query$.mutate(v => v);
+                // query$.mutate(v => v);
               }
             };
           });

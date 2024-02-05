@@ -6,12 +6,12 @@ const devMode = isDevMode();
 
 const env: Environment = devMode ?
   {
-    apiUrl: 'https://www.suggestmachines.com/api',
-    imageUrl: 'https://www.suggestmachines.com/',
+    apiUrl: 'https://eas-works.onrender.com/api',
+    imageUrl: 'https://eas-works.onrender.com/api',
   } :
   {
-    apiUrl: 'https://www.suggestmachines.com/api',
-    imageUrl: 'https://www.suggestmachines.com/',
+    apiUrl: 'https://eas-works.onrender.com/api',
+    imageUrl: 'https://eas-works.onrender.com/api',
   };
 
 

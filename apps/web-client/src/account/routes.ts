@@ -45,6 +45,13 @@ export const ACCOUNT_ROUTES: Route[] = [
         }
       },
       {
+        path: 'verify-email',
+        pathMatch: 'full',
+        canActivate: [redirectUser],
+        loadComponent: () => import('./verification-email-sent.page')
+          .then(m => m.VerificationEmailSentPageComponent)
+      },
+      {
         path: '',
         pathMatch: 'full',
         loadComponent: () => import('./sign-up-choice.page').then(m => m.AccountRegistrationTypeChoicePageComponent)
