@@ -332,7 +332,7 @@ export class EmployerProfileEditPageComponent {
         control.value.push(option);
         control.value.sort((a, b) => sortString(a.value, b.value));
         control.updateValueAndValidity();
-        query$.mutate(v => v);
+        // query$.mutate(v => v);
         count$.update(v => ++v);
       },
       remove: (domain: string, i: number) => {
@@ -349,7 +349,7 @@ export class EmployerProfileEditPageComponent {
           control.updateValueAndValidity();
         else
           form.removeControl(domain);
-        query$.mutate(v => v);
+        // query$.mutate(v => v);
         count$.update(v => --v);
       }
     };
