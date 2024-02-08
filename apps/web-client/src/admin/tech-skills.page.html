@@ -1,1 +1,56 @@
-Tech skills page
+<div class="table-container">
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Generic</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (tech of list$(); track tech.id) {
+        <tr>
+          <td>{{tech.id}}</td>
+          <td>{{tech.name}}</td>
+          <td>{{tech.generic}}</td>
+        </tr>
+        }
+        <tr *ngrxLet="table.add.form as form">
+          <td *ngrxLet="form.controls.id as control"
+              [formFieldControl]="control">
+            <div class="field field-interactive"
+                 (click)="input.focus()">
+              <input type="text" [formControl]="control" #input placeholder="Add New..." />
+            </div>
+          </td>
+          <td *ngrxLet="form.controls.name as control"
+              [formFieldControl]="control">
+            <div class="field field-interactive"
+                 (click)="input.focus()">
+              <input type="text" [formControl]="control" #input />
+            </div>
+          </td>
+          <td *ngrxLet="form.controls.generic as control"
+              [formFieldControl]="control"
+              class="p-0 pl-6 h-4">
+            <mat-checkbox [formControl]="control"></mat-checkbox>
+          </td>
+          <td class="actions">
+            <div class="flex">
+              <button class="icon-button small enabled:text-emerald-500"
+                      mat-ripple
+                      [disabled]="table.add.submitDisabled$()"
+                      (click)="table.add.submit()">
+                <replace-spinner [showSpinner]="table.add.submitting$()">
+                  <fa-icon [icon]="icons.faCheck"></fa-icon>
+                </replace-spinner>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

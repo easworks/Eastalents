@@ -5,13 +5,27 @@
   
   .icon-button {
     @apply grid place-content-center rounded-full
-      text-2xl w-12 h-12
+      w-10 h-10 text-lg
       transition-all;
-      
-    @apply hover:bg-slate-500/10 focus:bg-slate-500/10;
     
+    fa-icon {
+      @apply leading-none;
+    }
+    
+    &.small {
+      @apply h-6 w-6 text-sm;
+    }
+
+    &.large {
+      @apply h-12 w-12 text-2xl;
+    }
+
+    &:where(:hover), &:where(:focus) {
+      @apply bg-slate-500/10;
+    }
+      
     &:disabled  {
-      @apply bg-transparent transition-none;
+      @apply bg-transparent text-slate-500/50 transition-none;
     }
 
   }
