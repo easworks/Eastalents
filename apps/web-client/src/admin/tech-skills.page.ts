@@ -1,14 +1,17 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { Store } from '@ngrx/store';
-import { ADMIN_DATA_FEATURE, techSkillActions } from './state/admin-data';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
+import { ChangeDetectionStrategy, Component, INJECTOR, computed, inject } from '@angular/core';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { generateLoadingState } from '@easworks/app-shell/state/loading';
-import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { controlValue$ } from '@easworks/app-shell/common/form-field.directive';
+import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
+import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
+import { generateLoadingState } from '@easworks/app-shell/state/loading';
+import { faCheck, faRefresh } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
+import { map, shareReplay, startWith } from 'rxjs';
+import { ADMIN_DATA_FEATURE, techSkillActions } from './state/admin-data';
 
 @Component({
   standalone: true,
@@ -25,9 +28,11 @@ export class TechSkillsPageComponent {
 
   private readonly store = inject(Store);
   private readonly snackbar = inject(MatSnackBar);
+  private readonly injector = inject(INJECTOR);
 
   protected readonly icons = {
-    faCheck
+    faCheck,
+    faRefresh
   } as const;
 
   protected readonly loading = generateLoadingState<[
@@ -36,18 +41,10 @@ export class TechSkillsPageComponent {
   ]>();
 
 
-  protected readonly data$ = this.store.selectSignal(ADMIN_DATA_FEATURE.selectAdminDataState);
-  protected readonly list$ = computed(() => this.data$().skills);
+  private readonly data$ = this.store.selectSignal(ADMIN_DATA_FEATURE.selectAdminDataState);
+  private readonly list$ = computed(() => this.data$().skills);
 
   protected readonly table = this.initTable();
-
-  protected readonly formArray = new FormArray([]);
-
-  private readonly form = new FormGroup({
-    id: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    generic: new FormControl(true, { nonNullable: true }),
-  });
 
   private initTable() {
     const rowControls = () => {
@@ -108,8 +105,76 @@ export class TechSkillsPageComponent {
       } as const;
     };
 
+    const initUpdateTechSkill = () => {
+      const injector = this.injector;
+      const loading = generateLoadingState();
+
+      const obs$ = toObservable(this.list$)
+        .pipe(
+          startWith(this.list$()),
+          map((list) => {
+            const rows = list.map(ts => {
+              const form = new FormGroup({
+                id: new FormControl('', { nonNullable: true }),
+                ...rowControls()
+              });
+
+              const value$ = toSignal(
+                controlValue$(form),
+                { requireSync: true, injector });
+
+              const changed$ = computed(() => {
+                const v = value$();
+                return v.name !== ts.name ||
+                  v.generic !== ts.generic;
+              });
+
+              const updating$ = loading.has(ts.id);
+
+              const disableButtons$ = computed(() =>
+                this.loading.any$() ||
+                !changed$()
+              );
+
+              const reset = () => {
+                form.reset({
+                  id: ts.id,
+                  name: ts.name,
+                  generic: ts.generic
+                });
+              };
+
+              reset();
+
+              const update = () => {
+                if (!form.valid)
+                  return;
+
+                console.debug(form.getRawValue());
+              };
+
+              return {
+                data: ts,
+                form,
+                reset,
+                update,
+                updating$,
+                disableButtons$
+              } as const;
+            });
+
+            return rows;
+          }),
+          takeUntilDestroyed(),
+          shareReplay({ refCount: true, bufferSize: 1 })
+        );
+
+      return toSignal(obs$, { requireSync: true });
+    };
+
     return {
-      add: initAddTechSkill()
+      add: initAddTechSkill(),
+      rows$: initUpdateTechSkill()
     } as const;
   }
 

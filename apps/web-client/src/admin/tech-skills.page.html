@@ -10,12 +10,45 @@
         </tr>
       </thead>
       <tbody>
-        @for (tech of list$(); track tech.id) {
+        @for (row of table.rows$(); track row.data.id) {
         <tr>
-          <td>{{tech.id}}</td>
-          <td>{{tech.name}}</td>
-          <td>{{tech.generic}}</td>
-          <td></td>
+          <td *ngrxLet="row.form.controls.id as control"
+              [formFieldControl]="control">
+            <div class="field field-interactive"
+                 (click)="input.focus()">
+              <input type="text" #input [formControl]="control" readonly />
+            </div>
+          </td>
+          <td *ngrxLet="row.form.controls.name as control"
+              [formFieldControl]="control">
+            <div class="field field-interactive"
+                 (click)="input.focus()">
+              <input type="text" [formControl]="control" #input />
+            </div>
+          </td>
+          <td *ngrxLet="row.form.controls.generic as control"
+              [formFieldControl]="control"
+              class="p-0 !pl-6 h-4">
+            <mat-checkbox [formControl]="control"></mat-checkbox>
+          </td>
+          <td class="actions">
+            <div class="flex">
+              <button class="icon-button small enabled:text-emerald-500"
+                      mat-ripple
+                      [disabled]="row.disableButtons$()"
+                      (click)="row.update()">
+                <replace-spinner [showSpinner]="row.updating$()">
+                  <fa-icon [icon]="icons.faCheck"></fa-icon>
+                </replace-spinner>
+              </button>
+              <button class="icon-button small enabled:text-warn-600"
+                      mat-ripple
+                      [disabled]="row.disableButtons$()"
+                      (click)="row.reset()">
+                <fa-icon [icon]="icons.faRefresh"></fa-icon>
+              </button>
+            </div>
+          </td>
         </tr>
         }
         <tr *ngrxLet="table.add.form as form">
