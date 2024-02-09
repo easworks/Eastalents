@@ -107,7 +107,9 @@ export class TechSkillsPageComponent {
 
     const initUpdateTechSkill = () => {
       const injector = this.injector;
+
       const loading = generateLoadingState();
+      this.loading.react('updating new tech skill', loading.any$);
 
       const obs$ = toObservable(this.list$)
         .pipe(
@@ -146,11 +148,29 @@ export class TechSkillsPageComponent {
 
               reset();
 
-              const update = () => {
+              const update = async () => {
                 if (!form.valid)
                   return;
 
-                console.debug(form.getRawValue());
+                try {
+                  loading.add(ts.id);
+
+                  const value = form.getRawValue();
+
+                  this.store.dispatch(techSkillActions.update({
+                    payload: {
+                      id: ts.id,
+                      name: value.name,
+                      generic: value.generic
+                    }
+                  }));
+                }
+                catch (err) {
+                  SnackbarComponent.forError(this.snackbar, err);
+                }
+                finally {
+                  loading.delete(ts.id);
+                }
               };
 
               return {

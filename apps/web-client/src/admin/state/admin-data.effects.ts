@@ -31,7 +31,10 @@ export const techSkillEffects = {
 
     return actions$
       .pipe(
-        ofType(techSkillActions.add),
+        ofType(
+          techSkillActions.add,
+          techSkillActions.update
+        ),
         concatMap(async () => {
           await api.save(data$());
         })
