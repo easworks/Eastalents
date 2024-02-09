@@ -17,12 +17,9 @@ export const adminDataEffects = {
         );
     },
     { functional: true }
-  )
-};
+  ),
 
-export const techSkillEffects = {
-  add: createEffect(() => {
-
+  saveOnChanges: createEffect(() => {
     const store = inject(Store);
     const actions$ = inject(Actions);
     const api = inject(AdminApi);
@@ -40,5 +37,4 @@ export const techSkillEffects = {
         })
       );
   }, { functional: true, dispatch: false })
-
 };
