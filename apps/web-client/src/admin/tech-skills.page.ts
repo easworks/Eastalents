@@ -89,6 +89,8 @@ export class TechSkillsPageComponent {
           const value = form.getRawValue();
 
           this.store.dispatch(techSkillActions.add({ payload: value }));
+
+          form.reset({ generic: true });
         }
         catch (err) {
           SnackbarComponent.forError(this.snackbar, err);

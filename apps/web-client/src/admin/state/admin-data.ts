@@ -28,8 +28,6 @@ export const ADMIN_DATA_FEATURE = createFeature({
     }),
     on(techSkillActions.add, produce((state, { payload }) => {
       state.skills.push(payload);
-
-      console.debug(state);
     }))
   )
 });

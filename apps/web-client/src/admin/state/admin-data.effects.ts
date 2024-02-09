@@ -1,13 +1,13 @@
 import { inject } from '@angular/core';
-import { createEffect } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { concatMap, from, map } from 'rxjs';
 import { AdminApi } from '../api/admin.api';
-import { from, map } from 'rxjs';
-import { adminDataActions } from './admin-data';
+import { ADMIN_DATA_FEATURE, adminDataActions, techSkillActions } from './admin-data';
 
 export const adminDataEffects = {
   loadFromApi: createEffect(
     () => {
-      console.debug('effect was called');
       const api = inject(AdminApi);
       const data = api.get();
 
@@ -18,4 +18,24 @@ export const adminDataEffects = {
     },
     { functional: true }
   )
+};
+
+export const techSkillEffects = {
+  add: createEffect(() => {
+
+    const store = inject(Store);
+    const actions$ = inject(Actions);
+    const api = inject(AdminApi);
+
+    const data$ = store.selectSignal(ADMIN_DATA_FEATURE.selectAdminDataState);
+
+    return actions$
+      .pipe(
+        ofType(techSkillActions.add),
+        concatMap(async () => {
+          await api.save(data$());
+        })
+      );
+  }, { functional: true, dispatch: false })
+
 };
