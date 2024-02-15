@@ -630,6 +630,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private initPrimaryDomains() {
     this.loading.react('domains', computed(() => this.domains.domains.list$().length === 0));
     const loading$ = this.loading.has('domains');
+    const maxDomains = 2;
 
     const domains$ = computed(() => {
       const optionMap = new Map<string, SelectableOption<Domain>>();
@@ -648,7 +649,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const options$ = computed(() => domains$().options);
 
     const size$ = signal(0);
-    const stopInput$ = computed(() => size$() >= 3);
+    const stopInput$ = computed(() => size$() >= maxDomains);
 
     const form = new FormRecord<FormControl<number>>({}, {
       validators: [
@@ -657,8 +658,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           size$.set(size);
           if (size < 1)
             return { minlength: 1 };
-          if (size > 3)
-            return { maxlength: 3 };
+          if (size > maxDomains)
+            return { maxlength: maxDomains };
           return null;
         }
       ]
@@ -702,7 +703,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       stopInput$,
       size$,
       options$,
-      ...handlers
+      ...handlers,
+      maxDomains
     } as const;
   }
 

@@ -239,7 +239,7 @@
           <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
             <span class="flex gap-1 items-center">
               <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
-              <span>Select up to 3</span>
+              <span>Select up to {{primaryDomains.maxDomains}}</span>
             </span>
             <span *ngrxLet="primaryDomains.size$() as size"
                   class="selection-counter" [class.selected]="size > 0">
