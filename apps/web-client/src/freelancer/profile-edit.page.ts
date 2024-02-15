@@ -285,6 +285,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       label: StepGroupID;
       enabled$: Signal<boolean>;
       completed$: Signal<boolean>;
+      current$: Signal<boolean>;
       click: () => void;
     };
 
@@ -330,6 +331,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         label,
         enabled$: computed(() => true),
         completed$: computed(() => steps.every(step => isValidStep(step))),
+        current$: computed(() => steps.includes(this.stepper.step$())),
         click: () => this.stepper.step$.set(steps[0])
       }));
 
