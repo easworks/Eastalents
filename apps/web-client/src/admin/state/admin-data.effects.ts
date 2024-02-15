@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { concatMap, from, map } from 'rxjs';
 import { AdminApi } from '../api/admin.api';
-import { ADMIN_DATA_FEATURE, adminDataActions, techSkillActions } from './admin-data';
+import { ADMIN_DATA_FEATURE, adminDataActions, easActions, techGroupActions, techSkillActions } from './admin-data';
 
 export const adminDataEffects = {
   loadFromApi: createEffect(
@@ -30,7 +30,13 @@ export const adminDataEffects = {
       .pipe(
         ofType(
           techSkillActions.add,
-          techSkillActions.update
+          techSkillActions.update,
+          techGroupActions.add,
+          techGroupActions.update,
+          techGroupActions.addSkill,
+          techGroupActions.removeSkill,
+          easActions.add,
+          easActions.update
         ),
         concatMap(async () => {
           await api.save(data$());

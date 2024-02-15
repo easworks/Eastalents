@@ -1,0 +1,112 @@
+<div class="table-container">
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Generic</th>
+          <th>For Software</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of table.rows$(); track row.data.id) {
+        <tr class="tg-details">
+          <td *ngrxLet="row.form.controls.id as control" [formFieldControl]="control">
+            <div class="field field-interactive" (click)="input.focus()">
+              <input type="text" #input [formControl]="control" readonly />
+            </div>
+          </td>
+          <td *ngrxLet="row.form.controls.name as control" [formFieldControl]="control">
+            <div class="field field-interactive" (click)="input.focus()">
+              <input type="text" [formControl]="control" #input />
+            </div>
+          </td>
+          <td *ngrxLet="row.form.controls.generic as control" [formFieldControl]="control" class="p-0 !pl-6 h-4">
+            <mat-checkbox [formControl]="control"></mat-checkbox>
+          </td>
+          <td></td>
+          <td class="actions">
+            <div class="flex">
+              <button class="icon-button small enabled:text-emerald-500" mat-ripple [disabled]="row.disableButtons$()"
+                (click)="row.update()">
+                <replace-spinner [showSpinner]="row.updating$()">
+                  <fa-icon [icon]="icons.faCheck"></fa-icon>
+                </replace-spinner>
+              </button>
+              <button class="icon-button small enabled:text-warn-600" mat-ripple [disabled]="row.disableButtons$()"
+                (click)="row.reset()">
+                <fa-icon [icon]="icons.faRefresh"></fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            @if (row.tech.selected.count$() > 0) {
+            <div class="grid gap-2 mb-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+              @for(option of row.tech.selected.$(); track option) {
+              <div class="tech-option">
+                <span>{{option.value.name}}</span>
+                <button type="button" mat-ripple class="icon-button" title="Remove" (click)="row.tech.remove(option)">
+                  <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
+                </button>
+              </div>
+              }
+            </div>
+            }
+
+            <div class="form-field mb-0">
+              <input type="text" placeholder="Type to add" [ngModel]="row.tech.query$()"
+                (ngModelChange)="row.tech.query$.set($event)" [matAutocomplete]="skillOptions">
+            </div>
+            <mat-autocomplete #skillOptions class="!p-0">
+              @for(option of row.tech.filtered$(); track option) {
+              <mat-option [value]="row.tech.query$()" (onSelectionChange)="row.tech.add(option)">
+                {{option.label}}
+              </mat-option>
+              }
+            </mat-autocomplete>
+          </td>
+        </tr>
+        }
+        <tr *ngrxLet="table.add.form as form">
+          <td *ngrxLet="form.controls.id as control" [formFieldControl]="control">
+            <div class="field field-interactive" (click)="input.focus()">
+              <input type="text" [formControl]="control" #input placeholder="Add New..." />
+            </div>
+          </td>
+          <td *ngrxLet="form.controls.name as control" [formFieldControl]="control">
+            <div class="field field-interactive" (click)="input.focus()">
+              <input type="text" [formControl]="control" #input />
+            </div>
+          </td>
+          <td *ngrxLet="form.controls.generic as control" [formFieldControl]="control" class="p-0 !pl-6 h-4">
+            <mat-checkbox [formControl]="control"></mat-checkbox>
+          </td>
+          <td *ngrxLet="form.controls.softwareId as control" [formFieldControl]="control">
+            <input type="text" [formControl]="control" readonly>
+            <!-- <mat-select class="mt-2" [formControl]="control">
+                @for (row of listSkills$(); track row.id) {
+                  <mat-option 
+                  [value]="row.id">{{row.name}}</mat-option>
+                }
+                
+              </mat-select> -->
+          </td>
+          <td class="actions">
+            <div class="flex">
+              <button class="icon-button small enabled:text-emerald-500" mat-ripple
+                [disabled]="table.add.submitDisabled$()" (click)="table.add.submit()">
+                <replace-spinner [showSpinner]="table.add.submitting$()">
+                  <fa-icon [icon]="icons.faCheck"></fa-icon>
+                </replace-spinner>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

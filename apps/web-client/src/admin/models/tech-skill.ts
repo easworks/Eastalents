@@ -15,13 +15,12 @@ export interface GenericTechGroup {
   id: string,
   name: string;
   generic: true;
-  tech: GenericTechSkill[];
+  tech: string[];
 }
 
-export interface NonGenericTechGroup extends Omit<GenericTechGroup, 'generic' | 'tech'> {
+export interface NonGenericTechGroup extends Omit<GenericTechGroup, 'generic'> {
   generic: false;
   softwareId: string;
-  tech: TechSkill[];
 }
 
 export type TechGroup = GenericTechGroup | NonGenericTechGroup;
