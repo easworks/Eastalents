@@ -652,20 +652,23 @@
         </label>
 
         <div class="grid gap-4 lg:max-w-md">
-          <button *ngFor="let option of jobCommittment.options; let i = index; trackBy: trackBy.stringOption"
-                  type="button" class="commitment-option"
+          @for(option of jobCommittment.options; track option.value) {
+          <button type="button" class="commitment-option"
                   mat-ripple
                   [class.selected]="option.selected"
                   (click)="jobCommittment.toggle(option)">
             <div class="flex-grow flex gap-2 flex-wrap items-center justify-between">
               <span>{{option.label}}</span>
-              <span *ngIf="i === 1" class="rounded text-sm text-emerald-400">
+              @if ($index === 1) {
+              <span class="flex items-center rounded text-sm text-emerald-400">
                 <fa-icon [icon]="icons.faThumbsUp" class="mr-2"></fa-icon>
                 <span>Recommended</span>
               </span>
+              }
             </div>
             <mat-pseudo-checkbox class="primary" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
           </button>
+          }
         </div>
       </form>
     </div>
