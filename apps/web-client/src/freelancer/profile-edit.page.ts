@@ -26,6 +26,7 @@ import { AuthState } from '@easworks/app-shell/state/auth';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-required';
+import { forceEmit } from '@easworks/app-shell/utilities/force-emit';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
@@ -1242,7 +1243,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         control.value.push(option);
         control.value.sort((a, b) => sortString(a.value, b.value));
         control.updateValueAndValidity();
-        // query$.mutate(v => v);
+        forceEmit(query$);
       },
       remove: (group: string, i: number) => {
         const control = form.controls[group];
@@ -1258,7 +1259,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           control.updateValueAndValidity();
         else
           form.removeControl(group);
-        // query$.mutate(v => v);
+        forceEmit(query$);
       },
       skip: () => {
         Object.keys(form.controls).forEach(k => form.removeControl(k, { emitEvent: false }));
@@ -1397,7 +1398,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         control.value.push(option);
         control.value.sort((a, b) => sortString(a.value, b.value));
         control.updateValueAndValidity();
-        // query$.mutate(v => v);
+        forceEmit(query$);
       },
       remove: (group: string, i: number) => {
         const control = form.controls[group];
@@ -1413,7 +1414,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           control.updateValueAndValidity();
         else
           form.removeControl(group);
-        // query$.mutate(v => v);
+        forceEmit(query$);
       }
     } as const;
 
@@ -1582,7 +1583,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 value.push(option);
                 value.sort((a, b) => sortString(a.value, b.value));
                 roleForm.updateValueAndValidity();
-                // query$.mutate(v => v);
+                forceEmit(query$);
               },
               remove: (i) => {
                 const { value } = roleForm;
@@ -1590,7 +1591,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 value.splice(i, 1);
                 option.selected = false;
                 roleForm.updateValueAndValidity();
-                // query$.mutate(v => v);
+                forceEmit(query$);
               }
             };
           });

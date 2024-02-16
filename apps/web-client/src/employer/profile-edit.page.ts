@@ -21,6 +21,7 @@ import { AuthState } from '@easworks/app-shell/state/auth';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-required';
+import { forceEmit } from '@easworks/app-shell/utilities/force-emit';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
@@ -332,7 +333,7 @@ export class EmployerProfileEditPageComponent {
         control.value.push(option);
         control.value.sort((a, b) => sortString(a.value, b.value));
         control.updateValueAndValidity();
-        // query$.mutate(v => v);
+        forceEmit(query$);
         count$.update(v => ++v);
       },
       remove: (domain: string, i: number) => {
@@ -349,7 +350,7 @@ export class EmployerProfileEditPageComponent {
           control.updateValueAndValidity();
         else
           form.removeControl(domain);
-        // query$.mutate(v => v);
+        forceEmit(query$);
         count$.update(v => --v);
       }
     };
