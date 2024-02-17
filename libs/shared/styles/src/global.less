@@ -4,6 +4,7 @@
 @import './tables.less';
 @import './swiper.less';
 @import './tabs.less';
+@import './chips.less';
 
 @layer base {
   body {
@@ -27,12 +28,7 @@
   }
 
   .field {
-    @apply block w-full rounded p-2
-      bg-slate-500/10 
-      placeholder:text-slate-500/80 placeholder:text-sm
-      outline-none
-      ring-inset ring-primary-500
-      transition-all;
+    @apply block w-full rounded p-2 bg-slate-500/10 placeholder:text-slate-500/80 placeholder:text-sm outline-none ring-inset ring-primary-500 transition-all;
 
     &-interactive {
       @apply hover:ring-1;
@@ -83,15 +79,15 @@
   .form-field {
     @apply relative mb-6;
 
-    > label {
+    >label {
       @apply block mb-1 text-sm;
     }
 
-    > .hint {
+    >.hint {
       @apply absolute block text-xs px-2 mt-1 text-slate-500;
     }
 
-    > .error {
+    >.error {
       @apply absolute hidden text-xs px-2 mt-1;
     }
 
@@ -104,6 +100,7 @@
     }
 
     &.show-spinner {
+
       input,
       .mat-mdc-select-value {
         @apply pr-12;
@@ -115,7 +112,7 @@
     }
 
     &.disabled {
-      > label {
+      >label {
         @apply text-slate-500;
       }
     }
@@ -132,19 +129,17 @@
       input.ng-invalid,
       file-upload.ng-invalid,
       .field {
-        @apply ring-1 ring-warn/80 
-          focus:ring-2 focus-within:ring-2
-          placeholder-warn;
+        @apply ring-1 ring-warn/80 focus:ring-2 focus-within:ring-2 placeholder-warn;
       }
 
-      > .error {
+      >.error {
         @apply block text-warn;
 
         &:not(:first-of-type) {
           @apply hidden;
         }
 
-        & ~ .hint {
+        &~.hint {
           @apply hidden;
         }
       }
@@ -152,19 +147,20 @@
   }
 
   td.form-field {
-    > .field {
-      @apply rounded-none h-full 
-        bg-transparent;
+    >.field {
+      @apply rounded-none h-full bg-transparent;
 
       &-interactive {
         @apply cursor-text;
-        
-        &:hover, &:focus, &:focus-within {
+
+        &:hover,
+        &:focus,
+        &:focus-within {
           @apply bg-slate-500/10;
         }
       }
 
-      > input {
+      >input {
         @apply !ring-0 p-0 bg-transparent ring-transparent;
       }
     }
