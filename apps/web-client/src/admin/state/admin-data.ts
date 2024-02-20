@@ -1,8 +1,9 @@
 import { createActionGroup, createFeature, createReducer, createSelector, on, props } from '@ngrx/store';
 import { produce } from 'immer';
 import { AdminDataState } from '../models/admin-data';
-import { TechGroup, TechSkill } from '../models/tech-skill';
+import { SoftwareProduct, TechGroup, TechSkill } from '../models/tech-skill';
 import { EASRole } from '../models/eas-role';
+import { Domain, DomainModule } from '../models/domain';
 
 export const adminDataActions = createActionGroup({
   source: 'admin-data',
@@ -58,6 +59,78 @@ export const easActions = createActionGroup({
   }
 });
 
+export const softwareProductActions = createActionGroup({
+  source: 'software-product',
+  events: {
+    add: props<{ payload: SoftwareProduct; }>(),
+    update: props<{ payload: SoftwareProduct; }>(),
+    'add techgroup': props<{
+      payload: {
+        softwareId: string;
+        techgroup: string;
+      };
+    }>(),
+    'remove techgroup': props<{
+      payload: {
+        group: string;
+        techgroup: string;
+      };
+    }>()
+  }
+});
+
+
+export const domainModuleActions = createActionGroup({
+  source: 'domain-module',
+  events: {
+    add: props<{ payload: DomainModule; }>(),
+    update: props<{ payload: DomainModule; }>(),
+    'add product': props<{
+      payload: {
+        group: string;
+        product: string;
+      };
+    }>(),
+    'remove product': props<{
+      payload: {
+        group: string;
+        product: string;
+      };
+    }>(),
+    'add roles': props<{
+      payload: {
+        group: string;
+        roles: string;
+      };
+    }>(),
+    'remove roles': props<{
+      payload: {
+        group: string;
+        roles: string;
+      };
+    }>()
+  }
+});
+
+export const domainActions = createActionGroup({
+  source: 'domain',
+  events: {
+    add: props<{ payload: Domain; }>(),
+    update: props<{ payload: Domain; }>(),
+    'add product': props<{
+      payload: {
+        group: string;
+        product: string;
+      };
+    }>(),
+    'remove product': props<{
+      payload: {
+        group: string;
+        product: string;
+      };
+    }>()
+  }
+});
 
 export const ADMIN_DATA_FEATURE = createFeature({
   name: 'adminData',
@@ -65,7 +138,10 @@ export const ADMIN_DATA_FEATURE = createFeature({
     {
       skills: [],
       techGroups: [],
-      easRole: []
+      easRoles: [],
+      softwareProducts: [],
+      domainModules: [],
+      domains: [],
     },
     on(adminDataActions.updateState, (_, { payload }) => {
       return payload;
@@ -82,14 +158,150 @@ export const ADMIN_DATA_FEATURE = createFeature({
 
     //easrole
     on(easActions.add, produce((state, { payload }) => {
-      const list = state.easRole;
+      const list = state.easRoles;
       list.push(payload);
     })),
     on(easActions.update, produce((state, { payload }) => {
-      const easRole = state.easRole.find(s => s.code === payload.code);
+      const easRole = state.easRoles.find(s => s.code === payload.code);
       if (!easRole)
         throw new Error('EAS Role not found');
       Object.assign(easRole, payload);
+    })),
+
+    //Software Product
+    on(softwareProductActions.add, produce((state, { payload }) => {
+      const list = state.softwareProducts;
+      list.push(payload);
+    })),
+    on(softwareProductActions.update, produce((state, { payload }) => {
+      const idx = state.softwareProducts.findIndex(s => s.id === payload.id);
+      if (idx < 0)
+        throw new Error('software group not found');
+
+      state.softwareProducts[idx] = payload;
+    })),
+
+    on(softwareProductActions.addTechgroup, produce((state, { payload }) => {
+      const sp = state.softwareProducts.find(s => s.id === payload.softwareId);
+      if (!sp)
+        throw new Error('software product not found');
+
+      const tg = state.techGroups.find(s => s.id === payload.techgroup);
+      if (!tg)
+        throw new Error('tech group not found');
+
+      if (tg.generic)
+        throw new Error('tech group should not be generic');
+
+      tg.softwareId = sp.id;
+      sp.techGroup.push(payload.techgroup);
+
+    })),
+    on(softwareProductActions.removeTechgroup, produce((state, { payload }) => {
+      const sp = state.softwareProducts.find(s => s.id === payload.group);
+      if (!sp)
+        throw new Error('software product not found');
+
+      const techgroupIdx = sp.techGroup.findIndex(s => s === payload.techgroup);
+      if (techgroupIdx < 0)
+        throw new Error('tech group not found');
+
+      sp.techGroup.splice(techgroupIdx, 1);
+    })),
+
+
+    //Domain Module
+    on(domainModuleActions.add, produce((state, { payload }) => {
+      const list = state.domainModules;
+      list.push(payload);
+    })),
+    on(domainModuleActions.update, produce((state, { payload }) => {
+      const domainModule = state.domainModules.find(s => s.id === payload.id);
+      if (!domainModule)
+        throw new Error('Domain Module not found');
+      Object.assign(domainModule, payload);
+    })),
+
+    on(domainModuleActions.addProduct, produce((state, { payload }) => {
+      const dm = state.domainModules.find(s => s.id === payload.group);
+      if (!dm)
+        throw new Error('domain module not found');
+
+      const sp = state.softwareProducts.find(s => s.id === payload.product);
+      if (!sp)
+        throw new Error('software product not found');
+
+      dm.products.push(payload.product);
+    })),
+    on(domainModuleActions.removeProduct, produce((state, { payload }) => {
+      const dm = state.domainModules.find(s => s.id === payload.group);
+      if (!dm)
+        throw new Error('domain module not found');
+
+      const softwareProductIdx = dm.products.findIndex(s => s === payload.product);
+      if (softwareProductIdx < 0)
+        throw new Error('software product not found');
+
+      dm.products.splice(softwareProductIdx, 1);
+    })),
+
+    on(domainModuleActions.addRoles, produce((state, { payload }) => {
+      const dm = state.domainModules.find(s => s.id === payload.group);
+      if (!dm)
+        throw new Error('domain module not found');
+
+      const sp = state.easRoles.find(s => s.code === payload.roles);
+      if (!sp)
+        throw new Error('eas roles not found');
+
+      dm.roles.push(payload.roles);
+    })),
+    on(domainModuleActions.removeRoles, produce((state, { payload }) => {
+      const dm = state.domainModules.find(s => s.id === payload.group);
+      if (!dm)
+        throw new Error('domain module not found');
+
+      const easRolesIdx = dm.roles.findIndex(s => s === payload.roles);
+      if (easRolesIdx < 0)
+        throw new Error('software product not found');
+
+      dm.roles.splice(easRolesIdx, 1);
+    })),
+
+
+    //domain 
+    on(domainActions.add, produce((state, { payload }) => {
+      const list = state.domains;
+      list.push(payload);
+    })),
+    on(domainActions.update, produce((state, { payload }) => {
+      const idx = state.domains.findIndex(s => s.id === payload.id);
+      if (idx < 0)
+        throw new Error('domains  not found');
+
+      state.domains[idx] = payload;
+    })),
+    on(domainActions.addProduct, produce((state, { payload }) => {
+      const domains = state.domains.find(s => s.id === payload.group);
+      if (!domains)
+        throw new Error('domains not found');
+
+      const sp = state.softwareProducts.find(s => s.id === payload.product);
+      if (!sp)
+        throw new Error('software product not found');
+
+      domains.products.push(payload.product);
+    })),
+    on(domainActions.removeProduct, produce((state, { payload }) => {
+      const domains = state.domains.find(s => s.id === payload.group);
+      if (!domains)
+        throw new Error('domains not found');
+
+      const softwareProductIdx = domains.products.findIndex(s => s === payload.product);
+      if (softwareProductIdx < 0)
+        throw new Error('software product not found');
+
+      domains.products.splice(softwareProductIdx, 1);
     })),
 
     // tech groups
@@ -120,14 +332,14 @@ export const ADMIN_DATA_FEATURE = createFeature({
       if (!tg)
         throw new Error('tech group not found');
 
-      const skillIdx = state.skills.findIndex(s => s.id === payload.skill);
+      const skillIdx = tg.tech.findIndex(s => s === payload.skill);
       if (skillIdx < 0)
         throw new Error('tech skill not found');
 
       tg.tech.splice(skillIdx, 1);
     }))
   ),
-  extraSelectors: (base) => ({
+  extraSelectors: (base) => ({//where to use
     techSkillMap: createSelector(
       base.selectSkills,
       list => new Map(list.map(skill => [skill.id, skill]))

@@ -12,10 +12,16 @@ export class AdminApi extends BackendApi {
   readonly get = async () => {
     const data = await CACHE.admin.get<AdminDataState>(this.DTO_KEY);
 
+    //data!.domains = [];
+    //await this.save(data!);
+
     const state: AdminDataState = data || {
       skills: [],
       techGroups: [],
-      easRole: []
+      easRoles: [],
+      softwareProducts: [],
+      domainModules: [],
+      domains: [],
     };
 
     return state;

@@ -2,7 +2,7 @@
   .table-container {
     @apply overflow-clip;
 
-    > div {
+    >div {
       @apply overflow-auto;
     }
 
@@ -19,29 +19,33 @@
 
   table {
     @apply text-left text-sm;
-  
+
     th,
     td {
       @apply text-left;
     }
-  
+
     thead {
       th {
         @apply border-b;
       }
     }
-  
+
     tbody {
-  
+
       tr {
         td {
           @apply border-b;
         }
 
-        &:nth-child(odd) {
-        }
-  
-        &:nth-child(even) {
+        &:nth-child(odd) {}
+
+        &:nth-child(even) {}
+
+        &.dotted {
+          td {
+            border-bottom-style: dotted;
+          }
         }
       }
     }
@@ -58,17 +62,16 @@
       &.tags {
         @apply lowercase font-semibold;
 
-        > div {
+        >div {
           @apply flex gap-2 items-center;
-          
-          > span {
+
+          >span {
             @apply rounded px-2;
           }
         }
 
-        
+
       }
     }
   }
 }
-

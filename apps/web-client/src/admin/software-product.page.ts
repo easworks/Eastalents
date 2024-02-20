@@ -1,26 +1,27 @@
-import { ChangeDetectionStrategy, Component, INJECTOR, computed, effect, inject, signal } from "@angular/core";
-import { takeUntilDestroyed, toObservable, toSignal } from "@angular/core/rxjs-interop";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { ChangeDetectionStrategy, Component, INJECTOR, computed, inject, signal } from "@angular/core";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatSelectModule } from "@angular/material/select";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { controlValue$ } from "@easworks/app-shell/common/form-field.directive";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { FormImportsModule } from "@easworks/app-shell/common/form.imports.module";
 import { ImportsModule } from "@easworks/app-shell/common/imports.module";
-import { SnackbarComponent } from "@easworks/app-shell/notification/snackbar";
-import { generateLoadingState } from "@easworks/app-shell/state/loading";
-import { SelectableOption } from "@easworks/app-shell/utilities/options";
-import { faCheck, faRefresh, faSquareXmark } from "@fortawesome/free-solid-svg-icons";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { Store } from "@ngrx/store";
+import { faCheck, faRefresh, faSquareXmark } from "@fortawesome/free-solid-svg-icons";
+import { generateLoadingState } from "@easworks/app-shell/state/loading";
+import { ADMIN_DATA_FEATURE, softwareProductActions } from "./state/admin-data";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { takeUntilDestroyed, toObservable, toSignal } from "@angular/core/rxjs-interop";
+import { controlValue$ } from "@easworks/app-shell/common/form-field.directive";
+import { SnackbarComponent } from "@easworks/app-shell/notification/snackbar";
+import { SoftwareProduct, TechGroup } from "./models/tech-skill";
 import { map, shareReplay, startWith } from "rxjs";
-import { GenericTechGroup, NonGenericTechGroup, TechGroup, TechSkill } from "./models/tech-skill";
-import { ADMIN_DATA_FEATURE, techGroupActions } from "./state/admin-data";
-import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { SelectableOption } from "@easworks/app-shell/utilities/options";
 
 @Component({
   standalone: true,
-  selector: 'admin-tech-group-page',
-  templateUrl: './tech-group.page.html',
+  selector: 'software-product-page',
+  templateUrl: './software-product.page.html',
+  //styleUrl: './tech-group.page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
@@ -30,7 +31,7 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
     MatAutocompleteModule
   ]
 })
-export class TechGroupPageComponent {
+export class SoftwareProductPageComponent {
 
   private readonly store = inject(Store);
   private readonly snackbar = inject(MatSnackBar);
@@ -43,30 +44,31 @@ export class TechGroupPageComponent {
   } as const;
 
   protected readonly loading = generateLoadingState<[
-    'updating new tech group skill',
-    'adding new tech group skill'
+    'updating new software product skill',
+    'adding new software product skill'
   ]>();
 
 
-  private readonly techGroups$ = this.store.selectSignal(ADMIN_DATA_FEATURE.selectTechGroups);
+  private readonly softwareProduct$ = this.store.selectSignal(ADMIN_DATA_FEATURE.selectSoftwareProducts);
 
-  private readonly techSkills = {
-    list$: this.store.selectSignal(ADMIN_DATA_FEATURE.selectSkills),
+  private readonly techGroup = {
+    list$: this.store.selectSignal(ADMIN_DATA_FEATURE.selectTechGroups),
   } as const;
 
   protected readonly table = this.initTable();
+
 
   private initTable() {
 
     const rowControls = () => {
       return {
         name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-        generic: new FormControl(true, { nonNullable: true }),
-        softwareId: new FormControl('', { nonNullable: true, validators: [] })
+        imageUrl: new FormControl('', { nonNullable: true }),
+        //softwareId: new FormControl('', { nonNullable: true, validators: [] })
       };
     };
 
-    const initAddTechGroup = () => {
+    const initAddSoftwareProduct = () => {
       const form = new FormGroup({
         id: new FormControl('', {
           nonNullable: true,
@@ -74,7 +76,7 @@ export class TechGroupPageComponent {
             [
               Validators.required,
               ({ value }) => {
-                const list = this.techGroups$();
+                const list = this.softwareProduct$();
                 const exists = list.some(group => group.id === value);
                 if (exists)
                   return { exists: true };
@@ -86,9 +88,9 @@ export class TechGroupPageComponent {
       }
       );
 
-      const isAddingGeneric$ = toSignal(controlValue$(form.controls.generic, true), { initialValue: false });
+      //const isAddingGeneric$ = toSignal(controlValue$(form.controls.generic, true), { initialValue: false });
 
-      const submitting$ = this.loading.has('adding new tech group skill');
+      const submitting$ = this.loading.has('adding new software product skill');
       const submitDisabled$ = this.loading.any$;
 
       const submit = () => {
@@ -96,49 +98,27 @@ export class TechGroupPageComponent {
           return;
 
         try {
-          this.loading.add('adding new tech group skill');
+          this.loading.add('adding new software product skill');
           const value = form.getRawValue();
 
-          if (value.generic) {
-            const payload: GenericTechGroup = {
-              id: value.id,
-              name: value.name,
-              generic: true,
-              tech: []
-            };
-            this.store.dispatch(techGroupActions.add({ payload }));
-          }
-          else {
-            const payload: NonGenericTechGroup = {
-              id: value.id,
-              name: value.name,
-              generic: false,
-              tech: [],
-              softwareId: value.softwareId
-            };
-            this.store.dispatch(techGroupActions.add({ payload }));
-          }
 
-          form.reset({ generic: true });
+          const payload: SoftwareProduct = {
+            id: value.id,
+            name: value.name,
+            imageUrl: value.imageUrl,
+            techGroup: []
+          };
+          this.store.dispatch(softwareProductActions.add({ payload }));
+          form.reset({ imageUrl: '' });
         }
+
         catch (err) {
           SnackbarComponent.forError(this.snackbar, err);
         }
         finally {
-          this.loading.delete('adding new tech group skill');
+          this.loading.delete('adding new software product skill');
         }
       };
-
-      {
-        const control = form.controls.softwareId;
-        effect(() => {
-          const isAddingGeneric = isAddingGeneric$();
-          if (isAddingGeneric)
-            control.disable();
-          else
-            control.enable();
-        });
-      }
 
       return {
         form,
@@ -148,29 +128,30 @@ export class TechGroupPageComponent {
       } as const;
     };
 
-    const initUpdateTechGroup = () => {
+    const initUpdateSoftwareProduct = () => {
       const injector = this.injector;
 
       const loading = generateLoadingState();
-      this.loading.react('updating new tech group skill', loading.any$);
+      this.loading.react('updating new software product skill', loading.any$);
 
-      const obs$ = toObservable(this.techGroups$)
+      const obs$ = toObservable(this.softwareProduct$)
         .pipe(
-          startWith(this.techGroups$()),
+          startWith(this.softwareProduct$()),
           map((list) => {
-            const rows = list.map((techGroup) => {
+            const rows = list.map((sp) => {
 
-              const initTech = () => {
+              const initTechGroups = () => {
                 const query$ = signal<string | object>('');
 
                 // takes the list of skills and maps them into selectable options
                 const all$ = computed(() => {
-                  const skills = this.techSkills.list$();
+                  let techGroups = this.techGroup.list$();
+                  techGroups = techGroups.filter(x => x.generic === false);
 
-                  return skills.map<SelectableOption<TechSkill>>(skill => ({
-                    value: skill,
+                  return techGroups.map<SelectableOption<TechGroup>>(tg => ({
+                    value: tg,
                     selected: false,
-                    label: skill.name
+                    label: tg.name
                   }));
                 });
 
@@ -185,7 +166,7 @@ export class TechGroupPageComponent {
                 // and creates a list of the selcted options
                 const selected$ = computed(() => {
                   const map = allMap$();
-                  const selected = techGroup.tech.map(id => map.get(id)!);
+                  const selected = sp.techGroup.map(id => map.get(id)!);
 
                   selected.forEach(option => option.selected = true);
                   return selected;
@@ -212,23 +193,22 @@ export class TechGroupPageComponent {
 
                 // simple handlers
                 const handlers = {
-                  add: (option: SelectableOption<TechSkill>) => {
+                  add: (option: SelectableOption<TechGroup>) => {
                     if (option.selected)
                       return;
                     option.selected = true;
-                    this.store.dispatch(techGroupActions.addSkill({
+                    this.store.dispatch(softwareProductActions.addTechgroup({
                       payload: {
-                        group: techGroup.id,
-                        skill: option.value.id
+                        softwareId: sp.id,
+                        techgroup: option.value.id
                       }
                     }));
                   },
-                  remove: (option: SelectableOption<TechSkill>) => {
-                    option.selected = false;
-                    this.store.dispatch(techGroupActions.removeSkill({
+                  remove: (option: SelectableOption<TechGroup>) => {
+                    this.store.dispatch(softwareProductActions.removeTechgroup({
                       payload: {
-                        group: techGroup.id,
-                        skill: option.value.id
+                        group: sp.id,
+                        techgroup: option.value.id
                       }
                     }));
                   }
@@ -257,11 +237,10 @@ export class TechGroupPageComponent {
 
               const changed$ = computed(() => {
                 const v = value$();
-                return v.name !== techGroup.name ||
-                  v.generic !== techGroup.generic;
+                return v.name !== sp.name;
               });
 
-              const updating$ = loading.has(techGroup.id);
+              const updating$ = loading.has(sp.id);
 
               const disableButtons$ = computed(() =>
                 this.loading.any$() ||
@@ -270,10 +249,9 @@ export class TechGroupPageComponent {
 
               const reset = () => {
                 form.reset({
-                  id: techGroup.id,
-                  name: techGroup.name,
-                  generic: techGroup.generic,
-                  softwareId: techGroup.generic ? undefined : techGroup.softwareId
+                  id: sp.id,
+                  name: sp.name,
+                  imageUrl: sp.imageUrl
                 });
               };
 
@@ -284,42 +262,30 @@ export class TechGroupPageComponent {
                   return;
 
                 try {
-                  loading.add(techGroup.id);
+                  loading.add(sp.id);
 
                   const value = form.getRawValue();
 
-                  let payload: TechGroup;
-                  if (value.generic) {
-                    payload = {
-                      id: techGroup.id,
-                      name: value.name,
-                      generic: true,
-                      tech: techGroup.tech
-                    };
-                  }
-                  else {
-                    payload = {
-                      id: techGroup.id,
-                      name: value.name,
-                      generic: false,
-                      tech: techGroup.tech,
-                      softwareId: value.softwareId
-                    };
-                  }
+                  const payload: SoftwareProduct = {
+                    id: sp.id,
+                    name: value.name,
+                    imageUrl: value.imageUrl,
+                    techGroup: sp.techGroup
+                  };
 
-                  this.store.dispatch(techGroupActions.update({ payload }));
+                  this.store.dispatch(softwareProductActions.update({ payload }));
                 }
                 catch (err) {
                   SnackbarComponent.forError(this.snackbar, err);
                 }
                 finally {
-                  loading.delete(techGroup.id);
+                  loading.delete(sp.id);
                 }
               };
 
               return {
-                data: techGroup,
-                tech: initTech(),
+                data: sp,
+                techGroups: initTechGroups(),
                 form,
                 reset,
                 update,
@@ -338,13 +304,10 @@ export class TechGroupPageComponent {
     };
 
 
-
     return {
-      add: initAddTechGroup(),
-      rows$: initUpdateTechGroup()
+      add: initAddSoftwareProduct(),
+      rows$: initUpdateSoftwareProduct()
     } as const;
+
   }
-
-
-
 }

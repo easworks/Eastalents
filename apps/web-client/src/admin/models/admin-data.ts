@@ -1,8 +1,12 @@
-import { TechGroup, TechSkill } from '../models/tech-skill';
+import { SoftwareProduct, TechGroup, TechSkill } from '../models/tech-skill';
+import { Domain, DomainModule } from './domain';
 import { EASRole } from './eas-role';
 
 export interface AdminDataState {
   skills: TechSkill[];
   techGroups: TechGroup[];
-  easRole: EASRole[];
+  easRoles: EASRole[];
+  softwareProducts: SoftwareProduct[];
+  domainModules: DomainModule[];
+  domains: Domain[];
 }

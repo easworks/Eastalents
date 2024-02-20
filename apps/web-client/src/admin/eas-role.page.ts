@@ -47,7 +47,7 @@ export class EasRoleComponent {
 
 
     private readonly data$ = this.store.selectSignal(ADMIN_DATA_FEATURE.selectAdminDataState);
-    private readonly list$ = computed(() => this.data$().easRole);
+    private readonly list$ = computed(() => this.data$().easRoles);
 
     protected readonly table = this.initTable();
 

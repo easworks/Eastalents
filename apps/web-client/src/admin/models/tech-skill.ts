@@ -24,3 +24,17 @@ export interface NonGenericTechGroup extends Omit<GenericTechGroup, 'generic'> {
 }
 
 export type TechGroup = GenericTechGroup | NonGenericTechGroup;
+
+export function techGroupId(tg: TechGroup) {
+  if (tg.generic)
+    return tg.id;
+  else
+    return `${tg.id}/${tg.softwareId}`;
+}
+
+export interface SoftwareProduct {
+  id: string;
+  name: string;
+  imageUrl: string;
+  techGroup: string[];
+}
