@@ -5,7 +5,7 @@ export interface Domain {
   longName: string;
   prefix: string | null;
   shortName: string;
-  modules: DomainModule[];
+  modules: string[];
   services: string[];
 
   // this is a aggregation of all products from all modules in the domain

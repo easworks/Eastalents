@@ -63,14 +63,14 @@
                 <tr>
                     <td colspan="5">
                         <label>Software Product</label>
-                        @if (row.tech.selected.count$() > 0) {
+                        @if (row.sp.selected.count$() > 0) {
                         <div class="grid gap-2 mb-2"
                             style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-                            @for(option of row.tech.selected.$(); track option) {
+                            @for(option of row.sp.selected.$(); track option) {
                             <div class="chip">
                                 <span>{{option.value.name}}</span>
                                 <button type="button" mat-ripple class="icon-button" title="Remove"
-                                    (click)="row.tech.removeProduct(option)">
+                                    (click)="row.sp.removeProduct(option)">
                                     <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
                                 </button>
                             </div>
@@ -79,12 +79,12 @@
                         }
 
                         <div class="form-field mb-0">
-                            <input type="text" placeholder="Type to add" [ngModel]="row.tech.query$()"
-                                (ngModelChange)="row.tech.query$.set($event)" [matAutocomplete]="productOptions">
+                            <input type="text" placeholder="Type to add" [ngModel]="row.sp.query$()"
+                                (ngModelChange)="row.sp.query$.set($event)" [matAutocomplete]="productOptions">
                         </div>
                         <mat-autocomplete #productOptions class="!p-0">
-                            @for(option of row.tech.filtered$(); track option) {
-                            <mat-option [value]="row.tech.query$()" (onSelectionChange)="row.tech.addProduct(option)">
+                            @for(option of row.sp.filtered$(); track option) {
+                            <mat-option [value]="row.sp.query$()" (onSelectionChange)="row.sp.addProduct(option)">
                                 {{option.label}}
                             </mat-option>
                             }
@@ -94,14 +94,14 @@
                 <tr>
                     <td colspan="5">
                         <label>Domain Modules</label>
-                        @if (row.tech.selected.count$() > 0) {
+                        @if (row.dm.selected.count$() > 0) {
                         <div class="grid gap-2 mb-2"
                             style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-                            @for(option of row.tech.selected.$(); track option) {
+                            @for(option of row.dm.selected.$(); track option) {
                             <div class="chip">
                                 <span>{{option.value.name}}</span>
                                 <button type="button" mat-ripple class="icon-button" title="Remove"
-                                    (click)="row.tech.removeProduct(option)">
+                                    (click)="row.dm.removeDomainModule(option)">
                                     <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
                                 </button>
                             </div>
@@ -110,12 +110,12 @@
                         }
 
                         <div class="form-field mb-0">
-                            <input type="text" placeholder="Type to add" [ngModel]="row.tech.query$()"
-                                (ngModelChange)="row.tech.query$.set($event)" [matAutocomplete]="productOptions">
+                            <input type="text" placeholder="Type to add" [ngModel]="row.dm.query$()"
+                                (ngModelChange)="row.dm.query$.set($event)" [matAutocomplete]="domainModules">
                         </div>
-                        <mat-autocomplete #productOptions class="!p-0">
-                            @for(option of row.tech.filtered$(); track option) {
-                            <mat-option [value]="row.tech.query$()" (onSelectionChange)="row.tech.addProduct(option)">
+                        <mat-autocomplete #domainModules class="!p-0">
+                            @for(option of row.dm.filtered$(); track option) {
+                            <mat-option [value]="row.dm.query$()" (onSelectionChange)="row.dm.addDomainModule(option)">
                                 {{option.label}}
                             </mat-option>
                             }

@@ -10,7 +10,7 @@ import { faCheck, faRefresh, faSquareXmark } from "@fortawesome/free-solid-svg-i
 import { generateLoadingState } from "@easworks/app-shell/state/loading";
 import { ADMIN_DATA_FEATURE, domainActions } from "./state/admin-data";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Domain } from "./models/domain";
+import { Domain, DomainModule } from "./models/domain";
 import { SnackbarComponent } from "@easworks/app-shell/notification/snackbar";
 import { takeUntilDestroyed, toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { map, shareReplay, startWith } from "rxjs";
@@ -54,6 +54,11 @@ export class DomainsComponent {
     private readonly softwareProduct = {
         list$: this.store.selectSignal(ADMIN_DATA_FEATURE.selectSoftwareProducts),
     } as const;
+
+    private readonly domainModules = {
+        list$: this.store.selectSignal(ADMIN_DATA_FEATURE.selectDomainModules),
+    } as const;
+
 
     protected readonly table = this.initTable();
 
@@ -232,6 +237,92 @@ export class DomainsComponent {
                                 } as const;
                             };
 
+                            const initDomainModules = () => {
+                                const query$ = signal<string | object>('');
+
+                                // takes the list of skills and maps them into selectable options
+                                const all$ = computed(() => {
+                                    const domainModules = this.domainModules.list$();
+                                    //techGroups = techGroups.filter(x => x.generic === false);
+
+                                    return domainModules.map<SelectableOption<DomainModule>>(tg => ({
+                                        value: tg,
+                                        selected: false,
+                                        label: tg.name
+                                    }));
+                                });
+
+                                // takes the list of tech skill options 
+                                // and puts them into Map, using id as the key
+                                const allMap$ = computed(() => {
+                                    return new Map(all$().map(option => [option.value.id, option]));
+                                });
+
+                                // takes the tech skills in the row's tech group
+                                // then uses the map to locate the related option
+                                // and creates a list of the selcted options
+                                const selected$ = computed(() => {
+                                    const map = allMap$();
+                                    const selected = domains.modules.map(id => map.get(id)!);
+
+                                    selected.forEach(option => option.selected = true);
+                                    return selected;
+                                });
+                                const count$ = computed(() => selected$().length);
+
+
+                                // filters the suggested tech skills
+                                // if an item is selected, it should not be in the sugestions
+                                // if an item is matching the query, it should be in suggestions
+                                const filtered$ = computed(() => {
+                                    const q = query$();
+                                    const all = all$();
+
+                                    const filter = typeof q === 'string' &&
+                                        q.trim().toLowerCase();
+
+                                    const filtered = all
+                                        .filter(option => !option.selected &&
+                                            (!filter || option.value.name.toLowerCase().includes(filter)));
+
+                                    return filtered;
+                                });
+
+                                // simple handlers
+                                const handlers = {
+                                    addDomainModule: (option: SelectableOption<DomainModule>) => {
+                                        if (option.selected)
+                                            return;
+                                        option.selected = true;
+                                        this.store.dispatch(domainActions.addModules({
+                                            payload: {
+                                                group: domains.id,
+                                                module: option.value.id
+                                            }
+                                        }));
+                                    },
+                                    removeDomainModule: (option: SelectableOption<DomainModule>) => {
+                                        this.store.dispatch(domainActions.removeModules({
+                                            payload: {
+                                                group: domains.id,
+                                                module: option.value.id
+                                            }
+                                        }));
+                                    }
+                                } as const;
+
+                                // export the tech section of the row
+                                return {
+                                    query$,
+                                    filtered$,
+                                    selected: {
+                                        $: selected$,
+                                        count$
+                                    },
+                                    ...handlers
+                                } as const;
+                            };
+
                             const form = new FormGroup({
                                 id: new FormControl('', { nonNullable: true }),
                                 ...rowControls()
@@ -298,7 +389,8 @@ export class DomainsComponent {
 
                             return {
                                 data: domains,
-                                tech: initSoftwareProduct(),
+                                sp: initSoftwareProduct(),
+                                dm: initDomainModules(),
                                 form,
                                 reset,
                                 update,

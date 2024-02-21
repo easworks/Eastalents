@@ -128,7 +128,19 @@ export const domainActions = createActionGroup({
         group: string;
         product: string;
       };
-    }>()
+    }>(),
+    'add Modules': props<{
+      payload: {
+        group: string;
+        module: string;
+      };
+    }>(),
+    'remove Modules': props<{
+      payload: {
+        group: string;
+        module: string;
+      };
+    }>(),
   }
 });
 
@@ -303,7 +315,28 @@ export const ADMIN_DATA_FEATURE = createFeature({
 
       domains.products.splice(softwareProductIdx, 1);
     })),
+    on(domainActions.addModules, produce((state, { payload }) => {
+      const domains = state.domains.find(s => s.id === payload.group);
+      if (!domains)
+        throw new Error('domains not found');
 
+      const dm = state.domainModules.find(s => s.id === payload.module);
+      if (!dm)
+        throw new Error('domain modules not found');
+
+      domains.modules.push(payload.module);
+    })),
+    on(domainActions.removeModules, produce((state, { payload }) => {
+      const domains = state.domains.find(s => s.id === payload.group);
+      if (!domains)
+        throw new Error('domains not found');
+
+      const domainModuleIdx = domains.modules.findIndex(s => s === payload.module);
+      if (domainModuleIdx < 0)
+        throw new Error('domain modules not found');
+
+      domains.modules.splice(domainModuleIdx, 1);
+    })),
     // tech groups
     on(techGroupActions.add, produce((state, { payload }) => {
       const list = state.techGroups;
