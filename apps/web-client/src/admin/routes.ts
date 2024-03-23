@@ -39,6 +39,12 @@ export const ADMIN_ROUTES: Route =
       pathMatch: 'full',
       loadComponent: () => import('./domains.page')
         .then(m => m.DomainsComponent)
+    },
+    {
+      path: 'feature-product',
+      pathMatch: 'full',
+      loadComponent: () => import('./feature-product.page')
+        .then(m => m.FeatureProductComponent)
     }
   ]
 };

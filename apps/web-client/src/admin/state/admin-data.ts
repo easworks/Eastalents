@@ -4,6 +4,7 @@ import { AdminDataState } from '../models/admin-data';
 import { SoftwareProduct, TechGroup, TechSkill } from '../models/tech-skill';
 import { EASRole } from '../models/eas-role';
 import { Domain, DomainModule } from '../models/domain';
+import { FeaturedProduct } from '../models/featured';
 
 export const adminDataActions = createActionGroup({
   source: 'admin-data',
@@ -144,6 +145,15 @@ export const domainActions = createActionGroup({
   }
 });
 
+export const featureProduct = createActionGroup({
+  source: 'feature-product',
+  events: {
+    add: props<{ payload: FeaturedProduct; }>(),
+    update: props<{ payload: FeaturedProduct; }>(),
+  }
+});
+
+
 export const ADMIN_DATA_FEATURE = createFeature({
   name: 'adminData',
   reducer: createReducer<AdminDataState>(
@@ -154,6 +164,7 @@ export const ADMIN_DATA_FEATURE = createFeature({
       softwareProducts: [],
       domainModules: [],
       domains: [],
+      featureProduct: [],
     },
     on(adminDataActions.updateState, (_, { payload }) => {
       return payload;
@@ -221,6 +232,17 @@ export const ADMIN_DATA_FEATURE = createFeature({
       sp.techGroup.splice(techgroupIdx, 1);
     })),
 
+    //Feature Product
+    on(featureProduct.add, produce((state, { payload }) => {
+      const list = state.featureProduct;
+      list.push(payload);
+    })),
+    on(featureProduct.update, produce((state, { payload }) => {
+      const domain = state.featureProduct.find(s => s.domain === payload.domain);
+      if (!domain)
+        throw new Error('Domain not found');
+      domain.software = payload.software;
+    })),
 
     //Domain Module
     on(domainModuleActions.add, produce((state, { payload }) => {

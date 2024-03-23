@@ -1,0 +1,64 @@
+<mat-accordion>
+    @for (fp of updateProductData; track fp) {
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{fp.domainName}}
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <mat-label>Domains</mat-label>
+        <mat-select disabled [(value)]="fp.domainId">
+            @for (domain of fp.domainData; track domain) {
+            <mat-option [value]="domain.id">{{domain.longName}}</mat-option>
+            }
+        </mat-select>
+
+        <mat-label>Software Product</mat-label>
+        <mat-chip-set class="example-chip" cdkDropList cdkDropListOrientation="horizontal"
+            (cdkDropListDropped)="dropUpdate({e:$event,data:fp})">
+            @for (product of fp.softwareProduct; track product) {
+            <mat-chip class="example-box" cdkDrag>{{product.name}}</mat-chip>
+            }
+        </mat-chip-set>
+
+        <button class="icon-button small enabled:text-emerald-500" mat-ripple [disabled]="disable" (click)="submit()">
+            <replace-spinner>
+                <fa-icon [icon]="icons.faCheck"></fa-icon>
+            </replace-spinner>
+        </button>
+
+    </mat-expansion-panel>
+    }
+
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Select New Featured Domain
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <mat-label>Domains</mat-label>
+        <mat-select (selectionChange)="onSelectChange($event)" [(value)]="addSelectedDomain">
+            @for (domain of addDomainList; track domain) {
+            <mat-option [value]="domain.id">{{domain.longName}}</mat-option>
+            }
+        </mat-select>
+
+        <mat-label>Software Product</mat-label>
+        <mat-chip-set class="example-chip" cdkDropList cdkDropListOrientation="horizontal"
+            (cdkDropListDropped)="drop($event)">
+            @for (product of softwareListToShow; track product) {
+            <mat-chip class="example-box" cdkDrag>{{product.name}}</mat-chip>
+            }
+        </mat-chip-set>
+
+        <button class="icon-button small enabled:text-emerald-500" mat-ripple [disabled]="disable" (click)="submit()">
+            <replace-spinner>
+                <fa-icon [icon]="icons.faCheck"></fa-icon>
+            </replace-spinner>
+        </button>
+
+    </mat-expansion-panel>
+</mat-accordion>

@@ -4,7 +4,7 @@ import { TalentApi } from '@easworks/app-shell/api/talent.api';
 import { ChartJsDirective } from '@easworks/app-shell/common/chart-js/chart-js.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
+//import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { getTailwindColor } from '@easworks/app-shell/utilities/get-runtime-color';
