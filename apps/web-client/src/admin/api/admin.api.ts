@@ -22,7 +22,7 @@ export class AdminApi extends BackendApi {
       softwareProducts: [],
       domainModules: [],
       domains: [],
-      featureProduct: []
+      featureProducts: []
     };
 
     return state;

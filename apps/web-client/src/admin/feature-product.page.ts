@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, INJECTOR, OnInit, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from "@angular/core";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from "@angular/material/checkbox";
@@ -7,21 +7,18 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectChange, MatSelectModule } from "@angular/material/select";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatSelectModule } from "@angular/material/select";
 import { FormImportsModule } from "@easworks/app-shell/common/form.imports.module";
 import { ImportsModule } from "@easworks/app-shell/common/imports.module";
-import { generateLoadingState } from "@easworks/app-shell/state/loading";
-import { faCheck, faRefresh, faSquareXmark } from "@fortawesome/free-solid-svg-icons";
 import { Store } from "@ngrx/store";
-import { FeaturedProduct, updateDisplayFeatureProduct } from "./models/featured";
-import { ADMIN_DATA_FEATURE, featureProduct } from "./state/admin-data";
+import { FeaturedProductDomain } from "./models/featured";
+import { ADMIN_DATA_FEATURE } from "./state/admin-data";
 
 
-import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { MatChipsModule } from '@angular/material/chips';
-import { Domain } from "./models/domain";
-import { SoftwareProduct } from "./models/tech-skill";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { Domain } from './models/domain';
 
 @Component({
     standalone: true,
@@ -51,131 +48,93 @@ import { SoftwareProduct } from "./models/tech-skill";
 
 
 
-export class FeatureProductComponent implements OnInit {
-
-
-
+export class FeatureProductComponent {
     private readonly store = inject(Store);
-    private readonly snackbar = inject(MatSnackBar);
-    private readonly injector = inject(INJECTOR);
+
+    protected readonly featured = this.initFeatured();
+    protected readonly domains = this.initDomains();
 
     protected readonly icons = {
-        faCheck,
-        faRefresh,
-        faSquareXmark
-    } as const;
-
-    protected readonly loading = generateLoadingState<[
-        'updating new domain in feature product',
-        'adding new domain in feature product'
-    ]>();
-
-
-    domain$ = this.store.selectSignal(ADMIN_DATA_FEATURE.selectDomains);
-
-    addDomainList: Domain[] = [];
-    private readonly softwareProduct = {
-        list$: this.store.selectSignal(ADMIN_DATA_FEATURE.selectSoftwareProducts),
+        faCheck
     } as const;
 
 
-    readonly featureProduct$ = this.store.selectSignal(ADMIN_DATA_FEATURE.selectFeatureProduct);
-
-    //protected readonly table = this.initTable();
-
-    featureProductToList: FeaturedProduct = { domain: '', software: [] };
-
-    featureProductToAdd: FeaturedProduct = { domain: '', software: [] };
-    softwareListToShow: SoftwareProduct[] = [];
-    addSelectedDomain = '';
-    disable = true;
-
-    updateProductData: updateDisplayFeatureProduct[] = [];
-
-
-
-    ngOnInit(): void {
-        this.addDomainList = this.domain$();
-        this.intializeUpdateData(this.featureProduct$());
-    }
-
-    intializeUpdateData(data: FeaturedProduct[]) {
-        data.forEach(x => {
-
-            const domains = this.addDomainList.find(z => z.id === x.domain);
-            const updateFp: updateDisplayFeatureProduct = {
-                domainId: x.domain,
-                domainName: domains != undefined ? domains.longName : '',
-                domainData: domains != undefined ? [domains] : [],
-                softareId: [],
-                softwareProduct: []
-            };
-
-            x.software.forEach(y => {
-                const data = this.softwareProduct.list$().find(z => z.id === y);
-                if (data != undefined) {
-                    updateFp.softareId?.push(y);
-                    updateFp.softwareProduct?.push(data);
-                }
-            });
-
-
-            this.updateProductData.push(updateFp);
-
-            this.addDomainList = this.addDomainList.filter(y => y.id != x.domain);
-
+    private initFeatured() {
+        const domains$ = signal([] as FeaturedProductDomain[]);
+        const ids$ = computed(() => {
+            return new Set(domains$().map(d => d.domain));
         });
+        return {
+            domains$,
+            ids$
+        } as const;
     }
 
-    onSelectChange(e: MatSelectChange) {
-        this.addSelectedDomain = '';
-        this.softwareListToShow = [];
-        this.addSelectedDomain = e.value;
-        const domains = this.addDomainList.find(x => x.id === e.value);
-        domains?.products.forEach(x => {
-            const data = this.softwareProduct.list$().find(z => z.id === x);
-            if (data != undefined) {
-                this.softwareListToShow.push(data);
+    private initDomains() {
+        const domains$ = this.store.selectSignal(ADMIN_DATA_FEATURE.selectDomains);
+
+        const selected$ = signal<Domain | null>(null);
+        const empty$ = computed(() => !selected$());
+
+        const available$ = computed(() => {
+            const domains = domains$();
+            const featuredIds = this.featured.ids$();
+
+            return domains.filter(domain => !featuredIds.has(domain.id));
+        });
+
+        const query$ = signal<string | Domain>('');
+
+        const filtered$ = computed(() => {
+            const q = query$();
+            const available = available$();
+
+            if (typeof q === 'string') {
+                const filter = q.trim().toLowerCase();
+                return available
+                    .filter(domain => !filter || domain.longName.toLowerCase().includes(filter));
+            }
+            else {
+                return [q];
             }
         });
-        this.enableDisableSubmitButton();
-    }
 
-    drop(event: CdkDragDrop<SoftwareProduct[]>) {
-        moveItemInArray(this.softwareListToShow, event.previousIndex, event.currentIndex);
-        this.enableDisableSubmitButton();
-    }
+        effect(() => {
+            const q = query$();
+            if (typeof q === 'string') {
+                const filtered = filtered$();
+                if (filtered.length === 1) {
+                    const domain = filtered[0];
+                    const isSame = q.toLowerCase() === domain.longName.toLowerCase();
+                    if (isSame) {
+                        query$.set(domain);
+                    }
 
-    submit() {
-        this.featureProductToAdd.domain = this.addSelectedDomain;
-        const data = this.softwareListToShow.map(x => x.id);
-        this.featureProductToAdd.software = data;
-        this.store.dispatch(featureProduct.add({ payload: this.featureProductToAdd }));
+                }
+            }
+            else {
+                selected$.set(q);
+            }
+        }, { allowSignalWrites: true });
 
-        this.intializeUpdateData([this.featureProductToAdd]);
-        this.featureProductToAdd = { domain: '', software: [] };
-        this.addSelectedDomain = '';
-        this.softwareListToShow = [];
-        this.enableDisableSubmitButton();
-    }
-
-    enableDisableSubmitButton() {
-        this.disable = true;
-        if (this.addSelectedDomain.length && this.softwareListToShow.length) {
-            this.disable = false;
-        }
-    }
-
-    dropUpdate(opt: { e: CdkDragDrop<SoftwareProduct[]>, data: updateDisplayFeatureProduct; }) {
-        if (opt.data.softwareProduct === undefined) {
-            return;
-        }
-        moveItemInArray(opt.data.softwareProduct, opt.e.previousIndex, opt.e.currentIndex);
-
-        const payload: FeaturedProduct = {
-            domain: opt.data.domainId,
-            software: opt.data.softwareProduct.map(x => x.id)
+        const submit = () => {
+            console.debug('selected', selected$());
         };
-        this.store.dispatch(featureProduct.update({ payload }));
+
+        const displayFn = (value: string | Domain | null) => {
+            if (!value) return '';
+
+            if (typeof value === 'string') return value;
+
+            return value.longName;
+        };
+
+        return {
+            query$,
+            filtered$,
+            empty$,
+            submit,
+            displayFn
+        } as const;
     }
 }

@@ -4,8 +4,6 @@ import { createEffect } from '@ngrx/effects';
 import { distinctUntilChanged, fromEvent, map, startWith, tap } from 'rxjs';
 import { ScreenSize, uiActions } from './ui';
 
-
-
 export const uiEffects = {
   updateBreakpoints: createEffect(
     () => {

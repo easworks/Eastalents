@@ -41,7 +41,7 @@ export const ADMIN_ROUTES: Route =
         .then(m => m.DomainsComponent)
     },
     {
-      path: 'feature-product',
+      path: 'featured-products',
       pathMatch: 'full',
       loadComponent: () => import('./feature-product.page')
         .then(m => m.FeatureProductComponent)
