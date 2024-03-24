@@ -16,7 +16,7 @@ import { ADMIN_DATA_FEATURE, featuredProductActions } from "./state/admin-data";
 
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { MatChipsModule } from '@angular/material/chips';
-import { faCheck, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faCircleCheck, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { Domain } from './models/domain';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { SoftwareProduct } from './models/tech-skill';
@@ -59,7 +59,8 @@ export class FeatureProductComponent {
 
     protected readonly icons = {
         faCheck,
-        faCircleCheck
+        faCircleCheck,
+        faTrashCan
     } as const;
 
 
@@ -72,63 +73,73 @@ export class FeatureProductComponent {
 
         const ids$ = computed(() => new Set(featured$().map(d => d.domain)));
 
+        const displayFn = (v: string | option | null) => {
+            if (!v) return '';
+
+            if (typeof v === 'string') return v;
+            return v.value.name;
+        };
+
+        function initAdd(list: option[], map: Record<string, option>) {
+            const query$ = signal<string | option>('');
+
+            const isValid$ = computed(() => typeof query$() !== 'string');
+
+            const filtered$ = computed(() => {
+                const q = query$();
+
+                if (typeof q === 'string') {
+                    const filter = q.trim().toLowerCase();
+                    return list.filter(option =>
+                        !option.selected &&
+                        (!filter || option.label?.toLowerCase().includes(filter)));
+                }
+                else {
+                    return [q];
+                }
+            });
+
+            const onChange = (value: string | option) => {
+                if (typeof value === 'string') {
+                    const filtered = filtered$();
+                    if (filtered.length) {
+                        const opt = filtered[0];
+                        const isSame = value.toLowerCase() === opt.value.name.toLowerCase();
+                        if (isSame) {
+                            value = opt;
+                        }
+                    }
+                }
+
+                query$.set(value);
+            };
+
+            const appendToList = () => {
+                if (!isValid$())
+                    return;
+
+                const value = query$();
+
+                console.debug(value);
+
+            };
+
+            return {
+                query$,
+                isValid$,
+                options$: filtered$,
+                displayFn,
+                onChange,
+                appendToList
+            } as const;
+        }
+
         const mapped$ = computed(() => {
             const featured = featured$();
             const domains = domainMap$();
             const allSoftware = softwareMap$();
 
-            function initAdd(list: option[], map: Record<string, option>) {
-                const query$ = signal<string | option>('');
 
-                const isValid$ = computed(() => typeof query$() !== 'string');
-
-                const filtered$ = computed(() => {
-                    const q = query$();
-
-                    if (typeof q === 'string') {
-                        const filter = q.trim().toLowerCase();
-                        return list.filter(option =>
-                            !option.selected &&
-                            (!filter || option.label?.toLowerCase().includes(filter)));
-                    }
-                    else {
-                        return [q];
-                    }
-                });
-
-                const onChange = (value: string | option) => {
-                    if (typeof value === 'string') {
-                        const filtered = filtered$();
-                        if (filtered.length) {
-                            const opt = filtered[0];
-                            const isSame = value.toLowerCase() === opt.value.name.toLowerCase();
-                            if (isSame) {
-                                value = opt;
-                            }
-                        }
-                    }
-
-                    query$.set(value);
-                };
-
-                const appendToList = () => {
-                    if (!isValid$())
-                        return;
-
-                    const value = query$();
-
-                    console.debug(value);
-
-                };
-
-                return {
-                    query$,
-                    isValid$,
-                    options$: filtered$,
-                    onChange,
-                    appendToList
-                } as const;
-            }
 
             const mapped = featured.map(f => {
                 const domain = domains.get(f.domain)!;
@@ -165,16 +176,10 @@ export class FeatureProductComponent {
             return mapped;
         });
 
-        const displayFn = (v: string | option | null) => {
-            if (!v) return '';
 
-            if (typeof v === 'string') return v;
-            return v.value.name;
-        };
 
         return {
             mapped$,
-            displayFn,
             ids$
         } as const;
     }
@@ -225,12 +230,12 @@ export class FeatureProductComponent {
             const selected = query$() as Domain;
             if (!selected)
                 return;
-            this.store.dispatch(featuredProductActions.add({
+            this.store.dispatch(featuredProductActions.addDomain({
                 payload: {
                     domain: selected.id,
-                    software: []
                 }
             }));
+            query$.set('');
         };
 
         const displayFn = (value: string | Domain | null) => {
@@ -241,12 +246,22 @@ export class FeatureProductComponent {
             return value.longName;
         };
 
+        const remove = (domain: Domain) => {
+            this.store.dispatch(featuredProductActions.removeDomain({
+                payload: {
+                    domain: domain.id
+                }
+            }));
+        };
+
+
         return {
             query$,
             filtered$,
             valid$,
             submit,
             onChange,
+            remove,
             displayFn
         } as const;
     }
