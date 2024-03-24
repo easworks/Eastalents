@@ -11,14 +11,15 @@ import { MatSelectModule } from "@angular/material/select";
 import { FormImportsModule } from "@easworks/app-shell/common/form.imports.module";
 import { ImportsModule } from "@easworks/app-shell/common/imports.module";
 import { Store } from "@ngrx/store";
-import { FeaturedProductDomain } from "./models/featured";
-import { ADMIN_DATA_FEATURE } from "./state/admin-data";
+import { ADMIN_DATA_FEATURE, featuredProductActions } from "./state/admin-data";
 
 
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { MatChipsModule } from '@angular/material/chips';
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { Domain } from './models/domain';
+import { SelectableOption } from '@easworks/app-shell/utilities/options';
+import { SoftwareProduct } from './models/tech-skill';
 
 @Component({
     standalone: true,
@@ -51,39 +52,143 @@ import { Domain } from './models/domain';
 export class FeatureProductComponent {
     private readonly store = inject(Store);
 
+    private readonly allDomains$ = this.store.selectSignal(ADMIN_DATA_FEATURE.selectDomains);
+
     protected readonly featured = this.initFeatured();
     protected readonly domains = this.initDomains();
 
     protected readonly icons = {
-        faCheck
+        faCheck,
+        faCircleCheck
     } as const;
 
 
     private initFeatured() {
-        const domains$ = signal([] as FeaturedProductDomain[]);
-        const ids$ = computed(() => {
-            return new Set(domains$().map(d => d.domain));
+        type option = SelectableOption<SoftwareProduct>;
+
+        const featured$ = this.store.selectSignal(ADMIN_DATA_FEATURE.selectFeaturedProducts);
+        const domainMap$ = this.store.selectSignal(ADMIN_DATA_FEATURE.domainMap);
+        const softwareMap$ = this.store.selectSignal(ADMIN_DATA_FEATURE.softwareMap);
+
+        const ids$ = computed(() => new Set(featured$().map(d => d.domain)));
+
+        const mapped$ = computed(() => {
+            const featured = featured$();
+            const domains = domainMap$();
+            const allSoftware = softwareMap$();
+
+            function initAdd(list: option[], map: Record<string, option>) {
+                const query$ = signal<string | option>('');
+
+                const isValid$ = computed(() => typeof query$() !== 'string');
+
+                const filtered$ = computed(() => {
+                    const q = query$();
+
+                    if (typeof q === 'string') {
+                        const filter = q.trim().toLowerCase();
+                        return list.filter(option =>
+                            !option.selected &&
+                            (!filter || option.label?.toLowerCase().includes(filter)));
+                    }
+                    else {
+                        return [q];
+                    }
+                });
+
+                const onChange = (value: string | option) => {
+                    if (typeof value === 'string') {
+                        const filtered = filtered$();
+                        if (filtered.length) {
+                            const opt = filtered[0];
+                            const isSame = value.toLowerCase() === opt.value.name.toLowerCase();
+                            if (isSame) {
+                                value = opt;
+                            }
+                        }
+                    }
+
+                    query$.set(value);
+                };
+
+                const appendToList = () => {
+                    if (!isValid$())
+                        return;
+
+                    const value = query$();
+
+                    console.debug(value);
+
+                };
+
+                return {
+                    query$,
+                    isValid$,
+                    options$: filtered$,
+                    onChange,
+                    appendToList
+                } as const;
+            }
+
+            const mapped = featured.map(f => {
+                const domain = domains.get(f.domain)!;
+
+                const selectedIds = new Set(f.software);
+
+                const optionList = domain?.products.map<option>(id => {
+                    const product = allSoftware.get(id)!;
+
+                    return {
+                        value: product,
+                        selected: selectedIds.has(product.id),
+                        label: product.name
+                    };
+
+                });
+
+                const optionMap = optionList.reduce((state, current) => {
+                    state[current.value.id] = current;
+                    return state;
+                }, {} as Record<string, option>);
+
+                const selected = f.software.map(id => optionMap[id]);
+
+                const add = initAdd(optionList, optionMap);
+
+                return {
+                    domain,
+                    selected,
+                    add
+                };
+            });
+
+            return mapped;
         });
+
+        const displayFn = (v: string | option | null) => {
+            if (!v) return '';
+
+            if (typeof v === 'string') return v;
+            return v.value.name;
+        };
+
         return {
-            domains$,
+            mapped$,
+            displayFn,
             ids$
         } as const;
     }
 
     private initDomains() {
-        const domains$ = this.store.selectSignal(ADMIN_DATA_FEATURE.selectDomains);
-
-        const selected$ = signal<Domain | null>(null);
-        const empty$ = computed(() => !selected$());
-
         const available$ = computed(() => {
-            const domains = domains$();
+            const domains = this.allDomains$();
             const featuredIds = this.featured.ids$();
 
             return domains.filter(domain => !featuredIds.has(domain.id));
         });
 
         const query$ = signal<string | Domain>('');
+        const valid$ = computed(() => typeof query$() !== 'string');
 
         const filtered$ = computed(() => {
             const q = query$();
@@ -99,26 +204,33 @@ export class FeatureProductComponent {
             }
         });
 
-        effect(() => {
-            const q = query$();
-            if (typeof q === 'string') {
+        const onChange = (value: string | Domain) => {
+            if (typeof value === 'string') {
                 const filtered = filtered$();
-                if (filtered.length === 1) {
-                    const domain = filtered[0];
-                    const isSame = q.toLowerCase() === domain.longName.toLowerCase();
+                if (filtered.length) {
+                    const opt = filtered[0];
+                    const isSame = value.toLowerCase() === opt.longName.toLowerCase();
                     if (isSame) {
-                        query$.set(domain);
+                        value = opt;
                     }
-
                 }
             }
-            else {
-                selected$.set(q);
-            }
-        }, { allowSignalWrites: true });
+
+            query$.set(value);
+        };
 
         const submit = () => {
-            console.debug('selected', selected$());
+            if (!valid$())
+                return;
+            const selected = query$() as Domain;
+            if (!selected)
+                return;
+            this.store.dispatch(featuredProductActions.add({
+                payload: {
+                    domain: selected.id,
+                    software: []
+                }
+            }));
         };
 
         const displayFn = (value: string | Domain | null) => {
@@ -132,8 +244,9 @@ export class FeatureProductComponent {
         return {
             query$,
             filtered$,
-            empty$,
+            valid$,
             submit,
+            onChange,
             displayFn
         } as const;
     }

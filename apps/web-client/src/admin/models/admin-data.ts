@@ -10,5 +10,5 @@ export interface AdminDataState {
   softwareProducts: SoftwareProduct[];
   domainModules: DomainModule[];
   domains: Domain[];
-  featureProducts: FeaturedProductDomain[];
+  featuredProducts: FeaturedProductDomain[];
 }

@@ -145,7 +145,7 @@ export const domainActions = createActionGroup({
   }
 });
 
-export const featureProduct = createActionGroup({
+export const featuredProductActions = createActionGroup({
   source: 'feature-product',
   events: {
     add: props<{ payload: FeaturedProductDomain; }>(),
@@ -164,7 +164,7 @@ export const ADMIN_DATA_FEATURE = createFeature({
       softwareProducts: [],
       domainModules: [],
       domains: [],
-      featureProducts: [],
+      featuredProducts: [],
     },
     on(adminDataActions.updateState, (_, { payload }) => {
       return payload;
@@ -233,12 +233,12 @@ export const ADMIN_DATA_FEATURE = createFeature({
     })),
 
     //Feature Product
-    on(featureProduct.add, produce((state, { payload }) => {
-      const list = state.featureProducts;
+    on(featuredProductActions.add, produce((state, { payload }) => {
+      const list = state.featuredProducts;
       list.push(payload);
     })),
-    on(featureProduct.update, produce((state, { payload }) => {
-      const domain = state.featureProducts.find(s => s.domain === payload.domain);
+    on(featuredProductActions.update, produce((state, { payload }) => {
+      const domain = state.featuredProducts.find(s => s.domain === payload.domain);
       if (!domain)
         throw new Error('Domain not found');
       domain.software = payload.software;
@@ -398,6 +398,14 @@ export const ADMIN_DATA_FEATURE = createFeature({
     techSkillMap: createSelector(
       base.selectSkills,
       list => new Map(list.map(skill => [skill.id, skill]))
+    ),
+    softwareMap: createSelector(
+      base.selectSoftwareProducts,
+      list => new Map(list.map(product => [product.id, product]))
+    ),
+    domainMap: createSelector(
+      base.selectDomains,
+      list => new Map(list.map(domain => [domain.id, domain]))
     )
   })
 });

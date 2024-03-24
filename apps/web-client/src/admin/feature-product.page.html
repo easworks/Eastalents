@@ -1,35 +1,44 @@
-<mat-accordion>
-    <!-- @for (fp of updateProductData; track fp) {
-    <mat-expansion-panel>
+<mat-accordion multi class="block m-4">
+    @for (fdp of featured.mapped$(); track fdp.domain.id) {
+    <mat-expansion-panel expanded>
         <mat-expansion-panel-header>
             <mat-panel-title>
-                {{fp.domainName}}
+                {{fdp.domain.longName}}
             </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <mat-label>Domains</mat-label>
-        <mat-select disabled [(value)]="fp.domainId">
-            @for (domain of fp.domainData; track domain) {
-            <mat-option [value]="domain.id">{{domain.longName}}</mat-option>
-            }
-        </mat-select>
-
-        <mat-label>Software Product</mat-label>
-        <mat-chip-set class="example-chip" cdkDropList cdkDropListOrientation="horizontal"
-            (cdkDropListDropped)="dropUpdate({e:$event,data:fp})">
-            @for (product of fp.softwareProduct; track product) {
-            <mat-chip class="example-box" cdkDrag>{{product.name}}</mat-chip>
+        <mat-label>Featured Products</mat-label>
+        <mat-chip-set class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
+            @for (option of fdp.selected; track option.value.id) {
+            <mat-chip class="example-box" cdkDrag>{{option.label}}</mat-chip>
             }
         </mat-chip-set>
 
-        <button class="icon-button small enabled:text-emerald-500" mat-ripple [disabled]="disable" (click)="submit()">
-            <replace-spinner>
-                <fa-icon [icon]="icons.faCheck"></fa-icon>
-            </replace-spinner>
-        </button>
+        <div class="form-field mt-4 mb-0">
+            <label>Add New Featured Product</label>
+            <input type="text" placeholder="Type to search"
+                   [ngModel]="fdp.add.query$()"
+                   (ngModelChange)="fdp.add.onChange($event)"
+                   [matAutocomplete]="productOptions">
+
+            <mat-autocomplete #productOptions class="!p-0" [displayWith]="featured.displayFn">
+                @for(option of fdp.add.options$(); track option.value.id) {
+                <mat-option [value]="option">{{option.label}}</mat-option>
+                }
+            </mat-autocomplete>
+
+            @if (fdp.add.isValid$()) {
+            <button class="icon-button absolute right-0 top-6" mat-ripple>
+                <fa-icon class="text-emerald-500 text-xl"
+                         [icon]="icons.faCircleCheck"
+                         (click)="fdp.add.appendToList()"></fa-icon>
+            </button>
+            }
+
+        </div>
 
     </mat-expansion-panel>
-    } -->
+    }
 
 
     <mat-expansion-panel expanded>
@@ -40,10 +49,19 @@
         </mat-expansion-panel-header>
 
         <div class="form-field mb-0">
-            <input type="text" placeholder="Type to add"
+            <input type="text" placeholder="Type to search"
                    [ngModel]="domains.query$()"
-                   (ngModelChange)="domains.query$.set($event)"
-                   [matAutocomplete]="domainOptions">
+                   (ngModelChange)="domains.onChange($event)"
+                   [matAutocomplete]="domainOptions"
+                   [class.!pr-10]="domains.valid$()">
+
+            @if (domains.valid$()) {
+            <button class="icon-button absolute right-0 top-0" mat-ripple>
+                <fa-icon class="text-emerald-500 text-xl"
+                         [icon]="icons.faCircleCheck"
+                         (click)="domains.submit()"></fa-icon>
+            </button>
+            }
         </div>
 
         <mat-autocomplete #domainOptions class="!p-0" [displayWith]="domains.displayFn">
@@ -53,13 +71,6 @@
             </mat-option>
             }
         </mat-autocomplete>
-
-        <button class="icon-button small enabled:text-emerald-500" mat-ripple
-                [disabled]="domains.empty$()" (click)="domains.submit()">
-            <replace-spinner>
-                <fa-icon [icon]="icons.faCheck"></fa-icon>
-            </replace-spinner>
-        </button>
 
     </mat-expansion-panel>
 </mat-accordion>

@@ -11,3 +11,10 @@ export interface FeaturedRoleDomain {
   roles: string[];
 }
 
+export interface updateDisplayFeatureProduct {
+  domainId: string;
+  domainName: string;
+  domainData: Domain[];
+  softareId?: string[];
+  softwareProduct?: SoftwareProduct[];
+}
