@@ -1,25 +1,15 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from "@angular/core";
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from "@angular/core";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from "@angular/material/checkbox";
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from "@angular/material/select";
 import { FormImportsModule } from "@easworks/app-shell/common/form.imports.module";
 import { ImportsModule } from "@easworks/app-shell/common/imports.module";
-import { Store } from "@ngrx/store";
-import { ADMIN_DATA_FEATURE, featuredProductActions } from "./state/admin-data";
-
-
-import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
-import { MatChipsModule } from '@angular/material/chips';
-import { faCheck, faCircleCheck, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { Domain } from './models/domain';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
+import { faCheck, faCircleCheck, faSquareXmark, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { Store } from "@ngrx/store";
+import { Domain } from './models/domain';
 import { SoftwareProduct } from './models/tech-skill';
+import { ADMIN_DATA_FEATURE, featuredProductActions } from "./state/admin-data";
 
 @Component({
     standalone: true,
@@ -30,20 +20,11 @@ import { SoftwareProduct } from './models/tech-skill';
     imports: [
         ImportsModule,
         FormImportsModule,
-        MatCheckboxModule,
-        MatSelectModule,
         MatAutocompleteModule,
-
-        MatButtonModule,
         MatExpansionModule,
-        MatIconModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatDatepickerModule,
+        DragDropModule
 
-        MatFormFieldModule,
 
-        MatChipsModule, CdkDropList, CdkDrag
     ]
 })
 
@@ -60,7 +41,8 @@ export class FeatureProductComponent {
     protected readonly icons = {
         faCheck,
         faCircleCheck,
-        faTrashCan
+        faTrashCan,
+        faSquareXmark
     } as const;
 
 
@@ -80,10 +62,10 @@ export class FeatureProductComponent {
             return v.value.name;
         };
 
-        function initAdd(list: option[], map: Record<string, option>) {
+        function initAdd(list: option[]) {
             const query$ = signal<string | option>('');
 
-            const isValid$ = computed(() => typeof query$() !== 'string');
+            const valid$ = computed(() => typeof query$() !== 'string');
 
             const filtered$ = computed(() => {
                 const q = query$();
@@ -113,24 +95,12 @@ export class FeatureProductComponent {
 
                 query$.set(value);
             };
-
-            const appendToList = () => {
-                if (!isValid$())
-                    return;
-
-                const value = query$();
-
-                console.debug(value);
-
-            };
-
             return {
                 query$,
-                isValid$,
+                valid$,
                 options$: filtered$,
                 displayFn,
-                onChange,
-                appendToList
+                onChange
             } as const;
         }
 
@@ -164,11 +134,44 @@ export class FeatureProductComponent {
 
                 const selected = f.software.map(id => optionMap[id]);
 
-                const add = initAdd(optionList, optionMap);
+                const add = initAdd(optionList);
+
+                const software = {
+                    selected,
+                    add: () => {
+                        if (!add.valid$())
+                            return;
+
+                        const toAdd = add.query$() as option;
+
+                        const ids = selected.map(o => o.value.id);
+                        ids.push(toAdd.value.id);
+
+                        software.update(ids);
+                    },
+                    remove: (idx: number) => {
+                        const ids = selected.map(o => o.value.id);
+                        ids.splice(idx, 1);
+                        software.update(ids);
+                    },
+                    dropped: (event: CdkDragDrop<option>) => {
+                        const ids = selected.map(o => o.value.id);
+                        moveItemInArray(ids, event.previousIndex, event.currentIndex);
+                        software.update(ids);
+                    },
+                    update: (ids: string[]) => {
+                        this.store.dispatch(featuredProductActions.updateProducts({
+                            payload: {
+                                domain: domain.id,
+                                software: ids
+                            }
+                        }));
+                    }
+                };
 
                 return {
                     domain,
-                    selected,
+                    software,
                     add
                 };
             });

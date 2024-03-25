@@ -57,8 +57,9 @@ export const adminDataEffects = {
           domainActions.addModules,
           domainActions.removeModules,
 
-          featuredProductActions.add,
-          featuredProductActions.update
+          featuredProductActions.addDomain,
+          featuredProductActions.removeDomain,
+          featuredProductActions.updateProducts
         ),
         concatMap(async () => {
           await api.save(data$());

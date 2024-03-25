@@ -1,4 +1,4 @@
-import { createActionGroup, createFeature, createReducer, createSelector, on, props } from '@ngrx/store';
+import { createActionGroup, createFeature, createReducer, createSelector, emptyProps, on, props } from '@ngrx/store';
 import { produce } from 'immer';
 import { AdminDataState } from '../models/admin-data';
 import { SoftwareProduct, TechGroup, TechSkill } from '../models/tech-skill';
@@ -148,8 +148,9 @@ export const domainActions = createActionGroup({
 export const featuredProductActions = createActionGroup({
   source: 'feature-product',
   events: {
-    add: props<{ payload: FeaturedProductDomain; }>(),
-    update: props<{ payload: FeaturedProductDomain; }>(),
+    'add domain': props<{ payload: { domain: string; }; }>(),
+    'remove domain': props<{ payload: { domain: string; }; }>(),
+    'update products': props<{ payload: { domain: string; software: string[]; }; }>(),
   }
 });
 
@@ -233,15 +234,24 @@ export const ADMIN_DATA_FEATURE = createFeature({
     })),
 
     //Feature Product
-    on(featuredProductActions.add, produce((state, { payload }) => {
+    on(featuredProductActions.addDomain, produce((state, { payload }) => {
       const list = state.featuredProducts;
-      list.push(payload);
+      list.push({
+        domain: payload.domain,
+        software: []
+      });
     })),
-    on(featuredProductActions.update, produce((state, { payload }) => {
-      const domain = state.featuredProducts.find(s => s.domain === payload.domain);
-      if (!domain)
-        throw new Error('Domain not found');
-      domain.software = payload.software;
+    on(featuredProductActions.removeDomain, produce((state, { payload }) => {
+      const idx = state.featuredProducts.findIndex(s => s.domain === payload.domain);
+      if (idx < 0)
+        throw new Error('Domain not found in featured products');
+      state.featuredProducts.splice(idx, 1);
+    })),
+    on(featuredProductActions.updateProducts, produce((state, { payload }) => {
+      const fdp = state.featuredProducts.find(fdp => fdp.domain === payload.domain);
+      if (!fdp)
+        throw new Error('Domain not found in featured products');
+      fdp.software = payload.software;
     })),
 
     //Domain Module
