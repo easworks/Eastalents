@@ -7,7 +7,7 @@
                     <th>Long Name</th>
                     <th>Short Name</th>
                     <th>Prefix</th>
-                    <th>Services</th>
+                    <!-- <th>Services</th> -->
                     <th>Disabled</th>
                     <th></th>
                 </tr>
@@ -35,11 +35,11 @@
                             <input type="text" [formControl]="control" #input />
                         </div>
                     </td>
-                    <td *ngrxLet="row.form.controls.services as control" [formFieldControl]="control">
+                    <!-- <td *ngrxLet="row.form.controls.services as control" [formFieldControl]="control">
                         <div class="field field-interactive" (click)="input.focus()">
                             <input type="text" [formControl]="control" #input />
                         </div>
-                    </td>
+                    </td> -->
                     <td *ngrxLet="row.form.controls.disabled as control" [formFieldControl]="control"
                         class="p-0 !pl-6 h-4">
                         <mat-checkbox [formControl]="control"></mat-checkbox>
@@ -58,6 +58,25 @@
                                 <fa-icon [icon]="icons.faRefresh"></fa-icon>
                             </button>
                         </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <label>Services</label>
+                        <mat-chip-grid #chipGrid>
+                            @for (service of row.services.selected.$(); track service) {
+                            <mat-chip-row (removed)="row.services.removeService(service)">
+                                <div class="chip">
+                                    <span>{{service}}</span>
+                                    <button matChipRemove type="button" class="icon-button" title="Remove">
+                                        <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
+                                    </button>
+                                </div>
+                            </mat-chip-row>
+                            }
+                            <input placeholder="Add Services..." [matChipInputFor]="chipGrid"
+                                (matChipInputTokenEnd)="row.services.addService($event)" />
+                        </mat-chip-grid>
                     </td>
                 </tr>
                 <tr>
@@ -144,11 +163,11 @@
                             <input type="text" [formControl]="control" #input />
                         </div>
                     </td>
-                    <td *ngrxLet="form.controls.services as control" [formFieldControl]="control">
+                    <!-- <td *ngrxLet="form.controls.services as control" [formFieldControl]="control">
                         <div class="field field-interactive" (click)="input.focus()">
                             <input type="text" [formControl]="control" #input />
                         </div>
-                    </td>
+                    </td> -->
                     <td *ngrxLet="form.controls.disabled as control" [formFieldControl]="control" class="p-0 !pl-6 h-4">
                         <mat-checkbox [formControl]="control"></mat-checkbox>
                     </td>

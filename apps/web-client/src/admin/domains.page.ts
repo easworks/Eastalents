@@ -17,6 +17,8 @@ import { map, shareReplay, startWith } from "rxjs";
 import { SelectableOption } from "@easworks/app-shell/utilities/options";
 import { SoftwareProduct } from "./models/tech-skill";
 import { controlValue$ } from "@easworks/app-shell/common/form-field.directive";
+import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     standalone: true,
@@ -29,7 +31,9 @@ import { controlValue$ } from "@easworks/app-shell/common/form-field.directive";
         FormImportsModule,
         MatCheckboxModule,
         MatSelectModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        MatChipsModule,
+        MatIconModule
     ]
 })
 export class DomainsComponent {
@@ -69,7 +73,6 @@ export class DomainsComponent {
                 longName: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
                 prefix: new FormControl('', { validators: [Validators.required] }),
                 shortName: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-                services: new FormControl([], { nonNullable: true, validators: [Validators.required] }),
                 disabled: new FormControl(false, { nonNullable: true, validators: [Validators.required] })
             };
         };
@@ -112,7 +115,7 @@ export class DomainsComponent {
                         longName: value.longName,
                         prefix: value.prefix,
                         shortName: value.shortName,
-                        services: value.services,
+                        services: [],
                         disabled: value.disabled,
                         products: [],
                         modules: []
@@ -323,6 +326,53 @@ export class DomainsComponent {
                                 } as const;
                             };
 
+                            const initService = () => {
+
+                                const selected$ = computed(() => {
+                                    // const map = allMap$();
+                                    const selected = domains.services;
+                                    return selected;
+                                });
+                                const count$ = computed(() => selected$().length);
+
+                                // simple handlers
+                                const handlers = {
+                                    addService: (event: MatChipInputEvent) => {
+                                        const value = (event.value || '').trim();
+
+                                        if (value) {
+                                            this.store.dispatch(domainActions.addServices({
+                                                payload: {
+                                                    group: domains.id,
+                                                    service: value
+                                                }
+                                            }));
+                                        }
+                                        event.chipInput!.clear();
+
+                                    },
+                                    removeService: (service: string) => {
+                                        this.store.dispatch(domainActions.removeServices({
+                                            payload: {
+                                                group: domains.id,
+                                                service: service
+                                            }
+                                        }));
+                                    }
+                                } as const;
+
+                                // export the tech section of the row
+                                return {
+                                    // query$,
+                                    // filtered$,
+                                    selected: {
+                                        $: selected$,
+                                        count$
+                                    },
+                                    ...handlers
+                                } as const;
+                            };
+
                             const form = new FormGroup({
                                 id: new FormControl('', { nonNullable: true }),
                                 ...rowControls()
@@ -372,7 +422,7 @@ export class DomainsComponent {
                                         shortName: value.shortName,
                                         disabled: value.disabled,
                                         prefix: value.prefix,
-                                        services: value.services,
+                                        services: domains.services,
                                         products: domains.products,
                                         modules: domains.modules
                                     };
@@ -391,6 +441,7 @@ export class DomainsComponent {
                                 data: domains,
                                 sp: initSoftwareProduct(),
                                 dm: initDomainModules(),
+                                services: initService(),
                                 form,
                                 reset,
                                 update,

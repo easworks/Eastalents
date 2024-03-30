@@ -1,10 +1,9 @@
-import { createActionGroup, createFeature, createReducer, createSelector, emptyProps, on, props } from '@ngrx/store';
+import { createActionGroup, createFeature, createReducer, createSelector, on, props } from '@ngrx/store';
 import { produce } from 'immer';
 import { AdminDataState } from '../models/admin-data';
 import { SoftwareProduct, TechGroup, TechSkill } from '../models/tech-skill';
 import { EASRole } from '../models/eas-role';
 import { Domain, DomainModule } from '../models/domain';
-import { FeaturedProductDomain } from '../models/featured';
 
 export const adminDataActions = createActionGroup({
   source: 'admin-data',
@@ -142,6 +141,18 @@ export const domainActions = createActionGroup({
         module: string;
       };
     }>(),
+    'add Services': props<{
+      payload: {
+        group: string;
+        service: string;
+      };
+    }>(),
+    'remove Services': props<{
+      payload: {
+        group: string;
+        service: string;
+      };
+    }>(),
   }
 });
 
@@ -151,6 +162,16 @@ export const featuredProductActions = createActionGroup({
     'add domain': props<{ payload: { domain: string; }; }>(),
     'remove domain': props<{ payload: { domain: string; }; }>(),
     'update products': props<{ payload: { domain: string; software: string[]; }; }>(),
+  }
+});
+
+
+export const featuredRolesActions = createActionGroup({
+  source: 'feature-role',
+  events: {
+    'add domain': props<{ payload: { domain: string; }; }>(),
+    'remove domain': props<{ payload: { domain: string; }; }>(),
+    'update roles': props<{ payload: { domain: string; software: string[]; }; }>(),
   }
 });
 
@@ -166,6 +187,7 @@ export const ADMIN_DATA_FEATURE = createFeature({
       domainModules: [],
       domains: [],
       featuredProducts: [],
+      featuredRoles: []
     },
     on(adminDataActions.updateState, (_, { payload }) => {
       return payload;
@@ -252,6 +274,28 @@ export const ADMIN_DATA_FEATURE = createFeature({
       if (!fdp)
         throw new Error('Domain not found in featured products');
       fdp.software = payload.software;
+    })),
+
+
+    //Feature Roles
+    on(featuredRolesActions.addDomain, produce((state, { payload }) => {
+      const list = state.featuredRoles;
+      list.push({
+        domain: payload.domain,
+        roles: []
+      });
+    })),
+    on(featuredRolesActions.removeDomain, produce((state, { payload }) => {
+      const idx = state.featuredRoles.findIndex(s => s.domain === payload.domain);
+      if (idx < 0)
+        throw new Error('Domain not found in featured products');
+      state.featuredRoles.splice(idx, 1);
+    })),
+    on(featuredRolesActions.updateRoles, produce((state, { payload }) => {
+      const fdp = state.featuredRoles.find(fdp => fdp.domain === payload.domain);
+      if (!fdp)
+        throw new Error('Domain not found in featured products');
+      fdp.roles = payload.software;
     })),
 
     //Domain Module
@@ -369,6 +413,30 @@ export const ADMIN_DATA_FEATURE = createFeature({
 
       domains.modules.splice(domainModuleIdx, 1);
     })),
+    on(domainActions.addServices, produce((state, { payload }) => {
+      const domains = state.domains.find(s => s.id === payload.group);
+      if (!domains)
+        throw new Error('domains not found');
+
+      const service = domains.services.find(s => s === payload.service);
+      if (service) {
+        throw new Error('service found');
+      }
+      domains.services.push(payload.service);
+    })),
+    on(domainActions.removeServices, produce((state, { payload }) => {
+      const domains = state.domains.find(s => s.id === payload.group);
+      if (!domains)
+        throw new Error('domains not found');
+
+      const serviceIdx = domains.services.findIndex(s => s === payload.service);
+      if (serviceIdx < 0)
+        throw new Error('service not found');
+
+      domains.services.splice(serviceIdx, 1);
+    })),
+
+
     // tech groups
     on(techGroupActions.add, produce((state, { payload }) => {
       const list = state.techGroups;
@@ -416,6 +484,15 @@ export const ADMIN_DATA_FEATURE = createFeature({
     domainMap: createSelector(
       base.selectDomains,
       list => new Map(list.map(domain => [domain.id, domain]))
+    ),
+    domainModuleMap: createSelector(
+      base.selectDomainModules,
+      list => new Map(list.map(domainModule => [domainModule.id, domainModule]))
+    )
+    ,
+    easRoleMap: createSelector(
+      base.selectEasRoles,
+      list => new Map(list.map(easRole => [easRole.code, easRole]))
     )
   })
 });

@@ -45,6 +45,12 @@ export const ADMIN_ROUTES: Route =
       pathMatch: 'full',
       loadComponent: () => import('./feature-product.page')
         .then(m => m.FeatureProductComponent)
+    },
+    {
+      path: 'featured-roles',
+      pathMatch: 'full',
+      loadComponent: () => import('./feature-roles.page')
+        .then(m => m.FeatureRolesComponent)
     }
   ]
 };
