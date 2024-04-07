@@ -1,7 +1,4 @@
 {
-  "affected": {
-    "defaultBase": "master"
-  },
   "workspaceLayout": {
     "appsDir": "apps",
     "libsDir": "libs"
@@ -22,18 +19,18 @@
     }
   },
   "targetDefaults": {
-    "lint": {
+    "build": {
       "inputs": [
-        "default",
-        "{workspaceRoot}/.eslintrc.json",
-        "{workspaceRoot}/.eslintignore"
+        "production",
+        "^production"
       ]
     },
-    "build": {
-      "inputs": ["production", "^production"]
-    },
     "@nx/jest:jest": {
-      "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"],
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/jest.preset.js"
+      ],
       "cache": true,
       "options": {
         "passWithNoTests": true
@@ -44,12 +41,28 @@
           "codeCoverage": true
         }
       }
+    },
+    "@nx/eslint:lint": {
+      "inputs": [
+        "default",
+        "{workspaceRoot}/.eslintrc.json",
+        "{workspaceRoot}/.eslintignore"
+      ],
+      "cache": true
     }
   },
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
     "sharedGlobals": [],
-    "production": ["default", "!{projectRoot}/src/test-setup.[jt]s"]
-  }
+    "production": [
+      "default",
+      "!{projectRoot}/src/test-setup.[jt]s"
+    ]
+  },
+  "useInferencePlugins": false,
+  "defaultBase": "master"
 }

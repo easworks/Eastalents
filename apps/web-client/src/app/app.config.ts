@@ -13,6 +13,8 @@ import { provideEffects } from '@ngrx/effects';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { SignInEffects } from '../account/sign-in.effects';
+import { ADMIN_DATA_FEATURE } from '../admin/state/admin-data';
+import { adminDataEffects } from '../admin/state/admin-data.effects';
 import { serviceWorkerUrl } from '../service-worker/sw.loader';
 import { provideEnvironment } from './environment';
 import { routes } from './routes';
@@ -69,6 +71,9 @@ export const appConfig: ApplicationConfig = {
       multi: true
     },
     provideState(UI_FEATURE),
-    provideEffects(uiEffects)
+    provideEffects(uiEffects),
+
+    provideState(ADMIN_DATA_FEATURE),
+    provideEffects(adminDataEffects)
   ],
 };
