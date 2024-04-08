@@ -2,10 +2,11 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, computed, inject, signal } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 import { RouterModule } from '@angular/router';
-import { ScreenSize, UI_FEATURE } from '@easworks/app-shell/state/ui';
+import { UI_FEATURE } from '@easworks/app-shell/state/ui';
 import { Domain } from '@easworks/models';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faAngleRight, faGear } from '@fortawesome/free-solid-svg-icons';
+import { faGear, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
 
 type DomainPartial = Pick<Domain, 'key' | 'longName' | 'products'>;
 
@@ -22,15 +23,22 @@ type DomainPartial = Pick<Domain, 'key' | 'longName' | 'products'>;
   ]
 })
 export class SoftwareTilesContainerComponent {
-  private readonly screenSize$ = inject(UI_FEATURE).selectors.screenSize$;
-  protected readonly icons = { faGear, faAngleRight } as const;
+  private readonly store = inject(Store);
+
+  private readonly screenSize$ = this.store.selectSignal(UI_FEATURE.selectScreenSize);
+
+  protected readonly icons = {
+    faGear,
+    faPlus,
+    faMinus
+  } as const;
 
   @Input({ required: true }) set domain(domain: DomainPartial) {
     this.domain$.set(domain);
   };
 
   private readonly domain$ = signal<DomainPartial | null>(null);
-  private readonly products$ = computed(() => {
+  protected readonly products$ = computed(() => {
     const d = this.domain$();
     if (!d)
       return [];
@@ -54,26 +62,37 @@ export class SoftwareTilesContainerComponent {
     toggle: () => this.showAll.$.update(s => !s)
   } as const;
 
-  protected readonly visibleProducts$ = computed(() => {
-    const ss = this.screenSize$();
-    const products = this.products$();
+  private readonly visibleRows$ = computed(() => {
     const showAll = this.showAll.$();
+    if (showAll)
+      return null;
 
-    const toShow = showAll ?
-      products :
-      products.slice(0, mapScreenSizeToVisibleItems(ss));
+    const ss = this.screenSize$();
 
-    return toShow;
+    switch (ss) {
+      case 'sm':
+      case 'md': return 3;
+      case 'lg':
+      case 'xl': return 2;
+    }
+  });
+  protected readonly rowTemplate$ = computed(() => {
+    const vr = this.visibleRows$();
+    return vr === null ? 'repeat(auto-fill, 4rem)' : `repeat(${vr}, 4rem)`;
+  });
+  protected readonly gridHeight$ = computed(() => {
+    const vr = this.visibleRows$();
+    return vr === null ? 'auto' : `${(vr * 4) + (vr - 1)}rem`;
+  });
+
+  protected readonly customCellPosition$ = computed(() => {
+    const vr = this.visibleRows$();
+    const column = vr === null ? 'auto' : -2;
+    const row = vr === null ? 'auto' : vr;
+
+    return `grid-row: ${row}; grid-column: ${column}`;
   });
 
   protected readonly customSoftwareLink$ = computed(() => `/software/custom/${this.shortName$()}`);
 }
 
-function mapScreenSizeToVisibleItems(size: ScreenSize) {
-  switch (size) {
-    case 'sm': return 5;
-    case 'md': return 8;
-    case 'lg': return 9;
-    case 'xl': return 13;
-  }
-}

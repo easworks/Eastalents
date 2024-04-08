@@ -1,15 +1,4 @@
 {
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "nx/tasks-runners/default",
-      "options": {
-        "cacheableOperations": []
-      }
-    }
-  },
-  "affected": {
-    "defaultBase": "master"
-  },
   "workspaceLayout": {
     "appsDir": "apps",
     "libsDir": "libs"
@@ -30,24 +19,50 @@
     }
   },
   "targetDefaults": {
-    "test": {
-      "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"]
+    "build": {
+      "inputs": [
+        "production",
+        "^production"
+      ]
     },
-    "lint": {
+    "@nx/jest:jest": {
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/jest.preset.js"
+      ],
+      "cache": true,
+      "options": {
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "@nx/eslint:lint": {
       "inputs": [
         "default",
         "{workspaceRoot}/.eslintrc.json",
         "{workspaceRoot}/.eslintignore"
-      ]
-    },
-    "build": {
-      "inputs": ["production", "^production"]
+      ],
+      "cache": true
     }
   },
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
     "sharedGlobals": [],
-    "production": ["default", "!{projectRoot}/src/test-setup.[jt]s"]
-  }
+    "production": [
+      "default",
+      "!{projectRoot}/src/test-setup.[jt]s"
+    ]
+  },
+  "useInferencePlugins": false,
+  "defaultBase": "master"
 }

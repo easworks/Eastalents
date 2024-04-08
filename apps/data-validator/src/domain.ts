@@ -3,7 +3,7 @@ import { Software } from '@easworks/models';
 import { writeFile } from 'fs/promises';
 
 export function getDomains() {
-  return fetch('http://eas-works.onrender.com/api/talentProfile/getTalentProfileSteps')
+  return fetch('http://eas-prod-pipeline.eba-fhahuw9u.us-west-1.elasticbeanstalk.com/api/talentProfile/getTalentProfileSteps')
     .then(r => r.json())
     .then(m => m.talentProfile);
 
@@ -38,7 +38,7 @@ export function validateData(domains: any, software: Map<string, Software>) {
       .forEach(module => domains[domain].Modules[module].Product
         .forEach((p: any) => {
           if (!software.has(p.name)) {
-            console.error(`software: '${domain}/${module}/${p.name}' was not found`)
+            console.error(`software: '${domain}/${module}/${p.name}' was not found`);
           }
-        })))
+        })));
 }

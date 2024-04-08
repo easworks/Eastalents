@@ -1,10 +1,10 @@
 <div class="sign-up-form">
   <div class="role-switch">
-    <a mat-ripple routerLink="/account/sign-up/freelancer"
+    <a mat-ripple routerLink="/register/freelancer"
        routerLinkActive="active">
       Freelancer
     </a>
-    <a mat-ripple routerLink="/account/sign-up/employer"
+    <a mat-ripple routerLink="/register/employer"
        routerLinkActive="active">
       Employer
     </a>
@@ -40,7 +40,7 @@
       <div *ngIf="prefill === false"
            class="mt-8 rounded p-2 bg-red-300/10 text-sm text-center text-red-500">
         The email you provided (<b>{{prefilledEmail}}</b>) is a personal email. Personal emails cannot be used to sign up as an employer.
-        Please use your organization's email, for example: 'my-name@my-organization.com'
+        Please use your organization's email, for example: 'my-name&#64;my-organization.com'
       </div>
 
     </ng-container>
@@ -112,6 +112,8 @@
         </replace-spinner>
       </button>
     </form>
+
+    <p class="mt-4 text-sm text-center">Already have an account? <a routerLink="/account/sign-in" class="text-primary-500">Sign In</a></p>
   </div>
 </div>
 

@@ -1,10 +1,10 @@
 [
   {
-    "title": "Client",
-    "slug": "employer"
-  },
-  {
     "title": "Freelancer",
     "slug": "freelancer"
+  },
+  {
+    "title": "Client",
+    "slug": "employer"
   }
 ]

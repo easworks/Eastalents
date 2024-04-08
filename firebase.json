@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "site": "pi-temp-0001",
+    "public": "dist/apps/web-client",
+    "ignore": [],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

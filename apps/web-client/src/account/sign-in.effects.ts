@@ -6,7 +6,7 @@ import { AuthState } from '@easworks/app-shell/state/auth';
 
 const noRedirects = [
   '/account/sign-in',
-  '/account/sign-up',
+  '/register',
   '/account/social'
 ] as const;
 
@@ -40,6 +40,10 @@ export class SignInEffects {
 
     this.auth.beforeSignOut$.pipe(takeUntilDestroyed())
       .subscribe(() => {
+        const url = new URL(window.location.href);
+        const path = url.pathname;
+        if (noRedirects.some(p => path.startsWith(p)))
+          return;
         this.router.navigateByUrl('/');
       });
   }

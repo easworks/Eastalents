@@ -2,23 +2,39 @@
   <div class="absolute inset-0 w-full h-full opacity-5">
     <img class="w-full h-full" src="../../assets/img/building.jpg" alt="">
   </div>
-  <div class="lg:px-10 p-5 mx-auto">
-    <div class="grid grid-cols-1 lg:grid-cols-2 items-start gap-6 relative">
-      <div>
-        <h3 class="lg:text-[3rem] lg:leading-[3.5rem] text-2xl font-bold  text-[#3e4450]">
+
+  <div class="@container">
+    <div class="grid grid-cols-12 gap-4 items-center h-offset-screen">
+
+
+      <div class="p-4 md:px-8 col-span-12 
+          @4xl:col-span-7">
+        <h3 class="@6xl:text-[3rem] @6xl:leading-[3.5rem] text-2xl font-bold  text-[#3e4450]">
           Hire {{text.combo$()}} And Start Building A <span class="text-primary-500">Winning {{domain$()?.key}} Team</span> Remotely
         </h3>
-        <p class="my-4 text-base font-normal">EASWORKS is a platform for top ERP Ops Back-end Developer, Application Consultant, Developers, Engineers, programmers, coders, Analyst, Solution Architects, Consultants, QA and Project managers. Elite companies and start-ups hire top freelance ERP Ops Back-end Developer experts from EASWORKS for their mission critical ERP Ops - ERP Operations and Services (ERP Ops). </p>
+        <p class="my-4 text-base font-normal">
+          EASWORKS is a platform for top {{domain$()?.key}} Back-end Developer, Application Consultant, Developers, Engineers, programmers, coders,
+          Analyst, Solution Architects, Consultants, QA and Project managers.
+          Elite companies and start-ups hire top freelance {{domain$()?.key}} Back-end Developer experts from EASWORKS for their mission critical
+          {{domain$()?.longName}}. </p>
 
         <div class="flex items-center justify-between">
           <div class="flex gap-4">
-            <button class="highlight-button primary"> Apply for ERP Ops Back-end Developer Jobs</button>
-            <button class="stroked-button"> Apply for ERP Ops Back-end Developer Jobs</button>
+            <button class="shaded-button secondary text-left text-sm"> Apply for {{domain$()?.key}} Back-end Developer Jobs</button>
+            <button class="stroked-button border-primary-950 border-2 font-medium text-left text-sm"> Apply for {{domain$()?.key}} Back-end Developer Jobs</button>
           </div>
         </div>
       </div>
-      <div>
-        <div class="demo-placeholder h-[500px]"></div>
+
+      <div class="h-full w-full relative
+            row-start-1 col-span-12 max-h-[50vh]
+            @4xl:col-span-5 @4xl:row-start-auto @4xl:max-h-none @4xl:h-auto">
+        <div class="bouncing-text">
+          <span class="font-bold">{{domain$()?.key}}</span>
+          <span> {{role$()}}</span>
+        </div>
+        <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_vjpipsst.json"
+                       autoplay="true" loop class="h-full w-full"></lottie-player>
       </div>
     </div>
   </div>
@@ -39,8 +55,21 @@
     </h2>
 
     <p class="text-base font-normal">The EASWORKS platform includes experts across a very wide array of Enterprise Application Software (EAS) development languages and technologies. See the list below to find EAS freelance developer profiles and contractors with your desired skill. </p>
+  </div>
 
-    <domain-software-selector class="mt-8"></domain-software-selector>
+  <domain-software-selector class="mt-8"></domain-software-selector>
+
+  <div class="mt-12 grid gap-2
+          grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    @for(role of roleList$(); track $index) {
+    <div>
+      <a class="flex gap-2 max-w-max" [routerLink]="role.link">
+        <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
+        {{role.name}}
+      </a>
+    </div>
+    }
+
   </div>
 </section>
 

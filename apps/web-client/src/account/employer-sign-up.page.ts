@@ -8,7 +8,7 @@ import { AccountApi } from '@easworks/app-shell/api/account.api';
 import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
+import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AuthService } from '@easworks/app-shell/services/auth';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
@@ -102,29 +102,33 @@ export class EmployerSignUpPageComponent {
   protected readonly prefilledEmail = this.authState.partialSocialSignIn$()?.email;
   protected readonly prefillSocial$ = this.shouldPrefillSocial();
 
-  submit() {
+  async submit() {
     if (!this.form.valid)
       return;
 
-    this.loading.add('signing up');
-    const { email, firstName, lastName, password } = this.form.getRawValue();
+    try {
+      this.loading.add('signing up');
 
-    const partial = this.prefillSocial$();
+      const { email, firstName, lastName, password } = this.form.getRawValue();
 
-    const query$ = partial ?
-      this.auth.socialCallback.getToken(
-        { authType: 'signup', userRole: 'employer', email, firstName, lastName },
-        { isNewUser: true }
-      ) :
-      this.auth.signup.email({ email, firstName, lastName, password, role: 'employer' });
+      const partial = this.prefillSocial$();
 
-    query$
-      .catch(() => {
-        this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
-      })
-      .finally(() => {
-        this.loading.delete('signing up');
-      });
+      if (partial) {
+        await this.auth.socialCallback.getToken(
+          { authType: 'signup', userRole: 'employer', email, firstName, lastName },
+          { isNewUser: true }
+        );
+      }
+      else {
+        await this.auth.signup.email({ email, firstName, lastName, password, userRole: 'employer' });
+      }
+    }
+    catch (err) {
+      SnackbarComponent.forError(this.snackbar, err);
+    }
+    finally {
+      this.loading.delete('signing up');
+    }
   }
 
   private shouldPrefillSocial() {

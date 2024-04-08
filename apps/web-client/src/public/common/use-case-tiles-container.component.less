@@ -1,12 +1,29 @@
 :host {
-  > a {
-    @apply block bg-white p-2 px-4 rounded-md 
-      w-40 flex-grow md:w-48 lg:flex-none
-      text-center transition-all
-      shadow shadow-black/20;
+  @apply block;
+}
 
-    &:hover, &:focus {
-      @apply bg-primary-400/5 text-primary-500/80;
-    }
+a {
+  @apply col-span-10 text-sm transition-all;
+
+  @container (min-width:theme('containers.xs')) {
+    @apply col-span-5;
+  }
+
+  @container (min-width:theme('containers.2xl')) {
+    @apply col-span-2;
+  }
+
+  @container (min-width:theme('containers.3xl')) {
+    @apply text-base;
+  }
+
+
+  @apply block w-full bg-white rounded-md
+    flex-grow md:flex-none
+    text-center transition-all
+    shadow shadow-black/20;
+
+  &:hover, &:focus {
+    @apply bg-primary-400/5 text-primary-500/80;
   }
 }

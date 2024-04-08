@@ -9,7 +9,6 @@ import { USE_CASE_DATA, UseCase } from './data';
   standalone: true,
   selector: 'use-cases-page',
   templateUrl: './use-cases.page.html',
-  styleUrls: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     LottiePlayerDirective,

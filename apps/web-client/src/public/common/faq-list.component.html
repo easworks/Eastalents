@@ -1,5 +1,6 @@
 <mat-accordion>
-  <mat-expansion-panel #panel *ngFor="let faq of faqs">
+  @for (faq of faqs; track $index) {
+  <mat-expansion-panel #panel [expanded]="expand === $index">
     <mat-expansion-panel-header class="group hover:!bg-primary-500 hover:!text-white
                                   transition-all"
                                 [class.!bg-primary-500]="panel.expanded"
@@ -11,8 +12,11 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="mt-4 text-slate-600">
-      <p *ngFor="let paragraph of faq.content; let first = first">{{paragraph}}</p>
+      @for (para of faq.content; track $index) {
+      <p>{{para}}</p>
+      }
     </div>
   </mat-expansion-panel>
+  }
 
 </mat-accordion>

@@ -1,10 +1,14 @@
-<a *ngFor="let uc of useCases" [routerLink]="uc.link">
-  <div class="flex justify-center mx-auto mb-5">
-    <lottie-player [src]="uc.lottie"
-                   background="transparent" speed="1"
-                   class="w-32"
-                   loop autoplay>
-    </lottie-player>
+<div class="@container">
+  <div class="grid gap-4 grid-cols-10">
+    <a *ngFor="let uc of useCases" [routerLink]="uc.link">
+      <div class="flex justify-center mx-auto">
+        <lottie-player [src]="uc.lottie"
+                       background="transparent" speed="1"
+                       class="w-44"
+                       loop autoplay>
+        </lottie-player>
+      </div>
+      <h4 class="font-semibold p-2 px-4 pb-4">{{uc.title}}</h4>
+    </a>
   </div>
-  <h4 class="font-semibold my-4">{{uc.title}}</h4>
-</a>
+</div>

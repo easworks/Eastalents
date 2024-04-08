@@ -5,13 +5,27 @@
   
   .icon-button {
     @apply grid place-content-center rounded-full
-      text-2xl w-12 h-12
+      w-10 h-10 text-lg
       transition-all;
-      
-    @apply hover:bg-slate-500/10 focus:bg-slate-500/10;
     
+    fa-icon {
+      @apply leading-none;
+    }
+    
+    &.small {
+      @apply h-6 w-6 text-sm;
+    }
+
+    &.large {
+      @apply h-12 w-12 text-2xl;
+    }
+
+    &:where(:hover), &:where(:focus) {
+      @apply bg-slate-500/10;
+    }
+      
     &:disabled  {
-      @apply bg-transparent transition-none;
+      @apply bg-transparent text-slate-500/50 transition-none;
     }
 
   }
@@ -22,7 +36,7 @@
     @apply bg-white;
 
     &:where(:hover), &:where(:focus) {
-      @apply bg-slate-100;
+      @apply bg-slate-200;
     }
 
     &:where(.primary) {
@@ -49,10 +63,8 @@
   .highlight-button {
     @apply block rounded py-2 px-4 font-medium transition-all;
 
-    @apply bg-slate-300/20;
-
     &:hover, &:focus {
-      @apply bg-slate-300/40;
+      @apply bg-slate-100 text-primary-500;
     }
 
     &:where(.primary) {
@@ -69,7 +81,7 @@
   }
 
   .stroked-button {
-    @apply block border rounded py-2 px-4
+    @apply block border rounded py-2 px-4 bg-white
     transition-all;
 
     &.small {
@@ -77,7 +89,7 @@
     }
 
     &:hover, &:focus {
-      @apply bg-slate-500/10;
+      @apply bg-slate-100;
     }
 
     &:where(.warn) {

@@ -26,6 +26,7 @@ import { AuthState } from '@easworks/app-shell/state/auth';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-required';
+import { forceEmit } from '@easworks/app-shell/utilities/force-emit';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
@@ -285,6 +286,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       label: StepGroupID;
       enabled$: Signal<boolean>;
       completed$: Signal<boolean>;
+      current$: Signal<boolean>;
       click: () => void;
     };
 
@@ -330,6 +332,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         label,
         enabled$: computed(() => true),
         completed$: computed(() => steps.every(step => isValidStep(step))),
+        current$: computed(() => steps.includes(this.stepper.step$())),
         click: () => this.stepper.step$.set(steps[0])
       }));
 
@@ -630,6 +633,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
   private initPrimaryDomains() {
     this.loading.react('domains', computed(() => this.domains.domains.list$().length === 0));
     const loading$ = this.loading.has('domains');
+    const maxDomains = 2;
 
     const domains$ = computed(() => {
       const optionMap = new Map<string, SelectableOption<Domain>>();
@@ -648,7 +652,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     const options$ = computed(() => domains$().options);
 
     const size$ = signal(0);
-    const stopInput$ = computed(() => size$() >= 3);
+    const stopInput$ = computed(() => size$() >= maxDomains);
 
     const form = new FormRecord<FormControl<number>>({}, {
       validators: [
@@ -657,8 +661,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           size$.set(size);
           if (size < 1)
             return { minlength: 1 };
-          if (size > 3)
-            return { maxlength: 3 };
+          if (size > maxDomains)
+            return { maxlength: maxDomains };
           return null;
         }
       ]
@@ -702,7 +706,8 @@ export class FreelancerProfileEditPageComponent implements OnInit {
       stopInput$,
       size$,
       options$,
-      ...handlers
+      ...handlers,
+      maxDomains
     } as const;
   }
 
@@ -1238,7 +1243,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         control.value.push(option);
         control.value.sort((a, b) => sortString(a.value, b.value));
         control.updateValueAndValidity();
-        query$.mutate(v => v);
+        forceEmit(query$);
       },
       remove: (group: string, i: number) => {
         const control = form.controls[group];
@@ -1254,7 +1259,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           control.updateValueAndValidity();
         else
           form.removeControl(group);
-        query$.mutate(v => v);
+        forceEmit(query$);
       },
       skip: () => {
         Object.keys(form.controls).forEach(k => form.removeControl(k, { emitEvent: false }));
@@ -1393,7 +1398,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
         control.value.push(option);
         control.value.sort((a, b) => sortString(a.value, b.value));
         control.updateValueAndValidity();
-        query$.mutate(v => v);
+        forceEmit(query$);
       },
       remove: (group: string, i: number) => {
         const control = form.controls[group];
@@ -1409,7 +1414,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
           control.updateValueAndValidity();
         else
           form.removeControl(group);
-        query$.mutate(v => v);
+        forceEmit(query$);
       }
     } as const;
 
@@ -1578,7 +1583,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 value.push(option);
                 value.sort((a, b) => sortString(a.value, b.value));
                 roleForm.updateValueAndValidity();
-                query$.mutate(v => v);
+                forceEmit(query$);
               },
               remove: (i) => {
                 const { value } = roleForm;
@@ -1586,7 +1591,7 @@ export class FreelancerProfileEditPageComponent implements OnInit {
                 value.splice(i, 1);
                 option.selected = false;
                 roleForm.updateValueAndValidity();
-                query$.mutate(v => v);
+                forceEmit(query$);
               }
             };
           });

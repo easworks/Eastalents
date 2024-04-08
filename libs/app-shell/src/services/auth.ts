@@ -9,6 +9,8 @@ import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } fro
 import { AuthState } from '../state/auth';
 import { Deferred } from '../utilities/deferred';
 import { SWManagementService } from './sw.manager';
+import { TalentApi } from '../api/talent.api';
+import { EmployerApi } from '../api/employer.api';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +26,8 @@ export class AuthService {
   private readonly state = inject(AuthState);
   private readonly api = {
     account: () => this.injector.get(AccountApi),
+    talent: () => this.injector.get(TalentApi),
+    employee: () => this.injector.get(EmployerApi)
   } as const;
   private readonly snackbar = inject(MatSnackBar);
   private readonly router = inject(Router);
@@ -75,16 +79,25 @@ export class AuthService {
       const authUrl = AuthRedirect.getUrl(provider, state);
       location.href = authUrl.toString();
     },
-    email: (input: EmailSignUpRequest) =>
-      this.api.account().signup(input)
-        .then(r => {
-          this.handleSignIn(r, { isNewUser: true });
-          return r;
-        })
-        .catch(e => {
-          this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
-          throw e;
-        })
+    email: async (input: EmailSignUpRequest) => {
+      const mailSent = await this.api.account().signup(input)
+        .then(r => r.mailSent);
+
+      if (!mailSent)
+        throw new Error('verification email was not sent');
+
+      this.snackbar.openFromComponent(SnackbarComponent, SuccessSnackbarDefaults);
+      this.router.navigateByUrl('/register/verify-email');
+    },
+    verifyEmail: async (token: string) => {
+      await this.api.account().verifyEmail(token);
+
+      // TODO: depending on result of activation, either directly sign him in or redirect to sign in page
+
+      this.snackbar.openFromComponent(SnackbarComponent, SuccessSnackbarDefaults);
+
+      this.router.navigateByUrl('/account/sign-in');
+    }
   } as const;
 
   readonly signin = {
@@ -124,6 +137,41 @@ export class AuthService {
   }
 
   handleSignIn(user: UserWithToken, meta: SignInMeta) {
+    const role = user.role;
+    if (role === 'employer') {
+      this.api.employee().profile.get()
+        .then(r => {
+          if (r) {
+            this.router.navigateByUrl('/employer/profile');
+          }
+        })
+        .catch(e => {
+          if (e.message === "Got no matching talent profile") {
+            this.router.navigateByUrl('/employer/profile/edit');
+          }
+          else {
+            this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
+            throw e;
+          }
+        });
+    }
+    else if (role === 'freelancer') {
+      this.api.talent().profile.get()
+        .then(r => {
+          if (r) {
+            this.router.navigateByUrl('/freelancer/profile');
+          }
+        })
+        .catch(e => {
+          if (e.message === "Got no matching talent profile") {
+            this.router.navigateByUrl('/freelancer/profile/edit');
+          }
+          else {
+            this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
+            throw e;
+          }
+        });
+    }
     this.state.user$.set(user);
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
     this.afterSignIn$.next(meta);
@@ -138,7 +186,13 @@ export class AuthService {
   private async reactToLocalStorage() {
     const storedUser = localStorage.getItem(CURRENT_USER_KEY);
     if (storedUser) {
-      const cu = JSON.parse(storedUser) as UserWithToken;
+      let cu: UserWithToken | null;
+      try {
+        cu = JSON.parse(storedUser);
+      }
+      catch (e) {
+        cu = null;
+      }
       this.state.user$.set(cu);
     }
     this.ready.resolve();

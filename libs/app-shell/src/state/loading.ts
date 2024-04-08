@@ -2,19 +2,28 @@ import { Signal, computed, effect, signal } from '@angular/core';
 
 export function generateLoadingState<T extends readonly string[]>() {
   type L = T[number];
-  const set$ = signal(new Set<L>());
+  const set$ = signal(new Set<L>(), { equal: () => false });
   const size$ = computed(() => set$().size);
   const any$ = computed(() => size$() > 0);
 
   const ops = {
     add: (value: L) => {
-      set$.mutate(s => s.add(value));
+      set$.update(s => {
+        s.add(value);
+        return s;
+      });
     },
     delete: (value: L) => {
-      set$.mutate(s => s.delete(value));
+      set$.update(s => {
+        s.delete(value);
+        return s;
+      });
     },
     clear: () => {
-      set$.mutate(s => s.clear());
+      set$.update(s => {
+        s.clear();
+        return s;
+      });
     }
   } as const;
 
