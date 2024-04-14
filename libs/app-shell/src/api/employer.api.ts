@@ -13,5 +13,12 @@ export class EmployerApi extends BackendApi {
         .then(r => r.profile as EmployerProfile)
         .catch(this.handleError);
     },
+    create: (profile: EmployerProfile) => {
+      const body = JSON.stringify({ profile });
+      return this.request(`${this.apiUrl}/employerProfile/createEmployerProfile`, { body, method: 'POST' })
+        .then(this.handleJson)
+        .then(r => r.profile as EmployerProfile)
+        .catch(this.handleError);
+    },
   } as const;
 }

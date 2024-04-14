@@ -146,7 +146,7 @@ export class AuthService {
           }
         })
         .catch(e => {
-          if (e.message === "Got no matching talent profile") {
+          if (e.message === "Got no matching talent profile") {//TODO REVIEW ONCE API IS CORRECTED
             this.router.navigateByUrl('/employer/profile/edit');
           }
           else {
@@ -163,7 +163,7 @@ export class AuthService {
           }
         })
         .catch(e => {
-          if (e.message === "Got no matching talent profile") {
+          if (e.message === "Got no matching talent profile") {//TODO REVIEW ONCE API IS CORRECTED
             this.router.navigateByUrl('/freelancer/profile/edit');
           }
           else {
