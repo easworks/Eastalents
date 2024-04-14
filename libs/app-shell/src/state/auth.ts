@@ -1,10 +1,18 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, effect, isDevMode, signal } from '@angular/core';
 import { SocialUserNotInDB, UserWithToken } from '@easworks/models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthState {
+  constructor() {
+    if (isDevMode()) {
+      effect(() => {
+        console.debug(this.user$());
+      });
+    }
+  }
+
   readonly user$ = signal<UserWithToken | null>(null);
   readonly partialSocialSignIn$ = signal<SocialUserNotInDB | null>(null);
 
