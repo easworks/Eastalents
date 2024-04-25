@@ -15,6 +15,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
+import { forceEmit } from '@easworks/app-shell/utilities/force-emit';
 import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { sortString } from '@easworks/app-shell/utilities/sort';
@@ -714,7 +715,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
           const updateSoftwareValue = () => {
             softwareControl.setValue(allOptions.filter(o => o.selected));
-            // query$.mutate(v => v);
+            forceEmit(query$);
           };
 
           software[role] = {
@@ -864,7 +865,7 @@ export class CreateJobPostPageComponent implements OnInit {
         control.value.push(option);
         control.value.sort((a, b) => sortString(a.value, b.value));
         control.updateValueAndValidity();
-        // query$.mutate(v => v);
+        forceEmit(query$);
       },
       remove: (group: string, i: number) => {
         const control = form.controls[group];
@@ -880,7 +881,7 @@ export class CreateJobPostPageComponent implements OnInit {
           control.updateValueAndValidity();
         else
           form.removeControl(group);
-        // query$.mutate(v => v);
+        forceEmit(query$);
       }
     } as const;
 
@@ -1020,7 +1021,7 @@ export class CreateJobPostPageComponent implements OnInit {
         control.value.push(option);
         control.value.sort((a, b) => sortString(a.value, b.value));
         control.updateValueAndValidity();
-        // query$.mutate(v => v);
+        forceEmit(query$);
       },
       remove: (group: string, i: number) => {
         const control = form.controls[group];
@@ -1036,7 +1037,7 @@ export class CreateJobPostPageComponent implements OnInit {
           control.updateValueAndValidity();
         else
           form.removeControl(group);
-        // query$.mutate(v => v);
+        forceEmit(query$);
       }
     } as const;
 
