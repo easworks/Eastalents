@@ -7,7 +7,7 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/angular:webpack-browser",
+      "executor": "@nx/angular:browser-esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/web-client",
@@ -35,10 +35,7 @@
           "apps/web-client/src/styles.less"
         ],
         "scripts": [],
-        "webWorkerTsConfig": "apps/web-client/tsconfig.worker.json",
-        "customWebpackConfig": {
-          "path": "apps/web-client/webpack.config.ts"
-        }
+        "plugins": ["apps/web-client/build/sw-plugin.ts"]
       },
       "configurations": {
         "production": {
@@ -59,7 +56,6 @@
         "development": {
           "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
