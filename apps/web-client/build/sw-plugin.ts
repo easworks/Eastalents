@@ -1,5 +1,6 @@
 import { BuildResult, Metafile, Plugin } from 'esbuild';
 import { DateTime } from 'luxon';
+import * as path from 'node:path';
 
 const swPlugin: Plugin = {
   name: 'swPlugin',
@@ -48,7 +49,12 @@ const swPlugin: Plugin = {
       if (!swBuild.metafile || !swBuild.outputFiles) return;
 
       {
-        const manifest = extractManifest(result.metafile);
+        const metafile = result.metafile;
+        const entryPoint = path.relative(options.absWorkingDir!, options.entryPoints!['main']);
+        const main = Object.keys(metafile.outputs).find(key => metafile.outputs[key].entryPoint === entryPoint);
+        if (!main) return;
+
+        const manifest = extractManifest(main, result.metafile);
         const outFile = swBuild.outputFiles[0];
         let workerCode = outFile.text;
         workerCode = workerCode.replace('self.__WB_MANIFEST', JSON.stringify(manifest));
@@ -71,17 +77,17 @@ function mergeMetaFiles(a: Metafile, b: Metafile) {
   };
 }
 
-function extractManifest(metaFile: Metafile) {
+function extractManifest(main: string, metaFile: Metafile) {
 
   const fileNames: string[] = [
     'index.html',
-    'main.js',
+    main,
     'polyfills.js',
     'styles.css'
   ];
 
-  const main = metaFile.outputs['main.js'];
-  for (const imp of main.imports) {
+  const mainChunk = metaFile.outputs[main];
+  for (const imp of mainChunk.imports) {
     if (!imp.external && imp.kind === 'import-statement') fileNames.push(imp.path);
   }
 

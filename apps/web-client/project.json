@@ -85,10 +85,7 @@
     "analyze": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "nx build web-client --statsJson",
-          "webpack-bundle-analyzer dist/apps/web-client/stats.json"
-        ],
+        "commands": ["nx build web-client --statsJson"],
         "parallel": false
       }
     },
