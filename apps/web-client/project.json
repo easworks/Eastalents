@@ -7,13 +7,13 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/angular:webpack-browser",
+      "executor": "@nx/angular:browser-esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/web-client",
         "index": "apps/web-client/src/index.html",
         "main": "apps/web-client/src/main.ts",
-        "polyfills": ["zone.js", "@lottiefiles/lottie-player"],
+        "polyfills": ["@lottiefiles/lottie-player"],
         "tsConfig": "apps/web-client/tsconfig.app.json",
         "assets": [
           {
@@ -35,10 +35,7 @@
           "apps/web-client/src/styles.less"
         ],
         "scripts": [],
-        "webWorkerTsConfig": "apps/web-client/tsconfig.worker.json",
-        "customWebpackConfig": {
-          "path": "apps/web-client/webpack.config.ts"
-        }
+        "plugins": ["apps/web-client/build/sw-plugin.ts"]
       },
       "configurations": {
         "production": {
@@ -59,7 +56,6 @@
         "development": {
           "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -89,10 +85,7 @@
     "analyze": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "nx build web-client --statsJson",
-          "webpack-bundle-analyzer dist/apps/web-client/stats.json"
-        ],
+        "commands": ["nx build web-client --statsJson"],
         "parallel": false
       }
     },
