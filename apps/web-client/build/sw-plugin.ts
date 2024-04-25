@@ -13,6 +13,7 @@ const swPlugin: Plugin = {
     };
 
     const options = build.initialOptions;
+    const devMode = options.define?.ngDevMode !== 'false';
     options.metafile = true;
 
     let swBuild: BuildResult;
@@ -54,7 +55,7 @@ const swPlugin: Plugin = {
         const main = Object.keys(metafile.outputs).find(key => metafile.outputs[key].entryPoint === entryPoint);
         if (!main) return;
 
-        const manifest = extractManifest(main, result.metafile);
+        const manifest = extractManifest(main, result.metafile, devMode);
         const outFile = swBuild.outputFiles[0];
         let workerCode = outFile.text;
         workerCode = workerCode.replace('self.__WB_MANIFEST', JSON.stringify(manifest));
@@ -77,18 +78,19 @@ function mergeMetaFiles(a: Metafile, b: Metafile) {
   };
 }
 
-function extractManifest(main: string, metaFile: Metafile) {
+function extractManifest(main: string, metaFile: Metafile, devMode: boolean) {
 
   const fileNames: string[] = [
     'index.html',
-    main,
-    'polyfills.js',
-    'styles.css'
   ];
 
-  const mainChunk = metaFile.outputs[main];
-  for (const imp of mainChunk.imports) {
-    if (!imp.external && imp.kind === 'import-statement') fileNames.push(imp.path);
+  if (!devMode) {
+    fileNames.push(main, 'polyfills.js', 'styles.css');
+    const mainChunk = metaFile.outputs[main];
+
+    for (const imp of mainChunk.imports) {
+      if (!imp.external && imp.kind === 'import-statement') fileNames.push(imp.path);
+    }
   }
 
   const now = DateTime.now().toMillis().toString();
