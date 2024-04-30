@@ -51,7 +51,12 @@
               "maximumError": "16kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "optimization": {
+            "scripts": true,
+            "styles": true,
+            "fonts": false
+          }
         },
         "development": {
           "buildOptimizer": false,
@@ -66,8 +71,8 @@
     "serve": {
       "executor": "@nx/angular:dev-server",
       "options": {
-        "liveReload": true,
-        "hmr": true
+        "liveReload": false,
+        "hmr": false
       },
       "configurations": {
         "production": {

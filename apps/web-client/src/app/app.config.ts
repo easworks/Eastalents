@@ -15,6 +15,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { SignInEffects } from '../account/sign-in.effects';
 import { ADMIN_DATA_FEATURE } from '../admin/state/admin-data';
 import { adminDataEffects } from '../admin/state/admin-data.effects';
+import { serviceWorkerUrl } from '../service-worker/sw.loader';
 import { provideEnvironment } from './environment';
 import { routes } from './routes';
 
@@ -52,7 +53,7 @@ export const appConfig: ApplicationConfig = {
       MatSnackBarModule,
       MatDialogModule
     ]),
-    { provide: SW_URL, useValue: 'eastalents-web-client-sw.js' },
+    { provide: SW_URL, useValue: serviceWorkerUrl },
     {
       provide: APP_INITIALIZER,
       useFactory: (swm: SWManagementService) => () => swm.ready,

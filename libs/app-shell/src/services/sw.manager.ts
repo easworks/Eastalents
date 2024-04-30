@@ -1,4 +1,6 @@
-import { Injectable, InjectionToken, inject, isDevMode, signal } from '@angular/core';
+import { DestroyRef, Injectable, InjectionToken, effect, inject, isDevMode, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { concatMap, interval } from 'rxjs';
 import { Workbox, messageSW } from 'workbox-window';
 import { Deferred } from '../utilities/deferred';
 
@@ -9,82 +11,86 @@ export const SW_URL = new InjectionToken<string>('SW_URL: The service worker url
 })
 export class SWManagementService {
   constructor() {
-    this.wb = new Workbox(this.swUrl);
-    this.checkInterval = this.devMode ? 1000 : 7 * 60 * 60 * 1000;
-
-    this.ready = new Deferred();
-
-    this.wb.addEventListener('waiting', event => {
-
-      if (!event.sw)
-        throw new Error('waiting service worker not in event');
-
-      if (this.devMode) {
-        messageSW(event.sw, { type: 'SKIP_WAITING' });
-      }
-      else {
-        this.wb.addEventListener('controlling', () => {
-          window.location.reload();
-        });
-
-
-        if (event.wasWaitingBeforeRegister) {
-          this.updating$.set(true);
-          messageSW(event.sw, { type: 'SKIP_WAITING' });
+    effect(() => {
+      const updateAvailable = this.updateAvailable$();
+      if (updateAvailable) {
+        if (this.devMode) {
+          this.wb.messageSkipWaiting();
         }
-        else {
-          this.updateAvailable$.set(true);
-          alert('Site update available! Please refresh for the latest features and bug fixes.');
-        }
+        this.ready.resolve();
       }
     });
 
-    this.wb.addEventListener('activated', event => {
+    this.wb.register({ immediate: true })
+      .then(async reg => {
+        if (reg?.active) {
+          const lookForUpdates = () => this.wb.update().catch(() => void 0);
+
+          await lookForUpdates();
+
+          if (this.devMode) {
+            interval(250)
+              .pipe(
+                concatMap(() => lookForUpdates()),
+                takeUntilDestroyed(this.dRef))
+              .subscribe();
+          }
+        }
+        return reg;
+      })
+      .then(async reg => {
+        if (!reg)
+          return;
+
+        if (reg.installing) {
+          // 
+        }
+        else if (reg.waiting) {
+          this.updateAvailable$.set(true);
+        }
+        else if (reg.active) {
+          if (navigator.serviceWorker.controller === null) {
+            await messageSW(reg.active, { type: 'CLAIM_CLIENTS' });
+          }
+          else if (reg.active === navigator.serviceWorker.controller) {
+            this.ready.resolve();
+          }
+        }
+      });
+
+    this.wb.addEventListener('waiting', async event => {
+      // console.debug('waiting', event);
+
+      if (!event.wasWaitingBeforeRegister) {
+        this.updateAvailable$.set(true);
+      }
+    });
+
+    this.wb.addEventListener('activated', async event => {
+      // console.debug('activated', event);
       if (!event.sw)
         throw new Error('activated service worker not in event');
 
-      messageSW(event.sw, { type: 'CLAIM_CLIENTS' });
+      if (!event.isUpdate)
+        await messageSW(event.sw, { type: 'CLAIM_CLIENTS' });
     });
 
-    this.wb.addEventListener('controlling', async () => {
+    this.wb.addEventListener('controlling', event => {
+      // console.debug('controlling', event);
+      this.updateAvailable$.set(false);
       this.ready.resolve();
+      if (event.isUpdate)
+        location.reload();
     });
-
-    navigator.serviceWorker.getRegistration()
-      .then(async reg => {
-        const active = reg?.active;
-        if (!active)
-          return;
-
-        if (!navigator.serviceWorker.controller) {
-          await messageSW(active, { type: 'CLAIM_CLIENTS' });
-        }
-      })
-      .then(() => this.wb.register({ immediate: true }))
-      .then(() => this.wb.active)
-      .then(active => messageSW(active, { type: 'CLAIM_CLIENTS' }))
-      .then(() => {
-        if (!this.devMode)
-          this.ready.resolve();
-        this.wb.update();
-      })
-      .then(() => navigator.serviceWorker.getRegistration())
-      .then(reg => {
-        if (!reg?.installing)
-          this.ready.resolve();
-      })
-      .catch((e) => {
-        this.ready.resolve();
-        throw e;
-      });
   }
 
-  private readonly swUrl = inject(SW_URL);
-  private readonly devMode = isDevMode();
 
-  readonly wb: Workbox;
-  private readonly checkInterval: number;
+  private readonly swUrl = inject(SW_URL);
+  readonly dRef = inject(DestroyRef);
+
+  private readonly devMode = isDevMode();
+  readonly wb = new Workbox(this.swUrl);
   readonly updateAvailable$ = signal(false);
   readonly updating$ = signal(false);
-  readonly ready;
+  readonly ready = new Deferred();
 }
