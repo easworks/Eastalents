@@ -30,8 +30,7 @@ export const ADMIN_ROUTES: Route =
     {
       path: 'software-products',
       pathMatch: 'full',
-      loadComponent: () => import('./software-product.page')
-        .then(m => m.SoftwareProductPageComponent)
+      loadComponent: () => import('./software-products/software-product.page')
     },
     {
       path: 'domain-modules',

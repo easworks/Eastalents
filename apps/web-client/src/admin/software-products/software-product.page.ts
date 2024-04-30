@@ -8,12 +8,12 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Store } from "@ngrx/store";
 import { faCheck, faRefresh, faSquareXmark } from "@fortawesome/free-solid-svg-icons";
 import { generateLoadingState } from "@easworks/app-shell/state/loading";
-import { ADMIN_DATA_FEATURE, softwareProductActions } from "./state/admin-data";
+import { ADMIN_DATA_FEATURE, softwareProductActions } from "../state/admin-data";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { takeUntilDestroyed, toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { controlValue$ } from "@easworks/app-shell/common/form-field.directive";
 import { SnackbarComponent } from "@easworks/app-shell/notification/snackbar";
-import { SoftwareProduct, TechGroup } from "./models/tech-skill";
+import { SoftwareProduct, TechGroup } from "../models/tech-skill";
 import { map, shareReplay, startWith } from "rxjs";
 import { SelectableOption } from "@easworks/app-shell/utilities/options";
 
@@ -31,7 +31,7 @@ import { SelectableOption } from "@easworks/app-shell/utilities/options";
     MatAutocompleteModule
   ]
 })
-export class SoftwareProductPageComponent {
+export default class SoftwareProductPageComponent {
 
   private readonly store = inject(Store);
   private readonly snackbar = inject(MatSnackBar);
