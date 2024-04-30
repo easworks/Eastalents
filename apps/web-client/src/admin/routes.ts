@@ -5,6 +5,11 @@ export const ADMIN_ROUTES: Route =
   path: 'admin',
   children: [
     {
+      path: 'dashboard',
+      pathMatch: 'full',
+      loadComponent: () => import('./dashboard/admin-dashboard.page')
+    },
+    {
       path: 'tech-skills',
       pathMatch: 'full',
       loadComponent: () => import('./tech-skills.page')
@@ -51,6 +56,11 @@ export const ADMIN_ROUTES: Route =
       pathMatch: 'full',
       loadComponent: () => import('./feature-roles.page')
         .then(m => m.FeatureRolesComponent)
+    },
+    {
+      path: '',
+      pathMatch: 'full',
+      redirectTo: 'dashboard',
     }
   ]
 };
