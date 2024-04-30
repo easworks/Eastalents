@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, INJECTOR, computed, inject, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, computed, inject, signal } from "@angular/core";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatSelectModule } from "@angular/material/select";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
@@ -36,6 +36,8 @@ export default class SoftwareProductPageComponent {
   private readonly store = inject(Store);
   private readonly snackbar = inject(MatSnackBar);
   private readonly injector = inject(INJECTOR);
+
+  @HostBinding() private readonly class = 'page';
 
   protected readonly icons = {
     faCheck,
@@ -173,6 +175,12 @@ export default class SoftwareProductPageComponent {
                 });
                 const count$ = computed(() => selected$().length);
 
+                const canAdd$ = computed(() => {
+                  const all = all$().length;
+                  const count = count$();
+                  return (all - count) > 0;
+                });
+
 
                 // filters the suggested tech skills
                 // if an item is selected, it should not be in the sugestions
@@ -222,6 +230,7 @@ export default class SoftwareProductPageComponent {
                     $: selected$,
                     count$
                   },
+                  canAdd$,
                   ...handlers
                 } as const;
               };

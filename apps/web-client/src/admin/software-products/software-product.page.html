@@ -1,4 +1,7 @@
-<div class="table-container">
+<h1 class="font-semibold">Software Products</h1>
+<mat-divider class="!my-2 "></mat-divider>
+
+<div class="mt-4 table-container border rounded">
   <div>
     <table>
       <thead>
@@ -11,14 +14,13 @@
       </thead>
       <tbody>
         @for (row of table.rows$(); track row.data.id) {
-        <tr class="dotted">
-          <td *ngrxLet="row.form.controls.id as control" [formFieldControl]="control" (click)="input.focus()">
+        <tr>
+          <td *ngrxLet="row.form.controls.id as control" [formFieldControl]="control">
             <!-- <div class="field field-interactive" (click)="input.focus()"> -->
             <input type="text" #input [formControl]="control" readonly />
             <!-- </div> -->
           </td>
-          <td *ngrxLet="row.form.controls.name as control" [formFieldControl]="control"
-              (click)="input.focus()">
+          <td *ngrxLet="row.form.controls.name as control" [formFieldControl]="control">
             <!-- <div class="field field-interactive" (click)="input.focus()"> -->
             <input type="text" [formControl]="control" #input />
             <!-- </div> -->
@@ -29,7 +31,6 @@
             <input type="text" [formControl]="control" #input />
             <!-- </div> -->
           </td>
-          <td></td>
           <td class="actions">
             <div class="flex">
               <button class="icon-button small enabled:text-emerald-500" mat-ripple
@@ -45,7 +46,8 @@
             </div>
           </td>
         </tr>
-        <tr>
+        @if (row.techGroups.canAdd$()) {
+        <tr class="dashed">
           <td colspan="5">
             @if (row.techGroups.selected.count$() > 0) {
             <div class="grid gap-2 mb-2"
@@ -63,7 +65,7 @@
             }
 
             <div class="form-field mb-0">
-              <input type="text" placeholder="Type to add" [ngModel]="row.techGroups.query$()"
+              <input type="text" placeholder="Type to add tech group" [ngModel]="row.techGroups.query$()"
                      (ngModelChange)="row.techGroups.query$.set($event)"
                      [matAutocomplete]="techGroupOptions">
             </div>
@@ -77,6 +79,7 @@
             </mat-autocomplete>
           </td>
         </tr>
+        }
         }
         <tr *ngrxLet="table.add.form as form">
           <td *ngrxLet="form.controls.id as control" [formFieldControl]="control">

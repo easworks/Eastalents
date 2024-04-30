@@ -25,17 +25,11 @@
       @apply text-left;
     }
 
-    thead {
-      th {
-        @apply border-b;
-      }
-    }
-
     tbody {
 
       tr {
         td {
-          @apply border-b;
+          @apply border-t;
         }
 
         &:nth-child(odd) {}
@@ -44,7 +38,13 @@
 
         &.dotted {
           td {
-            border-bottom-style: dotted;
+            border-top-style: dotted;
+          }
+        }
+
+        &.dashed {
+          td {
+            border-top-style: dashed;
           }
         }
       }
