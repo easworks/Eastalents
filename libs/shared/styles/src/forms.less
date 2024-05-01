@@ -1,0 +1,155 @@
+@layer components {
+  .field {
+    @apply block w-full rounded p-2 bg-slate-500/10 placeholder:text-slate-500/80 placeholder:text-sm outline-none ring-inset ring-primary-500 transition-all;
+
+    &-interactive {
+      @apply hover:ring-1;
+    }
+
+    &-interactive {
+      @apply focus:ring-2 focus-within:ring-2;
+    }
+  }
+
+  input[type=text],
+  input[type=number],
+  input[type=numeric],
+  input[type=password],
+  input[type=email],
+  input[type=time],
+  input[type=tel],
+  select {
+    @apply field;
+
+    &:not(:disabled) {
+      @apply field-interactive;
+    }
+  }
+
+  textarea {
+    @apply block bg-transparent w-full h-full outline-none placeholder:text-sm;
+
+    &::-webkit-scrollbar {
+      @apply absolute h-1 w-1 rounded-full;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      @apply rounded bg-black;
+    }
+
+    &::-webkit-scrollbar-track {
+      @apply rounded bg-divider;
+    }
+
+    &::-webkit-scrollbar,
+    &::-webkit-scrollbar-corner {
+      @apply bg-divider;
+    }
+  }
+
+  // form styling
+  .form-field {
+    @apply relative mb-6;
+
+    >label {
+      @apply block mb-1 text-sm;
+    }
+
+    >.hint {
+      @apply absolute block text-xs px-2 mt-1 text-slate-500;
+    }
+
+    >.error {
+      @apply absolute hidden text-xs px-2 mt-1;
+    }
+
+    .mat-mdc-select-value {
+      @apply transition-all;
+    }
+
+    .field-spinner {
+      @apply absolute hidden;
+    }
+
+    &.show-spinner {
+
+      input,
+      .mat-mdc-select-value {
+        @apply pr-12;
+      }
+
+      .field-spinner {
+        @apply block;
+      }
+    }
+
+    &.disabled {
+      >label {
+        @apply text-slate-500;
+      }
+    }
+  }
+
+  form.ng-submitted .form-field,
+  form.ng-dirty .form-field.dirty,
+  td.form-field.dirty {
+    &.invalid {
+      label {
+        @apply text-warn;
+      }
+
+      input.ng-invalid,
+      file-upload.ng-invalid,
+      .field {
+        @apply ring-1 ring-warn/80 focus:ring-2 focus-within:ring-2 placeholder-warn;
+      }
+
+      >.error {
+        @apply block text-warn;
+
+        &:not(:first-of-type) {
+          @apply hidden;
+        }
+
+        &~.hint {
+          @apply hidden;
+        }
+      }
+    }
+  }
+
+  td.form-field {
+    > .field {
+      @apply bg-transparent;
+
+      border-radius: inherit;
+
+      &-interactive {
+        @apply cursor-text;
+
+        &:hover,
+        &:focus,
+        &:focus-within {
+          @apply bg-slate-500/10;
+        }
+      }
+    }
+  //   >.field {
+  //     @apply rounded-none h-full bg-transparent;
+
+  //     &-interactive {
+  //       @apply cursor-text;
+
+  //       &:hover,
+  //       &:focus,
+  //       &:focus-within {
+  //         @apply bg-slate-500/10;
+  //       }
+  //     }
+
+  //     >input {
+  //       @apply !ring-0 p-0 bg-transparent ring-transparent;
+  //     }
+  //   }
+  }
+}

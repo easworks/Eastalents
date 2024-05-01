@@ -14,6 +14,25 @@
         @apply p-2;
       }
 
+      tbody {
+        border-bottom-left-radius: inherit;
+        border-bottom-right-radius: inherit;
+
+        tr:last-child {
+          border-bottom-left-radius: inherit;
+          border-bottom-right-radius: inherit;
+
+          td {
+            &:first-child {
+              border-bottom-left-radius: inherit;
+            }
+
+            &:last-child {
+              border-bottom-right-radius: inherit;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -56,7 +75,7 @@
       }
 
       &.actions {
-        @apply p-0;
+        @apply p-0 px-2 w-0;
       }
 
       &.tags {

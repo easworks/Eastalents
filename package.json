@@ -70,6 +70,7 @@
     "@lottiefiles/lottie-player": "2.0.2",
     "@ngrx/component": "17.0.1",
     "@ngrx/effects": "^17.1.1",
+    "@ngrx/entity": "^17.2.0",
     "@ngrx/store": "^17.1.1",
     "@ngrx/store-devtools": "^17.1.1",
     "@tailwindcss/container-queries": "^0.1.1",

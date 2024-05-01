@@ -56,6 +56,9 @@ dependencies:
   '@ngrx/effects':
     specifier: ^17.1.1
     version: 17.1.1(@angular/core@18.0.0-next.6)(@ngrx/store@17.1.1)(rxjs@7.8.1)
+  '@ngrx/entity':
+    specifier: ^17.2.0
+    version: 17.2.0(@angular/core@18.0.0-next.6)(@ngrx/store@17.1.1)(rxjs@7.8.1)
   '@ngrx/store':
     specifier: ^17.1.1
     version: 17.1.1(@angular/core@18.0.0-next.6)(rxjs@7.8.1)
@@ -4207,6 +4210,19 @@ packages:
     dependencies:
       '@angular/core': 18.0.0-next.6(rxjs@7.8.1)(zone.js@0.14.4)
       '@ngrx/operators': 17.0.0-beta.0(rxjs@7.8.1)
+      '@ngrx/store': 17.1.1(@angular/core@18.0.0-next.6)(rxjs@7.8.1)
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
+
+  /@ngrx/entity@17.2.0(@angular/core@18.0.0-next.6)(@ngrx/store@17.1.1)(rxjs@7.8.1):
+    resolution: {integrity: sha512-epXgojGXCrVMNrFdv60704iRUU+pYkE1qHBppP/wqKbZZIZHaagsg2jy8/ptDP7U3udvVq0z9suc1s+zpmL2EA==}
+    peerDependencies:
+      '@angular/core': ^17.0.0
+      '@ngrx/store': 17.2.0
+      rxjs: ^6.5.3 || ^7.5.0
+    dependencies:
+      '@angular/core': 18.0.0-next.6(rxjs@7.8.1)(zone.js@0.14.4)
       '@ngrx/store': 17.1.1(@angular/core@18.0.0-next.6)(rxjs@7.8.1)
       rxjs: 7.8.1
       tslib: 2.6.2
