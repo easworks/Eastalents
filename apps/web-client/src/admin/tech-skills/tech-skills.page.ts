@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, HostBinding, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
@@ -24,9 +24,6 @@ export class TechSkillsPageComponent {
   private readonly store = inject(Store);
   private readonly dRef = inject(DestroyRef);
   private readonly dialog = inject(MatDialog);
-
-  @HostBinding() private readonly class = 'page';
-
 
   protected readonly icons = {
     faCheck,
