@@ -1,0 +1,70 @@
+<h1 class="font-semibold">Software Products</h1>
+<mat-divider class="!my-2 "></mat-divider>
+
+<div class="mt-4 table-container border rounded">
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Image URL</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(row of table.rows.$(); track row.data.id) {
+        <tr>
+          <td>{{ row.data.id }}</td>
+          <td *ngrxLet="row.form.controls.name as control" [formFieldControl]="control">
+            <input type="text" [formControl]="control">
+          </td>
+          <td *ngrxLet="row.form.controls.imageUrl as control" [formFieldControl]="control">
+            <input type="text" [formControl]="control">
+          </td>
+          <td class="actions">
+            <div class="flex">
+              <button class="icon-button small enabled:text-emerald-500" mat-ripple
+                      [disabled]="row.submit.disabled$()" (click)="row.submit.click()">
+                <replace-spinner [showSpinner]="row.submit.loading$()">
+                  <fa-icon [icon]="icons.faCheck"></fa-icon>
+                </replace-spinner>
+              </button>
+              <button class="icon-button small enabled:text-warn" mat-ripple
+                      [disabled]="row.reset.disabled$()" (click)="row.reset.click()">
+                <fa-icon [icon]="icons.faRefresh"></fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+        }
+        <tr *ngrxLet="table.add.form as form">
+          <td *ngrxLet="form.controls.id as control" [formFieldControl]="control">
+            <input type="text" [formControl]="control" placeholder="Add new software product...">
+          </td>
+          <td *ngrxLet="form.controls.name as control" [formFieldControl]="control">
+            <input type="text" [formControl]="control">
+          </td>
+          <td *ngrxLet="form.controls.imageUrl as control" [formFieldControl]="control">
+            <input type="text" [formControl]="control">
+          </td>
+          <td class="actions">
+            <div class="flex">
+              <button class="icon-button small enabled:text-emerald-500" mat-ripple
+                      [disabled]="table.add.submitDisabled$()" (click)="table.add.submit()">
+                <replace-spinner [showSpinner]="table.add.submitting$()">
+                  <fa-icon [icon]="icons.faCheck"></fa-icon>
+                </replace-spinner>
+              </button>
+              <button class="icon-button small" mat-ripple
+                      [disabled]="loading.any$() || form.pristine"
+                      (click)="form.reset()">
+                <fa-icon [icon]="icons.faXmark"></fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

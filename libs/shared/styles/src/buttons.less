@@ -23,9 +23,17 @@
     &:where(:hover), &:where(:focus) {
       @apply bg-slate-500/10;
     }
+
+    &.primary {
+      @apply bg-primary-500 text-white;
+
+      &:where(:hover), &:where(:focus) {
+        @apply bg-primary-600;
+      }
+    }
       
     &:disabled  {
-      @apply bg-transparent text-slate-500/50 transition-none;
+      @apply bg-slate-50 text-slate-400 transition-none;
     }
 
   }
@@ -81,7 +89,7 @@
   }
 
   .stroked-button {
-    @apply block border rounded py-2 px-4 bg-white
+    @apply block border rounded py-1 px-4 bg-white
     transition-all;
 
     &.small {
@@ -90,6 +98,10 @@
 
     &:hover, &:focus {
       @apply bg-slate-100;
+    }
+
+    &:where(.primary) {
+      @apply text-primary-500;
     }
 
     &:where(.warn) {

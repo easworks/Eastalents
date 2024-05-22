@@ -1,15 +1,22 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
 import { concatMap, from, map } from 'rxjs';
 import { AdminApi } from '../api/admin.api';
-import { ADMIN_DATA_FEATURE, adminDataActions, domainActions, domainModuleActions, easActions, featuredProductActions, featuredRolesActions, softwareProductActions, techGroupActions, techSkillActions } from './admin-data';
+import { AdminDataDTO } from '../models/admin-data';
+import { adminData, adminDataActions, softwareProductActions, techSkillActions } from './admin-data';
+import { Store } from '@ngrx/store';
 
 export const adminDataEffects = {
   loadFromApi: createEffect(
     () => {
       const api = inject(AdminApi);
-      const data = api.get();
+      const data = Promise.all([
+        api.softwareProducts.read(),
+        api.techSkills.read(),
+      ]).then<AdminDataDTO>(results => ({
+        softwareProducts: results[0],
+        techSkills: results[1],
+      }));
 
       return from(data)
         .pipe(
@@ -19,58 +26,44 @@ export const adminDataEffects = {
     { functional: true }
   ),
 
-  saveOnChanges: createEffect(() => {
-    const store = inject(Store);
-    const actions$ = inject(Actions);
-    const api = inject(AdminApi);
+  saveSoftwareProducts: createEffect(
+    () => {
+      const api = inject(AdminApi);
+      const actions$ = inject(Actions);
+      const store = inject(Store);
 
-    const data$ = store.selectSignal(ADMIN_DATA_FEATURE.selectAdminDataState);
+      const list$ = store.selectSignal(adminData.selectors.softwareProduct.selectAll);
 
-    return actions$
-      .pipe(
+      return actions$.pipe(
         ofType(
-          techSkillActions.add,
-          techSkillActions.update,
-          techGroupActions.add,
-          techGroupActions.update,
-          techGroupActions.addSkill,
-          techGroupActions.removeSkill,
-          easActions.add,
-          easActions.update,
-
+          adminDataActions.saveState,
           softwareProductActions.add,
-          softwareProductActions.update,
-          softwareProductActions.addTechgroup,
-          softwareProductActions.removeTechgroup,
-
-          domainModuleActions.add,
-          domainModuleActions.update,
-          domainModuleActions.addProduct,
-          domainModuleActions.removeProduct,
-          domainModuleActions.addRoles,
-          domainModuleActions.removeRoles,
-
-          domainActions.add,
-          domainActions.update,
-          domainActions.addProduct,
-          domainActions.removeProduct,
-          domainActions.addModules,
-          domainActions.removeModules,
-          domainActions.addServices,
-          domainActions.removeServices,
-
-          featuredProductActions.addDomain,
-          featuredProductActions.removeDomain,
-          featuredProductActions.updateProducts,
-
-          featuredRolesActions.addDomain,
-          featuredRolesActions.removeDomain,
-          featuredRolesActions.updateRoles
-
+          softwareProductActions.update
         ),
-        concatMap(async () => {
-          await api.save(data$());
-        })
+        concatMap(() => api.softwareProducts.write(list$()))
       );
-  }, { functional: true, dispatch: false })
+    },
+    { functional: true, dispatch: false }
+  ),
+
+  saveTechSkills: createEffect(
+    () => {
+      const api = inject(AdminApi);
+      const actions$ = inject(Actions);
+      const store = inject(Store);
+
+      const list$ = store.selectSignal(adminData.selectors.techSkill.selectAll);
+
+      return actions$.pipe(
+        ofType(
+          adminDataActions.saveState,
+          techSkillActions.add,
+          techSkillActions.update
+        ),
+        concatMap(() => api.techSkills.write(list$()))
+      );
+    },
+    { functional: true, dispatch: false }
+  )
+
 };

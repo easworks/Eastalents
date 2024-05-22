@@ -8,53 +8,19 @@ export const ADMIN_ROUTES: Route =
       path: 'dashboard',
       pathMatch: 'full',
       loadComponent: () => import('./dashboard/admin-dashboard.page')
-    },
-    {
-      path: 'tech-skills',
-      pathMatch: 'full',
-      loadComponent: () => import('./tech-skills.page')
-        .then(m => m.TechSkillsPageComponent)
-    },
-    {
-      path: 'tech-groups',
-      pathMatch: 'full',
-      loadComponent: () => import('./tech-group.page')
-        .then(m => m.TechGroupPageComponent)
-    },
-    {
-      path: 'eas-roles',
-      pathMatch: 'full',
-      loadComponent: () => import('./eas-role.page')
-        .then(m => m.EasRoleComponent)
+        .then(m => m.AdminDashboardPageComponent)
     },
     {
       path: 'software-products',
       pathMatch: 'full',
-      loadComponent: () => import('./software-products/software-product.page')
+      loadComponent: () => import('./software-products/software-products.page')
+        .then(m => m.SoftwareProductsPageComponent)
     },
     {
-      path: 'domain-modules',
+      path: 'tech-skills',
       pathMatch: 'full',
-      loadComponent: () => import('./domain-module.page')
-        .then(m => m.DomainModuleComponent)
-    },
-    {
-      path: 'domains',
-      pathMatch: 'full',
-      loadComponent: () => import('./domains.page')
-        .then(m => m.DomainsComponent)
-    },
-    {
-      path: 'featured-products',
-      pathMatch: 'full',
-      loadComponent: () => import('./feature-product.page')
-        .then(m => m.FeatureProductComponent)
-    },
-    {
-      path: 'featured-roles',
-      pathMatch: 'full',
-      loadComponent: () => import('./feature-roles.page')
-        .then(m => m.FeatureRolesComponent)
+      loadComponent: () => import('./tech-skills/tech-skills.page')
+        .then(m => m.TechSkillsPageComponent)
     },
     {
       path: '',

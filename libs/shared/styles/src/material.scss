@@ -17,4 +17,5 @@ html {
   @include mat.expansion-theme($theme);
   @include mat.tabs-theme($theme);
   @include mat.snack-bar-theme($theme);
+  @include mat.tooltip-theme($theme);
 }

@@ -1,4 +1,33 @@
 <div class="flex gap-2">
   <a class="stroked-button max-w-max" routerLink="/admin/domains">Domains</a>
   <a class="stroked-button max-w-max" routerLink="/admin/software-products">Software Products</a>
+  <a class="stroked-button max-w-max" routerLink="/admin/tech-skills">Tech Skills</a>
+</div>
+
+<mat-divider class="!my-4"></mat-divider>
+
+<div class="flex gap-4 items-center">
+  <div class="flex-1">
+    <div class="form-field">
+      <file-upload accept=".json" [(ngModel)]="upload.file$"></file-upload>
+    </div>
+    <button class="stroked-button max-w-max mx-auto" mat-ripple
+            (click)="upload.click()"
+            [disabled]="upload.disabled$()">
+      <replace-spinner [showSpinner]="upload.loading$()">
+        Upload JSON
+      </replace-spinner>
+
+    </button>
+  </div>
+  <mat-divider vertical class="self-stretch"></mat-divider>
+  <div class="flex-1 flex justify-center">
+    <button class="stroked-button max-w-max" mat-ripple
+            (click)="download.click()"
+            [disabled]="download.disabled$()">
+      <replace-spinner [showSpinner]="download.loading$()">
+        Download JSON
+      </replace-spinner>
+    </button>
+  </div>
 </div>
