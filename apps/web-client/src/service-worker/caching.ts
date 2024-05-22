@@ -1,6 +1,7 @@
-import { setCacheNameDetails } from 'workbox-core';
+import { cacheNames, setCacheNameDetails } from 'workbox-core';
 import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching';
-import { NavigationRoute, registerRoute } from 'workbox-routing';
+import { NavigationRoute, Route, registerRoute } from 'workbox-routing';
+import { NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -21,5 +22,34 @@ export function setupCaching(cachePrefix: string) {
     createHandlerBoundToURL('/index.html')
   ));
 
+  registerRoute(new Route(
+    ({ sameOrigin, url }) => {
+      return sameOrigin && url.pathname.startsWith('/assets/');
+    },
+    new StaleWhileRevalidate({
+      cacheName: formatCacheName('assets')
+    })
+  ));
+
+  registerRoute(
+    new Route(
+      ({ sameOrigin, url }) => {
+        return sameOrigin && (
+          url.pathname.endsWith('.js') ||
+          url.pathname.endsWith('.css')
+        );
+      },
+      new NetworkFirst()
+    ),
+  );
+
 }
 
+export function formatCacheName(name: string) {
+  if (cacheNames.prefix)
+    name = `${cacheNames.prefix}-${name}`;
+  if (cacheNames.suffix)
+    name = `${name}-${cacheNames.suffix}`;
+
+  return name;
+}

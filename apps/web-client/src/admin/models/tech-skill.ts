@@ -1,36 +1,15 @@
-export interface GenericTechSkill {
+export interface TechSkill {
   id: string,
   name: string;
-  generic: true;
 }
 
-export interface NonGenericTechSkill extends Omit<GenericTechSkill, 'generic'> {
-  generic: false;
-}
-
-export type TechSkill = GenericTechSkill | NonGenericTechSkill;
-
-
-export interface GenericTechGroup {
+export interface TechGroup {
   id: string,
   name: string;
-  generic: true;
-  tech: string[];
+  generic: string[];
+  nonGeneric: Record<string, string[]>;
 }
 
-export interface NonGenericTechGroup extends Omit<GenericTechGroup, 'generic'> {
-  generic: false;
-  softwareId: string;
-}
-
-export type TechGroup = GenericTechGroup | NonGenericTechGroup;
-
-export function techGroupId(tg: TechGroup) {
-  if (tg.generic)
-    return tg.id;
-  else
-    return `${tg.id}/${tg.softwareId}`;
-}
 
 export interface SoftwareProduct {
   id: string;

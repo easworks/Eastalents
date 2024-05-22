@@ -1,0 +1,60 @@
+<div class="flex justify-between items-center p-2 px-4 gap-4">
+  <h1 class="font-bold">Create New Tech Skill</h1>
+  <button class="icon-button small" mat-dialog-close mat-ripple>
+    <fa-icon [icon]="icons.faXmark"></fa-icon>
+  </button>
+</div>
+
+<mat-divider></mat-divider>
+
+<form class="px-4 mt-4"
+      [id]="formId" [formGroup]="form"
+      (ngSubmit)="buttons.submit.click()">
+
+  <div *ngrxLet="form.controls.id as control"
+       [formFieldControl]="control"
+       class="w-64 max-w-full">
+    <label>ID</label>
+    <input type="text" [formControl]="control" #input>
+    @if(control.hasError('required')){<span class="error">Required</span>}
+    @if(control.hasError('pattern')){
+    <span class="error">
+      <div class="flex items-center gap-2" matTooltip="Lowercase letters, numbers and hyphens only">
+        <fa-icon [icon]="icons.faQuestionCircle"></fa-icon>
+        <span>Invalid format</span>
+      </div>
+    </span>
+    }
+    @if(control.hasError('maxlength')){<span class="error">{{input.value.length}}/{{maxlength.id}}</span>}
+    @if(control.hasError('exists')){<span class="error">Exists</span>}
+    <span class="hint">{{input.value.length}}/{{maxlength.id}}</span>
+  </div>
+
+  <div *ngrxLet="form.controls.name as control"
+       [formFieldControl]="control">
+    <label>Name</label>
+    <input type="text" [formControl]="control" #input>
+    @if(control.hasError('required')){<span class="error">Required</span>}
+    @if(control.hasError('maxlength')){<span class="error">{{input.value.length}}/{{maxlength.name}}</span>}
+    <span class="hint">{{input.value.length}}/{{maxlength.name}}</span>
+  </div>
+
+
+</form>
+
+<mat-divider class="!mt-2"></mat-divider>
+
+
+<div class="flex gap-2 p-2">
+  <button type="submit" [attr.form]="formId"
+          class="stroked-button primary" mat-ripple
+          [disabled]="buttons.disabled$()">
+    <replace-spinner [showSpinner]="buttons.submit.loading$()">
+      Create
+    </replace-spinner>
+  </button>
+  <button type="reset" [attr.form]="formId"
+          class="stroked-button" mat-ripple>
+    Reset
+  </button>
+</div>

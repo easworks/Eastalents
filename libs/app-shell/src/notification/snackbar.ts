@@ -14,6 +14,10 @@ export class SnackbarComponent {
     message: 'Hello There!'
   };
 
+  static forSuccess(snackbar: MatSnackBar) {
+    snackbar.openFromComponent(SnackbarComponent, SuccessSnackbarDefaults);
+  }
+
   static forError(snackbar: MatSnackBar, error: unknown) {
     if (error instanceof Error) {
       snackbar.openFromComponent(this, {

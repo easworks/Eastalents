@@ -1,0 +1,26 @@
+.group-accordion {
+  > .mat-expansion-panel {
+    @apply shadow-none border;
+
+    &:not(:first-child) {
+      @apply border-t-0;
+    }
+
+    &.mat-expanded,
+    &.mat-expanded + .mat-expansion-panel {
+      @apply border-t;
+    }
+
+    ::ng-deep {
+      .mat-expansion-panel-body {
+        @apply p-2;
+      }
+    }
+  }
+}
+
+.skill-accordion {
+  > .mat-expansion-panel {
+    @apply shadow-none border;
+  }
+}

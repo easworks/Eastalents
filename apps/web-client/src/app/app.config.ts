@@ -1,5 +1,5 @@
 import { ViewportScroller } from '@angular/common';
-import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -13,7 +13,7 @@ import { provideEffects } from '@ngrx/effects';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { SignInEffects } from '../account/sign-in.effects';
-import { ADMIN_DATA_FEATURE } from '../admin/state/admin-data';
+import { adminData } from '../admin/state/admin-data';
 import { adminDataEffects } from '../admin/state/admin-data.effects';
 import { serviceWorkerUrl } from '../service-worker/sw.loader';
 import { provideEnvironment } from './environment';
@@ -21,6 +21,7 @@ import { routes } from './routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideExperimentalZonelessChangeDetection(),
     provideStore(),
     provideStoreDevtools({
       name: 'Easworks',
@@ -73,7 +74,7 @@ export const appConfig: ApplicationConfig = {
     provideState(UI_FEATURE),
     provideEffects(uiEffects),
 
-    provideState(ADMIN_DATA_FEATURE),
+    provideState(adminData.feature),
     provideEffects(adminDataEffects)
   ],
 };

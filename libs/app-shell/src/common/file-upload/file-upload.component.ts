@@ -1,7 +1,7 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, DoCheck, ElementRef, HostBinding, HostListener, Input, OnDestroy, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, DoCheck, ElementRef, HostBinding, HostListener, Input, OnDestroy, inject, input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AbstractControl, ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
@@ -135,7 +135,7 @@ export class FileUploadComponent
   // eslint-disable-next-line @typescript-eslint/ban-types
   protected onTouched!: Function;
   @Input() multiple = false;
-  @Input() accept = '';
+  readonly accept$ = input<string | undefined>(undefined, { alias: 'accept' });
 
   protected stateChanges = new Subject<void>();
   protected focused = false;
