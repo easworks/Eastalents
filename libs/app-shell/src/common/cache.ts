@@ -8,6 +8,7 @@ export const CACHE = {
   csc: createCache('csc-cache'),
   admin: {
     softwareProducts: adminDataDB('software-products'),
-    techSkills: adminDataDB('tech-skills')
+    techSkills: adminDataDB('tech-skills'),
+    techGroups: adminDataDB('tech-groups')
   }
 } as const;

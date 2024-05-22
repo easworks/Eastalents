@@ -6,7 +6,7 @@ import { FeaturedProductDomain, FeaturedRoleDomain } from './featured';
 
 export interface AdminDataState {
   techSkills: EntityState<TechSkill>;
-  // techGroups: TechGroup[];
+  techGroups: EntityState<TechGroup>;
   // easRoles: EASRole[];
   softwareProducts: EntityState<SoftwareProduct>;
   // domainModules: DomainModule[];
@@ -18,4 +18,5 @@ export interface AdminDataState {
 export interface AdminDataDTO {
   softwareProducts: SoftwareProduct[];
   techSkills: TechSkill[];
+  techGroups: TechGroup[];
 }

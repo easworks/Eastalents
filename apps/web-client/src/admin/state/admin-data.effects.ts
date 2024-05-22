@@ -13,9 +13,11 @@ export const adminDataEffects = {
       const data = Promise.all([
         api.softwareProducts.read(),
         api.techSkills.read(),
+        api.techGroups.read()
       ]).then<AdminDataDTO>(results => ({
         softwareProducts: results[0],
         techSkills: results[1],
+        techGroups: results[2]
       }));
 
       return from(data)
