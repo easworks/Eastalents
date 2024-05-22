@@ -31,6 +31,8 @@ export class TechSkillsPageComponent {
     faPlus
   } as const;
 
+  protected readonly maxlength = { name: 64 } as const;
+
   private readonly skills$ = this.store.selectSignal(adminData.selectors.techSkill.selectAll);
   private readonly loading = generateLoadingState<[
     'updating tech skill',
@@ -41,7 +43,13 @@ export class TechSkillsPageComponent {
   protected readonly table = (() => {
     const rowControls = () => {
       return {
-        name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+        name: new FormControl('', {
+          nonNullable: true,
+          validators: [
+            Validators.required,
+            Validators.maxLength(this.maxlength.name)
+          ]
+        }),
       };
     };
 
