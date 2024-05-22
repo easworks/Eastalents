@@ -1,18 +1,21 @@
-@layer components {
-  .mat-expansion-panel {
-    --mat-expansion-header-collapsed-state-height: auto;
-    --mat-expansion-header-expanded-state-height: auto;
-    --mat-expansion-container-background-color: theme('colors.white');
+.mat-expansion-panel {
+  --mat-expansion-header-collapsed-state-height: auto;
+  --mat-expansion-header-expanded-state-height: auto;
+  --mat-expansion-container-background-color: theme('colors.white');
 
-    &-header {
-      @apply !py-2;
-    }
+  .mat-expansion-panel-body {
+    @apply p-0;
   }
 
-  .mat-divider {
-    --mat-divider-color: theme('colors.divider');
+  &-header {
+    @apply !py-2;
   }
 }
+
+.mat-divider {
+  --mat-divider-color: theme('colors.divider');
+}
+
 // TODO: remove this marker class when it is no longer needed
 // marker to signifiy that material was loaded
 .mat-theme-loaded-marker {

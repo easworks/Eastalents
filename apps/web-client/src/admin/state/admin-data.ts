@@ -20,6 +20,28 @@ export const techSkillActions = createActionGroup({
   }
 });
 
+export const techGroupActions = createActionGroup({
+  source: 'tech-groups',
+  events: {
+    add: props<{ payload: TechGroup; }>(),
+    update: props<{ payload: TechGroup; }>(),
+    'add skill': props<{
+      payload: {
+        group: string;
+        skill: string;
+        software?: string;
+      };
+    }>(),
+    'remove skill': props<{
+      payload: {
+        group: string;
+        skill: string;
+        software?: string;
+      };
+    }>(),
+  }
+});
+
 export const softwareProductActions = createActionGroup({
   source: 'software-product',
   events: {

@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal, untracked } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, map } from 'rxjs';
 import { adminData } from '../state/admin-data';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   standalone: true,
@@ -14,7 +15,8 @@ import { adminData } from '../state/admin-data';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
-    FormImportsModule
+    FormImportsModule,
+    MatExpansionModule
   ]
 })
 export class TechGroupsPageComponent {
@@ -29,6 +31,7 @@ export class TechGroupsPageComponent {
     'opening create-tech-group dialog'
   ]>();
   private readonly groups$ = this.store.selectSignal(adminData.selectors.techGroup.selectAll);
+  private readonly skills$ = this.store.selectSignal(adminData.selectors.techSkill.selectEntities);
 
   protected readonly accordion = (() => {
     const panelControls = () => {
@@ -47,14 +50,75 @@ export class TechGroupsPageComponent {
       const updating = generateLoadingState<string[]>();
       this.loading.react('updating tech group', updating.any$);
 
-      let rowSubs = new Subscription();
-      this.dRef.onDestroy(() => rowSubs.unsubscribe());
+      let panelSubs = new Subscription();
+      this.dRef.onDestroy(() => panelSubs.unsubscribe());
 
       const $ = computed(() => {
-        rowSubs.unsubscribe();
-        rowSubs = new Subscription();
+        panelSubs.unsubscribe();
+        panelSubs = new Subscription();
 
-        return this.groups$();
+        const skillMap = untracked(this.skills$);
+
+        return this.groups$()
+          .map(group => {
+            const skills = group.generic.map(id => skillMap[id]!);
+            return { group, skills };
+          })
+          .filter(({ skills }) => skills.length > 0)
+          .map(({ group, skills }) => {
+            const form = new FormGroup({ ...panelControls() });
+
+
+            const changeCheck = (value: typeof form['value']) =>
+              value.name === group.name;
+
+            const valid$ = signal(form.status === 'VALID');
+            const unchanged$ = signal(changeCheck(form.value));
+
+            const disableButtons$ = computed(() => this.loading.any$() || unchanged$());
+
+            const reset = {
+              click: () => {
+                form.reset({
+                  name: group.name
+                });
+              },
+              disabled$: disableButtons$
+            } as const;
+
+            const submit = {
+              click: () => {
+                if (!form.valid)
+                  return;
+
+                console.debug('submit');
+
+              },
+              disabled$: disableButtons$,
+              loading$: updating.has(group.id)
+            } as const;
+
+
+            panelSubs.add(form.statusChanges
+              .pipe(map(s => s === 'VALID'))
+              .subscribe(valid$.set),
+
+            );
+            panelSubs.add(form.valueChanges
+              .pipe(map(changeCheck))
+              .subscribe(unchanged$.set)
+            );
+
+            reset.click();
+
+            return {
+              data: group,
+              skills,
+              form,
+              submit,
+              reset
+            };
+          });
       });
 
       return { $ } as const;
