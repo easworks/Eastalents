@@ -9,8 +9,8 @@ dependencies:
     specifier: 18.0.0
     version: 18.0.0(@angular/core@18.0.0)
   '@angular/cdk':
-    specifier: 18.0.0-rc.3
-    version: 18.0.0-rc.3(@angular/common@18.0.0)(@angular/core@18.0.0)(rxjs@7.8.1)
+    specifier: 18.0.0
+    version: 18.0.0(@angular/common@18.0.0)(@angular/core@18.0.0)(rxjs@7.8.1)
   '@angular/common':
     specifier: 18.0.0
     version: 18.0.0(@angular/core@18.0.0)(rxjs@7.8.1)
@@ -24,11 +24,11 @@ dependencies:
     specifier: 18.0.0
     version: 18.0.0(@angular/common@18.0.0)(@angular/core@18.0.0)(@angular/platform-browser@18.0.0)(rxjs@7.8.1)
   '@angular/material':
-    specifier: 18.0.0-rc.3
-    version: 18.0.0-rc.3(@angular/animations@18.0.0)(@angular/cdk@18.0.0-rc.3)(@angular/common@18.0.0)(@angular/core@18.0.0)(@angular/forms@18.0.0)(@angular/platform-browser@18.0.0)(rxjs@7.8.1)
+    specifier: 18.0.0
+    version: 18.0.0(@angular/animations@18.0.0)(@angular/cdk@18.0.0)(@angular/common@18.0.0)(@angular/core@18.0.0)(@angular/forms@18.0.0)(@angular/platform-browser@18.0.0)(rxjs@7.8.1)
   '@angular/material-luxon-adapter':
-    specifier: 18.0.0-rc.3
-    version: 18.0.0-rc.3(@angular/core@18.0.0)(@angular/material@18.0.0-rc.3)(luxon@3.4.4)
+    specifier: 18.0.0
+    version: 18.0.0(@angular/core@18.0.0)(@angular/material@18.0.0)(luxon@3.4.4)
   '@angular/platform-browser':
     specifier: 18.0.0
     version: 18.0.0(@angular/animations@18.0.0)(@angular/common@18.0.0)(@angular/core@18.0.0)
@@ -686,11 +686,11 @@ packages:
       - terser
     dev: true
 
-  /@angular/cdk@18.0.0-rc.3(@angular/common@18.0.0)(@angular/core@18.0.0)(rxjs@7.8.1):
-    resolution: {integrity: sha512-hqovNGiijMeekD+ka3WrCAM8N4yluJ5TKq/YoIPcUW/hrdBZq98/4hjcV2JbQg66CcVmDupAD55Hi6zn/Z5S1Q==}
+  /@angular/cdk@18.0.0(@angular/common@18.0.0)(@angular/core@18.0.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-V0i1SAiT2PTNyugBW0E4fev8G/4XP5FdyX2YD6oc5sNyt3GFcoDNHcz+oEne8+aYVnQ3Ax9Zutq/SQincDHIbw==}
     peerDependencies:
-      '@angular/common': ^18.0.0-0 || ^18.1.0-0 || ^18.2.0-0 || ^18.3.0-0 || ^19.0.0-0
-      '@angular/core': ^18.0.0-0 || ^18.1.0-0 || ^18.2.0-0 || ^18.3.0-0 || ^19.0.0-0
+      '@angular/common': ^18.0.0 || ^19.0.0
+      '@angular/core': ^18.0.0 || ^19.0.0
       rxjs: ^6.5.3 || ^7.4.0
     dependencies:
       '@angular/common': 18.0.0(@angular/core@18.0.0)(rxjs@7.8.1)
@@ -806,32 +806,32 @@ packages:
     engines: {node: ^18.13.0 || >=20.9.0}
     dev: true
 
-  /@angular/material-luxon-adapter@18.0.0-rc.3(@angular/core@18.0.0)(@angular/material@18.0.0-rc.3)(luxon@3.4.4):
-    resolution: {integrity: sha512-/wQ0QagAdtniRp3CyYU+gOUnNHr5dN/REk2FJjG7gdbTwahqFAyfHCs+WECJrJfqCMa3wWCwQYK3wPIyEJ1EYw==}
+  /@angular/material-luxon-adapter@18.0.0(@angular/core@18.0.0)(@angular/material@18.0.0)(luxon@3.4.4):
+    resolution: {integrity: sha512-MJdA0tbHMs7KHefEwBYYd6GnuoY4f2XhSWSvhImWGg9XGli6+2+jFi9LTiF07pzaCL4mZMjKagC6QkM23NV12A==}
     peerDependencies:
-      '@angular/core': ^18.0.0-0 || ^18.1.0-0 || ^18.2.0-0 || ^18.3.0-0 || ^19.0.0-0
-      '@angular/material': 18.0.0-rc.3
+      '@angular/core': ^18.0.0 || ^19.0.0
+      '@angular/material': 18.0.0
       luxon: ^3.0.0
     dependencies:
       '@angular/core': 18.0.0(rxjs@7.8.1)(zone.js@0.14.6)
-      '@angular/material': 18.0.0-rc.3(@angular/animations@18.0.0)(@angular/cdk@18.0.0-rc.3)(@angular/common@18.0.0)(@angular/core@18.0.0)(@angular/forms@18.0.0)(@angular/platform-browser@18.0.0)(rxjs@7.8.1)
+      '@angular/material': 18.0.0(@angular/animations@18.0.0)(@angular/cdk@18.0.0)(@angular/common@18.0.0)(@angular/core@18.0.0)(@angular/forms@18.0.0)(@angular/platform-browser@18.0.0)(rxjs@7.8.1)
       luxon: 3.4.4
       tslib: 2.6.2
     dev: false
 
-  /@angular/material@18.0.0-rc.3(@angular/animations@18.0.0)(@angular/cdk@18.0.0-rc.3)(@angular/common@18.0.0)(@angular/core@18.0.0)(@angular/forms@18.0.0)(@angular/platform-browser@18.0.0)(rxjs@7.8.1):
-    resolution: {integrity: sha512-jRkseaAwlLDjHyO6Mc7dpUBGsFWg1MGTwzIJUyK3VTtRwJpUS9G7mYarieLWAtU5B6EYeKfr8A+fnu/N0wksGw==}
+  /@angular/material@18.0.0(@angular/animations@18.0.0)(@angular/cdk@18.0.0)(@angular/common@18.0.0)(@angular/core@18.0.0)(@angular/forms@18.0.0)(@angular/platform-browser@18.0.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-4WfMcr4cX3cF7dKz+cXf9YIvhWOJGTP24rbMF5C6eC5K20IK6zgA//Qn0VSTwZkm54Tu9C7kF+CfNLeLy6i5uQ==}
     peerDependencies:
-      '@angular/animations': ^18.0.0-0 || ^18.1.0-0 || ^18.2.0-0 || ^18.3.0-0 || ^19.0.0-0
-      '@angular/cdk': 18.0.0-rc.3
-      '@angular/common': ^18.0.0-0 || ^18.1.0-0 || ^18.2.0-0 || ^18.3.0-0 || ^19.0.0-0
-      '@angular/core': ^18.0.0-0 || ^18.1.0-0 || ^18.2.0-0 || ^18.3.0-0 || ^19.0.0-0
-      '@angular/forms': ^18.0.0-0 || ^18.1.0-0 || ^18.2.0-0 || ^18.3.0-0 || ^19.0.0-0
-      '@angular/platform-browser': ^18.0.0-0 || ^18.1.0-0 || ^18.2.0-0 || ^18.3.0-0 || ^19.0.0-0
+      '@angular/animations': ^18.0.0 || ^19.0.0
+      '@angular/cdk': 18.0.0
+      '@angular/common': ^18.0.0 || ^19.0.0
+      '@angular/core': ^18.0.0 || ^19.0.0
+      '@angular/forms': ^18.0.0 || ^19.0.0
+      '@angular/platform-browser': ^18.0.0 || ^19.0.0
       rxjs: ^6.5.3 || ^7.4.0
     dependencies:
       '@angular/animations': 18.0.0(@angular/core@18.0.0)
-      '@angular/cdk': 18.0.0-rc.3(@angular/common@18.0.0)(@angular/core@18.0.0)(rxjs@7.8.1)
+      '@angular/cdk': 18.0.0(@angular/common@18.0.0)(@angular/core@18.0.0)(rxjs@7.8.1)
       '@angular/common': 18.0.0(@angular/core@18.0.0)(rxjs@7.8.1)
       '@angular/core': 18.0.0(rxjs@7.8.1)(zone.js@0.14.6)
       '@angular/forms': 18.0.0(@angular/common@18.0.0)(@angular/core@18.0.0)(@angular/platform-browser@18.0.0)(rxjs@7.8.1)
