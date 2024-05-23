@@ -4,13 +4,14 @@ import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { EventType, Router, RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { NavigationModule } from '@easworks/app-shell/navigation/navigation.module';
+import { SWManagementService } from '@easworks/app-shell/services/sw.manager';
 import { MenuItem, NOOP_CLICK, NavMenuState } from '@easworks/app-shell/state/menu';
 import { UI_FEATURE } from '@easworks/app-shell/state/ui';
 import { faFacebook, faGithub, faInstagram, faLinkedin, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import { faAngleRight, faBars, } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight, faBars, faCircleArrowUp, } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
 import { AccountWidgetComponent } from '../account/account.widget';
 import { publicMenu, socialIcons } from './menu-items';
-import { Store } from '@ngrx/store';
 
 @Component({
   standalone: true,
@@ -37,6 +38,7 @@ export class AppComponent {
 
   private readonly store = inject(Store);
   private readonly menuState = inject(NavMenuState);
+  private readonly swm = inject(SWManagementService);
 
   private readonly ui$ = this.store.selectSignal(UI_FEATURE.selectUiState);
 
@@ -47,6 +49,7 @@ export class AppComponent {
 
   protected readonly icons = {
     faBars,
+    faCircleArrowUp,
     faAngleRight,
     faLinkedin,
     faFacebook,
@@ -57,6 +60,14 @@ export class AppComponent {
   } as const;
 
   protected readonly navigating$ = signal(false);
+  protected readonly sw = {
+    hidden$: computed(() => !this.swm.updateAvailable$()),
+    updating$: this.swm.updating$,
+    update: () => {
+      this.swm.wb.messageSkipWaiting();
+    }
+  } as const;
+
   protected readonly showHorizontalMenu$ = computed(() => this.menuState.publicMenu.horizontal$().length > 0);
 
   protected readonly topBar$ = computed(() => {

@@ -5,12 +5,11 @@ import { ActivatedRouteSnapshot, Route, Router, UrlSegment } from '@angular/rout
 import { EmailSignInRequest, EmailSignUpRequest, RETURN_URL_KEY, Role, SocialCallbackState, SocialIdp, SocialSignInRequest, SocialSignUpRequest, User, UserWithToken } from '@easworks/models';
 import { Subject, fromEvent } from 'rxjs';
 import { AccountApi } from '../api/account.api';
+import { EmployerApi } from '../api/employer.api';
+import { TalentApi } from '../api/talent.api';
 import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '../notification/snackbar';
 import { AuthState } from '../state/auth';
-import { Deferred } from '../utilities/deferred';
 import { SWManagementService } from './sw.manager';
-import { TalentApi } from '../api/talent.api';
-import { EmployerApi } from '../api/employer.api';
 
 @Injectable({
   providedIn: 'root'
@@ -25,13 +24,12 @@ export class AuthService {
   private readonly dRef = inject(DestroyRef);
   private readonly state = inject(AuthState);
   private readonly api = {
-    account: () => this.injector.get(AccountApi),
-    talent: () => this.injector.get(TalentApi),
-    employee: () => this.injector.get(EmployerApi)
+    account: inject(AccountApi),
+    talent: inject(TalentApi),
+    employee: inject(EmployerApi)
   } as const;
   private readonly snackbar = inject(MatSnackBar);
   private readonly router = inject(Router);
-  readonly ready = new Deferred();
 
 
   readonly afterSignIn$ = new Subject<SignInMeta>();
@@ -57,7 +55,7 @@ export class AuthService {
         return null;
     },
     getToken: async (input: SocialSignInRequest | SocialSignUpRequest, meta: SignInMeta) =>
-      this.api.account().socialLogin(input)
+      this.api.account.socialLogin(input)
         .then(r => {
           if ('token' in r) {
             this.handleSignIn(r, meta);
@@ -80,7 +78,7 @@ export class AuthService {
       location.href = authUrl.toString();
     },
     email: async (input: EmailSignUpRequest) => {
-      const mailSent = await this.api.account().signup(input)
+      const mailSent = await this.api.account.signup(input)
         .then(r => r.mailSent);
 
       if (!mailSent)
@@ -90,7 +88,7 @@ export class AuthService {
       this.router.navigateByUrl('/register/verify-email');
     },
     verifyEmail: async (token: string) => {
-      await this.api.account().verifyEmail(token);
+      await this.api.account.verifyEmail(token);
 
       // TODO: depending on result of activation, either directly sign him in or redirect to sign in page
 
@@ -114,7 +112,7 @@ export class AuthService {
       location.href = authUrl.toString();
     },
     email: (input: EmailSignInRequest, returnUrl?: string) =>
-      this.api.account().signin(input)
+      this.api.account.signin(input)
         .then(r => {
           this.handleSignIn(r, { isNewUser: false, returnUrl });
           return r;
@@ -125,11 +123,6 @@ export class AuthService {
         })
   } as const;
 
-  async token() {
-    await this.ready;
-    return this.state.user$()?.token || null;
-  }
-
   signOut() {
     this.beforeSignOut$.next();
     this.state.user$.set(null);
@@ -139,7 +132,7 @@ export class AuthService {
   handleSignIn(user: UserWithToken, meta: SignInMeta) {
     const role = user.role;
     if (role === 'employer') {
-      this.api.employee().profile.get()
+      this.api.employee.profile.get()
         .then(r => {
           if (r) {
             this.router.navigateByUrl('/employer/profile');
@@ -156,7 +149,7 @@ export class AuthService {
         });
     }
     else if (role === 'freelancer') {
-      this.api.talent().profile.get()
+      this.api.talent.profile.get()
         .then(r => {
           if (r) {
             this.router.navigateByUrl('/freelancer/profile');
@@ -195,7 +188,7 @@ export class AuthService {
       }
       this.state.user$.set(cu);
     }
-    this.ready.resolve();
+    this.state.ready.resolve();
 
     fromEvent<StorageEvent>(window, 'storage')
       .pipe(takeUntilDestroyed(this.dRef))
@@ -243,7 +236,7 @@ export class AuthGuard {
   }
 
   private async check(route: Route | ActivatedRouteSnapshot) {
-    await this.auth.ready;
+    await this.authState.ready;
     const user = this.authState.user$();
 
     if (user) {

@@ -22,7 +22,7 @@ function generateUrl() {
   Worker = oldWorker;
 
 
-  return worker.url;
+  return 'eastalents-web-client-sw.js';
 }
 
 export const serviceWorkerUrl = generateUrl();

@@ -1,13 +1,13 @@
 import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
 import { NotFoundPageComponent } from '@easworks/app-shell/navigation/not-found.page';
-import { AuthService } from '@easworks/app-shell/services/auth';
+import { AuthState } from '@easworks/app-shell/state/auth';
 import { ACCOUNT_ROUTES } from '../account/routes';
+import { ADMIN_ROUTES } from '../admin/routes';
 import { EMPLOYER_ROUTE } from '../employer/routes';
 import { FREELANCER_ROUTE } from '../freelancer/routes';
 import { MESSAGES_ROUTE } from '../messages/routes';
 import { PUBLIC_ROUTES } from '../public/routes';
-import { ADMIN_ROUTES } from '../admin/routes';
 
 export const routes: Routes = [
   ...ACCOUNT_ROUTES,
@@ -26,7 +26,7 @@ export const routes: Routes = [
 routes.forEach(route => {
   route.canMatch ||= [];
   route.canMatch.splice(0, 0, async () => {
-    const auth = inject(AuthService);
+    const auth = inject(AuthState);
 
     await auth.ready;
   });

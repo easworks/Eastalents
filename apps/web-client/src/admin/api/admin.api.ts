@@ -1,35 +1,28 @@
 import { Injectable } from '@angular/core';
-import { BackendApi } from '@easworks/app-shell/api/backend';
 import { CACHE } from '@easworks/app-shell/common/cache';
-import { AdminDataState } from '../models/admin-data';
+import { clear, setMany, values } from 'idb-keyval';
+import { SoftwareProduct, TechGroup, TechSkill } from '../models/tech-skill';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AdminApi extends BackendApi {
-  private readonly DTO_KEY = 'dto';
+export class AdminApi {
 
-  readonly get = async () => {
-    const data = await CACHE.admin.get<AdminDataState>(this.DTO_KEY);
+  readonly softwareProducts = {
+    read: () => values<SoftwareProduct>(CACHE.admin.softwareProducts),
+    write: (data: SoftwareProduct[]) => clear(CACHE.admin.softwareProducts)
+      .then(() => setMany(data.map(product => [product.id, product]), CACHE.admin.softwareProducts)),
+  } as const;
 
-    // data!.domains = [];
-    // await this.save(data!);
+  readonly techSkills = {
+    read: () => values<TechSkill>(CACHE.admin.techSkills),
+    write: (data: TechSkill[]) => clear(CACHE.admin.techSkills)
+      .then(() => setMany(data.map(skill => [skill.id, skill]), CACHE.admin.techSkills))
+  } as const;
 
-    const state: AdminDataState = data || {
-      skills: [],
-      techGroups: [],
-      easRoles: [],
-      softwareProducts: [],
-      domainModules: [],
-      domains: [],
-      featuredProducts: [],
-      featuredRoles: []
-    };
-
-    return state;
-  };
-
-  readonly save = async (dto: AdminDataState) => {
-    await CACHE.admin.set(this.DTO_KEY, dto);
-  };
+  readonly techGroups = {
+    read: () => values<TechGroup>(CACHE.admin.techGroups),
+    write: (data: TechGroup[]) => clear(CACHE.admin.techGroups)
+      .then(() => setMany(data.map(skill => [skill.id, skill]), CACHE.admin.techGroups))
+  } as const;
 }

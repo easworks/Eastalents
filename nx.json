@@ -20,17 +20,10 @@
   },
   "targetDefaults": {
     "build": {
-      "inputs": [
-        "production",
-        "^production"
-      ]
+      "inputs": ["production", "^production"]
     },
     "@nx/jest:jest": {
-      "inputs": [
-        "default",
-        "^default",
-        "{workspaceRoot}/jest.preset.js"
-      ],
+      "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"],
       "cache": true,
       "options": {
         "passWithNoTests": true
@@ -53,15 +46,9 @@
   },
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": [],
-    "production": [
-      "default",
-      "!{projectRoot}/src/test-setup.[jt]s"
-    ]
+    "production": ["default", "!{projectRoot}/src/test-setup.[jt]s"]
   },
   "useInferencePlugins": false,
   "defaultBase": "master"

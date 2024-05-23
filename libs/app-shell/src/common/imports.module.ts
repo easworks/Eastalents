@@ -7,6 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LetDirective } from '@ngrx/component';
 import { ReplaceSpinnerComponent } from './replace-spinner/replace-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { ReplaceSpinnerComponent } from './replace-spinner/replace-spinner';
     MatProgressSpinnerModule,
     MatProgressBarModule,
     ReplaceSpinnerComponent,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatTooltipModule
   ]
 })
 export class ImportsModule { }

@@ -1,11 +1,11 @@
 import { inject } from '@angular/core';
 import { ENVIRONMENT } from '../environment';
-import { AuthService } from '../services/auth';
+import { AuthState } from '../state/auth';
 import { ApiService } from './api';
 
 export class BackendApi extends ApiService {
   protected readonly apiUrl = inject(ENVIRONMENT).apiUrl;
-  private readonly auth = inject(AuthService);
+  private readonly auth = inject(AuthState);
 
   protected async headers(init?: HeadersInit) {
     const headers = new Headers({
@@ -49,7 +49,8 @@ export class BackendApi extends ApiService {
   protected override verifyOk(response: Response) {
     if (!response.ok) {
       if (response.status === 401) {
-        this.auth.signOut();
+        throw new Error('should implement sign out');
+        // this.auth.signOut();
       }
     }
     return super.verifyOk(response);
