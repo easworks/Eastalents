@@ -3,6 +3,8 @@ import { Route } from '@angular/router';
 export const ADMIN_ROUTES: Route =
 {
   path: 'admin',
+  loadComponent: () => import('./admin-page/admin.page')
+    .then(m => m.AdminPageComponent),
   children: [
     {
       path: 'dashboard',
@@ -21,6 +23,12 @@ export const ADMIN_ROUTES: Route =
       pathMatch: 'full',
       loadComponent: () => import('./tech-skills/tech-skills.page')
         .then(m => m.TechSkillsPageComponent)
+    },
+    {
+      path: 'tech-groups',
+      pathMatch: 'full',
+      loadComponent: () => import('./tech-groups/tech-groups.page')
+        .then(m => m.TechGroupsPageComponent)
     },
     {
       path: '',

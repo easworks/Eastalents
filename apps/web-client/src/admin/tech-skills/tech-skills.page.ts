@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, HostBinding, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
@@ -25,14 +25,13 @@ export class TechSkillsPageComponent {
   private readonly dRef = inject(DestroyRef);
   private readonly dialog = inject(MatDialog);
 
-  @HostBinding() private readonly class = 'page';
-
-
   protected readonly icons = {
     faCheck,
     faRefresh,
     faPlus
   } as const;
+
+  protected readonly maxlength = { name: 64 } as const;
 
   private readonly skills$ = this.store.selectSignal(adminData.selectors.techSkill.selectAll);
   private readonly loading = generateLoadingState<[
@@ -44,7 +43,13 @@ export class TechSkillsPageComponent {
   protected readonly table = (() => {
     const rowControls = () => {
       return {
-        name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+        name: new FormControl('', {
+          nonNullable: true,
+          validators: [
+            Validators.required,
+            Validators.maxLength(this.maxlength.name)
+          ]
+        }),
       };
     };
 

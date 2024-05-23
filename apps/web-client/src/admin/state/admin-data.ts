@@ -1,7 +1,7 @@
 import { createEntityAdapter } from '@ngrx/entity';
 import { createActionGroup, createFeature, createReducer, createSelector, emptyProps, on, props } from '@ngrx/store';
 import { AdminDataDTO, AdminDataState } from '../models/admin-data';
-import { SoftwareProduct, TechSkill } from '../models/tech-skill';
+import { SoftwareProduct, TechGroup, TechSkill } from '../models/tech-skill';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 
 export const adminDataActions = createActionGroup({
@@ -17,6 +17,28 @@ export const techSkillActions = createActionGroup({
   events: {
     add: props<{ payload: TechSkill; }>(),
     update: props<{ payload: TechSkill; }>()
+  }
+});
+
+export const techGroupActions = createActionGroup({
+  source: 'tech-groups',
+  events: {
+    add: props<{ payload: TechGroup; }>(),
+    update: props<{ payload: TechGroup; }>(),
+    'add skill': props<{
+      payload: {
+        group: string;
+        skill: string;
+        software?: string;
+      };
+    }>(),
+    'remove skill': props<{
+      payload: {
+        group: string;
+        skill: string;
+        software?: string;
+      };
+    }>(),
   }
 });
 
@@ -43,7 +65,8 @@ export const softwareProductActions = createActionGroup({
 
 const adapters = {
   techSkill: createEntityAdapter<TechSkill>(),
-  softwareProduct: createEntityAdapter<SoftwareProduct>()
+  softwareProduct: createEntityAdapter<SoftwareProduct>(),
+  techGroup: createEntityAdapter<TechGroup>(),
 } as const;
 
 const feature = createFeature({
@@ -51,13 +74,15 @@ const feature = createFeature({
   reducer: createReducer<AdminDataState>(
     {
       techSkills: adapters.techSkill.getInitialState(),
-      softwareProducts: adapters.softwareProduct.getInitialState()
+      softwareProducts: adapters.softwareProduct.getInitialState(),
+      techGroups: adapters.techGroup.getInitialState(),
     },
 
     on(adminDataActions.updateState, (state, { payload }) => {
       state = {
-        softwareProducts: adapters.softwareProduct.addMany(payload.softwareProducts, adapters.softwareProduct.getInitialState()),
-        techSkills: adapters.techSkill.addMany(payload.techSkills, adapters.techSkill.getInitialState())
+        softwareProducts: adapters.softwareProduct.setMany(payload.softwareProducts, adapters.softwareProduct.getInitialState()),
+        techSkills: adapters.techSkill.setMany(payload.techSkills, adapters.techSkill.getInitialState()),
+        techGroups: adapters.techGroup.setMany(payload.techGroups, adapters.techGroup.getInitialState())
       };
       return state;
     }),
@@ -92,6 +117,7 @@ const feature = createFeature({
     const selectors = {
       softwareProduct: adapters.softwareProduct.getSelectors(),
       techSkill: adapters.techSkill.getSelectors(),
+      techGroup: adapters.techGroup.getSelectors(),
     };
 
     return {
@@ -99,7 +125,8 @@ const feature = createFeature({
         base.selectAdminDataState,
         (state): AdminDataDTO => ({
           techSkills: selectors.techSkill.selectAll(state.techSkills),
-          softwareProducts: selectors.softwareProduct.selectAll(state.softwareProducts)
+          softwareProducts: selectors.softwareProduct.selectAll(state.softwareProducts),
+          techGroups: selectors.techGroup.selectAll(state.techGroups),
         })
       )
     };
@@ -111,6 +138,7 @@ export const adminData = {
   feature,
   selectors: {
     softwareProduct: adapters.softwareProduct.getSelectors(feature.selectSoftwareProducts),
-    techSkill: adapters.techSkill.getSelectors(feature.selectTechSkills)
+    techSkill: adapters.techSkill.getSelectors(feature.selectTechSkills),
+    techGroup: adapters.techGroup.getSelectors(feature.selectTechGroups),
   }
 } as const;

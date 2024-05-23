@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CACHE } from '@easworks/app-shell/common/cache';
 import { clear, setMany, values } from 'idb-keyval';
-import { SoftwareProduct, TechSkill } from '../models/tech-skill';
+import { SoftwareProduct, TechGroup, TechSkill } from '../models/tech-skill';
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +18,11 @@ export class AdminApi {
     read: () => values<TechSkill>(CACHE.admin.techSkills),
     write: (data: TechSkill[]) => clear(CACHE.admin.techSkills)
       .then(() => setMany(data.map(skill => [skill.id, skill]), CACHE.admin.techSkills))
-  };
+  } as const;
+
+  readonly techGroups = {
+    read: () => values<TechGroup>(CACHE.admin.techGroups),
+    write: (data: TechGroup[]) => clear(CACHE.admin.techGroups)
+      .then(() => setMany(data.map(skill => [skill.id, skill]), CACHE.admin.techGroups))
+  } as const;
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, HostBinding, computed, inject, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal } from "@angular/core";
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
@@ -33,8 +33,6 @@ export class SoftwareProductsPageComponent {
   private readonly store = inject(Store);
   private readonly snackbar = inject(MatSnackBar);
   private readonly dRef = inject(DestroyRef);
-
-  @HostBinding() private readonly class = 'page';
 
   protected readonly icons = {
     faCheck,

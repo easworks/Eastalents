@@ -25,8 +25,6 @@ export class AdminDashboardPageComponent {
   private readonly store = inject(Store);
   protected readonly snackbar = inject(MatSnackBar);
 
-  @HostBinding() private readonly class = 'page';
-
   private readonly loading = generateLoadingState<[
     'uploading json',
     'downloading json'
