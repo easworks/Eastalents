@@ -40,7 +40,7 @@
     "jest-environment-node": "^29.7.0",
     "jest-preset-angular": "14.0.3",
     "mdast-util-directive": "^3.0.0",
-    "ng-packagr": "18.0.0-rc.0",
+    "ng-packagr": "18.0.0",
     "nx": "19.1.0-beta.1",
     "postcss": "^8.4.38",
     "postcss-import": "15.1.0",
