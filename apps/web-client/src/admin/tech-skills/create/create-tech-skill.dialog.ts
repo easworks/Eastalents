@@ -91,7 +91,6 @@ export class CreateTechSkillDialogComponent {
         };
 
         this.store.dispatch(techSkillActions.add({ payload: skill }));
-        console.debug(skill);
         SnackbarComponent.forSuccess(this.snackbar);
         this.dialog.close();
       },
@@ -111,7 +110,7 @@ export class CreateTechSkillDialogComponent {
     } as const;
   })();
 
-  static open(dialog: MatDialog) {
+  public static open(dialog: MatDialog) {
     dialog.open(CreateTechSkillDialogComponent);
   }
 }
