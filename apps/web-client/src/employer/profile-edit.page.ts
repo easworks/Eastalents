@@ -4,7 +4,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
-import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccountApi } from '@easworks/app-shell/api/account.api';
 import { CSCApi, City, Country, State, Timezone } from '@easworks/app-shell/api/csc.api';
 import { EmployerApi } from '@easworks/app-shell/api/employer.api';
@@ -16,6 +17,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { isTimezone } from '@easworks/app-shell/common/location';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { filterCountryCode, getCombinedNumber, getPhoneCodeOptions, updatePhoneValidatorEffect } from '@easworks/app-shell/common/phone-code';
+import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '@easworks/app-shell/notification/snackbar';
 import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { DomainState } from '@easworks/app-shell/state/domains';
@@ -53,6 +55,8 @@ export class EmployerProfileEditPageComponent {
     this.disableSubmit$ = computed(() => this.loading.any$() || isInvalid$() || this.submitting$());
   }
 
+  private readonly router = inject(Router);
+  private readonly snackbar = inject(MatSnackBar);
   private readonly injector = inject(INJECTOR);
   private readonly route = inject(ActivatedRoute);
   private readonly domainState = inject(DomainState);
@@ -687,7 +691,23 @@ export class EmployerProfileEditPageComponent {
         timezone: fv.location.timezone
       }
     };
-
-    console.debug(profile);
+    this.api.employer.profile.create(profile)
+      .then(() => {
+        this.snackbar.openFromComponent(SnackbarComponent, {
+          ...SuccessSnackbarDefaults,
+          data: {
+            message: 'Profile saved successfully'
+          }
+        });
+        console.debug(profile);
+        this.router.navigateByUrl('/employer/profile');
+      })
+      .catch(e => this.snackbar.openFromComponent(SnackbarComponent, {
+        ...ErrorSnackbarDefaults,
+        data: {
+          message: e.message,
+        }
+      }))
+      .finally(() => this.loading.delete('submitting'));
   }
 }

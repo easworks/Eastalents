@@ -50,7 +50,8 @@ const swPlugin: Plugin = {
 
       {
         const metafile = result.metafile;
-        const entryPoint = path.relative(options.absWorkingDir!, options.entryPoints!['main']);
+        const entryPoint = path.relative(options.absWorkingDir!, options.entryPoints!['main'])
+          .replace(/\\/g, '/');
         const main = Object.keys(metafile.outputs).find(key => metafile.outputs[key].entryPoint === entryPoint);
         if (!main) return;
 
