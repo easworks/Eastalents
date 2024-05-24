@@ -98,15 +98,8 @@ export class CreateTechSkillDialogComponent {
       loading$: this.loading.has('creating tech skill')
     } as const;
 
-    const reset = {
-      click: () => {
-        console.debug('reset');
-      }
-    } as const;
-
     return {
       submit,
-      reset,
       disabled$
     } as const;
   })();

@@ -101,15 +101,8 @@ export class CreateTechGroupDialogComponent {
       loading$: this.loading.has('creating tech group')
     } as const;
 
-    const reset = {
-      click: () => {
-        console.debug('reset');
-      }
-    } as const;
-
     return {
       submit,
-      reset,
       disabled$
     } as const;
   })();
