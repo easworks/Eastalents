@@ -114,6 +114,12 @@ const feature = createFeature({
     }),
 
     // Tech Groups
+    on(techGroupActions.add, (state, { payload }) => {
+      state = { ...state };
+      state.techGroups = adapters.techGroup.addOne(payload, state.techGroups);
+      (state.techGroups.ids as string[]).sort(sortString);
+      return state;
+    }),
     on(techGroupActions.update, (state, { payload }) => {
       state = { ...state };
       state.techGroups = adapters.techGroup.mapOne({

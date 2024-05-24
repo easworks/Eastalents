@@ -1,12 +1,14 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal, untracked } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, effect, inject, signal, untracked } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { Subscription, map } from 'rxjs';
 import { adminData, techGroupActions } from '../state/admin-data';
-import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   standalone: true,
@@ -22,9 +24,13 @@ import { MatExpansionModule } from '@angular/material/expansion';
 export class TechGroupsPageComponent {
   private readonly store = inject(Store);
   private readonly dRef = inject(DestroyRef);
+  private readonly dialog = inject(MatDialog);
 
   protected readonly maxlength = { name: 64 } as const;
 
+  protected readonly icons = {
+    faPlus
+  } as const;
   private readonly loading = generateLoadingState<[
     'updating tech group',
     'adding tech group',
@@ -64,7 +70,6 @@ export class TechGroupsPageComponent {
             const skills = group.generic.map(id => skillMap[id]!);
             return { group, skills };
           })
-          .filter(({ skills }) => skills.length > 0)
           .map(({ group, skills }) => {
             const form = new FormGroup({ ...panelControls() });
 
@@ -135,6 +140,31 @@ export class TechGroupsPageComponent {
       panels
     } as const;
 
+  })();
+
+  protected readonly create = (() => {
+    const loading$ = this.loading.has('opening create-tech-group dialog');
+    const disabled$ = this.loading.any$;
+
+    const click = async () => {
+      try {
+        this.loading.add('opening create-tech-group dialog');
+        const comp = await import('./create/create-tech-group.dialog')
+          .then(m => m.CreateTechGroupDialogComponent);
+
+        console.debug(comp);
+        comp.open(this.dialog);
+      }
+      finally {
+        this.loading.delete('opening create-tech-group dialog');
+      }
+    };
+
+    return {
+      click,
+      loading$,
+      disabled$
+    } as const;
   })();
 
 }

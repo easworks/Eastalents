@@ -45,3 +45,12 @@
   }
 
 </mat-accordion>
+
+<button class="icon-button primary large !sticky bottom-4 ml-auto mr-4 mt-4 shadow-z1 shadow-gray-500"
+        mat-ripple
+        (click)="create.click()"
+        [disabled]="create.disabled$()">
+  <replace-spinner [showSpinner]="create.loading$()">
+    <fa-icon [icon]="icons.faPlus"></fa-icon>
+  </replace-spinner>
+</button>
