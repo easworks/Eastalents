@@ -8,7 +8,7 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { Subscription, map } from 'rxjs';
-import { adminData, techGroupActions } from '../state/admin-data';
+import { adminData, techGroupActions } from '../../state/admin-data';
 
 @Component({
   standalone: true,
@@ -182,7 +182,7 @@ export class TechGroupsPageComponent {
     const click = async () => {
       try {
         this.loading.add('opening create-tech-group dialog');
-        const comp = await import('./create/create-tech-group.dialog')
+        const comp = await import('../create/create-tech-group.dialog')
           .then(m => m.CreateTechGroupDialogComponent);
 
         console.debug(comp);

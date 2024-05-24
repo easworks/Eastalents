@@ -7,8 +7,8 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { faCheck, faPlus, faRefresh } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { Subscription, map } from 'rxjs';
-import { TechSkill } from '../models/tech-skill';
-import { adminData, techSkillActions } from '../state/admin-data';
+import { TechSkill } from '../../models/tech-skill';
+import { adminData, techSkillActions } from '../../state/admin-data';
 
 @Component({
   standalone: true,
@@ -146,7 +146,7 @@ export class TechSkillsPageComponent {
     const click = async () => {
       try {
         this.loading.add('opening create-tech-skill dialog');
-        const comp = await import('./create/create-tech-skill.dialog')
+        const comp = await import('../create/create-tech-skill.dialog')
           .then(m => m.CreateTechSkillDialogComponent);
         comp.open(this.dialog);
       }
