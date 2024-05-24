@@ -8,7 +8,7 @@
       <form *ngrxLet="panel.form as form"
             [formGroup]="form">
         <div *ngrxLet="form.controls.name as control"
-             [formFieldControl]="control">
+             [formFieldControl]="control" class="mb-0">
           <label>Group Name</label>
           <input type="text" [formControl]="control">
         </div>
@@ -42,12 +42,10 @@
       </div>
       }
       @if (skills.create.visible$()) {
-      <button class="add-button" mat-ripple [disabled]="skills.create.disabled$()"
+      <button class="add-button" mat-ripple
               (click)="skills.create.click()">
-        <replace-spinner [showSpinner]="skills.create.loading$()" spinnerClass="w-4">
-          <fa-icon [icon]="icons.faPlus" class="w-4"></fa-icon>
-          <span class="leading-none">Add New</span>
-        </replace-spinner>
+        <fa-icon [icon]="icons.faPlus" class="w-4"></fa-icon>
+        <span class="leading-none">Add New</span>
       </button>
       }
 
@@ -59,9 +57,6 @@
 
 <button class="icon-button primary large !sticky bottom-4 ml-auto mr-4 mt-4 shadow-z1 shadow-gray-500"
         mat-ripple
-        (click)="create.click()"
-        [disabled]="create.disabled$()">
-  <replace-spinner [showSpinner]="create.loading$()">
-    <fa-icon [icon]="icons.faPlus"></fa-icon>
-  </replace-spinner>
+        (click)="create.click()">
+  <fa-icon [icon]="icons.faPlus"></fa-icon>
 </button>
