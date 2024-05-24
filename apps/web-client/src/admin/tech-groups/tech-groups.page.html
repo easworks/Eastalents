@@ -10,9 +10,27 @@
         <div *ngrxLet="form.controls.name as control"
              [formFieldControl]="control">
           <label>Group Name</label>
-          <input type="text" [formControl]="control" readonly>
+          <input type="text" [formControl]="control">
         </div>
       </form>
+
+      @if (!panel.unchanged$()) {
+      <div class="flex gap-4">
+        <button class="stroked-button primary" mat-ripple
+                [disabled]="panel.submit.disabled$()"
+                (click)="panel.submit.click()">
+          <replace-spinner [showSpinner]="panel.submit.loading$()">
+            Update
+          </replace-spinner>
+        </button>
+        <button class="stroked-button" mat-ripple
+                [disabled]="panel.submit.disabled$()"
+                (click)="panel.reset.click()">
+          Reset
+        </button>
+      </div>
+      }
+      <div></div>
     </div>
     <mat-divider></mat-divider>
     <div class="p-4 flex gap-4 flex-wrap justify-stretch">

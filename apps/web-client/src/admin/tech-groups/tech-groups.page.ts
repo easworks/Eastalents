@@ -5,7 +5,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { Store } from '@ngrx/store';
 import { Subscription, map } from 'rxjs';
-import { adminData } from '../state/admin-data';
+import { adminData, techGroupActions } from '../state/admin-data';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
@@ -91,8 +91,14 @@ export class TechGroupsPageComponent {
                 if (!form.valid)
                   return;
 
-                console.debug('submit');
-
+                try {
+                  this.loading.add('updating tech group');
+                  const { name } = form.getRawValue();
+                  this.store.dispatch(techGroupActions.update({ payload: { id: group.id, name } }));
+                }
+                finally {
+                  this.loading.delete('updating tech group');
+                }
               },
               disabled$: disableButtons$,
               loading$: updating.has(group.id)
@@ -116,7 +122,8 @@ export class TechGroupsPageComponent {
               skills,
               form,
               submit,
-              reset
+              reset,
+              unchanged$
             };
           });
       });
