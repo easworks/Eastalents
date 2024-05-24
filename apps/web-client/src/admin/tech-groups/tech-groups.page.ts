@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, computed, effect, inject, signal, untracked } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal, untracked } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -14,6 +14,7 @@ import { adminData, techGroupActions } from '../state/admin-data';
   standalone: true,
   selector: 'tech-groups-page',
   templateUrl: './tech-groups.page.html',
+  styleUrl: './tech-groups.page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
@@ -34,10 +35,15 @@ export class TechGroupsPageComponent {
   private readonly loading = generateLoadingState<[
     'updating tech group',
     'adding tech group',
-    'opening create-tech-group dialog'
+    'opening create-tech-group dialog',
+    'opening add-tech-skill dialog'
   ]>();
   private readonly groups$ = this.store.selectSignal(adminData.selectors.techGroup.selectAll);
-  private readonly skills$ = this.store.selectSignal(adminData.selectors.techSkill.selectEntities);
+
+  private readonly skills = {
+    list$: this.store.selectSignal(adminData.selectors.techSkill.selectAll),
+    map$: this.store.selectSignal(adminData.selectors.techSkill.selectEntities)
+  } as const;
 
   protected readonly accordion = (() => {
     const panelControls = () => {
@@ -63,14 +69,15 @@ export class TechGroupsPageComponent {
         panelSubs.unsubscribe();
         panelSubs = new Subscription();
 
-        const skillMap = untracked(this.skills$);
+        const skillMap = untracked(this.skills.map$);
+        const skillCount$ = computed(() => this.skills.list$().length);
 
         return this.groups$()
           .map(group => {
-            const skills = group.generic.map(id => skillMap[id]!);
-            return { group, skills };
+            const genericSkills = group.generic.map(id => skillMap[id]!);
+            return { group, genericSkills };
           })
-          .map(({ group, skills }) => {
+          .map(({ group, genericSkills }) => {
             const form = new FormGroup({ ...panelControls() });
 
 
@@ -121,6 +128,32 @@ export class TechGroupsPageComponent {
             );
 
             reset.click();
+
+            const skills = (() => {
+              const list = genericSkills;
+
+              const create = (() => {
+                const loading$ = this.loading.has('opening add-tech-skill dialog');
+                const disabled$ = this.loading.any$;
+                const visible$ = computed(() => skillCount$() > list.length);
+
+                const click = async () => {
+                  console.debug('adding tech skill to ', group.name);
+                };
+
+                return {
+                  loading$,
+                  disabled$,
+                  visible$,
+                  click
+                } as const;
+              })();
+
+              return {
+                list,
+                create
+              } as const;
+            })();
 
             return {
               data: group,
