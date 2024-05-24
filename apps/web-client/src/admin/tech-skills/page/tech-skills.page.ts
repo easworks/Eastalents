@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { DialogLoaderComponent } from '@easworks/app-shell/common/dialog-loader.component';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
@@ -9,7 +10,6 @@ import { Store } from '@ngrx/store';
 import { Subscription, map } from 'rxjs';
 import { TechSkill } from '../../models/tech-skill';
 import { adminData, techSkillActions } from '../../state/admin-data';
-import { DialogLoaderComponent } from '@easworks/app-shell/common/dialog-loader.component';
 
 @Component({
   standalone: true,
@@ -139,14 +139,12 @@ export class TechSkillsPageComponent {
   })();
 
   protected readonly create = (() => {
-    const click = () => DialogLoaderComponent.wrap(
-      this.dialog,
-      async () => {
-        const comp = await import('../create/create-tech-skill.dialog')
-          .then(m => m.CreateTechSkillDialogComponent);
-        comp.open(this.dialog);
-      }
-    );
+    const click = async () => {
+      const ref = DialogLoaderComponent.open(this.dialog);
+      const comp = await import('../create/create-tech-skill.dialog')
+        .then(m => m.CreateTechSkillDialogComponent);
+      comp.open(ref);
+    };
 
     return {
       click,

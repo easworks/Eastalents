@@ -1,16 +1,17 @@
 import { Component, computed, inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogClose, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogClose, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogLoaderComponent } from '@easworks/app-shell/common/dialog-loader.component';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { pattern } from '@easworks/models';
 import { faQuestionCircle, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { TechSkill } from '../../models/tech-skill';
 import { adminData, techSkillActions } from '../../state/admin-data';
-import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   standalone: true,
@@ -110,7 +111,7 @@ export class CreateTechSkillDialogComponent {
     } as const;
   })();
 
-  public static open(dialog: MatDialog) {
-    dialog.open(CreateTechSkillDialogComponent);
+  public static open(ref: MatDialogRef<DialogLoaderComponent>) {
+    DialogLoaderComponent.replace(ref, this);
   }
 }

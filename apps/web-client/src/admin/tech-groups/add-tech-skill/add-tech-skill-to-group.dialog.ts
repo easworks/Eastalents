@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatDialog, MatDialogClose } from '@angular/material/dialog';
+import { MatDialogClose, MatDialogRef } from '@angular/material/dialog';
+import { DialogLoaderComponent } from '@easworks/app-shell/common/dialog-loader.component';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
@@ -18,7 +19,7 @@ export class AddTechSkillToGroupDialogComponent {
     faXmark,
   } as const;
 
-  public static open(dialog: MatDialog) {
-    dialog.open(AddTechSkillToGroupDialogComponent);
+  public static open(ref: MatDialogRef<DialogLoaderComponent>) {
+    DialogLoaderComponent.replace(ref, this);
   }
 }

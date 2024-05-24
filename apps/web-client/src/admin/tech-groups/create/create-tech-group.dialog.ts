@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogClose, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogClose, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogLoaderComponent } from '@easworks/app-shell/common/dialog-loader.component';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
@@ -113,7 +114,7 @@ export class CreateTechGroupDialogComponent {
     } as const;
   })();
 
-  public static open(dialog: MatDialog) {
-    dialog.open(CreateTechGroupDialogComponent);
+  public static open(ref: MatDialogRef<DialogLoaderComponent>) {
+    DialogLoaderComponent.replace(ref, this);
   }
 }

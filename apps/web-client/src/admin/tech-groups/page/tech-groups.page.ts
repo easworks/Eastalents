@@ -135,14 +135,10 @@ export class TechGroupsPageComponent {
                 const visible$ = computed(() => skillCount$() > list.length);
 
                 const click = async () => {
-                  await DialogLoaderComponent.wrap(
-                    this.dialog,
-                    async () => {
-                      const comp = await import('../add-tech-skill/add-tech-skill-to-group.dialog')
-                        .then(m => m.AddTechSkillToGroupDialogComponent);
-                      comp.open(this.dialog);
-                    }
-                  );
+                  const ref = DialogLoaderComponent.open(this.dialog);
+                  const comp = await import('../add-tech-skill/add-tech-skill-to-group.dialog')
+                    .then(m => m.AddTechSkillToGroupDialogComponent);
+                  comp.open(ref);
                 };
 
                 return {
@@ -178,16 +174,13 @@ export class TechGroupsPageComponent {
   })();
 
   protected readonly create = (() => {
-    const click = () => DialogLoaderComponent.wrap(
-      this.dialog,
-      async () => {
-        const comp = await import('../create/create-tech-group.dialog')
-          .then(m => m.CreateTechGroupDialogComponent);
+    const click = async () => {
+      const ref = DialogLoaderComponent.open(this.dialog);
+      const comp = await import('../create/create-tech-group.dialog')
+        .then(m => m.CreateTechGroupDialogComponent);
 
-        comp.open(this.dialog);
-      }
-    );
-
+      comp.open(ref);
+    };
 
     return {
       click,
