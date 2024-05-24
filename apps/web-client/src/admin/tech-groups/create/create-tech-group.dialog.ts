@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogClose, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -8,39 +8,40 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { pattern } from '@easworks/models';
-import { faQuestionCircle, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { TechSkill } from '../../models/tech-skill';
-import { adminData, techSkillActions } from '../../state/admin-data';
+import { TechGroup } from '../../models/tech-skill';
+import { adminData, techGroupActions } from '../../state/admin-data';
 
 @Component({
   standalone: true,
-  selector: 'create-tech-skill-dialog',
-  templateUrl: './create-tech-skill.dialog.html',
+  selector: 'create-tech-group',
+  templateUrl: './create-tech-group.dialog.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
     MatDialogClose,
     FormImportsModule
   ]
 })
-export class CreateTechSkillDialogComponent {
+export class CreateTechGroupDialogComponent {
+
   private readonly store = inject(Store);
   private readonly dialog = inject(MatDialogRef);
   private readonly snackbar = inject(MatSnackBar);
 
   protected readonly icons = {
     faXmark,
-    faQuestionCircle
   } as const;
 
   private readonly loading = generateLoadingState<[
-    'creating tech skill'
+    'creating tech group'
   ]>();
 
-  private readonly list$ = this.store.selectSignal(adminData.selectors.techSkill.selectAll);
-  private readonly ids$ = computed(() => new Set(this.list$().map(skill => skill.id)));
+  private readonly list$ = this.store.selectSignal(adminData.selectors.techGroup.selectAll);
+  private readonly ids$ = computed(() => new Set(this.list$().map(group => group.id)));
 
-  protected readonly formId = 'create-tech-skill-form';
+  protected readonly formId = 'create-tech-group-form';
 
   protected readonly maxlength = {
     id: 64,
@@ -86,16 +87,18 @@ export class CreateTechSkillDialogComponent {
 
         const value = this.form.getRawValue();
 
-        const skill: TechSkill = {
+        const group: TechGroup = {
           id: value.id,
           name: value.name,
+          generic: [],
+          nonGeneric: [],
         };
 
-        this.store.dispatch(techSkillActions.add({ payload: skill }));
+        this.store.dispatch(techGroupActions.add({ payload: group }));
         SnackbarComponent.forSuccess(this.snackbar);
         this.dialog.close();
       },
-      loading$: this.loading.has('creating tech skill')
+      loading$: this.loading.has('creating tech group')
     } as const;
 
     return {

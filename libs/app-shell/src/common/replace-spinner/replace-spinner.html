@@ -1,5 +1,4 @@
-<div [class.invisible]="showSpinner"
-     [style]="contentContainerStyle">
+<div class="contents" [class.invisible]="showSpinner">
   <ng-content></ng-content>
 </div>
 <div *ngIf="showSpinner"
