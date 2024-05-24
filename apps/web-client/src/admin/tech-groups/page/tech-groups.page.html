@@ -15,53 +15,56 @@
   @for(panel of accordion.panels.$(); track panel.data.id) {
   <mat-expansion-panel class="!shadow-z1">
     <mat-expansion-panel-header>{{panel.data.name}}</mat-expansion-panel-header>
-    <mat-divider></mat-divider>
-    <div class="p-4">
-      <form *ngrxLet="panel.form as form"
-            [formGroup]="form">
-        <div *ngrxLet="form.controls.name as control"
-             [formFieldControl]="control" class="mb-0">
-          <label>Group Name</label>
-          <input type="text" [formControl]="control">
+
+    <ng-template matExpansionPanelContent>
+      <mat-divider></mat-divider>
+      <div class="p-4">
+        <form *ngrxLet="panel.form as form"
+              [formGroup]="form">
+          <div *ngrxLet="form.controls.name as control"
+               [formFieldControl]="control" class="mb-0">
+            <label>Group Name</label>
+            <input type="text" [formControl]="control">
+          </div>
+        </form>
+
+        @if (!panel.unchanged$()) {
+        <div class="flex gap-4 mt-4">
+          <button class="stroked-button primary" mat-ripple
+                  [disabled]="panel.submit.disabled$()"
+                  (click)="panel.submit.click()">
+            <replace-spinner [showSpinner]="panel.submit.loading$()">
+              Update
+            </replace-spinner>
+          </button>
+          <button class="stroked-button" mat-ripple
+                  [disabled]="panel.submit.disabled$()"
+                  (click)="panel.reset.click()">
+            Reset
+          </button>
         </div>
-      </form>
-
-      @if (!panel.unchanged$()) {
-      <div class="flex gap-4 mt-4">
-        <button class="stroked-button primary" mat-ripple
-                [disabled]="panel.submit.disabled$()"
-                (click)="panel.submit.click()">
-          <replace-spinner [showSpinner]="panel.submit.loading$()">
-            Update
-          </replace-spinner>
-        </button>
-        <button class="stroked-button" mat-ripple
-                [disabled]="panel.submit.disabled$()"
-                (click)="panel.reset.click()">
-          Reset
-        </button>
+        }
+        <div></div>
       </div>
-      }
-      <div></div>
-    </div>
-    <mat-divider></mat-divider>
-    <div class="p-4 flex gap-4 flex-wrap justify-stretch"
-         *ngrxLet="panel.skills as skills">
+      <mat-divider></mat-divider>
+      <div class="p-4 flex gap-4 flex-wrap justify-stretch"
+           *ngrxLet="panel.skills as skills">
 
-      @for(skill of skills.list; track skill.id) {
-      <div class="border rounded-lg p-1 px-4">
-        {{skill.name}}
+        @for(skill of skills.list; track skill.id) {
+        <div class="border rounded-lg p-1 px-4">
+          {{skill.name}}
+        </div>
+        }
+        @if (skills.create.visible$()) {
+        <button class="add-button" mat-ripple
+                (click)="skills.create.click()">
+          <fa-icon [icon]="icons.faPlus" class="w-4"></fa-icon>
+          <span class="leading-none">Add New</span>
+        </button>
+        }
+
       </div>
-      }
-      @if (skills.create.visible$()) {
-      <button class="add-button" mat-ripple
-              (click)="skills.create.click()">
-        <fa-icon [icon]="icons.faPlus" class="w-4"></fa-icon>
-        <span class="leading-none">Add New</span>
-      </button>
-      }
-
-    </div>
+    </ng-template>
   </mat-expansion-panel>
   }
 

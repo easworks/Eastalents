@@ -187,7 +187,10 @@ export class TechGroupsPageComponent {
                   const ref = DialogLoaderComponent.open(this.dialog);
                   const comp = await import('../add-tech-skill/add-tech-skill-to-group.dialog')
                     .then(m => m.AddTechSkillToGroupDialogComponent);
-                  comp.open(ref);
+                  comp.open(ref, {
+                    search: this.skills.search$(),
+                    group
+                  });
                 };
 
                 return {
