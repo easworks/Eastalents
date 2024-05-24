@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { Subscription, map } from 'rxjs';
 import { TechSkill } from '../../models/tech-skill';
 import { adminData, techSkillActions } from '../../state/admin-data';
+import { DialogLoaderComponent } from '@easworks/app-shell/common/dialog-loader.component';
 
 @Component({
   standalone: true,
@@ -36,8 +37,6 @@ export class TechSkillsPageComponent {
   private readonly skills$ = this.store.selectSignal(adminData.selectors.techSkill.selectAll);
   private readonly loading = generateLoadingState<[
     'updating tech skill',
-    'adding tech skill',
-    'opening create-tech-skill dialog'
   ]>();
 
   protected readonly table = (() => {
@@ -140,25 +139,17 @@ export class TechSkillsPageComponent {
   })();
 
   protected readonly create = (() => {
-    const loading$ = this.loading.has('opening create-tech-skill dialog');
-    const disabled$ = this.loading.any$;
-
-    const click = async () => {
-      try {
-        this.loading.add('opening create-tech-skill dialog');
+    const click = () => DialogLoaderComponent.wrap(
+      this.dialog,
+      async () => {
         const comp = await import('../create/create-tech-skill.dialog')
           .then(m => m.CreateTechSkillDialogComponent);
         comp.open(this.dialog);
       }
-      finally {
-        this.loading.delete('opening create-tech-skill dialog');
-      }
-    };
+    );
 
     return {
       click,
-      loading$,
-      disabled$
     } as const;
   })();
 
