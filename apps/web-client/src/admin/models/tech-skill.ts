@@ -7,7 +7,7 @@ export interface TechGroup {
   id: string,
   name: string;
   generic: string[];
-  nonGeneric: Record<string, string[]>;
+  nonGeneric: string[];
 }
 
 

@@ -90,7 +90,7 @@ export class CreateTechGroupDialogComponent {
           id: value.id,
           name: value.name,
           generic: [],
-          nonGeneric: {},
+          nonGeneric: [],
         };
 
         this.store.dispatch(techGroupActions.add({ payload: group }));
