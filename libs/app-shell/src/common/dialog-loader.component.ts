@@ -1,5 +1,5 @@
 import { ComponentPortal, ComponentType } from '@angular/cdk/portal';
-import { ChangeDetectionStrategy, Component, HostBinding, Injector, Provider, StaticProvider, ViewContainerRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Injector, StaticProvider, ViewContainerRef, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -48,6 +48,7 @@ export class DialogLoaderComponent {
     cRef.destroy();
     ref._containerInstance._portalOutlet.detach();
     ref._containerInstance.attach(cp);
+    ref.disableClose = false;
   }
 
 }

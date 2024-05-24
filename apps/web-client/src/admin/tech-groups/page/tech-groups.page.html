@@ -1,3 +1,15 @@
+<div class="form-field mt-4">
+  <input type="text" class="field field-interactive" [(ngModel)]="search.query$"
+         [matAutocomplete]="searchOptions"
+         placeholder="Search Tech Skill">
+
+  <mat-autocomplete #searchOptions hideSingleSelectionIndicator [displayWith]="search.displayWith">
+    @for(option of search.options$(); track option.item.id) {
+    <mat-option [value]="option.item">{{option.item.name}} ({{option.score}})</mat-option>
+    }
+  </mat-autocomplete>
+</div>
+
 <mat-accordion class="block !mt-4">
 
   @for(panel of accordion.panels.$(); track panel.data.id) {
@@ -15,7 +27,7 @@
       </form>
 
       @if (!panel.unchanged$()) {
-      <div class="flex gap-4">
+      <div class="flex gap-4 mt-4">
         <button class="stroked-button primary" mat-ripple
                 [disabled]="panel.submit.disabled$()"
                 (click)="panel.submit.click()">

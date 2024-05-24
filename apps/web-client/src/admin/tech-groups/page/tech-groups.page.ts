@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal, untracked } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, effect, inject, signal, untracked } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DialogLoaderComponent } from '@easworks/app-shell/common/dialog-loader.component';
@@ -8,8 +9,10 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
+import Fuse, { FuseResult } from 'fuse.js';
 import { Subscription, map } from 'rxjs';
 import { adminData, techGroupActions } from '../../state/admin-data';
+import { TechSkill } from '../../models/tech-skill';
 
 @Component({
   standalone: true,
@@ -20,7 +23,8 @@ import { adminData, techGroupActions } from '../../state/admin-data';
   imports: [
     ImportsModule,
     FormImportsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatAutocompleteModule
   ]
 })
 export class TechGroupsPageComponent {
@@ -39,10 +43,54 @@ export class TechGroupsPageComponent {
   ]>();
   private readonly groups$ = this.store.selectSignal(adminData.selectors.techGroup.selectAll);
 
-  private readonly skills = {
-    list$: this.store.selectSignal(adminData.selectors.techSkill.selectAll),
-    map$: this.store.selectSignal(adminData.selectors.techSkill.selectEntities)
-  } as const;
+  private readonly skills = (() => {
+    const list$ = this.store.selectSignal(adminData.selectors.techSkill.selectAll);
+    const map$ = this.store.selectSignal(adminData.selectors.techSkill.selectEntities);
+
+    const search$ = computed(() => new Fuse(list$(), {
+      keys: ['name'],
+      includeScore: true
+    }));
+
+
+    return {
+      list$,
+      map$,
+      search$
+    } as const;
+  })();
+
+  protected readonly search = (() => {
+
+    const query$ = signal('' as TechSkill | string);
+    const displayWith = (v: TechSkill | string | null) => typeof v === 'string' ? v : v?.name || '';
+
+    const selected$ = computed(() => {
+      const q = query$();
+      return typeof q === 'string' ? null : q;
+    });
+    const hasSelection$ = computed(() => selected$() !== null);
+
+    const options$ = signal([] as FuseResult<TechSkill>[]);
+
+    effect(() => {
+
+      const q = query$();
+
+      if (typeof q === 'string') {
+        const options = untracked(this.skills.search$).search(q);
+        options$.set(options);
+      }
+    }, { allowSignalWrites: true });
+
+    return {
+      query$,
+      options$,
+      displayWith,
+      selected$,
+      hasSelection$
+    } as const;
+  })();
 
   protected readonly accordion = (() => {
     const panelControls = () => {
@@ -64,7 +112,7 @@ export class TechGroupsPageComponent {
       let panelSubs = new Subscription();
       this.dRef.onDestroy(() => panelSubs.unsubscribe());
 
-      const $ = computed(() => {
+      const unfiltered$ = computed(() => {
         panelSubs.unsubscribe();
         panelSubs = new Subscription();
 
@@ -73,6 +121,7 @@ export class TechGroupsPageComponent {
 
         return this.groups$()
           .map(group => {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const genericSkills = group.generic.map(id => skillMap[id]!);
             return { group, genericSkills };
           })
@@ -164,6 +213,15 @@ export class TechGroupsPageComponent {
           });
       });
 
+      const $ = computed(() => {
+        const full = unfiltered$();
+        const selected = this.search.selected$();
+        if (selected)
+          return full.filter(panel => panel.data.generic.includes(selected.id));
+        else
+          return full;
+      });
+
       return { $ } as const;
     })();
 
@@ -186,5 +244,7 @@ export class TechGroupsPageComponent {
       click,
     } as const;
   })();
+
+
 
 }
