@@ -53,4 +53,39 @@ export class ViewJobPostPageComponent {
   });
 
   protected readonly techGroups$ = computed(() => this.jobPost$().tech);
+
+  protected readonly primaryDomainExpertise$ = computed(() => {
+    const primaryDomain = this.jobPost$();
+
+    const arrOfExpertise: { key: string, value: string; }[] = [
+      {
+        key: `Expertise in ${primaryDomain.domain.key}:`,
+        value: primaryDomain.domain.services.join(', ')
+      },
+      {
+        key: `${primaryDomain.domain.key} Module Expertise:`,
+        value: primaryDomain.domain.modules.join(', ')
+      }
+    ];
+
+    return {
+      domainExpertise: arrOfExpertise
+    };
+  });
+
+
+  protected readonly jobSpecifices$ = computed(() => {
+    const jobSpecificesDetail = this.jobPost$();
+
+    return {
+      projectType: jobSpecificesDetail.projectType,
+      experience: jobSpecificesDetail.requirements.experience,
+      noOfHours: jobSpecificesDetail.requirements.commitment,
+      engagementPeriod: jobSpecificesDetail.requirements.engagementPeriod,
+      hourlyBudget: jobSpecificesDetail.requirements.hourlyBudget,
+      startTimeLine: jobSpecificesDetail.requirements.projectKickoff,
+      RemoteWork: jobSpecificesDetail.requirements.remote
+
+    } as const;
+  });
 }

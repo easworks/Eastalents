@@ -58,32 +58,14 @@
               <div class="mt-8">
                 <h6 class="text-xl font-bold text-base-content">Primary Domain & Expertise</h6>
                 <ul class="mt-3 flex flex-col gap-3" style="list-style: disc;">
-                  <div class="primary-domain-option">
-                    <!-- <label class="flex flex-grow cursor-pointer">
-                      <p class="text-base text-base-content font-medium">Enterprise Application
-                        Domain:</p>
-                      <p class="text-base text-base-content ml-1">
-                        {{jobPost$().domain.key}}</p>
-                    </label> -->
+                  <div class="primary-domain-option" *ngrxLet="primaryDomainExpertise$() as primaryDomain">
+                    @for(pm of primaryDomain.domainExpertise; track pm.key) {
                     <label class="flex flex-grow cursor-pointer">
-                      <p class="text-base text-base-content font-medium">Expertise In:</p>
+                      <p class="text-base text-base-content font-medium">{{pm.key}}</p>
                       <p class="text-base text-base-content ml-1">
-                        {{jobPost$().domain.services.join(', ')}}</p>
+                        {{pm.value}}</p>
                     </label>
-                    <label class="flex flex-grow cursor-pointer">
-                      <p class="text-base text-base-content font-medium">Module Expertise</p>
-                      <p class="text-base text-base-content ml-1">
-                        {{jobPost$().domain.modules.join(', ')}}</p>
-                    </label>
-                    <!-- <label class="flex flex-grow cursor-pointer">
-                                            <div class="flex-grow p-2">{{jobPost$().domain.key}}</div>
-                                            <p class="text-base text-base-content">Project Type</p>
-                                            <p class="text-base text-base-content font-medium">
-                                                {{jobPost$().projectType}}</p>
-                                        </label>
-                                        <div class="px-2">
-                                            <label>{{ jobPost$().domain.years}}</label>
-                                        </div> -->
+                    }
                   </div>
                   <!-- <li class="text-lg text-base-content/80">You have at least 4 years of experience
                                         including solid experience as a UI designer in SaaS or an ecommerce solution
@@ -379,40 +361,40 @@
                     fill="currentColor"></path>
                 </g>
               </svg></span></button>
-          <div class="mt-3">
+          <div class="mt-3" *ngrxLet="jobSpecifices$() as jobSpecifices">
             <div class="flex items-center justify-between py-5 border-b border-base-content/10">
               <p class="text-base text-base-content">Project Type</p>
-              <p class="text-base text-base-content font-medium">{{jobPost$().projectType}}</p>
+              <p class="text-base text-base-content font-medium">{{jobSpecifices.projectType}}</p>
             </div>
             <div class="flex items-center justify-between py-5 border-b border-base-content/10">
               <p class="text-base text-base-content">Experience</p>
-              <p class="text-base text-base-content font-medium">{{jobPost$().requirements.experience}}
+              <p class="text-base text-base-content font-medium">{{jobSpecifices.experience}}
               </p>
             </div>
             <div class="flex items-center justify-between py-5 border-b border-base-content/10">
               <p class="text-base text-base-content">No of Hours</p>
-              <p class="text-base text-base-content font-medium">{{jobPost$().requirements.commitment}}
+              <p class="text-base text-base-content font-medium">{{jobSpecifices.noOfHours}}
               </p>
             </div>
             <div class="flex items-center justify-between py-5 border-b border-base-content/10">
               <p class="text-base text-base-content">Engagement Period</p>
               <p class="text-base text-base-content font-medium">
-                {{jobPost$().requirements.engagementPeriod}}</p>
+                {{jobSpecifices.engagementPeriod}}</p>
             </div>
             <div class="flex items-center justify-between py-5 border-b border-base-content/10">
               <p class="text-base text-base-content">Hourly Budget</p>
               <p class="text-base text-base-content font-medium">
-                {{jobPost$().requirements.hourlyBudget}}</p>
+                {{jobSpecifices.hourlyBudget}}</p>
             </div>
             <div class="flex items-center justify-between py-5 border-b border-base-content/10">
               <p class="text-base text-base-content">Start Timeline</p>
               <p class="text-base text-base-content font-medium">
-                {{jobPost$().requirements.projectKickoff}}</p>
+                {{jobSpecifices.startTimeLine}}</p>
             </div>
             <div class="flex items-center justify-between py-5 border-b border-base-content/10">
               <p class="text-base text-base-content">Remote Work</p>
               <p class="text-base text-base-content font-medium">
-                {{jobPost$().requirements.remote}}</p>
+                {{jobSpecifices.RemoteWork}}</p>
             </div>
           </div>
         </div>
