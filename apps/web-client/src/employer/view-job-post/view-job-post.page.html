@@ -20,10 +20,9 @@
                                 srcset="/_next/image?url=%2Fimages%2Fcompany-logo.png&amp;w=48&amp;q=75 1x, /_next/image?url=%2Fimages%2Fcompany-logo.png&amp;w=96&amp;q=75 2x"
                                 src="/_next/image?url=%2Fimages%2Fcompany-logo.png&amp;w=96&amp;q=75"
                                 style="color: transparent;"> -->
-              <div>
-                <p class="text-base font-medium text-base-content">Services</p>
-                <h6 class="mt-1 text-3xl font-medium text-base-content">{{jobPost$().serviceType}}
-                </h6>
+              <div *ngrxLet="header$() as header">
+                <h6 class="mt-1 text-3xl font-medium text-base-content">{{header.title}} </h6>
+                <p class="text-base font-medium text-base-content">{{header.subtitle}}</p>
               </div>
             </div>
             <div class="block xl:hidden">

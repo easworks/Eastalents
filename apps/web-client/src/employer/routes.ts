@@ -50,7 +50,14 @@ export const EMPLOYER_ROUTE: Route = {
     {
       path: 'job-post/view',
       pathMatch: 'full',
-      loadComponent: () => import('./view-job-post/view-job-post.page').then(m => m.ViewJobPostPageComponent)
+      loadComponent: () => import('./view-job-post/view-job-post.page').then(m => m.ViewJobPostPageComponent),
+      resolve: {
+        jobPost: async () => {
+          const data = import('./view-job-post/mock-job-post')
+            .then(m => m.mockJobPost);
+          return data;
+        }
+      }
     },
     {
       path: '',
