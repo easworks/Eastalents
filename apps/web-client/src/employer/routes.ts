@@ -48,6 +48,11 @@ export const EMPLOYER_ROUTE: Route = {
       loadComponent: () => import('./job-post/create-job-post.page').then(m => m.CreateJobPostPageComponent)
     },
     {
+      path: 'job-post/view',
+      pathMatch: 'full',
+      loadComponent: () => import('./view-job-post/view-job-post.page').then(m => m.ViewJobPostPageComponent)
+    },
+    {
       path: '',
       pathMatch: 'full',
       redirectTo: 'profile'

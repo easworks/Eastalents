@@ -1,0 +1,552 @@
+<main>
+    <!-- <div class="bg-[url('/common-header.png')] bg-no-repeat bg-center bg-cover h-[304px] relative bg-primary z-[1]">
+    </div> -->
+    <div class="container mx-auto px-5 md:px-0 relative z-[2] mb-20">
+        <div class="grid grid-cols-12 lg:gap-8 justify-items-center w-full">
+            <div class="col-span-12 lg:w-10/12 xl:w-full xl:col-span-8">
+                <div>
+                    <div class="p-8 bg-base-100 rounded-2xl"><a
+                            class=" bg-base-content/5 px-3 py-2.5 text-sm font-medium text-base-content/60 rounded-lg flex items-center gap-2.5 hover:bg-primary hover:text-primary-content transition hover:duration-500 w-fit"
+                            href="/"><span><svg width="10" height="10" viewBox="0 0 10 10" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M5.13591 0.598461C4.87963 0.34218 4.46412 0.34218 4.20784 0.598461L0.270336 4.53596C0.0140553 4.79224 0.0140553 5.20776 0.270336 5.46404L4.20784 9.40154C4.46412 9.65782 4.87963 9.65782 5.13591 9.40154C5.3922 9.14526 5.3922 8.72974 5.13591 8.47346L2.3187 5.65625H9.26562C9.62806 5.65625 9.92188 5.36244 9.92188 5C9.92188 4.63756 9.62806 4.34375 9.26562 4.34375H2.3187L5.13591 1.52654C5.3922 1.27026 5.3922 0.854743 5.13591 0.598461Z"
+                                        fill="currentColor"></path>
+                                </svg></span>Back</a>
+                        <div
+                            class="flex flex-col md:flex-row items-start md:items-center gap-6 mt-6 pb-6 xl:border-b border-base-content/10">
+                            <!-- <img alt="company logo" loading="lazy" width="48" height="48" decoding="async" data-nimg="1"
+                                class="p-2 bg-primary rounded-xl"
+                                srcset="/_next/image?url=%2Fimages%2Fcompany-logo.png&amp;w=48&amp;q=75 1x, /_next/image?url=%2Fimages%2Fcompany-logo.png&amp;w=96&amp;q=75 2x"
+                                src="/_next/image?url=%2Fimages%2Fcompany-logo.png&amp;w=96&amp;q=75"
+                                style="color: transparent;"> -->
+                            <div>
+                                <p class="text-base font-medium text-base-content">Services</p>
+                                <h6 class="mt-1 text-3xl font-medium text-base-content">{{viewJobPost.serviceType}}
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="block xl:hidden">
+                            <div class="bg-base-100 rounded-xl"><button
+                                    class="bg-primary w-fit hover:bg-primary-focus transition hover:duration-500 py-3 px-5 text-base font-semibold text-primary-content rounded-lg flex items-center gap-3">Apply
+                                    Now<span><svg class="text-xl" width="18" height="18" viewBox="0 0 14 14" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <g opacity="0.6">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                    d="M6.86409 2.59846C7.12037 2.34218 7.53588 2.34218 7.79216 2.59846L11.7297 6.53596C11.9859 6.79224 11.9859 7.20776 11.7297 7.46404L7.79216 11.4015C7.53588 11.6578 7.12037 11.6578 6.86409 11.4015C6.6078 11.1453 6.6078 10.7297 6.86409 10.4735L9.6813 7.65625H2.73438C2.37194 7.65625 2.07812 7.36244 2.07812 7C2.07812 6.63756 2.37194 6.34375 2.73438 6.34375H9.6813L6.86409 3.52654C6.6078 3.27026 6.6078 2.85474 6.86409 2.59846Z"
+                                                    fill="currentColor"></path>
+                                            </g>
+                                        </svg></span></button>
+                                <div class="mt-3">
+                                    <div class="flex items-center justify-between py-5 border-b border-base-content/10">
+                                        <p class="text-base text-base-content">Date Posted</p>
+                                        <p class="text-base text-base-content font-medium">Apr 04, 2023</p>
+                                    </div>
+                                    <div class="flex items-center justify-between py-5 border-b border-base-content/10">
+                                        <p class="text-base text-base-content">Job Type</p>
+                                        <p class="text-base text-base-content font-medium">Full Time</p>
+                                    </div>
+                                    <div class="flex items-center justify-between py-5 border-b border-base-content/10">
+                                        <p class="text-base text-base-content">Job Role</p>
+                                        <p class="text-base text-base-content font-medium">Product Designer</p>
+                                    </div>
+                                    <div class="flex items-center justify-between py-5 border-b border-base-content/10">
+                                        <p class="text-base text-base-content">Salary</p>
+                                        <p class="text-base text-base-content font-medium">$5k - 7k</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8 pb-8 border-b border-base-content/10">
+                            <h5 class="text-2xl font-bold text-base-content">Details</h5>
+                            <h6 class="mt-8 text-xl font-bold text-base-content">Overview</h6>
+                            <p class="mt-3 text-lg text-base-content/80">{{viewJobPost.description}}</p>
+                            <div class="mt-8">
+                                <h6 class="text-xl font-bold text-base-content">Primary Domain & Expertise</h6>
+                                <ul class="mt-3 flex flex-col gap-3" style="list-style: disc;">
+                                    <div class="primary-domain-option">
+                                        <label class="flex flex-grow cursor-pointer">
+                                            <p class="text-base text-base-content font-medium">Enterprise Application
+                                                Domain:</p>
+                                            <p class="text-base text-base-content ml-1">
+                                                {{viewJobPost.domain.key}}</p>
+                                        </label>
+                                        <label class="flex flex-grow cursor-pointer">
+                                            <p class="text-base text-base-content font-medium">Expertise In:</p>
+                                            <p class="text-base text-base-content ml-1">
+                                                {{viewJobPost.domain.services.join(', ')}}</p>
+                                        </label>
+                                        <label class="flex flex-grow cursor-pointer">
+                                            <p class="text-base text-base-content font-medium">Module Expertise</p>
+                                            <p class="text-base text-base-content ml-1">
+                                                {{viewJobPost.domain.modules.join(', ')}}</p>
+                                        </label>
+                                        <!-- <label class="flex flex-grow cursor-pointer">
+                                            <div class="flex-grow p-2">{{viewJobPost.domain.key}}</div>
+                                            <p class="text-base text-base-content">Project Type</p>
+                                            <p class="text-base text-base-content font-medium">
+                                                {{viewJobPost.projectType}}</p>
+                                        </label>
+                                        <div class="px-2">
+                                            <label>{{ viewJobPost.domain.years}}</label>
+                                        </div> -->
+                                    </div>
+                                    <!-- <li class="text-lg text-base-content/80">You have at least 4 years of experience
+                                        including solid experience as a UI designer in SaaS or an ecommerce solution
+                                        with a strong portfolio of related projects</li>
+                                    <li class="text-lg text-base-content/80">You are proficient in Adobe Creative Suite
+                                        (specifically Illustrator, InDesign and Photoshop)</li>
+                                    <li class="text-lg text-base-content/80">You are proficient in prototyping tools
+                                        such as Sketch</li>
+                                    <li class="text-lg text-base-content/80">Basic HTML5, CSS3, and JavaScript skills
+                                        are a plus</li>
+                                    <li class="text-lg text-base-content/80">You pay strong attention to detail and have
+                                        a keen eye for aesthetics</li>
+                                    <li class="text-lg text-base-content/80">You have excellent communication skills and
+                                        can clearly articulate your ideas, designs, and suggestions</li>
+                                    <li class="text-lg text-base-content/80">You have an amazing track record of
+                                        success, are highly goal-driven, and work well in fast-paced environments</li> -->
+                                </ul>
+                            </div>
+                            <div class="mt-8">
+                                <h6 class="text-xl font-bold text-base-content">Role &amp; Technical Experience</h6>
+                                <ul class="mt-3 flex flex-col gap-3" style="list-style: disc;">
+                                    <div class="primary-domain-option">
+                                        <label class="flex flex-grow cursor-pointer">
+                                            <p class="text-base text-base-content font-medium">Role:</p>
+                                        </label>
+                                        <mat-accordion class="block !mt-4" multi>
+
+                                            @for(panel of viewJobPost.domain.roles; track panel.role) {
+                                            <mat-expansion-panel class="!shadow-z1">
+                                                <mat-expansion-panel-header>{{panel.role}}</mat-expansion-panel-header>
+
+                                                <ng-template matExpansionPanelContent>
+                                                    <mat-divider></mat-divider>
+                                                    <div class="p-4">
+                                                        <div class="mb-0">
+                                                            <label
+                                                                class="text-base text-base-content font-medium">Quantity
+                                                                :</label>
+                                                            <label>{{panel.quantity}}</label>
+                                                        </div>
+                                                        <div class="mb-0">
+                                                            <label class="text-base text-base-content font-medium">Years
+                                                                :</label>
+                                                            <label>{{panel.years}}</label>
+                                                        </div>
+
+
+                                                        <!-- @if (!panel.unchanged$()) {
+                                                        <div class="flex gap-4 mt-4">
+                                                            <button class="stroked-button primary" mat-ripple
+                                                                [disabled]="panel.submit.disabled$()"
+                                                                (click)="panel.submit.click()">
+                                                                <replace-spinner
+                                                                    [showSpinner]="panel.submit.loading$()">
+                                                                    Update
+                                                                </replace-spinner>
+                                                            </button>
+                                                            <button class="stroked-button" mat-ripple
+                                                                [disabled]="panel.submit.disabled$()"
+                                                                (click)="panel.reset.click()">
+                                                                Reset
+                                                            </button>
+                                                        </div>
+                                                        } -->
+                                                        <div></div>
+                                                    </div>
+                                                    <mat-divider></mat-divider>
+                                                    <div class="p-4 flex gap-4 flex-wrap justify-stretch">
+
+                                                        <label class="text-base text-base-content font-medium">Software:
+                                                        </label>
+                                                        @for(skill of panel.software; track skill) {
+                                                        <div class="border rounded-lg p-1 px-4">
+                                                            {{skill}}
+                                                        </div>
+                                                        }
+                                                        <!-- @if (skills.create.visible$()) {
+                                                        <button class="add-button" mat-ripple
+                                                            (click)="skills.create.click()">
+                                                            <fa-icon [icon]="icons.faPlus" class="w-4"></fa-icon>
+                                                            <span class="leading-none">Add New</span>
+                                                        </button>
+                                                        } -->
+
+                                                    </div>
+                                                </ng-template>
+                                            </mat-expansion-panel>
+                                            }
+
+                                        </mat-accordion>
+                                    </div>
+                                    <div class="primary-domain-option">
+                                        <label class="flex flex-grow cursor-pointer">
+                                            <p class="text-base text-base-content font-medium">Technical Experience:</p>
+                                        </label>
+                                        <mat-accordion class="block !mt-4">
+
+                                            @for(panel of viewJobPost.tech; track panel.group) {
+                                            <mat-expansion-panel class="!shadow-z1">
+                                                <mat-expansion-panel-header>{{panel.group}}</mat-expansion-panel-header>
+
+                                                <ng-template matExpansionPanelContent>
+                                                    <!-- <mat-divider></mat-divider> -->
+                                                    <!-- <div class="p-4"> -->
+                                                    <!-- <div class="mb-0">
+                                                            <label
+                                                                class="text-base text-base-content font-medium">Quantity
+                                                                :</label>
+                                                            <label>{{panel.quantity}}</label>
+                                                        </div>
+                                                        <div class="mb-0">
+                                                            <label class="text-base text-base-content font-medium">Years
+                                                                :</label>
+                                                            <label>{{panel.years}}</label>
+                                                        </div> -->
+
+
+                                                    <!-- @if (!panel.unchanged$()) {
+                                                        <div class="flex gap-4 mt-4">
+                                                            <button class="stroked-button primary" mat-ripple
+                                                                [disabled]="panel.submit.disabled$()"
+                                                                (click)="panel.submit.click()">
+                                                                <replace-spinner
+                                                                    [showSpinner]="panel.submit.loading$()">
+                                                                    Update
+                                                                </replace-spinner>
+                                                            </button>
+                                                            <button class="stroked-button" mat-ripple
+                                                                [disabled]="panel.submit.disabled$()"
+                                                                (click)="panel.reset.click()">
+                                                                Reset
+                                                            </button>
+                                                        </div>
+                                                        } -->
+                                                    <!-- <div></div> -->
+                                                    <!-- </div> -->
+                                                    <mat-divider></mat-divider>
+                                                    <div class="p-4 flex gap-4 flex-wrap justify-stretch">
+
+                                                        <!-- <label class="text-base text-base-content font-medium">Software:
+                                                        </label> -->
+                                                        @for(skill of panel.items; track skill) {
+                                                        <div class="border rounded-lg p-1 px-4">
+                                                            {{skill}}
+                                                        </div>
+                                                        }
+                                                        <!-- @if (skills.create.visible$()) {
+                                                        <button class="add-button" mat-ripple
+                                                            (click)="skills.create.click()">
+                                                            <fa-icon [icon]="icons.faPlus" class="w-4"></fa-icon>
+                                                            <span class="leading-none">Add New</span>
+                                                        </button>
+                                                        } -->
+
+                                                    </div>
+                                                </ng-template>
+                                            </mat-expansion-panel>
+                                            }
+
+                                        </mat-accordion>
+                                    </div>
+                                    <!-- <li class="text-lg text-base-content/80">You have at least 4 years of experience
+                                        including solid experience as a UI designer in SaaS or an ecommerce solution
+                                        with a strong portfolio of related projects</li>
+                                    <li class="text-lg text-base-content/80">You are proficient in Adobe Creative Suite
+                                        (specifically Illustrator, InDesign and Photoshop)</li>
+                                    <li class="text-lg text-base-content/80">You are proficient in prototyping tools
+                                        such as Sketch</li>
+                                    <li class="text-lg text-base-content/80">Basic HTML5, CSS3, and JavaScript skills
+                                        are a plus</li>
+                                    <li class="text-lg text-base-content/80">You pay strong attention to detail and have
+                                        a keen eye for aesthetics</li>
+                                    <li class="text-lg text-base-content/80">You have excellent communication skills and
+                                        can clearly articulate your ideas, designs, and suggestions</li>
+                                    <li class="text-lg text-base-content/80">You have an amazing track record of
+                                        success, are highly goal-driven, and work well in fast-paced environments</li> -->
+                                </ul>
+                            </div>
+                            <!-- <div class="mt-8">
+                                <div class=" flex items-center gap-6">
+                                    <h5 class="text-lg text-base-content font-medium">Share:</h5>
+                                    <div class=" flex items-center gap-2 text-base-content"><a target="_blank"
+                                            class="bg-base-100 border border-base-content/20 rounded-md p-3 hover:bg-primary hover:duration-300 transition hover:text-primary-content"
+                                            href="/"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <g opacity="0.6">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M18.75 10.0531C18.75 5.22107 14.832 1.3031 10 1.3031C5.16797 1.3031 1.25 5.22107 1.25 10.0531C1.25 14.4203 4.44922 18.0402 8.63281 18.6972V12.5832H6.41055V10.0531H8.63281V8.12537C8.63281 5.93279 9.93945 4.72068 11.9379 4.72068C12.8953 4.72068 13.8969 4.89177 13.8969 4.89177V7.04529H12.793C11.7066 7.04529 11.3668 7.71951 11.3668 8.41247V10.0531H13.7934L13.4059 12.5832H11.3672V18.698C15.5508 18.0414 18.75 14.4215 18.75 10.0531Z"
+                                                        fill="currentColor"></path>
+                                                </g>
+                                            </svg></a><a target="_blank"
+                                            class="bg-base-100 border border-base-content/20 rounded-md p-3 hover:bg-primary hover:duration-300 transition hover:text-primary-content"
+                                            href="/"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <g opacity="0.6">
+                                                    <path
+                                                        d="M19.375 4.27723C18.6717 4.58283 17.9275 4.78417 17.166 4.87488C17.9663 4.40628 18.5681 3.66182 18.8586 2.78113C18.102 3.22355 17.2756 3.53397 16.4148 3.6991C16.0524 3.31923 15.6165 3.01703 15.1336 2.81088C14.6507 2.60472 14.1309 2.49891 13.6059 2.49988C11.4801 2.49988 9.75977 4.1952 9.75977 6.28504C9.75826 6.57573 9.79157 6.86555 9.85898 7.14832C8.33464 7.07686 6.842 6.688 5.47656 6.00662C4.11111 5.32525 2.90292 4.36635 1.9293 3.19129C1.58772 3.76712 1.40708 4.42412 1.40625 5.09363C1.40625 6.40613 2.09102 7.56629 3.125 8.24598C2.51239 8.23144 1.91234 8.0693 1.37578 7.77332V7.8202C1.37578 9.65613 2.70391 11.1835 4.46172 11.5311C4.13117 11.6193 3.79053 11.6639 3.44844 11.6639C3.20569 11.6644 2.9635 11.6408 2.72539 11.5936C3.21406 13.0975 4.63633 14.1913 6.32109 14.2225C4.9521 15.2776 3.27134 15.8478 1.54297 15.8436C1.23618 15.8432 0.929674 15.8249 0.625 15.7889C2.38327 16.9117 4.42713 17.5056 6.51328 17.4999C13.5977 17.4999 17.468 11.7304 17.468 6.72645C17.468 6.56238 17.4637 6.39832 17.4559 6.23817C18.2071 5.70381 18.857 5.03977 19.375 4.27723Z"
+                                                        fill="currentColor"></path>
+                                                </g>
+                                            </svg></a><a target="_blank"
+                                            class="bg-base-100 border border-base-content/20 rounded-md p-3 hover:bg-primary hover:duration-300 transition hover:text-primary-content"
+                                            href="/"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <g opacity="0.6">
+                                                    <path
+                                                        d="M13.6457 2.7082C14.6118 2.71109 15.5375 3.09616 16.2207 3.77931C16.9038 4.46246 17.2889 5.38818 17.2918 6.3543V13.6457C17.2889 14.6118 16.9038 15.5375 16.2207 16.2207C15.5375 16.9038 14.6118 17.2889 13.6457 17.2918H6.3543C5.38818 17.2889 4.46246 16.9038 3.77931 16.2207C3.09616 15.5375 2.71109 14.6118 2.7082 13.6457V6.3543C2.71109 5.38818 3.09616 4.46246 3.77931 3.77931C4.46246 3.09616 5.38818 2.71109 6.3543 2.7082H13.6457ZM13.6457 1.25H6.3543C3.54687 1.25 1.25 3.54687 1.25 6.3543V13.6457C1.25 16.4531 3.54687 18.75 6.3543 18.75H13.6457C16.4531 18.75 18.75 16.4531 18.75 13.6457V6.3543C18.75 3.54687 16.4531 1.25 13.6457 1.25Z"
+                                                        fill="currentColor"></path>
+                                                    <path
+                                                        d="M14.7395 6.3543C14.5231 6.3543 14.3117 6.29015 14.1318 6.16997C13.9519 6.04978 13.8117 5.87896 13.729 5.67911C13.6462 5.47925 13.6245 5.25933 13.6667 5.04717C13.7089 4.835 13.8131 4.64011 13.9661 4.48715C14.119 4.33419 14.3139 4.23002 14.5261 4.18781C14.7382 4.14561 14.9582 4.16727 15.158 4.25005C15.3579 4.33284 15.5287 4.47303 15.6489 4.65289C15.7691 4.83276 15.8332 5.04422 15.8332 5.26055C15.8335 5.40427 15.8054 5.54663 15.7506 5.67947C15.6957 5.81231 15.6152 5.93301 15.5135 6.03463C15.4119 6.13626 15.2912 6.21681 15.1584 6.27167C15.0255 6.32653 14.8832 6.35461 14.7395 6.3543Z"
+                                                        fill="currentColor"></path>
+                                                    <path
+                                                        d="M10 7.0832C10.5769 7.0832 11.1408 7.25427 11.6205 7.57477C12.1002 7.89527 12.474 8.35082 12.6948 8.88379C12.9155 9.41677 12.9733 10.0032 12.8608 10.569C12.7482 11.1348 12.4704 11.6546 12.0625 12.0625C11.6546 12.4704 11.1348 12.7482 10.569 12.8608C10.0032 12.9733 9.41677 12.9155 8.88379 12.6948C8.35082 12.474 7.89527 12.1002 7.57477 11.6205C7.25427 11.1408 7.0832 10.5769 7.0832 10C7.08403 9.22667 7.3916 8.48525 7.93843 7.93843C8.48525 7.3916 9.22667 7.08403 10 7.0832ZM10 5.625C9.13471 5.625 8.28885 5.88159 7.56938 6.36232C6.84992 6.84305 6.28916 7.52633 5.95803 8.32576C5.62689 9.12519 5.54025 10.0049 5.70906 10.8535C5.87787 11.7022 6.29455 12.4817 6.90641 13.0936C7.51826 13.7054 8.29781 14.1221 9.14648 14.2909C9.99515 14.4597 10.8748 14.3731 11.6742 14.042C12.4737 13.7108 13.1569 13.1501 13.6377 12.4306C14.1184 11.7112 14.375 10.8653 14.375 10C14.375 8.83968 13.9141 7.72688 13.0936 6.90641C12.2731 6.08594 11.1603 5.625 10 5.625Z"
+                                                        fill="currentColor"></path>
+                                                </g>
+                                            </svg></a><a target="_blank"
+                                            class="bg-base-100 border border-base-content/20 rounded-md p-3 hover:bg-primary hover:duration-300 transition hover:text-primary-content"
+                                            href="/"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <g opacity="0.6">
+                                                    <path
+                                                        d="M19.8701 5.81211C19.8701 4.0543 18.5772 2.64023 16.9795 2.64023C14.8155 2.53906 12.6084 2.5 10.353 2.5H9.64984C7.39984 2.5 5.1889 2.53906 3.02484 2.64062C1.43108 2.64062 0.138116 4.0625 0.138116 5.82031C0.0404597 7.21055 -0.00094654 8.60117 0.00139721 9.9918C-0.00250904 11.3824 0.0417618 12.7743 0.13421 14.1676C0.13421 15.9254 1.42718 17.3512 3.02093 17.3512C5.29437 17.4566 7.6264 17.5035 9.99749 17.4996C12.3725 17.5074 14.698 17.4579 16.9741 17.3512C18.5717 17.3512 19.8647 15.9254 19.8647 14.1676C19.9584 12.773 20.0014 11.3824 19.9975 9.98789C20.0063 8.59727 19.9639 7.20534 19.8701 5.81211ZM8.08734 13.8238V6.14805L13.7514 9.98398L8.08734 13.8238Z"
+                                                        fill="currentColor"></path>
+                                                </g>
+                                            </svg></a></div>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div
+                            class="mt-8 flex flex-col md:flex-row items-center gap-5 md:gap-0 justify-center md:justify-between">
+                            <div>
+                                <h6 class="text-xl font-semibold text-base-content">Interested in this job?</h6>
+                                <p class="mt-1 text-base text-base-content/60">100 days left to apply</p>
+                            </div><button
+                                class="bg-primary w-fit hover:bg-primary-focus transition hover:duration-500 py-3 px-5 text-base font-semibold text-primary-content rounded-lg flex items-center gap-3"
+                                fdprocessedid="lh9v6">Apply Now<span><svg class="text-xl" width="18" height="18"
+                                        viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g opacity="0.6">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M6.86409 2.59846C7.12037 2.34218 7.53588 2.34218 7.79216 2.59846L11.7297 6.53596C11.9859 6.79224 11.9859 7.20776 11.7297 7.46404L7.79216 11.4015C7.53588 11.6578 7.12037 11.6578 6.86409 11.4015C6.6078 11.1453 6.6078 10.7297 6.86409 10.4735L9.6813 7.65625H2.73438C2.37194 7.65625 2.07812 7.36244 2.07812 7C2.07812 6.63756 2.37194 6.34375 2.73438 6.34375H9.6813L6.86409 3.52654C6.6078 3.27026 6.6078 2.85474 6.86409 2.59846Z"
+                                                fill="currentColor"></path>
+                                        </g>
+                                    </svg></span></button>
+                        </div>
+                    </div>
+                    <!-- <div class="mt-12">
+                        <h5 class="text-2xl text-base-content font-semibold">Related Jobs</h5>
+                        <div class="mt-6 flex flex-col gap-6">
+                            <div>
+                                <div
+                                    class="p-6 bg-base-100 hover:bg-base-300/30 hover:duration-500 transition border border-base-content/20 rounded-xl group">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex flex-col md:flex-row items-start md:items-center gap-6"><img
+                                                alt="company logo" loading="lazy" width="48" height="48"
+                                                decoding="async" data-nimg="1" class="p-2 bg-primary rounded-xl"
+                                                srcset="/_next/image?url=%2Fimages%2Fcompany-logo.png&amp;w=48&amp;q=75 1x, /_next/image?url=%2Fimages%2Fcompany-logo.png&amp;w=96&amp;q=75 2x"
+                                                src="/_next/image?url=%2Fimages%2Fcompany-logo.png&amp;w=96&amp;q=75"
+                                                style="color: transparent;">
+                                            <div>
+                                                <p class="text-sm font-medium text-base-content">Microsoft</p>
+                                                <h6
+                                                    class="mt-1 text-lg font-semibold text-base-content group-hover:opacity-60 group-hover:duration-300 transition">
+                                                    <a href="/job-details">Need Senior MERN Stack Developer</a></h6>
+                                                <div class="mt-3 flex items-center gap-2">
+                                                    <p
+                                                        class="bg-base-300/30 px-2 py-1 w-fit text-xs text-base-content/70 rounded-md">
+                                                        Full Time</p>
+                                                    <p
+                                                        class="bg-base-300/30 px-2 py-1 w-fit text-xs text-base-content/70 rounded-md">
+                                                        $5k - $7k</p>
+                                                    <p
+                                                        class="bg-base-300/30 px-2 py-1 w-fit text-xs text-base-content/70 rounded-md">
+                                                        12 hours ago</p>
+                                                </div>
+                                            </div>
+                                        </div><a
+                                            class="hidden md:flex items-center gap-1.5 px-4 py-2.5 text-base-content/60 bg-base-300/50 group-hover:bg-primary group-hover:text-primary-content rounded-lg transition group-hover:duration-500"
+                                            href="/job-details">View Job<span><svg width="18" height="18"
+                                                    viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <g opacity="0.6">
+                                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                                            d="M6.86409 2.59846C7.12037 2.34218 7.53588 2.34218 7.79216 2.59846L11.7297 6.53596C11.9859 6.79224 11.9859 7.20776 11.7297 7.46404L7.79216 11.4015C7.53588 11.6578 7.12037 11.6578 6.86409 11.4015C6.6078 11.1453 6.6078 10.7297 6.86409 10.4735L9.6813 7.65625H2.73438C2.37194 7.65625 2.07812 7.36244 2.07812 7C2.07812 6.63756 2.37194 6.34375 2.73438 6.34375H9.6813L6.86409 3.52654C6.6078 3.27026 6.6078 2.85474 6.86409 2.59846Z"
+                                                            fill="currentColor"></path>
+                                                    </g>
+                                                </svg></span></a>
+                                    </div>
+                                    <p class="mt-5 text-base text-base-content/60">Lorem ipsum dolor sit amet,
+                                        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                        laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                </div>
+                            </div>
+                            <div>
+                                <div
+                                    class="p-6 bg-base-100 hover:bg-base-300/30 hover:duration-500 transition border border-base-content/20 rounded-xl group">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex flex-col md:flex-row items-start md:items-center gap-6"><img
+                                                alt="company logo" loading="lazy" width="48" height="48"
+                                                decoding="async" data-nimg="1" class="p-2 bg-primary rounded-xl"
+                                                srcset="/_next/image?url=%2Fimages%2Fcompany-logo.png&amp;w=48&amp;q=75 1x, /_next/image?url=%2Fimages%2Fcompany-logo.png&amp;w=96&amp;q=75 2x"
+                                                src="/_next/image?url=%2Fimages%2Fcompany-logo.png&amp;w=96&amp;q=75"
+                                                style="color: transparent;">
+                                            <div>
+                                                <p class="text-sm font-medium text-base-content">Microsoft</p>
+                                                <h6
+                                                    class="mt-1 text-lg font-semibold text-base-content group-hover:opacity-60 group-hover:duration-300 transition">
+                                                    <a href="/job-details">Need Senior MERN Stack Developer</a></h6>
+                                                <div class="mt-3 flex items-center gap-2">
+                                                    <p
+                                                        class="bg-base-300/30 px-2 py-1 w-fit text-xs text-base-content/70 rounded-md">
+                                                        Full Time</p>
+                                                    <p
+                                                        class="bg-base-300/30 px-2 py-1 w-fit text-xs text-base-content/70 rounded-md">
+                                                        $5k - $7k</p>
+                                                    <p
+                                                        class="bg-base-300/30 px-2 py-1 w-fit text-xs text-base-content/70 rounded-md">
+                                                        12 hours ago</p>
+                                                </div>
+                                            </div>
+                                        </div><a
+                                            class="hidden md:flex items-center gap-1.5 px-4 py-2.5 text-base-content/60 bg-base-300/50 group-hover:bg-primary group-hover:text-primary-content rounded-lg transition group-hover:duration-500"
+                                            href="/job-details">View Job<span><svg width="18" height="18"
+                                                    viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <g opacity="0.6">
+                                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                                            d="M6.86409 2.59846C7.12037 2.34218 7.53588 2.34218 7.79216 2.59846L11.7297 6.53596C11.9859 6.79224 11.9859 7.20776 11.7297 7.46404L7.79216 11.4015C7.53588 11.6578 7.12037 11.6578 6.86409 11.4015C6.6078 11.1453 6.6078 10.7297 6.86409 10.4735L9.6813 7.65625H2.73438C2.37194 7.65625 2.07812 7.36244 2.07812 7C2.07812 6.63756 2.37194 6.34375 2.73438 6.34375H9.6813L6.86409 3.52654C6.6078 3.27026 6.6078 2.85474 6.86409 2.59846Z"
+                                                            fill="currentColor"></path>
+                                                    </g>
+                                                </svg></span></a>
+                                    </div>
+                                    <p class="mt-5 text-base text-base-content/60">Lorem ipsum dolor sit amet,
+                                        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                        laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                </div>
+                            </div>
+                            <div>
+                                <div
+                                    class="p-6 bg-base-100 hover:bg-base-300/30 hover:duration-500 transition border border-base-content/20 rounded-xl group">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex flex-col md:flex-row items-start md:items-center gap-6"><img
+                                                alt="company logo" loading="lazy" width="48" height="48"
+                                                decoding="async" data-nimg="1" class="p-2 bg-primary rounded-xl"
+                                                srcset="/_next/image?url=%2Fimages%2Fcompany-logo.png&amp;w=48&amp;q=75 1x, /_next/image?url=%2Fimages%2Fcompany-logo.png&amp;w=96&amp;q=75 2x"
+                                                src="/_next/image?url=%2Fimages%2Fcompany-logo.png&amp;w=96&amp;q=75"
+                                                style="color: transparent;">
+                                            <div>
+                                                <p class="text-sm font-medium text-base-content">Microsoft</p>
+                                                <h6
+                                                    class="mt-1 text-lg font-semibold text-base-content group-hover:opacity-60 group-hover:duration-300 transition">
+                                                    <a href="/job-details">Need Senior MERN Stack Developer</a></h6>
+                                                <div class="mt-3 flex items-center gap-2">
+                                                    <p
+                                                        class="bg-base-300/30 px-2 py-1 w-fit text-xs text-base-content/70 rounded-md">
+                                                        Full Time</p>
+                                                    <p
+                                                        class="bg-base-300/30 px-2 py-1 w-fit text-xs text-base-content/70 rounded-md">
+                                                        $5k - $7k</p>
+                                                    <p
+                                                        class="bg-base-300/30 px-2 py-1 w-fit text-xs text-base-content/70 rounded-md">
+                                                        12 hours ago</p>
+                                                </div>
+                                            </div>
+                                        </div><a
+                                            class="hidden md:flex items-center gap-1.5 px-4 py-2.5 text-base-content/60 bg-base-300/50 group-hover:bg-primary group-hover:text-primary-content rounded-lg transition group-hover:duration-500"
+                                            href="/job-details">View Job<span><svg width="18" height="18"
+                                                    viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <g opacity="0.6">
+                                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                                            d="M6.86409 2.59846C7.12037 2.34218 7.53588 2.34218 7.79216 2.59846L11.7297 6.53596C11.9859 6.79224 11.9859 7.20776 11.7297 7.46404L7.79216 11.4015C7.53588 11.6578 7.12037 11.6578 6.86409 11.4015C6.6078 11.1453 6.6078 10.7297 6.86409 10.4735L9.6813 7.65625H2.73438C2.37194 7.65625 2.07812 7.36244 2.07812 7C2.07812 6.63756 2.37194 6.34375 2.73438 6.34375H9.6813L6.86409 3.52654C6.6078 3.27026 6.6078 2.85474 6.86409 2.59846Z"
+                                                            fill="currentColor"></path>
+                                                    </g>
+                                                </svg></span></a>
+                                    </div>
+                                    <p class="mt-5 text-base text-base-content/60">Lorem ipsum dolor sit amet,
+                                        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                        laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-16">
+                            <div
+                                class="py-16 bg-gradient-to-b from-primary/10 to-primary/0 rounded-3xl flex flex-col items-center px-5">
+                                <div class="max-w-[470px] text-center">
+                                    <h3 class="text-2xl md:text-4xl text-base-content font-semibold">Subscribe
+                                        Newsletter</h3>
+                                    <p class="mt-3 text-base md:text-lg text-base-content/60">Sign up to our newsletter
+                                        to ger $10 off your first order, as well as news of our latest offers and
+                                        product releases.</p>
+                                    <div class="mt-8 relative"><input placeholder="Email"
+                                            class="w-full outline-none p-5 rounded-xl shadow-md" type="text"
+                                            fdprocessedid="6gjjds"><button
+                                            class="btn btn-primary px-5 py-3 absolute right-2 top-2"
+                                            fdprocessedid="wctdih">Subscribe</button></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="hidden xl:block xl:col-span-4">
+                <div class="p-8 bg-base-100 rounded-xl"><button
+                        class="bg-primary w-full hover:bg-primary-focus transition hover:duration-500 py-3 px-5 text-base font-semibold text-primary-content rounded-lg flex items-center justify-end"
+                        fdprocessedid="4s2p6"><span class="mr-12"> Apply for this position</span><span><svg
+                                class="text-xl" width="18" height="18" viewBox="0 0 14 14" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g opacity="0.6">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M6.86409 2.59846C7.12037 2.34218 7.53588 2.34218 7.79216 2.59846L11.7297 6.53596C11.9859 6.79224 11.9859 7.20776 11.7297 7.46404L7.79216 11.4015C7.53588 11.6578 7.12037 11.6578 6.86409 11.4015C6.6078 11.1453 6.6078 10.7297 6.86409 10.4735L9.6813 7.65625H2.73438C2.37194 7.65625 2.07812 7.36244 2.07812 7C2.07812 6.63756 2.37194 6.34375 2.73438 6.34375H9.6813L6.86409 3.52654C6.6078 3.27026 6.6078 2.85474 6.86409 2.59846Z"
+                                        fill="currentColor"></path>
+                                </g>
+                            </svg></span></button>
+                    <div class="mt-3">
+                        <div class="flex items-center justify-between py-5 border-b border-base-content/10">
+                            <p class="text-base text-base-content">Project Type</p>
+                            <p class="text-base text-base-content font-medium">{{viewJobPost.projectType}}</p>
+                        </div>
+                        <div class="flex items-center justify-between py-5 border-b border-base-content/10">
+                            <p class="text-base text-base-content">Experience</p>
+                            <p class="text-base text-base-content font-medium">{{viewJobPost.requirements.experience}}
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-between py-5 border-b border-base-content/10">
+                            <p class="text-base text-base-content">No of Hours</p>
+                            <p class="text-base text-base-content font-medium">{{viewJobPost.requirements.commitment}}
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-between py-5 border-b border-base-content/10">
+                            <p class="text-base text-base-content">Engagement Period</p>
+                            <p class="text-base text-base-content font-medium">
+                                {{viewJobPost.requirements.engagementPeriod}}</p>
+                        </div>
+                        <div class="flex items-center justify-between py-5 border-b border-base-content/10">
+                            <p class="text-base text-base-content">Hourly Budget</p>
+                            <p class="text-base text-base-content font-medium">
+                                {{viewJobPost.requirements.hourlyBudget}}</p>
+                        </div>
+                        <div class="flex items-center justify-between py-5 border-b border-base-content/10">
+                            <p class="text-base text-base-content">Start Timeline</p>
+                            <p class="text-base text-base-content font-medium">
+                                {{viewJobPost.requirements.projectKickoff}}</p>
+                        </div>
+                        <div class="flex items-center justify-between py-5 border-b border-base-content/10">
+                            <p class="text-base text-base-content">Remote Work</p>
+                            <p class="text-base text-base-content font-medium">
+                                {{viewJobPost.requirements.remote}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 px-12">
+                    <div class="bg-base-300/30 rounded-xl py-36 text-center">
+                        <p class="text-sm text-base-content opacity-40">Advertisement</p>
+                        <h5 class="text-base-content opacity-40 text-xl font-semibold">You can place ads</h5>
+                        <p class="text-base-content opacity-40 text-lg">300x360</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
