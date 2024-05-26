@@ -45,15 +45,15 @@ export const EMPLOYER_ROUTE: Route = {
     {
       path: 'job-post/create',
       pathMatch: 'full',
-      loadComponent: () => import('./job-post/create-job-post.page').then(m => m.CreateJobPostPageComponent)
+      loadComponent: () => import('./job-post/create/create-job-post.page').then(m => m.CreateJobPostPageComponent)
     },
     {
       path: 'job-post/view',
       pathMatch: 'full',
-      loadComponent: () => import('./view-job-post/view-job-post.page').then(m => m.ViewJobPostPageComponent),
+      loadComponent: () => import('./job-post/view/view-job-post.page').then(m => m.ViewJobPostPageComponent),
       resolve: {
         jobPost: async () => {
-          const data = import('./view-job-post/mock-job-post')
+          const data = import('./job-post/view/mock-job-post')
             .then(m => m.mockJobPost);
           return data;
         }
