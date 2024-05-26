@@ -52,5 +52,5 @@ export class ViewJobPostPageComponent {
     } as const;
   });
 
-  protected readonly techGroups$ = computed(() => this.jobPost$().industries);
+  protected readonly techGroups$ = computed(() => this.jobPost$().tech);
 }
