@@ -1,7 +1,8 @@
-<div class="contents" [class.invisible]="showSpinner">
+<div class="contents" [class.invisible]="showSpinner$()">
   <ng-content></ng-content>
 </div>
-<div *ngIf="showSpinner"
-     class="absolute top-0 left-0 flex place-content-center place-items-center w-full h-full">
-  <mat-spinner mode="indeterminate" [diameter]="diameter" [ngClass]="spinnerClasses"></mat-spinner>
+@if (showSpinner$()) {
+<div class="absolute top-0 left-0 flex place-content-center place-items-center w-full h-full">
+  <mat-spinner mode="indeterminate" [diameter]="diameter$()" [ngClass]="spinnerClasses$()"></mat-spinner>
 </div>
+}
