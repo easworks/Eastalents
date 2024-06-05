@@ -4297,26 +4297,7 @@
       "name": "Zuora API"
     }
   ],
-  "softwareProducts": [
-    {
-      "id": "sp-1",
-      "name": "SP 1",
-      "imageUrl": "",
-      "techGroup": []
-    },
-    {
-      "id": "sp-2",
-      "name": "SP 2",
-      "imageUrl": "",
-      "techGroup": []
-    },
-    {
-      "id": "sp-3",
-      "name": "SP 3",
-      "imageUrl": "",
-      "techGroup": []
-    }
-  ],
+  "softwareProducts": [],
   "techGroups": [
     {
       "id": "api",
