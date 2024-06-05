@@ -1,56 +1,23 @@
 <main>
-  <!-- <div class="bg-[url('/common-header.png')] bg-no-repeat bg-center bg-cover h-[304px] relative bg-primary z-[1]">
-    </div> -->
   <div class="container mx-auto px-5 md:px-0 relative z-[2] mb-20">
     <div class="grid grid-cols-12 lg:gap-8 justify-items-center w-full">
       <div class="col-span-12 lg:w-10/12 xl:w-full xl:col-span-8">
         <div>
-          <div class="p-8 bg-base-100 rounded-2xl"><a
-              class=" bg-base-content/5 px-3 py-2.5 text-sm font-medium text-base-content/60 rounded-lg flex items-center gap-2.5 hover:bg-primary hover:text-primary-content transition hover:duration-500 w-fit"
-              href="/"><span><svg width="10" height="10" viewBox="0 0 10 10" fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M5.13591 0.598461C4.87963 0.34218 4.46412 0.34218 4.20784 0.598461L0.270336 4.53596C0.0140553 4.79224 0.0140553 5.20776 0.270336 5.46404L4.20784 9.40154C4.46412 9.65782 4.87963 9.65782 5.13591 9.40154C5.3922 9.14526 5.3922 8.72974 5.13591 8.47346L2.3187 5.65625H9.26562C9.62806 5.65625 9.92188 5.36244 9.92188 5C9.92188 4.63756 9.62806 4.34375 9.26562 4.34375H2.3187L5.13591 1.52654C5.3922 1.27026 5.3922 0.854743 5.13591 0.598461Z"
-                    fill="currentColor"></path>
-                </svg></span>Back</a>
+          <div class="p-8 bg-base-100 rounded-2xl">
+            <a class="highlight-button flex gap-3 items-center w-fit" href="/">
+              <fa-icon [icon]="icons.faArrowLeft"></fa-icon>
+              Back
+            </a>
             <div
               class="flex flex-col md:flex-row items-start md:items-center gap-6 mt-6 pb-6 xl:border-b border-base-content/10">
 
               <div *ngrxLet="header$() as header">
-                <h6 class="mt-1 text-3xl font-medium text-base-content">{{header.title}} </h6>
-                <p class="text-base font-medium text-base-content">{{header.subtitle}}</p>
+                <h6 class="text-3xl font-medium">{{header.title}} </h6>
+                <p class="mt-1 font-medium">{{header.subtitle}}</p>
               </div>
             </div>
             <div class="block xl:hidden">
-              <div class="bg-base-100 rounded-xl"><button
-                  class="bg-primary w-fit hover:bg-primary-focus transition hover:duration-500 py-3 px-5 text-base font-semibold text-primary-content rounded-lg flex items-center gap-3">Apply
-                  Now<span><svg class="text-xl" width="18" height="18" viewBox="0 0 14 14" fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <g opacity="0.6">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                          d="M6.86409 2.59846C7.12037 2.34218 7.53588 2.34218 7.79216 2.59846L11.7297 6.53596C11.9859 6.79224 11.9859 7.20776 11.7297 7.46404L7.79216 11.4015C7.53588 11.6578 7.12037 11.6578 6.86409 11.4015C6.6078 11.1453 6.6078 10.7297 6.86409 10.4735L9.6813 7.65625H2.73438C2.37194 7.65625 2.07812 7.36244 2.07812 7C2.07812 6.63756 2.37194 6.34375 2.73438 6.34375H9.6813L6.86409 3.52654C6.6078 3.27026 6.6078 2.85474 6.86409 2.59846Z"
-                          fill="currentColor"></path>
-                      </g>
-                    </svg></span></button>
-                <div class="mt-3">
-                  <div class="flex items-center justify-between py-5 border-b border-base-content/10">
-                    <p class="text-base text-base-content">Date Posted</p>
-                    <p class="text-base text-base-content font-medium">Apr 04, 2023</p>
-                  </div>
-                  <div class="flex items-center justify-between py-5 border-b border-base-content/10">
-                    <p class="text-base text-base-content">Job Type</p>
-                    <p class="text-base text-base-content font-medium">Full Time</p>
-                  </div>
-                  <div class="flex items-center justify-between py-5 border-b border-base-content/10">
-                    <p class="text-base text-base-content">Job Role</p>
-                    <p class="text-base text-base-content font-medium">Product Designer</p>
-                  </div>
-                  <div class="flex items-center justify-between py-5 border-b border-base-content/10">
-                    <p class="text-base text-base-content">Salary</p>
-                    <p class="text-base text-base-content font-medium">$5k - 7k</p>
-                  </div>
-                </div>
-              </div>
+              <ng-container [ngTemplateOutlet]="$jobSpecifics"></ng-container>
             </div>
             <div class="mt-8 pb-8 border-b border-base-content/10">
               <h6 class="mt-8 text-xl font-bold text-base-content">Overview</h6>
@@ -351,61 +318,62 @@
         </div>
       </div>
       <div class="hidden xl:block xl:col-span-4">
-        <div class="p-8 bg-base-100 rounded-xl"><button
-            class="bg-primary w-full hover:bg-primary-focus transition hover:duration-500 py-3 px-5 text-base font-semibold text-primary-content rounded-lg flex items-center justify-end"
-            fdprocessedid="4s2p6"><span class="mr-12"> Apply for this position</span><span><svg class="text-xl"
-                width="18" height="18" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g opacity="0.6">
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M6.86409 2.59846C7.12037 2.34218 7.53588 2.34218 7.79216 2.59846L11.7297 6.53596C11.9859 6.79224 11.9859 7.20776 11.7297 7.46404L7.79216 11.4015C7.53588 11.6578 7.12037 11.6578 6.86409 11.4015C6.6078 11.1453 6.6078 10.7297 6.86409 10.4735L9.6813 7.65625H2.73438C2.37194 7.65625 2.07812 7.36244 2.07812 7C2.07812 6.63756 2.37194 6.34375 2.73438 6.34375H9.6813L6.86409 3.52654C6.6078 3.27026 6.6078 2.85474 6.86409 2.59846Z"
-                    fill="currentColor"></path>
-                </g>
-              </svg></span></button>
-          <div class="mt-3" *ngrxLet="jobSpecifices$() as jobSpecifices">
-            <div class="flex items-center justify-between py-5 border-b border-base-content/10">
-              <p class="text-base text-base-content">Project Type</p>
-              <p class="text-base text-base-content font-medium">{{jobSpecifices.projectType}}</p>
-            </div>
-            <div class="flex items-center justify-between py-5 border-b border-base-content/10">
-              <p class="text-base text-base-content">Experience</p>
-              <p class="text-base text-base-content font-medium">{{jobSpecifices.experience}}
-              </p>
-            </div>
-            <div class="flex items-center justify-between py-5 border-b border-base-content/10">
-              <p class="text-base text-base-content">No of Hours</p>
-              <p class="text-base text-base-content font-medium">{{jobSpecifices.noOfHours}}
-              </p>
-            </div>
-            <div class="flex items-center justify-between py-5 border-b border-base-content/10">
-              <p class="text-base text-base-content">Engagement Period</p>
-              <p class="text-base text-base-content font-medium">
-                {{jobSpecifices.engagementPeriod}}</p>
-            </div>
-            <div class="flex items-center justify-between py-5 border-b border-base-content/10">
-              <p class="text-base text-base-content">Hourly Budget</p>
-              <p class="text-base text-base-content font-medium">
-                {{jobSpecifices.hourlyBudget}}</p>
-            </div>
-            <div class="flex items-center justify-between py-5 border-b border-base-content/10">
-              <p class="text-base text-base-content">Start Timeline</p>
-              <p class="text-base text-base-content font-medium">
-                {{jobSpecifices.startTimeLine}}</p>
-            </div>
-            <div class="flex items-center justify-between py-5 border-b border-base-content/10">
-              <p class="text-base text-base-content">Remote Work</p>
-              <p class="text-base text-base-content font-medium">
-                {{jobSpecifices.RemoteWork}}</p>
-            </div>
-          </div>
-        </div>
-        <div class="mt-8 px-12">
-          <div class="bg-base-300/30 rounded-xl py-36 text-center">
-            <!-- <p class="text-sm text-base-content opacity-40">Advertisement</p>
-            <h5 class="text-base-content opacity-40 text-xl font-semibold">You can place ads</h5>
-            <p class="text-base-content opacity-40 text-lg">300x360</p> -->
-          </div>
-        </div>
+        <button
+          class="bg-primary w-full hover:bg-primary-focus transition hover:duration-500 py-3 px-5 text-base font-semibold text-primary-content rounded-lg flex items-center justify-end">
+          <span class="mr-12"> Apply for this position</span>
+          <span><svg class="text-xl" width="18" height="18" viewBox="0 0 14 14" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <g opacity="0.6">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M6.86409 2.59846C7.12037 2.34218 7.53588 2.34218 7.79216 2.59846L11.7297 6.53596C11.9859 6.79224 11.9859 7.20776 11.7297 7.46404L7.79216 11.4015C7.53588 11.6578 7.12037 11.6578 6.86409 11.4015C6.6078 11.1453 6.6078 10.7297 6.86409 10.4735L9.6813 7.65625H2.73438C2.37194 7.65625 2.07812 7.36244 2.07812 7C2.07812 6.63756 2.37194 6.34375 2.73438 6.34375H9.6813L6.86409 3.52654C6.6078 3.27026 6.6078 2.85474 6.86409 2.59846Z"
+                  fill="currentColor"></path>
+              </g>
+            </svg>
+          </span>
+        </button>
+
+        <ng-container [ngTemplateOutlet]="$jobSpecifics"></ng-container>
+
       </div>
     </div>
   </div>
 </main>
+
+<ng-template #$jobSpecifics>
+  <div class="mt-3 job-specifics" *ngrxLet="jobSpecifics$() as jobSpecifics">
+    <div>
+      <p>Project Type</p>
+      <p>{{jobSpecifics.projectType}}</p>
+    </div>
+    <mat-divider></mat-divider>
+    <div>
+      <p>Experience</p>
+      <p>{{jobSpecifics.experience}}</p>
+    </div>
+    <mat-divider></mat-divider>
+    <div>
+      <p>No of Hours</p>
+      <p>{{jobSpecifics.noOfHours}}</p>
+    </div>
+    <mat-divider></mat-divider>
+    <div>
+      <p>Engagement Period</p>
+      <p>{{jobSpecifics.engagementPeriod}}</p>
+    </div>
+    <mat-divider></mat-divider>
+    <div>
+      <p>Hourly Budget</p>
+      <p>{{jobSpecifics.hourlyBudget}}</p>
+    </div>
+    <mat-divider></mat-divider>
+    <div>
+      <p>Start Timeline</p>
+      <p>{{jobSpecifics.startTimeLine}}</p>
+    </div>
+    <mat-divider></mat-divider>
+    <div>
+      <p>Remote Work</p>
+      <p>{{jobSpecifics.remoteWork}}</p>
+    </div>
+  </div>
+</ng-template>

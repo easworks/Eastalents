@@ -8,11 +8,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { JobPost } from '@easworks/models';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'employer-view-job-post',
   templateUrl: './view-job-post.page.html',
-  styleUrls: ['./view-job-post.page.less'],
+  styleUrl: './view-job-post.page.less',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -27,6 +28,12 @@ import { JobPost } from '@easworks/models';
   ]
 })
 export class ViewJobPostPageComponent {
+  protected readonly icons = {
+    faArrowLeft,
+    faArrowRight
+  } as const;
+
+
   protected readonly jobPost$ = input.required<JobPost>({ alias: 'jobPost' });
 
   protected readonly header$ = computed(() => {
@@ -74,7 +81,7 @@ export class ViewJobPostPageComponent {
   });
 
 
-  protected readonly jobSpecifices$ = computed(() => {
+  protected readonly jobSpecifics$ = computed(() => {
     const jobSpecificesDetail = this.jobPost$();
 
     return {
@@ -84,7 +91,7 @@ export class ViewJobPostPageComponent {
       engagementPeriod: jobSpecificesDetail.requirements.engagementPeriod,
       hourlyBudget: jobSpecificesDetail.requirements.hourlyBudget,
       startTimeLine: jobSpecificesDetail.requirements.projectKickoff,
-      RemoteWork: jobSpecificesDetail.requirements.remote
+      remoteWork: jobSpecificesDetail.requirements.remote
 
     } as const;
   });
