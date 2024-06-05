@@ -1,5 +1,5 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, computed, input } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
@@ -28,6 +28,9 @@ import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
   ]
 })
 export class ViewJobPostPageComponent {
+
+  @HostBinding() private readonly class = 'page';
+
   protected readonly icons = {
     faArrowLeft,
     faArrowRight
