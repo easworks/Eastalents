@@ -1,86 +1,89 @@
 <div class="container mx-auto px-4 md:px-0 relative z-[2] mb-20 
       grid grid-cols-12 xl:gap-x-16 justify-items-center">
+
+  <div class="w-full col-span-12">
+    <a class="highlight-button flex gap-3 items-center w-fit" href="/">
+      <fa-icon [icon]="icons.faArrowLeft"></fa-icon>
+      Back
+    </a>
+  </div>
+
   <div class="col-span-12 lg:w-10/12 xl:w-full xl:col-span-8">
-    <div class="bg-base-100 rounded-2xl">
-      <a class="highlight-button flex gap-3 items-center w-fit" href="/">
-        <fa-icon [icon]="icons.faArrowLeft"></fa-icon>
-        Back
-      </a>
 
-      <div *ngrxLet="header$() as header" class="mt-4">
-        <h6 class="text-3xl font-medium">{{header.title}} </h6>
-        <p class="mt-1 font-medium text-gray-500">{{header.subtitle}}</p>
-      </div>
+    <div *ngrxLet="header$() as header" class="mt-4">
+      <h6 class="text-3xl font-medium">{{header.title}} </h6>
+      <p class="mt-1 font-medium text-gray-500">{{header.subtitle}}</p>
+    </div>
 
-      <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
 
-      <div class="block mt-8 xl:hidden">
-        <ng-container [ngTemplateOutlet]="$jobSpecifics"></ng-container>
-      </div>
+    <div class="block mt-8 xl:hidden">
+      <ng-container [ngTemplateOutlet]="$jobSpecifics"></ng-container>
+    </div>
 
-      <div class="mt-8">
-        <h6 class="p-1 px-4 rounded-full bg-primary-100 text-xl font-bold">Overview</h6>
-        <p class="mt-4 px-4 leading-7 text-base-content/80">{{jobPost$().description}}</p>
-      </div>
+    <div class="mt-8">
+      <h6 class="p-1 px-4 rounded-full bg-primary-100 text-xl font-bold">Overview</h6>
+      <p class="mt-4 px-4 leading-7 text-base-content/80">{{jobPost$().description}}</p>
+    </div>
 
-      <div class="mt-8">
-        <h6 class="p-1 px-4 rounded-full bg-primary-100 text-xl font-bold">Primary Domain & Expertise</h6>
-        <ul class="mt-4 px-4 flex flex-col gap-3" style="list-style: disc;">
-          <div class="primary-domain-option" *ngrxLet="primaryDomainExpertise$() as primaryDomain">
-            @for(pm of primaryDomain.domainExpertise; track pm.key) {
-            <label class="flex flex-grow cursor-pointer">
-              <p class="text-base text-base-content font-medium">{{pm.key}}</p>
-              <p class="text-base text-base-content ml-1">
-                {{pm.value}}</p>
-            </label>
-            }
-          </div>
-        </ul>
-      </div>
-
-      <div class="mt-8">
-        <h6 class="p-1 px-4 rounded-full bg-primary-100 text-xl font-bold">Industry & Technical Experience</h6>
-        <ul class="mt-4 px-4 flex flex-col gap-3" style="list-style: disc;">
-          <div class="primary-domain-option">
-            <label class="flex flex-grow cursor-pointer">
-              <p class="text-base text-gray-400 font-medium">Industry</p>
-            </label>
-            @for(panel of jobPost$().industries; track panel.group) {
-            <label class="flex flex-grow cursor-pointer">
-              <p class="text-base font-medium">{{panel.group}}</p>
-              <p class="text-base ml-1">
-                {{panel.items.join(', ')}}</p>
-            </label>
-            }
-
-          </div>
-          <div class="primary-domain-option">
-            <label class="flex flex-grow cursor-pointer">
-              <p class="text-base text-gray-400 font-medium">Technical Experience</p>
-            </label>
-            @for(panel of techGroups$(); track panel.group) {
-            <label class="flex flex-grow cursor-pointer">
-              <p class="text-base font-medium">{{panel.group}}</p>
-              <p class="text-base ml-1">
-                {{panel.items.join(', ')}}</p>
-            </label>
-            }
-          </div>
-        </ul>
-      </div>
-
-      <mat-divider class="!mt-8"></mat-divider>
-
-      <div class="mt-8 flex flex-col md:flex-row items-center gap-5 md:gap-0 justify-center md:justify-between">
-        <div>
-          <h6 class="text-xl font-semibold text-primary-500">Interested in this job?</h6>
-          <p class="mt-1 text-base text-base-content/60">100 days left to apply</p>
+    <div class="mt-8">
+      <h6 class="p-1 px-4 rounded-full bg-primary-100 text-xl font-bold">Primary Domain & Expertise</h6>
+      <ul class="mt-4 px-4 flex flex-col gap-3" style="list-style: disc;">
+        <div class="primary-domain-option" *ngrxLet="primaryDomainExpertise$() as primaryDomain">
+          @for(pm of primaryDomain.domainExpertise; track pm.key) {
+          <label class="flex flex-grow cursor-pointer">
+            <p class="text-base text-base-content font-medium">{{pm.key}}</p>
+            <p class="text-base text-base-content ml-1">
+              {{pm.value}}</p>
+          </label>
+          }
         </div>
-        <button class="shaded-button primary flex items-center justify-between gap-4">
-          Apply Now
-          <!-- <fa-icon [icon]="icons.faArrowRight"></fa-icon> -->
-        </button>
-        <!-- <button
+      </ul>
+    </div>
+
+    <div class="mt-8">
+      <h6 class="p-1 px-4 rounded-full bg-primary-100 text-xl font-bold">Industry & Technical Experience</h6>
+      <ul class="mt-4 px-4 flex flex-col gap-3" style="list-style: disc;">
+        <div class="primary-domain-option">
+          <label class="flex flex-grow cursor-pointer">
+            <p class="text-base text-gray-400 font-medium">Industry</p>
+          </label>
+          @for(panel of jobPost$().industries; track panel.group) {
+          <label class="flex flex-grow cursor-pointer">
+            <p class="text-base font-medium">{{panel.group}}</p>
+            <p class="text-base ml-1">
+              {{panel.items.join(', ')}}</p>
+          </label>
+          }
+
+        </div>
+        <div class="primary-domain-option">
+          <label class="flex flex-grow cursor-pointer">
+            <p class="text-base text-gray-400 font-medium">Technical Experience</p>
+          </label>
+          @for(panel of techGroups$(); track panel.group) {
+          <label class="flex flex-grow cursor-pointer">
+            <p class="text-base font-medium">{{panel.group}}</p>
+            <p class="text-base ml-1">
+              {{panel.items.join(', ')}}</p>
+          </label>
+          }
+        </div>
+      </ul>
+    </div>
+
+    <mat-divider class="!mt-8"></mat-divider>
+
+    <div class="mt-8 flex flex-col md:flex-row items-center gap-5 md:gap-0 justify-center md:justify-between">
+      <div>
+        <h6 class="text-xl font-semibold text-primary-500">Interested in this job?</h6>
+        <p class="mt-1 text-base text-base-content/60">100 days left to apply</p>
+      </div>
+      <button class="shaded-button primary flex items-center justify-between gap-4">
+        Apply Now
+        <!-- <fa-icon [icon]="icons.faArrowRight"></fa-icon> -->
+      </button>
+      <!-- <button
                 class="bg-primary w-fit hover:bg-primary-focus transition hover:duration-500 py-3 px-5 text-base font-semibold text-primary-content rounded-lg flex items-center gap-3"
                 fdprocessedid="lh9v6">
           Apply Now
@@ -95,7 +98,6 @@
             </svg>
           </span>
         </button> -->
-      </div>
     </div>
 
     <!-- <div class="mt-12">
@@ -253,7 +255,7 @@
                         </div>
                     </div> -->
   </div>
-  <div class="hidden xl:block xl:col-span-4">
+  <div class="hidden xl:block xl:col-span-4 mt-2">
     <ng-container [ngTemplateOutlet]="$jobSpecifics"></ng-container>
   </div>
 </div>
