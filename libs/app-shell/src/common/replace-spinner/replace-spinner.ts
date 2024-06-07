@@ -13,15 +13,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   ]
 })
 export class ReplaceSpinnerComponent {
-  @HostBinding('class') readonly class = 'relative block';
+  @HostBinding('class') readonly class = 'relative contents';
   @Input() showSpinner = false;
   @Input() diameter = 18;
 
   @Input() spinnerClasses = '[&_circle]:stroke-primary';
-
-  @Input() contentContainerStyle: any = {
-    display: 'grid',
-    justifyContent: 'center',
-    alignContent: 'center',
-  };
 }

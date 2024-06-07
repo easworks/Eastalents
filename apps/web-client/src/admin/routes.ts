@@ -21,13 +21,13 @@ export const ADMIN_ROUTES: Route =
     {
       path: 'tech-skills',
       pathMatch: 'full',
-      loadComponent: () => import('./tech-skills/tech-skills.page')
+      loadComponent: () => import('./tech-skills/page/tech-skills.page')
         .then(m => m.TechSkillsPageComponent)
     },
     {
       path: 'tech-groups',
       pathMatch: 'full',
-      loadComponent: () => import('./tech-groups/tech-groups.page')
+      loadComponent: () => import('./tech-groups/page/tech-groups.page')
         .then(m => m.TechGroupsPageComponent)
     },
     {

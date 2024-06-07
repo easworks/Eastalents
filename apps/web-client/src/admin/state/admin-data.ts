@@ -24,7 +24,7 @@ export const techGroupActions = createActionGroup({
   source: 'tech-groups',
   events: {
     add: props<{ payload: TechGroup; }>(),
-    update: props<{ payload: TechGroup; }>(),
+    update: props<{ payload: { id: string; name: string; }; }>(),
     'add skill': props<{
       payload: {
         group: string;
@@ -110,6 +110,26 @@ const feature = createFeature({
     on(techSkillActions.update, (state, { payload }) => {
       state = { ...state };
       state.techSkills = adapters.techSkill.setOne(payload, state.techSkills);
+      return state;
+    }),
+
+    // Tech Groups
+    on(techGroupActions.add, (state, { payload }) => {
+      state = { ...state };
+      state.techGroups = adapters.techGroup.addOne(payload, state.techGroups);
+      (state.techGroups.ids as string[]).sort(sortString);
+      return state;
+    }),
+    on(techGroupActions.update, (state, { payload }) => {
+      state = { ...state };
+      state.techGroups = adapters.techGroup.mapOne({
+        id: payload.id,
+        map: group => {
+          group = { ...group };
+          group.name = payload.name;
+          return group;
+        },
+      }, state.techGroups);
       return state;
     })
   ),

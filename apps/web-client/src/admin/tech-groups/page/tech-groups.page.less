@@ -1,0 +1,14 @@
+.add-button {
+  @apply p-2 px-4 border-2 border-dashed rounded-lg 
+    flex items-center justify-center gap-2 
+    text-primary-500 transition-all;
+
+  &:hover,
+  &:focus {
+    @apply bg-primary-50 border-primary-200;
+  }
+
+  &:disabled {
+    @apply bg-gray-50 border-gray-50;
+  }
+}
