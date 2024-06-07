@@ -1,0 +1,5527 @@
+{
+  "techSkills": [
+    {
+      "id": "3d",
+      "name": "3D"
+    },
+    {
+      "id": "3d-cad",
+      "name": "3D CAD"
+    },
+    {
+      "id": "3d-printing",
+      "name": "3D Printing"
+    },
+    {
+      "id": "3ds-max",
+      "name": "3DS Max"
+    },
+    {
+      "id": "abap",
+      "name": "ABAP"
+    },
+    {
+      "id": "absinthe",
+      "name": "Absinthe"
+    },
+    {
+      "id": "acceleratedmobilepages",
+      "name": "AcceleratedMobilePages"
+    },
+    {
+      "id": "access",
+      "name": "Access"
+    },
+    {
+      "id": "accessibility-devices",
+      "name": "Accessibility Devices"
+    },
+    {
+      "id": "account-manager",
+      "name": "Account Manager"
+    },
+    {
+      "id": "actions-on-google",
+      "name": "Actions on Google"
+    },
+    {
+      "id": "actionscript",
+      "name": "ActionScript"
+    },
+    {
+      "id": "active-admin",
+      "name": "Active Admin"
+    },
+    {
+      "id": "active-directory",
+      "name": "Active Directory"
+    },
+    {
+      "id": "active-mq",
+      "name": "Active MQ"
+    },
+    {
+      "id": "active-x",
+      "name": "Active-X"
+    },
+    {
+      "id": "adaptive-design",
+      "name": "Adaptive Design"
+    },
+    {
+      "id": "administration",
+      "name": "Administration"
+    },
+    {
+      "id": "admob",
+      "name": "AdMob"
+    },
+    {
+      "id": "ado-net",
+      "name": "ADO.NET"
+    },
+    {
+      "id": "adobe-air",
+      "name": "Adobe AIR"
+    },
+    {
+      "id": "adobe-captivate",
+      "name": "Adobe Captivate"
+    },
+    {
+      "id": "adobe-coldfusion",
+      "name": "Adobe ColdFusion"
+    },
+    {
+      "id": "adobe-creative-suite",
+      "name": "Adobe Creative Suite"
+    },
+    {
+      "id": "adobe-flash",
+      "name": "Adobe Flash"
+    },
+    {
+      "id": "adobe-hbase",
+      "name": "Adobe HBase"
+    },
+    {
+      "id": "adobe-indesign",
+      "name": "Adobe Indesign"
+    },
+    {
+      "id": "adobe-xd",
+      "name": "Adobe XD"
+    },
+    {
+      "id": "adrobots",
+      "name": "AdRobots"
+    },
+    {
+      "id": "adtech",
+      "name": "AdTech"
+    },
+    {
+      "id": "advanced-custom-fields",
+      "name": "Advanced Custom Fields"
+    },
+    {
+      "id": "adwords",
+      "name": "AdWords"
+    },
+    {
+      "id": "affinity-designer",
+      "name": "Affinity Designer"
+    },
+    {
+      "id": "agile",
+      "name": "Agile"
+    },
+    {
+      "id": "aikit",
+      "name": "AIkit"
+    },
+    {
+      "id": "ajax",
+      "name": "AJAX"
+    },
+    {
+      "id": "akamai",
+      "name": "Akamai"
+    },
+    {
+      "id": "akka",
+      "name": "Akka"
+    },
+    {
+      "id": "algolia-api",
+      "name": "Algolia API"
+    },
+    {
+      "id": "algorithm-development",
+      "name": "Algorithm Development"
+    },
+    {
+      "id": "algorithmic-trading",
+      "name": "Algorithmic Trading"
+    },
+    {
+      "id": "alm",
+      "name": "ALM"
+    },
+    {
+      "id": "alpine-js",
+      "name": "Alpine.js"
+    },
+    {
+      "id": "altium",
+      "name": "Altium"
+    },
+    {
+      "id": "amazon-alexa-skills-kit",
+      "name": "Amazon Alexa Skills Kit"
+    },
+    {
+      "id": "amazon-cloudfront",
+      "name": "Amazon Cloudfront"
+    },
+    {
+      "id": "amazon-ec2",
+      "name": "Amazon EC2"
+    },
+    {
+      "id": "amazon-ecs",
+      "name": "Amazon ECS"
+    },
+    {
+      "id": "amazon-efs",
+      "name": "Amazon EFS"
+    },
+    {
+      "id": "amazon-eks",
+      "name": "Amazon EKS"
+    },
+    {
+      "id": "amazon-elastic-mapreduce",
+      "name": "Amazon Elastic MapReduce"
+    },
+    {
+      "id": "amazon-elb",
+      "name": "Amazon ELB"
+    },
+    {
+      "id": "amazon-iam",
+      "name": "Amazon IAM"
+    },
+    {
+      "id": "amazon-kinesis",
+      "name": "Amazon Kinesis"
+    },
+    {
+      "id": "amazon-lambda",
+      "name": "Amazon Lambda"
+    },
+    {
+      "id": "amazon-payments",
+      "name": "Amazon Payments"
+    },
+    {
+      "id": "amazon-rds",
+      "name": "Amazon RDS"
+    },
+    {
+      "id": "amazon-redshift",
+      "name": "Amazon Redshift"
+    },
+    {
+      "id": "amazon-s3",
+      "name": "Amazon S3"
+    },
+    {
+      "id": "amazon-sqs",
+      "name": "Amazon SQS"
+    },
+    {
+      "id": "amplitude",
+      "name": "Amplitude"
+    },
+    {
+      "id": "ams",
+      "name": "AMS"
+    },
+    {
+      "id": "anaconda",
+      "name": "Anaconda"
+    },
+    {
+      "id": "analog-ic-design",
+      "name": "Analog IC Design"
+    },
+    {
+      "id": "analytics",
+      "name": "Analytics"
+    },
+    {
+      "id": "android",
+      "name": "Android"
+    },
+    {
+      "id": "android-design",
+      "name": "Android Design"
+    },
+    {
+      "id": "android-sdk",
+      "name": "Android SDK"
+    },
+    {
+      "id": "angulardart",
+      "name": "AngularDart"
+    },
+    {
+      "id": "animation",
+      "name": "Animation"
+    },
+    {
+      "id": "ann",
+      "name": "ANN"
+    },
+    {
+      "id": "ansible",
+      "name": "Ansible"
+    },
+    {
+      "id": "ant",
+      "name": "Ant"
+    },
+    {
+      "id": "ant-design",
+      "name": "Ant Design"
+    },
+    {
+      "id": "aop",
+      "name": "AOP"
+    },
+    {
+      "id": "apache",
+      "name": "Apache"
+    },
+    {
+      "id": "apache-hive",
+      "name": "Apache Hive"
+    },
+    {
+      "id": "apache-mxnet",
+      "name": "Apache MXNet"
+    },
+    {
+      "id": "apache-nifi",
+      "name": "Apache Nifi"
+    },
+    {
+      "id": "apache-solr",
+      "name": "Apache Solr"
+    },
+    {
+      "id": "apache-spark",
+      "name": "Apache Spark"
+    },
+    {
+      "id": "apache-storm",
+      "name": "Apache Storm"
+    },
+    {
+      "id": "apache-thrift",
+      "name": "Apache Thrift"
+    },
+    {
+      "id": "apache-traffic-server",
+      "name": "Apache Traffic Server"
+    },
+    {
+      "id": "apache-wicket",
+      "name": "Apache Wicket"
+    },
+    {
+      "id": "apex",
+      "name": "Apex"
+    },
+    {
+      "id": "apis",
+      "name": "APIs"
+    },
+    {
+      "id": "apollo",
+      "name": "Apollo"
+    },
+    {
+      "id": "appengine-datastore",
+      "name": "AppEngine Datastore"
+    },
+    {
+      "id": "appium",
+      "name": "Appium"
+    },
+    {
+      "id": "apple-watch",
+      "name": "Apple Watch"
+    },
+    {
+      "id": "appletv",
+      "name": "AppleTV"
+    },
+    {
+      "id": "application-security",
+      "name": "Application Security"
+    },
+    {
+      "id": "arangodb",
+      "name": "ArangoDB"
+    },
+    {
+      "id": "arcgis",
+      "name": "ArcGIS"
+    },
+    {
+      "id": "architecture",
+      "name": "Architecture"
+    },
+    {
+      "id": "arduino",
+      "name": "Arduino"
+    },
+    {
+      "id": "arkit",
+      "name": "ARKit"
+    },
+    {
+      "id": "arm",
+      "name": "ARM"
+    },
+    {
+      "id": "artificial-intelligence",
+      "name": "Artificial Intelligence"
+    },
+    {
+      "id": "asana",
+      "name": "Asana"
+    },
+    {
+      "id": "asp-net",
+      "name": "ASP.NET"
+    },
+    {
+      "id": "assembly",
+      "name": "Assembly"
+    },
+    {
+      "id": "associate-cloud-engineer",
+      "name": "Associate Cloud Engineer"
+    },
+    {
+      "id": "asterisk",
+      "name": "Asterisk"
+    },
+    {
+      "id": "atg",
+      "name": "ATG"
+    },
+    {
+      "id": "atrium",
+      "name": "Atrium"
+    },
+    {
+      "id": "augmented-reality",
+      "name": "Augmented Reality"
+    },
+    {
+      "id": "aurelia",
+      "name": "Aurelia"
+    },
+    {
+      "id": "auth0",
+      "name": "Auth0"
+    },
+    {
+      "id": "autocad",
+      "name": "AutoCad"
+    },
+    {
+      "id": "automated-testing",
+      "name": "Automated Testing"
+    },
+    {
+      "id": "automation",
+      "name": "Automation"
+    },
+    {
+      "id": "avs",
+      "name": "AVS"
+    },
+    {
+      "id": "awk",
+      "name": "AWK"
+    },
+    {
+      "id": "aws",
+      "name": "AWS"
+    },
+    {
+      "id": "aws-certified-developer",
+      "name": "AWS Certified Developer"
+    },
+    {
+      "id": "aws-certified-network-architect",
+      "name": "AWS Certified Network Architect"
+    },
+    {
+      "id": "aws-certified-solutions-architect",
+      "name": "AWS Certified Solutions Architect"
+    },
+    {
+      "id": "aws-certified-solutions-architect-associate",
+      "name": "AWS Certified Solutions Architect Associate"
+    },
+    {
+      "id": "aws-certified-sysops-administrator",
+      "name": "AWS Certified SysOps Administrator"
+    },
+    {
+      "id": "axure",
+      "name": "Axure"
+    },
+    {
+      "id": "azure",
+      "name": "Azure"
+    },
+    {
+      "id": "azure-devops",
+      "name": "Azure DevOps"
+    },
+    {
+      "id": "azure-iot",
+      "name": "Azure IoT"
+    },
+    {
+      "id": "babel",
+      "name": "Babel"
+    },
+    {
+      "id": "backbone-js",
+      "name": "Backbone.js"
+    },
+    {
+      "id": "bamboo",
+      "name": "Bamboo"
+    },
+    {
+      "id": "bamp",
+      "name": "BAMP"
+    },
+    {
+      "id": "bapp",
+      "name": "BAPP"
+    },
+    {
+      "id": "bash",
+      "name": "Bash"
+    },
+    {
+      "id": "basic",
+      "name": "BASIC"
+    },
+    {
+      "id": "bayesian-inference",
+      "name": "Bayesian inference"
+    },
+    {
+      "id": "bazel",
+      "name": "Bazel"
+    },
+    {
+      "id": "bdd",
+      "name": "BDD"
+    },
+    {
+      "id": "beaglebone",
+      "name": "Beaglebone"
+    },
+    {
+      "id": "beaver-builder",
+      "name": "Beaver Builder"
+    },
+    {
+      "id": "behavioral-analytics",
+      "name": "Behavioral Analytics"
+    },
+    {
+      "id": "behavioral-synthesis",
+      "name": "Behavioral Synthesis"
+    },
+    {
+      "id": "bem",
+      "name": "BEM"
+    },
+    {
+      "id": "bgp",
+      "name": "BGP"
+    },
+    {
+      "id": "big-data",
+      "name": "Big Data"
+    },
+    {
+      "id": "bigcommerce",
+      "name": "BigCommerce"
+    },
+    {
+      "id": "bigquery",
+      "name": "BigQuery"
+    },
+    {
+      "id": "bind",
+      "name": "BIND"
+    },
+    {
+      "id": "bioinformatics",
+      "name": "Bioinformatics"
+    },
+    {
+      "id": "biotech",
+      "name": "Biotech"
+    },
+    {
+      "id": "bitbucket",
+      "name": "Bitbucket"
+    },
+    {
+      "id": "bitcoin",
+      "name": "Bitcoin"
+    },
+    {
+      "id": "bitrise",
+      "name": "Bitrise"
+    },
+    {
+      "id": "blade",
+      "name": "Blade"
+    },
+    {
+      "id": "blaze-js",
+      "name": "Blaze.JS"
+    },
+    {
+      "id": "blender",
+      "name": "Blender"
+    },
+    {
+      "id": "blender-python",
+      "name": "Blender (Python)"
+    },
+    {
+      "id": "blockchain",
+      "name": "Blockchain"
+    },
+    {
+      "id": "bluebird",
+      "name": "Bluebird"
+    },
+    {
+      "id": "bluetooth",
+      "name": "Bluetooth"
+    },
+    {
+      "id": "boobrightscript-roku",
+      "name": "BooBrightScript (Roku)"
+    },
+    {
+      "id": "bootstrap",
+      "name": "Bootstrap"
+    },
+    {
+      "id": "boozang",
+      "name": "Boozang"
+    },
+    {
+      "id": "bower",
+      "name": "Bower"
+    },
+    {
+      "id": "braintree",
+      "name": "Braintree"
+    },
+    {
+      "id": "braintree-api",
+      "name": "Braintree API"
+    },
+    {
+      "id": "branding",
+      "name": "Branding"
+    },
+    {
+      "id": "brightcove",
+      "name": "Brightcove"
+    },
+    {
+      "id": "brightcove-api",
+      "name": "Brightcove API"
+    },
+    {
+      "id": "britrix",
+      "name": "Britrix"
+    },
+    {
+      "id": "browserify",
+      "name": "Browserify"
+    },
+    {
+      "id": "browserstack",
+      "name": "BrowserStack"
+    },
+    {
+      "id": "bsd",
+      "name": "BSD"
+    },
+    {
+      "id": "buddybuild",
+      "name": "BuddyBuild"
+    },
+    {
+      "id": "bulma",
+      "name": "Bulma"
+    },
+    {
+      "id": "business-analyst",
+      "name": "Business Analyst"
+    },
+    {
+      "id": "business-development",
+      "name": "Business Development"
+    },
+    {
+      "id": "business-intelligence",
+      "name": "Business Intelligence"
+    },
+    {
+      "id": "c",
+      "name": "C"
+    },
+    {
+      "id": "c-plus-plus",
+      "name": "C++"
+    },
+    {
+      "id": "c-sharp",
+      "name": "C#"
+    },
+    {
+      "id": "caddy",
+      "name": "Caddy"
+    },
+    {
+      "id": "cakephp",
+      "name": "CakePHP"
+    },
+    {
+      "id": "camel",
+      "name": "Camel"
+    },
+    {
+      "id": "cameraapi",
+      "name": "CameraAPI"
+    },
+    {
+      "id": "camtasia",
+      "name": "camtasia"
+    },
+    {
+      "id": "canvas",
+      "name": "Canvas"
+    },
+    {
+      "id": "canvas-lms",
+      "name": "Canvas LMS"
+    },
+    {
+      "id": "capistrano",
+      "name": "Capistrano"
+    },
+    {
+      "id": "cassandra",
+      "name": "Cassandra"
+    },
+    {
+      "id": "cbap",
+      "name": "CBAP"
+    },
+    {
+      "id": "cdn",
+      "name": "CDN"
+    },
+    {
+      "id": "celery",
+      "name": "Celery"
+    },
+    {
+      "id": "ceph",
+      "name": "Ceph"
+    },
+    {
+      "id": "certified-salesforce-administrator",
+      "name": "Certified Salesforce Administrator"
+    },
+    {
+      "id": "certified-scrum-master",
+      "name": "Certified Scrum Master"
+    },
+    {
+      "id": "certified-scrum-professional",
+      "name": "Certified Scrum Professional"
+    },
+    {
+      "id": "certified-six-sigma-black-belt",
+      "name": "Certified Six Sigma Black Belt"
+    },
+    {
+      "id": "cgi",
+      "name": "CGI"
+    },
+    {
+      "id": "chai",
+      "name": "chai"
+    },
+    {
+      "id": "chai-js",
+      "name": "chai.js"
+    },
+    {
+      "id": "chatbots",
+      "name": "ChatBots"
+    },
+    {
+      "id": "cherrypy",
+      "name": "CherryPy"
+    },
+    {
+      "id": "chrome-extensions",
+      "name": "Chrome Extensions"
+    },
+    {
+      "id": "chrome-os",
+      "name": "Chrome OS"
+    },
+    {
+      "id": "chromecast",
+      "name": "Chromecast"
+    },
+    {
+      "id": "ci/cd",
+      "name": "CI/CD"
+    },
+    {
+      "id": "cipher",
+      "name": "Cipher"
+    },
+    {
+      "id": "circleci",
+      "name": "CircleCI"
+    },
+    {
+      "id": "citrix-xen-server",
+      "name": "Citrix Xen Server"
+    },
+    {
+      "id": "clojure",
+      "name": "Clojure"
+    },
+    {
+      "id": "clojurescript",
+      "name": "ClojureScript"
+    },
+    {
+      "id": "cloud-architecture",
+      "name": "Cloud Architecture"
+    },
+    {
+      "id": "cloud-firestore",
+      "name": "Cloud Firestore"
+    },
+    {
+      "id": "cloud-foundry",
+      "name": "Cloud Foundry"
+    },
+    {
+      "id": "cloud-solutions",
+      "name": "Cloud Solutions"
+    },
+    {
+      "id": "clouddeploy",
+      "name": "CloudDeploy"
+    },
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare"
+    },
+    {
+      "id": "cluster-computing",
+      "name": "Cluster Computing"
+    },
+    {
+      "id": "cmake",
+      "name": "CMake"
+    },
+    {
+      "id": "cms-platforms",
+      "name": "CMS Platforms"
+    },
+    {
+      "id": "cobol",
+      "name": "Cobol"
+    },
+    {
+      "id": "cockroachdb",
+      "name": "CockroachDB"
+    },
+    {
+      "id": "cocoatouch",
+      "name": "CocoaTouch"
+    },
+    {
+      "id": "codeigniter",
+      "name": "CodeIgniter"
+    },
+    {
+      "id": "codeship",
+      "name": "Codeship"
+    },
+    {
+      "id": "coffeescript",
+      "name": "CoffeeScript"
+    },
+    {
+      "id": "cognos",
+      "name": "Cognos"
+    },
+    {
+      "id": "commandqueryresponsibilitysegregation",
+      "name": "CommandQueryResponsibilitySegregation"
+    },
+    {
+      "id": "commonlisp",
+      "name": "CommonLISP"
+    },
+    {
+      "id": "compiler-design",
+      "name": "Compiler Design"
+    },
+    {
+      "id": "composer",
+      "name": "Composer"
+    },
+    {
+      "id": "comptia-linux-certification",
+      "name": "CompTIA Linux+ Certification"
+    },
+    {
+      "id": "computer-vision",
+      "name": "Computer Vision"
+    },
+    {
+      "id": "concourse-ci",
+      "name": "ConCourse CI"
+    },
+    {
+      "id": "configuration-management",
+      "name": "Configuration Management"
+    },
+    {
+      "id": "confluence",
+      "name": "Confluence"
+    },
+    {
+      "id": "content-creation",
+      "name": "Content Creation"
+    },
+    {
+      "id": "content-marketing",
+      "name": "Content Marketing"
+    },
+    {
+      "id": "contentful",
+      "name": "Contentful"
+    },
+    {
+      "id": "cordova",
+      "name": "Cordova"
+    },
+    {
+      "id": "core-audio",
+      "name": "Core Audio"
+    },
+    {
+      "id": "core-bluetooth",
+      "name": "Core Bluetooth"
+    },
+    {
+      "id": "core-data",
+      "name": "Core Data"
+    },
+    {
+      "id": "core-location",
+      "name": "Core Location"
+    },
+    {
+      "id": "core-point",
+      "name": "Core Point"
+    },
+    {
+      "id": "coreldraw",
+      "name": "CorelDraw"
+    },
+    {
+      "id": "couchbase",
+      "name": "Couchbase"
+    },
+    {
+      "id": "couchdb",
+      "name": "CouchDB"
+    },
+    {
+      "id": "cplex-optimizer",
+      "name": "CPLEX Optimizer"
+    },
+    {
+      "id": "cqrs",
+      "name": "CQRS"
+    },
+    {
+      "id": "craft-cms",
+      "name": "Craft CMS"
+    },
+    {
+      "id": "crashlytics",
+      "name": "Crashlytics"
+    },
+    {
+      "id": "crm",
+      "name": "CRM"
+    },
+    {
+      "id": "cryengine",
+      "name": "Cryengine"
+    },
+    {
+      "id": "cryptocurrency",
+      "name": "Cryptocurrency"
+    },
+    {
+      "id": "crystal",
+      "name": "Crystal"
+    },
+    {
+      "id": "crystal-reports",
+      "name": "Crystal Reports"
+    },
+    {
+      "id": "css",
+      "name": "CSS"
+    },
+    {
+      "id": "css3",
+      "name": "CSS3"
+    },
+    {
+      "id": "css5",
+      "name": "CSS5"
+    },
+    {
+      "id": "cucumber",
+      "name": "Cucumber"
+    },
+    {
+      "id": "cuda",
+      "name": "CUDA"
+    },
+    {
+      "id": "custom-wordpress-themes",
+      "name": "Custom Wordpress Themes"
+    },
+    {
+      "id": "cyber-security",
+      "name": "Cyber Security"
+    },
+    {
+      "id": "cypress",
+      "name": "Cypress"
+    },
+    {
+      "id": "cython",
+      "name": "Cython"
+    },
+    {
+      "id": "d",
+      "name": "D"
+    },
+    {
+      "id": "d3-js",
+      "name": "D3.js"
+    },
+    {
+      "id": "dagger",
+      "name": "Dagger"
+    },
+    {
+      "id": "dart",
+      "name": "Dart"
+    },
+    {
+      "id": "data-analysis-expressions",
+      "name": "Data Analysis Expressions"
+    },
+    {
+      "id": "data-modeling",
+      "name": "Data Modeling"
+    },
+    {
+      "id": "data-visualization",
+      "name": "Data Visualization"
+    },
+    {
+      "id": "data-warehouse",
+      "name": "Data Warehouse"
+    },
+    {
+      "id": "database-administrator",
+      "name": "Database Administrator"
+    },
+    {
+      "id": "database-architecture",
+      "name": "Database Architecture"
+    },
+    {
+      "id": "database-design",
+      "name": "Database Design"
+    },
+    {
+      "id": "dataflow",
+      "name": "DataFlow"
+    },
+    {
+      "id": "datomic",
+      "name": "Datomic"
+    },
+    {
+      "id": "db2",
+      "name": "DB2"
+    },
+    {
+      "id": "dbase",
+      "name": "Dbase"
+    },
+    {
+      "id": "ddd",
+      "name": "DDD"
+    },
+    {
+      "id": "debian",
+      "name": "Debian"
+    },
+    {
+      "id": "debugging",
+      "name": "Debugging"
+    },
+    {
+      "id": "deep-learning",
+      "name": "Deep Learning"
+    },
+    {
+      "id": "deepspeech",
+      "name": "DeepSpeech"
+    },
+    {
+      "id": "defold",
+      "name": "Defold"
+    },
+    {
+      "id": "delphi",
+      "name": "Delphi"
+    },
+    {
+      "id": "design",
+      "name": "Design"
+    },
+    {
+      "id": "design-prototyping",
+      "name": "Design prototyping"
+    },
+    {
+      "id": "design-systems",
+      "name": "Design systems"
+    },
+    {
+      "id": "design-thinking",
+      "name": "Design thinking"
+    },
+    {
+      "id": "desktop-applications",
+      "name": "Desktop Applications"
+    },
+    {
+      "id": "dhcp",
+      "name": "DHCP"
+    },
+    {
+      "id": "dhtml",
+      "name": "DHTML"
+    },
+    {
+      "id": "digital-branding",
+      "name": "Digital Branding"
+    },
+    {
+      "id": "digital-imaging",
+      "name": "Digital Imaging"
+    },
+    {
+      "id": "digital-marketing",
+      "name": "Digital Marketing"
+    },
+    {
+      "id": "digital-signal-processing",
+      "name": "Digital Signal Processing"
+    },
+    {
+      "id": "digitalocean",
+      "name": "DigitalOcean"
+    },
+    {
+      "id": "distributed-systems",
+      "name": "Distributed Systems"
+    },
+    {
+      "id": "django",
+      "name": "Django"
+    },
+    {
+      "id": "dns",
+      "name": "DNS"
+    },
+    {
+      "id": "docker",
+      "name": "Docker"
+    },
+    {
+      "id": "docker-compose",
+      "name": "Docker Compose"
+    },
+    {
+      "id": "docker-swarm",
+      "name": "Docker Swarm"
+    },
+    {
+      "id": "dojo",
+      "name": "Dojo"
+    },
+    {
+      "id": "dotcms",
+      "name": "DotCMS"
+    },
+    {
+      "id": "dotnet",
+      "name": ".NET"
+    },
+    {
+      "id": "doxygen",
+      "name": "Doxygen"
+    },
+    {
+      "id": "dreamweaver",
+      "name": "Dreamweaver"
+    },
+    {
+      "id": "druid",
+      "name": "Druid"
+    },
+    {
+      "id": "drupal",
+      "name": "Drupal"
+    },
+    {
+      "id": "drupal-7",
+      "name": "Drupal 7"
+    },
+    {
+      "id": "drupal-8",
+      "name": "Drupal 8"
+    },
+    {
+      "id": "dynamodb",
+      "name": "DynamoDB"
+    },
+    {
+      "id": "eclipse",
+      "name": "Eclipse"
+    },
+    {
+      "id": "ecommerce",
+      "name": "eCommerce"
+    },
+    {
+      "id": "edi",
+      "name": "EDI"
+    },
+    {
+      "id": "ejb",
+      "name": "EJB"
+    },
+    {
+      "id": "elasticsearch",
+      "name": "Elasticsearch"
+    },
+    {
+      "id": "elearning",
+      "name": "eLearning"
+    },
+    {
+      "id": "electrical-engineering",
+      "name": "Electrical engineering"
+    },
+    {
+      "id": "electron",
+      "name": "Electron"
+    },
+    {
+      "id": "elixir",
+      "name": "Elixir"
+    },
+    {
+      "id": "elk",
+      "name": "ELK"
+    },
+    {
+      "id": "elm",
+      "name": "Elm"
+    },
+    {
+      "id": "email-marketing",
+      "name": "Email Marketing"
+    },
+    {
+      "id": "embedded-systems",
+      "name": "Embedded Systems"
+    },
+    {
+      "id": "ember-js",
+      "name": "Ember.js"
+    },
+    {
+      "id": "encryption",
+      "name": "Encryption"
+    },
+    {
+      "id": "engineering-management",
+      "name": "Engineering Management"
+    },
+    {
+      "id": "enterprise-content-management",
+      "name": "Enterprise Content Management"
+    },
+    {
+      "id": "enterprise-networking",
+      "name": "Enterprise Networking"
+    },
+    {
+      "id": "enterprise-systems-administrator",
+      "name": "Enterprise Systems Administrator"
+    },
+    {
+      "id": "entity-framework",
+      "name": "Entity Framework"
+    },
+    {
+      "id": "enzyme",
+      "name": "Enzyme"
+    },
+    {
+      "id": "erc20",
+      "name": "ERC20"
+    },
+    {
+      "id": "erc721",
+      "name": "ERC721"
+    },
+    {
+      "id": "erlang",
+      "name": "Erlang"
+    },
+    {
+      "id": "erp",
+      "name": "ERP"
+    },
+    {
+      "id": "es",
+      "name": "ES"
+    },
+    {
+      "id": "es5",
+      "name": "ES5"
+    },
+    {
+      "id": "es6",
+      "name": "ES6"
+    },
+    {
+      "id": "es7",
+      "name": "ES7"
+    },
+    {
+      "id": "es8",
+      "name": "ES8"
+    },
+    {
+      "id": "eslint",
+      "name": "ESLint"
+    },
+    {
+      "id": "esp-microcontrollers",
+      "name": "ESP Microcontrollers"
+    },
+    {
+      "id": "ethereum",
+      "name": "Ethereum"
+    },
+    {
+      "id": "ethical-hacker",
+      "name": "Ethical Hacker"
+    },
+    {
+      "id": "etl",
+      "name": "ETL"
+    },
+    {
+      "id": "event-sourcing",
+      "name": "Event Sourcing"
+    },
+    {
+      "id": "express",
+      "name": "Express"
+    },
+    {
+      "id": "expression-engine",
+      "name": "Expression Engine"
+    },
+    {
+      "id": "extjs",
+      "name": "ExtJS"
+    },
+    {
+      "id": "f",
+      "name": "F#"
+    },
+    {
+      "id": "fabric",
+      "name": "Fabric"
+    },
+    {
+      "id": "fabricjs",
+      "name": "FabricJS"
+    },
+    {
+      "id": "facebook-api",
+      "name": "Facebook API"
+    },
+    {
+      "id": "famp",
+      "name": "FAMP"
+    },
+    {
+      "id": "fastapi",
+      "name": "FastAPI"
+    },
+    {
+      "id": "fastlane",
+      "name": "Fastlane"
+    },
+    {
+      "id": "fastly",
+      "name": "Fastly"
+    },
+    {
+      "id": "fdd",
+      "name": "FDD"
+    },
+    {
+      "id": "fhir",
+      "name": "FHIR"
+    },
+    {
+      "id": "figma",
+      "name": "Figma"
+    },
+    {
+      "id": "filemaker",
+      "name": "FileMaker"
+    },
+    {
+      "id": "financial-information-exchange",
+      "name": "Financial Information exchange"
+    },
+    {
+      "id": "financial-modeling",
+      "name": "Financial modeling"
+    },
+    {
+      "id": "firebase",
+      "name": "Firebase"
+    },
+    {
+      "id": "firewalls",
+      "name": "Firewalls"
+    },
+    {
+      "id": "firmware",
+      "name": "Firmware"
+    },
+    {
+      "id": "flask",
+      "name": "Flask"
+    },
+    {
+      "id": "flex",
+      "name": "Flex"
+    },
+    {
+      "id": "flexbox",
+      "name": "Flexbox"
+    },
+    {
+      "id": "flink",
+      "name": "Flink"
+    },
+    {
+      "id": "flutter",
+      "name": "Flutter"
+    },
+    {
+      "id": "flux",
+      "name": "Flux"
+    },
+    {
+      "id": "forex",
+      "name": "Forex"
+    },
+    {
+      "id": "fortran",
+      "name": "Fortran"
+    },
+    {
+      "id": "foundation",
+      "name": "Foundation"
+    },
+    {
+      "id": "foursquare-api",
+      "name": "Foursquare API"
+    },
+    {
+      "id": "foxycart",
+      "name": "FoxyCart"
+    },
+    {
+      "id": "freebsd",
+      "name": "FreeBSD"
+    },
+    {
+      "id": "freertos",
+      "name": "FreeRTOS"
+    },
+    {
+      "id": "ftp",
+      "name": "FTP"
+    },
+    {
+      "id": "fwap",
+      "name": "FWAP"
+    },
+    {
+      "id": "fwip",
+      "name": "FWIP"
+    },
+    {
+      "id": "game-engines",
+      "name": "Game Engines"
+    },
+    {
+      "id": "gaming",
+      "name": "Gaming"
+    },
+    {
+      "id": "gatsbyjs",
+      "name": "GatsbyJS"
+    },
+    {
+      "id": "gcc",
+      "name": "Gcc"
+    },
+    {
+      "id": "gdb",
+      "name": "GDB"
+    },
+    {
+      "id": "gdscript",
+      "name": "GDScript"
+    },
+    {
+      "id": "genetic-algorithms",
+      "name": "Genetic Algorithms"
+    },
+    {
+      "id": "geographic-information-systems",
+      "name": "Geographic Information Systems"
+    },
+    {
+      "id": "gherkin",
+      "name": "gherkin"
+    },
+    {
+      "id": "ghost",
+      "name": "Ghost"
+    },
+    {
+      "id": "gimp",
+      "name": "GIMP"
+    },
+    {
+      "id": "git",
+      "name": "Git"
+    },
+    {
+      "id": "git-flow",
+      "name": "Git Flow"
+    },
+    {
+      "id": "github",
+      "name": "GitHub"
+    },
+    {
+      "id": "github-api",
+      "name": "GitHub API"
+    },
+    {
+      "id": "gitlab",
+      "name": "GitLab"
+    },
+    {
+      "id": "go",
+      "name": "Go"
+    },
+    {
+      "id": "gocd",
+      "name": "GoCD"
+    },
+    {
+      "id": "google-analytics",
+      "name": "Google Analytics"
+    },
+    {
+      "id": "google-apis",
+      "name": "Google APIs"
+    },
+    {
+      "id": "google-app-engine",
+      "name": "Google App Engine"
+    },
+    {
+      "id": "google-apps-script",
+      "name": "Google Apps Script"
+    },
+    {
+      "id": "google-cloud-certified-professional",
+      "name": "Google Cloud Certified  Professional"
+    },
+    {
+      "id": "google-cloud-functions",
+      "name": "Google Cloud Functions"
+    },
+    {
+      "id": "google-cloud-platform",
+      "name": "Google Cloud Platform"
+    },
+    {
+      "id": "google-cloud-storage",
+      "name": "Google Cloud Storage"
+    },
+    {
+      "id": "google-cloudsql",
+      "name": "Google CloudSQL"
+    },
+    {
+      "id": "google-play",
+      "name": "Google Play"
+    },
+    {
+      "id": "google-professional-data-engineering-certified",
+      "name": "Google Professional Data Engineering Certified"
+    },
+    {
+      "id": "google-web-toolkit",
+      "name": "Google Web Toolkit"
+    },
+    {
+      "id": "googlemaps-api",
+      "name": "GoogleMaps API"
+    },
+    {
+      "id": "gradie",
+      "name": "Gradie"
+    },
+    {
+      "id": "gradle",
+      "name": "Gradle"
+    },
+    {
+      "id": "grafana",
+      "name": "Grafana"
+    },
+    {
+      "id": "grails",
+      "name": "Grails"
+    },
+    {
+      "id": "graph-databases",
+      "name": "Graph Databases"
+    },
+    {
+      "id": "graphic-design",
+      "name": "Graphic Design"
+    },
+    {
+      "id": "graphite",
+      "name": "Graphite"
+    },
+    {
+      "id": "graphql",
+      "name": "GraphQL"
+    },
+    {
+      "id": "greenfield",
+      "name": "Greenfield"
+    },
+    {
+      "id": "groovy",
+      "name": "Groovy"
+    },
+    {
+      "id": "growth-hacking",
+      "name": "Growth Hacking"
+    },
+    {
+      "id": "grpc",
+      "name": "gRPC"
+    },
+    {
+      "id": "grunt",
+      "name": "Grunt"
+    },
+    {
+      "id": "gstreamer",
+      "name": "GStreamer"
+    },
+    {
+      "id": "gsuite",
+      "name": "GSuite"
+    },
+    {
+      "id": "gulp-js",
+      "name": "gulp.js"
+    },
+    {
+      "id": "gunicorn",
+      "name": "Gunicorn"
+    },
+    {
+      "id": "gurobi",
+      "name": "Gurobi"
+    },
+    {
+      "id": "hadoop",
+      "name": "Hadoop"
+    },
+    {
+      "id": "handlebars",
+      "name": "Handlebars"
+    },
+    {
+      "id": "hapi-js",
+      "name": "hapi.js"
+    },
+    {
+      "id": "hardware",
+      "name": "Hardware"
+    },
+    {
+      "id": "hashicorp-configuration-language",
+      "name": "HashiCorp Configuration Language"
+    },
+    {
+      "id": "haskell",
+      "name": "Haskell"
+    },
+    {
+      "id": "haxe",
+      "name": "Haxe"
+    },
+    {
+      "id": "helm",
+      "name": "Helm"
+    },
+    {
+      "id": "heroku",
+      "name": "Heroku"
+    },
+    {
+      "id": "hexo",
+      "name": "Hexo"
+    },
+    {
+      "id": "hibernate-or",
+      "name": "Hibernate OR"
+    },
+    {
+      "id": "hierarchical-multi-task-learning",
+      "name": "Hierarchical Multi-Task Learning"
+    },
+    {
+      "id": "highcharts",
+      "name": "Highcharts"
+    },
+    {
+      "id": "hipaa",
+      "name": "HIPAA"
+    },
+    {
+      "id": "hive-on-spark",
+      "name": "Hive on Spark"
+    },
+    {
+      "id": "html",
+      "name": "HTML"
+    },
+    {
+      "id": "http",
+      "name": "HTTP"
+    },
+    {
+      "id": "https",
+      "name": "HTTPS"
+    },
+    {
+      "id": "hubspot",
+      "name": "HubSpot"
+    },
+    {
+      "id": "hudson",
+      "name": "Hudson"
+    },
+    {
+      "id": "hugo",
+      "name": "Hugo"
+    },
+    {
+      "id": "human-computer-interaction-design",
+      "name": "Human Computer Interaction Design"
+    },
+    {
+      "id": "hybrid-apps",
+      "name": "Hybrid Apps"
+    },
+    {
+      "id": "hybrid-cloud",
+      "name": "Hybrid Cloud"
+    },
+    {
+      "id": "hyperledger",
+      "name": "Hyperledger"
+    },
+    {
+      "id": "ibeacons",
+      "name": "iBeacons"
+    },
+    {
+      "id": "ibm-cloud",
+      "name": "IBM Cloud"
+    },
+    {
+      "id": "icon-design",
+      "name": "Icon Design"
+    },
+    {
+      "id": "idris",
+      "name": "Idris"
+    },
+    {
+      "id": "iis",
+      "name": "IIS"
+    },
+    {
+      "id": "illustrator",
+      "name": "Illustrator"
+    },
+    {
+      "id": "imagemagick",
+      "name": "ImageMagick"
+    },
+    {
+      "id": "incident-response",
+      "name": "Incident response"
+    },
+    {
+      "id": "influxdb",
+      "name": "InfluxDB"
+    },
+    {
+      "id": "infographics",
+      "name": "Infographics"
+    },
+    {
+      "id": "information-architechture",
+      "name": "Information Architechture"
+    },
+    {
+      "id": "information-security",
+      "name": "Information Security"
+    },
+    {
+      "id": "informix",
+      "name": "informix"
+    },
+    {
+      "id": "integration-testing",
+      "name": "Integration Testing"
+    },
+    {
+      "id": "interactive-design",
+      "name": "Interactive Design"
+    },
+    {
+      "id": "intercom",
+      "name": "Intercom"
+    },
+    {
+      "id": "invision",
+      "name": "InVision"
+    },
+    {
+      "id": "iodash",
+      "name": "Iodash"
+    },
+    {
+      "id": "ionic",
+      "name": "Ionic"
+    },
+    {
+      "id": "ios",
+      "name": "iOS"
+    },
+    {
+      "id": "ios-design",
+      "name": "iOS Design"
+    },
+    {
+      "id": "iot",
+      "name": "IoT"
+    },
+    {
+      "id": "ipfs",
+      "name": "IPFS"
+    },
+    {
+      "id": "istio",
+      "name": "Istio"
+    },
+    {
+      "id": "itcss",
+      "name": "ITCSS"
+    },
+    {
+      "id": "j2ee",
+      "name": "J2EE"
+    },
+    {
+      "id": "jacoco",
+      "name": "JaCoCo"
+    },
+    {
+      "id": "jad",
+      "name": "JAD"
+    },
+    {
+      "id": "jade",
+      "name": "Jade"
+    },
+    {
+      "id": "jakarta",
+      "name": "Jakarta"
+    },
+    {
+      "id": "jamp",
+      "name": "JAMP"
+    },
+    {
+      "id": "jasmine",
+      "name": "Jasmine"
+    },
+    {
+      "id": "java",
+      "name": "Java"
+    },
+    {
+      "id": "javafx",
+      "name": "JavaFX"
+    },
+    {
+      "id": "javascript",
+      "name": "JavaScript"
+    },
+    {
+      "id": "jboss",
+      "name": "JBoss"
+    },
+    {
+      "id": "jdbc",
+      "name": "JDBC"
+    },
+    {
+      "id": "jekyll",
+      "name": "Jekyll"
+    },
+    {
+      "id": "jenkins",
+      "name": "Jenkins"
+    },
+    {
+      "id": "jest",
+      "name": "Jest"
+    },
+    {
+      "id": "jira",
+      "name": "JIRA"
+    },
+    {
+      "id": "jmeter",
+      "name": "Jmeter"
+    },
+    {
+      "id": "jms",
+      "name": "JMS"
+    },
+    {
+      "id": "jolt",
+      "name": "JOLT"
+    },
+    {
+      "id": "joomla",
+      "name": "Joomla"
+    },
+    {
+      "id": "jpa",
+      "name": "JPA"
+    },
+    {
+      "id": "jquery",
+      "name": "jQuery"
+    },
+    {
+      "id": "jqueryui",
+      "name": "jQueryUI"
+    },
+    {
+      "id": "jruby",
+      "name": "jRuby"
+    },
+    {
+      "id": "jsdoc",
+      "name": "JSDoc"
+    },
+    {
+      "id": "jsf",
+      "name": "JSF"
+    },
+    {
+      "id": "json",
+      "name": "JSON"
+    },
+    {
+      "id": "jsonnet",
+      "name": "Jsonnet"
+    },
+    {
+      "id": "jsp",
+      "name": "JSP"
+    },
+    {
+      "id": "juce",
+      "name": "JUCE"
+    },
+    {
+      "id": "julia",
+      "name": "Julia"
+    },
+    {
+      "id": "junit",
+      "name": "JUnit"
+    },
+    {
+      "id": "jupyter-notebook",
+      "name": "Jupyter Notebook"
+    },
+    {
+      "id": "jwt",
+      "name": "JWT"
+    },
+    {
+      "id": "kafka",
+      "name": "Kafka"
+    },
+    {
+      "id": "kanban",
+      "name": "Kanban"
+    },
+    {
+      "id": "karate-testing",
+      "name": "Karate (testing)"
+    },
+    {
+      "id": "keberos",
+      "name": "Keberos"
+    },
+    {
+      "id": "kendo",
+      "name": "Kendo"
+    },
+    {
+      "id": "kentico",
+      "name": "Kentico"
+    },
+    {
+      "id": "keras",
+      "name": "Keras"
+    },
+    {
+      "id": "kibana",
+      "name": "Kibana"
+    },
+    {
+      "id": "kicad",
+      "name": "KiCad"
+    },
+    {
+      "id": "klaviyo",
+      "name": "Klaviyo"
+    },
+    {
+      "id": "knex-js",
+      "name": "Knex.js"
+    },
+    {
+      "id": "knockout-js",
+      "name": "Knockout.js"
+    },
+    {
+      "id": "knowledge-graph",
+      "name": "Knowledge Graph"
+    },
+    {
+      "id": "koa",
+      "name": "KOA"
+    },
+    {
+      "id": "koin-io",
+      "name": "Koin.io"
+    },
+    {
+      "id": "kops",
+      "name": "Kops"
+    },
+    {
+      "id": "kotlin",
+      "name": "Kotlin"
+    },
+    {
+      "id": "kubernetes",
+      "name": "Kubernetes"
+    },
+    {
+      "id": "kvm",
+      "name": "KVM"
+    },
+    {
+      "id": "lamj",
+      "name": "LAMJ"
+    },
+    {
+      "id": "lamp",
+      "name": "LAMP"
+    },
+    {
+      "id": "laragon",
+      "name": "Laragon"
+    },
+    {
+      "id": "laravel",
+      "name": "Laravel"
+    },
+    {
+      "id": "latex",
+      "name": "LaTeX"
+    },
+    {
+      "id": "leaflet-js",
+      "name": "Leaflet.js"
+    },
+    {
+      "id": "lean",
+      "name": "Lean"
+    },
+    {
+      "id": "lectora",
+      "name": "Lectora"
+    },
+    {
+      "id": "lemonstand",
+      "name": "Lemonstand"
+    },
+    {
+      "id": "lemp",
+      "name": "LEMP"
+    },
+    {
+      "id": "less",
+      "name": "LESS"
+    },
+    {
+      "id": "libp2p",
+      "name": "libp2p"
+    },
+    {
+      "id": "linode",
+      "name": "Linode"
+    },
+    {
+      "id": "linq",
+      "name": "LINQ"
+    },
+    {
+      "id": "linux",
+      "name": "Linux"
+    },
+    {
+      "id": "linux-device-driver",
+      "name": "Linux Device Driver"
+    },
+    {
+      "id": "liquibase",
+      "name": "Liquibase"
+    },
+    {
+      "id": "liquid-templates",
+      "name": "Liquid templates"
+    },
+    {
+      "id": "litelement",
+      "name": "LitElement"
+    },
+    {
+      "id": "lms",
+      "name": "Lms"
+    },
+    {
+      "id": "localization",
+      "name": "Localization"
+    },
+    {
+      "id": "locust",
+      "name": "Locust"
+    },
+    {
+      "id": "lodash",
+      "name": "Lodash"
+    },
+    {
+      "id": "log4j",
+      "name": "Log4j"
+    },
+    {
+      "id": "logistic-regression",
+      "name": "Logistic Regression"
+    },
+    {
+      "id": "logo-design",
+      "name": "Logo Design"
+    },
+    {
+      "id": "logstash",
+      "name": "Logstash"
+    },
+    {
+      "id": "looker",
+      "name": "Looker"
+    },
+    {
+      "id": "lot",
+      "name": "loT"
+    },
+    {
+      "id": "lotusnotes",
+      "name": "LotusNotes"
+    },
+    {
+      "id": "lua",
+      "name": "Lua"
+    },
+    {
+      "id": "lxc",
+      "name": "LXC"
+    },
+    {
+      "id": "machine-learning",
+      "name": "Machine Learning"
+    },
+    {
+      "id": "macos",
+      "name": "macOS"
+    },
+    {
+      "id": "magento",
+      "name": "Magento"
+    },
+    {
+      "id": "magento2",
+      "name": "Magento2"
+    },
+    {
+      "id": "mailchimp",
+      "name": "Mailchimp"
+    },
+    {
+      "id": "make",
+      "name": "Make"
+    },
+    {
+      "id": "makefile",
+      "name": "makefile"
+    },
+    {
+      "id": "malware-research",
+      "name": "Malware research"
+    },
+    {
+      "id": "mamp",
+      "name": "MAMP"
+    },
+    {
+      "id": "managed-services",
+      "name": "Managed Services"
+    },
+    {
+      "id": "management",
+      "name": "Management"
+    },
+    {
+      "id": "mandrill",
+      "name": "Mandrill"
+    },
+    {
+      "id": "mapbox",
+      "name": "Mapbox"
+    },
+    {
+      "id": "mapboxgl",
+      "name": "MapboxGL"
+    },
+    {
+      "id": "mapkit",
+      "name": "MapKit"
+    },
+    {
+      "id": "mapreduce",
+      "name": "MapReduce"
+    },
+    {
+      "id": "mariadb",
+      "name": "MariaDB"
+    },
+    {
+      "id": "mars",
+      "name": "MARS"
+    },
+    {
+      "id": "material-design",
+      "name": "Material Design"
+    },
+    {
+      "id": "mathematical-finance",
+      "name": "Mathematical finance"
+    },
+    {
+      "id": "mathjax",
+      "name": "MathJax"
+    },
+    {
+      "id": "matlab",
+      "name": "Matlab"
+    },
+    {
+      "id": "maven",
+      "name": "Maven"
+    },
+    {
+      "id": "mba",
+      "name": "MBA"
+    },
+    {
+      "id": "mcsa-certification",
+      "name": "MCSA Certification"
+    },
+    {
+      "id": "mean",
+      "name": "MEAN"
+    },
+    {
+      "id": "memcached",
+      "name": "Memcached"
+    },
+    {
+      "id": "memsql",
+      "name": "MemSQL"
+    },
+    {
+      "id": "mercurial",
+      "name": "Mercurial"
+    },
+    {
+      "id": "mern",
+      "name": "MERN"
+    },
+    {
+      "id": "mesos",
+      "name": "Mesos"
+    },
+    {
+      "id": "message-passing-interface",
+      "name": "Message Passing Interface"
+    },
+    {
+      "id": "meteor",
+      "name": "Meteor"
+    },
+    {
+      "id": "meteor-galaxy",
+      "name": "Meteor Galaxy"
+    },
+    {
+      "id": "mfc",
+      "name": "MFC"
+    },
+    {
+      "id": "microcontrollers",
+      "name": "Microcontrollers"
+    },
+    {
+      "id": "micropython",
+      "name": "MicroPython"
+    },
+    {
+      "id": "microservices",
+      "name": "Microservices"
+    },
+    {
+      "id": "microsoft-dynamics",
+      "name": "Microsoft Dynamics"
+    },
+    {
+      "id": "microsoft-exchange-server",
+      "name": "Microsoft Exchange Server"
+    },
+    {
+      "id": "microsoft-sharepoint",
+      "name": "Microsoft SharePoint"
+    },
+    {
+      "id": "microsoft-sql-server",
+      "name": "Microsoft SQL Server"
+    },
+    {
+      "id": "microsoft-visual-studio",
+      "name": "Microsoft Visual Studio"
+    },
+    {
+      "id": "mithril-js",
+      "name": "Mithril.js"
+    },
+    {
+      "id": "mixpanel",
+      "name": "Mixpanel"
+    },
+    {
+      "id": "mobile-security",
+      "name": "Mobile Security"
+    },
+    {
+      "id": "mobx",
+      "name": "MobX"
+    },
+    {
+      "id": "mocha",
+      "name": "Mocha"
+    },
+    {
+      "id": "mockito",
+      "name": "Mockito"
+    },
+    {
+      "id": "modx",
+      "name": "MODx"
+    },
+    {
+      "id": "mojolicious",
+      "name": "mojolicious"
+    },
+    {
+      "id": "moment-js",
+      "name": "Moment.js"
+    },
+    {
+      "id": "monetdb",
+      "name": "MonetDB"
+    },
+    {
+      "id": "mongodb",
+      "name": "MongoDB"
+    },
+    {
+      "id": "monogame",
+      "name": "MonoGame"
+    },
+    {
+      "id": "moodle",
+      "name": "Moodle"
+    },
+    {
+      "id": "motion-design",
+      "name": "Motion Design"
+    },
+    {
+      "id": "mqtt",
+      "name": "MQTT"
+    },
+    {
+      "id": "ms-access",
+      "name": "MS Access"
+    },
+    {
+      "id": "ms-dynamics-crm",
+      "name": "MS Dynamics CRM"
+    },
+    {
+      "id": "ms-flow",
+      "name": "MS Flow"
+    },
+    {
+      "id": "msce-certification",
+      "name": "MSCE Certification"
+    },
+    {
+      "id": "mulesoft",
+      "name": "muleSoft"
+    },
+    {
+      "id": "mustachejs",
+      "name": "MustacheJS"
+    },
+    {
+      "id": "mysql",
+      "name": "MySQL"
+    },
+    {
+      "id": "namp",
+      "name": "NAMP"
+    },
+    {
+      "id": "nativescript",
+      "name": "NativeScript"
+    },
+    {
+      "id": "nestjs",
+      "name": "NestJS"
+    },
+    {
+      "id": "netlify",
+      "name": "Netlify"
+    },
+    {
+      "id": "netsuite",
+      "name": "Netsuite"
+    },
+    {
+      "id": "network-admin",
+      "name": "Network Admin"
+    },
+    {
+      "id": "network-engineering",
+      "name": "Network Engineering"
+    },
+    {
+      "id": "network-security",
+      "name": "Network Security"
+    },
+    {
+      "id": "networking",
+      "name": "Networking"
+    },
+    {
+      "id": "networkx",
+      "name": "Networkx"
+    },
+    {
+      "id": "neural-networks",
+      "name": "Neural Networks"
+    },
+    {
+      "id": "newrelic",
+      "name": "NewRelic"
+    },
+    {
+      "id": "next-js",
+      "name": "Next.js"
+    },
+    {
+      "id": "nginx",
+      "name": "Nginx"
+    },
+    {
+      "id": "ngrx",
+      "name": "NgRx"
+    },
+    {
+      "id": "nhibernate",
+      "name": "NHibernate"
+    },
+    {
+      "id": "nightmare-js",
+      "name": "Nightmare JS"
+    },
+    {
+      "id": "nightwatch",
+      "name": "Nightwatch"
+    },
+    {
+      "id": "nim",
+      "name": "Nim"
+    },
+    {
+      "id": "nintex",
+      "name": "Nintex"
+    },
+    {
+      "id": "nixos",
+      "name": "NixOS"
+    },
+    {
+      "id": "nlog",
+      "name": "NLog"
+    },
+    {
+      "id": "nlp",
+      "name": "NLP"
+    },
+    {
+      "id": "node-js",
+      "name": "Node.js"
+    },
+    {
+      "id": "node-red",
+      "name": "Node-RED"
+    },
+    {
+      "id": "nomad",
+      "name": "Nomad"
+    },
+    {
+      "id": "nosql",
+      "name": "NoSQL"
+    },
+    {
+      "id": "npl",
+      "name": "NPL"
+    },
+    {
+      "id": "npm",
+      "name": "NPM"
+    },
+    {
+      "id": "nservicebus",
+      "name": "NServiceBus"
+    },
+    {
+      "id": "numpy",
+      "name": "NumPy"
+    },
+    {
+      "id": "nuxt-js",
+      "name": "Nuxt.js"
+    },
+    {
+      "id": "oauth",
+      "name": "OAuth"
+    },
+    {
+      "id": "objective-c",
+      "name": "Objective-C"
+    },
+    {
+      "id": "ocaml",
+      "name": "OCaml"
+    },
+    {
+      "id": "octobercms",
+      "name": "OctoberCMS"
+    },
+    {
+      "id": "octopus-deploy",
+      "name": "Octopus Deploy"
+    },
+    {
+      "id": "oculus-rift",
+      "name": "Oculus Rift"
+    },
+    {
+      "id": "odata",
+      "name": "OData"
+    },
+    {
+      "id": "office365",
+      "name": "Office365"
+    },
+    {
+      "id": "okr-50",
+      "name": "OKR-50"
+    },
+    {
+      "id": "omega",
+      "name": "Omega"
+    },
+    {
+      "id": "ood",
+      "name": "OOD"
+    },
+    {
+      "id": "oop",
+      "name": "OOP"
+    },
+    {
+      "id": "opal",
+      "name": "OPAL"
+    },
+    {
+      "id": "open-source-contributor",
+      "name": "Open Source Contributor"
+    },
+    {
+      "id": "openapi",
+      "name": "OpenAPI"
+    },
+    {
+      "id": "opencart",
+      "name": "OpenCart"
+    },
+    {
+      "id": "opencl",
+      "name": "OpenCL"
+    },
+    {
+      "id": "opencv",
+      "name": "OpenCV"
+    },
+    {
+      "id": "openedx",
+      "name": "OpenEDX"
+    },
+    {
+      "id": "opengl",
+      "name": "OpenGL"
+    },
+    {
+      "id": "openid",
+      "name": "OpenID"
+    },
+    {
+      "id": "openlayers",
+      "name": "OpenLayers"
+    },
+    {
+      "id": "openshift",
+      "name": "OpenShift"
+    },
+    {
+      "id": "openstack",
+      "name": "OpenStack"
+    },
+    {
+      "id": "openstreetmap",
+      "name": "OpenStreetMap"
+    },
+    {
+      "id": "opentelemetry",
+      "name": "OpenTelemetry"
+    },
+    {
+      "id": "opentracing",
+      "name": "OpenTracing"
+    },
+    {
+      "id": "openvr",
+      "name": "OpenVR"
+    },
+    {
+      "id": "openwrt",
+      "name": "OpenWrt"
+    },
+    {
+      "id": "optical-character-recognition",
+      "name": "Optical character recognition"
+    },
+    {
+      "id": "optimizely",
+      "name": "Optimizely"
+    },
+    {
+      "id": "oracle-datastore",
+      "name": "Oracle Datastore"
+    },
+    {
+      "id": "oracle-developer-tools",
+      "name": "Oracle developer Tools"
+    },
+    {
+      "id": "oracle-service-cloud",
+      "name": "Oracle Service Cloud"
+    },
+    {
+      "id": "oracle-sql",
+      "name": "Oracle SQL"
+    },
+    {
+      "id": "orm",
+      "name": "ORM"
+    },
+    {
+      "id": "osquery",
+      "name": "OSQuery"
+    },
+    {
+      "id": "p2p-networking",
+      "name": "P2P networking"
+    },
+    {
+      "id": "packer",
+      "name": "Packer"
+    },
+    {
+      "id": "pair-programming",
+      "name": "Pair Programming"
+    },
+    {
+      "id": "pandas",
+      "name": "Pandas"
+    },
+    {
+      "id": "pantheon",
+      "name": "Pantheon"
+    },
+    {
+      "id": "pardot",
+      "name": "Pardot"
+    },
+    {
+      "id": "pascal",
+      "name": "Pascal"
+    },
+    {
+      "id": "paypal-api",
+      "name": "Paypal API"
+    },
+    {
+      "id": "pci-compliance",
+      "name": "PCI Compliance"
+    },
+    {
+      "id": "pdftoolbox",
+      "name": "pdfToolbox"
+    },
+    {
+      "id": "penetration-testing",
+      "name": "Penetration Testing"
+    },
+    {
+      "id": "peoplesoft",
+      "name": "Peoplesoft"
+    },
+    {
+      "id": "percona-server",
+      "name": "Percona Server"
+    },
+    {
+      "id": "perforce",
+      "name": "Perforce"
+    },
+    {
+      "id": "perl",
+      "name": "Perl"
+    },
+    {
+      "id": "phalcon",
+      "name": "Phalcon"
+    },
+    {
+      "id": "phantomjs",
+      "name": "PhantomJS"
+    },
+    {
+      "id": "phaser-js",
+      "name": "Phaser.js"
+    },
+    {
+      "id": "phoenix-framework",
+      "name": "Phoenix Framework"
+    },
+    {
+      "id": "phonegap",
+      "name": "PhoneGap"
+    },
+    {
+      "id": "photoshop",
+      "name": "Photoshop"
+    },
+    {
+      "id": "php",
+      "name": "PHP"
+    },
+    {
+      "id": "phpunit",
+      "name": "PhpUnit"
+    },
+    {
+      "id": "pl/sql",
+      "name": "PL/SQL"
+    },
+    {
+      "id": "play-framework",
+      "name": "Play Framework"
+    },
+    {
+      "id": "playstation",
+      "name": "Playstation"
+    },
+    {
+      "id": "plone",
+      "name": "Plone"
+    },
+    {
+      "id": "pmi",
+      "name": "PMI"
+    },
+    {
+      "id": "pmi-acp",
+      "name": "PMI-ACP"
+    },
+    {
+      "id": "pmp",
+      "name": "PMP"
+    },
+    {
+      "id": "poe",
+      "name": "PoE"
+    },
+    {
+      "id": "polymer",
+      "name": "Polymer"
+    },
+    {
+      "id": "posix",
+      "name": "POSIX"
+    },
+    {
+      "id": "postcss",
+      "name": "PostCSS"
+    },
+    {
+      "id": "postgresql",
+      "name": "PostgreSQL"
+    },
+    {
+      "id": "postman",
+      "name": "Postman"
+    },
+    {
+      "id": "power-bi",
+      "name": "Power BI"
+    },
+    {
+      "id": "powerapps",
+      "name": "PowerApps"
+    },
+    {
+      "id": "powershell",
+      "name": "PowerShell"
+    },
+    {
+      "id": "ppc",
+      "name": "PPC"
+    },
+    {
+      "id": "preact",
+      "name": "Preact"
+    },
+    {
+      "id": "predictive-analytics",
+      "name": "Predictive Analytics"
+    },
+    {
+      "id": "prestashop",
+      "name": "Prestashop"
+    },
+    {
+      "id": "presto",
+      "name": "Presto"
+    },
+    {
+      "id": "print-design",
+      "name": "Print Design"
+    },
+    {
+      "id": "product-designer",
+      "name": "Product Designer"
+    },
+    {
+      "id": "product-development",
+      "name": "Product Development"
+    },
+    {
+      "id": "progressive-web-apps",
+      "name": "Progressive Web Apps"
+    },
+    {
+      "id": "prolog",
+      "name": "Prolog"
+    },
+    {
+      "id": "prometheus",
+      "name": "Prometheus"
+    },
+    {
+      "id": "protocol-buffers",
+      "name": "Protocol Buffers"
+    },
+    {
+      "id": "prototyping",
+      "name": "Prototyping"
+    },
+    {
+      "id": "protractor",
+      "name": "Protractor"
+    },
+    {
+      "id": "psd-slicing",
+      "name": "PSD slicing"
+    },
+    {
+      "id": "psd-to-html/css/js",
+      "name": "PSD to HTML/CSS/JS"
+    },
+    {
+      "id": "psm",
+      "name": "PSM"
+    },
+    {
+      "id": "public-key-infrastructure",
+      "name": "Public Key Infrastructure"
+    },
+    {
+      "id": "pug-js",
+      "name": "pug.js"
+    },
+    {
+      "id": "puppet",
+      "name": "Puppet"
+    },
+    {
+      "id": "pusher",
+      "name": "Pusher"
+    },
+    {
+      "id": "pycharm",
+      "name": "Pycharm"
+    },
+    {
+      "id": "pylibrary",
+      "name": "PyLibrary"
+    },
+    {
+      "id": "pyqt",
+      "name": "PyQt"
+    },
+    {
+      "id": "pyspark",
+      "name": "PySpark"
+    },
+    {
+      "id": "python",
+      "name": "Python"
+    },
+    {
+      "id": "pytorch",
+      "name": "PyTorch"
+    },
+    {
+      "id": "qa",
+      "name": "QA"
+    },
+    {
+      "id": "qa-automation",
+      "name": "QA Automation"
+    },
+    {
+      "id": "qa-professional",
+      "name": "QA Professional"
+    },
+    {
+      "id": "qt",
+      "name": "Qt"
+    },
+    {
+      "id": "r",
+      "name": "R"
+    },
+    {
+      "id": "r-shiny",
+      "name": "r-shiny"
+    },
+    {
+      "id": "rabbitmq",
+      "name": "RabbitMQ"
+    },
+    {
+      "id": "rackspace",
+      "name": "Rackspace"
+    },
+    {
+      "id": "rad",
+      "name": "RAD"
+    },
+    {
+      "id": "rails",
+      "name": "Rails"
+    },
+    {
+      "id": "ramda",
+      "name": "Ramda"
+    },
+    {
+      "id": "raspberry-pi",
+      "name": "Raspberry Pi"
+    },
+    {
+      "id": "ravendb",
+      "name": "RavenDB"
+    },
+    {
+      "id": "react",
+      "name": "React"
+    },
+    {
+      "id": "react-native",
+      "name": "React Native"
+    },
+    {
+      "id": "reactivex",
+      "name": "ReactiveX"
+    },
+    {
+      "id": "reactql",
+      "name": "ReactQL"
+    },
+    {
+      "id": "redhat",
+      "name": "redhat"
+    },
+    {
+      "id": "redis",
+      "name": "Redis"
+    },
+    {
+      "id": "redux",
+      "name": "Redux"
+    },
+    {
+      "id": "regular-expressions",
+      "name": "Regular Expressions"
+    },
+    {
+      "id": "relay",
+      "name": "Relay"
+    },
+    {
+      "id": "requirejs",
+      "name": "RequireJS"
+    },
+    {
+      "id": "responsive-design",
+      "name": "Responsive Design"
+    },
+    {
+      "id": "rest",
+      "name": "REST"
+    },
+    {
+      "id": "rethinkdb",
+      "name": "RethinkDB"
+    },
+    {
+      "id": "revel",
+      "name": "Revel"
+    },
+    {
+      "id": "rf-networking",
+      "name": "RF Networking"
+    },
+    {
+      "id": "rfid",
+      "name": "RFID"
+    },
+    {
+      "id": "riak",
+      "name": "Riak"
+    },
+    {
+      "id": "rman",
+      "name": "RMAN"
+    },
+    {
+      "id": "robotics",
+      "name": "Robotics"
+    },
+    {
+      "id": "roda",
+      "name": "Roda"
+    },
+    {
+      "id": "rollbar",
+      "name": "Rollbar"
+    },
+    {
+      "id": "ros",
+      "name": "ROS"
+    },
+    {
+      "id": "routing",
+      "name": "Routing"
+    },
+    {
+      "id": "routing-algorithms",
+      "name": "Routing Algorithms"
+    },
+    {
+      "id": "rpa",
+      "name": "RPA"
+    },
+    {
+      "id": "rsa-archer-platform",
+      "name": "RSA Archer Platform"
+    },
+    {
+      "id": "rspec",
+      "name": "Rspec"
+    },
+    {
+      "id": "rstudio",
+      "name": "RStudio"
+    },
+    {
+      "id": "rtos",
+      "name": "RTOS"
+    },
+    {
+      "id": "ruby",
+      "name": "Ruby"
+    },
+    {
+      "id": "ruby-on-rails",
+      "name": "Ruby on Rails"
+    },
+    {
+      "id": "rup",
+      "name": "RUP"
+    },
+    {
+      "id": "rust",
+      "name": "Rust"
+    },
+    {
+      "id": "rxcocoa",
+      "name": "RxCocoa"
+    },
+    {
+      "id": "rxjava",
+      "name": "RxJava"
+    },
+    {
+      "id": "rxjs",
+      "name": "RxJS"
+    },
+    {
+      "id": "rxswift",
+      "name": "RxSwift"
+    },
+    {
+      "id": "s3",
+      "name": "S3"
+    },
+    {
+      "id": "sails",
+      "name": "Sails"
+    },
+    {
+      "id": "salesforce",
+      "name": "Salesforce"
+    },
+    {
+      "id": "saltstack",
+      "name": "SaltStack"
+    },
+    {
+      "id": "saml",
+      "name": "SAML"
+    },
+    {
+      "id": "samp",
+      "name": "SAMP"
+    },
+    {
+      "id": "sap",
+      "name": "SAP"
+    },
+    {
+      "id": "sap-crystal-reports",
+      "name": "SAP Crystal Reports"
+    },
+    {
+      "id": "sapper",
+      "name": "Sapper"
+    },
+    {
+      "id": "sapui5",
+      "name": "SAPUI5"
+    },
+    {
+      "id": "sas",
+      "name": "SAS"
+    },
+    {
+      "id": "sass",
+      "name": "SASS"
+    },
+    {
+      "id": "sasslint",
+      "name": "SassLint"
+    },
+    {
+      "id": "sbt",
+      "name": "sbt"
+    },
+    {
+      "id": "scala",
+      "name": "Scala"
+    },
+    {
+      "id": "scapy",
+      "name": "Scapy"
+    },
+    {
+      "id": "scikit-learn",
+      "name": "SciKit-Learn"
+    },
+    {
+      "id": "scipy",
+      "name": "SciPy"
+    },
+    {
+      "id": "scorm",
+      "name": "SCORM"
+    },
+    {
+      "id": "scotty",
+      "name": "Scotty"
+    },
+    {
+      "id": "scrum",
+      "name": "Scrum"
+    },
+    {
+      "id": "scrum-master",
+      "name": "Scrum Master"
+    },
+    {
+      "id": "scrumban",
+      "name": "SCRUMBan"
+    },
+    {
+      "id": "scss",
+      "name": "SCSS"
+    },
+    {
+      "id": "sdlc",
+      "name": "SDLC"
+    },
+    {
+      "id": "seaborn",
+      "name": "Seaborn"
+    },
+    {
+      "id": "search-engine-optimization",
+      "name": "Search engine optimization"
+    },
+    {
+      "id": "segment",
+      "name": "Segment"
+    },
+    {
+      "id": "selenium",
+      "name": "Selenium"
+    },
+    {
+      "id": "selenium-grids",
+      "name": "Selenium Grids"
+    },
+    {
+      "id": "selenium-ide",
+      "name": "Selenium IDE"
+    },
+    {
+      "id": "selenium-webdriver",
+      "name": "Selenium Webdriver"
+    },
+    {
+      "id": "selinux",
+      "name": "SELinux"
+    },
+    {
+      "id": "semantic-ui",
+      "name": "Semantic UI"
+    },
+    {
+      "id": "sencha",
+      "name": "Sencha"
+    },
+    {
+      "id": "sendgrid",
+      "name": "SendGrid"
+    },
+    {
+      "id": "sentry",
+      "name": "Sentry"
+    },
+    {
+      "id": "sequelize",
+      "name": "Sequelize"
+    },
+    {
+      "id": "servant",
+      "name": "Servant"
+    },
+    {
+      "id": "serverless",
+      "name": "Serverless"
+    },
+    {
+      "id": "sftp",
+      "name": "SFTP"
+    },
+    {
+      "id": "sharepoint",
+      "name": "Sharepoint"
+    },
+    {
+      "id": "sharepoint-administration",
+      "name": "Sharepoint Administration"
+    },
+    {
+      "id": "sharepoint-framework",
+      "name": "SharePoint Framework"
+    },
+    {
+      "id": "shopify",
+      "name": "Shopify"
+    },
+    {
+      "id": "sidekiq",
+      "name": "Sidekiq"
+    },
+    {
+      "id": "siebel",
+      "name": "Siebel"
+    },
+    {
+      "id": "silex",
+      "name": "Silex"
+    },
+    {
+      "id": "sinatra",
+      "name": "Sinatra"
+    },
+    {
+      "id": "sinonjs",
+      "name": "SinonJS"
+    },
+    {
+      "id": "sitecore-cms",
+      "name": "Sitecore CMS"
+    },
+    {
+      "id": "sitefinity-cms",
+      "name": "Sitefinity CMS"
+    },
+    {
+      "id": "sketch",
+      "name": "Sketch"
+    },
+    {
+      "id": "slack-api",
+      "name": "Slack API"
+    },
+    {
+      "id": "slim-framework",
+      "name": "Slim Framework"
+    },
+    {
+      "id": "smalltalk",
+      "name": "SmallTalk"
+    },
+    {
+      "id": "smart-contracts",
+      "name": "Smart contracts"
+    },
+    {
+      "id": "smarty",
+      "name": "Smarty"
+    },
+    {
+      "id": "snowflake",
+      "name": "Snowflake"
+    },
+    {
+      "id": "soa",
+      "name": "SOA"
+    },
+    {
+      "id": "soap",
+      "name": "SOAP"
+    },
+    {
+      "id": "socket-io",
+      "name": "Socket IO"
+    },
+    {
+      "id": "solid",
+      "name": "SOLID"
+    },
+    {
+      "id": "solidity",
+      "name": "Solidity"
+    },
+    {
+      "id": "spa",
+      "name": "SPA"
+    },
+    {
+      "id": "speech-recognition",
+      "name": "Speech recognition"
+    },
+    {
+      "id": "speech-to-text",
+      "name": "Speech to Text"
+    },
+    {
+      "id": "spinnaker",
+      "name": "Spinnaker"
+    },
+    {
+      "id": "spiral",
+      "name": "Spiral"
+    },
+    {
+      "id": "splunk",
+      "name": "Splunk"
+    },
+    {
+      "id": "spock",
+      "name": "Spock"
+    },
+    {
+      "id": "spring-boot",
+      "name": "Spring Boot"
+    },
+    {
+      "id": "spring-framework",
+      "name": "Spring Framework"
+    },
+    {
+      "id": "spritekit",
+      "name": "SpriteKit"
+    },
+    {
+      "id": "sprockets",
+      "name": "Sprockets"
+    },
+    {
+      "id": "spss",
+      "name": "SPSS"
+    },
+    {
+      "id": "sql",
+      "name": "SQL"
+    },
+    {
+      "id": "sql-loader",
+      "name": "SQL Loader"
+    },
+    {
+      "id": "sql-server-integration-services",
+      "name": "SQL Server Integration Services"
+    },
+    {
+      "id": "sql-server-reporting-services",
+      "name": "SQL Server Reporting Services"
+    },
+    {
+      "id": "sqlalchemy",
+      "name": "SQLAlchemy"
+    },
+    {
+      "id": "sqlite",
+      "name": "SQLite"
+    },
+    {
+      "id": "square-api",
+      "name": "Square API"
+    },
+    {
+      "id": "squarespace",
+      "name": "Squarespace"
+    },
+    {
+      "id": "ssas",
+      "name": "SSAS"
+    },
+    {
+      "id": "ssis",
+      "name": "SSIS"
+    },
+    {
+      "id": "ssms",
+      "name": "SSMS"
+    },
+    {
+      "id": "sso",
+      "name": "SSO"
+    },
+    {
+      "id": "ssrs",
+      "name": "SSRS"
+    },
+    {
+      "id": "stackphp",
+      "name": "StackPHP"
+    },
+    {
+      "id": "standard-ml",
+      "name": "Standard ML"
+    },
+    {
+      "id": "stata",
+      "name": "STATA"
+    },
+    {
+      "id": "stellar",
+      "name": "Stellar"
+    },
+    {
+      "id": "stencil",
+      "name": "Stencil"
+    },
+    {
+      "id": "stm-microcontrollers",
+      "name": "STM Microcontrollers"
+    },
+    {
+      "id": "stored-procedures",
+      "name": "Stored Procedures"
+    },
+    {
+      "id": "storybook",
+      "name": "Storybook"
+    },
+    {
+      "id": "stripe",
+      "name": "Stripe"
+    },
+    {
+      "id": "struts",
+      "name": "Struts"
+    },
+    {
+      "id": "styled-components",
+      "name": "styled-components"
+    },
+    {
+      "id": "stylus",
+      "name": "Stylus"
+    },
+    {
+      "id": "sugarcrm",
+      "name": "SugarCRM"
+    },
+    {
+      "id": "suitecrm",
+      "name": "SuiteCRM"
+    },
+    {
+      "id": "supercomputing",
+      "name": "SuperComputing"
+    },
+    {
+      "id": "superlibrary",
+      "name": "SuperLibrary"
+    },
+    {
+      "id": "suse-11",
+      "name": "SUSE 11"
+    },
+    {
+      "id": "svelte",
+      "name": "Svelte"
+    },
+    {
+      "id": "svn",
+      "name": "SVN"
+    },
+    {
+      "id": "swarm",
+      "name": "Swarm"
+    },
+    {
+      "id": "swift",
+      "name": "Swift"
+    },
+    {
+      "id": "swing",
+      "name": "Swing"
+    },
+    {
+      "id": "symfony",
+      "name": "Symfony"
+    },
+    {
+      "id": "sysadmin",
+      "name": "SysAdmin"
+    },
+    {
+      "id": "systemd",
+      "name": "Systemd"
+    },
+    {
+      "id": "t",
+      "name": "T"
+    },
+    {
+      "id": "tableau",
+      "name": "Tableau"
+    },
+    {
+      "id": "tailwind-css",
+      "name": "Tailwind CSS"
+    },
+    {
+      "id": "talend",
+      "name": "TALEND"
+    },
+    {
+      "id": "taleo-learn-lms",
+      "name": "Taleo Learn LMS"
+    },
+    {
+      "id": "tcl",
+      "name": "TCL"
+    },
+    {
+      "id": "tcp/ip",
+      "name": "TCP/IP"
+    },
+    {
+      "id": "tcp/ip-networking",
+      "name": "TCP/IP Networking"
+    },
+    {
+      "id": "tdd",
+      "name": "TDD"
+    },
+    {
+      "id": "teamcity",
+      "name": "TeamCity"
+    },
+    {
+      "id": "technical-writing",
+      "name": "Technical Writing"
+    },
+    {
+      "id": "telegraf",
+      "name": "Telegraf"
+    },
+    {
+      "id": "tensorflow",
+      "name": "TensorFlow"
+    },
+    {
+      "id": "terraform",
+      "name": "Terraform"
+    },
+    {
+      "id": "three-js",
+      "name": "Three.js"
+    },
+    {
+      "id": "titanium",
+      "name": "Titanium"
+    },
+    {
+      "id": "tkinter",
+      "name": "Tkinter"
+    },
+    {
+      "id": "toad",
+      "name": "TOAD"
+    },
+    {
+      "id": "tokbox",
+      "name": "Tokbox"
+    },
+    {
+      "id": "tomcat",
+      "name": "Tomcat"
+    },
+    {
+      "id": "topic-modeling",
+      "name": "Topic Modeling"
+    },
+    {
+      "id": "tornado",
+      "name": "Tornado"
+    },
+    {
+      "id": "transact-sql",
+      "name": "Transact SQL"
+    },
+    {
+      "id": "travis",
+      "name": "Travis"
+    },
+    {
+      "id": "truffle",
+      "name": "Truffle"
+    },
+    {
+      "id": "tvos",
+      "name": "tvOS"
+    },
+    {
+      "id": "twig",
+      "name": "Twig"
+    },
+    {
+      "id": "twilio",
+      "name": "Twilio"
+    },
+    {
+      "id": "twisted",
+      "name": "Twisted"
+    },
+    {
+      "id": "typescript",
+      "name": "TypeScript"
+    },
+    {
+      "id": "ubuntu",
+      "name": "Ubuntu"
+    },
+    {
+      "id": "ui/ux",
+      "name": "UI/UX"
+    },
+    {
+      "id": "uikit",
+      "name": "UIKit"
+    },
+    {
+      "id": "uml",
+      "name": "UML"
+    },
+    {
+      "id": "underscore",
+      "name": "Underscore"
+    },
+    {
+      "id": "unit-testing",
+      "name": "Unit Testing"
+    },
+    {
+      "id": "unity",
+      "name": "Unity"
+    },
+    {
+      "id": "unix",
+      "name": "Unix"
+    },
+    {
+      "id": "unix-shells",
+      "name": "Unix Shells"
+    },
+    {
+      "id": "unreal-engine",
+      "name": "Unreal Engine"
+    },
+    {
+      "id": "usability-testing",
+      "name": "Usability Testing"
+    },
+    {
+      "id": "user-research",
+      "name": "User Research"
+    },
+    {
+      "id": "uwsgi",
+      "name": "uWSGI"
+    },
+    {
+      "id": "vagrant",
+      "name": "Vagrant"
+    },
+    {
+      "id": "varnish",
+      "name": "Varnish"
+    },
+    {
+      "id": "vault",
+      "name": "Vault"
+    },
+    {
+      "id": "vb-net",
+      "name": "VB.NET"
+    },
+    {
+      "id": "vb-script",
+      "name": "VB Script"
+    },
+    {
+      "id": "vba",
+      "name": "VBA"
+    },
+    {
+      "id": "vbulletin",
+      "name": "vBulletin"
+    },
+    {
+      "id": "vector-tiles",
+      "name": "Vector Tiles"
+    },
+    {
+      "id": "verilog",
+      "name": "Verilog"
+    },
+    {
+      "id": "vert-x",
+      "name": "vert.x"
+    },
+    {
+      "id": "vhdl",
+      "name": "VHDL"
+    },
+    {
+      "id": "video-streaming",
+      "name": "Video Streaming"
+    },
+    {
+      "id": "vim",
+      "name": "vim"
+    },
+    {
+      "id": "viper",
+      "name": "Viper"
+    },
+    {
+      "id": "virtual-reality",
+      "name": "Virtual Reality"
+    },
+    {
+      "id": "visio",
+      "name": "Visio"
+    },
+    {
+      "id": "visual-basic",
+      "name": "Visual Basic"
+    },
+    {
+      "id": "visual-c",
+      "name": "Visual C++"
+    },
+    {
+      "id": "visualforce",
+      "name": "VisualForce"
+    },
+    {
+      "id": "vlan",
+      "name": "VLAN"
+    },
+    {
+      "id": "vmware",
+      "name": "VMware"
+    },
+    {
+      "id": "voip",
+      "name": "VoIP"
+    },
+    {
+      "id": "volusion",
+      "name": "Volusion"
+    },
+    {
+      "id": "vue-js",
+      "name": "Vue.js"
+    },
+    {
+      "id": "vuforia",
+      "name": "Vuforia"
+    },
+    {
+      "id": "wagtail-cms",
+      "name": "Wagtail CMS"
+    },
+    {
+      "id": "wamp",
+      "name": "WAMP"
+    },
+    {
+      "id": "watchos",
+      "name": "watchOS"
+    },
+    {
+      "id": "waterfall",
+      "name": "Waterfall"
+    },
+    {
+      "id": "watson-analytic",
+      "name": "Watson Analytic"
+    },
+    {
+      "id": "wcag",
+      "name": "WCAG"
+    },
+    {
+      "id": "web-accessibility",
+      "name": "Web accessibility"
+    },
+    {
+      "id": "web-animation",
+      "name": "Web animation"
+    },
+    {
+      "id": "web-audio",
+      "name": "web audio"
+    },
+    {
+      "id": "web-components",
+      "name": "Web Components"
+    },
+    {
+      "id": "web-crawling",
+      "name": "Web Crawling"
+    },
+    {
+      "id": "web-performance",
+      "name": "Web performance"
+    },
+    {
+      "id": "web-scraping",
+      "name": "Web scraping"
+    },
+    {
+      "id": "web-services",
+      "name": "Web Services"
+    },
+    {
+      "id": "web2py",
+      "name": "Web2py"
+    },
+    {
+      "id": "web3",
+      "name": "Web3"
+    },
+    {
+      "id": "webassembly",
+      "name": "WebAssembly"
+    },
+    {
+      "id": "webflow",
+      "name": "Webflow"
+    },
+    {
+      "id": "webgd",
+      "name": "WebGD"
+    },
+    {
+      "id": "webgl",
+      "name": "WebGL"
+    },
+    {
+      "id": "webpack",
+      "name": "Webpack"
+    },
+    {
+      "id": "webpacker",
+      "name": "Webpacker"
+    },
+    {
+      "id": "webrtc",
+      "name": "WebRTC"
+    },
+    {
+      "id": "websocket",
+      "name": "WebSocket"
+    },
+    {
+      "id": "websphere",
+      "name": "WebSphere"
+    },
+    {
+      "id": "wimsa",
+      "name": "WIMSA"
+    },
+    {
+      "id": "windows",
+      "name": "Windows"
+    },
+    {
+      "id": "windows-administration",
+      "name": "Windows Administration"
+    },
+    {
+      "id": "windows-apis",
+      "name": "Windows APIs"
+    },
+    {
+      "id": "windows-server",
+      "name": "Windows Server"
+    },
+    {
+      "id": "windows-services",
+      "name": "Windows Services"
+    },
+    {
+      "id": "windows-system-administrator",
+      "name": "Windows System Administrator"
+    },
+    {
+      "id": "winforms",
+      "name": "WinForms"
+    },
+    {
+      "id": "wireframing",
+      "name": "Wireframing"
+    },
+    {
+      "id": "wireless-multimedia-content-delivery",
+      "name": "Wireless Multimedia Content Delivery"
+    },
+    {
+      "id": "wisa",
+      "name": "WISA"
+    },
+    {
+      "id": "wix",
+      "name": "Wix"
+    },
+    {
+      "id": "woocommerce",
+      "name": "WooCommerce"
+    },
+    {
+      "id": "wordpress",
+      "name": "WordPress"
+    },
+    {
+      "id": "workato",
+      "name": "Workato"
+    },
+    {
+      "id": "wpf",
+      "name": "WPF"
+    },
+    {
+      "id": "wpml",
+      "name": "WPML"
+    },
+    {
+      "id": "wsdl",
+      "name": "WSDL"
+    },
+    {
+      "id": "wsgi",
+      "name": "WSGI"
+    },
+    {
+      "id": "xamarin",
+      "name": "Xamarin"
+    },
+    {
+      "id": "xaml",
+      "name": "XAML"
+    },
+    {
+      "id": "xampp",
+      "name": "XAMPP"
+    },
+    {
+      "id": "xbox",
+      "name": "Xbox"
+    },
+    {
+      "id": "xcode",
+      "name": "Xcode"
+    },
+    {
+      "id": "xhtml",
+      "name": "XHTML"
+    },
+    {
+      "id": "xml",
+      "name": "XML"
+    },
+    {
+      "id": "xmpp",
+      "name": "XMPP"
+    },
+    {
+      "id": "xp",
+      "name": "XP"
+    },
+    {
+      "id": "xslt",
+      "name": "XSLT"
+    },
+    {
+      "id": "xunit",
+      "name": "xUnit"
+    },
+    {
+      "id": "yaml",
+      "name": "YAML"
+    },
+    {
+      "id": "yarn",
+      "name": "Yarn"
+    },
+    {
+      "id": "yeoman",
+      "name": "Yeoman"
+    },
+    {
+      "id": "yii",
+      "name": "Yii"
+    },
+    {
+      "id": "yii2",
+      "name": "Yii2"
+    },
+    {
+      "id": "yocto-project",
+      "name": "Yocto Project"
+    },
+    {
+      "id": "yui-library",
+      "name": "YUI Library"
+    },
+    {
+      "id": "zappa",
+      "name": "Zappa"
+    },
+    {
+      "id": "zen",
+      "name": "Zen"
+    },
+    {
+      "id": "zend-framework",
+      "name": "Zend Framework"
+    },
+    {
+      "id": "zendesk",
+      "name": "Zendesk"
+    },
+    {
+      "id": "zeplin",
+      "name": "Zeplin"
+    },
+    {
+      "id": "zeromq",
+      "name": "ZeroMQ"
+    },
+    {
+      "id": "zmq",
+      "name": "ZMQ"
+    },
+    {
+      "id": "zookeeper",
+      "name": "Zookeeper"
+    },
+    {
+      "id": "zope",
+      "name": "Zope"
+    },
+    {
+      "id": "zuora-api",
+      "name": "Zuora API"
+    }
+  ],
+  "softwareProducts": [],
+  "techGroups": [
+    {
+      "id": "api",
+      "name": "API",
+      "generic": [
+        "algolia-api",
+        "auth0",
+        "braintree-api",
+        "brightcove-api",
+        "cameraapi",
+        "facebook-api",
+        "fastapi",
+        "foursquare-api",
+        "foxycart",
+        "github-api",
+        "google-apis",
+        "googlemaps-api",
+        "jdbc",
+        "jms",
+        "jpa",
+        "log4j",
+        "opentracing",
+        "openvr",
+        "paypal-api",
+        "pusher",
+        "pyspark",
+        "reactivex",
+        "slack-api",
+        "square-api",
+        "stripe",
+        "twilio",
+        "webrtc",
+        "windows-apis",
+        "zuora-api"
+      ],
+      "nonGeneric": []
+    },
+    {
+      "id": "backend-framework",
+      "name": "Backend Framework",
+      "generic": [
+        "active-admin",
+        "apache-wicket",
+        "asp-net",
+        "cakephp",
+        "cherrypy",
+        "codeigniter",
+        "django",
+        "express",
+        "flask",
+        "grails",
+        "hapi-js",
+        "jsp",
+        "juce",
+        "koa",
+        "laravel",
+        "meteor",
+        "mojolicious",
+        "nestjs",
+        "node-js",
+        "phalcon",
+        "phoenix-framework",
+        "play-framework",
+        "rails",
+        "revel",
+        "roda",
+        "ruby-on-rails",
+        "sails",
+        "scotty",
+        "silex",
+        "slim-framework",
+        "spring-boot",
+        "spring-framework",
+        "struts",
+        "symfony",
+        "tornado",
+        "twisted",
+        "vert-x",
+        "web2py",
+        "yii",
+        "yii2",
+        "zend-framework"
+      ],
+      "nonGeneric": []
+    },
+    {
+      "id": "build-tool",
+      "name": "Build Tool",
+      "generic": [
+        "babel",
+        "bamboo",
+        "bazel",
+        "bitrise",
+        "boozang",
+        "bower",
+        "browserify",
+        "buddybuild",
+        "circleci",
+        "clouddeploy",
+        "cmake",
+        "cocoatouch",
+        "codeship",
+        "composer",
+        "concourse-ci",
+        "cucumber",
+        "doxygen",
+        "fastlane",
+        "gcc",
+        "gdb",
+        "git",
+        "gitlab",
+        "gocd",
+        "google-apps-script",
+        "gradie",
+        "gradle",
+        "grunt",
+        "gulp-js",
+        "helm",
+        "hudson",
+        "hugo",
+        "jekyll",
+        "jenkins",
+        "jruby",
+        "kops",
+        "liquibase",
+        "make",
+        "makefile",
+        "maven",
+        "mercurial",
+        "newrelic",
+        "npm",
+        "octopus-deploy",
+        "perforce",
+        "powerapps",
+        "saltstack",
+        "sbt",
+        "selenium",
+        "spinnaker",
+        "svn",
+        "teamcity",
+        "travis",
+        "webpack",
+        "webpacker",
+        "yarn",
+        "yeoman"
+      ],
+      "nonGeneric": []
+    },
+    {
+      "id": "certification",
+      "name": "Certification",
+      "generic": [
+        "associate-cloud-engineer",
+        "aws-certified-developer",
+        "aws-certified-network-architect",
+        "aws-certified-solutions-architect",
+        "aws-certified-solutions-architect-associate",
+        "aws-certified-sysops-administrator",
+        "cbap",
+        "certified-salesforce-administrator",
+        "certified-scrum-master",
+        "certified-scrum-professional",
+        "certified-six-sigma-black-belt",
+        "comptia-linux-certification",
+        "google-cloud-certified-professional",
+        "google-professional-data-engineering-certified",
+        "mcsa-certification",
+        "msce-certification",
+        "pmi-acp",
+        "pmp",
+        "psm"
+      ],
+      "nonGeneric": []
+    },
+    {
+      "id": "cms",
+      "name": "CMS",
+      "generic": [
+        "canvas-lms",
+        "contentful",
+        "craft-cms",
+        "dotcms",
+        "drupal",
+        "drupal-7",
+        "drupal-8",
+        "expression-engine",
+        "ghost",
+        "joomla",
+        "kentico",
+        "lemonstand",
+        "lms",
+        "magento",
+        "magento2",
+        "modx",
+        "moodle",
+        "netsuite",
+        "octobercms",
+        "opencart",
+        "openedx",
+        "pardot",
+        "plone",
+        "prestashop",
+        "salesforce",
+        "shopify",
+        "siebel",
+        "sitecore-cms",
+        "sitefinity-cms",
+        "squarespace",
+        "sugarcrm",
+        "suitecrm",
+        "taleo-learn-lms",
+        "vbulletin",
+        "volusion",
+        "wagtail-cms",
+        "webflow",
+        "wix",
+        "woocommerce",
+        "wordpress"
+      ],
+      "nonGeneric": []
+    },
+    {
+      "id": "datastore",
+      "name": "Datastore",
+      "generic": [
+        "access",
+        "apache-hive",
+        "apache-nifi",
+        "apache-solr",
+        "apache-spark",
+        "appengine-datastore",
+        "arangodb",
+        "cassandra",
+        "cloud-firestore",
+        "cockroachdb",
+        "couchbase",
+        "couchdb",
+        "data-warehouse",
+        "datomic",
+        "db2",
+        "dbase",
+        "druid",
+        "dynamodb",
+        "elasticsearch",
+        "google-cloudsql",
+        "graph-databases",
+        "hadoop",
+        "influxdb",
+        "informix",
+        "mapreduce",
+        "mariadb",
+        "memcached",
+        "memsql",
+        "microsoft-sql-server",
+        "monetdb",
+        "mongodb",
+        "ms-access",
+        "mysql",
+        "nosql",
+        "oracle-datastore",
+        "percona-server",
+        "postgresql",
+        "prometheus",
+        "ravendb",
+        "redis",
+        "rethinkdb",
+        "riak",
+        "snowflake",
+        "sqlite"
+      ],
+      "nonGeneric": []
+    },
+    {
+      "id": "discipline",
+      "name": "Discipline",
+      "generic": [
+        "3d",
+        "3d-cad",
+        "3d-printing",
+        "accessibility-devices",
+        "account-manager",
+        "adaptive-design",
+        "administration",
+        "adtech",
+        "algorithm-development",
+        "algorithmic-trading",
+        "alm",
+        "ams",
+        "analog-ic-design",
+        "analytics",
+        "android-design",
+        "animation",
+        "ann",
+        "application-security",
+        "architecture",
+        "artificial-intelligence",
+        "atg",
+        "augmented-reality",
+        "automated-testing",
+        "automation",
+        "bayesian-inference",
+        "behavioral-analytics",
+        "behavioral-synthesis",
+        "big-data",
+        "bioinformatics",
+        "biotech",
+        "bitcoin",
+        "blockchain",
+        "branding",
+        "business-analyst",
+        "business-development",
+        "business-intelligence",
+        "chatbots",
+        "ci/cd",
+        "cloud-architecture",
+        "cloud-solutions",
+        "cluster-computing",
+        "cms-platforms",
+        "compiler-design",
+        "computer-vision",
+        "configuration-management",
+        "content-creation",
+        "content-marketing",
+        "crm",
+        "cryptocurrency",
+        "custom-wordpress-themes",
+        "cyber-security",
+        "data-modeling",
+        "data-visualization",
+        "database-administrator",
+        "database-architecture",
+        "database-design",
+        "debugging",
+        "deep-learning",
+        "design",
+        "design-prototyping",
+        "design-systems",
+        "design-thinking",
+        "desktop-applications",
+        "digital-branding",
+        "digital-imaging",
+        "digital-marketing",
+        "digital-signal-processing",
+        "distributed-systems",
+        "ecommerce",
+        "elearning",
+        "electrical-engineering",
+        "email-marketing",
+        "embedded-systems",
+        "encryption",
+        "engineering-management",
+        "enterprise-content-management",
+        "enterprise-networking",
+        "enterprise-systems-administrator",
+        "ethical-hacker",
+        "financial-modeling",
+        "firewalls",
+        "forex",
+        "game-engines",
+        "gaming",
+        "genetic-algorithms",
+        "geographic-information-systems",
+        "graphic-design",
+        "growth-hacking",
+        "hardware",
+        "hierarchical-multi-task-learning",
+        "human-computer-interaction-design",
+        "hybrid-apps",
+        "hybrid-cloud",
+        "icon-design",
+        "incident-response",
+        "infographics",
+        "information-architechture",
+        "information-security",
+        "integration-testing",
+        "interactive-design",
+        "ios-design",
+        "iot",
+        "localization",
+        "logistic-regression",
+        "logo-design",
+        "lot",
+        "machine-learning",
+        "malware-research",
+        "managed-services",
+        "management",
+        "mathematical-finance",
+        "mba",
+        "message-passing-interface",
+        "microservices",
+        "mobile-security",
+        "motion-design",
+        "network-admin",
+        "network-engineering",
+        "network-security",
+        "networking",
+        "neural-networks",
+        "nlp",
+        "okr-50",
+        "oop",
+        "open-source-contributor",
+        "optical-character-recognition",
+        "p2p-networking",
+        "pair-programming",
+        "pci-compliance",
+        "penetration-testing",
+        "ppc",
+        "predictive-analytics",
+        "print-design",
+        "product-designer",
+        "product-development",
+        "progressive-web-apps",
+        "prototyping",
+        "psd-slicing",
+        "psd-to-html/css/js",
+        "public-key-infrastructure",
+        "qa",
+        "qa-automation",
+        "qa-professional",
+        "regular-expressions",
+        "responsive-design",
+        "rf-networking",
+        "rfid",
+        "robotics",
+        "routing",
+        "routing-algorithms",
+        "rpa",
+        "scrum-master",
+        "search-engine-optimization",
+        "serverless",
+        "sharepoint-administration",
+        "spa",
+        "speech-recognition",
+        "speech-to-text",
+        "supercomputing",
+        "sysadmin",
+        "technical-writing",
+        "topic-modeling",
+        "ui/ux",
+        "unit-testing",
+        "usability-testing",
+        "user-research",
+        "vhdl",
+        "video-streaming",
+        "virtual-reality",
+        "watson-analytic",
+        "web-accessibility",
+        "web-animation",
+        "web-audio",
+        "web-components",
+        "web-crawling",
+        "web-performance",
+        "web-scraping",
+        "web-services",
+        "windows-administration",
+        "windows-system-administrator",
+        "wireframing",
+        "wireless-multimedia-content-delivery"
+      ],
+      "nonGeneric": []
+    },
+    {
+      "id": "frontend-framework",
+      "name": "Frontend Framework",
+      "generic": [
+        "acceleratedmobilepages",
+        "alpine-js",
+        "angulardart",
+        "aurelia",
+        "backbone-js",
+        "bulma",
+        "cordova",
+        "electron",
+        "ember-js",
+        "extjs",
+        "flutter",
+        "gatsbyjs",
+        "hexo",
+        "ionic",
+        "kendo",
+        "knockout-js",
+        "litelement",
+        "mithril-js",
+        "nativescript",
+        "next-js",
+        "nuxt-js",
+        "phaser-js",
+        "r-shiny",
+        "react",
+        "react-native",
+        "sapper",
+        "semantic-ui",
+        "sencha",
+        "sharepoint-framework",
+        "spritekit",
+        "svelte",
+        "uikit",
+        "visualforce",
+        "vue-js",
+        "xamarin"
+      ],
+      "nonGeneric": []
+    },
+    {
+      "id": "infrastructure",
+      "name": "Infrastructure",
+      "generic": [
+        "akamai",
+        "amazon-cloudfront",
+        "amazon-ec2",
+        "amazon-ecs",
+        "amazon-efs",
+        "amazon-eks",
+        "amazon-elastic-mapreduce",
+        "amazon-elb",
+        "amazon-iam",
+        "amazon-kinesis",
+        "amazon-lambda",
+        "amazon-payments",
+        "amazon-rds",
+        "amazon-redshift",
+        "amazon-s3",
+        "amazon-sqs",
+        "apache",
+        "apache-traffic-server",
+        "azure",
+        "bind",
+        "caddy",
+        "cdn",
+        "ceph",
+        "citrix-xen-server",
+        "cloud-foundry",
+        "cloudflare",
+        "dataflow",
+        "digitalocean",
+        "docker",
+        "docker-compose",
+        "docker-swarm",
+        "fastly",
+        "firmware",
+        "google-app-engine",
+        "google-cloud-functions",
+        "google-cloud-platform",
+        "google-cloud-storage",
+        "gunicorn",
+        "heroku",
+        "hive-on-spark",
+        "ibm-cloud",
+        "iis",
+        "istio",
+        "jakarta",
+        "jboss",
+        "kubernetes",
+        "kvm",
+        "linode",
+        "lxc",
+        "mesos",
+        "meteor-galaxy",
+        "microsoft-exchange-server",
+        "netlify",
+        "nginx",
+        "nomad",
+        "openshift",
+        "openstack",
+        "pantheon",
+        "rackspace",
+        "s3",
+        "swarm",
+        "terraform",
+        "tokbox",
+        "tomcat",
+        "uwsgi",
+        "varnish",
+        "vlan",
+        "windows-server",
+        "workato",
+        "zookeeper",
+        "zope"
+      ],
+      "nonGeneric": []
+    },
+    {
+      "id": "language",
+      "name": "Language",
+      "generic": [
+        "abap",
+        "actionscript",
+        "apex",
+        "assembly",
+        "awk",
+        "bash",
+        "basic",
+        "boobrightscript-roku",
+        "c",
+        "c-plus-plus",
+        "c-sharp",
+        "clojure",
+        "clojurescript",
+        "cobol",
+        "coffeescript",
+        "commonlisp",
+        "crystal",
+        "d",
+        "dart",
+        "delphi",
+        "elixir",
+        "elm",
+        "erlang",
+        "f",
+        "flux",
+        "fortran",
+        "gdscript",
+        "go",
+        "groovy",
+        "haskell",
+        "haxe",
+        "idris",
+        "jade",
+        "java",
+        "javascript",
+        "julia",
+        "kotlin",
+        "linq",
+        "lua",
+        "nim",
+        "npl",
+        "objective-c",
+        "ocaml",
+        "omega",
+        "opal",
+        "opencl",
+        "pascal",
+        "perl",
+        "php",
+        "powershell",
+        "prolog",
+        "python",
+        "r",
+        "ruby",
+        "rust",
+        "scala",
+        "smalltalk",
+        "solidity",
+        "standard-ml",
+        "swift",
+        "t",
+        "tcl",
+        "typescript",
+        "vb-net",
+        "vb-script",
+        "vba",
+        "visual-basic",
+        "webassembly",
+        "zen"
+      ],
+      "nonGeneric": []
+    },
+    {
+      "id": "library",
+      "name": "Library",
+      "generic": [
+        "absinthe",
+        "active-mq",
+        "ado-net",
+        "advanced-custom-fields",
+        "aikit",
+        "akka",
+        "ant",
+        "ant-design",
+        "apache-mxnet",
+        "apollo",
+        "arkit",
+        "asterisk",
+        "beaver-builder",
+        "blaze-js",
+        "blender-python",
+        "bluebird",
+        "camel",
+        "celery",
+        "chai",
+        "chai-js",
+        "cipher",
+        "core-audio",
+        "core-bluetooth",
+        "core-data",
+        "core-location",
+        "cplex-optimizer",
+        "cryengine",
+        "cuda",
+        "cypress",
+        "cython",
+        "d3-js",
+        "dagger",
+        "data-analysis-expressions",
+        "deepspeech",
+        "defold",
+        "dojo",
+        "entity-framework",
+        "enzyme",
+        "eslint",
+        "fabric",
+        "fabricjs",
+        "grpc",
+        "gstreamer",
+        "hibernate-or",
+        "highcharts",
+        "iodash",
+        "jasmine",
+        "javafx",
+        "jest",
+        "jquery",
+        "junit",
+        "keras",
+        "kibana",
+        "knex-js",
+        "koin-io",
+        "leaflet-js",
+        "libp2p",
+        "linux-device-driver",
+        "lodash",
+        "mapbox",
+        "mapboxgl",
+        "mapkit",
+        "mathjax",
+        "mfc",
+        "micropython",
+        "mobx",
+        "mocha",
+        "mockito",
+        "moment-js",
+        "monogame",
+        "networkx",
+        "ngrx",
+        "nhibernate",
+        "nightmare-js",
+        "nightwatch",
+        "nservicebus",
+        "numpy",
+        "opencv",
+        "opengl",
+        "openlayers",
+        "openstreetmap",
+        "pandas",
+        "pdftoolbox",
+        "phpunit",
+        "polymer",
+        "preact",
+        "protocol-buffers",
+        "protractor",
+        "pylibrary",
+        "pyqt",
+        "pytorch",
+        "ramda",
+        "reactql",
+        "redux",
+        "relay",
+        "requirejs",
+        "rxcocoa",
+        "rxjava",
+        "rxjs",
+        "rxswift",
+        "sapui5",
+        "sasslint",
+        "scikit-learn",
+        "scipy",
+        "seaborn",
+        "selenium-webdriver",
+        "sequelize",
+        "servant",
+        "sinatra",
+        "sinonjs",
+        "socket-io",
+        "spock",
+        "sprockets",
+        "sqlalchemy",
+        "stackphp",
+        "superlibrary",
+        "systemd",
+        "telegraf",
+        "tensorflow",
+        "three-js",
+        "tkinter",
+        "underscore",
+        "unity",
+        "unreal-engine",
+        "vuforia",
+        "web3",
+        "webgd",
+        "webgl",
+        "winforms",
+        "wpf",
+        "wpml",
+        "xunit",
+        "yui-library",
+        "zappa",
+        "zeromq",
+        "zmq"
+      ],
+      "nonGeneric": []
+    },
+    {
+      "id": "markup",
+      "name": "Markup",
+      "generic": [
+        "apache-thrift",
+        "blade",
+        "canvas",
+        "dhtml",
+        "gherkin",
+        "handlebars",
+        "hashicorp-configuration-language",
+        "html",
+        "jsdoc",
+        "jsonnet",
+        "liquid-templates",
+        "matlab",
+        "mustachejs",
+        "pl/sql",
+        "smarty",
+        "sql",
+        "stylus",
+        "transact-sql",
+        "twig",
+        "uml",
+        "verilog",
+        "wsdl",
+        "xaml",
+        "xhtml",
+        "xml",
+        "xslt",
+        "yaml"
+      ],
+      "nonGeneric": []
+    },
+    {
+      "id": "methodology",
+      "name": "Methodology",
+      "generic": [
+        "agile",
+        "bdd",
+        "bem",
+        "ddd",
+        "erp",
+        "etl",
+        "event-sourcing",
+        "fdd",
+        "git-flow",
+        "greenfield",
+        "itcss",
+        "jad",
+        "kanban",
+        "lean",
+        "ood",
+        "pmi",
+        "rad",
+        "rup",
+        "scrum",
+        "scrumban",
+        "sdlc",
+        "solid",
+        "spiral",
+        "tdd",
+        "viper",
+        "waterfall",
+        "xp"
+      ],
+      "nonGeneric": []
+    },
+    {
+      "id": "os",
+      "name": "OS",
+      "generic": [
+        "android",
+        "apple-watch",
+        "appletv",
+        "bsd",
+        "chrome-os",
+        "debian",
+        "freebsd",
+        "freertos",
+        "ios",
+        "linux",
+        "macos",
+        "nixos",
+        "openwrt",
+        "playstation",
+        "raspberry-pi",
+        "redhat",
+        "ros",
+        "rtos",
+        "selinux",
+        "suse-11",
+        "tvos",
+        "ubuntu",
+        "unix",
+        "unix-shells",
+        "watchos",
+        "windows",
+        "xbox",
+        "xp"
+      ],
+      "nonGeneric": []
+    },
+    {
+      "id": "stack",
+      "name": "Stack",
+      "generic": [
+        "bamp",
+        "bapp",
+        "elk",
+        "famp",
+        "fwap",
+        "fwip",
+        "ios",
+        "jamp",
+        "jolt",
+        "lamj",
+        "lamp",
+        "lemp",
+        "macos",
+        "mamp",
+        "mars",
+        "mean",
+        "mern",
+        "namp",
+        "redhat",
+        "samp",
+        "tvos",
+        "wamp",
+        "watchos",
+        "wimsa",
+        "wisa",
+        "xampp",
+        "xp"
+      ],
+      "nonGeneric": []
+    },
+    {
+      "id": "standards",
+      "name": "Standards",
+      "generic": [
+        "ajax",
+        "aop",
+        "apex",
+        "apis",
+        "arm",
+        "avs",
+        "bgp",
+        "bluetooth",
+        "cgi",
+        "commandqueryresponsibilitysegregation",
+        "cqrs",
+        "dhcp",
+        "dns",
+        "edi",
+        "ejb",
+        "erc20",
+        "erc721",
+        "es",
+        "es5",
+        "es6",
+        "es7",
+        "es8",
+        "ethereum",
+        "fhir",
+        "financial-information-exchange",
+        "ftp",
+        "graphql",
+        "hipaa",
+        "http",
+        "https",
+        "ibeacons",
+        "ipfs",
+        "j2ee",
+        "jsf",
+        "json",
+        "jwt",
+        "keberos",
+        "mqtt",
+        "oauth",
+        "odata",
+        "openapi",
+        "openid",
+        "orm",
+        "posix",
+        "rest",
+        "saml",
+        "scorm",
+        "sftp",
+        "smart-contracts",
+        "soa",
+        "soap",
+        "sso",
+        "stellar",
+        "tcp/ip",
+        "tcp/ip-networking",
+        "vector-tiles",
+        "voip",
+        "wcag",
+        "websocket",
+        "wsgi",
+        "xmpp"
+      ],
+      "nonGeneric": []
+    },
+    {
+      "id": "stylesheets",
+      "name": "Stylesheets",
+      "generic": [
+        "bootstrap",
+        "css",
+        "css3",
+        "css5",
+        "flex",
+        "flexbox",
+        "foundation",
+        "ios",
+        "less",
+        "macos",
+        "material-design",
+        "raspberry-pi",
+        "redhat",
+        "rtos",
+        "sass",
+        "scss",
+        "selinux",
+        "styled-components",
+        "suse-11",
+        "tailwind-css",
+        "tvos",
+        "ubuntu",
+        "unix",
+        "unix-shells",
+        "watchos",
+        "windows",
+        "xbox",
+        "xp"
+      ],
+      "nonGeneric": []
+    },
+    {
+      "id": "tools",
+      "name": "Tools",
+      "generic": [
+        "3ds-max",
+        "actions-on-google",
+        "active-directory",
+        "active-x",
+        "admob",
+        "adobe-air",
+        "adobe-captivate",
+        "adobe-coldfusion",
+        "adobe-creative-suite",
+        "adobe-flash",
+        "adobe-hbase",
+        "adobe-indesign",
+        "adobe-xd",
+        "adrobots",
+        "adwords",
+        "affinity-designer",
+        "altium",
+        "amazon-alexa-skills-kit",
+        "amplitude",
+        "anaconda",
+        "android-sdk",
+        "ansible",
+        "apache-storm",
+        "appium",
+        "arcgis",
+        "arduino",
+        "asana",
+        "atrium",
+        "autocad",
+        "aws",
+        "axure",
+        "azure-devops",
+        "azure-iot",
+        "beaglebone",
+        "bigcommerce",
+        "bigquery",
+        "bitbucket",
+        "blender",
+        "braintree",
+        "brightcove",
+        "britrix",
+        "browserstack",
+        "camtasia",
+        "capistrano",
+        "chrome-extensions",
+        "chromecast",
+        "cognos",
+        "confluence",
+        "core-point",
+        "coreldraw",
+        "crashlytics",
+        "crystal-reports",
+        "dotnet",
+        "dreamweaver",
+        "eclipse",
+        "esp-microcontrollers",
+        "figma",
+        "filemaker",
+        "firebase",
+        "flink",
+        "gimp",
+        "github",
+        "gitlab",
+        "google-analytics",
+        "google-play",
+        "google-web-toolkit",
+        "grafana",
+        "graphite",
+        "gsuite",
+        "gurobi",
+        "hubspot",
+        "hyperledger",
+        "illustrator",
+        "imagemagick",
+        "intercom",
+        "invision",
+        "jacoco",
+        "jira",
+        "jmeter",
+        "jqueryui",
+        "jupyter-notebook",
+        "kafka",
+        "karate-testing",
+        "kicad",
+        "klaviyo",
+        "knowledge-graph",
+        "laragon",
+        "latex",
+        "lectora",
+        "locust",
+        "logstash",
+        "looker",
+        "lotusnotes",
+        "mailchimp",
+        "mandrill",
+        "microcontrollers",
+        "microsoft-dynamics",
+        "microsoft-sharepoint",
+        "microsoft-visual-studio",
+        "mixpanel",
+        "ms-dynamics-crm",
+        "ms-flow",
+        "mulesoft",
+        "nintex",
+        "nlog",
+        "node-red",
+        "oculus-rift",
+        "office365",
+        "opentelemetry",
+        "optimizely",
+        "oracle-developer-tools",
+        "oracle-service-cloud",
+        "oracle-sql",
+        "osquery",
+        "packer",
+        "peoplesoft",
+        "phantomjs",
+        "phonegap",
+        "photoshop",
+        "poe",
+        "postcss",
+        "postman",
+        "power-bi",
+        "presto",
+        "pug-js",
+        "puppet",
+        "pycharm",
+        "qt",
+        "rabbitmq",
+        "rman",
+        "rollbar",
+        "rsa-archer-platform",
+        "rspec",
+        "rstudio",
+        "sap",
+        "sap-crystal-reports",
+        "sas",
+        "scapy",
+        "segment",
+        "selenium-grids",
+        "selenium-ide",
+        "sendgrid",
+        "sentry",
+        "sharepoint",
+        "sidekiq",
+        "sketch",
+        "splunk",
+        "spss",
+        "sql-loader",
+        "sql-server-integration-services",
+        "sql-server-reporting-services",
+        "ssas",
+        "ssis",
+        "ssms",
+        "ssrs",
+        "stata",
+        "stencil",
+        "stm-microcontrollers",
+        "stored-procedures",
+        "storybook",
+        "swing",
+        "tableau",
+        "talend",
+        "titanium",
+        "toad",
+        "truffle",
+        "vagrant",
+        "vault",
+        "vim",
+        "visio",
+        "visual-c",
+        "vmware",
+        "websphere",
+        "windows-services",
+        "xcode",
+        "yocto-project",
+        "zendesk",
+        "zeplin"
+      ],
+      "nonGeneric": []
+    }
+  ]
+}

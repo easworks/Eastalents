@@ -93,7 +93,7 @@ export class SoftwareProductsPageComponent {
             id: value.id,
             name: value.name,
             imageUrl: value.imageUrl,
-            techGroup: []
+            techSkills: []
           };
 
           this.store.dispatch(softwareProductActions.add({ payload }));

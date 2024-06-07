@@ -1,15 +1,18 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { concatMap, from, map } from 'rxjs';
 import { AdminApi } from '../api/admin.api';
 import { AdminDataDTO } from '../models/admin-data';
 import { adminData, adminDataActions, softwareProductActions, techGroupActions, techSkillActions } from './admin-data';
-import { Store } from '@ngrx/store';
 
 export const adminDataEffects = {
   loadFromApi: createEffect(
     () => {
       const api = inject(AdminApi);
+
+      // const domainApi = inject(DomainsApi);
+
       const data = Promise.all([
         api.softwareProducts.read(),
         api.techSkills.read(),
@@ -19,6 +22,13 @@ export const adminDataEffects = {
         techSkills: results[1],
         techGroups: results[2]
       }));
+      // .then(async results => {
+      //   const tgDto = await domainApi.techGroups();
+      //   const maps = extractTechSkills(tgDto);
+      //   results.techGroups = [...maps.techGroups.values()].sort((a, b) => sortString(a.id, b.id));
+      //   results.techSkills = [...maps.techSkills.values()].sort((a, b) => sortString(a.id, b.id));
+      //   return results;
+      // });
 
       return from(data)
         .pipe(
