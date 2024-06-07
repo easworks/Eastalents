@@ -29,14 +29,12 @@ export const techGroupActions = createActionGroup({
       payload: {
         group: string;
         skill: string;
-        software?: string;
       };
     }>(),
     'remove skill': props<{
       payload: {
         group: string;
         skill: string;
-        software?: string;
       };
     }>(),
   }
@@ -129,6 +127,19 @@ const feature = createFeature({
           group.name = payload.name;
           return group;
         },
+      }, state.techGroups);
+      return state;
+    }),
+    on(techGroupActions.addSkill, (state, { payload }) => {
+      state = { ...state };
+      state.techGroups = adapters.techGroup.mapOne({
+        id: payload.group,
+        map: group => {
+          group = { ...group };
+          group.generic = [...group.generic, payload.skill];
+          group.generic.sort(sortString);
+          return group;
+        }
       }, state.techGroups);
       return state;
     })

@@ -84,19 +84,24 @@ export class CreateTechGroupDialogComponent {
       click: () => {
         if (!this.form.valid)
           return;
+        try {
+          this.loading.has('creating tech group');
+          const value = this.form.getRawValue();
 
-        const value = this.form.getRawValue();
+          const group: TechGroup = {
+            id: value.id,
+            name: value.name,
+            generic: [],
+            nonGeneric: [],
+          };
 
-        const group: TechGroup = {
-          id: value.id,
-          name: value.name,
-          generic: [],
-          nonGeneric: [],
-        };
-
-        this.store.dispatch(techGroupActions.add({ payload: group }));
-        SnackbarComponent.forSuccess(this.snackbar);
-        this.dialog.close();
+          this.store.dispatch(techGroupActions.add({ payload: group }));
+          SnackbarComponent.forSuccess(this.snackbar);
+          this.dialog.close();
+        }
+        finally {
+          this.loading.delete('creating tech group');
+        }
       },
       loading$: this.loading.has('creating tech group')
     } as const;

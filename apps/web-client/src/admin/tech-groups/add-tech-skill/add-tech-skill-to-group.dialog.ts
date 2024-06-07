@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal, untracked } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -8,12 +8,14 @@ import { DialogLoaderComponent } from '@easworks/app-shell/common/dialog-loader.
 import { controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import type Fuse from 'fuse.js';
 import type { FuseResult } from 'fuse.js';
 import { TechGroup, TechSkill } from '../../models/tech-skill';
+import { techGroupActions } from '../../state/admin-data';
 
 interface AddTechSkillToGroupDialogData {
   search: Fuse<TechSkill>;
@@ -66,6 +68,7 @@ export class AddTechSkillToGroupDialogComponent {
 
   protected readonly form = new FormGroup({
     skill: new FormControl('' as TechSkill | string, {
+      nonNullable: true,
       validators: [
         Validators.required,
         this.validators.skill
@@ -111,7 +114,27 @@ export class AddTechSkillToGroupDialogComponent {
 
     const submit = {
       click: () => {
-        console.debug('submitting');
+        if (!this.form.valid)
+          return;
+
+        try {
+          this.loading.add('adding tech skill to group');
+
+          const value = this.form.getRawValue();
+          const skill = value.skill as TechSkill;
+
+          this.store.dispatch(techGroupActions.addSkill({
+            payload: {
+              group: this.data.group.id,
+              skill: skill.id,
+            }
+          }));
+          SnackbarComponent.forSuccess(this.snackbar);
+          this.dialog.close();
+        }
+        finally {
+          this.loading.delete('adding tech skill to group');
+        }
       },
       loading$: this.loading.has('adding tech skill to group')
     } as const;
