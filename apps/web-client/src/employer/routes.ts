@@ -15,7 +15,7 @@ export const EMPLOYER_ROUTE: Route = {
     {
       path: 'dashboard',
       pathMatch: 'full',
-      loadComponent: () => import('./dashboard.page').then(m => m.EmployerDashboardComponent)
+      loadComponent: () => import('./dashboard/dashboard.page').then(m => m.EmployerDashboardComponent)
     },
     {
       path: 'profile',
