@@ -11,8 +11,23 @@
   <div class="col-span-12 lg:w-10/12 xl:w-full xl:col-span-8">
 
     <div *ngrxLet="header$() as header" class="mt-4">
-      <h6 class="text-3xl font-medium">{{header.title}} </h6>
-      <p class="mt-1 font-medium text-gray-500">{{header.subtitle}}</p>
+      <h6 class="text-3xl font-medium flex gap-2">
+        <span class="flex-grow">{{header.title}} </span>
+        @if (isEditable$()) {
+        <button class="icon-button flex-none self-center" mat-ripple>
+          <fa-icon [icon]="icons.faEdit"></fa-icon>
+        </button>
+        }
+      </h6>
+
+      <p class="mt-1 font-medium flex gap-2">
+        <span class="flex-grow text-gray-500 ">{{header.subtitle}}</span>
+        @if (isEditable$()) {
+        <button class="icon-button flex-none self-center" mat-ripple>
+          <fa-icon [icon]="icons.faEdit"></fa-icon>
+        </button>
+        }
+      </p>
     </div>
 
     <mat-divider></mat-divider>
@@ -22,54 +37,77 @@
     </div>
 
     <div class="mt-8">
-      <h6 class="p-1 px-4 rounded-full bg-primary-100 text-xl font-bold">Overview</h6>
+      <h6 class="rounded-full bg-primary-100 text-xl font-bold flex items-center justify-between">
+        <span class="p-1 px-4">Overview</span>
+        @if(isEditable$()){
+        <button class="icon-button flex-none" mat-ripple>
+          <fa-icon [icon]="icons.faEdit"></fa-icon>
+        </button>
+        }
+      </h6>
       <p class="mt-4 px-4 leading-7 text-base-content/80">{{jobPost$().description}}</p>
     </div>
 
     <div class="mt-8">
-      <h6 class="p-1 px-4 rounded-full bg-primary-100 text-xl font-bold">Primary Domain & Expertise</h6>
+      <h6 class="rounded-full bg-primary-100 text-xl font-bold flex items-center justify-between">
+        <span class="p-1 px-4">Primary Domain & Expertise</span>
+        @if(isEditable$()){
+        <button class="icon-button flex-none" mat-ripple>
+          <fa-icon [icon]="icons.faEdit"></fa-icon>
+        </button>
+        }
+      </h6>
       <ul class="mt-4 px-4 flex flex-col gap-3" style="list-style: disc;">
-        <div class="primary-domain-option" *ngrxLet="primaryDomainExpertise$() as primaryDomain">
+        <div class="primary-domain-expertise" *ngrxLet="primaryDomainExpertise$() as primaryDomain">
           @for(pm of primaryDomain.domainExpertise; track pm.key) {
-          <label class="flex flex-grow cursor-pointer">
-            <p class="text-base text-base-content font-medium">{{pm.key}}</p>
-            <p class="text-base text-base-content ml-1">
-              {{pm.value}}</p>
-          </label>
+          <div>
+            <label>{{pm.key}}</label>
+            <p>{{pm.value}}</p>
+          </div>
           }
         </div>
       </ul>
     </div>
 
     <div class="mt-8">
-      <h6 class="p-1 px-4 rounded-full bg-primary-100 text-xl font-bold">Industry & Technical Experience</h6>
-      <ul class="mt-4 px-4 flex flex-col gap-3" style="list-style: disc;">
-        <div class="primary-domain-option">
-          <label class="flex flex-grow cursor-pointer">
-            <p class="text-base text-gray-400 font-medium">Industry</p>
+      <h6 class="rounded-full bg-primary-100 text-xl font-bold flex items-center justify-between">
+        <span class="p-1 px-4">Industry & Technical Experience</span>
+      </h6>
+      <div class="mt-4 px-4 flex flex-col gap-4">
+        <div class="industry">
+          <label class="flex gap-4 items-center">
+            <span class="flex-grow text-gray-400 font-medium">Industry</span>
+            @if (isEditable$()) {
+            <button class="icon-button flex-none self-center" mat-ripple>
+              <fa-icon [icon]="icons.faEdit"></fa-icon>
+            </button>
+            }
           </label>
           @for(panel of jobPost$().industries; track panel.group) {
-          <label class="flex flex-grow cursor-pointer">
-            <p class="text-base font-medium">{{panel.group}}</p>
-            <p class="text-base ml-1">
-              {{panel.items.join(', ')}}</p>
-          </label>
+          <div class="group">
+            <label>{{panel.group}}</label>
+            <p>{{panel.items.join(', ')}}</p>
+          </div>
           }
-
         </div>
-        <div class="primary-domain-option">
-          <label class="flex flex-grow cursor-pointer">
-            <p class="text-base text-gray-400 font-medium">Technical Experience</p>
+
+        <div class="technical-experience">
+          <label class="flex gap-4 items-center">
+            <span class="flex-grow text-gray-400 font-medium">Technical Experience</span>
+            @if (isEditable$()) {
+            <button class="icon-button flex-none self-center" mat-ripple>
+              <fa-icon [icon]="icons.faEdit"></fa-icon>
+            </button>
+            }
           </label>
           @for(panel of techGroups$(); track panel.group) {
-          <label class="flex flex-grow cursor-pointer">
-            <p class="text-base font-medium">{{panel.group}}</p>
-            <p class="text-base ml-1">
-              {{panel.items.join(', ')}}</p>
-          </label>
+          <div class="group">
+            <label>{{panel.group}}</label>
+            <p>{{panel.items.join(', ')}}</p>
+          </div>
           }
         </div>
-      </ul>
+      </div>
     </div>
 
     <mat-divider class="!mt-8"></mat-divider>
@@ -79,10 +117,12 @@
         <h6 class="text-xl font-semibold text-primary-500">Interested in this job?</h6>
         <p class="mt-1 text-base text-base-content/60">100 days left to apply</p>
       </div>
+      @if(role.freelancer$()){
       <button class="shaded-button primary flex items-center justify-between gap-4">
         Apply Now
         <!-- <fa-icon [icon]="icons.faArrowRight"></fa-icon> -->
       </button>
+      }
       <!-- <button
                 class="bg-primary w-fit hover:bg-primary-focus transition hover:duration-500 py-3 px-5 text-base font-semibold text-primary-content rounded-lg flex items-center gap-3"
                 fdprocessedid="lh9v6">
@@ -262,10 +302,13 @@
 
 <ng-template #$jobSpecifics>
   <div class="job-specifics" *ngrxLet="jobSpecifics$() as jobSpecifics">
+    <!-- TODO: Ask Mr. Nanda which roles can see the job status -->
+    @if(role.employer$() || role.admin$()){
     <div>
-      <p>Project Type</p>
-      <p>{{jobSpecifics.projectType}}</p>
+      <p>Job Status</p>
+      <p>{{jobSpecifics.jobPostStatus}}</p>
     </div>
+    }
     <mat-divider></mat-divider>
     <div>
       <p>Experience</p>
@@ -297,8 +340,14 @@
       <p>{{jobSpecifics.remoteWork}}</p>
     </div>
   </div>
+  @if(role.freelancer$()){
   <a class="mt-8 shaded-button primary flex gap-3 items-center w-fit mx-auto" href="/">
     Apply for this Position
     <!-- <fa-icon [icon]="icons.faArrowRight"></fa-icon> -->
+  </a>
+  }
+  <a class="mt-8 shaded-button primary flex gap-3 items-center w-fit mx-auto" href="/">
+
+    <fa-icon [icon]="icons.faEdit"></fa-icon>
   </a>
 </ng-template>

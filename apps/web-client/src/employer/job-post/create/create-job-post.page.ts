@@ -20,7 +20,7 @@ import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { Domain, DomainModule, ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, JobPost, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REMOTE_WORK_OPTIONS, REQUIRED_EXPERIENCE_OPTIONS, RemoteWork, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType, SoftwareProduct, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
+import { Domain, DomainModule, ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, JobPost, JobPostStatus, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REMOTE_WORK_OPTIONS, REQUIRED_EXPERIENCE_OPTIONS, RemoteWork, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType, SoftwareProduct, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
 import { faCheck, faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { combineLatest, map, shareReplay, switchMap } from 'rxjs';
 import { instructions } from './prompt';
@@ -224,11 +224,12 @@ export class CreateJobPostPageComponent implements OnInit {
             years: fv.domain.years,
             services: fv.services.map(v => v.value),
             modules: fv.modules.map(m => m.value.name),
-            roles: Object.entries(fv.experience)
-              .map(([role, { years, quantity, software }]) => ({
-                role, years, quantity,
-                software: software.map(v => v.value.name),
-              }))
+            roles: {
+              role: Object.keys(fv.experience)[0],
+              quantity: fv.experience[Object.keys(fv.experience)[0]].quantity,
+              years: fv.experience[Object.keys(fv.experience)[0]].years,
+              software: fv.experience[Object.keys(fv.experience)[0]].software.map(v => v.value.name)
+            },
           },
           tech: Object.entries(fv.techExp).map(([group, value]) => ({
             group,
@@ -238,6 +239,7 @@ export class CreateJobPostPageComponent implements OnInit {
             group,
             items: value.map(v => v.value)
           })),
+          status: undefined as unknown as JobPostStatus
         };
 
         console.debug(jp);

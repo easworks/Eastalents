@@ -1,5 +1,5 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { ChangeDetectionStrategy, Component, HostBinding, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, input } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
@@ -7,8 +7,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { AuthState } from '@easworks/app-shell/state/auth';
 import { JobPost } from '@easworks/models';
-import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faArrowRight, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'employer-view-job-post',
@@ -33,15 +34,19 @@ export class ViewJobPostPageComponent {
 
   protected readonly icons = {
     faArrowLeft,
-    faArrowRight
+    faArrowRight,
+    faEdit
   } as const;
 
+  private readonly state = inject(AuthState);
 
   protected readonly jobPost$ = input.required<JobPost>({ alias: 'jobPost' });
 
+  protected readonly user$ = this.state.guaranteedUser();
+
   protected readonly header$ = computed(() => {
     const job = this.jobPost$();
-    const role = job.domain.roles[0];
+    const role = job.domain.roles;
     const software = role.software;
 
     let title: string;
@@ -94,8 +99,26 @@ export class ViewJobPostPageComponent {
       engagementPeriod: jobSpecificesDetail.requirements.engagementPeriod,
       hourlyBudget: jobSpecificesDetail.requirements.hourlyBudget,
       startTimeLine: jobSpecificesDetail.requirements.projectKickoff,
-      remoteWork: jobSpecificesDetail.requirements.remote
-
+      remoteWork: jobSpecificesDetail.requirements.remote,
+      jobPostStatus: jobSpecificesDetail.status
     } as const;
+  });
+
+  protected readonly role = (() => {
+    const $ = computed(() => this.user$().role || 'public');
+    const freelancer$ = computed(() => $() === 'freelancer');
+    const employer$ = computed(() => $() === 'employer');
+    const admin$ = computed(() => $() === 'admin');
+
+    return { $, freelancer$, employer$, admin$ } as const;
+  })();
+
+
+
+  protected readonly isEditable$ = computed(() => {
+    const role = this.role.$();
+    const status = this.jobPost$().status;
+
+    return status === 'Awaiting Approval' && role === 'employer';
   });
 }
