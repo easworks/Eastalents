@@ -226,8 +226,10 @@ export class AuthGuard {
   private readonly router = inject(Router);
 
   static async asFunction(route: Route, segments: UrlSegment[]) {
-    const auth = inject(AuthGuard);
-    return auth.canMatch(route, segments);
+    console.log("in service file auth line commented")
+    return true
+    // const auth = inject(AuthGuard);
+    // return auth.canMatch(route, segments);
   }
 
   async canMatch(route: Route, segments: UrlSegment[]) {
