@@ -22,6 +22,8 @@
     "@nx/web": "19.1.0-beta.1",
     "@nx/workspace": "19.1.0-beta.1",
     "@schematics/angular": "18.0.0-rc.3",
+    "@swc-node/register": "^1.9.2",
+    "@swc/core": "^1.5.28",
     "@types/hast": "^3.0.4",
     "@types/jest": "^29.5.12",
     "@types/luxon": "^3.4.2",
