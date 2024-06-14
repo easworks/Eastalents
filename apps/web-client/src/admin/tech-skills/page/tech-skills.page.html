@@ -1,4 +1,4 @@
-<div class="mt-4 table-container border rounded">
+<div class="mt-4 table-container">
   <div>
     <table>
       <thead>
@@ -13,7 +13,7 @@
         <tr>
           <td>{{row.data.id}}</td>
           <td *ngrxLet="row.form.controls.name as control" [formFieldControl]="control">
-            <input type="text" [formControl]="control">
+            <input type="text" class="field" [formControl]="control">
           </td>
           <td class="actions">
             <div class="flex">

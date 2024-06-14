@@ -1,4 +1,4 @@
-<div class="mt-4 table-container border rounded">
+<div class="mt-4 table-container">
   <div>
     <table>
       <thead>
@@ -14,10 +14,10 @@
         <tr>
           <td>{{ row.data.id }}</td>
           <td *ngrxLet="row.form.controls.name as control" [formFieldControl]="control">
-            <input type="text" [formControl]="control">
+            <input type="text" class="field" [formControl]="control">
           </td>
           <td *ngrxLet="row.form.controls.imageUrl as control" [formFieldControl]="control">
-            <input type="text" [formControl]="control">
+            <input type="text" class="field" [formControl]="control">
           </td>
           <td class="actions">
             <div class="flex">
@@ -37,13 +37,13 @@
         }
         <tr *ngrxLet="table.add.form as form">
           <td *ngrxLet="form.controls.id as control" [formFieldControl]="control">
-            <input type="text" [formControl]="control" placeholder="Add new software product...">
+            <input type="text" class="field" [formControl]="control" placeholder="Add new software product...">
           </td>
           <td *ngrxLet="form.controls.name as control" [formFieldControl]="control">
-            <input type="text" [formControl]="control">
+            <input type="text" class="field" [formControl]="control">
           </td>
           <td *ngrxLet="form.controls.imageUrl as control" [formFieldControl]="control">
-            <input type="text" [formControl]="control">
+            <input type="text" class="field" [formControl]="control">
           </td>
           <td class="actions">
             <div class="flex">
