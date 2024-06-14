@@ -1,6 +1,6 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { KeyValue } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, WritableSignal, computed, effect, inject, isDevMode, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, WritableSignal, computed, effect, inject, input, isDevMode, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -42,6 +42,7 @@ import { instructions } from './prompt';
   ]
 })
 export class CreateJobPostPageComponent implements OnInit {
+
   private readonly injector = inject(INJECTOR);
   private readonly domains = inject(DomainState);
   private readonly snackbar = inject(MatSnackBar);
@@ -63,6 +64,9 @@ export class CreateJobPostPageComponent implements OnInit {
     'description from chatgpt'
   ]>();
 
+  protected readonly mode$ = input<ComponentMode>('create', { alias: 'mode' });
+  protected readonly editStep$ = input<Step | null>(null, { alias: 'step' });
+  protected readonly jobPost$ = input<JobPost | null>(null, { alias: 'jobPost' });
 
   protected readonly trackBy = {
     domainOption: (_: number, d: SelectableOption<Domain>) => d.value.key,
@@ -1594,11 +1598,59 @@ export class CreateJobPostPageComponent implements OnInit {
 
   }
 
+
+  private async prefill(jobPost: JobPost) {
+    {
+      const { options, toggle } = this.serviceType;
+      const selected = options.find(x => x.value === jobPost.serviceType);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+    {
+      const { options$, toggle, form } = this.primaryDomain;
+
+      const all = await toPromise(options$, all => all.length > 0, this.injector);
+
+      const domain = all.find(o => o.value.key === jobPost.domain.key);
+      if (!domain)
+        throw new Error('invalid operation');
+
+      toggle(domain);
+      form.patchValue({ years: jobPost.domain.years });
+
+    }
+
+  }
   ngOnInit(): void {
     if (isDevMode()) {
       // this.devModeInit();
     }
+    effect(async () => {
+      const mode = this.mode$();
+      if (mode === 'edit') {
+        const jP = this.jobPost$();
+
+        if (!jP) {
+          throw new Error('invalid operation: job post to be prefilled was not provided');
+        }
+
+        await this.prefill(jP);
+
+        const step = this.editStep$();
+        const isValidStep = step && this.stepper.isValidStep(step);
+        if (isValidStep) {
+          this.stepper.step$.set(step);
+        }
+        else if (step) {
+          console.warn(`trying to navigate to invalid step: '${step}'`);
+        }
+      }
+    }, { injector: this.injector });
   }
+
 }
 
 type Step =
@@ -1618,6 +1670,9 @@ type Step =
   'hourly-budget' |
   'project-kickoff-timeline' |
   'remote-work';
+
+
+type ComponentMode = 'create' | 'edit';
 
 function createYearControl(initialValue = null as unknown as number) {
   return new FormControl(

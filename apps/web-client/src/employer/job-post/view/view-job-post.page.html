@@ -40,7 +40,7 @@
       <h6 class="rounded-full bg-primary-100 text-xl font-bold flex items-center justify-between">
         <span class="p-1 px-4">Overview</span>
         @if(isEditable$()){
-        <button class="icon-button flex-none" mat-ripple>
+        <button class="icon-button flex-none" mat-ripple routerLink="../edit" [queryParams]="{ step: 'description' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
         </button>
         }
@@ -52,7 +52,8 @@
       <h6 class="rounded-full bg-primary-100 text-xl font-bold flex items-center justify-between">
         <span class="p-1 px-4">Primary Domain & Expertise</span>
         @if(isEditable$()){
-        <button class="icon-button flex-none" mat-ripple>
+        <button class="icon-button flex-none" mat-ripple routerLink="../edit"
+          [queryParams]="{ step: 'primary-domain' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
         </button>
         }
