@@ -15,7 +15,7 @@
        [formFieldControl]="control"
        class="w-64 max-w-full">
     <label>ID</label>
-    <input type="text" class="field" [formControl]="control" #input>
+    <input type="text" [formControl]="control" #input>
     @if(control.hasError('required')){<span class="error">Required</span>}
     @if(control.hasError('pattern')){
     <span class="error">
@@ -33,7 +33,7 @@
   <div *ngrxLet="form.controls.name as control"
        [formFieldControl]="control">
     <label>Name</label>
-    <input type="text" class="field" [formControl]="control" #input>
+    <input type="text" [formControl]="control" #input>
     @if(control.hasError('required')){<span class="error">Required</span>}
     @if(control.hasError('maxlength')){<span class="error">{{input.value.length}}/{{maxlength.name}}</span>}
     <span class="hint">{{input.value.length}}/{{maxlength.name}}</span>
