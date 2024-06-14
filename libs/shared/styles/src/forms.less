@@ -1,33 +1,10 @@
-@layer components {
-  .field {
-    @apply block w-full rounded p-2 bg-slate-500/10 placeholder:text-slate-500/80 placeholder:text-sm outline-none ring-inset ring-primary-500 transition-all;
-
-    &-interactive {
-      @apply hover:ring-1;
-    }
-
-    &-interactive {
-      @apply focus:ring-2 focus-within:ring-2;
-    }
+@layer base {
+  input {
+    @apply outline-none;
   }
-
-  input[type=text],
-  input[type=number],
-  input[type=numeric],
-  input[type=password],
-  input[type=email],
-  input[type=time],
-  input[type=tel],
-  select {
-    @apply field;
-
-    &:not(:disabled) {
-      @apply field-interactive;
-    }
-  }
-
+  
   textarea {
-    @apply block bg-transparent w-full h-full outline-none placeholder:text-sm;
+    @apply block w-full h-full outline-none placeholder:text-sm;
 
     &::-webkit-scrollbar {
       @apply absolute h-1 w-1 rounded-full;
@@ -46,21 +23,46 @@
       @apply bg-divider;
     }
   }
+}
 
-  // form styling
+@layer components {
+  .field {
+    @apply block w-full rounded-md text-sm p-2
+    placeholder:text-gray-500/80 placeholder:text-sm 
+    ring-1 ring-divider ring-inset transition-all
+    shadow shadow-black/5
+    outline-none;
+
+    &:where(:focus), &:where(:hover), &:where(:focus-within) {
+      @apply ring-primary-500;
+    }
+
+    &:where(:focus), &:where(:focus-within) {
+      @apply ring-2;
+    }
+  }
+
+  .hint {
+    @apply text-xs mt-1 px-2 text-gray-500;
+  }
+
+  .error {
+    @apply text-xs mt-1 px-2 text-red-500;
+  }
+
   .form-field {
-    @apply relative mb-6;
+    @apply relative mb-8;
 
-    >label {
-      @apply block mb-1 text-sm pl-2;
+    > label {
+      @apply block mb-1 text-sm font-semibold;
     }
 
-    >.hint {
-      @apply absolute block text-xs px-2 mt-1 text-slate-500;
+    > .hint {
+      @apply absolute block;
     }
 
-    >.error {
-      @apply absolute hidden text-xs px-2 mt-1;
+    > .error {
+      @apply absolute hidden text-warn transition-all;
     }
 
     .mat-mdc-select-value {
@@ -68,14 +70,13 @@
     }
 
     .field-spinner {
-      @apply absolute hidden;
+      @apply absolute hidden w-6;
     }
 
     &.show-spinner {
-
       input,
       .mat-mdc-select-value {
-        @apply pr-12;
+        @apply pr-8;
       }
 
       .field-spinner {
@@ -84,8 +85,8 @@
     }
 
     &.disabled {
-      >label {
-        @apply text-slate-500;
+      > label {
+        @apply text-gray-500;
       }
     }
   }
@@ -98,58 +99,22 @@
         @apply text-warn;
       }
 
-      input.ng-invalid,
-      file-upload.ng-invalid,
       .field {
-        @apply ring-1 ring-warn/80 focus:ring-2 focus-within:ring-2 placeholder-warn;
+        @apply ring-warn/80 placeholder-warn;
       }
 
-      >.error {
-        @apply block text-warn;
+      > .error {
+        @apply block;
 
         &:not(:first-of-type) {
           @apply hidden;
         }
 
-        &~.hint {
+        & ~ .hint {
           @apply hidden;
         }
       }
     }
   }
 
-  td.form-field {
-    > .field {
-      @apply h-full bg-transparent;
-
-      border-radius: inherit;
-
-      &-interactive {
-        @apply cursor-text;
-
-        &:hover,
-        &:focus,
-        &:focus-within {
-          @apply bg-slate-500/10;
-        }
-      }
-    }
-  //   >.field {
-  //     @apply rounded-none h-full bg-transparent;
-
-  //     &-interactive {
-  //       @apply cursor-text;
-
-  //       &:hover,
-  //       &:focus,
-  //       &:focus-within {
-  //         @apply bg-slate-500/10;
-  //       }
-  //     }
-
-  //     >input {
-  //       @apply !ring-0 p-0 bg-transparent ring-transparent;
-  //     }
-  //   }
-  }
 }
