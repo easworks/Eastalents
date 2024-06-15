@@ -5,6 +5,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterModule } from '@angular/router';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { AuthState } from '@easworks/app-shell/state/auth';
@@ -25,7 +27,9 @@ import { faArrowLeft, faArrowRight, faEdit } from '@fortawesome/free-solid-svg-i
     MatAutocompleteModule,
     MatSelectModule,
     TextFieldModule,
-    MatExpansionModule
+    MatExpansionModule,
+    RouterModule,
+    MatTooltipModule
   ]
 })
 export class ViewJobPostPageComponent {
@@ -72,13 +76,15 @@ export class ViewJobPostPageComponent {
   protected readonly primaryDomainExpertise$ = computed(() => {
     const primaryDomain = this.jobPost$();
 
-    const arrOfExpertise: { key: string, value: string; }[] = [
+    const arrOfExpertise: { key: string, value: string, url: string; }[] = [
       {
         key: `Expertise in ${primaryDomain.domain.key}:`,
+        url: 'services',
         value: primaryDomain.domain.services.join(', ')
       },
       {
         key: `${primaryDomain.domain.key} Module Expertise:`,
+        url: 'modules',
         value: primaryDomain.domain.modules.join(', ')
       }
     ];

@@ -14,18 +14,20 @@
       <h6 class="text-3xl font-medium flex gap-2">
         <span class="flex-grow">{{header.title}} </span>
         @if (isEditable$()) {
-        <button class="icon-button flex-none self-center" mat-ripple>
+        <a class="icon-button flex-none self-center" mat-ripple matTooltip="Edit Primary Domain" routerLink="../edit"
+          [queryParams]="{ step: 'primary-domain' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
-        </button>
+        </a>
         }
       </h6>
 
       <p class="mt-1 font-medium flex gap-2">
         <span class="flex-grow text-gray-500 ">{{header.subtitle}}</span>
         @if (isEditable$()) {
-        <button class="icon-button flex-none self-center" mat-ripple>
+        <a class="icon-button flex-none self-center" mat-ripple matTooltip="Edit Role" routerLink="../edit"
+          [queryParams]="{ step: 'roles' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
-        </button>
+        </a>
         }
       </p>
     </div>
@@ -40,9 +42,10 @@
       <h6 class="rounded-full bg-primary-100 text-xl font-bold flex items-center justify-between">
         <span class="p-1 px-4">Overview</span>
         @if(isEditable$()){
-        <button class="icon-button flex-none" mat-ripple routerLink="../edit" [queryParams]="{ step: 'description' }">
+        <a class="icon-button flex-none" mat-ripple matTooltip="Edit Overview" routerLink="../edit"
+          [queryParams]="{ step: 'description' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
-        </button>
+        </a>
         }
       </h6>
       <p class="mt-4 px-4 leading-7 text-base-content/80">{{jobPost$().description}}</p>
@@ -51,18 +54,25 @@
     <div class="mt-8">
       <h6 class="rounded-full bg-primary-100 text-xl font-bold flex items-center justify-between">
         <span class="p-1 px-4">Primary Domain & Expertise</span>
-        @if(isEditable$()){
+        <!-- @if(isEditable$()){
         <button class="icon-button flex-none" mat-ripple routerLink="../edit"
           [queryParams]="{ step: 'primary-domain' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
         </button>
-        }
+        } -->
       </h6>
       <ul class="mt-4 px-4 flex flex-col gap-3" style="list-style: disc;">
         <div class="primary-domain-expertise" *ngrxLet="primaryDomainExpertise$() as primaryDomain">
           @for(pm of primaryDomain.domainExpertise; track pm.key) {
           <div>
-            <label>{{pm.key}}</label>
+            <label class="flex items-center">{{pm.key}}
+              @if (isEditable$()) {
+              <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
+                [queryParams]="{ step: pm.url }">
+                <fa-icon [icon]="icons.faEdit"></fa-icon>
+              </a>
+              }
+            </label>
             <p>{{pm.value}}</p>
           </div>
           }
@@ -79,9 +89,10 @@
           <label class="flex gap-4 items-center">
             <span class="flex-grow text-gray-400 font-medium">Industry</span>
             @if (isEditable$()) {
-            <button class="icon-button flex-none self-center" mat-ripple>
+            <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
+              [queryParams]="{ step: 'industry' }">
               <fa-icon [icon]="icons.faEdit"></fa-icon>
-            </button>
+            </a>
             }
           </label>
           @for(panel of jobPost$().industries; track panel.group) {
@@ -96,9 +107,10 @@
           <label class="flex gap-4 items-center">
             <span class="flex-grow text-gray-400 font-medium">Technical Experience</span>
             @if (isEditable$()) {
-            <button class="icon-button flex-none self-center" mat-ripple>
+            <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
+              [queryParams]="{ step: 'technology-stack' }">
               <fa-icon [icon]="icons.faEdit"></fa-icon>
-            </button>
+            </a>
             }
           </label>
           @for(panel of techGroups$(); track panel.group) {
@@ -313,32 +325,81 @@
     <mat-divider></mat-divider>
     <div>
       <p>Experience</p>
-      <p>{{jobSpecifics.experience}}</p>
+      <p class="flex items-center">{{jobSpecifics.experience}}
+        @if (isEditable$()) {
+        <!-- <a class="mt-8 shaded-button primary flex gap-3 items-center w-fit mx-auto" href="/" routerLink="../edit"
+            [queryParams]="{ step: 'required-experience' }">
+      
+            <fa-icon [icon]="icons.faEdit"></fa-icon>
+          </a> -->
+
+        <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
+          [queryParams]="{ step: 'required-experience' }">
+          <fa-icon [icon]="icons.faEdit"></fa-icon>
+        </a>
+        }
+      </p>
     </div>
     <mat-divider></mat-divider>
     <div>
       <p>No of Hours</p>
-      <p>{{jobSpecifics.noOfHours}}</p>
+      <p class="flex items-center">{{jobSpecifics.noOfHours}}
+        @if (isEditable$()) {
+        <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
+          [queryParams]="{ step: 'weekly-commitment' }">
+          <fa-icon [icon]="icons.faEdit"></fa-icon>
+        </a>
+        }
+      </p>
+
     </div>
     <mat-divider></mat-divider>
     <div>
       <p>Engagement Period</p>
-      <p>{{jobSpecifics.engagementPeriod}}</p>
+      <p class="flex items-center">{{jobSpecifics.engagementPeriod}}
+        @if (isEditable$()) {
+        <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
+          [queryParams]="{ step: 'engagement-period' }">
+          <fa-icon [icon]="icons.faEdit"></fa-icon>
+        </a>
+        }
+      </p>
     </div>
     <mat-divider></mat-divider>
     <div>
       <p>Hourly Budget</p>
-      <p>{{jobSpecifics.hourlyBudget}}</p>
+      <p class="flex items-center">{{jobSpecifics.hourlyBudget}}
+        @if (isEditable$()) {
+        <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
+          [queryParams]="{ step: 'hourly-budget' }">
+          <fa-icon [icon]="icons.faEdit"></fa-icon>
+        </a>
+        }
+      </p>
     </div>
     <mat-divider></mat-divider>
     <div>
       <p>Start Timeline</p>
-      <p>{{jobSpecifics.startTimeLine}}</p>
+      <p class="flex items-center">{{jobSpecifics.startTimeLine}}
+        @if (isEditable$()) {
+        <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
+          [queryParams]="{ step: 'project-kickoff-timeline' }">
+          <fa-icon [icon]="icons.faEdit"></fa-icon>
+        </a>
+        }
+      </p>
     </div>
     <mat-divider></mat-divider>
     <div>
       <p>Remote Work</p>
-      <p>{{jobSpecifics.remoteWork}}</p>
+      <p class="flex items-center">{{jobSpecifics.remoteWork}}
+        @if (isEditable$()) {
+        <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
+          [queryParams]="{ step: 'remote-work' }">
+          <fa-icon [icon]="icons.faEdit"></fa-icon>
+        </a>
+        }
+      </p>
     </div>
   </div>
   @if(role.freelancer$()){
@@ -347,8 +408,5 @@
     <!-- <fa-icon [icon]="icons.faArrowRight"></fa-icon> -->
   </a>
   }
-  <a class="mt-8 shaded-button primary flex gap-3 items-center w-fit mx-auto" href="/">
 
-    <fa-icon [icon]="icons.faEdit"></fa-icon>
-  </a>
 </ng-template>

@@ -1,6 +1,6 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { KeyValue } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, WritableSignal, computed, effect, inject, input, isDevMode, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, WritableSignal, computed, effect, inject, input, isDevMode, signal, untracked } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -1094,6 +1094,10 @@ export class CreateJobPostPageComponent implements OnInit {
     }, { allowSignalWrites: true });
 
     effect(async () => {
+      const mode = this.mode$();
+      if (mode === 'edit')
+        return;
+
       const input = input$();
       if (input) {
         const description = await this.generateDescriptionFromChatGPT(input);
@@ -1623,11 +1627,198 @@ export class CreateJobPostPageComponent implements OnInit {
 
     }
 
+    {
+      const { toggle, options } = this.services.$()!;
+      jobPost.domain.services.forEach(x => {
+        const selected = options.find(y => y.value === x);
+        if (!selected) {
+          throw new Error('invalid operation');
+        }
+        toggle(selected);
+      });
+    }
+
+    {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { toggle, options } = this.modules.$()!;
+
+
+      jobPost.domain.modules.forEach(x => {
+        const selected = options.find(y => y.value.name === x);
+        if (!selected) {
+          throw new Error('invalid operation');
+        }
+        toggle(selected);
+      });
+    }
+
+    {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { options, toggle } = this.roles.$()!;
+
+      const selected = options.find(x => x.value === jobPost.domain.roles.role);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+
+    {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { form, software } = this.experience.$()!;  //experinece to check
+
+      Object.entries(software)
+        .forEach(([role, { add, allOptions }]) => {
+          const roleControl = form.controls[role];
+          roleControl.patchValue({
+            quantity: jobPost.domain.roles.quantity,
+            years: jobPost.domain.roles.years
+          });
+
+          jobPost.domain.roles.software.forEach(x => {
+            const index = allOptions.findIndex(y => y.value.name === x);
+            if (index === -1) {
+              throw new Error('invalid operation');
+            }
+            add(allOptions[index]);
+          });
+        });
+    }
+
+    {
+      // this is to ensure that the tech is all filled
+      const { add, options$ } = this.techExp;
+
+      const options = await toPromise(options$, options => options.length > 0, this.injector);
+      const map = new Map(options.map(g => [g.name, g.tech]));
+
+      jobPost.tech.forEach(group => {
+        const optionGroup = map.get(group.group);
+        if (!optionGroup) {
+          console.warn(`invalid operation: did not find tech group '${group.group}'`);
+          return;
+        }
+
+        group.items.forEach(item => {
+          const option = optionGroup.find(o => o.value === item);
+          if (!option) {
+            console.warn(`invalid operation: did not find tech '${item}' in group '${group.group}'`);
+            return;
+          }
+
+          add(group.group, option);
+        });
+      });
+    }
+
+    {
+      const { options$, add } = this.industries;
+
+      const options = await toPromise(options$, options => options.length > 0, this.injector);
+      const map = new Map(options.map(g => [g.name, g.industries]));
+
+      jobPost.industries.forEach(group => {
+        const optionGroup = map.get(group.group);
+        if (!optionGroup) {
+          console.warn(`invalid operation: did not find industry group '${group.group}'`);
+          return;
+        }
+
+        group.items.forEach(item => {
+          const option = optionGroup.find(o => o.value === item);
+          if (!option) {
+            console.warn(`invalid operation: did not find industry '${item}' in group '${group.group}'`);
+            return;
+          }
+
+          add(group.group, option);
+        });
+      });
+    }
+
+
+    {
+      const { form } = this.description;
+      form.setValue({ description: jobPost.description });
+
+    }
+    {
+      const { options, toggle } = this.projectType;
+      const selected = options.find(x => x.value === jobPost.projectType);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+
+    {
+      const { options, toggle } = this.requiredExp;
+      const selected = options.find(x => x.value === jobPost.requirements.experience);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+
+    {
+      const { options, toggle } = this.weeklyCommitment;
+      const selected = options.find(x => x.value === jobPost.requirements.commitment);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+
+    {
+      const { options, toggle } = this.engagementPeriod;
+      const selected = options.find(x => x.value === jobPost.requirements.engagementPeriod);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+
+    {
+      const { options, toggle } = this.hourlyBudget;
+      const selected = options.find(x => x.value === jobPost.requirements.hourlyBudget);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+
+    {
+      const { options, toggle } = this.projectKickoffTimeline;
+      const selected = options.find(x => x.value === jobPost.requirements.projectKickoff);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+
+    {
+      const { options, toggle } = this.remoteWork;
+      const selected = options.find(x => x.value === jobPost.requirements.remote);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+
   }
   ngOnInit(): void {
     if (isDevMode()) {
       // this.devModeInit();
     }
+
     effect(async () => {
       const mode = this.mode$();
       if (mode === 'edit') {
@@ -1637,7 +1828,7 @@ export class CreateJobPostPageComponent implements OnInit {
           throw new Error('invalid operation: job post to be prefilled was not provided');
         }
 
-        await this.prefill(jP);
+        await untracked(() => this.prefill(jP));
 
         const step = this.editStep$();
         const isValidStep = step && this.stepper.isValidStep(step);

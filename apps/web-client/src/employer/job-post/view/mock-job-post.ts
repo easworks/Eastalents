@@ -18,8 +18,7 @@ export const mockJobPost: JobPost = {
         "years": 25,
         "services": [
             "Auto Scaling and Elasticity",
-            "aSDDFSGDF",
-            "DXGV BCVN"
+            " Kubernetes",
         ],
         "modules": [
             "Cloud Storage",
