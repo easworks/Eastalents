@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, input } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
@@ -13,9 +13,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   ]
 })
 export class ReplaceSpinnerComponent {
-  @HostBinding('class') readonly class = 'relative contents';
-  @Input() showSpinner = false;
-  @Input() diameter = 18;
+  @HostBinding('class') private readonly class = 'block relative';
+  public readonly showSpinner$ = input.required<boolean>({ alias: 'showSpinner' });
 
-  @Input() spinnerClasses = '[&_circle]:stroke-primary';
+  public readonly diameter$ = input(16, { alias: 'diameter' });
+
+  public readonly spinnerClasses$ = input<string>('[&_circle]:stroke-primary', { alias: 'spinnerClass' });
 }

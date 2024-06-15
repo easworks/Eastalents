@@ -103,7 +103,7 @@ const moduleMap = {
 } as Record<SwiperModuleId, () => Promise<SwiperModule>>;
 
 function addCoreSwiperStyle() {
-  const mainStyleRegex = /styles(\..*)?\.css/;
+  const mainStyleRegex = /styles(-.*)?\.css/;
   const styleLinks = [] as HTMLLinkElement[];
   document.head.querySelectorAll('link').forEach(l => styleLinks.push(l));
   const mainStyleLink = styleLinks.find(l => mainStyleRegex.test(l.href));

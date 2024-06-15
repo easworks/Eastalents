@@ -15,5 +15,5 @@ export interface SoftwareProduct {
   id: string;
   name: string;
   imageUrl: string;
-  techGroup: string[];
+  techSkills: string[];
 }
