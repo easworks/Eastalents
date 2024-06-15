@@ -72,6 +72,17 @@ export const REMOTE_WORK_OPTIONS = [
 
 export type RemoteWork = typeof REMOTE_WORK_OPTIONS[number];
 
+export const JOB_POST_STATUS_OPTIONS = [
+  'Active',
+  'Awaiting Approval',
+  'Hiring',
+  'In Progress',
+  'Complete',
+  'Cancelled'
+] as const;
+
+export type JobPostStatus = typeof JOB_POST_STATUS_OPTIONS[number];
+
 export interface JobPost {
   serviceType: ServiceType;
 
@@ -85,7 +96,7 @@ export interface JobPost {
       quantity: number;
       years: number;
       software: string[];
-    }[];
+    };
   };
 
   tech: {
@@ -107,4 +118,6 @@ export interface JobPost {
     projectKickoff: ProjectKickoffTimeline;
     remote: RemoteWork;
   };
+
+  status: JobPostStatus;
 }

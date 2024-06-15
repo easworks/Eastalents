@@ -1,6 +1,7 @@
 import { JobPost } from "@easworks/models";
 
 export const mockJobPost: JobPost = {
+    "status": 'Active',
     "serviceType": "Project Outsourcing",
     "projectType": "New",
     "description": "Here is a sample job description for a social media manager: Are you passionate about creating engaging and creative content for social media platforms? Do you have experience in managing and growing online communities? If yes, then we are looking for you! We are a leading digital marketing agency that helps clients achieve their business goals through effective social media strategies. We are looking for a social media manager who can plan, create, and execute campaigns for various platforms such as Facebook, Instagram, Twitter, and LinkedIn.",
@@ -17,32 +18,32 @@ export const mockJobPost: JobPost = {
         "years": 25,
         "services": [
             "Auto Scaling and Elasticity",
-            "aSDDFSGDF",
-            "DXGV BCVN"
+            " Kubernetes",
         ],
         "modules": [
             "Cloud Storage",
             "Data Warehouse Appliance"
         ],
-        "roles": [
-            {
-                "role": "Back-End engineer",
-                "years": 25,
-                "quantity": 1,
-                "software": [
-                    "Amazon Web Services (AWS)",
-                    "DigitalOcean"
-                ]
-            },
-            {
-                "role": "Cloud Application Support Specialist",
-                "years": 20,
-                "quantity": 1,
-                "software": [
-                    "CloudSigma"
-                ]
-            }
-        ]
+        "roles":
+        {
+            "role": "Back-End engineer",
+            "years": 25,
+            "quantity": 1,
+            "software": [
+                "Amazon Web Services (AWS)",
+                "DigitalOcean"
+            ]
+        }
+        // ,
+        // {
+        //     "role": "Cloud Application Support Specialist",
+        //     "years": 20,
+        //     "quantity": 1,
+        //     "software": [
+        //         "CloudSigma"
+        //     ]
+        // }
+
     },
     "tech": [
         {
@@ -55,8 +56,8 @@ export const mockJobPost: JobPost = {
         {
             "group": "API",
             "items": [
-                "Algo API",
-                "Manhattan Associates Admin Console"
+                "Algolia API",
+                "Google APIs"
             ]
         }
     ],
