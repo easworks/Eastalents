@@ -68,6 +68,10 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly editStep$ = input<Step | null>(null, { alias: 'step' });
   protected readonly jobPost$ = input<JobPost | null>(null, { alias: 'jobPost' });
 
+  protected readonly pageTitle$ = computed(() => this.mode$() === 'create' ?
+    'Create New Job Post' :
+    'Edit Job Post');
+
   protected readonly trackBy = {
     domainOption: (_: number, d: SelectableOption<Domain>) => d.value.key,
     moduleOption: (_: number, m: SelectableOption<DomainModule>) => m.value.name,
