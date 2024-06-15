@@ -26,3 +26,52 @@
     }
   }
 }
+
+
+.primary-domain-expertise {
+  @apply grid gap-4 grid-cols-12;
+
+  container-type: inline-size;
+
+  >div {
+    @apply w-full col-span-12;
+
+      @container (min-width: theme('containers.md')) {
+        @apply col-span-6;
+      }
+
+      label {
+        @apply font-medium;
+      }
+
+      p {
+        @apply mt-1;
+      }
+
+    }
+  }
+
+
+  .technical-experience,
+  .industry {
+    @apply grid gap-2 gap-x-4 grid-cols-2;
+
+    >label {
+      @apply col-span-2;
+    }
+
+    container-type: inline-size;
+
+    .group {
+      @apply w-full col-span-2;
+
+      @container (min-width: theme('containers.md')) {
+        @apply col-span-1;
+      }
+
+      label {
+        @apply font-medium;
+      }
+    }
+
+  }
