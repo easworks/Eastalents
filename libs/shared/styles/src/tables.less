@@ -1,41 +1,4 @@
-@layer components {
-  .table-container {
-    @apply overflow-clip;
-
-    >div {
-      @apply overflow-auto;
-    }
-
-    table {
-      @apply min-w-full rounded border-separate border-spacing-0;
-
-      th,
-      td {
-        @apply p-2;
-      }
-
-      tbody {
-        border-bottom-left-radius: inherit;
-        border-bottom-right-radius: inherit;
-
-        tr:last-child {
-          border-bottom-left-radius: inherit;
-          border-bottom-right-radius: inherit;
-
-          td {
-            &:first-child {
-              border-bottom-left-radius: inherit;
-            }
-
-            &:last-child {
-              border-bottom-right-radius: inherit;
-            }
-          }
-        }
-      }
-    }
-  }
-
+@layer base {
   table {
     @apply text-left text-sm;
 
@@ -68,28 +31,93 @@
         }
       }
     }
+  }
+}
 
-    td {
-      &.form-field {
-        @apply m-0 p-0 h-0;
-      }
+@layer components { 
+  .table-container {
+    @apply overflow-clip border;
 
-      &.actions {
-        @apply p-0 px-2 w-0;
-      }
+    --table-radius: theme('borderRadius.DEFAULT');
 
-      &.tags {
-        @apply lowercase font-semibold;
+    border-radius: var(--table-radius);
 
-        >div {
-          @apply flex gap-2 items-center;
+    >div {
+      @apply overflow-auto;
+      border-radius: inherit;
+    }
 
-          >span {
-            @apply rounded px-2;
-          }
+    table {
+      @apply min-w-full border-separate border-spacing-0;
+
+      border-radius: inherit;
+
+      :where(th),
+      :where(td) {
+        @apply p-2 border-0 border-b border-r;
+
+        &:where(:first-child) {
+          @apply border-l-0;
         }
 
+        &:where(:last-child) {
+          @apply border-r-0;
+        }
+      }
 
+      tbody {
+
+        tr:last-child {
+
+          td {
+            @apply border-b-0;
+
+            &:first-child {
+              border-bottom-left-radius: calc(var(--table-radius) - 0px);
+            }
+
+            &:last-child {
+              border-bottom-right-radius: calc(var(--table-radius) - 0px);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  td {
+
+    &.form-field {
+      @apply m-0 p-0 h-0;
+      
+      .field {
+        @apply rounded-none ring-0 shadow-none h-full w-full;
+        border-radius: inherit;
+        // border-radius: calc(var(--table-radius) - 1px);
+        
+        &:where(:hover) {
+          @apply ring-1;
+        }
+  
+        &:where(:focus),&:where(:focus-within) {
+          @apply ring-2;
+        }
+      }
+    }
+
+    &.actions {
+      @apply p-0 px-2 w-0;
+    }
+
+    &.tags {
+      @apply lowercase font-semibold;
+
+      >div {
+        @apply flex gap-2 items-center;
+
+        >span {
+          @apply rounded px-2;
+        }
       }
     }
   }
