@@ -163,6 +163,7 @@ export class CreateJobPostPageComponent implements OnInit {
       visible$: computed(() => step$() !== lastStep),
       disabled$: computed(() => {
         const step = step$();
+        // why are we waiting here?
         const wait = (
           step === 'primary-domain' ||
           step === 'technology-stack' ||
@@ -190,8 +191,12 @@ export class CreateJobPostPageComponent implements OnInit {
     } as const;
 
     const submit = {
-      disabled$: next.disabled$,
-      visible$: computed(() => step$() === lastStep),
+      disabled$: (() => {
+        const validities = order.map(step => computed(() => isValidStep(step)));
+        const isInvalid$ = computed(() => validities.some(v => !v()));
+        return isInvalid$;
+      })(),
+      visible$: computed(() => this.mode$() === 'edit' || step$() === lastStep),
       click: () => {
         const fv = {
           serviceType: this.serviceType.form.getRawValue(),

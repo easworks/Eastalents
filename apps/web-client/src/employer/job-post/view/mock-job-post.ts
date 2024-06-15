@@ -56,8 +56,8 @@ export const mockJobPost: JobPost = {
         {
             "group": "API",
             "items": [
-                "Algo API",
-                "Manhattan Associates Admin Console"
+                "Algolia API",
+                "Google APIs"
             ]
         }
     ],
