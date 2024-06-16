@@ -21,7 +21,7 @@ import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { Domain, DomainModule, ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, JOB_TYPE_OPTIONS, JobPost, JobPostStatus, JobType, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REQUIRED_EXPERIENCE_OPTIONS, RequiredExperience, SoftwareProduct, WEEKLY_COMMITMENT_OPTIONS, WORK_ENVIRONMENT_OPTIONS, WeeklyCommitment, WorkEnvironment } from '@easworks/models';
-import { faCheck, faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faCircleInfo, faMagicWandSparkles, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { combineLatest, map, shareReplay, switchMap } from 'rxjs';
 import { instructions } from './prompt';
 
@@ -53,7 +53,8 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly icons = {
     faCircleInfo,
     faSquareXmark,
-    faCheck
+    faCheck,
+    faMagicWandSparkles
   } as const;
 
   @HostBinding() private readonly class = 'page';
@@ -1084,6 +1085,9 @@ export class CreateJobPostPageComponent implements OnInit {
     const roles$ = toSignal(this.roles.selected$);
     const domains$ = toSignal(this.primaryDomain.selected$);
 
+    // we use a separate input$ signal because 
+    // in 'create' mode, we don't want to regenerate
+    // description if the input does not change
     const input$ = signal('');
     const generating$ = this.loading.has('description from chatgpt');
 
@@ -1104,6 +1108,17 @@ export class CreateJobPostPageComponent implements OnInit {
       })
     });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
+
+    const generateDescription = async () => {
+      const input = input$();
+      if (input) {
+        const description = await this.generateDescriptionFromChatGPT(input);
+        if (description)
+          form.patchValue({ description });
+      }
+    };
+
+    const disableGeneration$ = this.loading.any$;
 
     effect(() => {
       if (this.stepper.step$() === 'description') {
@@ -1129,7 +1144,9 @@ export class CreateJobPostPageComponent implements OnInit {
       form,
       status$,
       stepLabel$,
-      generating$
+      generating$,
+      generateDescription,
+      disableGeneration$
     } as const;
   }
 

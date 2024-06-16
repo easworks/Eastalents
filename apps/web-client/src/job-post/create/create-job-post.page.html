@@ -409,30 +409,46 @@
     <h2 class="p-4 text-xl font-semibold">Job Description</h2>
     <mat-divider></mat-divider>
 
-    <div *ngIf="description.generating$(); else $descriptionGenerated" class="mt-4 p-4 grid gap-4 justify-items-center">
+    @if(description.generating$()) {
+    <div class="mt-4 p-4 grid gap-4 justify-items-center">
       <p> Generating description. Please wait... </p>
       <mat-progress-spinner mode="indeterminate" diameter="32"></mat-progress-spinner>
     </div>
-
-    <ng-template #$descriptionGenerated>
-      <form class="p-4" *ngrxLet="description.form as form" [formGroup]="form">
-        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all">Provide a comprehensive job description for <span
-                  class="text-primary-500">{{description.stepLabel$()}}</span></span>
+    }
+    @else {
+    <form class="p-4" *ngrxLet="description.form as form" [formGroup]="form">
+      <div class="flex gap-4 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
+        <label>
+          <span class="font-medium lg:pt-1 transition-all">
+            Provide a comprehensive job description for
+            <span class="text-primary-500">{{description.stepLabel$()}}</span>
+          </span>
         </label>
 
-        <div *ngrxLet="form.controls.description as control" [formFieldControl]="control">
-          <div class="field field-interactive mt-2">
-            <textarea [formControl]="control" cdkTextareaAutosize placeholder="Description *"
-                      class="resize-none max-h-[75vh]"></textarea>
-          </div>
+        @if (mode$() === 'edit') {
+        <button type="button" class="stroked-button flex gap-2 items-center max-w-max" mat-ripple
+                [disabled]="description.disableGeneration$()"
+                (click)="description.generateDescription()">
+          <span>Generate</span>
+          <mat-divider vertical></mat-divider>
+          <fa-icon [icon]="icons.faMagicWandSparkles"></fa-icon>
+        </button>
+        }
 
-          <span class="error" *ngIf="control.hasError('required')">Required</span>
-          <span class="error" *ngIf="control.hasError('maxlength')">{{control.value.length || 0}}/1500</span>
-          <span class="hint">{{control.value.length || 0}}/4000</span>
+      </div>
+
+      <div *ngrxLet="form.controls.description as control" [formFieldControl]="control">
+        <div class="field field-interactive mt-4">
+          <textarea [formControl]="control" cdkTextareaAutosize placeholder="Description *"
+                    class="resize-none max-h-[75vh]"></textarea>
         </div>
-      </form>
-    </ng-template>
+
+        <span class="error" *ngIf="control.hasError('required')">Required</span>
+        <span class="error" *ngIf="control.hasError('maxlength')">{{control.value.length || 0}}/1500</span>
+        <span class="hint">{{control.value.length || 0}}/4000</span>
+      </div>
+    </form>
+    }
   </div>
 
   <div *ngIf="step === 'project-type'" class="rounded border">
