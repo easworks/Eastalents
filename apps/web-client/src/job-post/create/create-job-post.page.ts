@@ -221,6 +221,7 @@ export class CreateJobPostPageComponent implements OnInit {
         } as const;
 
         const jp: JobPost = {
+          createdBy: null as unknown as string,
           jobType: fv.jobType.value,
           projectType: fv.projectType.value,
           description: fv.description.description,

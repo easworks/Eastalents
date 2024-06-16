@@ -69,11 +69,12 @@ export const WORK_ENVIRONMENT_OPTIONS = [
 export type WorkEnvironment = typeof WORK_ENVIRONMENT_OPTIONS[number];
 
 export const JOB_POST_STATUS_OPTIONS = [
-  'Active',
   'Awaiting Approval',
+  'Active',
   'Hiring',
   'In Progress',
   'Complete',
+  'Awaiting Cancellation',
   'Cancelled'
 ] as const;
 
@@ -116,4 +117,6 @@ export interface JobPost {
   };
 
   status: JobPostStatus;
+
+  createdBy: string;
 }
