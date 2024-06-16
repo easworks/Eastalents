@@ -20,7 +20,7 @@ import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { Domain, DomainModule, ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, JobPost, JobPostStatus, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REQUIRED_EXPERIENCE_OPTIONS, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType, SoftwareProduct, WEEKLY_COMMITMENT_OPTIONS, WORK_ENVIRONMENT_OPTIONS, WeeklyCommitment, WorkEnvironment } from '@easworks/models';
+import { Domain, DomainModule, ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, JOB_TYPE_OPTIONS, JobPost, JobPostStatus, JobType, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REQUIRED_EXPERIENCE_OPTIONS, RequiredExperience, SoftwareProduct, WEEKLY_COMMITMENT_OPTIONS, WORK_ENVIRONMENT_OPTIONS, WeeklyCommitment, WorkEnvironment } from '@easworks/models';
 import { faCheck, faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { combineLatest, map, shareReplay, switchMap } from 'rxjs';
 import { instructions } from './prompt';
@@ -88,7 +88,7 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly stepper = this.initStepper();
   protected readonly stepperGroups = this.initStepperGroups();
 
-  protected readonly serviceType = this.initServiceType();
+  protected readonly jobType = this.initJobType();
   protected readonly primaryDomain = this.initPrimaryDomain();
   protected readonly services = this.initServices();
   protected readonly modules = this.initModules();
@@ -107,7 +107,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
   private initStepper() {
     const order: Step[] = [
-      'service-type',
+      'job-type',
       'primary-domain',
       'services',
       'modules',
@@ -146,7 +146,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
 
     const isValidStep = (step: Step) =>
-      (step === 'service-type' && this.serviceType.status$() === 'VALID') ||
+      (step === 'job-type' && this.jobType.status$() === 'VALID') ||
       (step === 'primary-domain' && this.primaryDomain.status$() === 'VALID') ||
       (step === 'services' && this.services.$()?.status$() === 'VALID') ||
       (step === 'modules' && this.modules.$()?.status$() === 'VALID') ||
@@ -203,7 +203,7 @@ export class CreateJobPostPageComponent implements OnInit {
       visible$: computed(() => this.mode$() === 'edit' || step$() === lastStep),
       click: () => {
         const fv = {
-          serviceType: this.serviceType.form.getRawValue(),
+          jobType: this.jobType.form.getRawValue(),
           projectType: this.projectType.form.getRawValue(),
           description: this.description.form.getRawValue(),
           commitment: this.weeklyCommitment.form.getRawValue(),
@@ -221,7 +221,7 @@ export class CreateJobPostPageComponent implements OnInit {
         } as const;
 
         const jp: JobPost = {
-          serviceType: fv.serviceType.value,
+          jobType: fv.jobType.value,
           projectType: fv.projectType.value,
           description: fv.description.description,
           requirements: {
@@ -289,7 +289,7 @@ export class CreateJobPostPageComponent implements OnInit {
     const groupings: [StepGroupID, Step[]][] = [
       [
         'Services Selection',
-        ['service-type']
+        ['job-type']
       ],
       [
         'Primary Domain & Expertise',
@@ -350,21 +350,21 @@ export class CreateJobPostPageComponent implements OnInit {
     return groupSteps;
   }
 
-  private initServiceType() {
-    const form = new FormControl(null as unknown as SelectableOption<ServiceType>, {
+  private initJobType() {
+    const form = new FormControl(null as unknown as SelectableOption<JobType>, {
       nonNullable: true,
       validators: [Validators.required]
     });
 
-    const options = SERVICE_TYPE_OPTIONS
-      .map<SelectableOption<ServiceType>>(t => ({
+    const options = JOB_TYPE_OPTIONS
+      .map<SelectableOption<JobType>>(t => ({
         selected: false,
         value: t,
         label: t
       }));
 
     const handlers = {
-      toggle: (option: SelectableOption<ServiceType>) => {
+      toggle: (option: SelectableOption<JobType>) => {
         if (option.selected)
           return;
 
@@ -574,12 +574,12 @@ export class CreateJobPostPageComponent implements OnInit {
     const stepLabel$ = this.services.stepLabel$;
 
     const obs$ = combineLatest([
-      this.serviceType.selected$,
+      this.jobType.selected$,
       this.primaryDomain.selected$,
     ]).pipe(
-      map(([serviceType, { domain }]) => {
+      map(([jobType, { domain }]) => {
         const exists = this.roles?.$()?.form.getRawValue();
-        const limit = serviceType.value === 'Hire an Enterprise Application Talent' ?
+        const limit = jobType.value === 'Hire an Enterprise Application Talent' ?
           1 : 5;
 
         const form = new FormControl([] as SelectableOption<string>[], {
@@ -660,13 +660,13 @@ export class CreateJobPostPageComponent implements OnInit {
     const stepLabel$ = this.services.stepLabel$;
 
     const obs$ = combineLatest([
-      this.serviceType.selected$,
+      this.jobType.selected$,
       this.roles.selected$,
     ]).pipe(
-      map(([serviceType, roles]) => {
+      map(([jobType, roles]) => {
         const exists = this.experience?.$()?.form.getRawValue();
 
-        const individual = serviceType.value === 'Hire an Enterprise Application Talent';
+        const individual = jobType.value === 'Hire an Enterprise Application Talent';
 
 
         const form = new FormRecord<FormGroup<{
@@ -1381,7 +1381,7 @@ export class CreateJobPostPageComponent implements OnInit {
     const revert = [] as (() => void)[];
 
     {
-      const { options, toggle } = this.serviceType;
+      const { options, toggle } = this.jobType;
       toggle(options[1]);
 
       this.stepper.next.click();
@@ -1528,7 +1528,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
   private extractChatGPTInput() {
     const fv = {
-      serviceType: this.serviceType.form.getRawValue(),
+      jobType: this.jobType.form.getRawValue(),
       domains: this.primaryDomain.form.getRawValue(),
       modules: this.modules.$()?.form.getRawValue() || [],
       services: this.services.$()?.form.getRawValue() || [],
@@ -1537,7 +1537,7 @@ export class CreateJobPostPageComponent implements OnInit {
       industries: this.industries.form.getRawValue()
     } as const;
 
-    const recruitmentType = `Recruitement Type: ${fv.serviceType.value === 'Hire an Enterprise Application Talent' ? 'Hire an Individual' : fv.serviceType.value}`;
+    const recruitmentType = `Recruitement Type: ${fv.jobType.value === 'Hire an Enterprise Application Talent' ? 'Hire an Individual' : fv.jobType.value}`;
     const domain = `Business Domain: ${fv.domains.domain.value.longName}`;
     const subDomains = [
       `Sub-domain(s):`,
@@ -1614,8 +1614,8 @@ export class CreateJobPostPageComponent implements OnInit {
 
   private async prefill(jobPost: JobPost) {
     {
-      const { options, toggle } = this.serviceType;
-      const selected = options.find(x => x.value === jobPost.serviceType);
+      const { options, toggle } = this.jobType;
+      const selected = options.find(x => x.value === jobPost.jobType);
       if (!selected) {
         throw new Error('invalid operation');
       }
@@ -1854,7 +1854,7 @@ export class CreateJobPostPageComponent implements OnInit {
 }
 
 type Step =
-  'service-type' |
+  'job-type' |
   'primary-domain' |
   'services' |
   'modules' |

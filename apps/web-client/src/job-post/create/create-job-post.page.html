@@ -36,8 +36,8 @@
 <!-- Stepper container -->
 <div class="relative mt-8" *ngrxLet="stepper.step$() as step">
 
-  <div *ngIf="step === 'service-type'" class="rounded border">
-    <h2 class="p-4 text-xl font-semibold">Service Type</h2>
+  <div *ngIf="step === 'job-type'" class="rounded border">
+    <h2 class="p-4 text-xl font-semibold">Job Type</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
@@ -51,9 +51,9 @@
       </label>
 
       <div class="grid gap-4 mt-4 lg:max-w-md">
-        <button *ngFor="let option of serviceType.options; let i = index; trackBy: trackBy.stringOption" type="button"
-                class="service-type-option" mat-ripple [class.selected]="option.selected"
-                (click)="serviceType.toggle(option)">
+        <button *ngFor="let option of jobType.options; let i = index; trackBy: trackBy.stringOption" type="button"
+                class="job-type-option" mat-ripple [class.selected]="option.selected"
+                (click)="jobType.toggle(option)">
           <div class="grid gap-1">
             {{option.label}}
           </div>

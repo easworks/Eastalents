@@ -2,7 +2,7 @@ import { JobPost } from "@easworks/models";
 
 export const mockJobPost: JobPost = {
     "status": 'Active',
-    "serviceType": "Project Outsourcing",
+    "jobType": "Project Outsourcing",
     "projectType": "New",
     "description": "Here is a sample job description for a social media manager: Are you passionate about creating engaging and creative content for social media platforms? Do you have experience in managing and growing online communities? If yes, then we are looking for you! We are a leading digital marketing agency that helps clients achieve their business goals through effective social media strategies. We are looking for a social media manager who can plan, create, and execute campaigns for various platforms such as Facebook, Instagram, Twitter, and LinkedIn.",
     "requirements": {

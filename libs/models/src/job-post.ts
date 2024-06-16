@@ -1,11 +1,11 @@
-export const SERVICE_TYPE_OPTIONS = [
+export const JOB_TYPE_OPTIONS = [
   'Hire an Enterprise Application Talent',
   'Assemble a Team',
   'Project Outsourcing',
   'Contract-to-Hire / Direct Hire an Individual'
 ] as const;
 
-export type ServiceType = typeof SERVICE_TYPE_OPTIONS[number];
+export type JobType = typeof JOB_TYPE_OPTIONS[number];
 
 export const PROJECT_TYPE_OPTIONS = [
   'New',
@@ -80,7 +80,7 @@ export const JOB_POST_STATUS_OPTIONS = [
 export type JobPostStatus = typeof JOB_POST_STATUS_OPTIONS[number];
 
 export interface JobPost {
-  serviceType: ServiceType;
+  jobType: JobType;
 
   domain: {
     key: string;
