@@ -19,7 +19,6 @@ export const REQUIRED_EXPERIENCE_OPTIONS = [
   'Individual Contributor',
   'Mid-level Management',
   'Senior/Executive Leadership',
-  'Decide Later'
 ] as const;
 
 export type RequiredExperience = typeof REQUIRED_EXPERIENCE_OPTIONS[number];
@@ -39,7 +38,6 @@ export const ENGAGEMENT_PERIOD_OPTIONS = [
   '1 - 3 months',
   '3 - 6 months',
   '6+ months',
-  'Decide Later'
 ] as const;
 
 export type EngagementPeriod = typeof ENGAGEMENT_PERIOD_OPTIONS[number];
@@ -49,7 +47,6 @@ export const HOURLY_BUDGET_OPTIONS = [
   '$51 - $80',
   '$81 - $120',
   '$120 or more',
-  'Decide Later'
 ] as const;
 
 export type HourlyBudget = typeof HOURLY_BUDGET_OPTIONS[number];
@@ -63,14 +60,13 @@ export const PROJECT_KICKOFF_TIMELINE_OPTIONS = [
 
 export type ProjectKickoffTimeline = typeof PROJECT_KICKOFF_TIMELINE_OPTIONS[number];
 
-export const REMOTE_WORK_OPTIONS = [
-  'Yes',
-  'No',
+export const WORK_ENVIRONMENT_OPTIONS = [
+  'On-Premise',
+  'Remote',
   'Hybrid',
-  'Decide Later'
 ] as const;
 
-export type RemoteWork = typeof REMOTE_WORK_OPTIONS[number];
+export type WorkEnvironment = typeof WORK_ENVIRONMENT_OPTIONS[number];
 
 export const JOB_POST_STATUS_OPTIONS = [
   'Active',
@@ -116,7 +112,7 @@ export interface JobPost {
     engagementPeriod: EngagementPeriod;
     hourlyBudget: HourlyBudget;
     projectKickoff: ProjectKickoffTimeline;
-    remote: RemoteWork;
+    environment: WorkEnvironment;
   };
 
   status: JobPostStatus;

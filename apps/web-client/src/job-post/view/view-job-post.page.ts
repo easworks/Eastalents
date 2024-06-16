@@ -105,7 +105,7 @@ export class ViewJobPostPageComponent {
       engagementPeriod: jobSpecificesDetail.requirements.engagementPeriod,
       hourlyBudget: jobSpecificesDetail.requirements.hourlyBudget,
       startTimeLine: jobSpecificesDetail.requirements.projectKickoff,
-      remoteWork: jobSpecificesDetail.requirements.remote,
+      workEnvironment: jobSpecificesDetail.requirements.environment,
       jobPostStatus: jobSpecificesDetail.status
     } as const;
   });

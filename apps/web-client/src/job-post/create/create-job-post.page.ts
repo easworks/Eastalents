@@ -20,7 +20,7 @@ import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { Domain, DomainModule, ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, JobPost, JobPostStatus, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REMOTE_WORK_OPTIONS, REQUIRED_EXPERIENCE_OPTIONS, RemoteWork, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType, SoftwareProduct, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
+import { Domain, DomainModule, ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, JobPost, JobPostStatus, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REQUIRED_EXPERIENCE_OPTIONS, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType, SoftwareProduct, WEEKLY_COMMITMENT_OPTIONS, WORK_ENVIRONMENT_OPTIONS, WeeklyCommitment, WorkEnvironment } from '@easworks/models';
 import { faCheck, faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { combineLatest, map, shareReplay, switchMap } from 'rxjs';
 import { instructions } from './prompt';
@@ -103,7 +103,7 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly engagementPeriod = this.initEngagementPeriod();
   protected readonly hourlyBudget = this.initHourlyBudget();
   protected readonly projectKickoffTimeline = this.initProjectKickoffTimeline();
-  protected readonly remoteWork = this.initRemoteWork();
+  protected readonly environment = this.initEnvironment();
 
   private initStepper() {
     const order: Step[] = [
@@ -122,7 +122,7 @@ export class CreateJobPostPageComponent implements OnInit {
       'engagement-period',
       'hourly-budget',
       'project-kickoff-timeline',
-      'remote-work'
+      'work-environment'
     ];
     const stepNumbers = order.reduce((prev, cv, ci) => {
       prev[cv] = ci;
@@ -161,7 +161,7 @@ export class CreateJobPostPageComponent implements OnInit {
       (step === 'engagement-period' && this.engagementPeriod.status$() === 'VALID') ||
       (step === 'hourly-budget' && this.hourlyBudget.status$() === 'VALID') ||
       (step === 'project-kickoff-timeline' && this.projectKickoffTimeline.status$() === 'VALID') ||
-      (step === 'remote-work' && this.remoteWork.status$() === 'VALID');
+      (step === 'work-environment' && this.environment.status$() === 'VALID');
 
     const next = {
       visible$: computed(() => step$() !== lastStep),
@@ -211,7 +211,7 @@ export class CreateJobPostPageComponent implements OnInit {
           reqExp: this.requiredExp.form.getRawValue(),
           hourlyBudget: this.hourlyBudget.form.getRawValue(),
           projectKickoff: this.projectKickoffTimeline.form.getRawValue(),
-          remote: this.remoteWork.form.getRawValue(),
+          environment: this.environment.form.getRawValue(),
           techExp: this.techExp.form.getRawValue(),
           industries: this.industries.form.getRawValue(),
           domain: this.primaryDomain.form.getRawValue(),
@@ -230,7 +230,7 @@ export class CreateJobPostPageComponent implements OnInit {
             experience: fv.reqExp.value,
             hourlyBudget: fv.hourlyBudget.value,
             projectKickoff: fv.projectKickoff.value,
-            remote: fv.remote.value,
+            environment: fv.environment.value,
           },
           domain: {
             key: fv.domain.domain.value.key,
@@ -323,7 +323,7 @@ export class CreateJobPostPageComponent implements OnInit {
           'engagement-period',
           'hourly-budget',
           'project-kickoff-timeline',
-          'remote-work'
+          'work-environment'
         ]
       ]
     ];
@@ -1340,22 +1340,22 @@ export class CreateJobPostPageComponent implements OnInit {
     };
   }
 
-  private initRemoteWork() {
+  private initEnvironment() {
     const stepLabel$ = this.description.stepLabel$;
-    const form = new FormControl(null as unknown as SelectableOption<RemoteWork>, {
+    const form = new FormControl(null as unknown as SelectableOption<WorkEnvironment>, {
       nonNullable: true,
       validators: [Validators.required]
     });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
-    const options = REMOTE_WORK_OPTIONS.map<SelectableOption<RemoteWork>>(pt => ({
+    const options = WORK_ENVIRONMENT_OPTIONS.map<SelectableOption<WorkEnvironment>>(pt => ({
       selected: false,
       value: pt,
       label: pt
     }));
 
     const handlers = {
-      toggle: (option: SelectableOption<RemoteWork>) => {
+      toggle: (option: SelectableOption<WorkEnvironment>) => {
         if (option.selected)
           return;
 
@@ -1519,7 +1519,7 @@ export class CreateJobPostPageComponent implements OnInit {
     }
 
     {
-      const { options, toggle } = this.remoteWork;
+      const { options, toggle } = this.environment;
       toggle(options[0]);
     }
 
@@ -1813,8 +1813,8 @@ export class CreateJobPostPageComponent implements OnInit {
     }
 
     {
-      const { options, toggle } = this.remoteWork;
-      const selected = options.find(x => x.value === jobPost.requirements.remote);
+      const { options, toggle } = this.environment;
+      const selected = options.find(x => x.value === jobPost.requirements.environment);
       if (!selected) {
         throw new Error('invalid operation');
       }
@@ -1869,7 +1869,7 @@ type Step =
   'engagement-period' |
   'hourly-budget' |
   'project-kickoff-timeline' |
-  'remote-work';
+  'work-environment';
 
 
 type ComponentMode = 'create' | 'edit';

@@ -609,13 +609,13 @@
     </div>
   </div>
 
-  <div *ngIf="step === 'remote-work'" class="rounded border">
-    <h2 class="p-4 text-xl font-semibold">Remote Work</h2>
+  <div *ngIf="step === 'work-environment'" class="rounded border">
+    <h2 class="p-4 text-xl font-semibold">Work Environment</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Remote Work for <span
-                class="text-primary-500">{{remoteWork.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Work environment for <span
+                class="text-primary-500">{{environment.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -625,8 +625,8 @@
       </label>
 
       <div class="grid gap-4 mt-4 lg:max-w-md">
-        <button *ngFor="let option of remoteWork.options; let i = index; trackBy: trackBy.stringOption" type="button"
-                class="remote-work-option" mat-ripple [class.selected]="option.selected" (click)="remoteWork.toggle(option)">
+        <button *ngFor="let option of environment.options; let i = index; trackBy: trackBy.stringOption" type="button"
+                class="work-environment-option" mat-ripple [class.selected]="option.selected" (click)="environment.toggle(option)">
           <div class="grid gap-1">
             {{option.label}}
           </div>

@@ -11,7 +11,7 @@ export const mockJobPost: JobPost = {
         "experience": "Individual Contributor",
         "hourlyBudget": "Less than $50",
         "projectKickoff": "Immediately",
-        "remote": "No"
+        "environment": "On-Premise"
     },
     "domain": {
         "key": "IaaS",

@@ -15,7 +15,7 @@
         <span class="flex-grow">{{header.title}} </span>
         @if (isEditable$()) {
         <a class="icon-button flex-none self-center" mat-ripple matTooltip="Edit Primary Domain" routerLink="../edit"
-          [queryParams]="{ step: 'primary-domain' }">
+           [queryParams]="{ step: 'primary-domain' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
         </a>
         }
@@ -25,7 +25,7 @@
         <span class="flex-grow text-gray-500 ">{{header.subtitle}}</span>
         @if (isEditable$()) {
         <a class="icon-button flex-none self-center" mat-ripple matTooltip="Edit Role" routerLink="../edit"
-          [queryParams]="{ step: 'roles' }">
+           [queryParams]="{ step: 'roles' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
         </a>
         }
@@ -43,7 +43,7 @@
         <span class="p-1 px-4">Overview</span>
         @if(isEditable$()){
         <a class="icon-button flex-none" mat-ripple matTooltip="Edit Overview" routerLink="../edit"
-          [queryParams]="{ step: 'description' }">
+           [queryParams]="{ step: 'description' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
         </a>
         }
@@ -68,7 +68,7 @@
             <label class="flex items-center">{{pm.key}}
               @if (isEditable$()) {
               <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-                [queryParams]="{ step: pm.url }">
+                 [queryParams]="{ step: pm.url }">
                 <fa-icon [icon]="icons.faEdit"></fa-icon>
               </a>
               }
@@ -90,7 +90,7 @@
             <span class="flex-grow text-gray-400 font-medium">Industry</span>
             @if (isEditable$()) {
             <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-              [queryParams]="{ step: 'industry' }">
+               [queryParams]="{ step: 'industry' }">
               <fa-icon [icon]="icons.faEdit"></fa-icon>
             </a>
             }
@@ -108,7 +108,7 @@
             <span class="flex-grow text-gray-400 font-medium">Technical Experience</span>
             @if (isEditable$()) {
             <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-              [queryParams]="{ step: 'technology-stack' }">
+               [queryParams]="{ step: 'technology-stack' }">
               <fa-icon [icon]="icons.faEdit"></fa-icon>
             </a>
             }
@@ -334,7 +334,7 @@
           </a> -->
 
         <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-          [queryParams]="{ step: 'required-experience' }">
+           [queryParams]="{ step: 'required-experience' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
         </a>
         }
@@ -346,7 +346,7 @@
       <p class="flex items-center">{{jobSpecifics.noOfHours}}
         @if (isEditable$()) {
         <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-          [queryParams]="{ step: 'weekly-commitment' }">
+           [queryParams]="{ step: 'weekly-commitment' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
         </a>
         }
@@ -359,7 +359,7 @@
       <p class="flex items-center">{{jobSpecifics.engagementPeriod}}
         @if (isEditable$()) {
         <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-          [queryParams]="{ step: 'engagement-period' }">
+           [queryParams]="{ step: 'engagement-period' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
         </a>
         }
@@ -371,7 +371,7 @@
       <p class="flex items-center">{{jobSpecifics.hourlyBudget}}
         @if (isEditable$()) {
         <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-          [queryParams]="{ step: 'hourly-budget' }">
+           [queryParams]="{ step: 'hourly-budget' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
         </a>
         }
@@ -383,7 +383,7 @@
       <p class="flex items-center">{{jobSpecifics.startTimeLine}}
         @if (isEditable$()) {
         <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-          [queryParams]="{ step: 'project-kickoff-timeline' }">
+           [queryParams]="{ step: 'project-kickoff-timeline' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
         </a>
         }
@@ -391,11 +391,11 @@
     </div>
     <mat-divider></mat-divider>
     <div>
-      <p>Remote Work</p>
-      <p class="flex items-center">{{jobSpecifics.remoteWork}}
+      <p>Work Environment</p>
+      <p class="flex items-center">{{jobSpecifics.workEnvironment}}
         @if (isEditable$()) {
         <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-          [queryParams]="{ step: 'remote-work' }">
+           [queryParams]="{ step: 'work-environment' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
         </a>
         }
