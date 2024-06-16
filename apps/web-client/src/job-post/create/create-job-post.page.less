@@ -1,3 +1,62 @@
+.stepper-group-container {
+  @apply hidden md:flex mx-auto w-max;
+
+  .stepper-group {
+    @apply relative grid justify-items-center rounded transition-all
+      p-2 pt-4 px-4 gap-2
+      flex-none w-40 lg:w-60 
+      hover:enabled:bg-divider/20 focus:enabled:bg-divider/20;
+  }
+
+  .connector {
+    @apply absolute top-6 -z-10;
+    width: calc(50% - 1.5rem);
+
+    &.left {
+      @apply left-0;
+    }
+
+    &.right {
+      @apply right-0;
+    }
+  }
+
+  .indicator {
+    @apply rounded-full grid place-content-center bg-divider text-white
+      w-8 h-8 leading-none
+      transition-all;
+  }
+
+  .label {
+    @apply relative transition-all text-sm;
+  }
+
+  .stepper-group {
+    &.enabled {
+      .indicator {
+        @apply bg-primary-500;
+      }
+    }
+
+    &.completed {
+      .indicator {
+        @apply bg-primary-500;
+      }
+
+      .label {
+        @apply font-medium text-base;
+      }
+    }
+
+    &.current {
+      .indicator {
+        @apply bg-transparent ring-primary-500 ring-4 text-primary-500;
+      }
+    }
+  }
+}
+
+
 .job-type-option,
 .project-type-option,
 .required-exp-option,
