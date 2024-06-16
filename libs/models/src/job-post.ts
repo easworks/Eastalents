@@ -119,4 +119,24 @@ export interface JobPost {
   status: JobPostStatus;
 
   createdBy: string;
+
+  count: {
+    // the number of positions in this job listing
+    positions: number;
+
+    // the number of individual people who have applied
+    applications: number;
+
+    // the number of applicants who have been hired
+    hired: number;
+
+    // the number of applicants who have been rejected 
+    rejected: number;
+
+    // the number of applicants who are currently being interviewed
+    interviewScheduled: number;
+
+    // the number of applicants who have not been processed yet
+    unseen: number;
+  };
 }

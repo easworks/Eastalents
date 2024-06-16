@@ -70,5 +70,13 @@ export const mockJobPost: JobPost = {
                 "Courier Service"
             ]
         }
-    ]
+    ],
+    "count": {
+        "positions": 1,
+        "applications": 10,
+        "hired": 0,
+        "interviewScheduled": 3,
+        "rejected": 5,
+        "unseen": 2,
+    }
 };

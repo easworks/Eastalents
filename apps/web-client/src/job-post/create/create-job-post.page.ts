@@ -253,7 +253,15 @@ export class CreateJobPostPageComponent implements OnInit {
             group,
             items: value.map(v => v.value)
           })),
-          status: undefined as unknown as JobPostStatus
+          status: undefined as unknown as JobPostStatus,
+          count: {
+            applications: 0,
+            hired: 0,
+            interviewScheduled: 0,
+            positions: 0,
+            rejected: 0,
+            unseen: 0,
+          }
         };
 
         console.debug(jp);
