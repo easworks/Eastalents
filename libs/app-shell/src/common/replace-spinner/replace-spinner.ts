@@ -13,7 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   ]
 })
 export class ReplaceSpinnerComponent {
-  @HostBinding('class') private readonly class = 'block relative';
+  @HostBinding('class') private readonly class = 'contents relative';
   public readonly showSpinner$ = input.required<boolean>({ alias: 'showSpinner' });
 
   public readonly diameter$ = input(16, { alias: 'diameter' });
