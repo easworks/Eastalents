@@ -1,11 +1,11 @@
-export const SERVICE_TYPE_OPTIONS = [
+export const JOB_TYPE_OPTIONS = [
   'Hire an Enterprise Application Talent',
   'Assemble a Team',
   'Project Outsourcing',
   'Contract-to-Hire / Direct Hire an Individual'
 ] as const;
 
-export type ServiceType = typeof SERVICE_TYPE_OPTIONS[number];
+export type JobType = typeof JOB_TYPE_OPTIONS[number];
 
 export const PROJECT_TYPE_OPTIONS = [
   'New',
@@ -19,7 +19,6 @@ export const REQUIRED_EXPERIENCE_OPTIONS = [
   'Individual Contributor',
   'Mid-level Management',
   'Senior/Executive Leadership',
-  'Decide Later'
 ] as const;
 
 export type RequiredExperience = typeof REQUIRED_EXPERIENCE_OPTIONS[number];
@@ -39,7 +38,6 @@ export const ENGAGEMENT_PERIOD_OPTIONS = [
   '1 - 3 months',
   '3 - 6 months',
   '6+ months',
-  'Decide Later'
 ] as const;
 
 export type EngagementPeriod = typeof ENGAGEMENT_PERIOD_OPTIONS[number];
@@ -49,7 +47,6 @@ export const HOURLY_BUDGET_OPTIONS = [
   '$51 - $80',
   '$81 - $120',
   '$120 or more',
-  'Decide Later'
 ] as const;
 
 export type HourlyBudget = typeof HOURLY_BUDGET_OPTIONS[number];
@@ -63,28 +60,28 @@ export const PROJECT_KICKOFF_TIMELINE_OPTIONS = [
 
 export type ProjectKickoffTimeline = typeof PROJECT_KICKOFF_TIMELINE_OPTIONS[number];
 
-export const REMOTE_WORK_OPTIONS = [
-  'Yes',
-  'No',
+export const WORK_ENVIRONMENT_OPTIONS = [
+  'On-Premise',
+  'Remote',
   'Hybrid',
-  'Decide Later'
 ] as const;
 
-export type RemoteWork = typeof REMOTE_WORK_OPTIONS[number];
+export type WorkEnvironment = typeof WORK_ENVIRONMENT_OPTIONS[number];
 
 export const JOB_POST_STATUS_OPTIONS = [
-  'Active',
   'Awaiting Approval',
+  'Active',
   'Hiring',
   'In Progress',
   'Complete',
+  'Awaiting Cancellation',
   'Cancelled'
 ] as const;
 
 export type JobPostStatus = typeof JOB_POST_STATUS_OPTIONS[number];
 
 export interface JobPost {
-  serviceType: ServiceType;
+  jobType: JobType;
 
   domain: {
     key: string;
@@ -116,8 +113,30 @@ export interface JobPost {
     engagementPeriod: EngagementPeriod;
     hourlyBudget: HourlyBudget;
     projectKickoff: ProjectKickoffTimeline;
-    remote: RemoteWork;
+    environment: WorkEnvironment;
   };
 
   status: JobPostStatus;
+
+  createdBy: string;
+
+  count: {
+    // the number of positions in this job listing
+    positions: number;
+
+    // the number of individual people who have applied
+    applications: number;
+
+    // the number of applicants who have been hired
+    hired: number;
+
+    // the number of applicants who have been rejected 
+    rejected: number;
+
+    // the number of applicants who are currently being interviewed
+    interviewScheduled: number;
+
+    // the number of applicants who have not been processed yet
+    unseen: number;
+  };
 }

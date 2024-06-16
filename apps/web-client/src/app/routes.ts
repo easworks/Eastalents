@@ -6,6 +6,7 @@ import { ACCOUNT_ROUTES } from '../account/routes';
 import { ADMIN_ROUTES } from '../admin/routes';
 import { EMPLOYER_ROUTE } from '../employer/routes';
 import { FREELANCER_ROUTE } from '../freelancer/routes';
+import { JOB_POST_ROUTE } from '../job-post/routes';
 import { MESSAGES_ROUTE } from '../messages/routes';
 import { PUBLIC_ROUTES } from '../public/routes';
 
@@ -14,6 +15,7 @@ export const routes: Routes = [
   ADMIN_ROUTES,
   FREELANCER_ROUTE,
   EMPLOYER_ROUTE,
+  JOB_POST_ROUTE,
   MESSAGES_ROUTE,
   ...PUBLIC_ROUTES,
   {

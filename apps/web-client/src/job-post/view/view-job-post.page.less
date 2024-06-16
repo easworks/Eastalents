@@ -6,16 +6,11 @@
   }
 
   >div {
-    @apply w-full flex gap-4 items-center justify-between text-nowrap rounded border p-1 px-4;
-
-
-    >p:last-child {
-      @apply font-medium;
-    }
+    @apply w-full flex gap-4 items-center text-nowrap rounded border p-1 px-4;
   }
 
   @media (min-width: theme('screens.md')) {
-    @apply gap-y-0;
+    @apply gap-y-2;
 
     >mat-divider {
       @apply block w-full;
@@ -24,9 +19,14 @@
     >div {
       @apply border-transparent;
     }
-  }
+  } 
 }
 
+.edit-toggle {
+  &.active {
+    @apply bg-amber-200;
+  }
+}
 
 .primary-domain-expertise {
   @apply grid gap-4 grid-cols-12;
