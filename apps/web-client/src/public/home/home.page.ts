@@ -4,10 +4,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
+import { NgSwiperModule, SwiperModuleId } from '@easworks/app-shell/common/swiper.module';
+import { TW_THEME } from '@easworks/app-shell/common/tw-theme';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { DomainModule } from '@easworks/models';
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faAngleLeft, faAngleRight, faBolt, faCar, faCartShopping, faMoneyBill, faPlane, faShirt, faStar, faStethoscope, faStore, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { SwiperOptions } from 'swiper/types';
 import { DomainSoftwareSelectorComponent } from '../common/domain-software-selector.component';
 import { FeaturedDomainsComponent } from '../common/featured-domains.component';
 import { UseCaseTilesContainerComponent } from '../common/use-case-tiles-container.component';
@@ -26,14 +29,17 @@ import { UseCaseTilesContainerComponent } from '../common/use-case-tiles-contain
     DomainSoftwareSelectorComponent,
     MatSelectModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    NgSwiperModule
   ]
 })
 export class HomePageComponent {
   private readonly domainState = inject(DomainState);
+  private readonly twTheme = inject(TW_THEME) as any;
 
   protected readonly icons = {
-    faAngleRight
+    faAngleRight,
+    faAngleLeft
   } as const;
 
   protected readonly promises = [
@@ -188,4 +194,66 @@ export class HomePageComponent {
       //   text: 'Client Satisfaction Rate'
       // },
     ];
+
+  protected readonly industries = (() => {
+    const slides: {
+      icon: IconDefinition;
+      text: string;
+    }[] = [
+        {
+          icon: faStar,
+          text: 'Popular'
+        },
+        {
+          icon: faCartShopping,
+          text: 'E-Commerce'
+        },
+        {
+          icon: faStethoscope,
+          text: 'Healthcare'
+        },
+        {
+          icon: faCar,
+          text: 'Automobile'
+        },
+        {
+          icon: faPlane,
+          text: 'Aerospace'
+        },
+        {
+          icon: faMoneyBill,
+          text: 'Banking'
+        },
+        {
+          icon: faUsers,
+          text: 'Consulting'
+        },
+        {
+          icon: faStore,
+          text: 'Retail'
+        },
+        {
+          icon: faShirt,
+          text: 'Finance'
+        },
+        {
+          icon: faBolt,
+          text: 'Energy'
+        },
+      ];
+
+    const swiper = {
+      modules: ['navigation'] satisfies SwiperModuleId[],
+      options: {
+        slidesPerView: 6,
+        loop: true,
+      } satisfies SwiperOptions
+    } as const;
+
+    return {
+      slides,
+      swiper
+    } as const;
+  })();
+
 }
