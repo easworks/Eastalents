@@ -16,7 +16,7 @@ import { UseCaseTilesContainerComponent } from '../common/use-case-tiles-contain
   standalone: true,
   selector: 'home-page',
   templateUrl: './home.page.html',
-  styleUrls: [],
+  styleUrl: './home.page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
@@ -101,18 +101,32 @@ export class HomePageComponent {
   protected readonly accelerate = [
     {
       lottie: 'https://lottie.host/d1c2490c-af63-4ea7-a623-0b51dd9764ca/AO13AxjtHq.json',
-      title: 'Vetted Individuals',
-      content: `Fill Enterprise Application talent gaps in your next project by hiring a pre-vetted EAS professional, who brings a niche skillset and industry-specific knowledge.`
+      title: 'Hire Contractors',
+      content: `Fill Enterprise Application Software (EAS) talent gaps with 
+        pre-vetted professionals for specialized Enterprise App skills with 
+        Industry domain expertise.`
     },
     {
       lottie: 'https://lottie.host/1ff30c54-0496-4946-a30c-0d0690e85c81/MDWAKwRlZi.json',
-      title: 'Full Teams',
-      content: `With a fully-equipped EAS Team of professionals, you get the knowledge and support you need for Enterprise Software projects. We assemble your ideal team members, facilitate their on-boarding, and ensure everyone is off to a great start`
+      title: 'Hire Full-Time',
+      content: `Secure top talent with specialized Enterprise Application 
+        Software (EAS) skills and industry expertise. Our pre-vetted 
+        professionals ensure long-term success and seamless team integration.`
     },
     {
       lottie: 'https://lottie.host/b9233ad0-d539-4160-86c4-747d871ccac2/JlLPj9U19M.json',
-      title: 'Enterprise Application Projects',
-      content: `Partner with a distributed enterprise software team to handle a variety of projects including Configuration/Customization, Development , UI/UX design, analysis, project management, quality assurance, maintenance, and support`
+      title: 'Hire Fully Managed Team',
+      content: `Get a fully equipped EAS team with the expertise and support
+        for your enterprise software projects. We assemble your ideal team,
+        handle onboarding, and ensure a smooth start.`
+    },
+    {
+      lottie: 'https://lottie.host/b9233ad0-d539-4160-86c4-747d871ccac2/JlLPj9U19M.json',
+      title: 'Managed end-to-end Solution',
+      content: `Partner with EASWORKS to manage & execute your enterprise application 
+        projects, covering a spectrum of services including Consulting, Software 
+        Development, Integration Services, Customization and Configuration, Migration 
+        Services, and Support and Maintenance.`
     }
   ];
 

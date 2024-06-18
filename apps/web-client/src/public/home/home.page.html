@@ -113,29 +113,24 @@
 </section>
 
 
-<section>
-  <div class="page max-w-screen-xl py-12">
-    <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all">
-      Accelerate your Enterprise Application development
-      with scalable on-demand tech talent
-    </h2>
+<section id="help-app-development">
+  <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all">
+    How EASWORKS can help you with Enterprise App Development.
+  </h2>
 
-    <div class="flex mt-12 flex-wrap lg:flex-nowrap gap-8 justify-center">
-      @for(acc of accelerate; track acc.title) {
-      <div class="flex flex-col gap-2 p-4 text-center
-        w-60 flex-grow 
-        border border-b-primary-500 bg-white shadow-md 
-        rounded-tr-[2rem] rounded-bl-[2rem] border-b-4">
-        <lottie-player [src]="acc.lottie" background="transparent"
-                       class="mx-auto w-full h-20 md:w-24 md:h-24 transition-all" autoplay loop></lottie-player>
-        <h4 class="text-lg font-semibold">{{acc.title}}</h4>
-        <p class="text-sm leading-6 my-auto">{{acc.content}}</p>
+  <div class="item-container">
+    @for(acc of accelerate; track acc.title) {
+    <div>
+      <lottie-player [src]="acc.lottie" background="transparent"
+                     class="mx-auto w-full h-20 md:w-24 md:h-24 transition-all" autoplay loop></lottie-player>
+      <h4 class="text-xl font-semibold">{{acc.title}}</h4>
+      <p class="text-sm leading-6 my-auto">{{acc.content}}</p>
 
-        <button class="shaded-button secondary max-w-max mx-auto mt-auto">Get Started</button>
-      </div>
-      }
-
+      <button class="shaded-button secondary mt-auto rounded-lg">Get Started</button>
+      <button class="stroked-button secondary rounded-lg font-bold">Talk To Us</button>
     </div>
+    }
+
   </div>
 </section>
 
