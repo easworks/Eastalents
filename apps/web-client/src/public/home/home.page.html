@@ -134,28 +134,6 @@
   </div>
 </section>
 
-<section id="industries">
-  <swiper [options]="industries.swiper.options" [modules]="industries.swiper.modules">
-    <div class="absolute bottom-0 flex items-center left-0 m-auto text-center top-0 z-10">
-      <fa-icon [icon]="icons.faAngleLeft" mat-ripple class="swiper-button swiper-button-prev"></fa-icon>
-    </div>
-    <div class="swiper-wrapper">
-      @for (slide of industries.slides; track slide) {
-      <swiper-slide index={{$index}}>
-        <div class="grid text-center justify-items-center border p-4 rounded-lg gap-4">
-          <fa-icon [icon]="slide.icon" class="text-4xl text-primary-500"></fa-icon>
-          <p>{{slide.text}}</p>
-        </div>
-      </swiper-slide>
-      }
-
-    </div>
-    <div class=" absolute bottom-0 flex items-center right-0 m-auto text-center top-0 z-10">
-      <fa-icon [icon]="icons.faAngleRight" mat-ripple class="swiper-button swiper-button-next"></fa-icon>
-    </div>
-  </swiper>
-</section>
-
 
 <section>
   <div class="page max-w-screen-xl py-12">
@@ -204,22 +182,43 @@
   <featured-domains class="mt-16"></featured-domains>
 </section>
 
-<section>
-  <div class="page max-w-screen-xl py-12">
-    <h2 class="text-2xl lg:text-3xl text-center font-bold">
-      Hire Elite EAS Talent Based On <span class="text-primary-500">Enterprise Application Use Cases</span>
-    </h2>
-    <h3 class="text-xl lg:text-2xl font-bold mt-8 text-center">
-      EASWORKS supports major critical enterprise application development use cases
-    </h3>
+<section id="industries" class="page py-12">
+  <h2 class="text-3xl text-center font-bold">We've supported companies of all sizes and various use cases</h2>
 
-    <use-case-tiles-container class="mt-8"></use-case-tiles-container>
+  <div class="mt-8">
+    <h3 class="text-center text-xl font-bold text-gray-500">Industries supported</h3>
+    <swiper [options]="industries.swiper.options" [modules]="industries.swiper.modules" class="mt-4">
+      <div class="absolute bottom-0 flex items-center left-0 m-auto text-center top-0 z-10">
+        <fa-icon [icon]="icons.faAngleLeft" mat-ripple class="swiper-button swiper-button-prev"></fa-icon>
+      </div>
+      <div class="swiper-wrapper">
+        @for (slide of industries.slides; track slide) {
+        <swiper-slide index={{$index}}>
+          <div class="grid text-center justify-items-center border p-4 rounded-lg gap-4">
+            <fa-icon [icon]="slide.icon" class="text-4xl text-primary-500"></fa-icon>
+            <p>{{slide.text}}</p>
+          </div>
+        </swiper-slide>
+        }
+
+      </div>
+      <div class=" absolute bottom-0 flex items-center right-0 m-auto text-center top-0 z-10">
+        <fa-icon [icon]="icons.faAngleRight" mat-ripple class="swiper-button swiper-button-next"></fa-icon>
+      </div>
+    </swiper>
+  </div>
+
+
+  <div class="mt-12">
+    <h3 class="text-center text-xl font-bold text-gray-500">Use Cases</h3>
+
+    <use-case-tiles-container class="mt-4"></use-case-tiles-container>
   </div>
 </section>
 
 <section>
   <div class="page py-12">
-    <h2 class="text-2xl text-center font-bold">Get Started with <span class="text-primary-500">Enterprise
+    <h2 class="text-2xl text-center font-bold">Get Started based on <span class="text-primary-500">Enterprise
         Applications</span></h2>
 
     <domain-software-selector class="mt-4"></domain-software-selector>
@@ -237,7 +236,8 @@
 
     <ng-template #$roleList>
       <div class="grid mt-8 gap-8">
-        <div *ngFor="let domain of roleList.list$()">
+        @for(domain of roleList.list$(); track domain.key) {
+        <div>
           <div class="flex gap-4 justify-between">
             <h3 class="text-xl font-bold mt-1">{{domain.name}}</h3>
             <!-- TODO: discuss with Mr.Nanda what to do about roles selection -->
@@ -254,17 +254,30 @@
             </div> -->
           </div>
 
-          <div class="mt-4 grid gap-2
-          grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            <div *ngFor="let role of domain.roles$()">
-              <a class="flex gap-2 max-w-max" [routerLink]="'/roles/'+domain.key+'/'+role">
-                <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
-                {{role}}
-              </a>
+          <div class="mt-4 grid gap-x-4 2xl:grid-cols-2 4xl:grid-cols-3 6xl:grid-cols-4 8xl:grid-cols-5">
+            @for(role of domain.roles$(); track role) {
+            <a class="flex gap-2 max-w-max" [routerLink]="'/roles/'+domain.key+'/'+role"
+               [class.hidden]="$index >= roleList.items$() && !domain.showMore$() ">
+              <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
+              {{role}}
+            </a>
+            }
 
-            </div>
           </div>
+
+          <button class="highlight-button flex items-center font-normal text-sm leading-none" mat-ripple
+                  (click)="domain.toggleMore()">
+            @if (domain.showMore$()) {
+            <fa-icon [icon]="icons.faMinus" class="mr-2"></fa-icon>
+            Show Less
+            }
+            @else {
+            <fa-icon [icon]="icons.faPlus" class="mr-2"></fa-icon>
+            Show More
+            }
+          </button>
         </div>
+        }
       </div>
     </ng-template>
   </div>

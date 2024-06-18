@@ -8,10 +8,12 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
 import { NgSwiperModule, SwiperModuleId } from '@easworks/app-shell/common/swiper.module';
 import { TW_THEME } from '@easworks/app-shell/common/tw-theme';
 import { DomainState } from '@easworks/app-shell/state/domains';
+import { UI_FEATURE } from '@easworks/app-shell/state/ui';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { fromPromise } from '@easworks/app-shell/utilities/to-promise';
 import { DomainModule } from '@easworks/models';
-import { IconDefinition, faAngleLeft, faAngleRight, faBolt, faCar, faCartShopping, faMoneyBill, faPlane, faShirt, faStar, faStethoscope, faStore, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faAngleLeft, faAngleRight, faBolt, faCar, faCartShopping, faMinus, faMoneyBill, faPlane, faPlus, faShirt, faStar, faStethoscope, faStore, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
 import { SwiperOptions } from 'swiper/types';
 import { DomainSoftwareSelectorComponent } from '../common/domain-software-selector.component';
 import { FeaturedDomainsComponent } from '../common/featured-domains.component';
@@ -41,10 +43,14 @@ export class HomePageComponent {
   private readonly api = {
     domains: inject(DomainsApi)
   } as const;
+  private readonly store = inject(Store);
+  private readonly screenSize$ = this.store.selectSignal(UI_FEATURE.selectScreenSize);
 
   protected readonly icons = {
     faAngleRight,
-    faAngleLeft
+    faAngleLeft,
+    faMinus,
+    faPlus
   } as const;
 
   protected readonly promises = [
@@ -181,19 +187,45 @@ export class HomePageComponent {
 
           });
 
+          const showMore$ = signal(false);
+          const toggleMore = () => showMore$.update(v => !v);
+
           return {
             name: domain.longName,
             key: domain.key,
             modules,
             selectedModule$,
-            roles$
+            roles$,
+            showMore$,
+            toggleMore
           };
         });
     });
 
+    const items$ = computed(() => {
+      const ss = this.screenSize$();
+
+      switch (ss) {
+        case 'xs':
+        case 'sm':
+        case 'md':
+        case 'lg':
+        case 'xl': return 7;
+        case '2xl':
+        case '3xl': return 14;
+        case '4xl':
+        case '5xl': return 21;
+        case '6xl':
+        case '7xl': return 28;
+        case '8xl':
+        case '9xl':
+        case '10xl': return 35;
+      }
+    });
+
     const loading$ = computed(() => list$().length === 0);
 
-    return { list$, loading$ };
+    return { list$, loading$, items$ };
   }
 
   protected readonly counters: {
