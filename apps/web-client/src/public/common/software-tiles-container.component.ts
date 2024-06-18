@@ -35,7 +35,7 @@ export class SoftwareTilesContainerComponent {
 
   @Input({ required: true }) set domain(domain: DomainPartial) {
     this.domain$.set(domain);
-  };
+  }
 
   private readonly domain$ = signal<DomainPartial | null>(null);
   protected readonly products$ = computed(() => {
@@ -70,10 +70,20 @@ export class SoftwareTilesContainerComponent {
     const ss = this.screenSize$();
 
     switch (ss) {
+      case 'xs':
       case 'sm':
-      case 'md': return 3;
+      case 'md':
       case 'lg':
-      case 'xl': return 2;
+      case 'xl': return 3;
+      case '2xl':
+      case '3xl':
+      case '4xl':
+      case '5xl':
+      case '6xl':
+      case '7xl':
+      case '8xl':
+      case '9xl':
+      case '10xl': return 2;
     }
   });
   protected readonly rowTemplate$ = computed(() => {

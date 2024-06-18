@@ -1,10 +1,23 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { inject } from '@angular/core';
 import { createEffect } from '@ngrx/effects';
-import { distinctUntilChanged, fromEvent, map, startWith, tap } from 'rxjs';
-import { ScreenSize, uiActions } from './ui';
+import { EMPTY, distinctUntilChanged, fromEvent, map, startWith } from 'rxjs';
+import type { ScreensConfig } from 'tailwindcss/types/config';
+import { TW_THEME } from '../common/tw-theme';
+import { ScreenSize, screenSizes, uiActions } from './ui';
 
 export const uiEffects = {
+  validateScreenDeclarations: createEffect(
+    () => {
+
+      const screens = inject(TW_THEME).screens as ScreensConfig;
+      const themeSizes = Object.keys(screens);
+
+      validateScreenDeclarations(themeSizes, screenSizes);
+
+      return EMPTY;
+    },
+    { functional: true, dispatch: false }),
   updateBreakpoints: createEffect(
     () => {
       const breakpoints = {
@@ -49,3 +62,26 @@ export const uiEffects = {
     { functional: true }
   )
 } as const;
+
+function validateScreenDeclarations(
+  tailwind: readonly string[],
+  screens: readonly string[]
+) {
+
+  const sets = {
+    screens: new Set(screens),
+    tailwind: new Set(tailwind),
+  };
+
+  for (const size of tailwind) {
+    if (!sets.screens.has(size)) {
+      throw new Error(`'${size}' is declared in tailwind config, but not declared in typescript screens`);
+    }
+  }
+
+  for (const size of screens) {
+    if (!sets.tailwind.has(size)) {
+      throw new Error(`'${size}' is declared in typescript screen, but not declared in tailwind config`);
+    }
+  }
+}

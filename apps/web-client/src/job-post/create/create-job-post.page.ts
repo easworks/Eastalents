@@ -1,6 +1,6 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { KeyValue } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, WritableSignal, computed, effect, inject, isDevMode, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, OnInit, Signal, WritableSignal, computed, effect, inject, input, isDevMode, signal, untracked } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -20,8 +20,8 @@ import { SelectableOption } from '@easworks/app-shell/utilities/options';
 import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { Domain, DomainModule, ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, JobPost, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REMOTE_WORK_OPTIONS, REQUIRED_EXPERIENCE_OPTIONS, RemoteWork, RequiredExperience, SERVICE_TYPE_OPTIONS, ServiceType, SoftwareProduct, WEEKLY_COMMITMENT_OPTIONS, WeeklyCommitment } from '@easworks/models';
-import { faCheck, faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
+import { Domain, DomainModule, ENGAGEMENT_PERIOD_OPTIONS, EngagementPeriod, HOURLY_BUDGET_OPTIONS, HourlyBudget, JOB_TYPE_OPTIONS, JobPost, JobPostStatus, JobType, PROJECT_KICKOFF_TIMELINE_OPTIONS, PROJECT_TYPE_OPTIONS, ProjectKickoffTimeline, ProjectType, REQUIRED_EXPERIENCE_OPTIONS, RequiredExperience, SoftwareProduct, WEEKLY_COMMITMENT_OPTIONS, WORK_ENVIRONMENT_OPTIONS, WeeklyCommitment, WorkEnvironment } from '@easworks/models';
+import { faCheck, faCircleInfo, faMagicWandSparkles, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { combineLatest, map, shareReplay, switchMap } from 'rxjs';
 import { instructions } from './prompt';
 
@@ -42,6 +42,7 @@ import { instructions } from './prompt';
   ]
 })
 export class CreateJobPostPageComponent implements OnInit {
+
   private readonly injector = inject(INJECTOR);
   private readonly domains = inject(DomainState);
   private readonly snackbar = inject(MatSnackBar);
@@ -52,7 +53,8 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly icons = {
     faCircleInfo,
     faSquareXmark,
-    faCheck
+    faCheck,
+    faMagicWandSparkles
   } as const;
 
   @HostBinding() private readonly class = 'page';
@@ -63,6 +65,13 @@ export class CreateJobPostPageComponent implements OnInit {
     'description from chatgpt'
   ]>();
 
+  protected readonly mode$ = input<ComponentMode>('create', { alias: 'mode' });
+  protected readonly editStep$ = input<Step | null>(null, { alias: 'step' });
+  protected readonly jobPost$ = input<JobPost | null>(null, { alias: 'jobPost' });
+
+  protected readonly pageTitle$ = computed(() => this.mode$() === 'create' ?
+    'Create New Job Post' :
+    'Edit Job Post');
 
   protected readonly trackBy = {
     domainOption: (_: number, d: SelectableOption<Domain>) => d.value.key,
@@ -80,7 +89,7 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly stepper = this.initStepper();
   protected readonly stepperGroups = this.initStepperGroups();
 
-  protected readonly serviceType = this.initServiceType();
+  protected readonly jobType = this.initJobType();
   protected readonly primaryDomain = this.initPrimaryDomain();
   protected readonly services = this.initServices();
   protected readonly modules = this.initModules();
@@ -95,11 +104,11 @@ export class CreateJobPostPageComponent implements OnInit {
   protected readonly engagementPeriod = this.initEngagementPeriod();
   protected readonly hourlyBudget = this.initHourlyBudget();
   protected readonly projectKickoffTimeline = this.initProjectKickoffTimeline();
-  protected readonly remoteWork = this.initRemoteWork();
+  protected readonly environment = this.initEnvironment();
 
   private initStepper() {
     const order: Step[] = [
-      'service-type',
+      'job-type',
       'primary-domain',
       'services',
       'modules',
@@ -114,7 +123,7 @@ export class CreateJobPostPageComponent implements OnInit {
       'engagement-period',
       'hourly-budget',
       'project-kickoff-timeline',
-      'remote-work'
+      'work-environment'
     ];
     const stepNumbers = order.reduce((prev, cv, ci) => {
       prev[cv] = ci;
@@ -138,7 +147,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
 
     const isValidStep = (step: Step) =>
-      (step === 'service-type' && this.serviceType.status$() === 'VALID') ||
+      (step === 'job-type' && this.jobType.status$() === 'VALID') ||
       (step === 'primary-domain' && this.primaryDomain.status$() === 'VALID') ||
       (step === 'services' && this.services.$()?.status$() === 'VALID') ||
       (step === 'modules' && this.modules.$()?.status$() === 'VALID') ||
@@ -153,12 +162,13 @@ export class CreateJobPostPageComponent implements OnInit {
       (step === 'engagement-period' && this.engagementPeriod.status$() === 'VALID') ||
       (step === 'hourly-budget' && this.hourlyBudget.status$() === 'VALID') ||
       (step === 'project-kickoff-timeline' && this.projectKickoffTimeline.status$() === 'VALID') ||
-      (step === 'remote-work' && this.remoteWork.status$() === 'VALID');
+      (step === 'work-environment' && this.environment.status$() === 'VALID');
 
     const next = {
       visible$: computed(() => step$() !== lastStep),
       disabled$: computed(() => {
         const step = step$();
+        // why are we waiting here?
         const wait = (
           step === 'primary-domain' ||
           step === 'technology-stack' ||
@@ -186,11 +196,15 @@ export class CreateJobPostPageComponent implements OnInit {
     } as const;
 
     const submit = {
-      disabled$: next.disabled$,
-      visible$: computed(() => step$() === lastStep),
+      disabled$: (() => {
+        const validities = order.map(step => computed(() => isValidStep(step)));
+        const isInvalid$ = computed(() => validities.some(v => !v()));
+        return isInvalid$;
+      })(),
+      visible$: computed(() => this.mode$() === 'edit' || step$() === lastStep),
       click: () => {
         const fv = {
-          serviceType: this.serviceType.form.getRawValue(),
+          jobType: this.jobType.form.getRawValue(),
           projectType: this.projectType.form.getRawValue(),
           description: this.description.form.getRawValue(),
           commitment: this.weeklyCommitment.form.getRawValue(),
@@ -198,7 +212,7 @@ export class CreateJobPostPageComponent implements OnInit {
           reqExp: this.requiredExp.form.getRawValue(),
           hourlyBudget: this.hourlyBudget.form.getRawValue(),
           projectKickoff: this.projectKickoffTimeline.form.getRawValue(),
-          remote: this.remoteWork.form.getRawValue(),
+          environment: this.environment.form.getRawValue(),
           techExp: this.techExp.form.getRawValue(),
           industries: this.industries.form.getRawValue(),
           domain: this.primaryDomain.form.getRawValue(),
@@ -208,7 +222,8 @@ export class CreateJobPostPageComponent implements OnInit {
         } as const;
 
         const jp: JobPost = {
-          serviceType: fv.serviceType.value,
+          createdBy: null as unknown as string,
+          jobType: fv.jobType.value,
           projectType: fv.projectType.value,
           description: fv.description.description,
           requirements: {
@@ -217,18 +232,19 @@ export class CreateJobPostPageComponent implements OnInit {
             experience: fv.reqExp.value,
             hourlyBudget: fv.hourlyBudget.value,
             projectKickoff: fv.projectKickoff.value,
-            remote: fv.remote.value,
+            environment: fv.environment.value,
           },
           domain: {
             key: fv.domain.domain.value.key,
             years: fv.domain.years,
             services: fv.services.map(v => v.value),
             modules: fv.modules.map(m => m.value.name),
-            roles: Object.entries(fv.experience)
-              .map(([role, { years, quantity, software }]) => ({
-                role, years, quantity,
-                software: software.map(v => v.value.name),
-              }))
+            roles: {
+              role: Object.keys(fv.experience)[0],
+              quantity: fv.experience[Object.keys(fv.experience)[0]].quantity,
+              years: fv.experience[Object.keys(fv.experience)[0]].years,
+              software: fv.experience[Object.keys(fv.experience)[0]].software.map(v => v.value.name)
+            },
           },
           tech: Object.entries(fv.techExp).map(([group, value]) => ({
             group,
@@ -238,6 +254,15 @@ export class CreateJobPostPageComponent implements OnInit {
             group,
             items: value.map(v => v.value)
           })),
+          status: undefined as unknown as JobPostStatus,
+          count: {
+            applications: 0,
+            hired: 0,
+            interviewScheduled: 0,
+            positions: 0,
+            rejected: 0,
+            unseen: 0,
+          }
         };
 
         console.debug(jp);
@@ -268,13 +293,14 @@ export class CreateJobPostPageComponent implements OnInit {
       label: StepGroupID;
       enabled$: Signal<boolean>;
       completed$: Signal<boolean>;
+      current$: Signal<boolean>;
       click: () => void;
     };
 
     const groupings: [StepGroupID, Step[]][] = [
       [
         'Services Selection',
-        ['service-type']
+        ['job-type']
       ],
       [
         'Primary Domain & Expertise',
@@ -308,48 +334,49 @@ export class CreateJobPostPageComponent implements OnInit {
           'engagement-period',
           'hourly-budget',
           'project-kickoff-timeline',
-          'remote-work'
+          'work-environment'
         ]
       ]
     ];
 
     const isValidStep = this.stepper.isValidStep;
-    const groupSteps = groupings
+    const groups = groupings
       .map<StepGroup>(([label, steps]) => ({
         label,
         enabled$: computed(() => true),
         completed$: computed(() => steps.every(step => isValidStep(step))),
+        current$: computed(() => steps.includes(this.stepper.step$())),
         click: () => this.stepper.step$.set(steps[0])
       }));
 
-    groupSteps.forEach((step, i) => {
+    groups.forEach((step, i) => {
       if (i > 0)
         step.enabled$ = computed(() => {
-          const prev = groupSteps[i - 1];
+          const prev = groups[i - 1];
           return prev.completed$() && prev.enabled$();
         });
       // const completed = step.completed$;
       // step.completed$ = computed(() => step.enabled$() && completed());
     });
 
-    return groupSteps;
+    return { groups } as const;
   }
 
-  private initServiceType() {
-    const form = new FormControl(null as unknown as SelectableOption<ServiceType>, {
+  private initJobType() {
+    const form = new FormControl(null as unknown as SelectableOption<JobType>, {
       nonNullable: true,
       validators: [Validators.required]
     });
 
-    const options = SERVICE_TYPE_OPTIONS
-      .map<SelectableOption<ServiceType>>(t => ({
+    const options = JOB_TYPE_OPTIONS
+      .map<SelectableOption<JobType>>(t => ({
         selected: false,
         value: t,
         label: t
       }));
 
     const handlers = {
-      toggle: (option: SelectableOption<ServiceType>) => {
+      toggle: (option: SelectableOption<JobType>) => {
         if (option.selected)
           return;
 
@@ -559,12 +586,12 @@ export class CreateJobPostPageComponent implements OnInit {
     const stepLabel$ = this.services.stepLabel$;
 
     const obs$ = combineLatest([
-      this.serviceType.selected$,
+      this.jobType.selected$,
       this.primaryDomain.selected$,
     ]).pipe(
-      map(([serviceType, { domain }]) => {
+      map(([jobType, { domain }]) => {
         const exists = this.roles?.$()?.form.getRawValue();
-        const limit = serviceType.value === 'Hire an Enterprise Application Talent' ?
+        const limit = jobType.value === 'Hire an Enterprise Application Talent' ?
           1 : 5;
 
         const form = new FormControl([] as SelectableOption<string>[], {
@@ -645,13 +672,13 @@ export class CreateJobPostPageComponent implements OnInit {
     const stepLabel$ = this.services.stepLabel$;
 
     const obs$ = combineLatest([
-      this.serviceType.selected$,
+      this.jobType.selected$,
       this.roles.selected$,
     ]).pipe(
-      map(([serviceType, roles]) => {
+      map(([jobType, roles]) => {
         const exists = this.experience?.$()?.form.getRawValue();
 
-        const individual = serviceType.value === 'Hire an Enterprise Application Talent';
+        const individual = jobType.value === 'Hire an Enterprise Application Talent';
 
 
         const form = new FormRecord<FormGroup<{
@@ -1060,6 +1087,9 @@ export class CreateJobPostPageComponent implements OnInit {
     const roles$ = toSignal(this.roles.selected$);
     const domains$ = toSignal(this.primaryDomain.selected$);
 
+    // we use a separate input$ signal because 
+    // in 'create' mode, we don't want to regenerate
+    // description if the input does not change
     const input$ = signal('');
     const generating$ = this.loading.has('description from chatgpt');
 
@@ -1081,6 +1111,17 @@ export class CreateJobPostPageComponent implements OnInit {
     });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
+    const generateDescription = async () => {
+      const input = input$();
+      if (input) {
+        const description = await this.generateDescriptionFromChatGPT(input);
+        if (description)
+          form.patchValue({ description });
+      }
+    };
+
+    const disableGeneration$ = this.loading.any$;
+
     effect(() => {
       if (this.stepper.step$() === 'description') {
         input$.set(this.extractChatGPTInput());
@@ -1088,6 +1129,10 @@ export class CreateJobPostPageComponent implements OnInit {
     }, { allowSignalWrites: true });
 
     effect(async () => {
+      const mode = this.mode$();
+      if (mode === 'edit')
+        return;
+
       const input = input$();
       if (input) {
         const description = await this.generateDescriptionFromChatGPT(input);
@@ -1101,7 +1146,9 @@ export class CreateJobPostPageComponent implements OnInit {
       form,
       status$,
       stepLabel$,
-      generating$
+      generating$,
+      generateDescription,
+      disableGeneration$
     } as const;
   }
 
@@ -1321,22 +1368,22 @@ export class CreateJobPostPageComponent implements OnInit {
     };
   }
 
-  private initRemoteWork() {
+  private initEnvironment() {
     const stepLabel$ = this.description.stepLabel$;
-    const form = new FormControl(null as unknown as SelectableOption<RemoteWork>, {
+    const form = new FormControl(null as unknown as SelectableOption<WorkEnvironment>, {
       nonNullable: true,
       validators: [Validators.required]
     });
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
-    const options = REMOTE_WORK_OPTIONS.map<SelectableOption<RemoteWork>>(pt => ({
+    const options = WORK_ENVIRONMENT_OPTIONS.map<SelectableOption<WorkEnvironment>>(pt => ({
       selected: false,
       value: pt,
       label: pt
     }));
 
     const handlers = {
-      toggle: (option: SelectableOption<RemoteWork>) => {
+      toggle: (option: SelectableOption<WorkEnvironment>) => {
         if (option.selected)
           return;
 
@@ -1362,7 +1409,7 @@ export class CreateJobPostPageComponent implements OnInit {
     const revert = [] as (() => void)[];
 
     {
-      const { options, toggle } = this.serviceType;
+      const { options, toggle } = this.jobType;
       toggle(options[1]);
 
       this.stepper.next.click();
@@ -1500,7 +1547,7 @@ export class CreateJobPostPageComponent implements OnInit {
     }
 
     {
-      const { options, toggle } = this.remoteWork;
+      const { options, toggle } = this.environment;
       toggle(options[0]);
     }
 
@@ -1509,7 +1556,7 @@ export class CreateJobPostPageComponent implements OnInit {
 
   private extractChatGPTInput() {
     const fv = {
-      serviceType: this.serviceType.form.getRawValue(),
+      jobType: this.jobType.form.getRawValue(),
       domains: this.primaryDomain.form.getRawValue(),
       modules: this.modules.$()?.form.getRawValue() || [],
       services: this.services.$()?.form.getRawValue() || [],
@@ -1518,7 +1565,7 @@ export class CreateJobPostPageComponent implements OnInit {
       industries: this.industries.form.getRawValue()
     } as const;
 
-    const recruitmentType = `Recruitement Type: ${fv.serviceType.value === 'Hire an Enterprise Application Talent' ? 'Hire an Individual' : fv.serviceType.value}`;
+    const recruitmentType = `Recruitement Type: ${fv.jobType.value === 'Hire an Enterprise Application Talent' ? 'Hire an Individual' : fv.jobType.value}`;
     const domain = `Business Domain: ${fv.domains.domain.value.longName}`;
     const subDomains = [
       `Sub-domain(s):`,
@@ -1592,15 +1639,250 @@ export class CreateJobPostPageComponent implements OnInit {
 
   }
 
+
+  private async prefill(jobPost: JobPost) {
+    {
+      const { options, toggle } = this.jobType;
+      const selected = options.find(x => x.value === jobPost.jobType);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+    {
+      const { options$, toggle, form } = this.primaryDomain;
+
+      const all = await toPromise(options$, all => all.length > 0, this.injector);
+
+      const domain = all.find(o => o.value.key === jobPost.domain.key);
+      if (!domain)
+        throw new Error('invalid operation');
+
+      toggle(domain);
+      form.patchValue({ years: jobPost.domain.years });
+
+    }
+
+    {
+      const { toggle, options } = this.services.$()!;
+      jobPost.domain.services.forEach(x => {
+        const selected = options.find(y => y.value === x);
+        if (!selected) {
+          throw new Error('invalid operation');
+        }
+        toggle(selected);
+      });
+    }
+
+    {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { toggle, options } = this.modules.$()!;
+
+
+      jobPost.domain.modules.forEach(x => {
+        const selected = options.find(y => y.value.name === x);
+        if (!selected) {
+          throw new Error('invalid operation');
+        }
+        toggle(selected);
+      });
+    }
+
+    {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { options, toggle } = this.roles.$()!;
+
+      const selected = options.find(x => x.value === jobPost.domain.roles.role);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+
+    {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { form, software } = this.experience.$()!;  //experinece to check
+
+      Object.entries(software)
+        .forEach(([role, { add, allOptions }]) => {
+          const roleControl = form.controls[role];
+          roleControl.patchValue({
+            quantity: jobPost.domain.roles.quantity,
+            years: jobPost.domain.roles.years
+          });
+
+          jobPost.domain.roles.software.forEach(x => {
+            const index = allOptions.findIndex(y => y.value.name === x);
+            if (index === -1) {
+              throw new Error('invalid operation');
+            }
+            add(allOptions[index]);
+          });
+        });
+    }
+
+    {
+      // this is to ensure that the tech is all filled
+      const { add, options$ } = this.techExp;
+
+      const options = await toPromise(options$, options => options.length > 0, this.injector);
+      const map = new Map(options.map(g => [g.name, g.tech]));
+
+      jobPost.tech.forEach(group => {
+        const optionGroup = map.get(group.group);
+        if (!optionGroup) {
+          console.warn(`invalid operation: did not find tech group '${group.group}'`);
+          return;
+        }
+
+        group.items.forEach(item => {
+          const option = optionGroup.find(o => o.value === item);
+          if (!option) {
+            console.warn(`invalid operation: did not find tech '${item}' in group '${group.group}'`);
+            return;
+          }
+
+          add(group.group, option);
+        });
+      });
+    }
+
+    {
+      const { options$, add } = this.industries;
+
+      const options = await toPromise(options$, options => options.length > 0, this.injector);
+      const map = new Map(options.map(g => [g.name, g.industries]));
+
+      jobPost.industries.forEach(group => {
+        const optionGroup = map.get(group.group);
+        if (!optionGroup) {
+          console.warn(`invalid operation: did not find industry group '${group.group}'`);
+          return;
+        }
+
+        group.items.forEach(item => {
+          const option = optionGroup.find(o => o.value === item);
+          if (!option) {
+            console.warn(`invalid operation: did not find industry '${item}' in group '${group.group}'`);
+            return;
+          }
+
+          add(group.group, option);
+        });
+      });
+    }
+
+
+    {
+      const { form } = this.description;
+      form.setValue({ description: jobPost.description });
+
+    }
+    {
+      const { options, toggle } = this.projectType;
+      const selected = options.find(x => x.value === jobPost.projectType);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+
+    {
+      const { options, toggle } = this.requiredExp;
+      const selected = options.find(x => x.value === jobPost.requirements.experience);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+
+    {
+      const { options, toggle } = this.weeklyCommitment;
+      const selected = options.find(x => x.value === jobPost.requirements.commitment);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+
+    {
+      const { options, toggle } = this.engagementPeriod;
+      const selected = options.find(x => x.value === jobPost.requirements.engagementPeriod);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+
+    {
+      const { options, toggle } = this.hourlyBudget;
+      const selected = options.find(x => x.value === jobPost.requirements.hourlyBudget);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+
+    {
+      const { options, toggle } = this.projectKickoffTimeline;
+      const selected = options.find(x => x.value === jobPost.requirements.projectKickoff);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+
+    {
+      const { options, toggle } = this.environment;
+      const selected = options.find(x => x.value === jobPost.requirements.environment);
+      if (!selected) {
+        throw new Error('invalid operation');
+      }
+
+      toggle(selected);
+    }
+
+  }
   ngOnInit(): void {
     if (isDevMode()) {
       // this.devModeInit();
     }
+
+    effect(async () => {
+      const mode = this.mode$();
+      if (mode === 'edit') {
+        const jP = this.jobPost$();
+
+        if (!jP) {
+          throw new Error('invalid operation: job post to be prefilled was not provided');
+        }
+
+        await untracked(() => this.prefill(jP));
+
+        const step = this.editStep$();
+        const isValidStep = step && this.stepper.isValidStep(step);
+        if (isValidStep) {
+          this.stepper.step$.set(step);
+        }
+        else if (step) {
+          console.warn(`trying to navigate to invalid step: '${step}'`);
+        }
+      }
+    }, { injector: this.injector });
   }
+
 }
 
 type Step =
-  'service-type' |
+  'job-type' |
   'primary-domain' |
   'services' |
   'modules' |
@@ -1615,7 +1897,10 @@ type Step =
   'engagement-period' |
   'hourly-budget' |
   'project-kickoff-timeline' |
-  'remote-work';
+  'work-environment';
+
+
+type ComponentMode = 'create' | 'edit';
 
 function createYearControl(initialValue = null as unknown as number) {
   return new FormControl(

@@ -118,7 +118,9 @@ export class CSCApi extends ApiService {
       .then<Country>(r => r.json())
       .catch(this.handleError);
 
-    country.timezones = JSON.parse(country.timezones as unknown as string);
+    const tzData = (country.timezones as unknown as string).trim();
+
+    country.timezones = tzData ? JSON.parse(tzData) : [];
     country.translations = JSON.parse(country.translations as unknown as string);
     await this.cache.set(id, country);
     return country;

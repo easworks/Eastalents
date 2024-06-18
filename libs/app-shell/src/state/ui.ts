@@ -3,10 +3,20 @@ import { produce } from 'immer';
 
 // mimic the breakpoints we configured in tailwind
 export const screenSizes = [
+  'xs',
   'sm',
   'md',
   'lg',
-  'xl'
+  'xl',
+  '2xl',
+  '3xl',
+  '4xl',
+  '5xl',
+  '6xl',
+  '7xl',
+  '8xl',
+  '9xl',
+  '10xl'
 ] as const;
 export type ScreenSize = typeof screenSizes[number];
 
