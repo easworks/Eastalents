@@ -4,29 +4,28 @@
   </div>
 
   <div class="flex gap-4 justify-between 
-        flex-wrap-reverse lg:flex-nowrap relative">
+        flex-wrap-reverse 4xl:flex-nowrap relative">
     <div class="mt-4 p-4 md:px-8 lg:max-w-xl lg:mx-auto transition-all
       flex flex-col">
       <div class="grid content-center flex-grow">
+        <h1 class="text-primary-500 font-bold text-3xl 7xl:text-5xl 7xl:leading-tight">Unlock the Future of Enterprise Application Development</h1>
+        <p class=" mt-4 font-semibold text-xl 7xl:text-2xl 7xl:mt-8">Hire Elite Enterprise Application Talents On-Demand.</p>
+        <p class="7xl:text-lg mt-2">
+          EASWORKS connects you with top-tier, pre-vetted talents specializing
+          in diverse Enterprise Application Software (EAS) and domains.
+        </p>
+      </div>
+      <div class="mt-12">
         <p>
-          EASWORKS is an on-demand platform for hiring Enterprise Application
-          freelancers with deep expertise in various Enterprise Application
-          Software (EAS) technologies and domains.
+          Maximize your project's potential with experts who bring deep
+          industry knowledge, extensive experience, and superior collaboration skills.
         </p>
-        <h3 class="mt-4 lg:text-4xl text-2xl font-bold">
-          Unlock the potential of <span class="text-primary-500">enterprise
-            application development with ease.</span>
-        </h3>
-        <p class="mt-4">
-          Work with top pre-vetted enterprise application software experts with
-          deep industry knowledge, extensive project experience, strong
-          collaboration skills, and understanding of project requirements.
-        </p>
+        <div class="flex gap-4 mt-4">
+          <button class="shaded-button secondary mat-elevation-z1">Hire Now</button>
+          <button class="stroked-button border-primary-950 border-2 font-medium">Find Jobs</button>
+        </div>
       </div>
-      <div class="flex mt-12 gap-4">
-        <button class="shaded-button secondary mat-elevation-z1">Hire Us</button>
-        <button class="stroked-button border-primary-950 border-2 font-medium"> Work with us</button>
-      </div>
+
     </div>
     <div class="mx-auto self-start max-w-full xl:max-w-5xl
                 transition-all">
@@ -36,41 +35,50 @@
   </div>
 </section>
 
-<section>
-  <div class="page py-8 flex flex-wrap justify-around gap-4">
-    <div *ngFor="let logo of customerLogos">
-      <img class="w-32" [src]="logo" alt="">
-    </div>
-  </div>
-</section>
-
 <section class="bg-white">
-  <div class="page py-8 grid grid-cols-1 lg:grid-cols-2 gap-4 gap-y-8 items-center">
-    <div class="relative">
-      <h2 class="text-2xl font-bold lg:text-3xl transition-all">
-        Adapt and evolve with EASWORKS.
-      </h2>
-      <p class="my-4">
-        EASWORKS recognizes the distinct challenges of enterprise applications and
-        meticulously curates a pool of highly skilled freelancers who specialize
-        in providing resilient, scalable enterprise application services(EAS).
-      </p>
-      <p class="my-4">
-        EASWORKS empowers you with a global talent pool of experienced freelancers
-        who excel in enterprise application development. Whether you need
-        assistance with tasks or ongoing support, our platform is dedicated
-        to helping you thrive in the evolving enterprise application landscape.
-      </p>
-      <p class="my-4">
-        <strong>Hire an EAS expert today</strong> or let us take your project
-        from conception to realisation.
-      </p>
-      <button class="shaded-button secondary mt-8">Get Started</button>
+  <div class="page 2xl:py-12">
+    <h2 class="text-center text-2xl font-bold 3xl:text-3xl transition-all">
+      Enterprise Application Development Made Easy
+    </h2>
+    <div class="grid gap-12 mt-8 justify-center 2xl:mt-12 transition-all">
+      <div class="flex items-center gap-4 gap-x-8 flex-col-reverse text-center transition-all
+            2xl:flex-row 2xl:text-left 3xl:max-w-3xl ">
+        <div>
+          <h3 class="font-bold text-primary-500 text-xl">Specialized Skills</h3>
+          <p class="mt-2">
+            Access professionals with targeted expertise and experience in the
+            specific industry domain you require.
+          </p>
+        </div>
+        <img src="/assets/public/home/dev-made-easy/specialized-skills.png" class="rounded-lg">
+      </div>
+
+      <div class="flex items-center gap-4 gap-x-8 flex-col-reverse text-center transition-all 
+              2xl:flex-row-reverse 2xl:text-left 3xl:max-w-3xl">
+        <div>
+          <h3 class="font-bold text-primary-500 text-xl">Expert Screening and Tailored Matching</h3>
+          <p class="mt-2">
+            Benefit from our rigorous vetting
+            process and customized matching to ensure the perfect fit for your
+            project needs.
+          </p>
+        </div>
+        <img src="/assets/public/home/dev-made-easy/expert-screening.png" class="rounded-lg">
+      </div>
+
+      <div class="flex items-center gap-4 gap-x-8 flex-col-reverse text-center transition-all
+            2xl:flex-row 2xl:text-left 3xl:max-w-3xl">
+        <div>
+          <h3 class="font-bold text-primary-500 text-xl">Rapid Deployment</h3>
+          <p class="mt-2">
+            Quickly onboard specialized talent with our efficient hiring platform,
+            enabling you to start your project without delay.
+          </p>
+        </div>
+        <img src="/assets/public/home/dev-made-easy/expert-screening.png" class="rounded-lg">
+      </div>
     </div>
-    <div>
-      <lottie-player src="https://lottie.host/4b583250-12a2-4a40-baa9-45e2701f2c06/sHU0VRjvKR.json"
-                     background="transparent" speed="1" loop autoplay></lottie-player>
-    </div>
+    <button class="shaded-button block secondary mt-12 mx-auto text-lg min-w-min max-w-full w-80">Get Started</button>
   </div>
 </section>
 

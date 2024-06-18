@@ -36,15 +36,6 @@ export class HomePageComponent {
     faAngleRight
   } as const;
 
-  protected readonly customerLogos = [
-    'client-1.png',
-    'client-2.png',
-    'client-3.png',
-    'client-4.png',
-    'client-5.png',
-    'client-1.png',
-  ].map(v => `/assets/img/${v}`);
-
   protected readonly promises = [
     {
       lottie: 'https://lottie.host/cdcfdf4a-7f11-46f6-b763-8aa0ddd63cb3/5cIAv6Pb81.json',
