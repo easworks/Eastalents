@@ -32,6 +32,9 @@ module.exports = {
       borderColor: {
         DEFAULT: colors.slate[300]
       },
+      borderRadius: {
+        '4xl': '2rem'
+      },
       // 1. generated from https://uicolors.app/create
       colors: {
         // primary color original: #4949fc
