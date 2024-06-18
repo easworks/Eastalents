@@ -1,8 +1,8 @@
 import { Plugin } from 'esbuild';
 import * as path from 'node:path';
 
-export const extensionlessImportsPlugin: Plugin = {
-  name: 'extensionlessImports',
+const extensionlessImportsPlugin: Plugin = {
+  name: 'extensionless-imports-plugin',
   setup: build => {
     build.onResolve(
       { filter: /.*/, namespace: 'file' },
@@ -25,3 +25,5 @@ export const extensionlessImportsPlugin: Plugin = {
     );
   }
 };
+
+export default extensionlessImportsPlugin;
