@@ -22,7 +22,6 @@ export const uiEffects = {
     () => {
       const screens = inject(TW_THEME).screens as Record<string, string>;
 
-      console.debug(screens);
       const breakpoints = new Map(
         screenSizes.map(size => [size, `(min-width: ${screens[size]})`])
       );
