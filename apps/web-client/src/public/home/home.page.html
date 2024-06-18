@@ -135,51 +135,48 @@
 </section>
 
 
-<section>
-  <div class="page max-w-screen-xl py-12">
-    <h2 class="text-2xl font-bold text-center transition-all">How it Works</h2>
+<section class="page py-12">
+  <h2 class="text-2xl font-bold text-center transition-all xl:mr-60">How it Works</h2>
 
-    <div class="flex mt-12 flex-wrap gap-4 justify-center">
-      @for(hitw of howItWorks; track hitw.title) {
-      <div class="flex flex-col gap-y-4 p-2 px-4 pb-4 transition-all
-        w-56 flex-grow md:flex-none
-        bg-white shadow-lg rounded-md text-center">
-        <lottie-player [src]="hitw.lottie" background="transparent"
-                       class="mx-auto w-20 h-20 md:w-24 md:h-24 transition-all" autoplay loop></lottie-player>
-        <h4 class="text-lg font-semibold">{{hitw.title}}</h4>
+  <div class="grid gap-8 mt-12 4xl:max-w-4xl mx-auto">
+    @for(hitw of howItWorks; track hitw.title) {
+    <div class="flex gap-4 gap-x-12 items-center flex-col-reverse xl:flex-row  transition-all">
+      <div class="max-w-lg">
+        <h4 class="text-lg font-semibold text-primary-500">{{hitw.title}}</h4>
         <p class="text-sm leading-6">{{hitw.content}}</p>
       </div>
-      }
+      <img [src]="hitw.image" class="xl:w-48 rounded-lg">
     </div>
+    }
+  </div>
 
-    <div class="flex justify-center mt-10 text-center">
-      <button class="shaded-button secondary mt-5">Describe Your Project
-        Needs</button>
-    </div>
+  <div class="flex justify-center mt-4 text-center xl:mr-60">
+    <button class="shaded-button secondary mt-4">Describe Your Project Needs</button>
   </div>
 </section>
 
-<section class="bg-white">
-  <div class="page max-w-screen-lg py-12">
-
-    <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all">
-      Hire elite EAS talent based on
-      <span class="text-primary-500">Enterprise Application Software (EAS)</span>
-    </h2>
-    <div class="mt-8 flex gap-4 gap-x-8 justify-center items-center
-            flex-wrap lg:flex-nowrap">
-      <h3 class="text-xl lg:text-2xl font-bold text-center">
-        80+ Enterprise Applications Supported
+<section>
+  <div class="page 4xl:max-w-screen-4xl py-12 
+    flex gap-4 justify-center items-center flex-wrap 3xl:flex-nowrap">
+    <div>
+      <h2 class="text-2xl 4xl:text-3xl font-bold text-center transition-all">
+        Hire elite EAS talent based on
+        <span class="text-primary-500">Enterprise Application Software</span>
+      </h2>
+      <h3 class="text-xl lg:text-xl text-center mt-2">
+        60+ Enterprise Apps Supported
       </h3>
-      <div class="flex gap-4 flex-none items-center
-           lg:border-l lg:pl-8 transition-all">
-        <button class="stroked-button border-primary-950 border-2 font-medium">Apply for Jobs</button>
-        <button class="shaded-button secondary"> Hire Now</button>
-      </div>
+    </div>
+
+    <mat-divider vertical class="hidden 3xl:block"></mat-divider>
+
+    <div class="flex gap-4 flex-none items-center transition-all">
+      <button class="stroked-button border-primary-950 border-2 font-medium">Apply for Jobs</button>
+      <button class="shaded-button secondary"> Hire Now</button>
     </div>
   </div>
 
-  <featured-domains class="mt-16"></featured-domains>
+  <featured-domains></featured-domains>
 </section>
 
 <section id="industries" class="page py-12">

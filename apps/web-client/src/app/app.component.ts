@@ -148,13 +148,23 @@ export class AppComponent {
       const screenSize = this.ui$().screenSize;
 
       switch (screenSize) {
+        case 'xs':
         case 'sm':
         case 'md':
+        case 'lg':
+        case 'xl':
           this.menuState.publicMenu.horizontal$.set([]);
           this.menuState.publicMenu.vertical$.set(publicMenu.full());
           break;
-        case 'lg':
-        case 'xl':
+        case '2xl':
+        case '3xl':
+        case '4xl':
+        case '5xl':
+        case '6xl':
+        case '7xl':
+        case '8xl':
+        case '9xl':
+        case '10xl':
           // this.menuState.publicMenu.horizontal$.set(publicMenu.firstPart());
           // this.menuState.publicMenu.vertical$.set(publicMenu.secondPart());
           // break;

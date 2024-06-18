@@ -91,27 +91,25 @@ export class HomePageComponent {
 
   protected readonly howItWorks = [
     {
-      lottie: 'https://lottie.host/5bf7837c-438a-4a4e-a94d-7a36e8b9562a/cMaf4XaF50.json',
-      title: 'Describe your needs',
-      content: `Brief us on your Enterprise Application, technology, domain, 
-        enterprise project requirements and describe your project using our job form.`
+      image: '/assets/public/home/how-eas-works/share-enterprise-challenge.jpg',
+      title: 'Share Your Enterprise Application Challenge',
+      content: `Describe your project requirements and desired outcomes. 
+        We'll analyze your needs and prepare a detailed talent profile, 
+        considering tech stack, experience, and industry-specific challenges.`
     },
     {
-      lottie: 'https://lottie.host/3a6e85a5-efa3-4b74-8850-f8595245abd1/gfULmGWGsu.json',
-      title: 'Schedule a meeting to align on goals',
-      content: `We always create a unique team augmentation strategy based on business goals`
+      image: '/assets/public/home/how-eas-works/choose-eas-expert.jpg',
+      title: 'Choose from Our EAS Expert Recommendations',
+      content: `Receive tailored recommendations of top professionals who match 
+        your talent profile. Handpick the candidate who perfectly fits your 
+        needs, ensuring a seamless integration into your team.`
     },
     {
-      lottie: 'https://lottie.host/e53c1145-18b9-42c3-9dd5-30ba9473df9e/XmL6zR3gAz.json',
-      title: 'Interview & Approve',
-      content: `Interview the EAS talent that we match you with and approve the 
-        candidate(s) who will join your enterprise project team.`
-    },
-    {
-      lottie: 'https://lottie.host/f707add6-d1ed-49db-b0d2-224e018b4dca/4LiVNG5Um8.json',
-      title: 'Start your Enterprise project with remote talent',
-      content: `Seal the deal with a contract based on your engagement model and 
-        launch your remote team.`
+      image: '/assets/public/home/how-eas-works/deploy-and-enhance-application.jpg',
+      title: 'Deploy & Enhance Your Application',
+      content: `After selecting your ideal candidate, we handle all contractual details. 
+        Focus on starting and enhancing your enterprise application with our skilled 
+        professionals.`
     }
   ];
 
