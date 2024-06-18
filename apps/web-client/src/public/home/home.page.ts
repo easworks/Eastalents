@@ -161,6 +161,9 @@ export class HomePageComponent {
       const featured = featured$();
       const domains = domains$();
 
+      if (featured.length === 0 || domains.size === 0)
+        return [];
+
       return featured
         .map(f => {
           const domain = domains.get(f);
