@@ -74,7 +74,7 @@ export class SoftwareTilesContainerComponent {
       case 'sm':
       case 'md':
       case 'lg':
-      case 'xl': return 3;
+      case 'xl': return 2;
       case '2xl':
       case '3xl':
       case '4xl':
@@ -83,7 +83,7 @@ export class SoftwareTilesContainerComponent {
       case '7xl':
       case '8xl':
       case '9xl':
-      case '10xl': return 2;
+      case '10xl': return 1;
     }
   });
   protected readonly rowTemplate$ = computed(() => {

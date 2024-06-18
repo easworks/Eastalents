@@ -2,12 +2,14 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
+import { DomainsApi } from '@easworks/app-shell/api/domains.api';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { NgSwiperModule, SwiperModuleId } from '@easworks/app-shell/common/swiper.module';
 import { TW_THEME } from '@easworks/app-shell/common/tw-theme';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { sortString } from '@easworks/app-shell/utilities/sort';
+import { fromPromise } from '@easworks/app-shell/utilities/to-promise';
 import { DomainModule } from '@easworks/models';
 import { IconDefinition, faAngleLeft, faAngleRight, faBolt, faCar, faCartShopping, faMoneyBill, faPlane, faShirt, faStar, faStethoscope, faStore, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { SwiperOptions } from 'swiper/types';
@@ -36,6 +38,9 @@ import { UseCaseTilesContainerComponent } from '../common/use-case-tiles-contain
 export class HomePageComponent {
   private readonly domainState = inject(DomainState);
   private readonly twTheme = inject(TW_THEME) as any;
+  private readonly api = {
+    domains: inject(DomainsApi)
+  } as const;
 
   protected readonly icons = {
     faAngleRight,
@@ -141,32 +146,50 @@ export class HomePageComponent {
   protected readonly roleList = this.initRoleList();
 
   private initRoleList() {
-    const list$ = computed(() => this.domainState.domains.list$()
-      .map(domain => {
-        const modules = [
-          null,
-          ...domain.modules
-        ];
+    const domains$ = this.domainState.domains.map$;
+    const featured$ = fromPromise(
+      this.api.domains.featuredDomains()
+        .then(domains => domains.map(d => d.domain)),
+      []);
 
-        const selectedModule$ = signal<DomainModule | null>(null);
 
-        const roles$ = computed(() => {
-          const m = selectedModule$();
-          if (m)
-            return m.roles;
-          return [...new Set(domain.modules.flatMap(d => d.roles))]
-            .sort(sortString);
+    const list$ = computed(() => {
+      const featured = featured$();
+      const domains = domains$();
 
+      return featured
+        .map(f => {
+          const domain = domains.get(f);
+          if (!domain)
+            throw new Error(`could not find domain ${f}`);
+          return domain;
+        })
+        .map(domain => {
+          const modules = [
+            null,
+            ...domain.modules
+          ];
+
+          const selectedModule$ = signal<DomainModule | null>(null);
+
+          const roles$ = computed(() => {
+            const m = selectedModule$();
+            if (m)
+              return m.roles;
+            return [...new Set(domain.modules.flatMap(d => d.roles))]
+              .sort(sortString);
+
+          });
+
+          return {
+            name: domain.longName,
+            key: domain.key,
+            modules,
+            selectedModule$,
+            roles$
+          };
         });
-
-        return {
-          name: domain.longName,
-          key: domain.key,
-          modules,
-          selectedModule$,
-          roles$
-        };
-      }));
+    });
 
     const loading$ = computed(() => list$().length === 0);
 

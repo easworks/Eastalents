@@ -20,20 +20,22 @@ export const uiEffects = {
     { functional: true, dispatch: false }),
   updateBreakpoints: createEffect(
     () => {
-      const breakpoints = {
-        md: '(min-width: 36rem)',
-        lg: '(min-width: 60rem)',
-        xl: '(min-width: 72rem)'
-      } satisfies { [k in ScreenSize]?: string };
-      const searchable = Object.keys(breakpoints) as (keyof typeof breakpoints)[];
+      const screens = inject(TW_THEME).screens as Record<string, string>;
+
+      console.debug(screens);
+      const breakpoints = new Map(
+        screenSizes.map(size => [size, `(min-width: ${screens[size]})`])
+      );
 
       const bo = inject(BreakpointObserver);
-      return bo.observe(searchable.map(s => breakpoints[s]))
+      return bo.observe([...breakpoints.values()])
         .pipe(
           map(observed => {
-            let result: ScreenSize = 'sm';
-            for (const size of searchable) {
-              if (observed.breakpoints[breakpoints[size]] === true)
+            let result: ScreenSize = 'xs';
+            for (const size of screenSizes) {
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              const bp = breakpoints.get(size)!;
+              if (observed.breakpoints[bp] === true)
                 result = size;
               else
                 break;
