@@ -153,21 +153,21 @@ export class AppComponent {
         case 'md':
         case 'lg':
         case 'xl':
+        case '2xl':
           this.menuState.publicMenu.horizontal$.set([]);
           this.menuState.publicMenu.vertical$.set(publicMenu.full());
           break;
-        case '2xl':
         case '3xl':
         case '4xl':
         case '5xl':
+          this.menuState.publicMenu.horizontal$.set(publicMenu.firstPart());
+          this.menuState.publicMenu.vertical$.set(publicMenu.secondPart());
+          break;
         case '6xl':
         case '7xl':
         case '8xl':
         case '9xl':
         case '10xl':
-          // this.menuState.publicMenu.horizontal$.set(publicMenu.firstPart());
-          // this.menuState.publicMenu.vertical$.set(publicMenu.secondPart());
-          // break;
           this.menuState.publicMenu.horizontal$.set(publicMenu.full());
           this.menuState.publicMenu.vertical$.set([]);
           break;
