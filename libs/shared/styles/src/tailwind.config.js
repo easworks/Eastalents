@@ -9,12 +9,13 @@ module.exports = {
     container: {
       center: true
     },
-    screens: {
-      'md': '36rem',
-      'lg': '60rem',
-      'xl': '72rem'
-    },
+    screens: ({ theme }) => theme('containers'),
     extend: {
+      containers: {
+        '8xl': '96rem',
+        '9xl': '108rem',
+        '10xl': '120rem',
+      },
       fontFamily: {
         'sans': ['Roboto', ...defaultTheme.fontFamily.sans],
         'emoji': ['Noto Color Emoji']
@@ -30,6 +31,9 @@ module.exports = {
       },
       borderColor: {
         DEFAULT: colors.slate[300]
+      },
+      borderRadius: {
+        '4xl': '2rem'
       },
       // 1. generated from https://uicolors.app/create
       colors: {

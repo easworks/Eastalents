@@ -3,5 +3,6 @@
     "lib": ["es2022"],
     "types": ["node"],
     "module": "NodeNext"
-  }
+  },
+  "include": ["./**/*.ts"]
 }

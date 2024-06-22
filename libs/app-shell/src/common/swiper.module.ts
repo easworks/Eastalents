@@ -19,7 +19,7 @@ export class SwiperDirective implements OnInit, OnChanges {
   private swiper!: Swiper;
 
   @Input() options: SwiperOptions = {};
-  @Input() modules: SwiperModuleId[] = [];
+  @Input() modules: readonly SwiperModuleId[] = [];
 
   async ngOnInit() {
     await injectModules(this.options, this.modules);
@@ -49,7 +49,7 @@ export class SwiperDirective implements OnInit, OnChanges {
 
     opts.navigation.prevEl = '.swiper-button-prev';
     opts.navigation.nextEl = '.swiper-button-next';
-  };
+  }
 
   private normalizePagination(opts: SwiperOptions) {
     if (!opts.pagination)
@@ -103,7 +103,7 @@ const moduleMap = {
 } as Record<SwiperModuleId, () => Promise<SwiperModule>>;
 
 function addCoreSwiperStyle() {
-  const mainStyleRegex = /styles(\..*)?\.css/;
+  const mainStyleRegex = /styles(-.*)?\.css/;
   const styleLinks = [] as HTMLLinkElement[];
   document.head.querySelectorAll('link').forEach(l => styleLinks.push(l));
   const mainStyleLink = styleLinks.find(l => mainStyleRegex.test(l.href));
@@ -122,7 +122,7 @@ function addCoreSwiperStyle() {
 const coreLink = addCoreSwiperStyle();
 
 
-async function injectModules(opts: SwiperOptions, modules: SwiperModuleId[]) {
+async function injectModules(opts: SwiperOptions, modules: readonly SwiperModuleId[]) {
   const styleSheets = modules.map(m => `/assets/swiper/modules/${m}.min.css`);
 
   const styleLinks = [] as HTMLLinkElement[];

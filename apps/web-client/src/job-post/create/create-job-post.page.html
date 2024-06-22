@@ -1,34 +1,40 @@
-<h1 class="font-semibold text-xl">Create New Job Post</h1>
+<h1 class="font-semibold text-xl">{{pageTitle$()}}</h1>
 <mat-divider class="!my-2"></mat-divider>
 
-<div class="mt-4 hidden xl:flex">
-  <ng-container *ngFor="let group of stepperGroups; let i = index; let first = first; let last = last;">
-    <mat-divider *ngIf="!first" class="flex-grow !mt-8"></mat-divider>
-    <button type="button" *ngrxLet="group.enabled$() as enabled"
-            class="relative grid justify-items-center rounded transition-all
-                p-2 pt-4 px-4 gap-2   
-                flex-none w-40 lg:w-60 
-                hover:enabled:bg-black/10 focus:enabled:bg-black/10"
-            [disabled]="!enabled"
-            mat-ripple [matRippleDisabled]="!enabled"
-            (click)="group.click()">
-      <mat-divider *ngIf="!first" class="absolute left-0 top-8 -z-10" style="width: calc(50% - 1.5rem);"></mat-divider>
-      <mat-divider *ngIf="!last" class="absolute right-0 top-8 -z-10" style="width: calc(50% - 1.5rem);"></mat-divider>
-      <div class="rounded-full grid place-content-center bg-divider text-white
-                w-8 h-8 leading-none"
-           [class.bg-primary-500]="enabled">
-        <div *ngIf="group.completed$(); else $stepNo">
-          <fa-icon [icon]="icons.faCheck"></fa-icon>
-        </div>
+<div class="mt-4 stepper-group-container">
+  @for(group of stepperGroups.groups; track group.label) {
+  <button type="button" *ngrxLet="group.enabled$() as enabled"
+          class="stepper-group"
+          [class.enabled]="group.enabled$()"
+          [class.current]="group.current$()"
+          [class.completed]="group.completed$()"
+          [disabled]="!enabled"
+          mat-ripple [matRippleDisabled]="!enabled"
+          (click)="group.click()">
 
-        <ng-template #$stepNo>{{i + 1}}</ng-template>
+    @if(!$first) {
+    <mat-divider class="connector left"></mat-divider>
+    }
+
+    @if(!$last) {
+    <mat-divider class="connector right"></mat-divider>
+    }
+
+    <div class="indicator">
+      @if(group.completed$()) {
+      <div>
+        <fa-icon [icon]="icons.faCheck"></fa-icon>
       </div>
-      <div class="transition-all relative text-sm"
-           [class]="group.completed$()  ? 'font-medium' : ''">
-        <span class="w-fit">{{group.label}}</span>
-      </div>
-    </button>
-  </ng-container>
+      }
+      @else {
+      {{$index + 1}}
+      }
+    </div>
+    <div class="label">
+      <span class="w-fit">{{group.label}}</span>
+    </div>
+  </button>
+  }
 </div>
 
 <div class="stepper-progress w-100 mt-4">
@@ -41,9 +47,8 @@
 <!-- Stepper container -->
 <div class="relative mt-8" *ngrxLet="stepper.step$() as step">
 
-  <div *ngIf="step === 'service-type'"
-       class="rounded border">
-    <h2 class="p-4 text-xl font-semibold">Service Type</h2>
+  <div *ngIf="step === 'job-type'" class="rounded border">
+    <h2 class="p-4 text-xl font-semibold">Job Type</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
@@ -57,27 +62,24 @@
       </label>
 
       <div class="grid gap-4 mt-4 lg:max-w-md">
-        <button *ngFor="let option of serviceType.options; let i = index; trackBy: trackBy.stringOption"
-                type="button" class="service-type-option"
-                mat-ripple
-                [class.selected]="option.selected"
-                (click)="serviceType.toggle(option)">
+        <button *ngFor="let option of jobType.options; let i = index; trackBy: trackBy.stringOption" type="button"
+                class="job-type-option" mat-ripple [class.selected]="option.selected"
+                (click)="jobType.toggle(option)">
           <div class="grid gap-1">
             {{option.label}}
           </div>
-          <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
+          <mat-pseudo-checkbox class="primary ml-auto"
+                               [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
         </button>
       </div>
     </div>
   </div>
 
-  <div *ngIf="step === 'primary-domain'"
-       class="rounded border">
+  <div *ngIf="step === 'primary-domain'" class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Enterprise Application Domain</h2>
     <mat-divider></mat-divider>
 
-    <form class="p-4" *ngrxLet="primaryDomain.form as form"
-          [formGroup]="form">
+    <form class="p-4" *ngrxLet="primaryDomain.form as form" [formGroup]="form">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
         <span class="font-medium lg:pt-1 transition-all">Please select the primary enterprise application domain</span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
@@ -88,26 +90,20 @@
         </span>
       </label>
 
-      <div *ngIf="!primaryDomain.loading$(); else $dataLoading"
-           class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+      <div *ngIf="!primaryDomain.loading$(); else $dataLoading" class="mt-4 grid gap-2"
+           style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
         <ng-container *ngFor="let domain of primaryDomain.options$(); trackBy: trackBy.domainOption">
-          <div class="primary-domain-option"
-               *ngrxLet="primaryDomain.stopInput$() && !domain.selected as disabled"
-               [class.disabled]="disabled"
-               [class.selected]="domain.selected">
+          <div class="primary-domain-option" *ngrxLet="primaryDomain.stopInput$() && !domain.selected as disabled"
+               [class.disabled]="disabled" [class.selected]="domain.selected">
             <label class="flex flex-grow cursor-pointer">
-              <mat-checkbox class="primary"
-                            [ngModel]="domain.selected"
-                            [ngModelOptions]="{ standalone: true }"
-                            [disabled]="disabled"
-                            (ngModelChange)="primaryDomain.toggle(domain)">
+              <mat-checkbox class="primary" [ngModel]="domain.selected" [ngModelOptions]="{ standalone: true }"
+                            [disabled]="disabled" (ngModelChange)="primaryDomain.toggle(domain)">
               </mat-checkbox>
               <div class="flex-grow p-2">{{domain.label}}</div>
             </label>
-            <div *ngIf="domain.selected && form.controls.years as control"
-                 [formFieldControl]="control" class="px-2">
-              <input type="number" [formControl]="control" placeholder="Years of Experience *"
-                     min="1" max="30" maxlength="2">
+            <div *ngIf="domain.selected && form.controls.years as control" [formFieldControl]="control" class="px-2">
+              <input type="number" [formControl]="control" placeholder="Years of Experience *" min="1" max="30"
+                     maxlength="2">
               <span class="error">1-30</span>
               <span class="hint">1-30</span>
             </div>
@@ -117,21 +113,20 @@
     </form>
   </div>
 
-  <div *ngIf="step === 'services'"
-       class="rounded border">
+  <div *ngIf="step === 'services'" class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Expertise in {{services.stepLabel$()}} Services</h2>
     <mat-divider></mat-divider>
     <ng-container *ngIf="services.$() as services$">
       <form class="p-4">
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all">Please specify the areas of expertise you require within <span class="text-primary-500">{{services.stepLabel$()}}</span></span>
+          <span class="font-medium lg:pt-1 transition-all">Please specify the areas of expertise you require within
+            <span class="text-primary-500">{{services.stepLabel$()}}</span></span>
           <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
             <span class="flex gap-1 items-center">
               <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
               <span>Select upto 7</span>
             </span>
-            <span *ngrxLet="services$.count$() as count"
-                  class="selection-counter" [class.selected]="count > 0">
+            <span *ngrxLet="services$.count$() as count" class="selection-counter" [class.selected]="count > 0">
               {{count}} selected
             </span>
           </span>
@@ -139,16 +134,11 @@
 
         <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
           <ng-container *ngFor="let service of services$.options; trackBy: trackBy.stringOption">
-            <div *ngrxLet="services$.stopInput$() && !service.selected as disabled"
-                 class="service-option"
-                 [class.selected]="service.selected"
-                 [class.disabled]="disabled">
+            <div *ngrxLet="services$.stopInput$() && !service.selected as disabled" class="service-option"
+                 [class.selected]="service.selected" [class.disabled]="disabled">
               <label class="flex cursor-pointer flex-grow">
-                <mat-checkbox class="primary"
-                              [ngModel]="service.selected"
-                              [ngModelOptions]="{ standalone: true }"
-                              [disabled]="disabled"
-                              (ngModelChange)="services$.toggle(service)">
+                <mat-checkbox class="primary" [ngModel]="service.selected" [ngModelOptions]="{ standalone: true }"
+                              [disabled]="disabled" (ngModelChange)="services$.toggle(service)">
                 </mat-checkbox>
                 <div class="flex-grow p-2">{{service.label}}</div>
               </label>
@@ -160,21 +150,20 @@
 
   </div>
 
-  <div *ngIf="step === 'modules'"
-       class="rounded border">
+  <div *ngIf="step === 'modules'" class="rounded border">
     <h2 class="p-4 text-xl font-semibold">{{modules.stepLabel$()}} Modules Expertise</h2>
     <mat-divider></mat-divider>
     <ng-container *ngIf="modules.$() as modules$">
       <form class="p-4">
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all">Indicate the <span class="text-primary-500">{{modules.stepLabel$()}}</span> modules you require proficiency in</span>
+          <span class="font-medium lg:pt-1 transition-all">Indicate the <span
+                  class="text-primary-500">{{modules.stepLabel$()}}</span> modules you require proficiency in</span>
           <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
             <span class="flex gap-1 items-center">
               <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
               <span>Select up to 7</span>
             </span>
-            <span *ngrxLet="modules$.count$() as count"
-                  class="selection-counter" [class.selected]="count > 0">
+            <span *ngrxLet="modules$.count$() as count" class="selection-counter" [class.selected]="count > 0">
               {{count}} selected
             </span>
           </span>
@@ -182,16 +171,11 @@
 
         <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
           <ng-container *ngFor="let module of modules$.options; trackBy: trackBy.moduleOption">
-            <div *ngrxLet="modules$.stopInput$() && !module.selected as disabled"
-                 class="module-option"
-                 [class.selected]="module.selected"
-                 [class.disabled]="disabled">
+            <div *ngrxLet="modules$.stopInput$() && !module.selected as disabled" class="module-option"
+                 [class.selected]="module.selected" [class.disabled]="disabled">
               <label class="flex cursor-pointer flex-grow">
-                <mat-checkbox class="primary"
-                              [ngModel]="module.selected"
-                              [ngModelOptions]="{ standalone: true }"
-                              [disabled]="disabled"
-                              (ngModelChange)="modules$.toggle(module)">
+                <mat-checkbox class="primary" [ngModel]="module.selected" [ngModelOptions]="{ standalone: true }"
+                              [disabled]="disabled" (ngModelChange)="modules$.toggle(module)">
                 </mat-checkbox>
                 <div class="flex-grow p-2">{{module.label}}</div>
               </label>
@@ -202,22 +186,21 @@
     </ng-container>
   </div>
 
-  <div *ngIf="step === 'roles'"
-       class="rounded border">
+  <div *ngIf="step === 'roles'" class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Required {{roles.stepLabel$()}} Roles</h2>
     <mat-divider></mat-divider>
 
     <ng-container *ngIf="roles.$() as roles$">
       <form class="p-4">
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all">Please select the <span class="text-primary-500">{{roles.stepLabel$()}}</span> role(s) you are hiring for</span>
+          <span class="font-medium lg:pt-1 transition-all">Please select the <span
+                  class="text-primary-500">{{roles.stepLabel$()}}</span> role(s) you are hiring for</span>
           <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
             <span class="flex gap-1 items-center">
               <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
               <span>Select up to {{roles$.limit}}</span>
             </span>
-            <span *ngrxLet="roles$.count$() as count"
-                  class="selection-counter" [class.selected]="count > 0">
+            <span *ngrxLet="roles$.count$() as count" class="selection-counter" [class.selected]="count > 0">
               {{count}} selected
             </span>
           </span>
@@ -225,16 +208,11 @@
 
         <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
           <ng-container *ngFor="let role of roles$.options; trackBy: trackBy.stringOption">
-            <div *ngrxLet="roles$.stopInput$() && !role.selected as disabled"
-                 class="role-option"
-                 [class.selected]="role.selected"
-                 [class.disabled]="disabled">
+            <div *ngrxLet="roles$.stopInput$() && !role.selected as disabled" class="role-option"
+                 [class.selected]="role.selected" [class.disabled]="disabled">
               <label class="flex cursor-pointer flex-grow">
-                <mat-checkbox class="primary"
-                              [ngModel]="role.selected"
-                              [ngModelOptions]="{ standalone: true }"
-                              [disabled]="disabled"
-                              (ngModelChange)="roles$.toggle(role)">
+                <mat-checkbox class="primary" [ngModel]="role.selected" [ngModelOptions]="{ standalone: true }"
+                              [disabled]="disabled" (ngModelChange)="roles$.toggle(role)">
                 </mat-checkbox>
                 <div class="flex-grow p-2">{{role.label}}</div>
               </label>
@@ -245,8 +223,7 @@
     </ng-container>
   </div>
 
-  <div *ngIf="step === 'experience'"
-       class="rounded border">
+  <div *ngIf="step === 'experience'" class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Experience required in {{experience.stepLabel$()}}</h2>
     <mat-divider></mat-divider>
     <ng-container *ngIf="experience.$() as experience$">
@@ -254,24 +231,20 @@
         <ng-container *ngFor="let role of experience$.roles; let last = last">
           <div class="p-4" *ngrxLet="form.controls[role] as form">
             <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-              <span class="font-medium lg:pt-1 transition-all">Please indicate the requirements for the <span class="text-primary-500">{{role}}</span> role</span>
+              <span class="font-medium lg:pt-1 transition-all">Please indicate the requirements for the <span
+                      class="text-primary-500">{{role}}</span> role</span>
             </label>
 
             <div class="mt-4">
               <div class="grid gap-4 grid-cols-2">
-                <div *ngrxLet="form.controls.quantity as control"
-                     [formFieldControl]="control">
+                <div *ngrxLet="form.controls.quantity as control" [formFieldControl]="control">
                   <label>Quantity</label>
-                  <input type="number" [formControl]="control" min="1"
-                         [readOnly]="experience$.individual">
+                  <input type="number" [formControl]="control" min="1" [readOnly]="experience$.individual">
                 </div>
 
-                <div *ngrxLet="form.controls.years as control"
-                     [formFieldControl]="control">
+                <div *ngrxLet="form.controls.years as control" [formFieldControl]="control">
                   <label>Years</label>
-                  <input type="number" [formControl]="control"
-                         min="1" max="30"
-                         placeholder="Years of Experience">
+                  <input type="number" [formControl]="control" min="1" max="30" placeholder="Years of Experience">
                 </div>
               </div>
 
@@ -280,43 +253,36 @@
                   <span class="font-medium lg:pt-1 transition-all">Software</span>
                   <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
                     <span>Select 1 - 5</span>
-                    <span *ngrxLet="software$.count$() as count"
-                          class="selection-counter" [class.selected]="count > 0">
+                    <span *ngrxLet="software$.count$() as count" class="selection-counter" [class.selected]="count > 0">
                       {{count}} selected
                     </span>
                   </span>
                 </label>
 
                 <ng-container>
-                  <div *ngIf="software$.count$() > 0"
-                       class="mt-2 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
+                  <div *ngIf="software$.count$() > 0" class="mt-2 grid gap-2"
+                       style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
                     <div *ngFor="let option of software$.value$(); let i = index; trackBy: trackBy.softwareOption"
                          class="software-option">
                       <span>{{option.label}}</span>
-                      <button type="button" mat-ripple class="icon-button"
-                              (click)="software$.remove(i)"
-                              title="Remove">
+                      <button type="button" mat-ripple class="icon-button" (click)="software$.remove(i)" title="Remove">
                         <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
                       </button>
                     </div>
                   </div>
                 </ng-container>
 
-                <div *ngIf="!software$.stopInput$()"
-                     class="mt-4">
+                <div *ngIf="!software$.stopInput$()" class="mt-4">
                   <div class="form-field mb-0">
-                    <input type="text" placeholder="Type to filter"
-                           [ngModel]="software$.query$()"
-                           [ngModelOptions]="{ standalone: true }"
-                           (ngModelChange)="software$.query$.set($event)"
+                    <input type="text" placeholder="Type to filter" [ngModel]="software$.query$()"
+                           [ngModelOptions]="{ standalone: true }" (ngModelChange)="software$.query$.set($event)"
                            [matAutocomplete]="softwareOptions">
                     <span class="hint !relative">Selected items will be removed from suggestions.</span>
                   </div>
 
                   <mat-autocomplete #softwareOptions class="!p-0">
                     <mat-option *ngFor="let option of software$.options$(); trackBy: trackBy.softwareOption"
-                                [value]="software$.query$()"
-                                (onSelectionChange)="software$.add(option);">
+                                [value]="software$.query$()" (onSelectionChange)="software$.add(option);">
                       {{option.label}}
                     </mat-option>
                   </mat-autocomplete>
@@ -331,34 +297,30 @@
     </ng-container>
   </div>
 
-  <div *ngIf="step === 'technology-stack'"
-       class="rounded border">
+  <div *ngIf="step === 'technology-stack'" class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Describe required Technical Experience</h2>
     <mat-divider></mat-divider>
 
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Choose the technology stack expertise in <span class="text-primary-500">{{techExp.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Choose the technology stack expertise in <span
+                class="text-primary-500">{{techExp.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
-          <span *ngrxLet="techExp.count$() as count"
-                class="selection-counter" [class.selected]="count > 0">
+          <span *ngrxLet="techExp.count$() as count" class="selection-counter" [class.selected]="count > 0">
             {{count}} selected
           </span>
         </span>
       </label>
 
       <ng-container *ngIf="!techExp.loading$(); else $dataLoading">
-        <div *ngIf="techExp.count$() > 0"
-             class="grid gap-4 mt-4">
+        <div *ngIf="techExp.count$() > 0" class="grid gap-4 mt-4">
           <div *ngFor="let entry of techExp.value$() | keyvalue; trackBy: trackBy.key">
             <label class="font-medium">{{entry.key}}</label>
             <!-- <div class="mt-2 flex flex-wrap gap-2"> -->
             <div class="mt-2 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-              <div *ngFor="let option of entry.value; let i = index; trackBy: trackBy.stringOption"
-                   class="tech-option">
+              <div *ngFor="let option of entry.value; let i = index; trackBy: trackBy.stringOption" class="tech-option">
                 <span>{{option.value}}</span>
-                <button type="button" mat-ripple class="icon-button"
-                        (click)="techExp.remove(entry.key, i)"
+                <button type="button" mat-ripple class="icon-button" (click)="techExp.remove(entry.key, i)"
                         title="Remove">
                   <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
                 </button>
@@ -369,19 +331,17 @@
 
         <div *ngIf="!techExp.stopInput$()" class="mt-6">
           <div class="form-field mb-0">
-            <input type="text" placeholder="Type to filter"
-                   [ngModel]="techExp.query$()"
-                   (ngModelChange)="techExp.query$.set($event)"
-                   [matAutocomplete]="techOptions">
-            <span class="hint !relative">If the query matches a category, all items in the category will be shown, otherwise only matching items will be shown.</span>
+            <input type="text" placeholder="Type to filter" [ngModel]="techExp.query$()"
+                   (ngModelChange)="techExp.query$.set($event)" [matAutocomplete]="techOptions">
+            <span class="hint !relative">If the query matches a category, all items in the category will be shown,
+              otherwise only matching items will be shown.</span>
             <span class="hint !relative">Selected items will be removed from suggestions.</span>
           </div>
 
           <mat-autocomplete #techOptions class="!p-0">
             <ng-container *ngFor="let group of techExp.options$(); let last = last; trackBy: trackBy.name">
               <mat-optgroup [label]="group.name" class="block pt-2">
-                <mat-option *ngFor="let option of group.tech; trackBy: trackBy.stringOption"
-                            [value]="techExp.query$()"
+                <mat-option *ngFor="let option of group.tech; trackBy: trackBy.stringOption" [value]="techExp.query$()"
                             (onSelectionChange)="techExp.add(group.name, option);">
                   {{option.label}}
                 </mat-option>
@@ -394,29 +354,27 @@
     </div>
   </div>
 
-  <div *ngIf="step === 'industry'"
-       class="rounded border">
+  <div *ngIf="step === 'industry'" class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Industry Experience</h2>
     <mat-divider></mat-divider>
 
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Specify required industry-specific experience in <span class="text-primary-500">{{industries.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Specify required industry-specific experience in <span
+                class="text-primary-500">{{industries.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
             <span>Select upto 5</span>
           </span>
-          <span *ngrxLet="industries.count$() as count"
-                class="selection-counter" [class.selected]="count > 0">
+          <span *ngrxLet="industries.count$() as count" class="selection-counter" [class.selected]="count > 0">
             {{count}} selected
           </span>
         </span>
       </label>
 
       <ng-container *ngIf="!industries.loading$(); else $dataLoading">
-        <div *ngIf="industries.count$() > 0"
-             class="grid gap-4 mt-4">
+        <div *ngIf="industries.count$() > 0" class="grid gap-4 mt-4">
           <div *ngFor="let entry of industries.value$() | keyvalue; trackBy: trackBy.key">
             <label class="font-medium">{{entry.key}}</label>
             <!-- <div class="mt-2 flex flex-wrap gap-2"> -->
@@ -424,8 +382,7 @@
               <div *ngFor="let option of entry.value; let i = index; trackBy: trackBy.stringOption"
                    class="industry-option">
                 <span>{{option.value}}</span>
-                <button type="button" mat-ripple class="icon-button"
-                        (click)="industries.remove(entry.key, i)"
+                <button type="button" mat-ripple class="icon-button" (click)="industries.remove(entry.key, i)"
                         title="Remove">
                   <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
                 </button>
@@ -436,11 +393,10 @@
 
         <div *ngIf="!industries.stopInput$()" class="mt-6">
           <div class="form-field mb-0">
-            <input type="text" placeholder="Type to filter"
-                   [ngModel]="industries.query$()"
-                   (ngModelChange)="industries.query$.set($event)"
-                   [matAutocomplete]="industryOptions">
-            <span class="hint !relative">If the query matches a category, all items in the category will be shown, otherwise only matching items will be shown.</span>
+            <input type="text" placeholder="Type to filter" [ngModel]="industries.query$()"
+                   (ngModelChange)="industries.query$.set($event)" [matAutocomplete]="industryOptions">
+            <span class="hint !relative">If the query matches a category, all items in the category will be shown,
+              otherwise only matching items will be shown.</span>
             <span class="hint !relative">Selected items will be removed from suggestions.</span>
           </div>
 
@@ -448,8 +404,7 @@
             <ng-container *ngFor="let group of industries.options$(); let last = last; trackBy: trackBy.name">
               <mat-optgroup [label]="group.name" class="block pt-2">
                 <mat-option *ngFor="let option of group.industries; trackBy: trackBy.stringOption"
-                            [value]="industries.query$()"
-                            (onSelectionChange)="industries.add(group.name, option);">
+                            [value]="industries.query$()" (onSelectionChange)="industries.add(group.name, option);">
                   {{option.label}}
                 </mat-option>
               </mat-optgroup>
@@ -461,48 +416,59 @@
     </div>
   </div>
 
-  <div *ngIf="step === 'description'"
-       class="rounded border">
+  <div *ngIf="step === 'description'" class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Job Description</h2>
     <mat-divider></mat-divider>
 
-    <div *ngIf="description.generating$(); else $descriptionGenerated"
-         class="mt-4 p-4 grid gap-4 justify-items-center">
+    @if(description.generating$()) {
+    <div class="mt-4 p-4 grid gap-4 justify-items-center">
       <p> Generating description. Please wait... </p>
       <mat-progress-spinner mode="indeterminate" diameter="32"></mat-progress-spinner>
     </div>
-
-    <ng-template #$descriptionGenerated>
-      <form class="p-4" *ngrxLet="description.form as form"
-            [formGroup]="form">
-        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all">Provide a comprehensive job description for <span class="text-primary-500">{{description.stepLabel$()}}</span></span>
+    }
+    @else {
+    <form class="p-4" *ngrxLet="description.form as form" [formGroup]="form">
+      <div class="flex gap-4 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
+        <label>
+          <span class="font-medium lg:pt-1 transition-all">
+            Provide a comprehensive job description for
+            <span class="text-primary-500">{{description.stepLabel$()}}</span>
+          </span>
         </label>
 
-        <div *ngrxLet="form.controls.description as control"
-             [formFieldControl]="control">
-          <div class="field field-interactive mt-2">
-            <textarea [formControl]="control"
-                      cdkTextareaAutosize
-                      placeholder="Description *"
-                      class="resize-none max-h-[75vh]"></textarea>
-          </div>
+        @if (mode$() === 'edit') {
+        <button type="button" class="stroked-button flex gap-2 items-center max-w-max" mat-ripple
+                [disabled]="description.disableGeneration$()"
+                (click)="description.generateDescription()">
+          <span>Generate</span>
+          <mat-divider vertical></mat-divider>
+          <fa-icon [icon]="icons.faMagicWandSparkles"></fa-icon>
+        </button>
+        }
 
-          <span class="error" *ngIf="control.hasError('required')">Required</span>
-          <span class="error" *ngIf="control.hasError('maxlength')">{{control.value.length || 0}}/1500</span>
-          <span class="hint">{{control.value.length || 0}}/4000</span>
+      </div>
+
+      <div *ngrxLet="form.controls.description as control" [formFieldControl]="control">
+        <div class="field field-interactive mt-4">
+          <textarea [formControl]="control" cdkTextareaAutosize placeholder="Description *"
+                    class="resize-none max-h-[75vh]"></textarea>
         </div>
-      </form>
-    </ng-template>
+
+        <span class="error" *ngIf="control.hasError('required')">Required</span>
+        <span class="error" *ngIf="control.hasError('maxlength')">{{control.value.length || 0}}/1500</span>
+        <span class="hint">{{control.value.length || 0}}/4000</span>
+      </div>
+    </form>
+    }
   </div>
 
-  <div *ngIf="step === 'project-type'"
-       class="rounded border">
+  <div *ngIf="step === 'project-type'" class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Project Type</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
-        <span class="font-medium lg:pt-1 transition-all"><span class="text-primary-500">{{projectType.stepLabel$()}}</span> Project Type</span>
+        <span class="font-medium lg:pt-1 transition-all"><span
+                class="text-primary-500">{{projectType.stepLabel$()}}</span> Project Type</span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -512,27 +478,26 @@
       </label>
 
       <div class="grid gap-4 mt-4 lg:max-w-md">
-        <button *ngFor="let option of projectType.options; let i = index; trackBy: trackBy.stringOption"
-                type="button" class="project-type-option"
-                mat-ripple
-                [class.selected]="option.selected"
+        <button *ngFor="let option of projectType.options; let i = index; trackBy: trackBy.stringOption" type="button"
+                class="project-type-option" mat-ripple [class.selected]="option.selected"
                 (click)="projectType.toggle(option)">
           <div class="grid gap-1">
             {{option.label}}
           </div>
-          <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
+          <mat-pseudo-checkbox class="primary ml-auto"
+                               [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
         </button>
       </div>
     </div>
   </div>
 
-  <div *ngIf="step === 'required-experience'"
-       class="rounded border">
+  <div *ngIf="step === 'required-experience'" class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Required Experience</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Level of Experience needed for <span class="text-primary-500">{{requiredExp.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Level of Experience needed for <span
+                class="text-primary-500">{{requiredExp.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -542,27 +507,26 @@
       </label>
 
       <div class="grid gap-4 mt-4 lg:max-w-md">
-        <button *ngFor="let option of requiredExp.options; let i = index; trackBy: trackBy.stringOption"
-                type="button" class="required-exp-option"
-                mat-ripple
-                [class.selected]="option.selected"
+        <button *ngFor="let option of requiredExp.options; let i = index; trackBy: trackBy.stringOption" type="button"
+                class="required-exp-option" mat-ripple [class.selected]="option.selected"
                 (click)="requiredExp.toggle(option)">
           <div class="grid gap-1">
             {{option.label}}
           </div>
-          <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
+          <mat-pseudo-checkbox class="primary ml-auto"
+                               [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
         </button>
       </div>
     </div>
   </div>
 
-  <div *ngIf="step === 'weekly-commitment'"
-       class="rounded border">
+  <div *ngIf="step === 'weekly-commitment'" class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Weekly Commitment</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Estimated no. of hours per week needed from <span class="text-primary-500">{{weeklyCommitment.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Estimated no. of hours per week needed from <span
+                class="text-primary-500">{{weeklyCommitment.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -573,26 +537,25 @@
 
       <div class="grid gap-4 mt-4 lg:max-w-md">
         <button *ngFor="let option of weeklyCommitment.options; let i = index; trackBy: trackBy.stringOption"
-                type="button" class="weekly-commitment-option"
-                mat-ripple
-                [class.selected]="option.selected"
+                type="button" class="weekly-commitment-option" mat-ripple [class.selected]="option.selected"
                 (click)="weeklyCommitment.toggle(option)">
           <div class="grid gap-1">
             {{option.label}}
           </div>
-          <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
+          <mat-pseudo-checkbox class="primary ml-auto"
+                               [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
         </button>
       </div>
     </div>
   </div>
 
-  <div *ngIf="step === 'engagement-period'"
-       class="rounded border">
+  <div *ngIf="step === 'engagement-period'" class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Engagement Period</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Engagement Period for <span class="text-primary-500">{{engagementPeriod.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Engagement Period for <span
+                class="text-primary-500">{{engagementPeriod.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -603,26 +566,25 @@
 
       <div class="grid gap-4 mt-4 lg:max-w-md">
         <button *ngFor="let option of engagementPeriod.options; let i = index; trackBy: trackBy.stringOption"
-                type="button" class="engagement-period-option"
-                mat-ripple
-                [class.selected]="option.selected"
+                type="button" class="engagement-period-option" mat-ripple [class.selected]="option.selected"
                 (click)="engagementPeriod.toggle(option)">
           <div class="grid gap-1">
             {{option.label}}
           </div>
-          <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
+          <mat-pseudo-checkbox class="primary ml-auto"
+                               [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
         </button>
       </div>
     </div>
   </div>
 
-  <div *ngIf="step === 'hourly-budget'"
-       class="rounded border">
+  <div *ngIf="step === 'hourly-budget'" class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Hourly Budget</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Estimated hourly budget for <span class="text-primary-500">{{hourlyBudget.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Estimated hourly budget for <span
+                class="text-primary-500">{{hourlyBudget.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -632,27 +594,26 @@
       </label>
 
       <div class="grid gap-4 mt-4 lg:max-w-md">
-        <button *ngFor="let option of hourlyBudget.options; let i = index; trackBy: trackBy.stringOption"
-                type="button" class="hourly-budget-option"
-                mat-ripple
-                [class.selected]="option.selected"
+        <button *ngFor="let option of hourlyBudget.options; let i = index; trackBy: trackBy.stringOption" type="button"
+                class="hourly-budget-option" mat-ripple [class.selected]="option.selected"
                 (click)="hourlyBudget.toggle(option)">
           <div class="grid gap-1">
             {{option.label}}
           </div>
-          <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
+          <mat-pseudo-checkbox class="primary ml-auto"
+                               [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
         </button>
       </div>
     </div>
   </div>
 
-  <div *ngIf="step === 'project-kickoff-timeline'"
-       class="rounded border">
+  <div *ngIf="step === 'project-kickoff-timeline'" class="rounded border">
     <h2 class="p-4 text-xl font-semibold">Project Kickoff</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Please specify the tentative starting timeline for <span class="text-primary-500">{{projectKickoffTimeline.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Please specify the tentative starting timeline for <span
+                class="text-primary-500">{{projectKickoffTimeline.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -663,26 +624,25 @@
 
       <div class="grid gap-4 mt-4 lg:max-w-md">
         <button *ngFor="let option of projectKickoffTimeline.options; let i = index; trackBy: trackBy.stringOption"
-                type="button" class="project-kickoff-timeline-option"
-                mat-ripple
-                [class.selected]="option.selected"
+                type="button" class="project-kickoff-timeline-option" mat-ripple [class.selected]="option.selected"
                 (click)="projectKickoffTimeline.toggle(option)">
           <div class="grid gap-1">
             {{option.label}}
           </div>
-          <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
+          <mat-pseudo-checkbox class="primary ml-auto"
+                               [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
         </button>
       </div>
     </div>
   </div>
 
-  <div *ngIf="step === 'remote-work'"
-       class="rounded border">
-    <h2 class="p-4 text-xl font-semibold">Remote Work</h2>
+  <div *ngIf="step === 'work-environment'" class="rounded border">
+    <h2 class="p-4 text-xl font-semibold">Work Environment</h2>
     <mat-divider></mat-divider>
     <div class="p-4">
       <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-center transition-all">
-        <span class="font-medium lg:pt-1 transition-all">Remote Work for <span class="text-primary-500">{{remoteWork.stepLabel$()}}</span></span>
+        <span class="font-medium lg:pt-1 transition-all">Work environment for <span
+                class="text-primary-500">{{environment.stepLabel$()}}</span></span>
         <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
           <span class="flex gap-1 items-center">
             <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
@@ -692,15 +652,13 @@
       </label>
 
       <div class="grid gap-4 mt-4 lg:max-w-md">
-        <button *ngFor="let option of remoteWork.options; let i = index; trackBy: trackBy.stringOption"
-                type="button" class="remote-work-option"
-                mat-ripple
-                [class.selected]="option.selected"
-                (click)="remoteWork.toggle(option)">
+        <button *ngFor="let option of environment.options; let i = index; trackBy: trackBy.stringOption" type="button"
+                class="work-environment-option" mat-ripple [class.selected]="option.selected" (click)="environment.toggle(option)">
           <div class="grid gap-1">
             {{option.label}}
           </div>
-          <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
+          <mat-pseudo-checkbox class="primary ml-auto"
+                               [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
         </button>
       </div>
     </div>
@@ -708,32 +666,27 @@
 </div>
 
 <!-- Button Container -->
-<div class="flex mt-4">
-  <button *ngIf="stepper.prev.visible$()" mat-ripple
-          type="button" class="shaded-button secondary mr-auto"
-          (click)="this.stepper.prev.click()">
+<div class="flex mt-4 gap-4">
+  @if (stepper.prev.visible$()) {
+  <button mat-ripple type="button" class="shaded-button secondary mr-auto" (click)="this.stepper.prev.click()">
     Previous
   </button>
+  }
 
-  <ng-container *ngIf="stepper.next.visible$()">
-    <button *ngrxLet="stepper.next.disabled$() as disabled"
-            type="button" class="shaded-button secondary ml-auto"
-            mat-ripple
-            [disabled]="disabled"
-            (click)="this.stepper.next.click()">
-      Next
-    </button>
-  </ng-container>
+  @if (stepper.next.visible$()) {
+  <button *ngrxLet="stepper.next.disabled$() as disabled" type="button" class="shaded-button secondary ml-auto"
+          mat-ripple [disabled]="disabled" (click)="this.stepper.next.click()">
+    Next
+  </button>
+  }
 
-  <ng-container *ngIf="stepper.submit.visible$()">
-    <button *ngrxLet="stepper.submit.disabled$() as disabled"
-            type="button" class="shaded-button primary ml-auto mat-elevation-z1 disabled:shadow-none"
-            mat-ripple
-            [disabled]="disabled"
-            (click)="this.stepper.submit.click()">
-      Submit
-    </button>
-  </ng-container>
+  @if (stepper.submit.visible$()) {
+  <button *ngrxLet="stepper.submit.disabled$() as disabled" type="button"
+          class="shaded-button primary mat-elevation-z1 disabled:shadow-none" mat-ripple [disabled]="disabled"
+          (click)="this.stepper.submit.click()">
+    Submit
+  </button>
+  }
 </div>
 
 <ng-template #$dataLoading>
