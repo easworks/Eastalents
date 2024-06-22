@@ -1,14 +1,14 @@
 import { BuildResult, Plugin } from 'esbuild';
 import * as path from 'path';
-import { extensionlessImportsPlugin } from './extensionless-imports.plugin';
+import extensionlessImportsPlugin from './extensionless-imports.plugin';
 
 export interface ShimOptions {
   replace: string;
   with: string;
 }
 
-export function shimPlugin(options: ShimOptions) {
-  const pluginName = 'shimPlugin';
+export default function shimPlugin(options: ShimOptions) {
+  const pluginName = 'shim-plugin';
   const plugin: Plugin = {
     name: pluginName,
     setup: build => {

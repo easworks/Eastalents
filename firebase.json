@@ -1,7 +1,7 @@
 {
   "hosting": {
     "site": "pi-temp-0001",
-    "public": "dist/apps/web-client",
+    "public": "dist/apps/web-client/browser",
     "ignore": [],
     "rewrites": [
       {
