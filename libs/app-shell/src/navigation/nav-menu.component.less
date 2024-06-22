@@ -1,0 +1,21 @@
+.public-menu {
+  li.has-submenu {
+    > a {
+      > fa-icon {
+        @apply transition-all;
+      }
+    }
+
+    &.open {
+      > a {
+        > fa-icon {
+          @apply rotate-180;
+        }
+      }
+      ul {
+        @apply block;
+      }
+    }
+  }
+}
+

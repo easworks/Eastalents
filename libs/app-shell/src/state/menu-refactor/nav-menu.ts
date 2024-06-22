@@ -1,40 +1,29 @@
-import type { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { createActionGroup, createFeature, createReducer, on, props } from '@ngrx/store';
-
-export const navMenuActions = createActionGroup({
-  source: 'navMenu',
-  events: {
-    'update vertical items': props<{ items: MenuItem[]; }>()
-  }
-});
+import { Injectable, signal } from '@angular/core';
+import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 export interface MenuItem {
   id: string;
   text: string;
-  link: string;
-  fragment?: string;
-  icon?: IconProp;
-  permission?: string;
-  parent?: string;
+  link: string;  
+  fragment?: string; 
+  icon?: IconDefinition; // TODO: change this back to icon prop
+  permission?: string;  
+  parent?: string;  // reference to parent for a link not required for now
+  children?: MenuItem[];
 }
 
-export interface NavMenuState {
-  horizontal: MenuItem[];
-  vertical: MenuItem[];
+export const NOOP_CLICK = 'javascript:void(0)' as const;
+
+export type MenuMode = 'horizontal' | 'vertical';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class NavMenuState {
+  readonly publicMenu = {
+    horizontal$: signal<MenuItem[]>([]),
+    vertical$: signal<MenuItem[]>([])
+  } as const;
+
+  readonly brandLinks$ = signal<MenuItem[]>([]);
 }
-
-export const navMenuFeature = createFeature({
-  name: 'navMenu',
-  reducer: createReducer<NavMenuState>(
-    {
-      horizontal: [],
-      vertical: []
-    },
-
-    on(navMenuActions.updateVerticalItems, (state, { items }) => {
-      state = { ...state };
-      state.vertical = items;
-      return state;
-    })
-  )
-});
