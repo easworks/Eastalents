@@ -1,7 +1,6 @@
 import { Plugin } from 'esbuild';
 import * as path from 'path';
-// @ts-expect-error
-import * as resolveConfig from 'tailwindcss/resolveConfig';
+import resolveConfig from 'tailwindcss/resolveConfig';
 
 interface Options {
   configPath: string;
