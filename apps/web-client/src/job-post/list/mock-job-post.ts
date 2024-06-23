@@ -83,7 +83,7 @@ export const mockJobPost: JobPost[] = [
             "commitment": "20 - 30 hrs",
             "engagementPeriod": "2 - 4 weeks",
             "experience": "Individual Contributor",
-            "hourlyBudget": "Less than $50",
+            "hourlyBudget": "$51 - $80",
             "projectKickoff": "Immediately",
             "environment": "Remote"
         },

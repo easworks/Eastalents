@@ -1,5 +1,71 @@
-<div class="group relative overflow-hidden bg-white shadow hover:shadow-md rounded-md h-fit">
-  <div class="p-6">
+<div class="overflow-hidden bg-white rounded-md
+    shadow hover:shadow-md
+    @container">
+  <div class="flex">
+    <div class="flex-grow px-4 mt-4">
+      <label class="font-bold text-lg leading-tight">{{title$()}}</label>
+      <div class="text-xs mt-1 text-gray-500">Posted on: {{"\<date>"}}</div>
+    </div>
+    <button class="icon-button flex-none mt-2 mr-2">
+      <fa-icon [icon]="icons.faBookmark"></fa-icon>
+    </button>
+  </div>
+
+  <div class="mt-4 flex items-center gap-2 px-4 flex-wrap">
+    <span class="bg-primary-500/10 text-primary-400 text-xs px-3 py-1 font-semibold rounded-full">
+      {{post$().requirements.environment}}
+    </span>
+    <span class="bg-gray-500/10 text-gray-500 text-xs px-3 py-1 font-semibold rounded-full">
+      {{post$().requirements.engagementPeriod}}
+    </span>
+    <span class="bg-gray-500/10 text-gray-500 text-xs px-3 py-1 font-semibold rounded-full">
+      {{post$().requirements.commitment}} per week
+    </span>
+  </div>
+
+  <div class="mt-4 px-4 text-sm
+        flex flex-col gap-4">
+    <div>
+      <div class="line-clamp-3 text-ellipsis transition-all"
+           [class.line-clamp-none]="description.expanded.$()">
+        {{description.$()}}
+      </div>
+      <button class="highlight-button mt-2 ml-auto text-xs p-1 px-3 rounded-full"
+              mat-ripple
+              (click)="description.expanded.toggle()">
+        @if(description.expanded.$()) {
+        Less
+        }
+        @else {
+        More
+        }
+      </button>
+    </div>
+
+    <div class="flex-none grid gap-2 content-start w-full">
+      <button class="flex-none stroked-button primary rounded-md p-1 px-3 text-sm
+        w-full"
+              mat-ripple>
+        Apply Now
+      </button>
+      {{post$().requirements.hourlyBudget}} per hour
+      <div class="text-sm text-gray-400">{{applicants$()}} applicants</div>
+    </div>
+
+
+  </div>
+
+
+  <div class="my-4 px-4 flex flex-wrap gap-2 items-center">
+    @for(tag of tags$(); track tag){
+    <span class="bg-slate-100 inline-block text-slate-900 
+      text-xs px-3 py-1 font-medium rounded-full">
+      {{tag}}
+    </span>
+    }
+  </div>
+
+  <!-- <div class="p-6">
     <div class="flex items-center">
       <div>
         <a class="inline-block text-[16px] font-semibold hover:text-primary-600 me-1"
@@ -34,6 +100,6 @@
   <div class="px-6 py-2 bg-slate-50 lg:flex justify-end items-center">
     <a class="btn btn-sm rounded-md border-primary-600 hover:border-primary-700 text-primary-500 md:ms-2 w-full lg:w-auto lg:mt-0 mt-4 py-1 px-3"
       routerLink="../view" [queryParams]="{ id: cardData.id}">Apply Now</a>
-  </div>
+  </div> -->
 
 </div>
