@@ -11,6 +11,7 @@ import { FormImportsModule } from '@easworks/app-shell/common/form.imports.modul
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { JobPost } from '@easworks/models';
 import { ListCardPageComponent } from '../list-card/list-card.page';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
     selector: 'employer-list-job-post',
@@ -29,7 +30,8 @@ import { ListCardPageComponent } from '../list-card/list-card.page';
         MatExpansionModule,
         RouterModule,
         MatTooltipModule,
-        ListCardPageComponent
+        ListCardPageComponent,
+        MatTabsModule
     ]
 })
 export class ListJobPostPageComponent {

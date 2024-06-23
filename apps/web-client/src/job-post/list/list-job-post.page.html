@@ -95,47 +95,26 @@
     </div>
   </div>
   <div class="flex-1">
-    <!-- list -->
-    <div class="grid gap-4">
-      @for(post of list$(); track post._id){
-      <list-card [post]="post"></list-card>
-      }
-    </div>
-    <!-- paginator -->
-    <div class="grid md:grid-cols-12 grid-cols-1 mt-8">
-      <div class="md:col-span-12 text-center">
-        <nav aria-label="Page navigation example">
-          <ul class="inline-flex items-center -space-x-px">
-            <li><a class="size-[40px] inline-flex justify-center items-center text-slate-400 bg-white dark:bg-slate-900 rounded-s-3xl hover:text-white border border-gray-100 dark:border-gray-800 hover:border-primary-600 dark:hover:border-primary-600 hover:bg-primary-600 dark:hover:bg-primary-600"
-                 href="/job-list-four"><svg stroke="currentColor" fill="currentColor"
-                     stroke-width="0" viewBox="0 0 24 24"
-                     class="text-[20px] rtl:rotate-180 rtl:-mt-1" height="1em" width="1em"
-                     xmlns="http://www.w3.org/2000/svg">
-                  <path fill="none" d="M0 0h24v24H0V0z"></path>
-                  <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path>
-                </svg></a></li>
-            <li><a class="size-[40px] inline-flex justify-center items-center text-slate-400 hover:text-white bg-white dark:bg-slate-900 border border-gray-100 dark:border-gray-800 hover:border-primary-600 dark:hover:border-primary-600 hover:bg-primary-600 dark:hover:bg-primary-600"
-                 href="/job-list-four">1</a></li>
-            <li><a class="size-[40px] inline-flex justify-center items-center text-slate-400 hover:text-white bg-white dark:bg-slate-900 border border-gray-100 dark:border-gray-800 hover:border-primary-600 dark:hover:border-primary-600 hover:bg-primary-600 dark:hover:bg-primary-600"
-                 href="/job-list-four">2</a></li>
-            <li><a aria-current="page"
-                 class="z-10 size-[40px] inline-flex justify-center items-center text-white bg-primary-600 border border-primary-600"
-                 href="/job-list-four">3</a></li>
-            <li><a class="size-[40px] inline-flex justify-center items-center text-slate-400 hover:text-white bg-white dark:bg-slate-900 border border-gray-100 dark:border-gray-800 hover:border-primary-600 dark:hover:border-primary-600 hover:bg-primary-600 dark:hover:bg-primary-600"
-                 href="/job-list-four">4</a></li>
-            <li><a class="size-[40px] inline-flex justify-center items-center text-slate-400 hover:text-white bg-white dark:bg-slate-900 border border-gray-100 dark:border-gray-800 hover:border-primary-600 dark:hover:border-primary-600 hover:bg-primary-600 dark:hover:bg-primary-600"
-                 href="/job-list-four">5</a></li>
-            <li><a class="size-[40px] inline-flex justify-center items-center text-slate-400 bg-white dark:bg-slate-900 rounded-e-3xl hover:text-white border border-gray-100 dark:border-gray-800 hover:border-primary-600 dark:hover:border-primary-600 hover:bg-primary-600 dark:hover:bg-primary-600"
-                 href="/job-list-four"><svg stroke="currentColor" fill="currentColor"
-                     stroke-width="0" viewBox="0 0 24 24"
-                     class="text-[20px] rtl:rotate-180 rtl:-mt-1" height="1em" width="1em"
-                     xmlns="http://www.w3.org/2000/svg">
-                  <path fill="none" d="M0 0h24v24H0V0z"></path>
-                  <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path>
-                </svg></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
+
+    <mat-tab-group mat-stretch-tabs="false">
+      <mat-tab label="Available">
+        <!-- list -->
+        <div class="grid gap-4">
+          @for(post of list$(); track post._id){
+          <list-card [post]="post"></list-card>
+          }
+        </div>
+      </mat-tab>
+      <mat-tab label="Applied">
+        <!-- list -->
+        <div class="grid gap-4">
+          @for(post of list$(); track post._id){
+          <list-card [post]="post"></list-card>
+          }
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+
   </div>
 </div>
