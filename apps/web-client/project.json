@@ -7,12 +7,12 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/angular:browser-esbuild",
+      "executor": "@nx/angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/web-client",
         "index": "apps/web-client/src/index.html",
-        "main": "apps/web-client/src/main.ts",
+        "browser": "apps/web-client/src/main.ts",
         "polyfills": ["@lottiefiles/lottie-player"],
         "tsConfig": "apps/web-client/tsconfig.app.json",
         "assets": [
@@ -35,7 +35,22 @@
           "apps/web-client/src/styles.less"
         ],
         "scripts": [],
-        "plugins": ["apps/web-client/build/sw-plugin.ts"]
+        "plugins": [
+          {
+            "path": "tools/service-worker.plugin.ts",
+            "options": {
+              "src": "apps/web-client/src/service-worker/sw.worker.ts",
+              "destination": "eastalents-web-client.sw",
+              "tsconfig": "apps/web-client/tsconfig.worker.json"
+            }
+          },
+          {
+            "path": "tools/inject-tw-theme.plugin.ts",
+            "options": {
+              "configPath": "apps/web-client/tailwind.config.js"
+            }
+          }
+        ]
       },
       "configurations": {
         "production": {
@@ -59,7 +74,6 @@
           }
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true,

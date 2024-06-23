@@ -1,15 +1,18 @@
 import { BuildResult, Metafile, Plugin } from 'esbuild';
 import { DateTime } from 'luxon';
 import * as path from 'path';
-import { shimPlugin } from './shim.plugin';
+import shimPlugin from './shim.plugin';
 
-export function swPlugin(config: {
+interface ServiceWorkerPluginOptions {
   src: string,
   destination: string,
   tsconfig: string;
-}) {
+}
+
+export default function serviceWorkerPlugin(config: ServiceWorkerPluginOptions) {
+  const pluginName = 'service-worker-plugin';
   const plugin: Plugin = {
-    name: 'swPlugin',
+    name: pluginName,
     setup: (build) => {
       const options = build.initialOptions;
       options.metafile = true;

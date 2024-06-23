@@ -4,83 +4,101 @@
   </div>
 
   <div class="flex gap-4 justify-between 
-        flex-wrap-reverse lg:flex-nowrap relative">
-    <div class="mt-4 p-4 md:px-8 lg:max-w-xl lg:mx-auto transition-all
-      flex flex-col">
+        flex-wrap-reverse 5xl:flex-nowrap relative">
+    <div class="mt-4 p-4 w-full transition-all 5xl:w-80 5xl:flex-auto
+          flex flex-col">
       <div class="grid content-center flex-grow">
-        <p>
-          EASWORKS is an on-demand platform for hiring Enterprise Application
-          freelancers with deep expertise in various Enterprise Application
-          Software (EAS) technologies and domains.
-        </p>
-        <h3 class="mt-4 lg:text-4xl text-2xl font-bold">
-          Unlock the potential of <span class="text-primary-500">enterprise
-            application development with ease.</span>
-        </h3>
-        <p class="mt-4">
-          Work with top pre-vetted enterprise application software experts with
-          deep industry knowledge, extensive project experience, strong
-          collaboration skills, and understanding of project requirements.
+        <h1 class="text-primary-500 font-bold text-3xl 7xl:text-4xl 7xl:leading-tight transition-all">Effortlessly Connect with Top Talent for Enterprise Application Development</h1>
+        <p class=" mt-4 font-semibold text-xl 7xl:text-2xl 7xl:mt-8 transition-all">Hire Elite Enterprise Application Talents On-Demand.</p>
+        <p class="7xl:text-lg mt-2 transition-all">
+          Easworks is a specialized Enterprise Application Software (EAS)
+          freelancing platform that connects businesses, startups, and leading
+          companies with a network of highly skilled enterprise software
+          developers with extensive domain knowledge.
         </p>
       </div>
-      <div class="flex mt-12 gap-4">
-        <button class="shaded-button secondary mat-elevation-z1">Hire Us</button>
-        <button class="stroked-button border-primary-950 border-2 font-medium"> Work with us</button>
+      <div class="mt-12">
+        <div class="flex gap-4 mt-4">
+          <button class="shaded-button secondary mat-elevation-z1">Hire Now</button>
+          <button class="stroked-button border-primary-950 border-2 font-medium">Find Jobs</button>
+        </div>
       </div>
+
     </div>
-    <div class="mx-auto self-start max-w-full xl:max-w-5xl
-                transition-all">
+    <div class="mx-auto w-full transition-all 5xl:w-40 5xl:flex-auto">
       <lottie-player src="https://lottie.host/6ba2be73-f581-4302-8a7e-d239af1b177b/i4dV3wJAo2.json"
                      background="transparent" speed="1" loop autoplay class="contents"></lottie-player>
     </div>
   </div>
 </section>
 
-<section>
-  <div class="page py-8 flex flex-wrap justify-around gap-4">
-    <div *ngFor="let logo of customerLogos">
-      <img class="w-32" [src]="logo" alt="">
+<section class="page">
+  <div class="grid gap-4 mx-auto xl:grid-cols-3 3xl:max-w-max justify-items-center ">
+
+    @for(counter of counters; track counter) {
+    <div class="text-center">
+      <p class="font-extrabold text-2xl transition-all
+          3xl:text-4xl">{{counter.count}}</p>
+      <p class="font-bold text-sm mt-2 text-gray-500">{{counter.text}}</p>
     </div>
+    }
+
   </div>
 </section>
 
 <section class="bg-white">
-  <div class="page py-8 grid grid-cols-1 lg:grid-cols-2 gap-4 gap-y-8 items-center">
-    <div class="relative">
-      <h2 class="text-2xl font-bold lg:text-3xl transition-all">
-        Adapt and evolve with EASWORKS.
-      </h2>
-      <p class="my-4">
-        EASWORKS recognizes the distinct challenges of enterprise applications and
-        meticulously curates a pool of highly skilled freelancers who specialize
-        in providing resilient, scalable enterprise application services(EAS).
-      </p>
-      <p class="my-4">
-        EASWORKS empowers you with a global talent pool of experienced freelancers
-        who excel in enterprise application development. Whether you need
-        assistance with tasks or ongoing support, our platform is dedicated
-        to helping you thrive in the evolving enterprise application landscape.
-      </p>
-      <p class="my-4">
-        <strong>Hire an EAS expert today</strong> or let us take your project
-        from conception to realisation.
-      </p>
-      <button class="shaded-button secondary mt-8">Get Started</button>
+  <div class="page 2xl:py-12">
+    <h2 class="text-center text-2xl font-bold 3xl:text-3xl transition-all">
+      Enterprise Application Development Made Easy
+    </h2>
+    <div class="grid gap-12 mt-8 justify-center 2xl:mt-12 transition-all">
+      <div class="flex items-center gap-4 gap-x-8 flex-col-reverse text-center transition-all
+            2xl:flex-row 2xl:text-left 3xl:max-w-3xl ">
+        <div>
+          <h3 class="font-bold text-primary-500 text-xl">Specialized Skills</h3>
+          <p class="mt-2">
+            Access professionals with targeted expertise and experience in the
+            specific industry domain you require.
+          </p>
+        </div>
+        <img src="/assets/public/home/dev-made-easy/specialized-skills.png" class="rounded-lg">
+      </div>
+
+      <div class="flex items-center gap-4 gap-x-8 flex-col-reverse text-center transition-all 
+              2xl:flex-row-reverse 2xl:text-left 3xl:max-w-3xl">
+        <div>
+          <h3 class="font-bold text-primary-500 text-xl">Expert Screening and Tailored Matching</h3>
+          <p class="mt-2">
+            Benefit from our rigorous vetting
+            process and customized matching to ensure the perfect fit for your
+            project needs.
+          </p>
+        </div>
+        <img src="/assets/public/home/dev-made-easy/expert-screening.png" class="rounded-lg">
+      </div>
+
+      <div class="flex items-center gap-4 gap-x-8 flex-col-reverse text-center transition-all
+            2xl:flex-row 2xl:text-left 3xl:max-w-3xl">
+        <div>
+          <h3 class="font-bold text-primary-500 text-xl">Rapid Deployment</h3>
+          <p class="mt-2">
+            Quickly onboard specialized talent with our efficient hiring platform,
+            enabling you to start your project without delay.
+          </p>
+        </div>
+        <img src="/assets/public/home/dev-made-easy/expert-screening.png" class="rounded-lg">
+      </div>
     </div>
-    <div>
-      <lottie-player src="https://lottie.host/4b583250-12a2-4a40-baa9-45e2701f2c06/sHU0VRjvKR.json"
-                     background="transparent" speed="1" loop autoplay></lottie-player>
-    </div>
+    <button class="shaded-button block secondary mt-12 mx-auto text-lg min-w-min max-w-full w-80">Get Started</button>
   </div>
 </section>
 
-<section class="page py-12 max-w-none @container">
-  <h2 class="text-2xl lg:text-3xl text-center font-bold transition-all">EASWORKS promises it all</h2>
+<section class="page py-12">
+  <h2 class="text-2xl lg:text-3xl text-center font-bold transition-all">Maximize Project Success with EASWORKS</h2>
 
-  <div class="flex flex-wrap mt-12 gap-4 mx-auto justify-center @3xl:max-w-3xl @6xl:max-w-none @6xl:flex-nowrap">
+  <div class="grid mt-12 gap-4 mx-auto justify-center grid-cols-1 lg:grid-cols-2 4xl:grid-cols-4 7xl:max-w-7xl">
     @for (promise of promises; track promise.title) {
     <div class="flex flex-col gap-y-4 p-2 px-4 pb-4 
-        w-56 flex-grow md:flex-none
         bg-white shadow-md rounded-md text-center transition-all">
       <lottie-player [src]="promise.lottie" background="transparent" class="w-24 h-24 mx-auto" autoplay loop>
       </lottie-player>
@@ -92,96 +110,109 @@
 </section>
 
 
-<section>
-  <div class="page max-w-screen-xl py-12">
-    <h2 class="text-2xl font-bold text-center transition-all">How it Works</h2>
+<section id="help-app-development">
+  <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all">
+    How EASWORKS can help you with Enterprise App Development.
+  </h2>
 
-    <div class="flex mt-12 flex-wrap gap-4 justify-center">
-      @for(hitw of howItWorks; track hitw.title) {
-      <div class="flex flex-col gap-y-4 p-2 px-4 pb-4 transition-all
-        w-56 flex-grow md:flex-none
-        bg-white shadow-lg rounded-md text-center">
-        <lottie-player [src]="hitw.lottie" background="transparent"
-                       class="mx-auto w-20 h-20 md:w-24 md:h-24 transition-all" autoplay loop></lottie-player>
-        <h4 class="text-lg font-semibold">{{hitw.title}}</h4>
+  <div class="item-container">
+    @for(acc of accelerate; track acc.title) {
+    <div>
+      <lottie-player [src]="acc.lottie" background="transparent"
+                     class="mx-auto w-full h-20 md:w-24 md:h-24 transition-all" autoplay loop></lottie-player>
+      <h4 class="text-xl font-semibold">{{acc.title}}</h4>
+      <p class="text-sm leading-6 my-auto">{{acc.content}}</p>
+
+      <button class="shaded-button secondary mt-auto rounded-lg">Get Started</button>
+      <button class="stroked-button secondary rounded-lg font-bold">Talk To Us</button>
+    </div>
+    }
+
+  </div>
+</section>
+
+
+<section class="page py-12">
+  <h2 class="text-2xl font-bold text-center transition-all xl:mr-60">How it Works</h2>
+
+  <div class="grid gap-8 mt-12 4xl:max-w-4xl mx-auto">
+    @for(hitw of howItWorks; track hitw.title) {
+    <div class="flex gap-4 gap-x-12 items-center flex-col-reverse xl:flex-row  transition-all">
+      <div class="max-w-lg">
+        <h4 class="text-lg font-semibold text-primary-500">{{hitw.title}}</h4>
         <p class="text-sm leading-6">{{hitw.content}}</p>
       </div>
-      }
+      <img [src]="hitw.image" class="xl:w-48 rounded-lg">
     </div>
+    }
+  </div>
 
-    <div class="flex justify-center mt-10 text-center">
-      <button class="shaded-button secondary mt-5">Describe Your Project
-        Needs</button>
-    </div>
+  <div class="flex justify-center mt-4 text-center xl:mr-60">
+    <button class="shaded-button secondary mt-4">Describe Your Project Needs</button>
   </div>
 </section>
-
 
 <section>
-  <div class="page max-w-screen-xl py-12">
-    <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all">
-      Accelerate your Enterprise Application development
-      with scalable on-demand tech talent
-    </h2>
-
-    <div class="flex mt-12 flex-wrap lg:flex-nowrap gap-8 justify-center">
-      @for(acc of accelerate; track acc.title) {
-      <div class="flex flex-col gap-2 p-4 text-center
-        w-60 flex-grow 
-        border border-b-primary-500 bg-white shadow-md 
-        rounded-tr-[2rem] rounded-bl-[2rem] border-b-4">
-        <lottie-player [src]="acc.lottie" background="transparent"
-                       class="mx-auto w-full h-20 md:w-24 md:h-24 transition-all" autoplay loop></lottie-player>
-        <h4 class="text-lg font-semibold">{{acc.title}}</h4>
-        <p class="text-sm leading-6 my-auto">{{acc.content}}</p>
-
-        <button class="shaded-button secondary max-w-max mx-auto mt-auto">Get Started</button>
-      </div>
-      }
-
-    </div>
-  </div>
-</section>
-
-<section class="bg-white">
-  <div class="page max-w-screen-lg py-12">
-
-    <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all">
-      Hire elite EAS talent based on
-      <span class="text-primary-500">Enterprise Application Software (EAS)</span>
-    </h2>
-    <div class="mt-8 flex gap-4 gap-x-8 justify-center items-center
-            flex-wrap lg:flex-nowrap">
-      <h3 class="text-xl lg:text-2xl font-bold text-center">
-        80+ Enterprise Applications Supported
+  <div class="page 4xl:max-w-screen-4xl py-12 
+    flex gap-4 justify-center items-center flex-wrap 3xl:flex-nowrap">
+    <div>
+      <h2 class="text-2xl 4xl:text-3xl font-bold text-center transition-all">
+        Hire elite EAS talent based on
+        <span class="text-primary-500">Enterprise Application Software</span>
+      </h2>
+      <h3 class="text-xl lg:text-xl text-center mt-2">
+        60+ Enterprise Apps Supported
       </h3>
-      <div class="flex gap-4 flex-none items-center
-           lg:border-l lg:pl-8 transition-all">
-        <button class="stroked-button border-primary-950 border-2 font-medium">Apply for Jobs</button>
-        <button class="shaded-button secondary"> Hire Now</button>
-      </div>
+    </div>
+
+    <mat-divider vertical class="hidden 3xl:block"></mat-divider>
+
+    <div class="flex gap-4 flex-none items-center transition-all">
+      <button class="stroked-button border-primary-950 border-2 font-medium">Apply for Jobs</button>
+      <button class="shaded-button secondary"> Hire Now</button>
     </div>
   </div>
 
-  <featured-domains class="mt-16"></featured-domains>
+  <featured-domains></featured-domains>
 </section>
 
-<section>
-  <div class="page max-w-screen-xl py-12">
-    <h2 class="text-2xl lg:text-3xl text-center font-bold">
-      Hire Elite EAS Talent Based On <span class="text-primary-500">Enterprise Application Use Cases</span>
-    </h2>
-    <h3 class="text-xl lg:text-2xl font-bold mt-8 text-center">
-      EASWORKS supports major critical enterprise application development use cases
-    </h3>
+<section id="industries" class="page py-12">
+  <h2 class="text-3xl text-center font-bold">We've supported companies of all sizes and various use cases</h2>
 
-    <use-case-tiles-container class="mt-8"></use-case-tiles-container>
+  <div class="mt-8">
+    <h3 class="text-center text-xl font-bold text-gray-500">Industries supported</h3>
+    <swiper [options]="industries.swiper.options" [modules]="industries.swiper.modules" class="mt-4">
+      <div class="absolute bottom-0 flex items-center left-0 m-auto text-center top-0 z-10">
+        <fa-icon [icon]="icons.faAngleLeft" mat-ripple class="swiper-button swiper-button-prev"></fa-icon>
+      </div>
+      <div class="swiper-wrapper">
+        @for (slide of industries.slides; track slide) {
+        <swiper-slide index={{$index}}>
+          <div class="grid text-center justify-items-center border p-4 rounded-lg gap-4">
+            <fa-icon [icon]="slide.icon" class="text-4xl text-primary-500"></fa-icon>
+            <p>{{slide.text}}</p>
+          </div>
+        </swiper-slide>
+        }
+
+      </div>
+      <div class=" absolute bottom-0 flex items-center right-0 m-auto text-center top-0 z-10">
+        <fa-icon [icon]="icons.faAngleRight" mat-ripple class="swiper-button swiper-button-next"></fa-icon>
+      </div>
+    </swiper>
+  </div>
+
+
+  <div class="mt-12">
+    <h3 class="text-center text-xl font-bold text-gray-500">Use Cases</h3>
+
+    <use-case-tiles-container class="mt-4"></use-case-tiles-container>
   </div>
 </section>
 
 <section>
   <div class="page py-12">
-    <h2 class="text-2xl text-center font-bold">Get Started with <span class="text-primary-500">Enterprise
+    <h2 class="text-2xl text-center font-bold">Get Started based on <span class="text-primary-500">Enterprise
         Applications</span></h2>
 
     <domain-software-selector class="mt-4"></domain-software-selector>
@@ -199,7 +230,8 @@
 
     <ng-template #$roleList>
       <div class="grid mt-8 gap-8">
-        <div *ngFor="let domain of roleList.list$()">
+        @for(domain of roleList.list$(); track domain.key) {
+        <div>
           <div class="flex gap-4 justify-between">
             <h3 class="text-xl font-bold mt-1">{{domain.name}}</h3>
             <!-- TODO: discuss with Mr.Nanda what to do about roles selection -->
@@ -216,17 +248,30 @@
             </div> -->
           </div>
 
-          <div class="mt-4 grid gap-2
-          grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            <div *ngFor="let role of domain.roles$()">
-              <a class="flex gap-2 max-w-max" [routerLink]="'/roles/'+domain.key+'/'+role">
-                <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
-                {{role}}
-              </a>
+          <div class="mt-4 grid gap-x-4 2xl:grid-cols-2 4xl:grid-cols-3 6xl:grid-cols-4 8xl:grid-cols-5">
+            @for(role of domain.roles$(); track role) {
+            <a class="flex gap-2 max-w-max" [routerLink]="'/roles/'+domain.key+'/'+role"
+               [class.hidden]="$index >= roleList.items$() && !domain.showMore$() ">
+              <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
+              {{role}}
+            </a>
+            }
 
-            </div>
           </div>
+
+          <button class="highlight-button flex items-center font-normal text-sm leading-none" mat-ripple
+                  (click)="domain.toggleMore()">
+            @if (domain.showMore$()) {
+            <fa-icon [icon]="icons.faMinus" class="mr-2"></fa-icon>
+            Show Less
+            }
+            @else {
+            <fa-icon [icon]="icons.faPlus" class="mr-2"></fa-icon>
+            Show More
+            }
+          </button>
         </div>
+        }
       </div>
     </ng-template>
   </div>
