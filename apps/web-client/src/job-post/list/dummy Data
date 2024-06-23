@@ -1,0 +1,678 @@
+<div class="main-container">
+    <div class="flex items-start flex-row flex-wrap">
+        <div class="Grid-col Grid-col--desktopSmall-3">
+            <div class="ProjectSearch-filter Card">
+                <div class="SectionJobFilter">
+                    <!-- <div id="filter-panel" class="SectionJobFilter-inner">
+                    <div class="SectionJobFilter-content">
+                        <div class="SectionJobFilter-header">
+                            <h3 class="SectionJobFilter-header-heading">Filter</h3>
+                            <a href="#" id="filter-close-btn" class="SectionJobFilter-header-link">
+                                <span class="Icon Icon--small"><svg class="Icon-image"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <path
+                                            d="M20.707 4.707l-1.414-1.414L12 10.586 4.707 3.293 3.293 4.707 10.586 12l-7.293 7.293 1.414 1.414L12 13.414l7.293 7.293 1.414-1.414L13.414 12">
+                                        </path>
+                                    </svg>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="SectionJobFilter-sectionList">
+                            <div class="SectionJobFilter-section">
+                                <h5 class="SectionJobFilter-mainHeading">My recent searches</h5>
+                                <div id="recent-searches-section">
+                                    <ul id="recent-searches" class="SectionJobFilter-recentSearchesList">
+                                        <li id="recent-searches-0" class="SectionJobFilter-recentSearchesList-item"
+                                            data-keyword=""
+                                            data-location="{&quot;country&quot;:&quot;&quot;,&quot;vicinity&quot;:&quot;&quot;,&quot;lat&quot;:&quot;&quot;,&quot;lon&quot;:&quot;&quot;}">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="SectionJobFilter-section">
+                                <h5 class="SectionJobFilter-mainHeading">Filter by:</h5>
+                                <h5 class="SectionJobFilter-heading">Budget</h5>
+                                <div class="SectionJobFilter-sliderItem">
+                                    <div class="fl-form Checkbox SectionJobFilter-sliderItem-checkbox">
+                                        <input id="fixed-check" class="Checkbox-input" type="checkbox"
+                                            name="horizontal-checkbox">
+                                        <label class="Checkbox-label" for="fixed-check">
+                                            Fixed Price Projects
+                                        </label>
+                                    </div>
+                                    <div class="Grid Grid--verticalCenter">
+                                        <div class="Grid-col Grid-col--5">
+                                            <input id="fixed-min" class="default-input" placeholder="min"
+                                                fdprocessedid="frps3d">
+                                        </div>
+                                        <div class="Grid-col Grid-col--2 SectionJobFilter-sliderItem-label">
+                                            to
+                                        </div>
+                                        <div class="Grid-col Grid-col--5">
+                                            <input id="fixed-max" class="default-input" placeholder="max"
+                                                fdprocessedid="ywpykq">
+                                        </div>
+                                    </div>
+                                    <div id="fixed-error" class="SectionJobFilter-alert alert alert-warning is-hidden">
+                                    </div>
+                                </div>
+
+                                <div class="SectionJobFilter-sliderItem">
+                                    <div class="fl-form Checkbox SectionJobFilter-sliderItem-checkbox">
+                                        <input id="hourly-check" class="Checkbox-input" type="checkbox"
+                                            name="horizontal-checkbox">
+                                        <label class="Checkbox-label" for="hourly-check">
+                                            Hourly Projects
+                                        </label>
+                                    </div>
+                                    <div class="filter-to-hide SectionJobFilter-range">
+                                        <div class="Grid Grid--verticalCenter">
+                                            <div class="Grid-col Grid-col--5">
+                                                <input id="hourly-min" class="default-input" placeholder="min"
+                                                    fdprocessedid="w0j2gs">
+                                            </div>
+                                            <div class="Grid-col Grid-col--2 SectionJobFilter-sliderItem-label">
+                                                to
+                                            </div>
+                                            <div class="Grid-col Grid-col--5">
+                                                <input id="hourly-max" class="default-input" placeholder="max"
+                                                    fdprocessedid="kcnu1">
+                                            </div>
+                                        </div>
+                                        <div id="hourly-error"
+                                            class="alert alert-warning is-hidden SectionJobFilter-alert"></div>
+                                        <div class="SectionJobFilter-duration">
+                                            <label for="hourly-duration" class="SectionJobFilter-durationLabel">
+                                                Duration
+                                            </label>
+                                            <span class="SectionJobFilter-durationControl">
+                                                <select id="hourly-duration"
+                                                    class="default-select SectionJobFilter-duration-select"
+                                                    fdprocessedid="r4psi">
+                                                    <option value="false" selected="">All Durations</option>
+                                                    <option value="1">Less than 1 week</option>
+                                                    <option value="2">1 week to 4 weeks</option>
+                                                    <option value="3">1 month to 3 months</option>
+                                                    <option value="4">3 months to 6 months</option>
+                                                    <option value="5">Over 6 months / Ongoing</option>
+                                                    <option value="6">Unspecified</option>
+                                                </select>
+                                            </span>
+                                        </div>
+                                        <div class="form-error"></div>
+                                    </div>
+                                </div>
+
+                                <div class="SectionJobFilter-sliderItem">
+                                    <div class="fl-form Checkbox SectionJobFilter-sliderItem-checkbox">
+                                        <input id="contest-check" class="Checkbox-input" type="checkbox"
+                                            name="horizontal-checkbox">
+                                        <label class="Checkbox-label" for="contest-check">
+                                            Contests
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="Grid Grid--verticalCenter">
+                                        <div class="Grid-col Grid-col--5">
+                                            <input id="contest-min" class="default-input" placeholder="min" value="1"
+                                                fdprocessedid="qwp8pn">
+                                        </div>
+                                        <div class="Grid-col Grid-col--2 SectionJobFilter-sliderItem-label">
+                                            to
+                                        </div>
+                                        <div class="Grid-col Grid-col--5">
+                                            <input id="contest-max" class="default-input" placeholder="max"
+                                                fdprocessedid="gaj6ix">
+                                        </div>
+                                    </div>
+                                    <div id="contest-error"
+                                        class="alert SectionJobFilter-alert alert-warning is-hidden"></div>
+                                </div>
+                            </div>
+
+                            <div class="SectionJobFilter-section">
+                                <h5 class="SectionJobFilter-heading">Type</h5>
+                                <ul class="SectionJobFilter-selectList SectionJobFilter-selectList--compact fl-form">
+                                    <li class="SectionJobFilter-selectList-item Checkbox">
+                                        <input id="local-jobs-check" class="Checkbox-input" type="checkbox"
+                                            name="type-set">
+                                        <label for="local-jobs-check" class="Checkbox-label">Local Jobs</label>
+                                    </li>
+                                    <li class="SectionJobFilter-selectList-item Checkbox">
+                                        <input id="featured-jobs-check" class="Checkbox-input" type="checkbox"
+                                            name="type-set">
+                                        <label for="featured-jobs-check" class="Checkbox-label">Featured Jobs</label>
+                                    </li>
+                                    <li class="SectionJobFilter-selectList-item Checkbox">
+                                        <input id="recruiter-jobs-check" class="Checkbox-input" type="checkbox"
+                                            name="type-set">
+                                        <label for="recruiter-jobs-check" class="Checkbox-label">Recruiter Jobs</label>
+                                    </li>
+                                    <li class="SectionJobFilter-selectList-item Checkbox">
+                                        <input id="fulltime-jobs-check" class="Checkbox-input" type="checkbox"
+                                            name="type-set">
+                                        <label for="fulltime-jobs-check" class="Checkbox-label">Full Time Jobs</label>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                            
+                            <div id="skills-selector" class="SectionJobFilter-section">
+                                <h5 class="SectionJobFilter-heading">Skills</h5>
+                                <ul id="job-search-selector-Skills-selectList"
+                                    class="SectionJobFilter-selectList fl-form">
+                                    <li id="job-search-selector-Skills-Web Development-container"
+                                        data-item="Web Development" class="SectionJobFilter-selectList-item Checkbox">
+                                        <input id="job-search-selector-Skills-Web Development"
+                                            data-item="Web Development" class="Checkbox-input" type="checkbox"
+                                            name="skill-set">
+                                        <label class="Checkbox-label"
+                                            for="job-search-selector-Skills-Web Development">Web Development</label>
+                                    </li>
+                                    <li id="job-search-selector-Skills-.NET 5.0/6-container" data-item=".NET 5.0/6"
+                                        class="SectionJobFilter-selectList-item Checkbox">
+                                        <input id="job-search-selector-Skills-.NET 5.0/6" data-item=".NET 5.0/6"
+                                            class="Checkbox-input" type="checkbox" name="skill-set">
+                                        <label class="Checkbox-label" for="job-search-selector-Skills-.NET 5.0/6">.NET
+                                            5.0/6</label>
+                                    </li>
+                                    <li id="job-search-selector-Skills-.NET-container" data-item=".NET"
+                                        class="SectionJobFilter-selectList-item Checkbox">
+                                        <input id="job-search-selector-Skills-.NET" data-item=".NET"
+                                            class="Checkbox-input" type="checkbox" name="skill-set">
+                                        <label class="Checkbox-label" for="job-search-selector-Skills-.NET">.NET</label>
+                                    </li>
+                                    <li id="job-search-selector-Skills-PHP-container" data-item="PHP"
+                                        class="SectionJobFilter-selectList-item Checkbox">
+                                        <input id="job-search-selector-Skills-PHP" data-item="PHP"
+                                            class="Checkbox-input" type="checkbox" name="skill-set">
+                                        <label class="Checkbox-label" for="job-search-selector-Skills-PHP">PHP</label>
+                                    </li>
+                                    <li id="job-search-selector-Skills-HTML-container" data-item="HTML"
+                                        class="SectionJobFilter-selectList-item Checkbox">
+                                        <input id="job-search-selector-Skills-HTML" data-item="HTML"
+                                            class="Checkbox-input" type="checkbox" name="skill-set">
+                                        <label class="Checkbox-label" for="job-search-selector-Skills-HTML">HTML</label>
+                                    </li>
+
+
+                                </ul>
+
+                                <form id="job-search-selector-Skills-autofillForm" action="" autocomplete="off">
+                                    <div id="job-search-selector-Skills-autofill-container"
+                                        class="SectionJobFilter-selectbox">
+                                        <label for="job-search-selector-Skills-autofill-input"
+                                            class="is-accessibly-hidden">enter skills</label>
+                                        <input id="job-search-selector-Skills-autofill-input"
+                                            name="job-search-selector-Skills-autofill-input" type="text"
+                                            class="default-input SectionJobFilter-selectbox-input"
+                                            placeholder="Or enter skills" fdprocessedid="p84q5g">
+                                        <a id="job-search-selector-Skills-autofill-addbtn" href="#"
+                                            class="SectionJobFilter-selectbox-link">
+                                            <span class="Icon Icon--highlight Icon--small"><svg class="Icon-image"
+                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M12 6V1a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v5H1a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h5v5a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-5h5a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-5z"
+                                                        fill-rule="evenodd"></path>
+                                                </svg></span>
+                                        </a>
+                                        <ul id="job-search-selector-Skills-autofill-dropdown"
+                                            class="AutofillDropdown-dropdown is-hidden"
+                                            data-uitest-target="oneclick-dropdown-container"></ul>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="languages-selector" class="SectionJobFilter-section">
+                                <h5 class="SectionJobFilter-heading">Languages</h5>
+                                <ul id="job-search-selector-Languages-selectList"
+                                    class="SectionJobFilter-selectList fl-form">
+                                    <li id="job-search-selector-Languages-English-container" data-item="English"
+                                        class="SectionJobFilter-selectList-item Checkbox">
+                                        <input id="job-search-selector-Languages-English" data-item="English"
+                                            class="Checkbox-input" type="checkbox" name="skill-set">
+                                        <label class="Checkbox-label"
+                                            for="job-search-selector-Languages-English">English</label>
+                                    </li>
+                                    <li id="job-search-selector-Languages-Spanish-container" data-item="Spanish"
+                                        class="SectionJobFilter-selectList-item Checkbox">
+                                        <input id="job-search-selector-Languages-Spanish" data-item="Spanish"
+                                            class="Checkbox-input" type="checkbox" name="skill-set">
+                                        <label class="Checkbox-label"
+                                            for="job-search-selector-Languages-Spanish">Spanish</label>
+                                    </li>
+                                    <li id="job-search-selector-Languages-German-container" data-item="German"
+                                        class="SectionJobFilter-selectList-item Checkbox">
+                                        <input id="job-search-selector-Languages-German" data-item="German"
+                                            class="Checkbox-input" type="checkbox" name="skill-set">
+                                        <label class="Checkbox-label"
+                                            for="job-search-selector-Languages-German">German</label>
+                                    </li>
+                                    <li id="job-search-selector-Languages-French-container" data-item="French"
+                                        class="SectionJobFilter-selectList-item Checkbox">
+                                        <input id="job-search-selector-Languages-French" data-item="French"
+                                            class="Checkbox-input" type="checkbox" name="skill-set">
+                                        <label class="Checkbox-label"
+                                            for="job-search-selector-Languages-French">French</label>
+                                    </li>
+                                    <li id="job-search-selector-Languages-Portuguese-container" data-item="Portuguese"
+                                        class="SectionJobFilter-selectList-item Checkbox">
+                                        <input id="job-search-selector-Languages-Portuguese" data-item="Portuguese"
+                                            class="Checkbox-input" type="checkbox" name="skill-set">
+                                        <label class="Checkbox-label"
+                                            for="job-search-selector-Languages-Portuguese">Portuguese</label>
+                                    </li>
+
+                                </ul>
+
+                                <form id="job-search-selector-Languages-autofillForm" action="" autocomplete="off">
+                                    <div id="job-search-selector-Languages-autofill-container"
+                                        class="SectionJobFilter-selectbox">
+                                        <label for="job-search-selector-Languages-autofill-input"
+                                            class="is-accessibly-hidden">enter skills</label>
+                                        <input id="job-search-selector-Languages-autofill-input"
+                                            name="job-search-selector-Languages-autofill-input" type="text"
+                                            class="default-input SectionJobFilter-selectbox-input"
+                                            placeholder="Or enter languages" fdprocessedid="5uenk">
+                                        <a id="job-search-selector-Languages-autofill-addbtn" href="#"
+                                            class="SectionJobFilter-selectbox-link">
+                                            <span class="Icon Icon--highlight Icon--small"><svg class="Icon-image"
+                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M12 6V1a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v5H1a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h5v5a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-5h5a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-5z"
+                                                        fill-rule="evenodd"></path>
+                                                </svg></span>
+                                        </a>
+                                        <ul id="job-search-selector-Languages-autofill-dropdown"
+                                            class="AutofillDropdown-dropdown is-hidden"
+                                            data-uitest-target="oneclick-dropdown-container"></ul>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div id="job-state-selector" class="SectionJobFilter-section">
+                                <h5 class="SectionJobFilter-heading">Job State</h5>
+
+                                <form id="status-form" autocomplete="off">
+                                    <div class="fl-form Radio Radio--vertical">
+                                        <input id="open-jobs-radio" class="Radio-input" type="radio" name="status"
+                                            value="open">
+                                        <label class="Radio-label" for="open-jobs-radio">
+                                            All open jobs </label>
+                                        <input id="open-closed-jobs-radio" class="Radio-input" type="radio"
+                                            name="status" value="all" checked="">
+                                        <label class="Radio-label" for="open-closed-jobs-radio">
+                                            All open and closed jobs </label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="SectionJobFilter-footer">
+                            <a id="filter-close-link" class="btn btn-large btn-info SectionJobFilter-footer-btn"
+                                aria-label="search">
+                                Apply Filter </a>
+                        </div>
+                    </div>
+                </div> -->
+                </div>
+
+            </div>
+        </div>
+
+        <div class="grow-0 shrink-0 basis-3/4">
+            <div class="job-post-list">
+                <div class="flex items-center p-24 header">
+                    <!-- header-->
+                    Job List View
+                </div>
+                <div class="content">
+                    <div id="list" class="card-list">
+                        <div class="Card-item py-0 px-24">
+                            <div class="flex w-full py-24 px-0">
+                                <div class="header">
+                                    <div class="title">Back-End engineer for IaaS</div>
+                                </div>
+                                <div class="content"> </div>
+                                <div class="footer"> </div>
+                            </div>
+                        </div>
+                        <div class="Card-item py-0 px-24">
+                            <div class="JobSearchCard-item-inner table table-fixed w-full py-24 px-0"
+                                data-project-card="true">
+                                <div class="table-cell pr-24 hyphens-auto ">
+                                    <div class="mb-4">
+
+
+
+
+                                        <a href="/projects/c-sharp-programming/custom-web-application-database-for"
+                                            class="JobSearchCard-primary-heading-link"
+                                            data-qtsb-section="page-job-search-new" data-qtsb-subsection="card-job"
+                                            data-qtsb-label="link-project-title" data-heading-link="true">
+                                            Custom Web Application &amp; Database for Manufacturing business- Upcoming
+                                            Project to start in July
+                                        </a>
+
+
+                                        <span class="JobSearchCard-primary-heading-days">4 days left</span>
+
+
+                                    </div>
+
+                                    <p class="flex max-h-24 mb-4 overflow-hidden">
+
+
+
+                                        THIS PROJECT IS DONE IN 3 STAGES - THIS IS DESCRIPTION FOR PART 1 ONLY - HIGH
+                                        CHANCE
+                                        FOR ONGOING WORK TO COMPLETE PART 2 AND 3
+
+                                        Looking to get price and discussion about medium to large project kicking off in
+                                        July.
+                                        Need a database with a coded front end that allows user logins and user
+                                        restricted
+                                        access to database
+                                        Database to record manufacturing customers, quotes and ongoing jobs
+                                        Need app functionality to make quotes/ estimates and be able to record that data
+                                        in
+                                        the database and output to pdf excel or word. Have quoting template to work off
+                                        and
+                                        historic database
+
+                                        Below is rough outline of some of the project
+
+                                        Database = SQL to run on Server 2022
+                                        Front End = Website Running on IIS to run on Server 2022 Services
+                                        Dashboard Style
+                                        Login Screen
+                                        Main Page Screen Leading to the ...
+
+
+                                    </p>
+
+                                    <div>
+
+                                        <a class="JobSearchCard-primary-tagsLink" href="/jobs/dot-net/">.NET</a>
+
+                                        <a class="JobSearchCard-primary-tagsLink" href="/jobs/c-sharp-programming/">C#
+                                            Programming</a>
+
+                                        <a class="JobSearchCard-primary-tagsLink" href="/jobs/php/">PHP</a>
+
+                                        <a class="JobSearchCard-primary-tagsLink"
+                                            href="/jobs/sharepoint/">Sharepoint</a>
+
+                                        <a class="JobSearchCard-primary-tagsLink"
+                                            href="/jobs/software-architecture/">Software Architecture</a>
+
+                                        <a class="JobSearchCard-primary-tagsLink"
+                                            href="/jobs/software-development/">Software Development</a>
+
+                                        <a class="JobSearchCard-primary-tagsLink" href="/jobs/web-development/">Web
+                                            Development</a>
+
+                                        <a class="JobSearchCard-primary-tagsLink"
+                                            href="/jobs/website-development/">Website
+                                            Development</a>
+
+                                    </div>
+                                    <div class="JobSearchCard-primary-hidden">
+
+                                        <div class="JobSearchCard-primary-price">
+
+                                            $5338
+                                            <span class="JobSearchCard-primary-avgBid">(Avg Bid)</span>
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="table-cell w-40 pr-0 align-top">
+
+                                    <div class="JobSearchCard-secondary-price">
+
+                                        $5338
+                                        <span class="JobSearchCard-secondary-avgBid">
+                                            Avg Bid </span>
+
+
+
+                                    </div>
+
+
+                                    <div class="JobSearchCard-secondary-entry">75 bids</div>
+
+
+
+                                    <div class="JobSearchCard-ctas ">
+
+                                        <a href="/projects/c-sharp-programming/custom-web-application-database-for"
+                                            class="JobSearchCard-ctas-btn btn btn-mini btn-success"
+                                            data-qtsb-section="page-job-search-new"
+                                            data-qtsb-subsection="card-cta-button" data-qtsb-label="bid-cta">
+                                            Bid now </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="footer">
+                <!-- <div class="ProjectSearch-footer-resultCounting">
+                    Showing <span id="first-entry">1</span> to <span id="last-entry">38</span> of <span
+                        id="total-results-bottom">38 entries</span>
+                </div>
+                <div class="ProjectSearch-footer-label">Results per page</div>
+                <div class="ProjectSearch-footer-pageTotal">
+                    <select id="table-row-count-select" class="default-select ProjectSearch-footer-select"
+                        fdprocessedid="dbfams">
+                        <option value="20" selected="">20</option>
+                        <option value="50">50</option>
+                        <option value="75">75</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+                <div id="bottom-pagination" class="ProjectSearch-footer-pagination">
+                    <ul id="pagination-759" class="Pagination">
+                        <li data-link="1" class="Pagination-item">
+                            <a href="https://www.freelancer.com/jobs/web-development" class="btn Pagination-link">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"
+                                        class="flicon-pagination-first">
+                                        <path
+                                            d="M10 11L5 6l5-5M2.5 11c-.28 0-.5-.22-.5-.5v-9c0-.28.22-.5.5-.5s.5.22.5.5v9c0 .28-.22.5-.5.5z">
+                                        </path>
+                                    </svg>
+                                </span>
+                            </a>
+                        </li>
+                        <li data-link="prev_page" class="Pagination-item">
+                            <a href="https://www.freelancer.com/jobs/web-development" data-pagination-prev-button=""
+                                class="btn paginate_button Pagination-link">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"
+                                        class="flicon-pagination-prev">
+                                        <path d="M8 11L3 6l5-5v10z"></path>
+                                    </svg>
+                                </span>
+                            </a>
+                        </li>
+
+
+                        <li data-link-id="0" data-link="1" class="Pagination-item">
+                            <a href="https://www.freelancer.com/jobs/web-development"
+                                class="btn number Pagination-link is-active">1</a>
+                        </li>
+
+
+
+                        <li data-link="next_page" class="Pagination-item">
+                            <a href="#" data-pagination-next-button="" class="btn Pagination-link">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"
+                                        class="flicon-pagination-next">
+                                        <path d="M4 1l5 5-5 5"></path>
+                                    </svg>
+                                </span>
+                            </a>
+                        </li>
+                        <li data-link="last_page" class="Pagination-item">
+                            <a href="https://www.freelancer.com/jobs/web-development" class="btn Pagination-link">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"
+                                        class="flicon-pagination-last">
+                                        <path
+                                            d="M2 1l5 5-5 5M9.5 1c.28 0 .5.22.5.5v9c0 .28-.22.5-.5.5s-.5-.22-.5-.5v-9c0-.28.22-.5.5-.5z">
+                                        </path>
+                                    </svg>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div> -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- @for(list of jobListView.jobList; track list.domain){
+                    <div
+                        class="group relative overflow-hidden bg-white dark:bg-slate-900 hover:shadow dark:shadow-gray-700 dark:hover:shadow-gray-700 hover:-mt-2 rounded-md h-fit">
+                        <div class="p-6">
+                            <div class="flex items-center">
+                                 <div
+                                    class="size-14 min-w-[56px] flex items-center justify-center bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 rounded-md">
+                                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAsSAAALEgHS3X78AAAZgUlEQVR42u09a6wc5XVrXxvHxo4pNp65tglJg9O0td2qVdof+VVVsYBAHEOUVgqO1EqVWiXA9Wvm+sWjDY0fDTZ9SHn0ASh/AlGhNiQqJCayioEWFbdKDKQqJqowRC3G37f3sTu7M9Nzzne+b86sr+372Lu7s3dG/jyzc3dmv5lzvvN+VCo9vnmhrviBzo5heIEe8EM1MNH34e9LYaz3QrUFrtsGxw/B8RN+oE7CNWfg2nMwFJyrw99jHHhM5wJ1Dr8D4yReA793FI7hHnCvUG+A/bKJ56gGzMD5KXMuUDTXcpvGtmbXCL5UC1B6mfiCAYjzW5BjHpy/Eb5zJwDwCLz8E/D5Xfjc8PfU0sF703TwPhj7k9Tf20jxnD88mvrhCAzdMkbM3/A78F28hq6Fe9C5UDfh3j+H33jeR8QI9Fb4zY95rXMK9HxCBkSAwD6DqqzaOVIC9oqrPTArvPLJY7TaYcyHFznQssKXw/duhXEUxqu4egf3Ng2w9jVTf/cYAKuampUNiBDqCADQAGA0YR/DNQmNUCXwHRp4bM/jd2AgsBtwfYT38JBS4D3h3vgb7rcCDVREnYb9w3DNbfDda1oQlJAWn2vZwQYhhBeUVOFisk0r3JJ5ZV/cvAwx1BI4/xk4/wgA9Jy/p05A8PdGBGzPABeARYADYFkAw4DVDde540mOhAcc43V0beIxcviEGLiv0hxoLjAn+J134O+Pwt8/i3POkFbN8/GZ+BktVSsBb1a5PB7wxQqBz+vh/EF42W/Si0ZyTCucVnIEo+lZ4JjVm3gOcLMwAsW/g8eGehBCmLnERCFwjsBCAMBnYW6H4PwG9zy7SC4YsMBHajAnEYFWuRDsiGfuvCABfxOMY8h3HQ9Gkh4QSYe9Wd1ebqV2fhjKwtTGIF/M7Ca2MgiyHpj3cfj+zfb5VodVQnYr53hzhSKs3ZbngfBS5ktSD59vh/ECkfj9qX3JDY9WvFzp3QP6ZdmGQEoPkSBQiLDmWfZE8CzqFJz/XMb6SIidLxeGv7var6teqEggvUs1Dh78Fvh8igQsEq6UFeAk7+5FoF+aMggK4ZMgqWL3fKF6ERD5lpywCO/EykN9pT6uHs5W/dpgjHR4seI3wsMfJ/4OL8YIc8jX7QtUUxXeeo8qZIibGMER2BoiwV6iCE/D2CgoAiDCmJOJ/KDaR7weyR2rdPBwi+H4AK5yIo9GZWv6cuWEhQb8RYjgkJoQGgVHoAjw7PzcB2EsYY3BUQNiCUWlBijNOyFHrHp44E0w3iABCVU4o2c7wHsFIvUzoQiM5EZGoHehfwpjk7QuWiNSoQTE1XvH8la8UC1gJFhIFjSU6EEgItUpxytVPwN+IhkhQ/pARfROjMXxYRgLGfgLpDVRako9asmTBp2M5MN+AyDCaYPpKB0T2Uu7rcb1BGvIEJ+MWEwNTsPxhkxAVPOEyty7wHfYGkjVRm8FgI+z9BtJQ4o3t4GfuvcQCEERKCMJxKGqwfv6olSZc+byXvXYoaVLnD88uC9mB4zhd9asOucBP6EdwS2OBr4zenehOix8JQOtpvMeMOeqDPjZBBfBBJ9iSxja5uNs1asS+JeSDTJDErJHtHwyS1BPwfEiprQDTkPotmPJF2qeA36oVwDQX2LgR17OqVKu/Mn4G6TtANkmvkt4jy/D55WSyhpNS3eT5zvgL+CJrYUJvcb6bdRqGSvHlFVGPgYkMO/0dXjv1zM7WNA1mcAPsx/NyL6+Ac69ObgvQQEmmovq3eyoi+zSJuEwRjZ6FsaHmdUKdqA6tfIF8C0pCtVamMBZFlqiUsWbHeEQqSq+Y9ifBThcLwVDrxPsYHD7+YpwYTL26RVw7nUzMQt8Va78dssFTkNQTAnU6zBW5ChBMMvGIhfIwDopTGgRjJfzPF9J40Y52qohuPcaGR+KelloB/MtO5i1sC1r4ROyAKl6ZMo0fKqfgI9GGWm/n/Joub7dGkJkVUSxQOdZGW1WHDtsgLA857BV9frEg5cD2CCMNcMwdut0cJiQO10F47pdOl25S6Urd8LYZT7jwL95fK/V8H28DkYCxzQGJ0aMGTqUWEUMjLEIBXLrgfXbRQm84aog/daxo77IEmns5XTWYnrn4HlSB/Td5m/X7tDpknt0uugulSzfRhFJ8fV7dPyRfTr+6H6d3HivTnAPn5s37NUxXEffuXaHipcNqfiqL6sErk2vvkelH9wG99uZQxKLBDNSEZnaxiR/BWorwyZTD4er7Vn90j0JD7CB7NTDo6kJly6knp9bibxK018AoH8AAA4rPP7Nr1ajP/r2WHTkh7X6U/8RRa/8rFl/6//i6PxoUtPjSRNGosaTxvvw+e334/rr7zYb//ZWs/7smUb0nVei6K+er0X3Hh+ne3z6b0aiX/tKNUIE8toX4eQshsbUrsdh1a/PawZq5iqfjV3j/UIYp030DoVspcKRUSgDC676QQP8dPl2nS4dUslvHaxGX/lerf6vbzWjWiNppmkaw0jS6W+xHSO1JAaEqQ89MdZcfLdKkb20MfSsYZxt6EU0rmQv0M6DOD2Vb4fhIyu3R07NwAQINktGBbXto62dSCcCAHk4kOjkd4+ORP/4alRnoDuAx3DUaCZpI06SJgz4N+GG52P+Dg78ftTEvbmHvRduR0/U0wVfupCs3d3eSCNnMg70UWuj8Xa8RwIhwnLapF9Y+jZhwIJn/PmJFxYQ+EzyAfi44tOP3acbj75YrwNcmhboALy02QJpPG/3V9rgW/aLuXsgQuC5Q8/WkoVfupACAiTtUg/90OUrUDg6nNuUtxTq6en7LlI1VEsA6D+l0GYO5iiY0Cf5fbrkbpXc8Y3R+rkLceQA35wQ4DMh/7kNEID2h5+rpYwAs+A3UE0Tfq7fwLhLqbZPSR4QaVp29R9g8hIVkO874KM6hyQ/fHK8Zld91MwBfdIrvccQIHXm4sCwAoRZi/A+RYNPYCNQ1EYbwiWieJKCedRo5SPwH3hmvM6CGZF6hvusAb5jCBBK2JhgW4DlRhmhNan4AZuv5uLQAv00h243ikn6Fen2QPbT7d81wE/ov4zUzzbwO4QAUsPhcHt13LJyTrG/chx/3tGjbqEMXJOpkxSR76OOv2ybTlEXt2Q/D/x01oHfQQSQLviYkk8Ck5PoWMHlqIBNWx7cM2KFwRdFxo7jM0Uh/ajno5n2hr26+d//awQ+JvttF/J6BQEEFWhyDYNTxqKr2GWsLs/7/cyKdAcbF5qeTIsuEukHvr8YJP6/PFFD0p80mpLqdw74HUaA1HNqoUECOL5DxhNO6CyygR6Yw85s4JQJT9ZFW/2kG4PEn6BpF617tShpCJKfdoLndxUBgjwVgP0pWY/hIpUQa/LcsvuMiPDRN1PFCxPRWzjeL/X9b/0LGXpIz5+KQafICCCpIPkKAJbw+SZrIdz0+R9VvD3Vi5M4PZb8YbUfk5J/0UK5kfejmfeXH9CN90bM6o+TboG+OwggYNbgWgvHbMyAL/I4JBJYvX+DS90KChnUiWpfgg6XoSdI7UuacfvVvaRFjWzZUrGnUW8wAjzbMQpgzMSOHaAsZ8rVWBtPxvtN9Sqb1HGII00aflDIwE6y+C3fruLv/6RRlwafdgDdag8JO4BQsJwArZIJrqX9135QQ2dQRxDAz6qhNTjn8JAVBn2bZygrVlE1Lgw75po8RQ3wQPKPjp7zo1L4S9oAfHMYk2cwB+wYSHw8Wk9ijBOAkYo9DZgLffnB79fSq77cIQTIECFmmL7pc/UymdchAwg2m9JrLnChcFE+1vBz+zdGI2v1myn5l8C3dgS894/fbkZ/8Vwt+sLfj0afPFyt/8oDOsJIIRip2LuxDsaH9mBkkOpwISsWBo1Rb7P0FNp4P5t5+ig7EhoFDPRI2exLoVj3HR8nBGjEM5P8JfAbvOz/53wc/cFjY3VUszCCaOmQiSZasVObWMGdKuH9RWPVLmXn2uk4CMsGHrFRxBQ3KPL5l1Ohw91jJsyooDF+pP7do+LHXqpHQv1LZijsuZWP0UKwkhsoZOJvop/BBn0OttQEugyidnhhkFmc6hhirWRY4Mudc0iUIrnN6P5U666oWT00Z1hp8fNvNJzpdwbsn66MGfhvvRdHHwXgX7Nd24COdkT5djC7SMUM41sd6/ddmLc6SiVPA1HEoYAIsMo4gOKfnGtGFnjTNftmIV+G5wOvrwN1IeB7BStfx/WRI4QxVkGXZv+KKWisThvvkWoWOKfPOn/idy7Eden5m+5mSf8rP2tGSFkGW+IMiiUj6SZ7CF9dFVRztoB1Hla+psLLOikyBUAV8Bf361iNJfWZmn7xWhb8kj/7Xi1CgY/zBgrHIj1XZZVgjL0S1klP4NbM8VPs7B7M2gE+jTp43A4EsCrfHd8cjVC9XD1c4Ixn6yHcS27iOyUCHDH8X0dFz+pFFQx1bjS+zNT3Yy+uN5L4EweqdcwWGixw2jub9iOW9Y5IBDjBNXqbfqCLTQFA177RUICkXRRgpJYkv3S/bqzcWdgUuCzDONA2RuCEBf5SGO9SHf7AxPyXCJCz35NJF6kKUpc+yHi29oB3geUvRf1/vSnhVk37oT4vI4BlAWk7WAAiEyIV3rvoVU88ETUMSLC+Qh2xKJvEGYBKBOhjBGAPIVABcg5tQWPANpPv59y/JQK0uHAFC+iDSiOmSDUn+gyhBZA0AFvlo0SA/kYApgKsCeiHUAh8gvrqBdQmraQA/Y4AAXsG91M5v8cr1FETmyqSCljKAP2PABQb0KTOZqE+iW7gMybtu5ARQCUCTM8eYNPIz6AQeI5KjAT9UdSxRIBJVhsjmKu30R2suJdu0iPYOf1w8GGs2KUo9KrdCID3xHvjb8wkS7kX3MgUKDo8gnvqR1MXFad6Avi4v1RI1eUGAuia7Sr9yL72IwDeE+993a7pzQ2tiHhtm6qEtaPeIO7rFRf9G/QOBUCXa2tA5WQGrlIE1K8/WE2rtfYhAN4L74n3Xjf1eSU2QBSu74kIItmToOJKvfUAAmA837IhlX7um6PpaD0LqZ7qQIC5SM42IADu8Z7Tnc/7Y+ZGWD4OqEjMbCTpAQoQV2ylz15QAVdz8abf/7vRdmXv9MI9XBLRX/+oFmEBSRFU0jWvIO/rqAZqdg70DAL83t+Ocmm1hEYyzdFOCjDdESemXBw+ztATY9EH7iYW12UZQJMQCHuq/8tqoOo5BJCALOomo4q2fH20/sEsqijpLgKQ6n8OvYFnTMNCFZcIMHsIUGskMQiSEdYM7nZUUd4QFGpjCkbzYJepQL8hAE7fRiVjNhHWCl7V/RwC08SaTMHqJGoB5AwytX9LBGjz6ndh5Sf/qxFdt8tR2e4agQLjDIL940gBTEBo2H13cD+yAFuZBFPVMGVt9XDXKYBpQEUhAOgODtU2Dg4oKcAs8H+rAfzpM+OoArIGoLprBAo4ICQ0ASFbuGt17JUyQNsRwKaV/eFjY9HVQz2QVyBDwkK9BZNDN1BZ0R6wBfQjAnB6Wfw7R0bqmFQ62G0VkKh8lSvAKAwK1fmw8C5Orl8RQI0ljXX36iamrXVbA6AKogjrkMPCuXTYCVsUspuqYD8hgK0hhMc/frtZh5Uf94ITyCWGhJwYwsmhR1xqeEkB2rZZFfD4f/aKE0ikiOdSw0K9VdQELhGgTTTA1gbEBlKL7uoZJxAlh8KxTA7Np4d3a5L9xgKarAJu/+54151AWc3HKgWCeLn08FDN97lAhN9FKmAR4PPfGiUvIK6g6Y52ewOnMQegAOTRjLFi2bIuO4E8Fw1sCkS4YpFZBWkuERN2L0Wcu3qkW/+hL+IB7IXN3/jznnACJZ5NDXclYgD2ovP0rVxUuGs1ArH8yrU7VPrbB6vp156rUVlVGs9Nfhz851r68Ikaet/aRgHwXnhPvPdk54HdwR76QT194JnxJpL+rjqBXMVQZQtH3+oag4j2cMthvGPsAd2xCtqgUEQCLKe6cIoDK3DO+5MLdL1qY1Ao3gvviffG35jsfLA/4FV3qdSqf10MApH6/zmPy8RR9xAsFijawXOhSEwX7xqvIkqApVSnOq7fY+7x8fvbHxWM98R7429Mcj7UHHLN7u4HgrJgbxNCRaFIXWltDrmZK4XFfq4rZZkYUuDEECL/ZP83AuDm1hJx+WLRoTrrOoSWmUH9kRkU2I6i+ix8XmL7CJpKodQmTsuuUodcveAwqzdfIkDxEMD2C/BsufhAH2SNb+CiBlJCDtggG0UWrSJGiQAX1QSy8HMNI3zZMCJrGiFaxoTcMia0zSKLkzZeIkBryxjbRDJrGeO1toxZDR+uO/iOEAaVaRqFqkPB+gaUCJBf/R4XiAbY3mSFv4//8fnKdbvUxe3iUS1YFVywDqJTzkXcQ7mDJQJMJRvZNo9UL7guIeElmkdmbWOdafgOLijYLJJKWCKArAvc2jjSqfuXbhyNhqFVO3WeCtjWsQVAgrmOAK5ppAV+aFrHrg5sa8DL9g5uaR4daNM8GviIVxCNoKQALuqYDT8q1zz6ii3kPeYR8MV5fOFxlCK90DaR7G0kmOMIYNO+reTP7eNB8r9c4+iJmkhbfzFctNHnqGHRhy4pEaBndX7bEwDL/m3M2XiutPqlRpCLFQj0AW4m2TO1BEoEuETVD/T5m8qvB1q6wVcmvTmNwLKBQC+G8QY7E5q9zArmKAIksiWMj7AK9WJL/i/ZMv5KskALBm1qySBKetFCONcQwHPePs0BH1QE+lO2U7hc0FPa1uw25sJVQ1XpKDrKzQejzNzYW0gwtxBANoc2pN8XHcGW7xqnlY+wnNbmOVnAsYKFME6zcaEntYK5hADO3o9Sv7HangbAL8zDTFVmtIlYgQHnLQz1OJYYEeVlkxIBumbujancC8AEEGJ9zo4T6sqMt8Eg6y4OmLaAsWvr4L6Y5QFXcy4pEaDjwKcWMAgLhAnz+wXOqjtcrbRlE+5iGT52mHPMTTpZ0Bv+gn5HANsN3IV5G/X8sOX7FONJTh9VaeuWOYsMb2F28CQHkUYibiApEWA2V77j+1bff0rAaHoq35SFQttuPtSLYLxkTMWuxExXKUEfI0DiSeAb8/xLAJNFNrtr2irfZLfV4fnMYRTwDwZ6BRy/RnxIIEG3KEE/IkBLok7E8tdrgAAr8gtSVdYEY5VZ3XzhVBAeprVw/KaZmBI2gs4jQR8iQCKKO0dG4FNn4XitlPgN79eVjmye0AyseggAv8EigaUEXhcEwz5DgESYeRn4+iyMD8sADyOcq0pHN5I0s7SyBYyFa2G8RvyJik2ojquIfYQASa6oA71TIPsBr3x+5x6H8nVl80IlbQSWHayA8RLHocuKIx1hCX2AAJJqGuCbd4kC34r8u1Yzt/TNWCYIBSXILFBXwcSfNLloKrYWQy8QkmyJABPa9jOqSVFYMdv3n8J3mk/jU5P373cUCUTSATzEIbJRo9mYfQfctiwpEeDSSRzUxRXeGUv7hy9K3rlSbF9X2IGYlJ0oH98JfxvnGkSRkGhnBRGKhgAtsZbGumeCOdG2v1UY3ea7nL5eA/5EMgFaDP3MgbQesPZVthrGLqhkFpJOioQAnrDsYRQvsks2r5+Gsd6SfGt99UPdfhNv29nB8PsOQxlbFzhXcqiPUsCCqUUU+YIatCvMrAgI4Ak2yHJRRO/EBNwc9dili843YYInQ1xhNptjII0VfPwpeAFvGOHG9LEXQaYzpgg9jgAyoBbJPQXbsrCMYVybhFw10LP8fvJWQ5ULKsnCy/RieNivUtWK/ZItqBkjQi8igLSKmpRtIPcg5dtwezh3AN+JNaz5IpijsMC326rdGQYv3Kdz1ACDS+DBjyH5s2loWMpMqIpTFhR7DAGSHJvDTh02X8+wwadt6La17K25f9S+G4rF6JvNJJw42WCeNSHz55vh8wv4YkwqGmYlG9bQYkgqCAKoLGDDzBt7McTZ86lTcO4W4V8ZwLRtmcDZl9uHhi/kSBqqNj4/OPO92+HvL2A6M9cn4EolOrZk9Eopal1DACvYOaQltka2D3oWTLcHwNtETacp5VRmVRnc0afAb1UXnaZghMUBX+Srw99vghf5T1iphIRFE+psX6gJQzMv+qKex51EAIuMbk+IipTLhGezSods7RjM9+bs+aouesepd4GqzLnNE3otv4Q8IgR6PYyD8L03SU5AZKBad2heVhEWt2ahylKFBJs0zyICJBlftyHxxNcjqqwGc6M5moRaLMh0COa+Ie9FzQAvNaU5vVHRgsyARHEGNryJzy2B8RlYNY9goUNiEffZF121qwztCk0AUozNmgFoiejZkIjSrZMt8+quxXvhPfHepmAGAhz3VZoDzcVUVHkHxqMwNsP8lwhtaJ7XsuK9oAT8hIhgSaF5SSAjhJmwyOxhOZz/NJw/Ai/x32HUsAceAgEFrJXhGKzWEVy1WKu7AUCMcI81e7Fyt0CGS42Yv+uuxXvhPfHeJMjxb8Ec6jBOY51lmO9tMJa3uMwR6PMRqT/x4M8rk87QnesbZrJ4mXNJUoX5LS8YtYkb4SV/AV7+Q4Oh/iGs0ndhtTZqcftKv9cBLfCeeG/4jRPYag9+804Y6/yWOQECI8AHpJxjqrGOlICddgiaiznQ7G9AtUkPTPT9xXerq9fdp39VjSefBdgNwSp+CPaPwzgJ4wyMc1j+F+EqVn2dz53j7+B3H+drh4ACbIF7rl9yt1p6CavngE9AF6puQYw4/w+gpO81qrOYmgAAAABJRU5ErkJggg=="
+                                        class="size-8" alt="">
+                                </div> 
+                                <div class="ms-3"><a
+                                        class="inline-block text-[16px] font-semibold hover:text-primary-500 transition-all duration-500 me-1"
+                                        href="/job-detail-three">{{list.title}}</a><span
+                                        class="inline-block text-sm text-slate-400">{{list.Applicants}}</span>
+                                    <div>
+                                        <span
+                                            class="bg-primary-500/10 inline-block text-primary-500 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">
+                                            {{list.workEnvironment}}
+                                        </span>
+                                        <span class="text-sm font-medium inline-block me-1">Engagement Period
+                                            <span class="text-slate-400">{{list.engagementPeriod}}</span>
+                                        </span>
+                                        <span class="text-sm font-medium inline-block me-1">No of Hours:
+                                            <span class="text-slate-400">{{list.noOfHours}}</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-slate-400 py-3">Looking for an experienced Web Designer for an our company.
+                            </p>
+                            <div>
+                                <div class="text-sm font-medium me-1">Primary Domain:
+                                </div>
+                                <span
+                                    class="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-300 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">
+                                    {{list.domain}}
+                                </span>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium me-1">Modules:
+                                </div>
+                                @for(mod of list.modules; track mod){
+                                <span
+                                    class="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-300 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">
+                                    {{mod}}
+                                </span>
+                                }
+                            </div>
+
+                            <div>
+                                <div class="text-sm font-medium me-1">Services:
+                                </div>
+
+                                @for(service of list.services; track service){
+                                <span
+                                    class="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-300 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">
+                                    {{service}}
+                                </span>
+                                }
+                            </div>
+
+                            <div>
+                                <div class="text-sm font-medium me-1">Software:
+                                </div>
+                                @for(soft of list.software; track soft){
+                                <span
+                                    class="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-300 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">
+                                    {{soft}}
+                                </span>
+                                }
+                            </div>
+
+                            <div>
+                                <div class="text-sm font-medium me-1">Techstack:
+                                </div>
+                                <span
+                                    class="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-300 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">
+                                    Amazon Web Services (AWS)
+                                </span>
+                                <span
+                                    class="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-300 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">
+                                    DigitalOcean
+                                </span>
+                                <span
+                                    class="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-300 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">
+                                    VMware Cloud on AWS
+                                </span>
+
+                            </div>
+
+
+                             <div>
+
+                                <span
+                                    class="bg-slate-100 dark:bg-slate-800 inline-block text-slate-900 dark:text-slate-300 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">HTML</span><span
+                                    class="bg-slate-100 dark:bg-slate-800 inline-block text-slate-900 dark:text-slate-300 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">CSS</span><span
+                                    class="bg-slate-100 dark:bg-slate-800 inline-block text-slate-900 dark:text-slate-300 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">SASS</span><span
+                                    class="bg-slate-100 dark:bg-slate-800 inline-block text-slate-900 dark:text-slate-300 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">SCSS</span><span
+                                    class="bg-slate-100 dark:bg-slate-800 inline-block text-slate-900 dark:text-slate-300 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">Photoshop</span><span
+                                    class="bg-slate-100 dark:bg-slate-800 inline-block text-slate-900 dark:text-slate-300 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">Graphics</span><span
+                                    class="bg-slate-100 dark:bg-slate-800 inline-block text-slate-900 dark:text-slate-300 text-xs px-2.5 py-0.5 font-semibold rounded-full me-1">Bootstrap</span>
+                            </div> 
+                        </div>
+                         <div class="px-6 py-2 bg-slate-50 dark:bg-slate-800 lg:flex justify-between items-center">
+                            <div class="lg:inline-block flex justify-between"><span
+                                    class="inline-block me-1 font-semibold"><i
+                                        class="mdi mdi-check-decagram mdi-18px text-blue-500 me-1"></i>Verified</span>
+                                <ul class="list-none inline-block me-1 text-yellow-400 space-x-0.5">
+                                    <li class="inline"><i class="mdi mdi-star text-lg"></i></li>
+                                    <li class="inline"><i class="mdi mdi-star text-lg"></i></li>
+                                    <li class="inline"><i class="mdi mdi-star text-lg"></i></li>
+                                    <li class="inline"><i class="mdi mdi-star text-lg"></i></li>
+                                    <li class="inline"><i class="mdi mdi-star text-lg"></i></li>
+                                </ul><span class="inline-flex me-1 items-center text-slate-400"><svg
+                                        stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="text-[18px] text-slate-900 dark:text-white me-1" height="1em" width="1em"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>Australia</span>
+                            </div><a
+                                class="btn btn-sm rounded-md bg-primary-500 hover:bg-primary-700 border-primary-500 hover:border-primary-700 text-white md:ms-2 w-full lg:w-auto lg:mt-0 mt-4"
+                                href="/job-apply">Apply Now</a>
+                        </div> 
+                    </div>
+                    } -->

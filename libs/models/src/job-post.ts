@@ -140,3 +140,13 @@ export interface JobPost {
     unseen: number;
   };
 }
+
+export interface JobPostCard {
+  id: number;
+  title: string,
+  Applicants: string,
+  workEnvironment: WorkEnvironment,
+  engagementPeriod: EngagementPeriod,
+  noOfHours: WeeklyCommitment;
+  chipList: string[];
+}

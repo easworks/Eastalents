@@ -43,5 +43,17 @@ export const JOB_POST_ROUTE: Route = {
         }
       }
     },
+    {
+      path: 'list',
+      pathMatch: 'full',
+      loadComponent: () => import('./list/list-job-post.page').then(m => m.ListJobPostPageComponent),
+      resolve: {
+        listJobPost: async () => {
+          const data = import('./list/mock-job-post')
+            .then(m => m.mockJobPost);
+          return data;
+        }
+      }
+    },
   ]
 };
