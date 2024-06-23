@@ -79,3 +79,5 @@ export const socialIcons = [
     link: 'https://www.youtube.com/@easworks'
   }
 ];
+
+
