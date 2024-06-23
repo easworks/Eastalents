@@ -81,6 +81,7 @@ export const JOB_POST_STATUS_OPTIONS = [
 export type JobPostStatus = typeof JOB_POST_STATUS_OPTIONS[number];
 
 export interface JobPost {
+  _id: string;
   jobType: JobType;
 
   domain: {
@@ -139,14 +140,4 @@ export interface JobPost {
     // the number of applicants who have not been processed yet
     unseen: number;
   };
-}
-
-export interface JobPostCard {
-  id: number;
-  title: string,
-  Applicants: string,
-  workEnvironment: WorkEnvironment,
-  engagementPeriod: EngagementPeriod,
-  noOfHours: WeeklyCommitment;
-  chipList: string[];
 }

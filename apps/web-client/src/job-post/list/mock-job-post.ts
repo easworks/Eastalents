@@ -2,6 +2,7 @@ import { JobPost } from "@easworks/models";
 
 export const mockJobPost: JobPost[] = [
     {
+        "_id": 'mock_2',
         "createdBy": '6657e0291e5d98dbd1d3407c',
         "status": 'Awaiting Approval',
         "jobType": "Project Outsourcing",
@@ -72,6 +73,7 @@ export const mockJobPost: JobPost[] = [
         }
     },
     {
+        "_id": 'mock_3',
         "createdBy": '6657e0291e5d98dbd1d3407c',
         "status": 'Awaiting Approval',
         "jobType": "Project Outsourcing",
@@ -142,6 +144,7 @@ export const mockJobPost: JobPost[] = [
         }
     },
     {
+        "_id": 'mock_4',
         "createdBy": '6657e0291e5d98dbd1d3407c',
         "status": 'Awaiting Approval',
         "jobType": "Project Outsourcing",
@@ -212,6 +215,7 @@ export const mockJobPost: JobPost[] = [
         }
     },
     {
+        "_id": 'mock_5',
         "createdBy": '6657e0291e5d98dbd1d3407c',
         "status": 'Awaiting Approval',
         "jobType": "Project Outsourcing",

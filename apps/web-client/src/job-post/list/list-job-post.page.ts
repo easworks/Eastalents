@@ -1,5 +1,5 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
@@ -9,10 +9,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { AuthState } from '@easworks/app-shell/state/auth';
-import { generateLoadingState } from '@easworks/app-shell/state/loading';
-import { EngagementPeriod, JobPost, JobPostCard, WeeklyCommitment, WorkEnvironment } from '@easworks/models';
-import { faArrowLeft, faArrowRight, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { JobPost } from '@easworks/models';
 import { ListCardPageComponent } from '../list-card/list-card.page';
 
 @Component({
@@ -38,30 +35,8 @@ import { ListCardPageComponent } from '../list-card/list-card.page';
 export class ListJobPostPageComponent {
 
 
-    protected readonly listJobPost$ = input.required<JobPost[]>({ alias: 'listJobPost' });
+    protected readonly routeData$ = input.required<JobPost[]>({ alias: 'data' });
 
-    protected readonly jobListView$ = computed(() => {
-        const jobListView = this.listJobPost$();
-
-        const arrOfJobList: JobPostCard[] = [];
-
-
-        jobListView.forEach((x, i) => {
-            const techStack = x.tech.map(y => y.items);
-            arrOfJobList.push({
-                id: i + 1, //Replace with id
-                title: `${x.domain.roles.role} for ${x.domain.key}`,
-                Applicants: `${x.count.applications} Applicants`,
-                workEnvironment: x.requirements.environment,
-                engagementPeriod: x.requirements.engagementPeriod,
-                noOfHours: x.requirements.commitment,
-                chipList: [x.domain.key, ...x.domain.services, ...x.domain.modules, ...x.domain.roles.software, ...techStack.flat()],
-            });
-        });
-
-        return {
-            jobList: arrOfJobList
-        };
-    });
+    protected readonly list$ = computed(() => this.routeData$());
 
 }
