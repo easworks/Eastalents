@@ -26,6 +26,13 @@ export interface State {
   topBar: {
     dark: boolean;
   };
+  sidebar: {
+    visible: boolean;
+    expanded: boolean;
+  };
+  navigating: boolean;
+  verticalOffset: number;
+  showSplashScreen: boolean;
 }
 
 export const uiActions = createActionGroup({
@@ -33,9 +40,24 @@ export const uiActions = createActionGroup({
   events: {
     'update screen size': props<{ payload: { size: ScreenSize; }; }>(),
     'update touch device': emptyProps(),
-    'update top bar mode': props<{ payload: { dark: boolean; }; }>()
+    'update top bar mode': props<{ payload: { dark: boolean; }; }>(),
+    'update navigation state': props<{ navigating: boolean; }>(),
+    'update vertical offset': props<{ verticalOffset: number; }>(),
+    'hide splash screen': emptyProps()
   }
 });
+
+export const sidebarActions = createActionGroup({
+  source: 'ui-sidebar',
+  events: {
+    'toggle visibility': emptyProps(),
+    'toggle expansion': emptyProps(),
+    'show': emptyProps(),
+    'hide': emptyProps(),
+    'expand': emptyProps(),
+    'contract': emptyProps()
+  }
+})
 
 export const UI_FEATURE = createFeature({
   name: 'ui',
@@ -45,8 +67,18 @@ export const UI_FEATURE = createFeature({
       isTouchDevice: false,
       topBar: {
         dark: true
-      }
+      },
+      sidebar: {
+        visible:false ,
+        expanded: false,
+      },
+      navigating: true,
+      verticalOffset: 0,
+      showSplashScreen: false
     },
+    on(uiActions.updateNavigationState, produce((state, { navigating }) => {
+      state.navigating = navigating;
+    })),
     on(uiActions.updateScreenSize, produce((state, { payload }) => {
       state.screenSize = payload.size;
       return state;
@@ -58,6 +90,32 @@ export const UI_FEATURE = createFeature({
     on(uiActions.updateTopBarMode, produce((state, { payload }) => {
       state.topBar.dark = payload.dark;
       return state;
+    })),
+    
+    on(sidebarActions.expand, produce(state => {
+      state.sidebar.expanded = true;
+    })),
+    on(sidebarActions.contract, produce(state => {
+      state.sidebar.expanded = false;
+    })),
+    on(sidebarActions.toggleExpansion, produce(state => {
+      state.sidebar.expanded = !state.sidebar.expanded;
+    })),
+    on(sidebarActions.show, produce(state => {
+      state.sidebar.visible = true;
+    })),
+    on(sidebarActions.hide, produce(state => {
+      state.sidebar.visible = false;
+    })),
+    on(sidebarActions.toggleVisibility, produce(state => {
+      state.sidebar.visible = !state.sidebar.visible;
+    })),
+
+    on(uiActions.updateVerticalOffset, produce((state, { verticalOffset }) => {
+      state.verticalOffset = verticalOffset;
+    })),
+    on(uiActions.hideSplashScreen, produce((state) => {
+      state.showSplashScreen = false;
     }))
   ),
 });
