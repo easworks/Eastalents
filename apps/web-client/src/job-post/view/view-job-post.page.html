@@ -2,7 +2,7 @@
       xl:gap-x-16">
 
   <div class="w-full col-span-12">
-    <a class="highlight-button flex gap-3 items-center w-fit" href="/">
+    <a class="highlight-button flex gap-3 items-center w-fit" routerLink="../list">
       <fa-icon [icon]="icons.faArrowLeft"></fa-icon>
       Back
     </a>
@@ -15,7 +15,7 @@
         <span class="flex-grow">{{header.title}} </span>
         @if (actions.edit.active$()) {
         <a class="icon-button flex-none self-center" mat-ripple matTooltip="Edit Primary Domain" routerLink="../edit"
-           [queryParams]="{ step: 'primary-domain' }">
+          [queryParams]="{ step: 'primary-domain' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
         </a>
         }
@@ -25,7 +25,7 @@
         <span class="flex-grow text-gray-500 ">{{header.subtitle}}</span>
         @if (actions.edit.active$()) {
         <a class="icon-button flex-none self-center" mat-ripple matTooltip="Edit Role" routerLink="../edit"
-           [queryParams]="{ step: 'roles' }">
+          [queryParams]="{ step: 'roles' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
         </a>
         }
@@ -43,7 +43,7 @@
         <span class="p-1 px-4">Overview</span>
         @if(actions.edit.active$()){
         <a class="icon-button flex-none" mat-ripple matTooltip="Edit Overview" routerLink="../edit"
-           [queryParams]="{ step: 'description' }">
+          [queryParams]="{ step: 'description' }">
           <fa-icon [icon]="icons.faEdit"></fa-icon>
         </a>
         }
@@ -68,7 +68,7 @@
             <label class="flex items-center">{{pm.key}}
               @if (actions.edit.active$()) {
               <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-                 [queryParams]="{ step: pm.url }">
+                [queryParams]="{ step: pm.url }">
                 <fa-icon [icon]="icons.faEdit"></fa-icon>
               </a>
               }
@@ -90,7 +90,7 @@
             <span class="flex-grow text-gray-400 font-medium">Industry</span>
             @if (actions.edit.active$()) {
             <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-               [queryParams]="{ step: 'industry' }">
+              [queryParams]="{ step: 'industry' }">
               <fa-icon [icon]="icons.faEdit"></fa-icon>
             </a>
             }
@@ -108,7 +108,7 @@
             <span class="flex-grow text-gray-400 font-medium">Technical Experience</span>
             @if (actions.edit.active$()) {
             <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-               [queryParams]="{ step: 'technology-stack' }">
+              [queryParams]="{ step: 'technology-stack' }">
               <fa-icon [icon]="icons.faEdit"></fa-icon>
             </a>
             }
@@ -330,7 +330,7 @@
       <p class="font-medium">{{jobSpecifics.experience}}</p>
       @if (actions.edit.active$()) {
       <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-         [queryParams]="{ step: 'required-experience' }">
+        [queryParams]="{ step: 'required-experience' }">
         <fa-icon [icon]="icons.faEdit"></fa-icon>
       </a>
       }
@@ -341,7 +341,7 @@
       <p class="font-medium">{{jobSpecifics.noOfHours}}</p>
       @if (actions.edit.active$()) {
       <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-         [queryParams]="{ step: 'weekly-commitment' }">
+        [queryParams]="{ step: 'weekly-commitment' }">
         <fa-icon [icon]="icons.faEdit"></fa-icon>
       </a>
       }
@@ -352,7 +352,7 @@
       <p class="font-medium">{{jobSpecifics.engagementPeriod}}</p>
       @if (actions.edit.active$()) {
       <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-         [queryParams]="{ step: 'engagement-period' }">
+        [queryParams]="{ step: 'engagement-period' }">
         <fa-icon [icon]="icons.faEdit"></fa-icon>
       </a>
       }
@@ -363,7 +363,7 @@
       <p class="font-medium">{{jobSpecifics.hourlyBudget}}</p>
       @if (actions.edit.active$()) {
       <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-         [queryParams]="{ step: 'hourly-budget' }">
+        [queryParams]="{ step: 'hourly-budget' }">
         <fa-icon [icon]="icons.faEdit"></fa-icon>
       </a>
       }
@@ -374,7 +374,7 @@
       <p class="font-medium">{{jobSpecifics.startTimeLine}}</p>
       @if (actions.edit.active$()) {
       <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-         [queryParams]="{ step: 'project-kickoff-timeline' }">
+        [queryParams]="{ step: 'project-kickoff-timeline' }">
         <fa-icon [icon]="icons.faEdit"></fa-icon>
       </a>
       }
@@ -386,7 +386,7 @@
       <p class="font-medium">{{jobSpecifics.workEnvironment}}</p>
       @if (actions.edit.active$()) {
       <a class="icon-button flex-none self-center" mat-ripple routerLink="../edit"
-         [queryParams]="{ step: 'work-environment' }">
+        [queryParams]="{ step: 'work-environment' }">
         <fa-icon [icon]="icons.faEdit"></fa-icon>
       </a>
       }
@@ -401,26 +401,20 @@
 
   <div class="flex gap-4 justify-end">
     @if (actions.edit.allowed$()) {
-    <button class="stroked-button mt-8 edit-toggle mr-auto"
-            mat-ripple
-            (click)="actions.edit.click()"
-            [class.active]="actions.edit.active$()">
+    <button class="stroked-button mt-8 edit-toggle mr-auto" mat-ripple (click)="actions.edit.click()"
+      [class.active]="actions.edit.active$()">
       {{ actions.edit.active$() ? 'Stop Editing' : 'Edit' }}
     </button>
     }
 
     @if (actions.deleteJob.allowed$()) {
-    <button class="stroked-button mt-8 warn"
-            mat-ripple
-            (click)="actions.deleteJob.click()">
+    <button class="stroked-button mt-8 warn" mat-ripple (click)="actions.deleteJob.click()">
       Delete
     </button>
     }
 
     @if (actions.cancel.allowed$()) {
-    <button class="stroked-button mt-8 warn"
-            mat-ripple
-            (click)="actions.cancel.click()">
+    <button class="stroked-button mt-8 warn" mat-ripple (click)="actions.cancel.click()">
       Cancel
     </button>
     }
