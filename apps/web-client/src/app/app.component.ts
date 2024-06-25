@@ -1,17 +1,18 @@
-import { ChangeDetectionStrategy, Component, HostBinding, ViewChild, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, HostBinding, INJECTOR, OnInit, ViewChild, computed, effect, inject, untracked, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
-import { EventType, Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { NavigationModule } from '@easworks/app-shell/navigation/navigation.module';
 import { SWManagementService } from '@easworks/app-shell/services/sw.manager';
+import { AuthState } from '@easworks/app-shell/state/auth';
 import { MenuItem, NOOP_CLICK, NavMenuState } from '@easworks/app-shell/state/menu';
-import { UI_FEATURE } from '@easworks/app-shell/state/ui';
+import { ScreenSize, UI_FEATURE, sidebarActions } from '@easworks/app-shell/state/ui';
 import { faFacebook, faGithub, faInstagram, faLinkedin, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { faAngleRight, faBars, faCircleArrowUp, } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AccountWidgetComponent } from '../account/account.widget';
-import { publicMenu, socialIcons } from './menu-items';
+import { publicMenu } from './menu-items';
 
 @Component({
   standalone: true,
@@ -28,24 +29,23 @@ import { publicMenu, socialIcons } from './menu-items';
     AccountWidgetComponent
   ]
 })
-export class AppComponent {
-  constructor() {
-    this.processRouterEvents();
-    this.makeMenuReactive();
-
-    this.menuState.brandLinks$.set(socialIcons);
-  }
+export class AppComponent implements OnInit {
 
   private readonly store = inject(Store);
   private readonly menuState = inject(NavMenuState);
   private readonly swm = inject(SWManagementService);
+  private readonly auth = inject(AuthState);
+  private readonly injector = inject(INJECTOR);
+  private readonly dRef = inject(DestroyRef);
 
   private readonly ui$ = this.store.selectSignal(UI_FEATURE.selectUiState);
+  private readonly isSignedIn$ = computed(() => !!this.auth.user$());
+
 
   @HostBinding()
   private readonly class = 'flex flex-col min-h-screen';
 
-  @ViewChild('appSidenav', { static: true }) private readonly appSideNav!: MatSidenav;
+  private readonly appSidenav$ = viewChild.required<MatSidenav>('appSidenav');
 
   protected readonly icons = {
     faBars,
@@ -59,7 +59,7 @@ export class AppComponent {
     faYoutube
   } as const;
 
-  protected readonly navigating$ = signal(false);
+  protected readonly navigating$ = computed(() => this.ui$().navigating)
   protected readonly sw = {
     hidden$: computed(() => !this.swm.updateAvailable$()),
     updating$: this.swm.updating$,
@@ -68,7 +68,39 @@ export class AppComponent {
     }
   } as const;
 
-  protected readonly showHorizontalMenu$ = computed(() => this.menuState.publicMenu.horizontal$().length > 0);
+  private readonly screenSize$ = computed(() => this.ui$().screenSize)
+
+  protected readonly sideBarState = (() => {
+    const state$ = this.store.selectSignal(UI_FEATURE.selectSidebar);
+
+    const mode$ = computed(() => {
+      if (!this.isSignedIn$())
+        return 'over';
+      return state$().visible ? 'side' : 'over';
+    });
+    const opened$ = computed(() => state$().expanded);
+    const position$ = computed(() => this.isSignedIn$() ? 'start' : 'end');
+
+    const toggle = (() => {
+      const show$ = computed(() => mode$() === 'over');
+    
+      const position$ = computed(() => {
+        if (show$()) {
+          return this.isSignedIn$() ? 'left' : 'right';
+        }
+        return null;
+      });
+    
+      const click = () => this.store.dispatch(sidebarActions.toggleExpansion());
+    
+      return { position$, click } as const;
+    })();
+
+    return { mode$, opened$, position$, toggle} as const;
+  })();
+
+
+  protected readonly showHorizontalMenu$ = computed(() => !this.isSignedIn$() && this.menuState.publicMenu.horizontal$().length > 0);
 
   protected readonly topBar$ = computed(() => {
     const dark = this.ui$().topBar.dark;
@@ -172,30 +204,48 @@ export class AppComponent {
           this.menuState.publicMenu.vertical$.set([]);
           break;
       }
-    }, { allowSignalWrites: true });
+    }, { allowSignalWrites: true, injector: this.injector });
 
     effect(() => {
       this.navigating$();
-      this.appSideNav.close();
-    });
+      if (untracked(this.sideBarState.mode$) === 'over') {
+        this.appSidenav$().close();
+      }
+    }, { injector: this.injector });
   }
+  private updateSidebarIfNeeded() {
+    const largeScreenSizes: ScreenSize[] = [ '7xl', '8xl', '9xl', '10xl'];
+    const alwaysShowSideMenu$ = computed(() => largeScreenSizes.includes(this.screenSize$()));
 
-  private processRouterEvents() {
-    const router = inject(Router);
+    effect(() => {
+      if (this.isSignedIn$()) {
+        const alwaysShowSideMenu = alwaysShowSideMenu$();
 
-    router.events.pipe(takeUntilDestroyed()).subscribe(
-      event => {
-        switch (event.type) {
-          case EventType.NavigationStart: {
-            this.navigating$.set(true);
-          } break;
-          case EventType.NavigationEnd:
-          case EventType.NavigationCancel:
-          case EventType.NavigationError: {
-            this.navigating$.set(false);
-          } break;
+        if (alwaysShowSideMenu) {
+          this.store.dispatch(sidebarActions.show());
+          this.store.dispatch(sidebarActions.expand());
+        }
+        else {
+          this.store.dispatch(sidebarActions.hide());
+          this.store.dispatch(sidebarActions.contract());
         }
       }
-    );
+      else {
+        this.store.dispatch(sidebarActions.hide());
+        this.store.dispatch(sidebarActions.contract());
+      }
+
+    }, { allowSignalWrites: true, injector: this.injector });
+
+    this.appSidenav$().closedStart
+      .pipe(takeUntilDestroyed(this.dRef))
+      .subscribe(() => {
+        this.store.dispatch(sidebarActions.contract());
+      });
+  }
+
+  ngOnInit() {
+    this.updateSidebarIfNeeded();
+    this.makeMenuReactive();
   }
 }

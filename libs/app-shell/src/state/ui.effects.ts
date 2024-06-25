@@ -1,10 +1,12 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { inject } from '@angular/core';
 import { createEffect } from '@ngrx/effects';
-import { EMPTY, distinctUntilChanged, fromEvent, map, startWith } from 'rxjs';
+import { EMPTY, distinctUntilChanged, filter, first, fromEvent, map, startWith, switchMap } from 'rxjs';
 import type { ScreensConfig } from 'tailwindcss/types/config';
 import { TW_THEME } from '../common/tw-theme';
 import { ScreenSize, screenSizes, uiActions } from './ui';
+import { EventType, Router, Scroll } from '@angular/router';
+import { AuthService } from '../services/auth';
 
 export const uiEffects = {
   validateScreenDeclarations: createEffect(
@@ -58,6 +60,46 @@ export const uiEffects = {
           map(top => top === 0),
           distinctUntilChanged(),
           map(dark => uiActions.updateTopBarMode({ payload: { dark } }))
+        );
+    },
+    { functional: true }
+  ),
+  watchRouterNavigation: createEffect(
+    () => {
+      const router = inject(Router);
+      const auth = inject(AuthService);
+
+      return router.events.pipe(
+        // TODO: implement auth.ready$
+        // switchMap(event => auth.ready$.then(() => event instanceof Scroll ? event.routerEvent : event)),
+        // TODO: remove the following line after auth.ready$ is implemented
+        map(event => event instanceof Scroll ? event.routerEvent : event),
+        map(event => {
+          switch (event.type) {
+            case EventType.NavigationStart:
+            case EventType.ResolveStart: return true;
+            case EventType.NavigationEnd:
+            case EventType.NavigationCancel:
+            case EventType.NavigationError: return false;
+            default: return undefined;
+          }
+        }),
+        filter((nav): nav is boolean => typeof nav === 'boolean'),
+        distinctUntilChanged(),
+        map(navigating => uiActions.updateNavigationState({ navigating }))
+      );
+    },
+    { functional: true }
+  ),
+  hideSplashScreen: createEffect(
+    () => {
+      const router = inject(Router);
+
+      return router.events
+        .pipe(
+          filter(e => e.type === EventType.ActivationStart),
+          first(),
+          map(() => uiActions.hideSplashScreen())
         );
     },
     { functional: true }

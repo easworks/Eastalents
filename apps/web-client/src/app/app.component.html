@@ -1,11 +1,15 @@
-<div id="app-top-bar" *ngrxLet="topBar$() as topBar"
-     [class.dark]="topBar.dark">
-
-  <a routerLink="/" class="grid content-center">
+<div id="app-top-bar" *ngrxLet="topBar$() as topBar" [class.dark]="topBar.dark">
+  @if(sideBarState.toggle.position$() === 'left'){
+    <button class="icon-button" mat-ripple (click)="appSidenav.toggle()">
+      <fa-icon [icon]="icons.faBars"></fa-icon>
+    </button>
+  }
+  <a routerLink="/" class="grid content-center mr-auto">
     <img [src]="topBar.brandImage">
   </a>
-
-  <app-horizontal-menu *ngIf="showHorizontalMenu$()"></app-horizontal-menu>
+  @if(showHorizontalMenu$()) {
+    <app-horizontal-menu class="mx-auto"></app-horizontal-menu>
+  }
 
   <div class="flex gap-2 items-center flex-none">
     <account-widget></account-widget>
@@ -13,24 +17,32 @@
       Hire Now
     </a>
     <div class="flex items-center">
-      <button class="icon-button" mat-ripple (click)="appSidenav.toggle()">
-        <fa-icon [icon]="icons.faBars"></fa-icon>
-      </button>
-      <button class="icon-button text-emerald-500" mat-ripple [class.hidden]="sw.hidden$()"
-              (click)="sw.update()">
+      @if(sideBarState.toggle.position$() === 'right'){
+        <button class="icon-button" mat-ripple (click)="appSidenav.toggle()">
+          <fa-icon [icon]="icons.faBars"></fa-icon>
+        </button>
+      }
+      
+      <button class="icon-button text-emerald-500" mat-ripple [class.hidden]="sw.hidden$()" (click)="sw.update()">
         <fa-icon [icon]="icons.faCircleArrowUp"></fa-icon>
       </button>
     </div>
   </div>
-
-  <mat-progress-bar *ngIf="navigating$()" class="!absolute bottom-0 left-0" mode="indeterminate">
+  @if(navigating$()) {
+  <mat-progress-bar class="!absolute bottom-0 left-0" mode="indeterminate">
   </mat-progress-bar>
+  }
 </div>
 
 <mat-sidenav-container class="flex-grow !flex flex-col !overflow-visible">
-  <mat-sidenav #appSidenav fixedInViewport class="!top-16" mode="over" position="end">
-    <app-vertical-menu></app-vertical-menu>
+  <mat-sidenav #appSidenav fixedInViewport class="!top-16"
+    [mode] = "sideBarState.mode$()" 
+    [opened] = "sideBarState.opened$()"
+    [position] = "sideBarState.position$()">
+    <!-- <app-vertical-menu></app-vertical-menu> -->
+    <app-nav-menu></app-nav-menu>
   </mat-sidenav>
+
   <mat-sidenav-content class="flex-grow !flex flex-col !overflow-visible bg-white">
     <router-outlet class="hidden [&_+_*]:flex-1"></router-outlet>
 
@@ -63,48 +75,42 @@
       <nav class="@container flex-1">
         <div class="w-full lg:w-max lg:m-auto grid gap-4 @lg:gap-x-8 grid-cols-12 grid-flow-row-dense">
 
-          <div *ngrxLet="footerNav.companies as group"
-               class="col-span-6
+          <div *ngrxLet="footerNav.companies as group" class="col-span-6
                 @sm:col-span-6 
                 @3xl:col-span-4 
                 @6xl:col-span-3">
             <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
           </div>
 
-          <div *ngrxLet="footerNav.freelancers as group"
-               class="col-span-6
+          <div *ngrxLet="footerNav.freelancers as group" class="col-span-6
                 @sm:col-span-6 
                 @3xl:col-span-4 
                 @6xl:col-span-3">
             <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
           </div>
 
-          <div *ngrxLet="footerNav.useCase as group"
-               class="col-span-12 
+          <div *ngrxLet="footerNav.useCase as group" class="col-span-12 
                 @sm:col-span-6 
                 @3xl:col-span-4 @3xl:row-span-2 @3xl:col-start-1 
                 @6xl:col-span-3 @6xl:col-start-7">
             <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
           </div>
 
-          <div *ngrxLet="footerNav.industries as group"
-               class="col-span-12 
+          <div *ngrxLet="footerNav.industries as group" class="col-span-12 
                 @sm:col-span-6 
                 @3xl:col-span-4 @3xl:row-span-2 @3xl:col-start-5 
                 @6xl:col-span-3 @6xl:col-start-10">
             <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
           </div>
 
-          <div *ngrxLet="footerNav.about as group"
-               class="col-span-12 
+          <div *ngrxLet="footerNav.about as group" class="col-span-12 
                 @sm:col-span-6 
                 @3xl:col-span-4 @3xl:col-start-9 
                 @6xl:col-span-3">
             <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
           </div>
 
-          <div *ngrxLet="footerNav.contact as group"
-               class="col-span-12 
+          <div *ngrxLet="footerNav.contact as group" class="col-span-12 
                 @sm:col-span-6 
                 @3xl:col-span-4 @3xl:col-start-9 
                 @6xl:col-span-3">
