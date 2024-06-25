@@ -20,7 +20,7 @@ export const EMPLOYER_ROUTE: Route = {
     {
       path: 'myprofile',
       pathMatch: 'full',
-      loadComponent: () => import('./my-profile/my-profile.component').then(m => m.MyProfileComponent)
+      loadComponent: () => import('./my-profile/my-profile/my-profile.component').then(m => m.MyProfileComponent)
     },
     {
       path: 'mockjobs',

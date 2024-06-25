@@ -127,8 +127,7 @@
  
    <div *ngIf="isActive('experience')">
      <!-- Content for Experience and Skill -->
-     <p>Experience and Skill content here</p>
-     <app-experience-skill-layout></app-experience-skill-layout>
+     <app-experience-skill-layout (openSkillPopup)="toggleSkillPopup()" ></app-experience-skill-layout>
    </div>
    <div *ngIf="isActive('jobReference')">
      <!-- Content for Job Reference -->
@@ -136,10 +135,13 @@
      <app-job-reference-layout></app-job-reference-layout>
    </div>
    <div *ngIf="isActive('education')">
-     <!-- Content for Education & Certificate -->
-     <p>Education & Certificate content here</p>
-     <app-education-certificate-layout></app-education-certificate-layout>
+     <app-education-certificate-layout (openeducationPopup)="toggleEducationPopup()" (openCertificatePopup)="toggleCertificationPopup()"></app-education-certificate-layout>
    </div>
+
+   
+   <app-update-core-skill-popup *ngIf="isSkillPopupVisible" (closePopup)="toggleSkillPopup()"></app-update-core-skill-popup>
+   <app-education-popup *ngIf="isEducationPopupVisible" (closePopup)="toggleEducationPopup()"></app-education-popup>
+   <app-certification-popup *ngIf="isCertificationPopupVisible" (closePopup)="toggleCertificationPopup()"></app-certification-popup>
  </div>
  
    

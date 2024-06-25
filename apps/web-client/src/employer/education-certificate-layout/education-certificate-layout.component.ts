@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+
 
 @Component({
   selector: 'app-education-certificate-layout',
@@ -10,4 +11,15 @@ import { Component } from '@angular/core';
 })
 export class EducationCertificateLayoutComponent {
   items = [1, 2, 3, 4];
+
+  @Output() openeducationPopup = new EventEmitter<void>();
+  @Output() openCertificatePopup = new EventEmitter<void>();
+
+  // Method to open the skill popup
+  showEducationPopup() {
+    this.openeducationPopup.emit();
+  }
+  showCertificatePopup() {
+    this.openCertificatePopup.emit();
+  }
 }
