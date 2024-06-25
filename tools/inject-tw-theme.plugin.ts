@@ -1,6 +1,7 @@
 import { Plugin } from 'esbuild';
 import * as path from 'path';
-import resolveConfig from 'tailwindcss/resolveConfig';
+// @ts-ignore TODO: figure out a way to fix this
+import * as resolveConfig from 'tailwindcss/resolveConfig';
 
 interface Options {
   configPath: string;
