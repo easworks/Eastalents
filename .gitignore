@@ -9,4 +9,4 @@ tmp
 .env
 .firebase
 
-.nx/cache
+.nx
