@@ -27,8 +27,7 @@ export const WEEKLY_COMMITMENT_OPTIONS = [
   '10 hrs or less',
   '10 - 20 hrs',
   '20 - 30 hrs',
-  '40 hrs',
-  'Not sure'
+  '40 hrs'
 ] as const;
 
 export type WeeklyCommitment = typeof WEEKLY_COMMITMENT_OPTIONS[number];
@@ -81,6 +80,7 @@ export const JOB_POST_STATUS_OPTIONS = [
 export type JobPostStatus = typeof JOB_POST_STATUS_OPTIONS[number];
 
 export interface JobPost {
+  _id: string;
   jobType: JobType;
 
   domain: {

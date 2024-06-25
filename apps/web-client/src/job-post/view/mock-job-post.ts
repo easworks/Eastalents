@@ -1,6 +1,7 @@
 import { JobPost } from "@easworks/models";
 
 export const mockJobPost: JobPost = {
+    "_id": 'mock_1',
     "createdBy": '6657e0291e5d98dbd1d3407c',
     "status": 'Awaiting Approval',
     "jobType": "Project Outsourcing",

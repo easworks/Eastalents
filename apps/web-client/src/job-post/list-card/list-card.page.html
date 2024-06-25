@@ -1,0 +1,74 @@
+<div class="bg-white rounded-md shadow hover:shadow-md
+    @container">
+
+  <!-- header section -->
+  <div class="flex">
+    <!-- title -->
+    <div class="flex-grow px-4 mt-4">
+      <label class="font-bold text-lg leading-tight">{{title$()}}</label>
+      <div class="text-xs mt-1 text-gray-500">Posted on: {{"\<date>"}}</div>
+    </div>
+    <!-- bookmark button -->
+    <button class="icon-button flex-none mt-2 mr-2">
+      <fa-icon [icon]="icons.faBookmark"></fa-icon>
+    </button>
+  </div>
+
+  <!-- requirements -->
+  <div class="mt-4 flex items-center gap-2 px-4 flex-wrap">
+    <span class="bg-primary-500/10 text-primary-400 text-xs px-3 py-1 font-semibold rounded-full">
+      {{post$().requirements.environment}}
+    </span>
+    <span class="bg-gray-500/10 text-gray-500 text-xs px-3 py-1 font-semibold rounded-full">
+      {{post$().requirements.engagementPeriod}}
+    </span>
+    <span class="bg-gray-500/10 text-gray-500 text-xs px-3 py-1 font-semibold rounded-full">
+      {{post$().requirements.commitment}} per week
+    </span>
+  </div>
+
+  <!-- description -->
+  <div class="mt-4 px-4 text-sm
+        flex flex-col gap-4">
+    <div>
+      <div class="line-clamp-3 text-ellipsis transition-all"
+           [class.line-clamp-none]="description.expanded.$()">
+        {{description.$()}}
+      </div>
+      <button class="highlight-button mt-2 ml-auto text-xs p-1 px-3 rounded-full"
+              mat-ripple
+              (click)="description.expanded.toggle()">
+        @if(description.expanded.$()) {
+        Less
+        }
+        @else {
+        More
+        }
+      </button>
+    </div>
+
+    <!-- cta -->
+    <div class="flex-none grid gap-2 content-start w-full @sm:w-40 @sm:mx-auto">
+      <button class="flex-none shaded-button primary rounded-md p-1 px-3 text-sm
+        w-full"
+              mat-ripple>
+        Apply Now
+      </button>
+      <div class="flex gap-2 flex-wrap justify-center">
+        <div class="text-sm text-gray-400">{{applicants$()}} applicants</div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <!-- tags -->
+  <div class="my-4 px-4 flex flex-wrap gap-2 items-center">
+    @for(tag of tags$(); track tag){
+    <span class="bg-slate-100 inline-block text-slate-900 
+      text-xs px-3 py-1 font-medium rounded-full">
+      {{tag}}
+    </span>
+    }
+  </div>
+</div>
