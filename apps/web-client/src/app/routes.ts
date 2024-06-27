@@ -5,14 +5,14 @@ import { AuthState } from '@easworks/app-shell/state/auth';
 import { ACCOUNT_ROUTES } from '../account/routes';
 import { ADMIN_ROUTES } from '../admin/routes';
 import { EMPLOYER_ROUTE } from '../employer/routes';
-import { FREELANCER_ROUTE } from '../freelancer/routes';
+import { TALENT_ROUTE } from '../freelancer/routes';
 import { MESSAGES_ROUTE } from '../messages/routes';
 import { PUBLIC_ROUTES } from '../public/routes';
 
 export const routes: Routes = [
   ...ACCOUNT_ROUTES,
   ADMIN_ROUTES,
-  FREELANCER_ROUTE,
+  TALENT_ROUTE,
   EMPLOYER_ROUTE,
   MESSAGES_ROUTE,
   ...PUBLIC_ROUTES,

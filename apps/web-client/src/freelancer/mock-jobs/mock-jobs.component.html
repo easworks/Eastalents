@@ -1,0 +1,127 @@
+<div>
+  <div class=" flex flex-row w-full items-center justify-between">
+    <div>
+      <h2 class="text-xl lg:text-2xl font-bold  transition-all">
+        All Matching Job
+      </h2>
+      <span class=" text-gray-400"> Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
+    </div>
+
+  </div>
+
+  <div class=" flex xl:flex-row space-y-2 flex-col xl:py-10 py-4 items-center justify-between">
+    <div>
+      <div class=" w-full">
+
+        <div class="relative z-50">
+          <button class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                clip-rule="evenodd"></path>
+            </svg>
+          </button>
+          <input aria-placeholder="Search"
+            class="block w-full pl-4 pr-3 py-2 border border-gray-500 rounded-md leading-5 bg-gray-200 text-gray-300 placeholder-gray-400 focus:outline-none focus:bg-white focus:text-gray-900 sm:text-sm transition duration-150 ease-in-out"
+            placeholder="Search">
+        </div>
+      </div>
+    </div>
+    <div class=" flex flex-row space-x-4">
+
+      <button class=" border-2 space-x-2 p-1 px-2 rounded-md flex flex-row items-center justify-center" (click)="setOpenFilter()">
+        <div class="flex flex-row items-center justify-center w-6 h-8 ">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path d="M4 7H20" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M7 12L17 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              </path>
+              <path d="M11 17H13" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              </path>
+            </g>
+          </svg>
+        </div>
+
+        <p class="">Filter</p>
+
+      </button>
+      <div class=" border-2 px-4 space-x-2 p-1 rounded-md flex flex-row items-center justify-center">
+        <p class="">Show saved job</p>
+      </div>
+    </div>
+
+  </div>
+  <div class="grid grid-cols-12 gap-8 @container pt-8 justify-center">
+    <div *ngFor="let item of items"
+      class="max-w-full col-span-12 @sm:col-span-6 @md:col-span-4 @xl:col-span-4  bg-white flex border-gray-200 border-2 flex-col rounded-xl  overflow-hidden shadow-lg">
+      <app-job-post-card [item]="item"></app-job-post-card>
+    </div>
+  </div>
+  <div>
+    <div>
+      <div class="relative">
+        <div [ngClass]="{
+        'fixed inset-y-0 right-0 bg-white w-80 shadow-lg p-6 transform transition-transform duration-300 ease-in-out': true,
+        'translate-x-full': !openFilter,
+        'translate-x-0': openFilter
+    }">
+    <div class="flex justify-between items-center border-b pb-3 " *ngIf="openFilter">
+      <h2 class="text-xl font-semibold">Filters</h2>
+      <button class="text-gray-500 hover:text-gray-700 cursor-pointer">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+          <div class="flex justify-between items-center border-b pb-3">
+            <h2 class="text-xl font-semibold">Filter</h2>
+            <button (click)="setOpenFilter()">
+              <label for="togglePanel" class="text-gray-500 hover:text-gray-700 cursor-pointer">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </label>
+            </button>
+            
+          </div>
+          <form class="mt-6 space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Roles</label>
+              <select
+                class="block w-full border border-purple-500 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option>Select Roles</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Job Type</label>
+              <select
+                class="block w-full border border-purple-500 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option>Search</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Job location</label>
+              <select
+                class="block w-full border border-purple-500 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option>Search</option>
+              </select>
+            </div>
+            <div class="flex justify-between items-center mt-6">
+              <button type="button"
+                class="py-2 px-4 bg-red-500 text-white rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Clear
+                Filter</button>
+              <button type="submit"
+                class="py-2 px-4 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">Apply
+                Filter</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

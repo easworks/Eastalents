@@ -1,7 +1,42 @@
 .section {
   @apply rounded bg-white;
 
-  > h1 {
+  .header {
     @apply text-lg p-2 px-4;
+  }
+}
+
+.profile-indicator-bars {
+  @apply grid gap-4 p-4 text-sm;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+
+  .mat-mdc-progress-bar {
+    --mdc-linear-progress-active-indicator-color: theme(colors.emerald.400);
+  }
+
+  > div {
+    @apply flex flex-wrap gap-1;
+  }
+}
+
+.exp-data {
+  @apply flex gap-2 flex-col text-sm;
+
+  > .label {
+    @apply flex-grow rounded border
+      p-2 px-4 text-center
+      grid place-content-center;
+  }
+
+  > .data {
+    @apply grid grid-cols-2 rounded overflow-hidden ;
+
+    > span {
+      @apply p-1 px-2 text-center bg-slate-300 text-black;
+
+      &:first-child {
+        @apply bg-black text-white;
+      }
+    }
   }
 }

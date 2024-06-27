@@ -1,0 +1,179 @@
+<div class="bg-gray-100">
+  <div *ngIf="!showEdit" class=" mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center space-x-4">
+        <img src="path/to/logo.png" alt="Company Logo" class="w-12 h-12 rounded-full">
+        <div>
+          <h1 class="text-2xl font-bold">Las</h1>
+          <p class="text-gray-600">India</p>
+        </div>
+      </div>
+      <button class="text-purple-600 flex flex-row" (click)="onShowEdit()">
+        <fa-icon [icon]="editIcon"></fa-icon>
+        Edit</button>
+    </div>
+
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold mb-4">Company Address</h2>
+      <input class="text-xl font-semibold mb-4" type="checkbox" />
+      <div class="grid grid-cols-4 gap-4">
+        <div>
+          <p class="text-gray-600">Country</p>
+          <p class="font-medium">India</p>
+        </div>
+        <div>
+          <p class="text-gray-600">State</p>
+          <p class="font-medium">Chhattisgarh</p>
+        </div>
+        <div>
+          <p class="text-gray-600">City</p>
+          <p class="font-medium">rr</p>
+        </div>
+        <div>
+          <p class="text-gray-600">Postal Code</p>
+          <p class="font-medium">222</p>
+        </div>
+        <div>
+          <p class="text-gray-600">Address Line 1</p>
+          <p class="font-medium">222</p>
+        </div>
+        <div>
+          <p class="text-gray-600">Address Line 2</p>
+          <p class="font-medium">222</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold mb-4">Business Address</h2>
+      <input class="text-xl font-semibold mb-4" type="checkbox" />
+      <div class="grid grid-cols-4 gap-4">
+        <div>
+          <p class="text-gray-600">Country</p>
+          <p class="font-medium">India</p>
+        </div>
+        <div>
+          <p class="text-gray-600">State</p>
+          <p class="font-medium">Chhattisgarh</p>
+        </div>
+        <div>
+          <p class="text-gray-600">City</p>
+          <p class="font-medium">rr</p>
+        </div>
+        <div>
+          <p class="text-gray-600">Postal Code</p>
+          <p class="font-medium">222</p>
+        </div>
+        <div>
+          <p class="text-gray-600">Address Line 1</p>
+          <p class="font-medium">222</p>
+        </div>
+        <div>
+          <p class="text-gray-600">Address Line 2</p>
+          <p class="font-medium">222</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf = "showEdit" class="max-w-4xl mx-auto p-8 bg-white shadow-md rounded-lg mt-10">
+    <div class="text-2xl font-bold ">Las</div>
+    <div class="text-gray-500 mb-8">India</div>
+    <form>
+      <div class="mb-8">
+        <div class="flex flex-row justify-between">
+          <div class="text-lg font-semibold mb-4">Address</div>
+          <div class="mb-6 flex items-center">
+            <input type="checkbox" id="useSameAddress" class="h-4 w-4 text-purple-600 border-gray-300 rounded"
+              (click)="onSameAddress()" >
+            <label for="useSameAddress" class="ml-2 text-sm font-medium text-purple-600">Use same address as billing
+              address</label>
+          </div> 
+        </div>
+        <div class="grid grid-cols-2 gap-6 mb-4">
+          <div>
+            <label for="country" class="block mb-2 text-sm font-medium text-gray-700">Country</label>
+            <select id="country" class="block w-full p-3 border border-gray-300 rounded-lg">
+              <option>India</option>
+              <!-- Add other options as needed -->
+            </select>
+          </div>
+          <div>
+            <label for="state" class="block mb-2 text-sm font-medium text-gray-700">State</label>
+            <select id="state" class="block w-full p-3 border border-gray-300 rounded-lg">
+              <option>Chhattisgarh</option>
+              <!-- Add other options as needed -->
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-6 mb-4">
+          <div>
+            <label for="city" class="block mb-2 text-sm font-medium text-gray-700">City</label>
+            <input type="text" id="city" class="block w-full p-3 border border-gray-300 rounded-lg" placeholder="rr">
+          </div>
+          <div>
+            <label for="postalCode" class="block mb-2 text-sm font-medium text-gray-700">Postal Code</label>
+            <input type="text" id="postalCode" class="block w-full p-3 border border-gray-300 rounded-lg"
+              placeholder="222">
+          </div>
+        </div>
+        <div class="mb-4">
+          <label for="addressLine1" class="block mb-2 text-sm font-medium text-gray-700">Address line 1</label>
+          <input type="text" id="addressLine1" class="block w-full p-3 border border-gray-300 rounded-lg"
+            placeholder="55">
+        </div>
+        <div class="mb-4">
+          <label for="addressLine2" class="block mb-2 text-sm font-medium text-gray-700">Address line 2</label>
+          <input type="text" id="addressLine2" class="block w-full p-3 border border-gray-300 rounded-lg"
+            placeholder="Enter Here">
+        </div>
+      </div>
+      <!-- Billing Address Section -->
+      <div *ngIf = "!sameAddress" id="billingAddressSection" class="mb-8">
+        <div class="text-lg font-semibold mb-4">Billing address</div>
+        <div class="grid grid-cols-2 gap-6 mb-4">
+          <div>
+            <label for="billingCountry" class="block mb-2 text-sm font-medium text-gray-700">Country</label>
+            <select id="billingCountry" class="block w-full p-3 border border-gray-300 rounded-lg">
+              <option>India</option>
+              <!-- Add other options as needed -->
+            </select>
+          </div>
+          <div>
+            <label for="billingState" class="block mb-2 text-sm font-medium text-gray-700">State</label>
+            <select id="billingState" class="block w-full p-3 border border-gray-300 rounded-lg">
+              <option>Chhattisgarh</option>
+              <!-- Add other options as needed -->
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-6 mb-4">
+          <div>
+            <label for="billingCity" class="block mb-2 text-sm font-medium text-gray-700">City</label>
+            <input type="text" id="billingCity" class="block w-full p-3 border border-gray-300 rounded-lg"
+              placeholder="rr">
+          </div>
+          <div>
+            <label for="billingPostalCode" class="block mb-2 text-sm font-medium text-gray-700">Postal Code</label>
+            <input type="text" id="billingPostalCode" class="block w-full p-3 border border-gray-300 rounded-lg"
+              placeholder="222">
+          </div>
+        </div>
+        <div class="mb-4">
+          <label for="billingAddressLine1" class="block mb-2 text-sm font-medium text-gray-700">Address line 1</label>
+          <input type="text" id="billingAddressLine1" class="block w-full p-3 border border-gray-300 rounded-lg"
+            placeholder="55">
+        </div>
+        <div class="mb-4">
+          <label for="billingAddressLine2" class="block mb-2 text-sm font-medium text-gray-700">Address line 2</label>
+          <input type="text" id="billingAddressLine2" class="block w-full p-3 border border-gray-300 rounded-lg"
+            placeholder="Enter Here">
+        </div>
+      </div>
+      <div class="flex justify-end">
+        <button type="button" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg mr-2">Cancel</button>
+        <button type="submit" class="bg-purple-600 text-white py-2 px-4 rounded-lg">Save</button>
+      </div>
+    </form>
+  </div>
+</div>

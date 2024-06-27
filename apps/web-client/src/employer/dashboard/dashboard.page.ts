@@ -7,7 +7,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCheck, faAngleRight, faSearch, faFileLines, faVolleyballBall, faSchoolCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { JobPostCardComponent } from '../job-post-card/job-post-card.component';
 @Component({
-  selector: 'employer-dashboard-page',
+  selector: 'Talent-dashboard-page',
   templateUrl: './dashboard.page.html',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -15,8 +15,8 @@ import { JobPostCardComponent } from '../job-post-card/job-post-card.component';
     RouterModule,
     LottiePlayerDirective,
     CommonModule,
-    FontAwesomeModule
-, JobPostCardComponent  ]
+    FontAwesomeModule,
+    JobPostCardComponent  ]
 })
 export class EmployerDashboardComponent { 
   protected readonly icons = {

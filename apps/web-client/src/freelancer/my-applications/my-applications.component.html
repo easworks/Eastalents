@@ -1,0 +1,63 @@
+<div>
+  <div class=" flex flex-row w-full items-center justify-between">
+    <div>
+      <h2 class="text-xl lg:text-2xl font-bold  transition-all">
+        My Applcations
+      </h2>
+      <span class=" text-gray-400"> Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
+    </div>
+
+  </div>
+
+  <div class="w-full mt-6 ">
+    <div class="border-b bg-white w-full border-gray-200 dark:border-gray-700 mb-4">
+      <ul class="flex flex-wrap w-full -mb-px">
+        <li class="mr-2">
+          <button (click)="setActiveTab('myapplications')"
+            [ngClass]="{'active': isActive('myapplications'), 'text-gray-500': !isActive('experience'), 'hover:text-gray-600': true, 'hover:border-gray-300': true, 'dark:text-gray-400': true, 'dark:hover:text-gray-300': true}"
+            class="inline-block rounded-t-lg py-4 px-4 text-sm font-medium text-center border-transparent border-b-2">My
+            Applications</button>
+        </li>
+        <li class="mr-2">
+          <button (click)="setActiveTab('myinterviews')"
+            [ngClass]="{'active': isActive('myinterviews'), 'text-gray-500': !isActive('jobReference'), 'hover:text-gray-600': true, 'hover:border-gray-300': true, 'dark:text-gray-400': true, 'dark:hover:text-gray-300': true}"
+            class="inline-block rounded-t-lg py-4 px-4 text-sm font-medium text-center border-transparent border-b-2">My
+            InterViews</button>
+        </li>
+
+      </ul>
+    </div>
+
+    <div *ngIf="isActive('myapplications')">
+      <!-- Content for Experience and Skill -->
+      <div *ngIf="myApplications.length > 0" class="grid grid-cols-12 gap-8 @container pt-8 justify-center">
+        <div *ngFor="let item of myApplications"
+          class="max-w-full col-span-12 @sm:col-span-6 @md:col-span-4 @xl:col-span-4  bg-white flex border-gray-200 border-2 flex-col rounded-xl  overflow-hidden shadow-lg">
+          <app-job-post-card [item]="item"></app-job-post-card>
+        </div>
+      </div>
+      <div *ngIf="myApplications.length == 0" class="flex items-center justify-center min-h-screen">
+        <div class="text-center">
+          <p>you have not applied any job yet</p>
+        </div>
+      </div>
+
+    </div>
+    <div *ngIf="isActive('myinterviews')">
+      <!-- Content for Job Reference -->
+      <div *ngIf="myInterviews.length > 0" class="grid grid-cols-12 gap-8 @container pt-8 justify-center">
+        <div *ngFor="let item of myInterviews"
+          class="max-w-full col-span-12 @sm:col-span-6 @md:col-span-4 @xl:col-span-4  bg-white flex border-gray-200 border-2 flex-col rounded-xl  overflow-hidden shadow-lg">
+          <app-job-post-card [item]="item"></app-job-post-card>
+        </div>
+      </div>
+      <div *ngIf="myInterviews.length == 0" class="flex items-center justify-center min-h-screen">
+        <div class="text-center">
+          <p>you have not applied any job yet</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

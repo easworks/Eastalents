@@ -1,5 +1,121 @@
-.org-size-option,
-.org-type-option {
+.stepper-group-container {
+  @apply hidden md:flex mx-auto w-max;
+
+  .stepper-group {
+    @apply relative grid justify-items-center rounded transition-all
+      p-2 pt-4 px-4 gap-2
+      flex-none w-40 lg:w-60 
+      hover:enabled:bg-divider/20 focus:enabled:bg-divider/20;
+  }
+
+  .connector {
+    @apply absolute top-8 -z-10;
+    width: calc(50% - 1.5rem);
+
+    &.left {
+      @apply left-0;
+    }
+
+    &.right {
+      @apply right-0;
+    }
+  }
+
+  .indicator {
+    @apply rounded-full grid place-content-center bg-divider text-white
+      w-8 h-8 leading-none
+      transition-all;
+  }
+
+  .label {
+    @apply relative transition-all text-sm;
+  }
+
+  .stepper-group {
+    &.enabled {
+      .indicator {
+        @apply bg-primary-500;
+      }
+    }
+
+    &.completed {
+      .indicator {
+        @apply bg-primary-500;
+      }
+
+      .label {
+        @apply font-medium text-base;
+      }
+    }
+
+    &.current {
+      .indicator {
+        @apply bg-transparent ring-primary-500 ring-4 text-primary-500;
+      }
+    }
+  }
+}
+
+
+.primary-domain-option,
+.service-option,
+.module-option,
+.software-option,
+.role-option {
+  @apply border rounded flex flex-col gap-2
+    transition-all;
+
+  &:hover, 
+  &:focus-within,
+  &.selected {
+    @apply border-primary-500 text-primary-500;
+  }
+
+  &:hover ::ng-deep {
+    .mat-mdc-checkbox:not(.mat-mdc-checkbox-disabled) {
+      .mdc-checkbox__background {
+        @apply !border-primary-500;
+      }
+    }
+  }
+
+  &.selected {
+    @apply bg-primary-400/10 ring-1 ring-primary-500;
+
+    input {
+      @apply bg-primary-400/10 placeholder:text-primary-500/75;
+    }
+
+  }
+  &.disabled {
+    @apply text-divider transition-all border-divider;
+
+    > * {
+      @apply cursor-default;
+    }
+  }
+
+  input:focus {
+    @apply bg-white;
+  }
+
+  .hint {
+    @apply text-primary-500/75;
+  }
+}
+
+.selection-counter {
+  @apply border rounded p-1 px-2 transition-all;
+
+  &.selected {
+    @apply bg-primary-500/5 text-primary-500 border-transparent;
+  }
+}
+
+.commitment-option,
+.job-search-status-option,
+.job-search-opportunity-option,
+.english-proficiency-option {
   @apply flex items-center border rounded p-2 px-4 cursor-pointer text-left
       gap-2 transition-all
       ring-inset ring-1 ring-transparent;
@@ -23,8 +139,9 @@
   }
 }
 
+.tech-option,
 .industry-option,
-.software-option {
+.preferred-role-option {
   @apply bg-primary-500/5 text-primary-500 rounded flex gap-2 justify-between ring-inset ring-primary-500 ring-2 overflow-hidden;
 
   > span {
@@ -35,12 +152,3 @@
     @apply h-10 w-10 flex-none text-primary-500/70 hover:text-warn focus:text-warn;
   }
 }
-
-.selection-counter {
-  @apply border rounded p-1 px-2 transition-all;
-
-  &.selected {
-    @apply bg-primary-500/5 text-primary-500 border-transparent;
-  }
-}
-

@@ -1,54 +1,230 @@
 <mat-progress-spinner *ngIf="isLoadingProfile$()" diameter="32" mode="indeterminate" class="mx-auto"></mat-progress-spinner>
 
 <ng-container *ngIf="data.profile$() as profile">
-  <section class="section">
-    <h1 class="font-bold">{{profile.orgName}}</h1>
-    <mat-divider></mat-divider>
-    <div class="p-4 flex gap-4 flex-col md:flex-row text-sm">
-      <div class="flex-none h-32 w-32 rounded bg-divider grid place-content-center
-          mx-auto">
-        <fa-icon [icon]="icons.faUser" class="text-white text-8xl"></fa-icon>
+  <div class="grid grid-cols-4 gap-4 transition-all">
+
+    <section *ngrxLet="data.basic$()! as basic"
+             class="col-span-4 lg:col-span-2 transition-all
+              section mat-elevation-z1 p-2 
+              grid gap-4 content-start">
+
+      <div class="flex gap-4">
+        <div class="flex-none h-32 w-32 rounded bg-divider grid place-content-center">
+          <img *ngIf="basic.image as image; else $noImage" [src]="image">
+          <ng-template #$noImage>
+            <fa-icon [icon]="icons.faUser" class="text-white text-8xl"></fa-icon>
+          </ng-template>
+        </div>
+        <div class="flex-grow grid gap-4 content-start">
+          <div class="font-semibold text-xl">
+            {{basic.name}}
+          </div>
+
+          <div class="flex gap-2 justify-between">
+            <div>
+              <label class="font-bold">Current Role:</label>
+              <div>{{basic.currentRole}}</div>
+            </div>
+            <fa-icon [icon]="icons.faPenToSquare" class="mt-[0.05rem]"></fa-icon>
+          </div>
+        </div>
       </div>
-      <div class="flex-grow grid gap-4">
-        <div class="grid gap-4"
-             style="grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));">
 
-          <div class="form-field mb-0">
-            <label>Industry Group</label>
-            <input class="field" readonly [value]="profile.industry.group">
-          </div>
+      <div class="flex gap-2">
+        <label class="font-bold">Location:</label>
+        <div>{{basic.location}}</div>
+        <fa-icon [icon]="icons.faPenToSquare" class="mt-[0.05rem]"></fa-icon>
+      </div>
 
-          <div class="form-field mb-0">
-            <label>Industry</label>
-            <input class="field" readonly [value]="profile.industry.name">
-          </div>
-
-          <div class="form-field mb-0">
-            <label>Email</label>
-            <input class="field" readonly [value]="profile.contact.email">
-          </div>
-
-          <div class="form-field mb-0">
-            <label>Phone Number</label>
-            <input class="field" readonly [value]="profile.contact.phone">
-          </div>
-
-          <div class="form-field mb-0">
-            <label>Website URL</label>
-            <input class="field" readonly [value]="profile.contact.website">
-          </div>
+      <div cl>
+        <div class="flex justify-between">
+          <label class="font-bold">Preferred Roles:</label>
+          <fa-icon [icon]="icons.faPenToSquare" class="mt-[0.05rem]"></fa-icon>
         </div>
 
-        <div class="form-field mb-0">
-          <label>About the Organition</label>
-          <div class="field">
-            <textarea readonly class="resize-none" rows="10" [value]="profile.description"></textarea>
+        <div class="col-span-3 flex gap-2 flex-wrap">
+          <div *ngFor="let role of basic.preferredRoles"
+               class="p-1 px-2 rounded border">
+            {{role}}
           </div>
         </div>
+      </div>
 
+
+
+    </section>
+
+    <section *ngrxLet="data.profileCompletionPie$()! as completed"
+             class="col-span-4 lg:col-span-1 transition-all
+              section mat-elevation-z1">
+      <div class="header">Profile Strength</div>
+      <mat-divider></mat-divider>
+      <div class="p-4 flex flex-wrap gap-4 justify-center items-center">
+        <canvas chart-js [config]="completed.config"
+                class="!w-40 !h-40"></canvas>
+        <p class="text-center">
+          Your profile is {{completed.percentage | number: '0.0-0'}}% complete
+        </p>
+      </div>
+    </section>
+
+    <div class="flex flex-col gap-4  col-span-4 lg:col-span-1 lg:col-start-4 lg:row-start-1 lg:row-end-[9] transition-all">
+      <div class="section mat-elevation-z1" *ngIf="data.profileCompletionBars$() as indicators">
+        <div class="header">Profile Completeness</div>
+        <mat-divider></mat-divider>
+        <div class="profile-indicator-bars">
+          <div *ngFor="let pci of indicators">
+            <label>{{pci.label}}</label>
+            <mat-progress-bar [value]="pci.percentage" class="rounded-full"></mat-progress-bar>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="data.contact$() as contact"
+           class="section mat-elevation-z1">
+        <div class="header">Contact</div>
+        <mat-divider></mat-divider>
+        <div class="p-4 grid gap-2">
+          <div *ngIf="contact.address as address">
+            <label class="font-bold">Address</label>
+            <p>{{address}}</p>
+          </div>
+
+          <div>
+            <label class="font-bold">Timezone</label>
+            <p>{{contact.timezone}}</p>
+          </div>
+          <div>
+            <label class="font-bold">Email</label>
+            <p>{{contact.email}}</p>
+          </div>
+
+          <div *ngIf="contact.phone.mobile as mobile">
+            <label class="font-bold">Mobile</label>
+            <p>{{mobile}}</p>
+          </div>
+          <div *ngIf="contact.phone.whatsapp as whatsapp">
+            <label class="font-bold">WhatsApp</label>
+            <p>{{whatsapp}}</p>
+          </div>
+          <div *ngIf="contact.phone.telegram as telegram">
+            <label class="font-bold">Telegram</label>
+            <p>{{telegram}}</p>
+          </div>
+
+          <div *ngIf="contact.social.linkedin as linkedin">
+            <label class="font-bold">LinkedIn</label>
+            <p>{{linkedin}}</p>
+          </div>
+          <div *ngIf="contact.social.github as github">
+            <label class="font-bold">GitHub</label>
+            <p>{{github}}</p>
+          </div>
+          <div *ngIf="contact.social.gitlab as gitlab">
+            <label class="font-bold">GitLab</label>
+            <p>{{gitlab}}</p>
+          </div>
+        </div>
       </div>
     </div>
-  </section>
 
-  <section></section>
+    <div class=" col-span-4 lg:col-span-3 transition-all 
+        section mat-elevation-z1">
+      <div class="header">Professional Summary</div>
+      <mat-divider></mat-divider>
+      <div class="p-4">
+        <pre class="font-sans">{{profile.professionalDetails.summary}}</pre>
+      </div>
+    </div>
+
+    <div class="col-span-4 lg:col-span-3 transition-all
+        section mat-elevation-z1">
+      <div class="header">Primary Enterprise Application Domain</div>
+      <mat-divider></mat-divider>
+      <div class="p-4 flex justify-start">
+        <div *ngFor="let domain of data.domains$()"
+             class="exp-data">
+          <div class="label">{{domain.key}}</div>
+          <div class="data">
+            <span>{{domain.years}} yrs</span>
+            <span>O</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-span-4 lg:col-span-3 transition-all
+        section mat-elevation-z1">
+      <div class="header">Enterprise Application Software Experience</div>
+      <mat-divider></mat-divider>
+      <div class="p-4 flex justify-start">
+        <div *ngFor="let software of data.software$()"
+             class="exp-data">
+          <div class="label">{{software.key}}</div>
+          <div class="data">
+            <span>{{software.years}} yrs</span>
+            <span>O</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-span-4 lg:col-span-3 transition-all
+          section mat-elevation-z1">
+      <div class="header">Top Modules Experience</div>
+      <mat-divider></mat-divider>
+      <div class="p-4 flex justify-start gap-4">
+        <div *ngFor="let module of data.modules$()"
+             class="exp-data">
+          <div class="label">{{module}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-span-4 lg:col-span-3 transition-all
+          section mat-elevation-z1">
+      <div class="header">Top Services</div>
+      <mat-divider></mat-divider>
+      <div class="p-4 flex justify-start gap-4">
+        <div *ngFor="let service of data.services$()"
+             class="exp-data">
+          <div class="label">{{service.key}}</div>
+          <div class="data">
+            <span>{{service.years}} yrs</span>
+            <span>O</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-span-4 lg:col-span-3 transition-all
+          section mat-elevation-z1">
+      <div class="header">Industry</div>
+      <mat-divider></mat-divider>
+      <div class="p-4 grid gap-4">
+        <div *ngFor="let group of profile.experience.industries">
+          <label class="font-bold">{{group.group}}</label>
+          <div class="flex gap-2 mt-2">
+            <div *ngFor="let item of group.items"
+                 class="p-1 px-2 rounded border">{{item}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-span-4 lg:col-span-3 transition-all
+          section mar-elevation-z1">
+      <div class="header">Top Development Skills</div>
+      <mat-divider></mat-divider>
+      <div class="p-4 grid gap-4">
+        <div *ngFor="let group of profile.experience.tech">
+          <label class="font-bold">{{group.group}}</label>
+          <div class="flex gap-2 mt-2">
+            <div *ngFor="let item of group.items"
+                 class="p-1 px-2 rounded border">{{item}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </ng-container>

@@ -1,0 +1,136 @@
+<div class="bg-gray-100">
+  <div *ngIf="!showEdit" class=" mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center space-x-4">
+        <img src="path/to/logo.png" alt="Company Logo" class="w-12 h-12 rounded-full">
+        <div>
+          <h1 class="text-2xl font-bold">Las</h1>
+          <p class="text-gray-600">India</p>
+        </div>
+      </div>
+      <button class="text-purple-600 flex flex-row" (click)="onShowEdit()">
+        <fa-icon [icon]="editIcon"></fa-icon>
+        Edit</button>
+    </div>
+
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold mb-4">Company Overview</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <p class="text-gray-600">Company type</p>
+          <p class="font-medium">One Person Company (OPC)</p>
+        </div>
+        <div>
+          <p class="text-gray-600">Company Registration Number</p>
+          <p class="font-medium">123</p>
+        </div>
+        <div>
+          <p class="text-gray-600">Desired currency</p>
+          <p class="font-medium">United States Dollar (USD)</p>
+        </div>
+        <div>
+          <p class="text-gray-600">Industry</p>
+          <p class="font-medium">-</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold mb-4">Additional Information</h2>
+      <div class="grid grid-cols-3 gap-4">
+        <div>
+          <p class="text-gray-600">Employee size</p>
+          <p class="font-medium">-</p>
+        </div>
+        <div>
+          <p class="text-gray-600">Company website</p>
+          <p class="font-medium">-</p>
+        </div>
+        <div>
+          <p class="text-gray-600">Company LinkedIn URL</p>
+          <p class="font-medium">-</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-purple-600 text-white p-4 rounded-lg flex items-center justify-between">
+      <div class="flex items-center space-x-4">
+        <div class="bg-white text-purple-600 w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg">
+          95
+        </div>
+        <div>
+          <p class="font-medium">Profile 95% completed</p>
+          <p class="text-sm">Add company logo, website, LinkedIn and other information to complete your profile.</p>
+        </div>
+      </div>
+      <button class="bg-white text-purple-600 px-4 py-2 rounded-lg font-medium">Complete it now</button>
+    </div>
+  </div>
+  <div *ngIf="showEdit" class=" mx-auto p-8 bg-white shadow-md rounded-lg mt-10">
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center space-x-4">
+        <img src="path/to/logo.png" alt="Company Logo" class="w-12 h-12 rounded-full">
+        <div>
+          <h1 class="text-2xl font-bold">Las</h1>
+          <p class="text-gray-600">India</p>
+        </div>
+      </div>
+      <div class="flex justify-between w-[20%]">
+        <button type="submit" class="bg-purple-600 py-2 text-white  px-4 rounded-lg">Save</button>
+        <button type="button" class="bg-gray-300 text-gray-700 py-2  px-4 rounded-lg mr-2"
+          (click)="onShowEdit()">Cancel</button>
+      </div>
+    </div>
+    <form div class="grid grid-cols-3 gap-4">
+      <div class="mb-6">
+        <label for="companyName" class="block mb-2 text-sm font-medium text-gray-700">Company legal name</label>
+        <input type="text" id="companyName" class="block w-full p-3 border border-gray-300 rounded-lg"
+          placeholder="las">
+      </div>
+      <div class="mb-6">
+        <label for="companyType" class="block mb-2 text-sm font-medium text-gray-700">Company type</label>
+        <select id="companyType" class="block w-full p-3 border border-gray-300 rounded-lg">
+          <option>One Person Company (OPC)</option>
+        </select>
+      </div>
+      <div class="mb-6">
+        <label for="companyRegNumber" class="block mb-2 text-sm font-medium text-gray-700">Company Registration
+          Number</label>
+        <input type="text" id="companyRegNumber" class="block w-full p-3 border border-gray-300 rounded-lg"
+          placeholder="123">
+      </div>
+      <div class="mb-6">
+        <label for="currency" class="block mb-2 text-sm font-medium text-gray-700">Desired currency</label>
+        <input type="text" id="currency" class="block w-full p-3 border border-gray-300 rounded-lg" placeholder="US$">
+      </div>
+      <div class="mb-6">
+        <label for="industry" class="block mb-2 text-sm font-medium text-gray-700">Industry</label>
+        <select id="industry" class="block w-full p-3 border border-gray-300 rounded-lg">
+          <option>Select</option>
+          <!-- Add other options as needed -->
+        </select>
+      </div>
+      <div class="mb-6">
+        <label for="employeeSize" class="block mb-2 text-sm font-medium text-gray-700">Employee size</label>
+        <select id="employeeSize" class="block w-full p-3 border border-gray-300 rounded-lg">
+          <option>Select</option>
+          <!-- Add other options as needed -->
+        </select>
+      </div>
+      <div class="mb-6">
+        <label for="companyWebsite" class="block mb-2 text-sm font-medium text-gray-700">Company Website</label>
+        <input type="url" id="companyWebsite" class="block w-full p-3 border border-gray-300 rounded-lg"
+          placeholder="www.example.com">
+      </div>
+      <div class="mb-6">
+        <label for="linkedinURL" class="block mb-2 text-sm font-medium text-gray-700">Company LinkedIn URL</label>
+        <input type="url" id="linkedinURL" class="block w-full p-3 border border-gray-300 rounded-lg"
+          placeholder="https://www.linkedin.com/company/username">
+      </div>
+
+    </form>
+  </div>
+
+
+
+</div>

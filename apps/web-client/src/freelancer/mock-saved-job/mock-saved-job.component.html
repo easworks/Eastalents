@@ -1,0 +1,24 @@
+<div>
+
+    <div class=" flex flex-row w-full items-center justify-between">
+        <div>
+            <h2 class="text-xl lg:text-2xl font-bold  transition-all">
+                My Saved job
+            </h2>
+            <span class=" text-gray-400"> Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
+        </div>
+    
+    </div>
+        <div *ngIf="items.length > 0" class="grid grid-cols-12 gap-8 @container pt-8 justify-center">
+            <div *ngFor="let item of items" class="max-w-full col-span-12 @sm:col-span-6 @md:col-span-4 @xl:col-span-4  bg-white flex border-gray-200 border-2 flex-col rounded-xl  overflow-hidden shadow-lg">
+              <app-job-post-card [item]="item"></app-job-post-card>
+            </div>
+          </div>
+       <div *ngIf="items.length == 0" class="flex items-center justify-center min-h-screen">
+        <div class="text-center">
+          <p>you have not applied any job yet</p>
+        </div>
+      </div> 
+    
+</div>
+

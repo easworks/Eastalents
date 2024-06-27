@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccountSecurityComponent } from './account-security/account-security.component';
 import { AccountEditPopupComponent } from './account-edit-popup/account-edit-popup.component';
+import { ManageCollabratorComponent } from './manage-collabrator/manage-collabrator.component';
 
 
 @Component({
   selector: 'app-my-account',
   standalone: true,
-  imports: [CommonModule, AccountSecurityComponent, AccountEditPopupComponent],
+  imports: [CommonModule, AccountSecurityComponent, AccountEditPopupComponent, ManageCollabratorComponent],
   templateUrl: './my-account.component.html',
   styleUrl: './my-account.component.less',
 })
@@ -21,5 +22,9 @@ export class MyAccountComponent {
 
   isActive(tab: string) {
     return this.activeTab === tab;
+  }
+
+  setIsEditPopupVisible(value: boolean) {
+    this.isEditPopupVisible = value;
   }
 }

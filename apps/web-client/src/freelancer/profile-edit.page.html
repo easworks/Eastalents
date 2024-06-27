@@ -8,23 +8,21 @@
        style="top: 4rem; height: calc(100vh - 4rem);">
 
     <div class="max-w-lg text-center">
-      <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_ureyqxyw.json"
-                     loop autoplay class="h-auto"></lottie-player>
-
+      <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_8nfvjov1.json"
+                     loop autoplay
+                     class="h-auto m-auto w-60 md:w-80 lg:w-96 transition-all">
+      </lottie-player>
       <div class="mt-4">
         <h1 class="text-xl font-semibold">Welcome to EASWORKS</h1>
         <p class="mt-2 text-sm">
-          Work With The World's Leading Companies By applying to join EASWORKS
-          Enterprise Application software Talent Network,
-          you are one step closer to finding your next role,
-          advancing your career, and connecting with other
-          talented engineers in our community. Cheers to that!
+          The simplest & fastest way to access & build teams with pre-vetted
+          Enterprise Application Talent.
+          Creating a global remote team has never been this easy.
         </p>
       </div>
     </div>
 
   </div>
-
 </div>
 
 <div class="min-w-min page">
@@ -34,572 +32,182 @@
     </lottie-player>
   </div>
 
-  @if (stepperGroups.isVisible$()) {
-  <div class="mt-2 stepper-group-container">
-    @for(group of stepperGroups.groups; track group.label) {
-
-    <button type="button" *ngrxLet="group.enabled$() as enabled"
-            class="stepper-group"
-            [class.enabled]="group.enabled$()"
-            [class.current]="group.current$()"
-            [class.completed]="group.completed$()"
-            [disabled]="!enabled"
-            mat-ripple [matRippleDisabled]="!enabled"
-            (click)="group.click()">
-
-      @if(!$first) {
-      <mat-divider class="connector left"></mat-divider>
-      }
-
-      @if(!$last) {
-      <mat-divider class="connector right"></mat-divider>
-      }
-
-      <div class="indicator">
-        @if(group.completed$()) {
-        <div>
-          <fa-icon [icon]="icons.faCheck"></fa-icon>
-        </div>
-        }
-        @else {
-        {{$index + 1}}
-        }
-      </div>
-      <div class="label">
-        <span class="w-fit">{{group.label}}</span>
-      </div>
-    </button>
-    }
-  </div>
-  }
-
-  <div *ngIf="stepper.showStepControls$()" class="stepper-progress w-100 mt-4">
-    <ng-container *ngrxLet="stepper.progress$() as progress">
-      <span>{{progress.label}}</span>
-      <mat-progress-bar [value]="progress.percent" class="mt-2 rounded-full"></mat-progress-bar>
-    </ng-container>
-  </div>
-
-
-  <!-- Stepper container -->
-  <div class="relative mt-8" *ngrxLet="stepper.step$() as step">
-
-    <div *ngIf="step === 'start'">
-      <p class="text-center">
-        Please answer the following questions to complete your EASWorks Freelancer Profile.
-      </p>
-      <button type="button" class="highlight-button primary mt-4 mx-auto" style="display: block;"
-              (click)="this.stepper.next.click()">
-        Get Started
-      </button>
-    </div>
-
-    <div *ngIf="step === 'professional-summary'"
-         class="rounded bg-white mat-elevation-z1">
-      <h2 class="p-4 text-xl font-semibold">Profile Summary with Enterprise Application Software (EAS) Details</h2>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="mt-4">
+    <div class="rounded border">
+      <h2 class="p-4 text-xl font-semibold">Employer Details</h2>
       <mat-divider></mat-divider>
-      <form *ngrxLet="professionalSummary.form as form"
-            [formGroup]="form"
-            class="p-4 grid gap-4">
-
-        <div *ngrxLet="form.controls.summary as control"
+      <!-- name and summery -->
+      <div class="p-4">
+        <div *ngrxLet="form.controls.name as control"
              [formFieldControl]="control">
-          <label class="!text-lg">
-            Professional Summary
+          <label>
+            Organization Name
+            <span class="text-warn">*</span>
+          </label>
+          <input type="text" [formControl]="control" maxlength="300" placeholder="Name">
+          <span class="error" *ngIf="control.hasError('required')">Required</span>
+        </div>
+
+        <div *ngrxLet="form.controls.description as control"
+             [formFieldControl]="control">
+          <label>
+            Brief Description
             <span class="text-warn">*</span>
           </label>
           <div class="field field-interactive h-64 mt-2">
             <textarea [formControl]="control"
-                      placeholder="Please provide a summary of your professional background and experience in the field"
+                      placeholder="Summary/Description"
                       class="resize-none"></textarea>
           </div>
+
           <span class="error" *ngIf="control.hasError('required')">Required</span>
-          <span class="error" *ngIf="control.hasError('maxlength')">{{control.value.length}}/1500</span>
-          <span class="hint">{{control.value.length}}/1500</span>
-          <p class="p-2 px-4 rounded text-sm bg-emerald-400/5 text-emerald-500 mt-8">The Professional Summary will remain confidential and visible exclusively to the EASWORKS screening team.</p>
+          <span class="error" *ngIf="control.hasError('maxlength')">{{control.value.length || 0}}/1500</span>
+          <span class="hint">{{control.value.length || 0}}/1500</span>
         </div>
+      </div>
 
-        <div *ngrxLet="form.controls.experience as control"
-             [formFieldControl]="control">
-          <label class="!text-lg">
-            Overall Experience
-            <span class="text-warn">*</span>
-          </label>
-          <p class="text-sm">Select the range that best represents your overall experience</p>
-          <mat-select class="mt-2" [formControl]="control">
-            <mat-option *ngFor="let opt of professionalSummary.options.experience"
-                        [value]="opt">{{opt}}</mat-option>
-          </mat-select>
-        </div>
-
-        <div>
-          <label class="text-lg">Your Location and Time Zone</label>
-
-          <div class="mt-4">
-            <div class="grid grid-cols-2 gap-x-4 md:gap-x-8 transition-all">
-              <div *ngrxLet="form.controls.country as control"
-                   [formFieldControl]="control"
-                   [class.show-spinner]="professionalSummary.loading.geo$() || professionalSummary.loading.country$()">
-                <label>
-                  Country
-                  <span class="text-warn">*</span>
-                </label>
-                <input type="text" [formControl]="control" placeholder="Type to filter"
-                       [matAutocomplete]="countryOptions">
-                <span class="error" *ngIf="control.hasError('required')">Required</span>
-
-                <mat-autocomplete #countryOptions hideSingleSelectionIndicator>
-                  <mat-option *ngFor="let country of professionalSummary.options.country$(); trackBy: trackBy.country"
-                              [value]="country.name" (onSelectionChange)="$event.source.deselect()">
-                    <div class="flex gap-4 items-center">
-                      <span class="font-emoji">{{country.emoji}}</span>
-                      <span>{{country.name}}</span>
-                    </div>
-                  </mat-option>
-                </mat-autocomplete>
-
-                <mat-progress-spinner class="field-spinner right-3 top-8"
-                                      mode="indeterminate" diameter="24"></mat-progress-spinner>
-              </div>
-
-              <div *ngrxLet="form.controls.state as control"
-                   [formFieldControl]="control"
-                   [class.show-spinner]="professionalSummary.loading.state$()">
-                <label>
-                  State/Province
-                  <span class="text-warn" *ngIf="professionalSummary.validation.stateRequired$()">*</span>
-                </label>
-
-                <input type="text" [formControl]="control" placeholder="Type to filter"
-                       [matAutocomplete]="stateOptions">
-                <span class="error" *ngIf="control.hasError('required')">Required</span>
-
-                <mat-autocomplete #stateOptions hideSingleSelectionIndicator>
-                  <mat-option *ngFor="let state of professionalSummary.options.state$(); trackBy: trackBy.state"
-                              [value]="state.name" (onSelectionChange)="$event.source.deselect()">
-                    {{state.name}}
-                  </mat-option>
-                </mat-autocomplete>
-
-                <mat-progress-spinner class="field-spinner right-3 top-8"
-                                      mode="indeterminate" diameter="24"></mat-progress-spinner>
-              </div>
-
-              <div *ngrxLet="form.controls.city as control"
-                   [formFieldControl]="control"
-                   [class.show-spinner]="professionalSummary.loading.city$()">
-                <label>
-                  City/Area
-                  <span class="text-warn" *ngIf="professionalSummary.validation.cityRequired$()">*</span>
-                </label>
-                <input type="text" [formControl]="control" placeholder="Type to filter"
-                       [matAutocomplete]="cityOptions">
-                <span class="error" *ngIf="control.hasError('required')">Required</span>
-
-                <mat-autocomplete #cityOptions hideSingleSelectionIndicator>
-                  <mat-option *ngFor="let city of professionalSummary.options.city$()"
-                              [value]="city.name" (onSelectionChange)="$event.source.deselect()">
-                    {{city.name}}
-                  </mat-option>
-                </mat-autocomplete>
-
-                <mat-progress-spinner class="field-spinner right-3 top-8"
-                                      mode="indeterminate" diameter="24"></mat-progress-spinner>
-              </div>
-
-              <div *ngrxLet="form.controls.timezone as control"
-                   [formFieldControl]="control"
-                   [class.show-spinner]="professionalSummary.loading.timezone$()">
-                <label>
-                  Time Zone
-                  <span class="text-warn" *ngIf="control.enabled">*</span>
-                </label>
-                <input type="text" [formControl]="control" placeholder="Type to filter"
-                       [matAutocomplete]="tzOptions">
-                <span class="error" *ngIf="control.hasError('required')">Required</span>
-                <span class="error" *ngIf="control.hasError('invalid')">Invalid</span>
-
-
-                <mat-autocomplete #tzOptions hideSingleSelectionIndicator>
-                  <mat-option *ngFor="let tz of professionalSummary.options.timezone$()"
-                              [value]="tz.zoneName" (onSelectionChange)="$event.source.deselect()">
-                    {{tz.zoneName}}
-                  </mat-option>
-                </mat-autocomplete>
-
-                <mat-progress-spinner class="field-spinner right-3 top-8"
-                                      mode="indeterminate" diameter="24"></mat-progress-spinner>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <div *ngIf="step === 'primary-domains'"
-         class="rounded bg-white mat-elevation-z1">
-      <h2 class="p-4 text-xl font-semibold">Enterprise Application Domain Skills</h2>
       <mat-divider></mat-divider>
 
-      <form *ngrxLet="primaryDomains.form as form"
-            [formGroup]="form" class="p-4">
-        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all"> Please select your domain of expertise in enterprise applications </span>
-          <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
-            <span class="flex gap-1 items-center">
-              <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
-              <span>Select up to {{primaryDomains.maxDomains}}</span>
-            </span>
-            <span *ngrxLet="primaryDomains.size$() as size"
-                  class="selection-counter" [class.selected]="size > 0">
-              {{size}} selected
-            </span>
-          </span>
-        </label>
-        <div *ngIf="!primaryDomains.loading$(); else $dataLoading"
-             class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-
-          <ng-container *ngFor="let domain of primaryDomains.options$(); trackBy: trackBy.domainOption">
-            <div class="primary-domain-option"
-                 *ngrxLet="primaryDomains.stopInput$() && !domain.selected as disabled"
-                 [class.disabled]="disabled"
-                 [class.selected]="domain.selected">
-              <label class="flex flex-grow cursor-pointer">
-                <mat-checkbox class="primary"
-                              [ngModel]="domain.selected"
-                              [ngModelOptions]="{ standalone: true }"
-                              [disabled]="disabled"
-                              (click)="!disabled && primaryDomains.toggle(domain)">
-                </mat-checkbox>
-                <div class="flex-grow p-2">{{domain.label}}</div>
-              </label>
-              <div *ngIf="domain.selected && form.controls[domain.value.key] as control"
-                   [formFieldControl]="control" class="px-2">
-                <input type="number" [formControl]="control" placeholder="Years of Experience *"
-                       min="1" max="30">
-                <span class="error">1-30</span>
-                <span class="hint">1-30</span>
-              </div>
-            </div>
-          </ng-container>
-        </div>
-      </form>
-    </div>
-
-    <div *ngIf="step === 'services'"
-         class="rounded bg-white mat-elevation-z1">
-      <ng-container *ngIf="services.$() as service$">
-        <h2 class="p-4 text-xl font-semibold">Expertise in {{services.stepLabel$()}} Services</h2>
-        <mat-divider></mat-divider>
-
-        <form *ngrxLet="service$.form as form" [formGroup]="form">
-          <ng-container *ngFor="let domain of service$.domains; let last = last; trackBy: trackBy.domain">
-            <div class="p-4" *ngrxLet="service$.options[domain.key] as options">
-              <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-                <span class="font-medium lg:pt-1 transition-all">Please specify your areas of expertise within <span class="text-primary">{{domain.longName}}</span></span>
-                <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
-                  <span class="flex gap-1 items-center">
-                    <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
-                    <span>Select at least 1</span>
-                  </span>
-                  <span *ngrxLet="options.size$() as size"
-                        class="selection-counter" [class.selected]="size > 0">
-                    {{size}} selected
-                  </span>
-                </span>
-              </label>
-
-              <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-                <div *ngFor="let service of options.all; trackBy: trackBy.stringOption"
-                     class="service-option"
-                     [class.selected]="service.selected">
-                  <label class="flex cursor-pointer flex-grow">
-                    <mat-checkbox class="primary"
-                                  [ngModel]="service.selected"
-                                  [ngModelOptions]="{ standalone: true }"
-                                  (click)="options.toggle(service)">
-                    </mat-checkbox>
-                    <div class="flex-grow p-2">{{service.label}}</div>
-                  </label>
-                  <ng-container *ngIf="service.selected">
-                    <div *ngrxLet="form.controls[domain.key].controls[service.value] as control"
-                         [formFieldControl]="control" class="px-2">
-                      <input type="number" [formControl]="control" placeholder="Years of Experience *"
-                             min="1" max="30">
-                      <span class="error">1-30</span>
-                      <span class="hint">1-30</span>
-                    </div>
-                  </ng-container>
-                </div>
-              </div>
-            </div>
-
-            <mat-divider *ngIf="!last"></mat-divider>
-          </ng-container>
-        </form>
-      </ng-container>
-    </div>
-
-    <div *ngIf="step === 'modules'"
-         class="rounded bg-white mat-elevation-z1">
-      <ng-container *ngIf="modules.$() as modules$">
-        <h2 class="p-4 text-xl font-semibold">{{modules.stepLabel$()}} Modules Expertise</h2>
-        <mat-divider></mat-divider>
-
-        <form *ngrxLet="modules$.form as form" [formGroup]="form">
-          <ng-container *ngFor="let domain of modules$.domains; let last = last; trackBy: trackBy.domain">
-            <div class="p-4" *ngrxLet="modules$.options[domain.key] as options">
-              <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-                <span class="font-medium lg:pt-1 transition-all">Indicate the <span class="text-primary">{{domain.longName}}</span> modules you are proficient in</span>
-                <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
-                  <span class="flex gap-1 items-center">
-                    <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
-                    <span>Select up to 7</span>
-                  </span>
-                  <span *ngrxLet="options.size$() as size"
-                        class="selection-counter" [class.selected]="size > 0">
-                    {{size}} selected
-                  </span>
-                </span>
-              </label>
-
-              <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-                <ng-container *ngFor="let module of options.all; trackBy: trackBy.moduleOption">
-                  <div *ngrxLet="options.stopInput$() && !module.selected as disabled"
-                       class="module-option"
-                       [class.selected]="module.selected"
-                       [class.disabled]="disabled">
-                    <label class="flex cursor-pointer">
-                      <mat-checkbox class="primary"
-                                    [ngModel]="module.selected"
-                                    [ngModelOptions]="{ standalone: true }"
-                                    [disabled]="disabled"
-                                    (click)="!disabled && options.toggle(module)">
-                      </mat-checkbox>
-                      <div class="flex-grow p-2">{{module.label}}</div>
-                    </label>
-                  </div>
-                </ng-container>
-
-              </div>
-            </div>
-
-            <mat-divider *ngIf="!last"></mat-divider>
-          </ng-container>
-        </form>
-      </ng-container>
-    </div>
-
-    <div *ngIf="step === 'software'"
-         class="rounded bg-white mat-elevation-z1">
-      <ng-container *ngIf="software.$() as software$">
-        <h2 class="p-4 text-xl font-semibold">Proficiency in {{software.stepLabel$()}} Software</h2>
-        <mat-divider></mat-divider>
-
-        <form *ngrxLet="software$.form as form" [formGroup]="form">
-          <ng-container *ngFor="let domain of software$.domains; let last = last; trackBy: trackBy.domain">
-            <div class="p-4" *ngrxLet="software$.options[domain.key] as options">
-              <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-                <span class="font-medium lg:pt-1 transition-all">Please indicate your proficiency level in <span class="text-primary">{{domain.longName}}</span> software</span>
-                <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
-                  <span class="flex gap-1 items-center">
-                    <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
-                    <span>Select up to 5</span>
-                  </span>
-                  <span *ngrxLet="options.size$() as size"
-                        class="selection-counter" [class.selected]="size > 0">
-                    {{size}} selected
-                  </span>
-                </span>
-              </label>
-
-              <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-                <ng-container *ngFor="let softOption of options.all; trackBy: trackBy.softwareOption">
-                  <div *ngrxLet="options.stopInput$() && !softOption.selected as disabled"
-                       class="software-option"
-                       [class.selected]="softOption.selected"
-                       [class.disabled]="disabled">
-                    <label class="flex flex-grow cursor-pointer">
-                      <mat-checkbox class="primary"
-                                    [ngModel]="softOption.selected"
-                                    [ngModelOptions]="{ standalone: true }"
-                                    [disabled]="disabled"
-                                    (click)="!disabled && options.toggle(softOption)">
-                      </mat-checkbox>
-                      <div class="flex-grow p-2">{{softOption.label}}</div>
-                    </label>
-                    <div *ngIf="softOption.selected && form.controls[domain.key].controls[softOption.value.name] as control"
-                         [formFieldControl]="control" class="px-2">
-                      <input type="number" [formControl]="control" placeholder="Years of Experience *"
-                             min="1" max="30">
-                      <span class="error">1-30</span>
-                      <span class="hint">1-30</span>
-                    </div>
-                  </div>
-                </ng-container>
-
-              </div>
-            </div>
-
-            <mat-divider *ngIf="!last"></mat-divider>
-          </ng-container>
-        </form>
-      </ng-container>
-    </div>
-
-    <div *ngIf="step === 'roles'"
-         class="rounded bg-white mat-elevation-z1">
-      <ng-container *ngIf="roles.$() as roles$">
-        <h2 class="p-4 text-xl font-semibold">{{roles.stepLabel$()}} Roles</h2>
-        <mat-divider></mat-divider>
-
-        <form *ngrxLet="roles$.form as form" [formGroup]="form">
-          <ng-container *ngFor="let domain of roles$.domains; let last = last; trackBy: trackBy.domain">
-            <div class="p-4" *ngrxLet="roles$.options[domain.key] as options">
-              <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-                <span class="font-medium lg:pt-1 transition-all">Please select the <span class="text-primary">{{domain.longName}}</span> roles you are currently working or have worked in</span>
-                <span class="flex-none flex gap-2 text-slate-500 items-center justify-between">
-                  <span class="flex gap-1 items-center">
-                    <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
-                    <span>Select up to 5</span>
-                  </span>
-                  <span *ngrxLet="options.size$() as size"
-                        class="selection-counter" [class.selected]="size > 0">
-                    {{size}} selected
-                  </span>
-                </span>
-              </label>
-
-              <div class="mt-4 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-                <ng-container *ngFor="let roleOption of options.list; trackBy: trackBy.stringOption">
-                  <div *ngrxLet="options.stopInput$() && !roleOption.selected as disabled"
-                       class="role-option"
-                       [class.selected]="roleOption.selected"
-                       [class.disabled]="disabled">
-                    <label class="flex flex-grow cursor-pointer">
-                      <mat-checkbox class="primary"
-                                    [ngModel]="roleOption.selected"
-                                    [ngModelOptions]="{ standalone: true }"
-                                    [disabled]="disabled"
-                                    (click)="!disabled && options.toggle(roleOption)">
-                      </mat-checkbox>
-                      <div class="flex-grow p-2">{{roleOption.label}}</div>
-                    </label>
-                    <div *ngIf="roleOption.selected && form.controls[domain.key].controls[roleOption.value] as control"
-                         [formFieldControl]="control" class="px-2">
-                      <input type="number" [formControl]="control" placeholder="Years of Experience *"
-                             min="1" max="30">
-                      <span class="error">1-30</span>
-                      <span class="hint">1-30</span>
-                    </div>
-                  </div>
-                </ng-container>
-              </div>
-            </div>
-
-            <mat-divider *ngIf="!last"></mat-divider>
-          </ng-container>
-        </form>
-      </ng-container>
-    </div>
-
-    <div *ngIf="step === 'technology-stack'"
-         class="rounded bg-white mat-elevation-z1">
-      <h2 class="p-4 text-xl font-semibold">{{techExp.stepLabel$()}} Technical Experience</h2>
-      <mat-divider></mat-divider>
+      <!-- organization type -->
       <div class="p-4">
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all">Please choose the tech stack you have expertise in</span>
+          <span class="font-medium lg:pt-1 transition-all">Organization Type</span>
           <span class="flex-none flex gap-2 text-slate-500 items-center">
-            <span *ngrxLet="techExp.size$() as size"
-                  class="selection-counter"
-                  [class.selected]="size > 0">
-              {{size}} selected
-            </span>
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
+            <span>Select 1</span>
           </span>
         </label>
-        <div *ngIf="techExp.skippable$()"
-             class="rounded mt-4 p-2 px-4 bg-emerald-400/5 text-emerald-500">
-          <button class="underline" (click)="techExp.skip()">Skip this question</button> if it is irrelevant to your enterprise application experience and skills.
-        </div>
 
-        <div *ngIf="techExp.size$() > 0"
-             class="grid gap-4 mt-4">
-          <div *ngFor="let entry of techExp.value$() | keyvalue; trackBy: trackBy.key">
-            <label class="font-medium">{{entry.key}}</label>
-            <!-- <div class="mt-2 flex flex-wrap gap-2"> -->
-            <div class="mt-2 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-              <div *ngFor="let option of entry.value; let i = index; trackBy: trackBy.stringOption"
-                   class="tech-option">
-                <span>{{option.value}}</span>
+        <div class="grid gap-4 mt-4 lg:max-w-md">
+          <button *ngFor="let option of orgType.options; let i = index; trackBy: trackBy.stringOption"
+                  type="button" class="org-type-option"
+                  mat-ripple
+                  [class.selected]="option.selected"
+                  (click)="orgType.toggle(option)">
+            <div class="grid gap-1">
+              <span>{{option.label}}</span>
+              <span *ngIf="option.description as description"
+                    class="text-sm">{{description}}</span>
+            </div>
+            <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
+          </button>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- business size by employee -->
+      <div class="p-4">
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Number of Employees</span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center">
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
+            <span>Select 1</span>
+          </span>
+        </label>
+
+        <div class="grid gap-4 mt-4 lg:max-w-md">
+          <button *ngFor="let option of orgSize.options; let i = index; trackBy: trackBy.stringOption"
+                  type="button" class="org-size-option"
+                  mat-ripple
+                  [class.selected]="option.selected"
+                  (click)="orgSize.toggle(option)">
+            <div class="grid gap-1">
+              <span>{{option.label}}</span>
+              <span *ngIf="option.description as description"
+                    class="text-sm">{{description}}</span>
+            </div>
+            <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
+          </button>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- select industry -->
+      <div class="p-4" *ngrxLet="form.controls.industry as form">
+
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Industry Group and Industry</span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center">
+            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
+            <span>Select 1</span>
+          </span>
+        </label>
+
+        <mat-progress-spinner class="mx-auto mt-4" mode="indeterminate" diameter="24"
+                              *ngIf="industry.loading$(); else $industryLoaded"></mat-progress-spinner>
+
+        <ng-template #$industryLoaded>
+          <div class="mt-4">
+            <ng-container *ngIf="form.valid; else $selectIndutry">
+              <label>{{form.value.group?.name}}</label>
+              <div class="mt-2 industry-option lg:max-w-md">
+                <span>{{form.value.name}}</span>
                 <button type="button" mat-ripple class="icon-button"
-                        (click)="techExp.remove(entry.key, i)"
+                        (click)="industry.clear()"
                         title="Remove">
                   <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
                 </button>
               </div>
-            </div>
+            </ng-container>
+
+            <ng-template #$selectIndutry>
+              <div class="form-field mb-0">
+                <input type="text" placeholder="Type to filter"
+                       [ngModel]="industry.query$()"
+                       (ngModelChange)="industry.query$.set($event)"
+                       [ngModelOptions]="{ standalone: true }"
+                       [matAutocomplete]="indGroupOptions">
+                <span class="hint !relative">If the query matches a category, all items in the category will be shown, otherwise only matching items will be shown.</span>
+              </div>
+
+              <mat-autocomplete #indGroupOptions hideSingleSelectionIndicator>
+                <ng-container *ngFor="let group of industry.options$(); let last = last; trackBy: trackBy.name">
+                  <mat-optgroup [label]="group.name">
+                    <mat-option *ngFor="let option of group.industries"
+                                (onSelectionChange)="$event.source.deselect(); industry.select(group,option)">
+                      {{option}}
+                    </mat-option>
+                  </mat-optgroup>
+                  <mat-divider *ngIf="!last"></mat-divider>
+                </ng-container>
+
+              </mat-autocomplete>
+            </ng-template>
           </div>
-        </div>
+        </ng-template>
+
       </div>
 
-      <div *ngIf="!techExp.stopInput$()" class="p-4">
-        <div class="form-field mb-0">
-          <input type="text" placeholder="Type to filter"
-                 [ngModel]="techExp.query$()"
-                 (ngModelChange)="techExp.query$.set($event)"
-                 [matAutocomplete]="techOptions">
-          <span class="hint !relative">If the query matches a category, all items in the category will be shown, otherwise only matching items will be shown.</span>
-          <span class="hint !relative">Selected items will be removed from suggestions.</span>
-        </div>
-
-        <mat-autocomplete #techOptions class="!p-0">
-          <ng-container *ngFor="let group of techExp.filtered$(); let last = last; trackBy: trackBy.name">
-            <mat-optgroup [label]="group.name" class="block pt-2">
-              <mat-option *ngFor="let option of group.tech; trackBy: trackBy.stringOption"
-                          [value]="techExp.query$()"
-                          (onSelectionChange)="techExp.add(group.name, option);">
-                {{option.label}}
-              </mat-option>
-            </mat-optgroup>
-            <mat-divider *ngIf="!last"></mat-divider>
-          </ng-container>
-        </mat-autocomplete>
-      </div>
-    </div>
-
-    <div *ngIf="step === 'industry'"
-         class="rounded bg-white mat-elevation-z1">
-      <h2 class="p-4 text-xl font-semibold">Industry-specific {{industries.stepLabel$()}} Experience</h2>
       <mat-divider></mat-divider>
+
+      <!-- select software -->
       <div class="p-4">
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all">Please select the industries you have worked in</span>
-          <span class="flex-none flex gap-2 text-slate-500 items-center justify-center">
-            <span class="flex gap-1 items-center">
-              <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
-              <span>Select up to 5</span>
-            </span>
-            <span *ngrxLet="industries.size$() as size"
+          <span class="font-medium lg:pt-1 transition-all">Enterprise Application Software in use</span>
+          <span class="flex-none flex gap-2 text-slate-500 items-center">
+            <span *ngrxLet="software.count$() as count"
                   class="selection-counter"
-                  [class.selected]="size > 0">
-              {{size}} selected
+                  [class.selected]="count > 0">
+              {{count}} selected
             </span>
           </span>
         </label>
 
-        <ng-container *ngIf="!industries.loading$(); else $dataLoading">
-          <div *ngIf="industries.size$() > 0"
-               class="grid gap-4 mt-4">
-            <div *ngFor="let entry of industries.value$() | keyvalue; trackBy: trackBy.key">
+        <mat-progress-spinner class="mx-auto mt-4" mode="indeterminate" diameter="24"
+                              *ngIf="software.loading$(); else $softwareLoaded"></mat-progress-spinner>
+
+        <ng-template #$softwareLoaded>
+          <div *ngIf="software.hasItems$()" class="grid gap-4 mt-4">
+            <div *ngFor="let entry of software.value$() | keyvalue; trackBy: trackBy.key">
               <label class="font-medium">{{entry.key}}</label>
-              <!-- <div class="mt-2 flex flex-wrap gap-2"> -->
               <div class="mt-2 grid gap-2" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
                 <div *ngFor="let option of entry.value; let i = index; trackBy: trackBy.stringOption"
-                     class="industry-option">
+                     class="software-option">
                   <span>{{option.value}}</span>
                   <button type="button" mat-ripple class="icon-button"
-                          (click)="industries.remove(entry.key, i)"
+                          (click)="software.remove(entry.key, i)"
                           title="Remove">
                     <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
                   </button>
@@ -607,1005 +215,216 @@
               </div>
             </div>
           </div>
-        </ng-container>
+          <div class="mt-4">
+            <div class="form-field !mb-0">
+              <input type="text" placeholder="Type to filter"
+                     [ngModel]="software.query$()"
+                     (ngModelChange)="software.query$.set($event)"
+                     [ngModelOptions]="{ standalone: true }"
+                     [matAutocomplete]="softwareOptions">
+              <span class="hint !relative">If the query matches a category, all items in the category will be shown, otherwise only matching items will be shown.</span>
+              <span class="hint !relative">Selected items will be removed from suggestions.</span>
+            </div>
+
+            <mat-autocomplete #softwareOptions>
+              <ng-container *ngFor="let group of software.options$(); let last = last; trackBy: trackBy.name">
+                <mat-optgroup [label]="group.name">
+                  <mat-option *ngFor="let option of group.software"
+                              [value]="software.query$()"
+                              (onSelectionChange)="$event.source.deselect(); software.add(group.name, option);">
+                    {{option.value}}
+                  </mat-option>
+                </mat-optgroup>
+                <mat-divider *ngIf="!last"></mat-divider>
+              </ng-container>
+            </mat-autocomplete>
+          </div>
+        </ng-template>
+
       </div>
 
-      <div *ngIf="!industries.stopInput$()" class="p-4">
-        <div class="form-field mb-0">
-          <input type="text" placeholder="Type to filter"
-                 [ngModel]="industries.query$()"
-                 (ngModelChange)="industries.query$.set($event)"
-                 [matAutocomplete]="industryOptions">
-          <span class="hint !relative">If the query matches a category, all items in the category will be shown, otherwise only matching items will be shown.</span>
-          <span class="hint !relative">Selected items will be removed from suggestions.</span>
-        </div>
-
-        <mat-autocomplete #industryOptions class="!p-0">
-          <ng-container *ngFor="let group of industries.filtered$(); let last = last; trackBy: trackBy.name">
-            <mat-optgroup [label]="group.name" class="block pt-2">
-              <mat-option *ngFor="let option of group.industries; trackBy: trackBy.stringOption"
-                          [value]="industries.query$()"
-                          (onSelectionChange)="industries.add(group.name, option);">
-                {{option.label}}
-              </mat-option>
-            </mat-optgroup>
-            <mat-divider *ngIf="!last"></mat-divider>
-          </ng-container>
-        </mat-autocomplete>
-      </div>
-    </div>
-
-    <div *ngIf="step === 'job-commitment'"
-         class="rounded bg-white mat-elevation-z1">
-      <h2 class="p-4 text-xl font-semibold">Type of Job Commitment</h2>
       <mat-divider></mat-divider>
 
-      <form *ngrxLet="jobCommittment.form as form"
-            class="p-4 grid gap-4">
-
+      <!-- location -->
+      <div class="p-4" *ngrxLet="form.controls.location as form">
         <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all">Specify your preferred Job Commitment</span>
-          <span class="flex-none flex gap-2 text-slate-500 items-center">
-            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
-            <span>Select at least 1</span>
-          </span>
+          <span class="font-medium lg:pt-1 transition-all">Location & Timezone</span>
         </label>
 
-        <div class="grid gap-4 lg:max-w-md">
-          @for(option of jobCommittment.options; track option.value) {
-          <button type="button" class="commitment-option"
-                  mat-ripple
-                  [class.selected]="option.selected"
-                  (click)="jobCommittment.toggle(option)">
-            <div class="flex-grow flex gap-2 flex-wrap items-center justify-between">
-              <span>{{option.label}}</span>
-              @if ($index === 1) {
-              <span class="flex items-center rounded text-sm text-emerald-400">
-                <fa-icon [icon]="icons.faThumbsUp" class="mr-2"></fa-icon>
-                <span>Recommended</span>
-              </span>
-              }
-            </div>
-            <mat-pseudo-checkbox class="primary" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
-          </button>
-          }
-        </div>
-      </form>
-    </div>
+        <div class="mt-4">
+          <div class="grid grid-cols-2 gap-x-4 md:gap-x-8 transition-all">
+            <div *ngrxLet="form.controls.country as control"
+                 [formFieldControl]="control"
+                 [class.show-spinner]="contact.loading.geo$() || contact.loading.country$()">
+              <label>
+                Country
+                <span class="text-warn">*</span>
+              </label>
+              <input type="text" [formControl]="control" placeholder="Type to filter"
+                     [matAutocomplete]="countryOptions">
+              <span class="error" *ngIf="control.hasError('required')">Required</span>
 
-    <div *ngIf="step === 'rate-expectation'"
-         class="rounded bg-white mat-elevation-z1">
-      <h2 class="p-4 text-xl font-semibold">Rate Expectations</h2>
-      <mat-divider></mat-divider>
-
-      <div class="p-4">
-        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all">Indicate your expected rate of remuneration</span>
-          <span class="flex-none flex gap-2 text-slate-500 items-center">
-            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
-            <span>Optional</span>
-          </span>
-        </label>
-
-        <div class="rounded mt-4 p-2 px-4 bg-emerald-400/5 text-emerald-500 text-sm">
-          Rate Expectation information is confidential and restricted to the EASWORKS screening team only.
-        </div>
-
-        <form *ngrxLet="rateExpectation.form as form"
-              [formGroup]="form" class="mt-4 flex gap-x-4 flex-wrap">
-
-          <div *ngrxLet="form.controls.hourly as control"
-               [formFieldControl]="control" class="flex-none w-full max-w-[18rem]">
-            <label> Hourly </label>
-
-            <div class="relative">
-              <input type="number" [formControl]="control" placeholder="Expected hourly remuneration"
-                     class="!pl-[6ch]" />
-              <span class="h-full grid place-content-center absolute top-[0.05rem] left-0 p-2 
-                  text-slate-500/80">USD</span>
-            </div>
-          </div>
-
-          <div *ngrxLet="form.controls.monthly as control"
-               [formFieldControl]="control" class="flex-none w-full max-w-[18rem]">
-            <label> Monthly </label>
-
-            <div class="relative">
-              <input type="number" [formControl]="control" placeholder="Expected monthly remuneration"
-                     class="!pl-[6ch]" />
-              <span class="h-full grid place-content-center absolute top-[0.05rem] left-0 p-2 
-                    text-slate-500/80">USD</span>
-            </div>
-          </div>
-
-          <div *ngrxLet="form.controls.annually as control"
-               [formFieldControl]="control" class="flex-none w-full max-w-[18rem]">
-            <label> Annually </label>
-
-            <div class="relative">
-              <input type="number" [formControl]="control" placeholder="Expected annual remuneration"
-                     class="!pl-[6ch]" />
-              <span class="h-full grid place-content-center absolute top-[0.05rem] left-0 p-2 
-                  text-slate-500/80">USD</span>
-            </div>
-          </div>
-
-        </form>
-      </div>
-    </div>
-
-    <div *ngIf="step === 'preferred-roles'"
-         class="rounded bg-white mat-elevation-z1">
-      <ng-container *ngIf="preferredRoles.$() as roles$">
-        <h2 class="p-4 text-xl font-semibold">Preferred Roles</h2>
-        <mat-divider></mat-divider>
-
-        <ng-container *ngFor="let domain of roles$.domains; let last = last; trackBy: trackBy.domain">
-          <div class="p-4" *ngrxLet="roles$.options[domain.key] as options">
-            <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-              <span class="font-medium lg:pt-1 transition-all">Please select the roles related to <span class="text-primary">{{domain.longName}}</span> you would like to work in</span>
-              <span class="flex-none flex gap-2 text-slate-500 items-center justify-center">
-                <span class="flex gap-1 items-center">
-                  <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
-                  <span>Select up to 5</span>
-                </span>
-                <span *ngrxLet="options.size$() as size"
-                      class="selection-counter" [class.selected]="size > 0">
-                  {{size}} selected
-                </span>
-              </span>
-            </label>
-
-            <div class="mt-4 grid gap-4" style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));">
-              <div *ngFor="let option of options.value$(); let i = index; trackBy: trackBy.stringOption"
-                   class="preferred-role-option">
-                <span>{{option.value}}</span>
-                <button type="button" mat-ripple class="icon-button"
-                        (click)="options.remove(i)"
-                        title="Remove">
-                  <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
-                </button>
-              </div>
-            </div>
-
-            <div *ngIf="!options.stopInput$()" class="mt-4">
-              <div class="form-field mb-0">
-                <input type="text" placeholder="Type to filter"
-                       [ngModel]="options.query$()"
-                       (ngModelChange)="options.query$.set($event)"
-                       [matAutocomplete]="prefRoleOptions">
-              </div>
-
-              <mat-autocomplete #prefRoleOptions class="!p-0">
-                <mat-option *ngFor="let option of options.filtered$(); trackBy: trackBy.stringOption"
-                            [value]="options.query$()"
-                            (onSelectionChange)="options.add(option)">
-                  {{option.label}}
+              <mat-autocomplete #countryOptions hideSingleSelectionIndicator>
+                <mat-option *ngFor="let country of contact.options.country$(); trackBy: trackBy.country"
+                            [value]="country.name" (onSelectionChange)="$event.source.deselect()">
+                  <div class="flex gap-4 items-center">
+                    <span class="font-emoji">{{country.emoji}}</span>
+                    <span>{{country.name}}</span>
+                  </div>
                 </mat-option>
               </mat-autocomplete>
+
+              <mat-progress-spinner class="field-spinner right-3 top-8"
+                                    mode="indeterminate" diameter="24"></mat-progress-spinner>
+            </div>
+
+            <div *ngrxLet="form.controls.state as control"
+                 [formFieldControl]="control"
+                 [class.show-spinner]="contact.loading.state$()">
+              <label>
+                State/Province
+                <span class="text-warn" *ngIf="contact.validation.stateRequired$()">*</span>
+              </label>
+
+              <input type="text" [formControl]="control" placeholder="Type to filter"
+                     [matAutocomplete]="stateOptions">
+              <span class="error" *ngIf="control.hasError('required')">Required</span>
+
+              <mat-autocomplete #stateOptions hideSingleSelectionIndicator>
+                <mat-option *ngFor="let state of contact.options.state$(); trackBy: trackBy.state"
+                            [value]="state.name" (onSelectionChange)="$event.source.deselect()">
+                  {{state.name}}
+                </mat-option>
+              </mat-autocomplete>
+
+              <mat-progress-spinner class="field-spinner right-3 top-8"
+                                    mode="indeterminate" diameter="24"></mat-progress-spinner>
+            </div>
+
+            <div *ngrxLet="form.controls.city as control"
+                 [formFieldControl]="control"
+                 [class.show-spinner]="contact.loading.city$()">
+              <label>
+                City/Area
+                <span class="text-warn" *ngIf="contact.validation.cityRequired$()">*</span>
+              </label>
+              <input type="text" [formControl]="control" placeholder="Type to filter"
+                     [matAutocomplete]="cityOptions">
+              <span class="error" *ngIf="control.hasError('required')">Required</span>
+
+              <mat-autocomplete #cityOptions hideSingleSelectionIndicator>
+                <mat-option *ngFor="let city of contact.options.city$()"
+                            [value]="city.name" (onSelectionChange)="$event.source.deselect()">
+                  {{city.name}}
+                </mat-option>
+              </mat-autocomplete>
+
+              <mat-progress-spinner class="field-spinner right-3 top-8"
+                                    mode="indeterminate" diameter="24"></mat-progress-spinner>
+            </div>
+
+            <div *ngrxLet="form.controls.timezone as control"
+                 [formFieldControl]="control"
+                 [class.show-spinner]="contact.loading.timezone$()">
+              <label>
+                Time Zone
+                <span class="text-warn" *ngIf="control.enabled">*</span>
+              </label>
+              <input type="text" [formControl]="control" placeholder="Type to filter"
+                     [matAutocomplete]="tzOptions">
+              <span class="error" *ngIf="control.hasError('required')">Required</span>
+              <span class="error" *ngIf="control.hasError('invalid')">Invalid</span>
+
+
+              <mat-autocomplete #tzOptions hideSingleSelectionIndicator>
+                <mat-option *ngFor="let tz of contact.options.timezone$()"
+                            [value]="tz.zoneName" (onSelectionChange)="$event.source.deselect()">
+                  {{tz.zoneName}}
+                </mat-option>
+              </mat-autocomplete>
+
+              <mat-progress-spinner class="field-spinner right-3 top-8"
+                                    mode="indeterminate" diameter="24"></mat-progress-spinner>
             </div>
           </div>
+        </div>
+      </div>
 
-          <mat-divider *ngIf="!last"></mat-divider>
-        </ng-container>
-      </ng-container>
-    </div>
-
-    <div *ngIf="step === 'preferred-working-hours'"
-         class="rounded bg-white mat-elevation-z1">
-      <h2 class="p-4 text-xl font-semibold">Preferred Working Hours</h2>
       <mat-divider></mat-divider>
 
-      <form *ngrxLet="preferredWorkingHours.form as form"
-            [formGroup]="form"
-            class="p-4 grid gap-4">
-        <div *ngrxLet="form.controls.timezone as control"
+      <!-- contact -->
+
+      <div class="p-4" *ngrxLet="form.controls.contact as form">
+        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
+          <span class="font-medium lg:pt-1 transition-all">Contact Information</span>
+        </label>
+
+        <div *ngrxLet="form.controls.email as control"
              [formFieldControl]="control"
-             [class.show-spinner]="preferredWorkingHours.loading$()">
-          <label>Timezone</label>
-          <input type="text" [formControl]="control" [matAutocomplete]="tzOptions">
-          <span class="hint">As per your professional summary</span>
-
-          <mat-autocomplete #tzOptions hideSingleSelectionIndicator>
-            <mat-option *ngFor="let tz of preferredWorkingHours.options.timezone$()"
-                        [value]="tz.zoneName" (onSelectionChange)="$event.source.deselect()">
-              {{tz.zoneName}}
-            </mat-option>
-          </mat-autocomplete>
-
+             class="mt-4"
+             [class.show-spinner]="contact.loading.email$()">
+          <label>
+            Email
+            <span class="text-warn">*</span>
+          </label>
+          <input type="email" [formControl]="control" placeholder="Email Address" maxlength="300">
+          <span class="error" *ngIf="control.hasError('required')">Required</span>
+          <span class="error" *ngIf="control.hasError('pattern')">Invalid email</span>
+          <span class="error" *ngIf="control.hasError('blacklisted')">Personal emails are not allowed</span>
           <mat-progress-spinner class="field-spinner right-3 top-8"
                                 mode="indeterminate" diameter="24"></mat-progress-spinner>
         </div>
 
-        <div class="flex gap-4 items-center">
-          <div *ngrxLet="form.controls.start as control"
-               [formFieldControl]="control"
-               class="w-32">
-            <label>Start</label>
-            <mat-select [formControl]="control">
-              <mat-option *ngFor="let option of preferredWorkingHours.options.hours" [value]="option">{{option}}</mat-option>
-            </mat-select>
+        <div *ngrxLet="form.controls.phoneNumber as form"
+             [formFieldControl]="form">
+          <label>Phone Number</label>
+          <div class="flex gap-2 justify-start">
+            <div *ngrxLet="form.controls.code as control" class="relative">
+              <input type="tel" class="!w-24 !pr-4"
+                     [matAutocomplete]="codeOptions"
+                     [formControl]="control" placeholder="ISD Code">
+              <drop-down-indicator class="absolute top-2 right-0"></drop-down-indicator>
+
+              <mat-autocomplete #codeOptions panelWidth="auto" hideSingleSelectionIndicator>
+                <mat-option *ngFor="let country of contact.options.phoneCode$(); trackBy: trackBy.country"
+                            [value]="country.phonecode" (onSelectionChange)="$event.source.deselect();">
+                  <div class="flex gap-4 items-center">
+                    <span class="font-emoji">{{country.emoji}}</span>
+                    <span>{{country.phonecode}}</span>
+                  </div>
+                </mat-option>
+              </mat-autocomplete>
+            </div>
+
+            <input type="tel"
+                   *ngrxLet="form.controls.number as control"
+                   [formControl]="control" placeholder="Number">
           </div>
-          <span>to</span>
-          <div *ngrxLet="form.controls.end as control"
-               [formFieldControl]="control"
-               class="w-32">
-            <label>End</label>
-            <mat-select [formControl]="control">
-              <mat-option *ngFor="let option of preferredWorkingHours.options.hours" [value]="option">{{option}}</mat-option>
-            </mat-select>
-          </div>
-        </div>
-      </form>
-
-    </div>
-
-    <div *ngIf="step === 'job-search-status'"
-         class="rounded bg-white mat-elevation-z1">
-      <h2 class="p-4 text-xl font-semibold">Job Search</h2>
-      <mat-divider></mat-divider>
-
-      <form *ngrxLet="jobSearchStatus.form as form">
-
-        <div class="p-4">
-          <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-            <span class="font-medium lg:pt-1 transition-all">Please select your job search status</span>
-            <span class="flex-none flex gap-2 text-slate-500 items-center">
-              <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
-              <span>Select 1</span>
-            </span>
-          </label>
-
-          <div class="grid gap-4 mt-4 lg:max-w-md">
-            <button *ngFor="let option of jobSearchStatus.options.status; let i = index; trackBy: trackBy.stringOption"
-                    type="button" class="job-search-status-option"
-                    mat-ripple
-                    [class.selected]="option.selected"
-                    (click)="jobSearchStatus.status.toggle(option)">
-              <div class="grid gap-1">
-                <span>{{option.label}}</span>
-                <span *ngIf="option.description as description"
-                      class="text-sm">{{description}}</span>
-              </div>
-              <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
-            </button>
-          </div>
+          <span class="error" *ngIf="form.controls.code.invalid">Invalid Code</span>
+          <span class="error" *ngIf="form.controls.number.hasError('pattern')">Invalid number</span>
+          <span class="error" *ngIf="form.controls.number.hasError('required')">Number required</span>
         </div>
 
-        <mat-divider></mat-divider>
-
-        <div class="p-4">
-          <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-            <span class="font-medium lg:pt-1 transition-all">Please select the kinds of opportunity you are interested in</span>
-            <span class="flex-none flex gap-2 text-slate-500 items-center">
-              <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
-              <span>Select at least 1</span>
-            </span>
-          </label>
-
-          <div class="grid gap-4 mt-4 lg:max-w-md">
-            <button *ngFor="let option of jobSearchStatus.options.opportunity; let i = index; trackBy: trackBy.stringOption"
-                    type="button" class="job-search-opportunity-option"
-                    mat-ripple
-                    [class.selected]="option.selected"
-                    (click)="jobSearchStatus.opportunity.toggle(option)">
-              <div class="grid gap-1">
-                <span>{{option.label}}</span>
-                <span *ngIf="option.description as description"
-                      class="text-sm">{{description}}</span>
-              </div>
-              <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <div *ngIf="step === 'availability'"
-         class="rounded bg-white mat-elevation-z1">
-      <h2 class="p-4 text-xl font-semibold">Availability to Join</h2>
-      <mat-divider></mat-divider>
-
-      <form *ngrxLet="availability.form as form"
-            class="p-4 grid gap-4">
-
-        <label class="flex gap-1 flex-col justify-between lg:flex-row lg:gap-12 lg:items-start transition-all">
-          <span class="font-medium lg:pt-1 transition-all">Please indicate your availability to join</span>
-          <span class="flex-none flex gap-2 text-slate-500 items-center">
-            <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
-            <span>Select 1</span>
-          </span>
-        </label>
-
-        <div class="grid gap-4 lg:max-w-md">
-          <button *ngFor="let option of availability.options; let i = index; trackBy: trackBy.stringOption"
-                  type="button" class="job-search-status-option"
-                  mat-ripple
-                  [class.selected]="option.selected"
-                  (click)="availability.toggle(option)">
-            <span>{{option.label}}</span>
-            <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
-          </button>
-        </div>
-      </form>
-    </div>
-
-    <div *ngIf="step === 'profile-details'"
-         class="rounded bg-white mat-elevation-z1">
-      <h2 class="p-4 text-xl font-semibold">Profile Details</h2>
-      <mat-divider></mat-divider>
-
-      <form *ngrxLet="profileDetails.form as form"
-            [formGroup]="form">
-        <div class="p-4" *ngrxLet="form.controls.personalInfo as form">
-          <label class="font-medium"> Personal Information </label>
-          <div class="flex mt-4 flex-col md:flex-row md:gap-4">
-            <div *ngrxLet="form.controls.firstName as control"
-                 [formFieldControl]="control"
-                 class="flex-grow">
-              <label>
-                First Name
-                <span class="text-warn">*</span>
-              </label>
-              <input type="text" [formControl]="control" placeholder="First Name">
-              <span class="error" *ngIf="control.hasError('required')">Required</span>
-            </div>
-
-            <div *ngrxLet="form.controls.lastName as control"
-                 [formFieldControl]="control"
-                 class="flex-grow">
-              <label>
-                Last Name
-                <span class="text-warn">*</span>
-              </label>
-              <input type="text" [formControl]="control" placeholder="Last Name">
-              <span class="error" *ngIf="control.hasError('required')">Required</span>
-            </div>
-          </div>
-
-          <div class="flex gap-4 flex-wrap mb-4">
-            <div *ngrxLet="form.controls.image as control"
-                 [formFieldControl]="control" class="flex-grow">
-              <label>Profile Picture</label>
-              <file-upload [formControl]="control" [accept]="profileDetails.acceptedMimes.image"></file-upload>
-              <span class="error" *ngIf="control.hasError('size')">Allowed: 5MB</span>
-              <span class="error" *ngIf="control.hasError('type')">Accepted: .png, .jpeg, .bmp</span>
-              <span class="hint">5MB | .png, .jpeg, .bmp</span>
-            </div>
-
-            <div *ngrxLet="form.controls.resume as control"
-                 [formFieldControl]="control" class="flex-grow">
-              <label>Resume / CV</label>
-              <file-upload [formControl]="control" [accept]="profileDetails.acceptedMimes.cv"></file-upload>
-              <span class="error" *ngIf="control.hasError('size')">Allowed: 5MB</span>
-              <span class="error" *ngIf="control.hasError('type')">Accepted: .docx, .pdf</span>
-              <span class="hint">5MB | .docx, .pdf</span>
-            </div>
-          </div>
-
-          <div class="form-field">
-            <label>
-              Location
-              <span class="text-warn">*</span>
-            </label>
-            <input type="text" [ngModel]="profileDetails.location$()"
-                   [ngModelOptions]="{ standalone: true }"
-                   placeholder="Location" readonly>
-            <span class="hint">As per your professional summary</span>
-          </div>
-
-          <div *ngrxLet="form.controls.citizenship as control"
-               [formFieldControl]="control"
-               class="mt-10"
-               [class.show-spinner]="profileDetails.loading.country$()">
-            <label> Citizenship </label>
-            <input type="text" [formControl]="control" placeholder="Type to filter"
-                   [matAutocomplete]="countryOptions">
-            <mat-autocomplete #countryOptions hideSingleSelectionIndicator>
-              <mat-option *ngFor="let country of profileDetails.options.citizenship$(); trackBy: trackBy.country"
-                          [value]="country.name" (onSelectionChange)="$event.source.deselect()">
-                <div class="flex gap-4 items-center">
-                  <span class="font-emoji">{{country.emoji}}</span>
-                  <span>{{country.name}}</span>
-                </div>
-              </mat-option>
-            </mat-autocomplete>
-
-            <mat-progress-spinner class="field-spinner right-3 top-8"
-                                  mode="indeterminate" diameter="24"></mat-progress-spinner>
-          </div>
-
-          <div *ngrxLet="form.controls.signupReason as control"
-               [formFieldControl]="control">
-            <label>Reason for joining EASWORKS</label>
-            <mat-select [formControl]="control">
-              <mat-option *ngFor="let option of profileDetails.options.signupReason" [value]="option">{{option}}</mat-option>
-            </mat-select>
-          </div>
-
-        </div>
-        <mat-divider></mat-divider>
-        <form class="p-4" *ngrxLet="form.controls.contact as form"
-              [formGroup]="form">
-          <label class="font-medium"> Contact Details </label>
-
-          <div *ngrxLet="form.controls.email as control"
-               [formFieldControl]="control"
-               class="mt-4">
-            <label>
-              Email
-              <span class="text-warn">*</span>
-            </label>
-            <input type="email" [formControl]="control" placeholder="Email Address">
-          </div>
-
-          <div *ngrxLet="form.controls.phoneNumber as form">
-
-            <div *ngrxLet="form.controls.mobile as form"
-                 [formFieldControl]="form">
-
-              <label>Mobile</label>
-
-              <div class="flex gap-2 justify-start">
-                <div *ngrxLet="form.controls.code as control" class="relative">
-                  <input type="tel" class="!w-24 !pr-4"
-                         [matAutocomplete]="codeOptions"
-                         [formControl]="control" placeholder="ISD Code">
-                  <drop-down-indicator class="absolute top-2 right-0"></drop-down-indicator>
-
-                  <mat-autocomplete #codeOptions panelWidth="auto" hideSingleSelectionIndicator>
-                    <mat-option *ngFor="let country of profileDetails.options.mobileCode$(); trackBy: trackBy.country"
-                                [value]="country.phonecode" (onSelectionChange)="$event.source.deselect();">
-                      <div class="flex gap-4 items-center">
-                        <span class="font-emoji">{{country.emoji}}</span>
-                        <span>{{country.phonecode}}</span>
-                      </div>
-                    </mat-option>
-                  </mat-autocomplete>
-                </div>
-
-                <input type="tel"
-                       *ngrxLet="form.controls.number as control"
-                       [formControl]="control" placeholder="Number">
-              </div>
-              <span class="error" *ngIf="form.controls.code.invalid">Invalid Code</span>
-              <span class="error" *ngIf="form.controls.number.hasError('pattern')">Invalid number</span>
-              <span class="error" *ngIf="form.controls.number.hasError('required')">Number required</span>
-            </div>
-
-            <div *ngrxLet="form.controls.whatsapp as form"
-                 [formFieldControl]="form">
-
-              <label>WhatsApp</label>
-
-              <div class="flex gap-2 justify-start">
-                <div *ngrxLet="form.controls.code as control" class="relative">
-                  <input type="tel" class="!w-24 !pr-4"
-                         [matAutocomplete]="codeOptions"
-                         [formControl]="control" placeholder="ISD Code">
-                  <drop-down-indicator class="absolute top-2 right-0"></drop-down-indicator>
-
-                  <mat-autocomplete #codeOptions panelWidth="auto" hideSingleSelectionIndicator>
-                    <mat-option *ngFor="let country of profileDetails.options.whatsappCode$(); trackBy: trackBy.country"
-                                [value]="country.phonecode" (onSelectionChange)="$event.source.deselect();">
-                      <div class="flex gap-4 items-center">
-                        <span class="font-emoji">{{country.emoji}}</span>
-                        <span>{{country.phonecode}}</span>
-                      </div>
-                    </mat-option>
-                  </mat-autocomplete>
-                </div>
-
-                <input type="tel"
-                       *ngrxLet="form.controls.number as control"
-                       [formControl]="control" placeholder="Number">
-              </div>
-              <span class="error" *ngIf="form.controls.code.invalid">Invalid Code</span>
-              <span class="error" *ngIf="form.controls.number.hasError('pattern')">Invalid number</span>
-              <span class="error" *ngIf="form.controls.number.hasError('required')">Number required</span>
-            </div>
-
-            <div *ngrxLet="form.controls.telegram as form"
-                 [formFieldControl]="form">
-
-              <label>Telegram</label>
-
-              <div class="flex gap-2 justify-start">
-                <div *ngrxLet="form.controls.code as control" class="relative">
-                  <input type="tel" class="!w-24 !pr-4"
-                         [matAutocomplete]="codeOptions"
-                         [formControl]="control" placeholder="ISD Code">
-
-                  <drop-down-indicator class="absolute top-2 right-0"></drop-down-indicator>
-                  <mat-autocomplete #codeOptions panelWidth="auto" hideSingleSelectionIndicator>
-                    <mat-option *ngFor="let country of profileDetails.options.telegramCode$(); trackBy: trackBy.country"
-                                [value]="country.phonecode" (onSelectionChange)="$event.source.deselect();">
-                      <div class="flex gap-4 items-center">
-                        <span class="font-emoji">{{country.emoji}}</span>
-                        <span>{{country.phonecode}}</span>
-                      </div>
-                    </mat-option>
-                  </mat-autocomplete>
-                </div>
-
-                <input type="tel"
-                       *ngrxLet="form.controls.number as control"
-                       [formControl]="control" placeholder="Number">
-              </div>
-              <span class="error" *ngIf="form.controls.code.invalid">Invalid Code</span>
-              <span class="error" *ngIf="form.controls.number.hasError('pattern')">Invalid number</span>
-              <span class="error" *ngIf="form.controls.number.hasError('required')">Number required</span>
-            </div>
-
-          </div>
-
-          <div *ngrxLet="form.controls.address as form"
-               class="form-field mb-0">
-            <label>Address</label>
-
-            <div *ngrxLet="form.controls.line1 as control"
-                 [formFieldControl]="control">
-              <input type="text" [formControl]="control"
-                     [placeholder]="profileDetails.isRequired.line1$() ? 'Line 1*': 'Line 1'">
-              <span class="error" *ngIf="control.hasError('required')">Required</span>
-            </div>
-
-            <div *ngrxLet="form.controls.line2 as control"
-                 [formFieldControl]="control">
-              <input type="text" [formControl]="control" placeholder="Line 2">
-            </div>
-
-            <div class="grid gap-x-4 md:grid-cols-2">
-              <div *ngrxLet="form.controls.country as control"
-                   [formFieldControl]="control"
-                   [class.show-spinner]="profileDetails.loading.country$()">
-                <input type="text" [formControl]="control"
-                       [placeholder]="profileDetails.isRequired.country$() ? 'Country*': 'Country'"
-                       [matAutocomplete]="countryOptions">
-                <span class="error" *ngIf="control.hasError('required')">Required</span>
-
-                <mat-autocomplete #countryOptions hideSingleSelectionIndicator>
-                  <mat-option *ngFor="let country of profileDetails.options.country$(); trackBy: trackBy.country"
-                              [value]="country.name" (onSelectionChange)="$event.source.deselect()">
-                    <div class="flex gap-4 items-center">
-                      <span class="font-emoji">{{country.emoji}}</span>
-                      <span>{{country.name}}</span>
-                    </div>
-                  </mat-option>
-                </mat-autocomplete>
-
-                <mat-progress-spinner class="field-spinner right-3 top-2"
-                                      mode="indeterminate" diameter="24"></mat-progress-spinner>
-              </div>
-
-              <div *ngrxLet="form.controls.state as control"
-                   [formFieldControl]="control"
-                   [class.show-spinner]="profileDetails.loading.state$()">
-                <input type="text" [formControl]="control"
-                       [placeholder]="profileDetails.isRequired.state$() ? 'State/Province*': 'State/Province'"
-                       [matAutocomplete]="stateOptions">
-                <span class="error" *ngIf="control.hasError('required')">Required</span>
-
-                <mat-autocomplete #stateOptions hideSingleSelectionIndicator>
-                  <mat-option *ngFor="let state of profileDetails.options.state$(); trackBy: trackBy.state"
-                              [value]="state.name" (onSelectionChange)="$event.source.deselect();">
-                    {{state.name}}
-                  </mat-option>
-                </mat-autocomplete>
-
-                <mat-progress-spinner class="field-spinner right-3 top-2"
-                                      mode="indeterminate" diameter="24"></mat-progress-spinner>
-              </div>
-
-              <div *ngrxLet="form.controls.city as control"
-                   [formFieldControl]="control"
-                   [class.show-spinner]="profileDetails.loading.city$()">
-                <input type="text" [formControl]="control"
-                       [placeholder]="profileDetails.isRequired.city$() ? 'City/Area*': 'City/Area'"
-                       [matAutocomplete]="cityOptions">
-                <span class="error" *ngIf="control.hasError('required')">Required</span>
-
-                <mat-autocomplete #cityOptions hideSingleSelectionIndicator>
-                  <mat-option *ngFor="let state of profileDetails.options.city$()"
-                              [value]="state.name" (onSelectionChange)="$event.source.deselect();">
-                    {{state.name}}
-                  </mat-option>
-                </mat-autocomplete>
-
-                <mat-progress-spinner class="field-spinner right-3 top-2"
-                                      mode="indeterminate" diameter="24"></mat-progress-spinner>
-              </div>
-
-              <div *ngrxLet="form.controls.postalCode as control"
-                   [formFieldControl]="control">
-                <input type="text" [formControl]="control"
-                       [placeholder]="profileDetails.isRequired.postalCode$() ? 'Postal Code*': 'Postal Code'">
-                <span class="error" *ngIf="control.hasError('required')">Required</span>
-
-              </div>
-            </div>
-
-          </div>
-        </form>
-        <mat-divider></mat-divider>
-        <form *ngrxLet="form.controls.information as form"
-              [formGroup]="form"
-              class="p-4">
-          <label class="font-medium"> Professional Information </label>
-          <div *ngrxLet="form.controls.currentRole as control"
-               [formFieldControl]="control"
-               class="mt-4">
-            <label>
-              Professional Title
-              <span class="text-warn">*</span>
-            </label>
-            <mat-select [formControl]="control">
-              <mat-select-trigger *ngIf="control.value as value">
-                <span class="text-gray-500 mr-4">{{value[0]}}</span>
-                <span>{{value[1]}}</span>
-              </mat-select-trigger>
-              <mat-option *ngFor="let option of profileDetails.options.role$()"
-                          [value]="option">
-                <span class="text-gray-500 mr-4">{{option[0]}}</span>
-                <span>{{option[1]}}</span>
-              </mat-option>
-            </mat-select>
-            <span class="hint">Current Professional Title or Job Role</span>
-          </div>
-
-          <div *ngrxLet="form.controls.freelanceExperience as control"
-               [formFieldControl]="control" class="mt-10 mb-2">
-            <label>
-              Have you ever worked as a freelancer in the past?
-              <span class="text-warn">*</span>
-            </label>
-
-            <mat-radio-group [formControl]="control" class="flex gap-4">
-              <mat-radio-button [value]="true" class="primary">Yes</mat-radio-button>
-              <mat-radio-button [value]="false" class="primary">No</mat-radio-button>
-            </mat-radio-group>
-          </div>
-
-          <div>
-            <label class="text-sm">
-              English Proficiency
-              <span class="text-warn">*</span>
-            </label>
-
-            <div class="grid gap-4 lg:max-w-md mt-2">
-              <button *ngFor="let option of profileDetails.options.english"
-                      type="button" class="english-proficiency-option"
-                      mat-ripple
-                      [class.selected]="option.selected"
-                      (click)="profileDetails.english.toggle(option)">
-                <span>{{option.label}}</span>
-                <mat-pseudo-checkbox class="primary ml-auto" [state]="displayWith.checkbox(option.selected)"></mat-pseudo-checkbox>
-              </button>
-            </div>
-          </div>
-        </form>
-        <mat-divider></mat-divider>
-        <div class="p-4" *ngrxLet="form.controls.history.controls.work as form">
-          <label class="font-medium"> Work History</label>
-
-          <div class="mt-4">
-            <label class="text-sm">Please provide details of your work history, projects, and relevant experience.</label>
-
-            <div class="grid gap-4 mt-2">
-              <div *ngFor="let form of form.controls; let i = index;"
-                   class="border rounded">
-
-                <form class="flex gap-4 flex-wrap p-2 pb-3" [formGroup]="form">
-                  <div *ngrxLet="form.controls.role as control"
-                       [formFieldControl]="control"
-                       class="flex-grow w-60 mb-0">
-                    <label>
-                      Role
-                      <span class="text-warn">*</span>
-                    </label>
-                    <mat-select [formControl]="control">
-                      <mat-select-trigger *ngIf="control.value as value">
-                        <span class="text-gray-500 mr-4">{{value[0]}}</span>
-                        <span>{{value[1]}}</span>
-                      </mat-select-trigger>
-                      <mat-option *ngFor="let option of profileDetails.options.role$()"
-                                  [value]="option">
-                        <span class="text-gray-500 mr-4">{{option[0]}}</span>
-                        <span>{{option[1]}}</span>
-                      </mat-option>
-                    </mat-select>
-                  </div>
-
-                  <div *ngrxLet="form.controls.client as control"
-                       [formFieldControl]="control"
-                       class="flex-grow w-60 mb-0">
-                    <label>Client Name</label>
-                    <input type="text" [formControl]="control" maxlength="300">
-                  </div>
-
-                  <div *ngrxLet="form.controls.duration as form"
-                       class="flex-grow flex gap-4">
-                    <div *ngrxLet="form.controls.start as control"
-                         [formFieldControl]="control"
-                         class="flex-grow w-20 mb-0">
-                      <label>
-                        Start
-                        <span class="text-warn">*</span>
-                      </label>
-                      <mat-select [formControl]="control">
-                        <mat-option *ngFor="let option of profileDetails.options.years"
-                                    [value]="option">
-                          {{option}}
-                        </mat-option>
-                      </mat-select>
-                    </div>
-                    <div *ngrxLet="form.controls.end as control"
-                         [formFieldControl]="control"
-                         class="flex-grow w-20 mb-0">
-                      <label>
-                        End
-                      </label>
-                      <mat-select [formControl]="control" [crossValidate]="['invalidEnd']">
-                        <mat-option [value]="null">Clear</mat-option>
-                        <mat-option *ngFor="let option of profileDetails.options.years"
-                                    [value]="option">
-                          {{option}}
-                        </mat-option>
-                      </mat-select>
-                    </div>
-                  </div>
-
-                  <div *ngrxLet="form.controls.skills as control"
-                       [formFieldControl]="control"
-                       class="w-full mb-0">
-                    <label>Professional Skills</label>
-                    <div class="field field-interactive">
-                      <textarea [formControl]="control" class="resize-none" maxlength="1000"></textarea>
-                    </div>
-                  </div>
-                </form>
-                <mat-divider></mat-divider>
-                <div class="p-2 py-3">
-                  <button type="button"
-                          class="stroked-button small warn" mat-ripple
-                          (click)="profileDetails.work.remove(i)">
-                    Remove
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-4">
-              <button type="button" *ngIf="form.length < 5"
-                      class="stroked-button small" mat-ripple
-                      (click)="profileDetails.work.add()">
-                Add
-              </button>
-            </div>
-          </div>
-        </div>
-        <mat-divider></mat-divider>
-        <div class="p-4" *ngrxLet="form.controls.history.controls.education as form">
-          <label class="font-medium">Education</label>
-
-          <div class="mt-4">
-            <label class="text-sm">Please provide details of your educational background, qualification, and certifications obtained.</label>
-
-            <div class="grid gap-4 mt-2">
-              <div *ngFor="let form of form.controls; let i = index;"
-                   class="border rounded">
-                <form class="flex gap-4 flex-wrap p-2 pb-3" [formGroup]="form">
-                  <div *ngrxLet="form.controls.qualification as control"
-                       [formFieldControl]="control"
-                       class="flex-grow w-60 mb-0">
-                    <label>
-                      Qualification
-                      <span class="text-warn">*</span>
-                    </label>
-                    <input type="text" [formControl]="control" maxlength="300">
-                  </div>
-
-                  <div *ngrxLet="form.controls.specialization as control"
-                       [formFieldControl]="control"
-                       class="flex-grow w-60 mb-0">
-                    <label>Specialization</label>
-                    <input type="text" [formControl]="control" maxlength="300">
-                  </div>
-
-                  <div *ngrxLet="form.controls.duration as form"
-                       class="flex-grow flex gap-4">
-                    <div *ngrxLet="form.controls.start as control"
-                         [formFieldControl]="control"
-                         class="flex-grow w-20 mb-0">
-                      <label>
-                        Start
-                        <span class="text-warn">*</span>
-                      </label>
-                      <mat-select [formControl]="control">
-                        <mat-option *ngFor="let option of profileDetails.options.years"
-                                    [value]="option">
-                          {{option}}
-                        </mat-option>
-                      </mat-select>
-                    </div>
-                    <div *ngrxLet="form.controls.end as control"
-                         [formFieldControl]="control"
-                         class="flex-grow w-20 mb-0">
-                      <label>
-                        End
-                      </label>
-                      <mat-select [formControl]="control" [crossValidate]="['invalidEnd']">
-                        <mat-option [value]="null">Clear</mat-option>
-                        <mat-option *ngFor="let option of profileDetails.options.years"
-                                    [value]="option">
-                          {{option}}
-                        </mat-option>
-                      </mat-select>
-                    </div>
-                  </div>
-
-                  <div *ngrxLet="form.controls.institution as control"
-                       [formFieldControl]="control"
-                       class="flex-grow w-60 mb-4">
-                    <label>
-                      Institution
-                      <span class="text-warn">*</span>
-                    </label>
-                    <input type="text" [formControl]="control" maxlength="300">
-                    <span class="hint">School / College / University</span>
-                  </div>
-
-                  <div *ngrxLet="form.controls.location as control"
-                       [formFieldControl]="control"
-                       class="flex-grow w-60 mb-4">
-                    <label>
-                      Location
-                      <span class="text-warn">*</span>
-                    </label>
-                    <input type="text" [formControl]="control" maxlength="300">
-                    <span class="hint">City, State, Country</span>
-                  </div>
-                </form>
-                <mat-divider></mat-divider>
-                <div class="p-2 py-3">
-                  <button type="button"
-                          class="stroked-button small warn" mat-ripple
-                          (click)="profileDetails.education.remove(i)">
-                    Remove
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-4">
-              <button type="button" *ngIf="form.length < 5"
-                      class="stroked-button small" mat-ripple
-                      (click)="profileDetails.education.add()">
-                Add
-              </button>
-            </div>
-          </div>
-        </div>
-        <mat-divider></mat-divider>
-        <form class="p-4" *ngrxLet="form.controls.history as form"
-              [formGroup]="form">
-          <label class="font-medium">Portfolio / Program / Project</label>
-          <div class="mt-4">
-            <div *ngrxLet="form.controls.portfolio as control"
-                 [formFieldControl]="control">
-              <div class="field field-interactive h-64">
-                <textarea [formControl]="control" class="resize-none" placeholder="Details"></textarea>
-              </div>
-              <span class="error" *ngIf="control.hasError('maxlength')">{{control.value?.length}}/2500</span>
-              <span class="hint">{{control.value?.length}}/2500</span>
-            </div>
-          </div>
-        </form>
-        <mat-divider></mat-divider>
-        <div class="p-4" *ngrxLet="form.controls.social as form">
-          <label class="font-medium"> Social Account Details </label>
-          <div *ngrxLet="form.controls.linkedin as control"
-               [formFieldControl]="control" class="mt-4">
-            <label>LinkedIn</label>
-            <input type="text" [formControl]="control"
-                   placeholder="Profile Link">
-            <span class="error" *ngIf="control.hasError('pattern')">Invalid</span>
-          </div>
-
-          <div *ngrxLet="form.controls.github as control"
-               [formFieldControl]="control">
-            <label>GitHub</label>
-            <input type="text" [formControl]="control"
-                   placeholder="Profile Link">
-            <span class="error" *ngIf="control.hasError('pattern')">Invalid</span>
-          </div>
-
-          <div *ngrxLet="form.controls.gitlab as control"
-               [formFieldControl]="control">
-            <label>GitLab</label>
-            <input type="text" [formControl]="control"
-                   placeholder="Profile Link">
-            <span class="error" *ngIf="control.hasError('pattern')">Invalid</span>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <!-- TODO: create the content for 'end' step -->
-
-    <div *ngIf="step === 'end'">
-      <div class="text-center">
-        <fa-icon [icon]="icons.faCircleCheck" class="text-5xl text-primary mx-auto"></fa-icon>
-        <p class="font-bold text-2xl mt-4">Congrats {{user().firstName}}!</p>
-        <p class="text-lg mt-4">Looks like you could be a great fit for our platform!</p>
-      </div>
-      <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_8uojpeha.json"
-                     loop autoplay
-                     class="max-w-lg mx-auto">
-      </lottie-player>
-      <mat-divider class="!my-4"></mat-divider>
-      <div>
-        <h3 class="text-center font-bold">Next Steps</h3>
-        <div class="grid grid-cols-2 gap-4 gap-x-8 md:grid-cols-4 content-center mt-2">
-          <div *ngFor="let step of end.nextSteps">
-            <lottie-player [src]="step.lottie"
-                           loop autoplay
-                           class="h-24 w-24 mx-auto">
-            </lottie-player>
-            <p class="font-bold text-center text-sm">{{step.content}}</p>
-          </div>
-
-        </div>
-        <div class="my-8">
-          <a routerLink="/freelancer/profile"
-             class="block max-w-max shaded-button primary mx-auto">Go to My Profile</a>
+        <div *ngrxLet="form.controls.website as control"
+             [formFieldControl]="control"
+             class="mt-4">
+          <label>Website</label>
+          <input type="text" [formControl]="control" placeholder="Website" maxlength="300">
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Button Container -->
-  <ng-container *ngIf="stepper.showStepControls$()">
     <div class="flex mt-4">
-      <button *ngIf="stepper.prev.visible$()" mat-ripple
-              type="button" class="shaded-button mr-auto mat-elevation-z1 disabled:shadow-none 
-              enabled:hover:bg-secondary enabled:hover:text-secondary-text
-              enabled:focus:bg-secondary enabled:focus:text-secondary-text"
-              (click)="this.stepper.prev.click()">
-        Previous
+
+      <button *ngrxLet="disableSubmit$() as disabled"
+              type="submit" class="shaded-button primary ml-auto mat-elevation-z1 disabled:shadow-none"
+              mat-ripple
+              [disabled]="disabled">
+        <replace-spinner [showSpinner]="submitting$()">
+          Submit
+        </replace-spinner>
       </button>
-
-      <ng-container *ngIf="stepper.next.visible$()">
-        <button *ngrxLet="stepper.next.disabled$() as disabled"
-                type="button" class="shaded-button secondary ml-auto mat-elevation-z1 disabled:shadow-none 
-                enabled:hover:bg-secondary enabled:hover:text-secondary-text
-                enabled:focus:bg-secondary enabled:focus:text-secondary-text"
-                mat-ripple
-                [disabled]="disabled"
-                (click)="this.stepper.next.click()">
-          Next
-        </button>
-      </ng-container>
-
-      <ng-container *ngIf="stepper.submit.visible$()">
-        <button *ngrxLet="stepper.submit.disabled$() as disabled"
-                type="button" class="shaded-button primary ml-auto mat-elevation-z1 disabled:shadow-none"
-                mat-ripple
-                [disabled]="disabled"
-                (click)="this.stepper.submit.click()">
-          <replace-spinner [showSpinner]="stepper.submit.submitting$()">
-            Submit
-          </replace-spinner>
-        </button>
-      </ng-container>
     </div>
-  </ng-container>
+  </form>
 
 </div>
-
-<ng-template #$dataLoading>
-  <div class="mt-4 p-2 grid gap-4 justify-items-center">
-    <p> Fetching data. Please wait... </p>
-    <mat-progress-spinner mode="indeterminate" diameter="32"></mat-progress-spinner>
-  </div>
-</ng-template>
