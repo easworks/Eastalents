@@ -1,8 +1,10 @@
 <div class="bg-gray-100">
-  <div *ngIf="!showEdit" class=" mx-auto p-6 bg-white shadow-lg rounded-lg">
+  <div *ngIf="!showEdit" class=" mx-auto px-6 bg-white shadow-lg rounded-lg">
     <div class="flex items-center justify-between mb-6">
       <div class="flex items-center space-x-4">
-        <img src="path/to/logo.png" alt="Company Logo" class="w-12 h-12 rounded-full">
+        <img class="h-20 w-20 rounded-full object-cover" 
+        src="data:image/png;base64,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" alt="User" />
+        
         <div>
           <h1 class="text-2xl font-bold">Las</h1>
           <p class="text-gray-600">India</p>
@@ -13,10 +15,15 @@
         Edit</button>
     </div>
 
-    <div class="mb-6">
-      <h2 class="text-xl font-semibold mb-4">Company Address</h2>
-      <input class="text-xl font-semibold mb-4" type="checkbox" />
-      <div class="grid grid-cols-4 gap-4">
+    <div class="mb-6 p-4">
+     <div class=" flex flex-row justify-between items-start">
+      <h2 class="text-xl font-semibold tracking-wider mb-4">Corporate Address</h2>
+      <div class=" flex flex-row items-center justify-center">
+        <!-- <input class="text-xl font-semibold mb-4" type="checkbox" /> -->
+        <h1 class=" text-violet-700 text-md font-bold">using same billing address as billing address</h1>
+      </div>
+     </div>
+      <div class="grid grid-cols-4 mt-4 gap-4">
         <div>
           <p class="text-gray-600">Country</p>
           <p class="font-medium">India</p>
@@ -44,10 +51,15 @@
       </div>
     </div>
 
-    <div class="mb-6">
-      <h2 class="text-xl font-semibold mb-4">Business Address</h2>
-      <input class="text-xl font-semibold mb-4" type="checkbox" />
-      <div class="grid grid-cols-4 gap-4">
+    <div class="mb-6 p-4">
+      <div class=" flex flex-row justify-between items-start">
+        <h2 class="text-xl font-semibold tracking-wider mb-4">Billing Address</h2>
+        <div class=" flex flex-row items-center justify-center">
+          <!-- <input class="text-xl font-semibold mb-4" type="checkbox" /> -->
+          <h1 class=" text-violet-700 text-md font-bold">using same billing address as billing address</h1>
+        </div>
+       </div>
+      <div class="grid grid-cols-4 mt-4 gap-4">
         <div>
           <p class="text-gray-600">Country</p>
           <p class="font-medium">India</p>
@@ -76,13 +88,27 @@
     </div>
   </div>
 
-  <div *ngIf = "showEdit" class="max-w-4xl mx-auto p-8 bg-white shadow-md rounded-lg mt-10">
+  <div *ngIf = "showEdit" class="w-full mx-auto p-8 bg-white shadow-md rounded-lg mt-10">
+    <div class="flex items-center justify-between mb-6">
+    <div class=" flex flex-row items-center justify-center">
+      <img class="h-20 w-20 rounded-full object-cover" 
+          src="data:image/png;base64,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" alt="User" />
+          
+   <div>
     <div class="text-2xl font-bold ">Las</div>
     <div class="text-gray-500 mb-8">India</div>
-    <form>
+
+   </div>
+    </div>
+    <div class="flex justify-end">
+      <button type="button" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg mr-2">Cancel</button>
+      <button type="submit" class="bg-purple-600 text-white py-2 px-4 rounded-lg">Save</button>
+    </div>
+  </div>
+    <form class=" divide-y-2 divide-gray-300">
       <div class="mb-8">
         <div class="flex flex-row justify-between">
-          <div class="text-lg font-semibold mb-4">Address</div>
+          <div class="text-lg font-semibold tracking-wider mb-4">Address</div>
           <div class="mb-6 flex items-center">
             <input type="checkbox" id="useSameAddress" class="h-4 w-4 text-purple-600 border-gray-300 rounded"
               (click)="onSameAddress()" >
@@ -90,7 +116,7 @@
               address</label>
           </div> 
         </div>
-        <div class="grid grid-cols-2 gap-6 mb-4">
+        <div class="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 mb-4">
           <div>
             <label for="country" class="block mb-2 text-sm font-medium text-gray-700">Country</label>
             <select id="country" class="block w-full p-3 border border-gray-300 rounded-lg">
@@ -105,8 +131,6 @@
               <!-- Add other options as needed -->
             </select>
           </div>
-        </div>
-        <div class="grid grid-cols-2 gap-6 mb-4">
           <div>
             <label for="city" class="block mb-2 text-sm font-medium text-gray-700">City</label>
             <input type="text" id="city" class="block w-full p-3 border border-gray-300 rounded-lg" placeholder="rr">
@@ -117,63 +141,61 @@
               placeholder="222">
           </div>
         </div>
-        <div class="mb-4">
+       <div class=" grid xl:grid-cols-2 grid-cols-1 mb-4 gap-4">
+        <div class="">
           <label for="addressLine1" class="block mb-2 text-sm font-medium text-gray-700">Address line 1</label>
           <input type="text" id="addressLine1" class="block w-full p-3 border border-gray-300 rounded-lg"
             placeholder="55">
         </div>
-        <div class="mb-4">
+        <div class="">
           <label for="addressLine2" class="block mb-2 text-sm font-medium text-gray-700">Address line 2</label>
           <input type="text" id="addressLine2" class="block w-full p-3 border border-gray-300 rounded-lg"
             placeholder="Enter Here">
         </div>
+       </div>
       </div>
       <!-- Billing Address Section -->
-      <div *ngIf = "!sameAddress" id="billingAddressSection" class="mb-8">
+      <div *ngIf = "!sameAddress" id="billingAddressSection" class="mb-8 pt-6">
         <div class="text-lg font-semibold mb-4">Billing address</div>
-        <div class="grid grid-cols-2 gap-6 mb-4">
+        <div class="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 mb-4">
           <div>
-            <label for="billingCountry" class="block mb-2 text-sm font-medium text-gray-700">Country</label>
-            <select id="billingCountry" class="block w-full p-3 border border-gray-300 rounded-lg">
+            <label for="country" class="block mb-2 text-sm font-medium text-gray-700">Country</label>
+            <select id="country" class="block w-full p-3 border border-gray-300 rounded-lg">
               <option>India</option>
               <!-- Add other options as needed -->
             </select>
           </div>
           <div>
-            <label for="billingState" class="block mb-2 text-sm font-medium text-gray-700">State</label>
-            <select id="billingState" class="block w-full p-3 border border-gray-300 rounded-lg">
+            <label for="state" class="block mb-2 text-sm font-medium text-gray-700">State</label>
+            <select id="state" class="block w-full p-3 border border-gray-300 rounded-lg">
               <option>Chhattisgarh</option>
               <!-- Add other options as needed -->
             </select>
           </div>
-        </div>
-        <div class="grid grid-cols-2 gap-6 mb-4">
           <div>
-            <label for="billingCity" class="block mb-2 text-sm font-medium text-gray-700">City</label>
-            <input type="text" id="billingCity" class="block w-full p-3 border border-gray-300 rounded-lg"
-              placeholder="rr">
+            <label for="city" class="block mb-2 text-sm font-medium text-gray-700">City</label>
+            <input type="text" id="city" class="block w-full p-3 border border-gray-300 rounded-lg" placeholder="rr">
           </div>
           <div>
-            <label for="billingPostalCode" class="block mb-2 text-sm font-medium text-gray-700">Postal Code</label>
-            <input type="text" id="billingPostalCode" class="block w-full p-3 border border-gray-300 rounded-lg"
+            <label for="postalCode" class="block mb-2 text-sm font-medium text-gray-700">Postal Code</label>
+            <input type="text" id="postalCode" class="block w-full p-3 border border-gray-300 rounded-lg"
               placeholder="222">
           </div>
         </div>
-        <div class="mb-4">
-          <label for="billingAddressLine1" class="block mb-2 text-sm font-medium text-gray-700">Address line 1</label>
-          <input type="text" id="billingAddressLine1" class="block w-full p-3 border border-gray-300 rounded-lg"
+       <div class=" grid xl:grid-cols-2 grid-cols-1 mb-4 gap-4">
+        <div class="">
+          <label for="addressLine1" class="block mb-2 text-sm font-medium text-gray-700">Address line 1</label>
+          <input type="text" id="addressLine1" class="block w-full p-3 border border-gray-300 rounded-lg"
             placeholder="55">
         </div>
-        <div class="mb-4">
-          <label for="billingAddressLine2" class="block mb-2 text-sm font-medium text-gray-700">Address line 2</label>
-          <input type="text" id="billingAddressLine2" class="block w-full p-3 border border-gray-300 rounded-lg"
+        <div class="">
+          <label for="addressLine2" class="block mb-2 text-sm font-medium text-gray-700">Address line 2</label>
+          <input type="text" id="addressLine2" class="block w-full p-3 border border-gray-300 rounded-lg"
             placeholder="Enter Here">
         </div>
+       </div>
       </div>
-      <div class="flex justify-end">
-        <button type="button" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg mr-2">Cancel</button>
-        <button type="submit" class="bg-purple-600 text-white py-2 px-4 rounded-lg">Save</button>
-      </div>
+     
     </form>
   </div>
 </div>
