@@ -1,3 +1,4 @@
+<app-popup *ngIf = "showAddPopup" (closePopup)="setShowAddPopup()"></app-popup>
 <div class=" w-full relative h-96 p-4">
     <table class="min-w-full  bg-white border border-gray-300 rounded-lg overflow-hidden">
       <thead class="bg-gray-100">
@@ -29,8 +30,8 @@
                 <fa-icon [icon]="menuIcon"></fa-icon>
               </button>
               <div [ngClass]="{'hidden': !showPopup}" class="  absolute right-0  bg-white items-center  rounded-md shadow-lg z-40 overflow-visible">
-                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-center">Edit</a>
-                <a href="#" class="block px-4 py-2 text-red-600 hover:bg-gray-100 text-center">Mark Inactive</a>
+                <button (click)="setShowAddPopup()" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-center">Edit</button>
+                <button class="block px-4 py-2 text-red-600 hover:bg-gray-100 text-center">Mark Inactive</button>
               </div>
             </div>
            
@@ -42,6 +43,7 @@
 
     <div class=" absolute right-0 bottom-0">
       <button
+        (click)="setShowAddPopup()"
         class="relative primary flex items-center px-6 py-3 font-bold text-white bg-violet-700 rounded-md shadow-lg transform transition-transform duration-300 hover:scale-105 focus:scale-105 focus:ring-4 focus:ring-gray-200"
       >
       <div class=" w-8 h-8 pr-2">

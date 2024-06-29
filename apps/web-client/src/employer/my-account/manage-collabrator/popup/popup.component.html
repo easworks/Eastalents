@@ -1,1 +1,50 @@
-<p>popup works!</p>
+<div id="popup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-30">
+  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <h2 class="text-xl font-semibold mb-6">Add a collaborator</h2>
+    <form>
+      <div class="mb-4">
+        <label class="block text-gray-700">Full name</label>
+        <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Email ID</label>
+        <input type="email" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Mobile number</label>
+        <div class="flex mt-1">
+          <select class="block w-1/4 border border-gray-300 rounded-l-md p-2">
+            <option value="+91">+91</option>
+            <!-- Add other country codes as needed -->
+          </select>
+          <input type="text" class="block w-3/4 border-t border-r border-b border-gray-300 rounded-r-md p-2">
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Role</label>
+        <select class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+          <option>Select</option>
+          <!-- Add other roles as needed -->
+        </select>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Mark as Active</label>
+        <div class="flex items-center mt-1">
+          <label class="flex items-center">
+            <input type="radio" name="active" value="yes" class="form-radio">
+            <span class="ml-2">Yes</span>
+          </label>
+          <label class="flex items-center ml-4">
+            <input type="radio" name="active" value="no" class="form-radio">
+            <span class="ml-2">No</span>
+          </label>
+        </div>
+      </div>
+      <div class="flex justify-end mt-6">
+        <button type="button" class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">Update</button>
+        <button  type="button"
+        (click)="onClosePopup()"
+          class="ml-4 text-gray-700 px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100">Cancel</button>
+      </div>
+    </form>
+  </div>

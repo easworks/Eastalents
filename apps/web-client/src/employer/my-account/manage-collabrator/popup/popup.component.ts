@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,6 +6,13 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './popup.component.html',
-  styleUrl: './popup.component.less',
 })
-export class PopupComponent {}
+export class PopupComponent {
+  @Output() closePopup = new EventEmitter<void>();
+
+  onClosePopup() {
+    this.closePopup.emit();
+  }
+
+
+}
