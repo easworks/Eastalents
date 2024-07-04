@@ -44,7 +44,7 @@ export const EMPLOYER_ROUTE: Route = {
       loadComponent: () => import('./my-account/my-account.component').then(m => m.MyAccountComponent)
     },
     {
-      path: '',
+      path: 'profile',
       pathMatch: 'full',
       redirectTo: 'profile'
     }

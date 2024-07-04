@@ -1,7 +1,10 @@
+<div *ngIf="visibleDrawer" class="fixed inset-0 bg-gray-800 bg-opacity-50 " (click)="onCloseDrawer()"></div>
+
+
 <div [ngClass]="{
-  'fixed flex flex-row inset-y-0 right-0 w-20 bg-gray-200 shadow-lg transform transition-transform duration-300 ease-in-out': true,
-  'translate-x-10': !visibleDrawer,
-  '-translate-x-full ': visibleDrawer
+  'fixed  flex flex-row inset-y-0 right-0  w-20   shadow-lg   transform transition-transform duration-300 ease-in-out': true,
+  'translate-x-10 w-28 ': !visibleDrawer,
+  '-translate-x-full z-40  bg-white ': visibleDrawer
 }">
 <div class = "flex items-center justify-center  h-full">
   <button class="p-2 text-gray-600  hover:text-gray-900 focus:outline-none"
@@ -11,14 +14,14 @@
   <fa-icon *ngIf="visibleDrawer" [icon]="rightIcon" class="text-sm mt-1"></fa-icon>
 </button>
 </div>
-<div class="flex flex-col  items-center py-4 space-y-4 mt-10"> 
+<div class="flex flex-col  bg-white  items-center py-4 space-y-4 mt-16"> 
   <button class="p-2 text-gray-600 flex justify-around  hover:text-gray-900 focus:outline-none">
     <fa-icon  [icon]="pdfIcon" class="text-sm mt-1"></fa-icon>
     <p *ngIf="visibleDrawer" class="text-xs ">EXPORT TO PDF</p>
   </button>
   <button class="p-2 text-gray-600 flex justify-around hover:text-gray-900 focus:outline-none">
     <fa-icon  [icon]="linkIcon" class="text-sm mt-1"></fa-icon>
-    <p *ngIf="visibleDrawer" class="text-xs ">COPY PUBLIC LINK</p>
+    <p *ngIf="visibleDrawer" class="text-xs  whi' ">COPY PUBLIC LINK</p>
   </button>
   <button class="p-2 text-gray-600 flex justify-around hover:text-gray-900 focus:outline-none"
   (click)="onResumeAndCV()"

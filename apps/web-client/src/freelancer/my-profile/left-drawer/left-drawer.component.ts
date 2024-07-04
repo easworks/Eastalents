@@ -11,7 +11,7 @@ import { ResumeAndCVComponent } from './resume-and-cv/resume-and-cv.component';
   templateUrl: './left-drawer.component.html',
 })
 export class LeftDrawerComponent {
-  visibleDrawer: boolean = true;
+  visibleDrawer: boolean = false;
   showResumeAndCv: boolean = false;
   rightIcon: IconDefinition = faAngleRight;
   leftIcon: IconDefinition = faAngleLeft;
