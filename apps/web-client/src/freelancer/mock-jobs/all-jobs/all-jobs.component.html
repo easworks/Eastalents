@@ -1,0 +1,9 @@
+
+<div>
+    <div class="grid grid-cols-12 gap-8 @container pt-8 justify-center">
+        <div *ngFor="let item of items"
+          class="max-w-full col-span-12 @sm:col-span-6 @md:col-span-4 @xl:col-span-4  bg-white flex border-gray-200 border-2 flex-col rounded-xl  overflow-hidden shadow-lg">
+          <app-job-post-card [item]="item"></app-job-post-card>
+        </div>
+      </div>
+</div>
