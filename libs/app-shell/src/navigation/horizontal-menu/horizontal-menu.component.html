@@ -1,6 +1,6 @@
 <nav class="flex items-center">
   <ul class="flex gap-1 items-center">
-    @for(item of menuItems$(); track item) {
+    @for(item of menuItems$(); track item.id) {
     @if (item.children?.length) {
 
     <li class="has-submenu relative group"
@@ -8,20 +8,22 @@
       <a class="p-2 rounded flex gap-2 items-center"
          [class]="linkClass$()"
          href="javascript:void(0)" mat-ripple>
-        <span>{{item.name}}</span>
+        <span>{{item.text}}</span>
         <fa-icon [icon]="icons.faAngleDown"></fa-icon>
       </a>
       <ul class="hidden group-focus-within:grid"
           [class.large]="item.children!.length > 4"
           [class.group-hover:grid]="!(isTouchDevice$())">
 
-        @for(subItem of item.children; track subItem) {
+        @for(subItem of item.children; track subItem.id) {
         <li>
-          <a [routerLink]="subItem.link" (click)="collapseAll()">
-            <span *ngIf="subItem.icon" class="icon">
+          <a [routerLink]="subItem.link" [fragment]="subItem.fragment" (click)="collapseAll()">
+            @if (subItem.icon) {
+            <span class="icon">
               <fa-icon [icon]="subItem.icon"></fa-icon>
             </span>
-            <span>{{subItem.name}}</span>
+            }
+            <span>{{subItem.text}}</span>
           </a>
         </li>
         }
@@ -36,8 +38,8 @@
     <li class="group">
       <a class="p-2 block rounded"
          [class]="linkClass$()"
-         [routerLink]="item.link" mat-ripple>
-        {{item.name}}
+         [routerLink]="item.link" [fragment]="item.fragment" mat-ripple>
+        {{item.text}}
       </a>
     </li>
     }
