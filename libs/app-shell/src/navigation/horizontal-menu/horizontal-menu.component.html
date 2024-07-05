@@ -1,6 +1,6 @@
 <nav class="flex items-center">
   <ul class="flex gap-1 items-center">
-    @for(item of menuItems$(); track item.id) {
+    @for(item of menuItems$(); track item) {
     @if (item.children?.length) {
 
     <li class="has-submenu relative group"
@@ -15,7 +15,7 @@
           [class.large]="item.children!.length > 4"
           [class.group-hover:grid]="!(isTouchDevice$())">
 
-        @for(subItem of item.children; track subItem.id) {
+        @for(subItem of item.children; track subItem) {
         <li>
           <a [routerLink]="subItem.link" [fragment]="subItem.fragment" (click)="collapseAll()">
             @if (subItem.icon) {

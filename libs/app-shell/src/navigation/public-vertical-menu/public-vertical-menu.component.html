@@ -1,7 +1,7 @@
 @if (showPublicMenu$()) {
 <nav class="public-menu">
   <ul class="grid">
-    @for(item of publicItems$(); track item.id) {
+    @for(item of publicItems$(); track item) {
 
     @if (item.children?.length) {
     <li class="has-submenu" #listItem>
@@ -42,7 +42,7 @@
 
 <nav>
   <ul>
-    @for(item of staticItems$(); track item.id) {
+    @for(item of staticItems$(); track item) {
     <li>
       <a class="p-2 px-4 block rounded hover:bg-slate-500/10 focus:bg-slate-500/10"
          [routerLink]="item.link" [fragment]="item.fragment">
@@ -82,7 +82,7 @@
 <nav>
   <p class="text-lg m-0">About Us</p>
   <ul class="mt-2">
-    @for(item of aboutItems$(); track item.id) {
+    @for(item of aboutItems$(); track item) {
     <li>
       <a class="p-2 px-4 block rounded hover:bg-slate-500/10 focus:bg-slate-500/10"
          [routerLink]="item.link" [fragment]="item.fragment">
@@ -105,7 +105,7 @@
 <div>
   <p>Follow Us</p>
   <div class="flex gap-2">
-    @for (item of socialItems$(); track item.id) {
+    @for (item of socialItems$(); track item) {
     <a class="icon-button" [routerLink]="item.link" [fragment]="item.fragment" mat-ripple>
       <fa-icon [icon]="item.icon!"></fa-icon>
     </a>
