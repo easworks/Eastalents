@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, computed, inject } from '@angular/core';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { NavMenuState } from '../state/menu';
-import { ACTIONS } from '../state/redux-signals';
-import { UI_FEATURE, uiActions } from '../state/ui';
+import { NavMenuState } from '../../state/menu';
+import { ACTIONS } from '../../state/redux-signals';
+import { UI_FEATURE, uiActions } from '../../state/ui';
 
 @Component({
   selector: 'app-horizontal-menu',

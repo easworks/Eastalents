@@ -1,14 +1,14 @@
 <div id="app-top-bar" *ngrxLet="topBar$() as topBar" [class.dark]="topBar.dark">
   @if(sideBarState.toggle.position$() === 'left'){
-    <button class="icon-button" mat-ripple (click)="appSidenav.toggle()">
-      <fa-icon [icon]="icons.faBars"></fa-icon>
-    </button>
+  <button class="icon-button" mat-ripple (click)="appSidenav.toggle()">
+    <fa-icon [icon]="icons.faBars"></fa-icon>
+  </button>
   }
   <a routerLink="/" class="grid content-center mr-auto">
     <img [src]="topBar.brandImage">
   </a>
   @if(showHorizontalMenu$()) {
-    <app-horizontal-menu class="mx-auto"></app-horizontal-menu>
+  <app-horizontal-menu class="mx-auto"></app-horizontal-menu>
   }
 
   <div class="flex gap-2 items-center flex-none">
@@ -18,11 +18,11 @@
     </a>
     <div class="flex items-center">
       @if(sideBarState.toggle.position$() === 'right'){
-        <button class="icon-button" mat-ripple (click)="appSidenav.toggle()">
-          <fa-icon [icon]="icons.faBars"></fa-icon>
-        </button>
+      <button class="icon-button" mat-ripple (click)="appSidenav.toggle()">
+        <fa-icon [icon]="icons.faBars"></fa-icon>
+      </button>
       }
-      
+
       <button class="icon-button text-emerald-500" mat-ripple [class.hidden]="sw.hidden$()" (click)="sw.update()">
         <fa-icon [icon]="icons.faCircleArrowUp"></fa-icon>
       </button>
@@ -36,11 +36,11 @@
 
 <mat-sidenav-container class="flex-grow !flex flex-col !overflow-visible">
   <mat-sidenav #appSidenav fixedInViewport class="!top-16"
-    [mode] = "sideBarState.mode$()" 
-    [opened] = "sideBarState.opened$()"
-    [position] = "sideBarState.position$()">
-    <!-- <app-vertical-menu></app-vertical-menu> -->
-    <app-nav-menu></app-nav-menu>
+               [mode]="sideBarState.mode$()"
+               [opened]="sideBarState.opened$()"
+               [position]="sideBarState.position$()">
+    <app-vertical-menu></app-vertical-menu>
+    <!-- <app-nav-menu></app-nav-menu> -->
   </mat-sidenav>
 
   <mat-sidenav-content class="flex-grow !flex flex-col !overflow-visible bg-white">

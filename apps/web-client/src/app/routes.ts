@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
-import { NotFoundPageComponent } from '@easworks/app-shell/navigation/not-found.page';
+import { NotFoundPageComponent } from '@easworks/app-shell/navigation/not-found/not-found.page';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { ACCOUNT_ROUTES } from '../account/routes';
 import { ADMIN_ROUTES } from '../admin/routes';

@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
 import { Domain } from '@easworks/models';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import { DomainState } from '../state/domains';
-import { MenuItem, NOOP_CLICK, NavMenuState } from '../state/menu';
-import { SelectableOption } from '../utilities/options';
+import { DomainState } from '../../state/domains';
+import { MenuItem, NOOP_CLICK, NavMenuState } from '../../state/menu';
+import { SelectableOption } from '../../utilities/options';
 
 @Component({
   selector: 'app-vertical-menu',
