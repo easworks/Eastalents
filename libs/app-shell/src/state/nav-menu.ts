@@ -7,6 +7,7 @@ export interface State {
     list: AuthenticatedMenuItem[];
     map: Record<string, AuthenticatedMenuItem>;
     order: Record<string, number>;
+    children: Record<string, string[]>;
   };
   allowed: {
     set: Set<string>;
@@ -30,6 +31,7 @@ export const navMenuFeature = createFeature({
         list: [],
         map: {},
         order: {},
+        children: {}
       },
       allowed: {
         set: new Set(),
@@ -43,6 +45,7 @@ export const navMenuFeature = createFeature({
       const list = payload.items;
       const map: State['all']['map'] = {};
       const order: State['all']['order'] = {};
+      const children: State['all']['children'] = {};
 
       list.forEach((item, index) => {
         if (item.id in map)
@@ -56,10 +59,12 @@ export const navMenuFeature = createFeature({
         if (item.parent) {
           if (!(item.parent in map))
             throw new Error(`menu item '${item.id}' specifies a parent '${item.parent}' which does not exist`);
+          children[item.parent] ||= [];
+          children[item.parent].push(item.id);
         }
       }
 
-      state.all = { list, map, order };
+      state.all = { list, map, order, children };
       return state;
     }),
 

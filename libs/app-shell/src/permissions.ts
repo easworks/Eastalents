@@ -1,15 +1,16 @@
-import { PermissionDefinitionDTO, extractPermissionList } from '@easworks/models/permission-record';
+import { PermissionDefinitionDTO, extractPermissionList, permissionHeirarchy } from '@easworks/models/permission-record';
 import { Role } from '@easworks/models/role';
 
 export const PERMISSION_DEF_DTO: PermissionDefinitionDTO = [
-  'freelancer',
-  'employer',
+  ['role', ['freelancer', 'employer', 'admin']],
   ['job-post', [
     'create',
     'read',
     ['update', ['details', 'status']],
     'delete'
-  ]]
+  ]],
+  'gen-ai-vetting',
+  'cost-calculator'
 ];
 
 
@@ -17,34 +18,44 @@ const permList = extractPermissionList(PERMISSION_DEF_DTO);
 
 export const ALL_PERMISSIONS = new Set(permList);
 
-// this supposed to be a dev-time helper
+// this is supposed to be a dev-time helper
 export function isPermissionDefined(permission: string) {
   return permission === 'all' || ALL_PERMISSIONS.has(permission);
+}
+
+export function isPermissionGranted(permission: string, grants: string[]) {
+  const heirarchy = permissionHeirarchy(permission);
+  return heirarchy.some(p => grants.includes(p));
 }
 
 const roleList: Role[] = [
   {
     id: 'freelancer',
-    permissions: ['freelancer'],
-    static: true
+    permissions: [
+      'role.freelancer',
+      'gen-ai-vetting'
+    ],
+    static: false
   },
   {
     id: 'employer',
     permissions: [
-      'employer',
+      'role.employer',
       'job-post.create',
       'job-post.read',
-      'job-post.update.details'
+      'job-post.update.details',
+      'cost-calculator'
     ],
-    static: true
+    static: false
   },
   {
     id: 'admin',
     permissions: [
+      'role.admin',
       'job-post.read',
       'job-post.delete',
     ],
-    static: true
+    static: false
   },
   {
     id: 'super-admin',
@@ -53,9 +64,5 @@ const roleList: Role[] = [
   }
 ];
 
-roleList.forEach(role => role.permissions.forEach(p => {
-  if (!isPermissionDefined(p))
-    throw new Error(`permission '${p}' is not defined`);
-}));
 
 export const ALL_ROLES = new Map(roleList.map(r => [r.id, r]));
