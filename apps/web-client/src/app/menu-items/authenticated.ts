@@ -58,9 +58,10 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
     icon: faIdBadge,
   },
   {
-    id: 'account', text: 'My Account',
-    link: NOOP_CLICK,
+    id: 'employer-account', text: 'My Account',
+    link: '/employer/account',
     icon: faUserGear,
+    permissions: ['role.employer']
   },
 
   ...itemsForParent('work-opportunity', [

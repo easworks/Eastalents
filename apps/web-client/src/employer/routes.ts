@@ -46,6 +46,15 @@ export const EMPLOYER_ROUTES: Route[] = [
         loadComponent: () => import('./hire-talent/hire-talent.component').then(m => m.HireTalentComponent)
       },
       {
+        path: 'account',
+        pathMatch: 'full',
+        canMatch: [AuthGuard.asFunction],
+        data: {
+          auth: AUTH_GUARD_CHECKS.hasPermissions(['role.employer'])
+        },
+        loadComponent: () => import('./my-account/my-account.component').then(m => m.MyAccountComponent)
+      },
+      {
         path: 'profile',
         pathMatch: 'full',
         loadComponent: () => import('./profile.page').then(m => m.EmployerProfilePageComponent),
