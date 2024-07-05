@@ -36,7 +36,8 @@
 </div>
 
 <mat-sidenav-container class="flex-grow !flex flex-col !overflow-visible">
-  <mat-sidenav #appSidenav fixedInViewport class="!top-16"
+  <mat-sidenav #appSidenav fixedInViewport
+               id="app-sidenav"
                [mode]="sideBarState.mode$()"
                [opened]="sideBarState.opened$()"
                [position]="sideBarState.position$()">

@@ -1,0 +1,38 @@
+cdk-tree.auth-menu {
+  @apply grid gap-2 p-2;
+
+  a {
+    @apply p-2 px-4 flex gap-4 items-center rounded-lg
+      cursor-pointer;
+
+    &:where(:hover), &:where(:focus) {
+      @apply bg-primary-50 ;
+    }
+
+    fa-icon {
+      @apply text-black;
+    }
+  }
+
+  div.children {
+    @apply pl-12 grid gap-2;
+
+    @apply invisible max-h-0 overflow-hidden;
+  }
+
+  .expansion-indicator {
+    @apply ml-auto transition-all;
+  }
+
+
+  div.expanded {
+    > .children {
+      @apply visible max-h-max;
+    }
+
+    .expansion-indicator {
+      @apply rotate-180;
+    }
+  }
+
+}

@@ -1,9 +1,14 @@
+import { ArrayDataSource } from '@angular/cdk/collections';
+import { CdkTreeModule, NestedTreeControl } from '@angular/cdk/tree';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive, computed, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Store } from '@ngrx/store';
 import { navMenuFeature } from '../../state/nav-menu';
 import { MenuItem } from '../models';
+import { LetDirective } from '@ngrx/component';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   standalone: true,
@@ -13,11 +18,18 @@ import { MenuItem } from '../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    CdkTreeModule,
+    RouterModule,
+    LetDirective
   ]
 })
 export class AuthenticateVerticalMenuComponent {
   private readonly store = inject(Store);
+
+  protected readonly icons = {
+    faChevronDown
+  } as const;
 
   protected readonly state$ = this.store.selectSignal(navMenuFeature.selectAllowed);
 
@@ -46,5 +58,15 @@ export class AuthenticateVerticalMenuComponent {
 
     return items;
   });
+
+  protected readonly tree = (() => {
+    const control = new NestedTreeControl<MenuItem>(item => item.children);
+
+    const dataSource$ = computed(() => new ArrayDataSource(this.search$()));
+
+    const hasChild = (_: number, node: MenuItem) => !!(node.children?.length);
+
+    return { control, dataSource$, hasChild } as const;
+  })();
 }
 

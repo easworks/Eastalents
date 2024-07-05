@@ -1,8 +1,33 @@
-@for(item of search$(); track item) {
-<div class="flex gap-4 items-center">
-  @if(item.icon) {
-  <fa-icon [icon]="item.icon" class="text-2xl"></fa-icon>
-  }
-  <span>{{item.text}}</span>
-</div>
-}
+<cdk-tree [dataSource]="tree.dataSource$()"
+          [treeControl]="tree.control"
+          class="auth-menu">
+
+  <!-- This is the tree node template for leaf nodes -->
+  <cdk-nested-tree-node menu-item *cdkTreeNodeDef="let node">
+    <a [routerLink]="node.link" [fragment]="node.fragment">
+      @if(node.icon) {
+      <fa-icon [icon]="node.icon" class="text-2xl w-8 text-center"></fa-icon>
+      }
+      <span>{{node.text}}</span>
+    </a>
+  </cdk-nested-tree-node>
+
+  <!-- This is the tree node template for expandable nodes -->
+  <cdk-nested-tree-node *cdkTreeNodeDef="let node; when: tree.hasChild" class="example-tree-node">
+    <div *ngrxLet="tree.control.isExpanded(node) as expanded"
+         [class.expanded]="expanded"
+         class="branch">
+      <a cdkTreeNodeToggle>
+        @if(node.icon) {
+        <fa-icon [icon]="node.icon" class="text-2xl w-8 text-center"></fa-icon>
+        }
+        <span>{{node.text}}</span>
+        <fa-icon [icon]="icons.faChevronDown" class="expansion-indicator"></fa-icon>
+      </a>
+      <div class="children">
+        <ng-container cdkTreeNodeOutlet></ng-container>
+      </div>
+    </div>
+  </cdk-nested-tree-node>
+
+</cdk-tree>
