@@ -12,6 +12,15 @@ export const FREELANCER_ROUTES: Route[] = [
     loadComponent: () => import('./dashboard/dashboard.page').then(m => m.TalentDashboardComponent)
   },
   {
+    path: 'gen-ai-vetting',
+    pathMatch: 'full',
+    canMatch: [AuthGuard.asFunction],
+    data: {
+      auth: AUTH_GUARD_CHECKS.hasPermissions(['gen-ai-vetting'])
+    },
+    loadComponent: () => import('./gen-ai-vitting/gen-ai-vatting.component').then(m => m.GenAiVattingComponent)
+  },
+  {
     path: 'freelancer',
     canMatch: [AuthGuard.asFunction],
     data: {

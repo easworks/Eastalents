@@ -25,7 +25,7 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
   },
   {
     id: 'gen-ai-vetting', text: 'Gen AI Vetting',
-    link: NOOP_CLICK,
+    link: '/gen-ai-vetting',
     icon: faMicrochip,
     permissions: ['gen-ai-vetting']
   },
