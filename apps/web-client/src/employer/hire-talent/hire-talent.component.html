@@ -1,0 +1,29 @@
+<div class="bg-gray-100 w-full ">
+    <div class="= bg-white w-full p-6 rounded-lg items-center flex flex-row justify-between ">
+        <div class="text-left mb-6 ">
+            <h1 class="text-2xl font-bold">Hire Talents</h1>
+            <p class="text-gray-600">Create new requirements or review candidates for posted jobs.</p>
+        </div>
+        <div class=" w-12 h-12 rotate-12">
+            <fa-icon [icon]="bellIcon" class=" text-purple-600 text-4xl cursor-pointer"></fa-icon>
+        </div>
+    </div>
+    <div class=" flex flex-row items-center justify-between px-6">
+        <h1 class="text-2xl font-bold tracking-wider">All requirements</h1>
+        <div class="flex items-between justify-center">
+
+            <button class="mt-6 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 justify-around items-center flex flex-row">
+                <div class="size-xl">
+                    <fa-icon [icon]="addIcon"></fa-icon>
+                </div>
+                <p>Hire Talents</p>
+            </button>
+        </div>
+    </div>
+    <div class="grid grid-cols-12 gap-8 px-6 @container pt-8 justify-center">
+        <div *ngFor="let item of items"
+             class="max-w-full col-span-12 @sm:col-span-6 @md:col-span-4 @xl:col-span-4  bg-white flex border-gray-200 border-2 flex-col rounded-xl  overflow-hidden shadow-lg">
+            <job-post-card [item]="item"></job-post-card>
+        </div>
+    </div>
+</div>

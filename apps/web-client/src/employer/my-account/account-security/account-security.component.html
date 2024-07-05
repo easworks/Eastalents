@@ -1,0 +1,20 @@
+<button class="flex items-center p-4 border border-purple-500 rounded-lg hover:bg-purple-50"
+(click)="setShowPopup()">
+  <div class="w-10 h-10 flex items-center justify-center bg-purple-100 rounded-full">
+      <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+      </svg>
+  </div>
+  <div class="ml-4">
+      <div class="text-purple-700 font-semibold">Change password</div>
+      <div class="text-gray-500 text-sm">Change your login password.</div>
+  </div>
+  <div class="ml-auto">
+      <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+  </div>
+</button>
+<div *ngIf = "showPopup">
+   <reset-password-popup (closePopup)="setShowPopup()"></reset-password-popup>
+</div>

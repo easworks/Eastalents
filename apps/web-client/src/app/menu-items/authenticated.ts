@@ -13,7 +13,7 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
   },
   {
     id: 'profile', text: 'My Profile',
-    link: '/freelancer/profile/me',
+    link: '/freelancer/my-profile',
     icon: faUser,
     permissions: ['role.freelancer']
   },
@@ -25,7 +25,7 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
   },
   {
     id: 'gen-ai-vetting', text: 'Gen AI Vetting',
-    link: NOOP_CLICK,
+    link: '/gen-ai-vetting',
     icon: faMicrochip,
     permissions: ['gen-ai-vetting']
   },
@@ -42,7 +42,7 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
   },
   {
     id: 'cost-calculator', text: 'Cost Calculator',
-    link: NOOP_CLICK,
+    link: '/employer/cost-calculator',
     icon: faCalculator,
     permissions: ['cost-calculator']
   },
@@ -54,13 +54,14 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
   },
   {
     id: 'spoc', text: 'SPOC',
-    link: NOOP_CLICK,
+    link: '/spoc',
     icon: faIdBadge,
   },
   {
-    id: 'account', text: 'My Account',
-    link: NOOP_CLICK,
+    id: 'employer-account', text: 'My Account',
+    link: '/employer/account',
     icon: faUserGear,
+    permissions: ['role.employer']
   },
 
   ...itemsForParent('work-opportunity', [
@@ -84,7 +85,7 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
   ...itemsForParent('company-info', [
     {
       id: 'general-company-info', text: 'General Information',
-      link: NOOP_CLICK,
+      link: '/employer/general-info',
       permissions: ['role.employer']
     }
   ]),
@@ -92,12 +93,12 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
   ...itemsForParent('manage-talents', [
     {
       id: 'hire-talents', text: 'Hire Talents',
-      link: NOOP_CLICK,
+      link: '/employer/hire-talents',
       permissions: ['role.employer']
     },
     {
       id: 'my-teammates', text: 'My Teammates',
-      link: NOOP_CLICK,
+      link: '/employer/my-teammates',
       permissions: ['role.employer']
     }
   ])

@@ -1,0 +1,156 @@
+<div class="bg-gray-100">
+  <div *ngIf="!showEdit" class=" mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center space-x-4">
+        <img class="h-20 w-20 rounded-full object-cover" 
+        src="data:image/png;base64,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" alt="User" />
+        <div>
+          <h1 class="text-2xl font-bold">Las</h1>
+          <p class="text-gray-600">India</p>
+        </div>
+      </div>
+      <div class="flex flex-row space-x-2" (click)="onShowEdit()">
+        <fa-icon [icon]="editIcon"></fa-icon>
+        <button class="text-purple-600  flex flex-row" >
+          Edit</button>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-semibold mb-6 ">Company Overview</h2>
+   
+    <div class=" space-y-4 ">
+      <div class="border-b-2 pb-4 border-gray-200">
+        <div class="grid xl:grid-cols-4  lg:grid-col-2 grid-cols-1 gap-4">
+          <div>
+            <p class="text-gray-600">Company type</p>
+            <p class="font-medium">One Person Company (OPC)</p>
+          </div>
+          <div>
+            <p class="text-gray-600">Company Registration Number</p>
+            <p class="font-medium">123</p>
+          </div>
+          <div>
+            <p class="text-gray-600">Desired currency</p>
+            <p class="font-medium">United States Dollar (USD)</p>
+          </div>
+          <div>
+            <p class="text-gray-600">Industry</p>
+            <p class="font-medium">-</p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="">
+        <h2 class="text-xl font-semibold mb-4">Additional Information</h2>
+        <div class="grid grid-cols-3 gap-4">
+          <div>
+            <p class="text-gray-600">Employee size</p>
+            <p class="font-medium">-</p>
+          </div>
+          <div>
+            <p class="text-gray-600">Company website</p>
+            <p class="font-medium">-</p>
+          </div>
+          <div>
+            <p class="text-gray-600">Company LinkedIn URL</p>
+            <p class="font-medium">-</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-purple-600 text-white mt-10 p-4 rounded-lg flex items-center justify-between">
+      <div class="flex items-center space-x-4">
+        <div class=" text-white border-black border-4  w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg">
+          95
+        </div>
+        <div>
+          <p class="font-medium">Profile 95% completed</p>
+          <p class="text-sm">Add company logo, website, LinkedIn and other information to complete your profile.</p>
+        </div>
+      </div>
+      <button class="bg-white text-purple-600 px-4 py-2 rounded-lg font-medium">Complete it now</button>
+    </div>
+  </div>
+  
+  <div *ngIf="showEdit" class=" mx-auto p-8 bg-white shadow-md rounded-lg mt-10">
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center space-x-4">
+        <img class="h-20 w-20 rounded-full object-cover" 
+        src="data:image/png;base64,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" alt="User" />
+        
+        <div>
+          <h1 class="text-2xl font-bold">Las</h1>
+          <p class="text-gray-600">India</p>
+        </div>
+      </div>
+      <div class="flex justify-between w-[10%]">
+        <button type="submit" class="bg-purple-600 py-2 text-white  px-4 rounded-lg">Save</button>
+        <button type="button" class="bg-gray-300 text-gray-700 py-2  px-4 rounded-lg mr-2"
+          (click)="onShowEdit()">Cancel</button>
+      </div>
+    </div>
+
+   
+
+    <div class=" p-2 border-b border-gray-300">
+     <h2 class=" text-2xl font-normal tracking-wider"> Overview</h2>
+     <form div class="grid grid-cols-3 mt-6 gap-4">
+       <div class="mb-6">
+         <label for="companyName" class="block mb-2 text-sm font-medium text-gray-700">Company legal name</label>
+         <input type="text" id="companyName" class="block w-full p-3 border border-gray-300 rounded-lg"
+           placeholder="las">
+       </div>
+       <div class="mb-6">
+         <label for="companyType" class="block mb-2 text-sm font-medium text-gray-700">Company type</label>
+         <select id="companyType" class="block w-full p-3 border border-gray-300 rounded-lg">
+           <option>One Person Company (OPC)</option>
+         </select>
+       </div>
+       <div class="mb-6">
+         <label for="companyRegNumber" class="block mb-2 text-sm font-medium text-gray-700">Company Registration
+           Number</label>
+         <input type="text" id="companyRegNumber" class="block w-full p-3 border border-gray-300 rounded-lg"
+           placeholder="123">
+       </div>
+       <div class="mb-6">
+         <label for="currency" class="block mb-2 text-sm font-medium text-gray-700">Desired currency</label>
+         <input type="text" id="currency" class="block w-full p-3 border border-gray-300 rounded-lg" placeholder="US$">
+       </div>
+       <div class="mb-6">
+         <label for="industry" class="block mb-2 text-sm font-medium text-gray-700">Industry</label>
+         <select id="industry" class="block w-full p-3 border border-gray-300 rounded-lg">
+           <option>Select</option>
+           <!-- Add other options as needed -->
+         </select>
+       </div>
+     </form>
+    </div>
+
+    <div class=" p-2 mt-4">
+      <h2 class=" text-2xl font-semibold tracking-wider">Additional Information</h2>
+      <form div class="grid grid-cols-3 mt-3 gap-4">
+        <div class="mb-6">
+          <label for="employeeSize" class="block mb-2 text-sm font-medium text-gray-700">Employee size</label>
+          <select id="employeeSize" class="block w-full p-3 border border-gray-300 rounded-lg">
+            <option>Select</option>
+            <!-- Add other options as needed -->
+          </select>
+        </div>
+        <div class="mb-6">
+          <label for="companyWebsite" class="block mb-2 text-sm font-medium text-gray-700">Company Website</label>
+          <input type="url" id="companyWebsite" class="block w-full p-3 border border-gray-300 rounded-lg"
+            placeholder="www.example.com">
+        </div>
+        <div class="mb-6">
+          <label for="linkedinURL" class="block mb-2 text-sm font-medium text-gray-700">Company LinkedIn URL</label>
+          <input type="url" id="linkedinURL" class="block w-full p-3 border border-gray-300 rounded-lg"
+            placeholder="https://www.linkedin.com/company/username">
+        </div>
+      </form>
+     </div>
+  </div>
+
+
+
+</div>
