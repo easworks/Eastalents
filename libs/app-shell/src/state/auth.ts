@@ -2,13 +2,14 @@ import { UserWithToken } from '@easworks/models';
 import { PermissionDefinitionDTO, extractPermissionList } from '@easworks/models/permission-record';
 import { createActionGroup, createFeature, createReducer, createSelector, on, props } from '@ngrx/store';
 import { produce } from 'immer';
+import { ALL_ROLES } from '../permissions';
 
 export const CURRENT_USER_KEY = 'currentUser' as const;
 
 interface State {
   ready: boolean;
   user: UserWithToken | null;
-  permissions: ReadonlySet<string>;
+  permissions: string[];
   allPermissions: ReadonlySet<string>;
 }
 
@@ -33,17 +34,33 @@ export const authFeature = createFeature({
       ready: false,
       allPermissions: new Set(),
       user: null,
-      permissions: new Set(),
+      permissions: [],
     },
 
     on(authActions.updatePermissionDefinition, produce((state, { dto }) => {
-      state.permissions = new Set(extractPermissionList(dto));
+      state.allPermissions = new Set(extractPermissionList(dto));
     })),
 
     on(authActions.updateUser, (state, { payload }) => {
       state = { ...state };
       state.ready = true;
       state.user = payload.user;
+
+      if (state.user) {
+        const role = ALL_ROLES.get(state.user.role);
+
+        if (role) {
+          state.permissions = role.permissions;
+        }
+        else {
+          console.error(`role '${state.user.role}' was not defined`);
+          state.permissions = [];
+        }
+      }
+      else {
+        state.permissions = [];
+      }
+
       return state;
     }),
 
