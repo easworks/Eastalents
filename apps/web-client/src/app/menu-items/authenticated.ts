@@ -54,7 +54,7 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
   },
   {
     id: 'spoc', text: 'SPOC',
-    link: NOOP_CLICK,
+    link: '/spoc',
     icon: faIdBadge,
   },
   {
