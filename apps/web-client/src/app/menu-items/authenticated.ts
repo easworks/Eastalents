@@ -42,7 +42,7 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
   },
   {
     id: 'cost-calculator', text: 'Cost Calculator',
-    link: NOOP_CLICK,
+    link: '/employer/cost-calculator',
     icon: faCalculator,
     permissions: ['cost-calculator']
   },

@@ -18,6 +18,15 @@ export const EMPLOYER_ROUTE: Route = {
       loadComponent: () => import('./dashboard.page').then(m => m.EmployerDashboardComponent)
     },
     {
+      path: 'cost-calculator',
+      pathMatch: 'full',
+      loadComponent: () => import('./cost-calculator/cost-calculator.component').then(m => m.CostCalculatorComponent),
+      canMatch: [AuthGuard.asFunction],
+      data: {
+        auth: AUTH_GUARD_CHECKS.hasPermissions(['cost-calculator'])
+      }
+    },
+    {
       path: 'profile',
       pathMatch: 'full',
       loadComponent: () => import('./profile.page').then(m => m.EmployerProfilePageComponent),
