@@ -41,7 +41,7 @@
                [opened]="sideBarState.opened$()"
                [position]="sideBarState.position$()">
     @if (isSignedIn$()) {
-    <!-- <app-nav-menu></app-nav-menu> -->
+    <authenticated-vertical-menu></authenticated-vertical-menu>
     }
     @else {
     <public-vertical-menu [public]="publicMenu.main.vertical.$()"

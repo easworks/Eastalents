@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { AuthenticateVerticalMenuComponent } from '@easworks/app-shell/navigation/authenticated-vertical-menu/authenticated-vertical-menu.component';
 import { AppHorizontalMenuComponent } from '@easworks/app-shell/navigation/horizontal-menu/horizontal-menu.component';
 import { MenuItem } from '@easworks/app-shell/navigation/models';
 import { PublicVerticalMenuComponent } from '@easworks/app-shell/navigation/public-vertical-menu/public-vertical-menu.component';
@@ -27,6 +28,7 @@ import { footerNav, publicMenu } from './menu-items';
     MatSidenavModule,
     AppHorizontalMenuComponent,
     PublicVerticalMenuComponent,
+    AuthenticateVerticalMenuComponent,
     AccountWidgetComponent
   ]
 })
