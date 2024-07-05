@@ -46,6 +46,15 @@ export const FREELANCER_ROUTES: Route[] = [
         loadComponent: () => import('./my-profile/my-profile.component').then(m => m.MyProfileComponent)
       },
       {
+        path: 'my-account',
+        pathMatch: 'full',
+        canMatch: [AuthGuard.asFunction],
+        data: {
+          auth: AUTH_GUARD_CHECKS.hasPermissions(['role.freelancer'])
+        },
+        loadComponent: () => import('./my-account/my-account.component').then(m => m.MyAccountComponent)
+      },
+      {
         path: 'profile',
         pathMatch: 'full',
         loadComponent: () => import('./profile.page').then(m => m.FreelancerProfilePageComponent)
