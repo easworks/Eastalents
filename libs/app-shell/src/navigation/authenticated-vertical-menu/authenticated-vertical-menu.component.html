@@ -1,1 +1,8 @@
-Authenticated Vertical Menu
+@for(item of search$(); track item) {
+<div class="flex gap-4 items-center">
+  @if(item.icon) {
+  <fa-icon [icon]="item.icon" class="text-2xl"></fa-icon>
+  }
+  <span>{{item.text}}</span>
+</div>
+}

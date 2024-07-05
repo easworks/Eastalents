@@ -9,6 +9,7 @@ import { DefaultSeoConfig, SEOService, SEO_DEFAULT_CONFIG } from '@easworks/app-
 import { SWManagementService, SW_URL } from '@easworks/app-shell/services/sw.manager';
 import { authFeature } from '@easworks/app-shell/state/auth';
 import { authEffects } from '@easworks/app-shell/state/auth.effects';
+import { navMenuFeature } from '@easworks/app-shell/state/nav-menu';
 import { UI_FEATURE } from '@easworks/app-shell/state/ui';
 import { uiEffects } from '@easworks/app-shell/state/ui.effects';
 import { provideEffects } from '@ngrx/effects';
@@ -79,6 +80,8 @@ export const appConfig: ApplicationConfig = {
 
     provideState(UI_FEATURE),
     provideEffects(uiEffects),
+
+    provideState(navMenuFeature),
 
     provideState(adminData.feature),
     provideEffects(adminDataEffects)
