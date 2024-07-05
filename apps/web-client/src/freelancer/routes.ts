@@ -60,6 +60,15 @@ export const FREELANCER_ROUTES: Route[] = [
         loadComponent: () => import('./my-applications/my-applications.component').then(m => m.MyApplicationsComponent)
       },
       {
+        path: 'tailmix-profile',
+        pathMatch: 'full',
+        canMatch: [AuthGuard.asFunction],
+        data: {
+          auth: AUTH_GUARD_CHECKS.hasPermissions(['role.freelancer'])
+        },
+        loadComponent: () => import('./teilmix-myprofile/telmix-myprofile.component').then(m => m.TelmixMyprofileComponent)
+      },
+      {
         path: 'profile',
         pathMatch: 'full',
         loadComponent: () => import('./profile.page').then(m => m.FreelancerProfilePageComponent)
