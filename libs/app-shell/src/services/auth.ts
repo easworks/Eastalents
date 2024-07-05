@@ -1,10 +1,11 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRouteSnapshot, Route, Router, UrlSegment } from '@angular/router';
-import { EmailSignInRequest, EmailSignUpRequest, RETURN_URL_KEY, SocialCallbackState, SocialIdp, SocialSignInRequest, SocialSignUpRequest, SocialUserNotInDB, User, UserWithToken } from '@easworks/models';
+import { EmailSignInRequest, EmailSignUpRequest, RETURN_URL_KEY, SocialCallbackState, SocialIdp, SocialSignInRequest, SocialSignUpRequest, SocialUserNotInDB, UserWithToken } from '@easworks/models';
 import { Store } from '@ngrx/store';
 import { AccountApi } from '../api/account.api';
 import { SnackbarComponent, SuccessSnackbarDefaults } from '../notification/snackbar';
+import { isPermissionDefined, isPermissionGranted } from '../permissions';
 import { authActions, authFeature } from '../state/auth';
 import { AUTH_READY } from './auth.ready';
 
@@ -138,7 +139,7 @@ export class AuthGuard {
   private readonly router = inject(Router);
   private readonly store = inject(Store);
 
-  private readonly user$ = this.store.selectSignal(authFeature.selectUser);
+  private readonly state$ = this.store.selectSignal(authFeature.selectAuthState);
 
   static async asFunction(route: Route, segments: UrlSegment[]) {
     const auth = inject(AuthGuard);
@@ -152,12 +153,12 @@ export class AuthGuard {
 
   private async check(route: Route | ActivatedRouteSnapshot) {
     await this.ready;
-    const user = this.user$();
+    const state = this.state$();
 
-    if (user) {
+    if (state.user) {
       const authCheck = route.data?.['auth'];
       if (authCheck) {
-        const isAuthorized = authCheck(user);
+        const isAuthorized = authCheck(state);
         if (isAuthorized === true)
           return 'Authorized';
         else {
@@ -194,8 +195,23 @@ export class AuthGuard {
   }
 }
 
+type AuthState = ReturnType<AuthGuard['state$']> & {
+  user: object;
+};
+
+// TODO: Remove the role check
 export const AUTH_GUARD_CHECKS = {
-  isInRole: (role: string) => (user: User) => user.role === role
+  isInRole: (role: string) => (state: AuthState) => state.user.role === role,
+  hasPermissions: (permissions: string[]) => {
+    // validate the permission strings in the menu item
+    permissions.forEach(permission => {
+      if (!isPermissionDefined(permission))
+        throw new Error(`a route uses a permission '${permission}' which is not defined`);
+    });
+
+    return (state: AuthState) => permissions.some(p => isPermissionGranted(p, state.permissions));
+  }
+
 } as const;
 
 
