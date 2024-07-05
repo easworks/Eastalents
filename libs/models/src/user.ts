@@ -9,5 +9,6 @@ export interface User {
 }
 
 export interface UserWithToken extends User {
+  isNew: boolean;
   token: string;
 }

@@ -9,10 +9,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { AuthState } from '@easworks/app-shell/state/auth';
+import { authFeature } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { JobPost } from '@easworks/models';
 import { faArrowLeft, faArrowRight, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'employer-view-job-post',
@@ -34,7 +35,7 @@ import { faArrowLeft, faArrowRight, faEdit } from '@fortawesome/free-solid-svg-i
   ]
 })
 export class ViewJobPostPageComponent {
-  private readonly auth = inject(AuthState);
+  private readonly store = inject(Store);
 
   @HostBinding() private readonly class = 'page';
 
@@ -52,7 +53,7 @@ export class ViewJobPostPageComponent {
 
   protected readonly jobPost$ = input.required<JobPost>({ alias: 'jobPost' });
 
-  protected readonly user$ = this.auth.user$;
+  protected readonly user$ = this.store.selectSignal(authFeature.selectUser);
 
   protected readonly header$ = computed(() => {
     const job = this.jobPost$();

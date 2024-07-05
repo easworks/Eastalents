@@ -1,41 +1,26 @@
-import { DestroyRef, INJECTOR, Injectable, effect, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Injectable, inject, signal } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRouteSnapshot, Route, Router, UrlSegment } from '@angular/router';
-import { EmailSignInRequest, EmailSignUpRequest, RETURN_URL_KEY, SocialCallbackState, SocialIdp, SocialSignInRequest, SocialSignUpRequest, User, UserWithToken } from '@easworks/models';
-import { Subject, fromEvent } from 'rxjs';
+import { EmailSignInRequest, EmailSignUpRequest, RETURN_URL_KEY, SocialCallbackState, SocialIdp, SocialSignInRequest, SocialSignUpRequest, SocialUserNotInDB, User, UserWithToken } from '@easworks/models';
+import { Store } from '@ngrx/store';
 import { AccountApi } from '../api/account.api';
-import { EmployerApi } from '../api/employer.api';
-import { TalentApi } from '../api/talent.api';
-import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '../notification/snackbar';
-import { AuthState } from '../state/auth';
-import { SWManagementService } from './sw.manager';
+import { SnackbarComponent, SuccessSnackbarDefaults } from '../notification/snackbar';
+import { authActions, authFeature } from '../state/auth';
+import { AUTH_READY } from './auth.ready';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor() {
-    this.syncUserWithServiceWorker();
-    this.reactToLocalStorage();
-  }
-
-  private readonly injector = inject(INJECTOR);
-  private readonly dRef = inject(DestroyRef);
-  private readonly state = inject(AuthState);
+  private readonly store = inject(Store);
   private readonly api = {
     account: inject(AccountApi),
-    talent: inject(TalentApi),
-    employee: inject(EmployerApi)
   } as const;
   private readonly snackbar = inject(MatSnackBar);
   private readonly router = inject(Router);
 
-
-  readonly afterSignIn$ = new Subject<SignInMeta>();
-  readonly beforeSignOut$ = new Subject<void>();
-
   readonly socialCallback = {
+    partialProfile$: signal<SocialUserNotInDB | null>(null),
     set: (state: SocialCallbackState) => {
       state.challenge = [...crypto.getRandomValues(new Uint8Array(16))]
         .map(i => i.toString(16))
@@ -62,7 +47,7 @@ export class AuthService {
           }
           return r;
         })
-  };
+  } as const;
 
   readonly signup = {
     social: (provider: SocialIdp, role: string) => {
@@ -114,103 +99,31 @@ export class AuthService {
     email: (input: EmailSignInRequest, returnUrl?: string) =>
       this.api.account.signin(input)
         .then(r => {
-          this.handleSignIn(r, { isNewUser: false, returnUrl });
+          this.handleSignIn(r, { returnUrl });
           return r;
         })
         .catch(e => {
-          this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
-          throw e;
+          SnackbarComponent.forError(this.snackbar, e);
         })
   } as const;
 
   signOut() {
-    this.beforeSignOut$.next();
-    this.state.user$.set(null);
+    this.store.dispatch(authActions.updateUser({ payload: { user: null } }));
     localStorage.removeItem(CURRENT_USER_KEY);
+    this.store.dispatch(authActions.signOut({ payload: { revoked: false } }));
   }
 
-  handleSignIn(user: UserWithToken, meta: SignInMeta) {
-    const role = user.role;
-    if (role === 'employer') {
-      this.api.employee.profile.get()
-        .then(r => {
-          if (r) {
-            this.router.navigateByUrl('/employer/profile');
-          }
-        })
-        .catch(e => {
-          if (e.message === "Got no matching talent profile") {//TODO REVIEW ONCE API IS CORRECTED
-            this.router.navigateByUrl('/employer/profile/edit');
-          }
-          else {
-            this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
-            throw e;
-          }
-        });
-    }
-    else if (role === 'freelancer') {
-      this.api.talent.profile.get()
-        .then(r => {
-          if (r) {
-            this.router.navigateByUrl('/freelancer/profile');
-          }
-        })
-        .catch(e => {
-          if (e.message === "Got no matching talent profile") {//TODO REVIEW ONCE API IS CORRECTED
-            this.router.navigateByUrl('/freelancer/profile/edit');
-          }
-          else {
-            this.snackbar.openFromComponent(SnackbarComponent, ErrorSnackbarDefaults);
-            throw e;
-          }
-        });
-    }
-    this.state.user$.set(user);
+  private handleSignIn(user: UserWithToken, meta: SignInMeta) {
+
+    this.store.dispatch(authActions.updateUser({ payload: { user } }));
+
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
-    this.afterSignIn$.next(meta);
-    this.snackbar.openFromComponent(SnackbarComponent, {
-      ...SuccessSnackbarDefaults,
-      data: {
-        message: 'Sign In Successful!'
+
+    this.store.dispatch(authActions.signIn({
+      payload: {
+        returnUrl: meta[RETURN_URL_KEY]
       }
-    });
-  }
-
-  private async reactToLocalStorage() {
-    const storedUser = localStorage.getItem(CURRENT_USER_KEY);
-    if (storedUser) {
-      let cu: UserWithToken | null;
-      try {
-        cu = JSON.parse(storedUser);
-      }
-      catch (e) {
-        cu = null;
-      }
-      this.state.user$.set(cu);
-    }
-    this.state.ready.resolve();
-
-    fromEvent<StorageEvent>(window, 'storage')
-      .pipe(takeUntilDestroyed(this.dRef))
-      .subscribe(ev => {
-        if (ev.key === CURRENT_USER_KEY) {
-          location.reload();
-        }
-      });
-  }
-
-  private async syncUserWithServiceWorker() {
-    const swm = inject(SWManagementService);
-    await swm.ready;
-
-    effect(() => {
-      const user = this.state.user$();
-      swm.wb.messageSW({
-        type: 'USER CHANGE', payload: {
-          user
-        }
-      });
-    }, { injector: this.injector });
+    }));
   }
 }
 
@@ -221,9 +134,11 @@ type AuthGuardResult = 'Does Not Exist' | 'Authorized' | 'Unauthorized';
   providedIn: 'root'
 })
 export class AuthGuard {
-  private readonly auth = inject(AuthService);
-  private readonly authState = inject(AuthState);
+  private readonly ready = inject(AUTH_READY);
   private readonly router = inject(Router);
+  private readonly store = inject(Store);
+
+  private readonly user$ = this.store.selectSignal(authFeature.selectUser);
 
   static async asFunction(route: Route, segments: UrlSegment[]) {
     const auth = inject(AuthGuard);
@@ -236,8 +151,8 @@ export class AuthGuard {
   }
 
   private async check(route: Route | ActivatedRouteSnapshot) {
-    await this.authState.ready;
-    const user = this.authState.user$();
+    await this.ready;
+    const user = this.user$();
 
     if (user) {
       const authCheck = route.data?.['auth'];
@@ -334,6 +249,5 @@ class AuthRedirect {
 const CURRENT_USER_KEY = 'currentUser' as const;
 
 export interface SignInMeta {
-  isNewUser: boolean;
   [RETURN_URL_KEY]?: string;
 }

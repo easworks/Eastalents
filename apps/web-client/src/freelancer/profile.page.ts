@@ -4,13 +4,13 @@ import { TalentApi } from '@easworks/app-shell/api/talent.api';
 import { ChartJsDirective } from '@easworks/app-shell/common/chart-js/chart-js.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-//import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
-import { AuthState } from '@easworks/app-shell/state/auth';
+import { authFeature } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { getTailwindColor } from '@easworks/app-shell/utilities/get-runtime-color';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { FreelancerProfile } from '@easworks/models';
 import { faPenToSquare, faUser } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
 import { ChartConfiguration } from 'chart.js';
 
 @Component({
@@ -33,8 +33,11 @@ export class FreelancerProfilePageComponent {
   private readonly api = {
     talent: inject(TalentApi)
   } as const;
-  private readonly user$ = inject(AuthState).guaranteedUser();
+
+  private readonly store = inject(Store);
   private readonly snackbar = inject(MatSnackBar);
+
+  private readonly user$ = this.store.selectSignal(authFeature.guaranteedUser);
 
   protected readonly icons = { faUser, faPenToSquare } as const;
 

@@ -8,7 +8,7 @@ import { AppHorizontalMenuComponent } from '@easworks/app-shell/navigation/horiz
 import { MenuItem } from '@easworks/app-shell/navigation/models';
 import { PublicVerticalMenuComponent } from '@easworks/app-shell/navigation/public-vertical-menu/public-vertical-menu.component';
 import { SWManagementService } from '@easworks/app-shell/services/sw.manager';
-import { AuthState } from '@easworks/app-shell/state/auth';
+import { authFeature } from '@easworks/app-shell/state/auth';
 import { ScreenSize, UI_FEATURE, sidebarActions } from '@easworks/app-shell/state/ui';
 import { faFacebook, faGithub, faInstagram, faLinkedin, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { faAngleRight, faBars, faCircleArrowUp, } from '@fortawesome/free-solid-svg-icons';
@@ -36,12 +36,12 @@ export class AppComponent implements OnInit {
 
   private readonly store = inject(Store);
   private readonly swm = inject(SWManagementService);
-  private readonly auth = inject(AuthState);
   private readonly injector = inject(INJECTOR);
   private readonly dRef = inject(DestroyRef);
 
   private readonly ui$ = this.store.selectSignal(UI_FEATURE.selectUiState);
-  protected readonly isSignedIn$ = computed(() => !!this.auth.user$());
+  private readonly user$ = this.store.selectSignal(authFeature.selectUser);
+  protected readonly isSignedIn$ = computed(() => !!this.user$());
 
 
   @HostBinding()

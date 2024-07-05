@@ -3,10 +3,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { AuthState } from '@easworks/app-shell/state/auth';
+import { authFeature } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { EmployerProfile } from '@easworks/models';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
 
 @Component({
   standalone: true,
@@ -26,8 +27,10 @@ export class EmployerProfilePageComponent {
       });
   }
   private readonly route = inject(ActivatedRoute);
-  private readonly user$ = inject(AuthState).guaranteedUser();
+  private readonly store = inject(Store);
   private readonly snackbar = inject(MatSnackBar);
+
+  private readonly user$ = this.store.selectSignal(authFeature.guaranteedUser);
 
   protected readonly icons = { faUser } as const;
   @HostBinding() private readonly class = 'page';

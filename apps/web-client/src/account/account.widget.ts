@@ -3,12 +3,12 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { AuthService } from '@easworks/app-shell/services/auth';
-import { AuthState } from '@easworks/app-shell/state/auth';
-import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { authFeature } from '@easworks/app-shell/state/auth';
 import { UI_FEATURE } from '@easworks/app-shell/state/ui';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -27,12 +27,12 @@ import { Store } from '@ngrx/store';
 })
 export class AccountWidgetComponent {
 
-  private readonly state = inject(AuthState);
-  private readonly auth = inject(AuthService);
-  private readonly router = inject(Router);
   private readonly store = inject(Store);
+  private readonly auth = inject(AuthService);
 
   private readonly ui$ = this.store.selectSignal(UI_FEATURE.selectUiState);
+  protected readonly user$ = this.store.selectSignal(authFeature.selectUser);
+
   protected readonly signInButtonClass$ = computed(() => {
     return this.ui$().topBar.dark ?
       'hover:bg-white/90 focus:bg-white/90' :
@@ -44,14 +44,12 @@ export class AccountWidgetComponent {
   };
 
   protected readonly profileLink$ = computed(() => {
-    switch (this.state.user$()?.role) {
+    switch (this.user$()?.role) {
       case 'freelancer': return '/freelancer/profile';
       case 'employer': return '/employer/profile';
       default: throw new Error('not implmeneted');
     }
   });
-
-  protected readonly user$ = this.state.user$;
 
   protected signOut() {
     this.auth.signOut();
