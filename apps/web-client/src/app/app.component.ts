@@ -14,7 +14,7 @@ import { faFacebook, faGithub, faInstagram, faLinkedin, faTwitter, faYoutube } f
 import { faAngleRight, faBars, faCircleArrowUp, } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AccountWidgetComponent } from '../account/account.widget';
-import { footerNav, publicMenu } from './menu-items';
+import { footerNav, publicMenu } from './menu-items/public';
 
 @Component({
   standalone: true,
