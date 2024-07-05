@@ -5,12 +5,12 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { HelpGroup } from '@easworks/app-shell/services/help';
-import { MenuItem } from '@easworks/app-shell/state/menu';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { FAQGroup, FAQListComponent } from '../common/faq-list.component';
 import { COMPANY_TYPE_DATA } from '../company-type/data';
 import { GENERIC_SERVICE_TYPE_DATA } from '../service-type/data';
 import { GENERIC_ROLE_DATA } from '../generic-role/data';
+import { MenuItem } from '@easworks/app-shell/navigation/models';
 
 @Component({
   standalone: true,
@@ -72,7 +72,7 @@ export class ForCompaniesPageComponent {
     .map(([key, value]) => {
       return {
         link: `/service-type/${key}`,
-        name: value.herosection.title.highlight
+        text: value.herosection.title.highlight
       } as MenuItem;
     });
 
@@ -80,7 +80,7 @@ export class ForCompaniesPageComponent {
     .map(([key, value]) => {
       return {
         link: `/generic-role/${key}`,
-        name: value.herosection.title.highlight
+        text: value.herosection.title.highlight
       } as MenuItem;
     });
 
@@ -88,7 +88,7 @@ export class ForCompaniesPageComponent {
     .map(([key, value]) => {
       return {
         link: `/company-type/${key}`,
-        name: value.name
+        text: value.name
       } as MenuItem;
     });
 

@@ -8,7 +8,6 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AuthService } from '@easworks/app-shell/services/auth';
-import { AuthState } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { pattern } from '@easworks/models';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -31,9 +30,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 })
 export class FreelancerSignUpPageComponent {
   constructor() {
-    const state = inject(AuthState);
-    this.partial = state.partialSocialSignIn$();
-    state.partialSocialSignIn$.set(null);
+
 
     if (this.partial) {
       this.form.reset(this.partial);
@@ -45,7 +42,12 @@ export class FreelancerSignUpPageComponent {
   protected readonly auth = inject(AuthService);
   private readonly snackbar = inject(MatSnackBar);
   protected readonly router = inject(Router);
-  protected readonly partial;
+  protected readonly partial = (() => {
+    const state$ = this.auth.socialCallback.partialProfile$;
+    const partial = state$();
+    state$.set(null);
+    return partial;
+  })();
 
 
   protected readonly icons = {
@@ -107,7 +109,7 @@ export class FreelancerSignUpPageComponent {
       if (this.partial) {
         await this.auth.socialCallback.getToken(
           { authType: 'signup', userRole: 'freelancer', email, firstName, lastName, },
-          { isNewUser: true }
+          {}
         );
       }
       else {

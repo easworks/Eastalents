@@ -1,14 +1,6 @@
-const ROLES = [
-  'freelancer',
-  'employer',
-  'admin'
-] as const;
-
-export type Role = typeof ROLES[number];
-
 export interface User {
   _id: string;
-  role: Role;
+  role: string;
   verified: boolean;
   active: number;
   firstName: string;
@@ -17,5 +9,6 @@ export interface User {
 }
 
 export interface UserWithToken extends User {
+  isNew: boolean;
   token: string;
 }

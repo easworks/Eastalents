@@ -10,7 +10,6 @@ import { FormImportsModule } from '@easworks/app-shell/common/form.imports.modul
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AuthService } from '@easworks/app-shell/services/auth';
-import { AuthState } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { emailBlacklist } from '@easworks/app-shell/validators/email-blacklist';
@@ -40,7 +39,6 @@ export class EmployerSignUpPageComponent {
   }
 
   protected readonly auth = inject(AuthService);
-  protected readonly authState = inject(AuthState);
 
   private readonly api = {
     account: inject(AccountApi)
@@ -99,8 +97,7 @@ export class EmployerSignUpPageComponent {
     updateOn: 'submit'
   });
 
-  protected readonly prefilledEmail = this.authState.partialSocialSignIn$()?.email;
-  protected readonly prefillSocial$ = this.shouldPrefillSocial();
+  protected readonly prefillSocial = this.shouldPrefillSocial();
 
   async submit() {
     if (!this.form.valid)
@@ -111,12 +108,12 @@ export class EmployerSignUpPageComponent {
 
       const { email, firstName, lastName, password } = this.form.getRawValue();
 
-      const partial = this.prefillSocial$();
+      const partial = this.prefillSocial.accepted$();
 
       if (partial) {
         await this.auth.socialCallback.getToken(
           { authType: 'signup', userRole: 'employer', email, firstName, lastName },
-          { isNewUser: true }
+          {}
         );
       }
       else {
@@ -133,8 +130,9 @@ export class EmployerSignUpPageComponent {
 
   private shouldPrefillSocial() {
 
-    const partial = this.authState.partialSocialSignIn$();
-    this.authState.partialSocialSignIn$.set(null);
+    const state$ = this.auth.socialCallback.partialProfile$;
+    const partial = state$();
+    state$.set(null);
 
     const partialAccepted$ = signal<boolean | undefined>(undefined);
 
@@ -166,6 +164,9 @@ export class EmployerSignUpPageComponent {
         });
     }
 
-    return partialAccepted$;
+    return {
+      accepted$: partialAccepted$,
+      email: partial?.email
+    };
   }
 }

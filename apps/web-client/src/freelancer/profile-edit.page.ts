@@ -22,7 +22,7 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
 import { filterCountryCode, getCombinedNumber, getPhoneCodeOptions, updatePhoneValidatorEffect } from '@easworks/app-shell/common/phone-code';
 import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '@easworks/app-shell/notification/snackbar';
 import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
-import { AuthState } from '@easworks/app-shell/state/auth';
+import { authFeature } from '@easworks/app-shell/state/auth';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-required';
@@ -32,6 +32,7 @@ import { sortString } from '@easworks/app-shell/utilities/sort';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { COMMITMENT_OPTIONS, Commitment, Domain, DomainModule, EMPLOYMENT_OPPORTUNITY_OPTIONS, ENGLISH_PROFICIENCY_OPTIONS, EmploymentOpportunity, EnglishProficiency, FREEELANCER_SIGNUP_REASON_OPTIONS, FreelancerProfile, FreelancerSignupReason, JOB_SEARCH_STATUS_OPTIONS, JobSearchStatus, LatLng, OVERALL_EXPERIENCE_OPTIONS, OverallExperience, PROJECT_KICKOFF_TIMELINE_OPTIONS, ProjectKickoffTimeline, SoftwareProduct, pattern } from '@easworks/models';
 import { faCheck, faCircleCheck, faCircleInfo, faSquareXmark, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
 import { DateTime } from 'luxon';
 import { map, shareReplay, switchMap } from 'rxjs';
 
@@ -65,8 +66,10 @@ export class FreelancerProfileEditPageComponent implements OnInit {
     talent: inject(TalentApi),
   } as const;
   private readonly domains = inject(DomainState);
-  protected readonly user = inject(AuthState).guaranteedUser();
+  private readonly store = inject(Store);
   private readonly snackbar = inject(MatSnackBar);
+
+  protected readonly user = this.store.selectSignal(authFeature.guaranteedUser);
 
   protected readonly icons = {
     faCircleInfo, faSquareXmark, faThumbsUp, faCheck, faCircleCheck

@@ -19,7 +19,7 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
 import { filterCountryCode, getCombinedNumber, getPhoneCodeOptions, updatePhoneValidatorEffect } from '@easworks/app-shell/common/phone-code';
 import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '@easworks/app-shell/notification/snackbar';
 import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
-import { AuthState } from '@easworks/app-shell/state/auth';
+import { authFeature } from '@easworks/app-shell/state/auth';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-required';
@@ -30,6 +30,7 @@ import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { emailBlacklist } from '@easworks/app-shell/validators/email-blacklist';
 import { EmployerProfile, IndustryGroup, LatLng, ORGANIZATION_SIZE_OPTIONS, ORGANIZATION_TYPE_OPTIONS, OrganizationSize, OrganizationType, pattern } from '@easworks/models';
 import { faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'employer-profile-edit-page',
@@ -60,13 +61,15 @@ export class EmployerProfileEditPageComponent {
   private readonly injector = inject(INJECTOR);
   private readonly route = inject(ActivatedRoute);
   private readonly domainState = inject(DomainState);
-  private readonly user = inject(AuthState).guaranteedUser();
+  private readonly store = inject(Store);
   private readonly api = {
     csc: inject(CSCApi),
     gmap: inject(GMapsApi),
     account: inject(AccountApi),
     employer: inject(EmployerApi),
   } as const;
+
+  private readonly user$ = this.store.selectSignal(authFeature.guaranteedUser);
 
   protected readonly icons = {
     faCircleInfo,
@@ -141,7 +144,7 @@ export class EmployerProfileEditPageComponent {
     software: new FormRecord<FormControl<SelectableOption<string>[]>>({}),
     contact: new FormGroup({
       email: new FormControl(
-        this.isNew && this.user().email || '', {
+        this.isNew && this.user$().email || '', {
         nonNullable: true,
         validators: [Validators.required, Validators.pattern(pattern.email), Validators.maxLength(300)],
         asyncValidators: [
@@ -665,7 +668,7 @@ export class EmployerProfileEditPageComponent {
     const fv = this.form.getRawValue();
 
     const profile: EmployerProfile = {
-      _id: this.user()._id,
+      _id: this.user$()._id,
       orgName: fv.name,
       description: fv.description,
       orgType: fv.orgType.value,

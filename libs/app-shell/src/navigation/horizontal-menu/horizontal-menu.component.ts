@@ -1,40 +1,34 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, computed, inject, input } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { NavMenuState } from '../state/menu';
-import { ACTIONS } from '../state/redux-signals';
-import { UI_FEATURE, uiActions } from '../state/ui';
+import { ImportsModule } from '../../common/imports.module';
+import { UI_FEATURE, uiActions } from '../../state/ui';
+import { MenuItem } from '../models';
 
 @Component({
+  standalone: true,
   selector: 'app-horizontal-menu',
   templateUrl: './horizontal-menu.component.html',
   styleUrls: ['./horizontal-menu.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ImportsModule,
+    RouterModule
+  ]
 })
 export class AppHorizontalMenuComponent {
   private readonly hostElement = inject(ElementRef).nativeElement as HTMLElement;
-  private readonly menuState = inject(NavMenuState);
-  private readonly actions$ = inject(ACTIONS);
   private readonly store = inject(Store);
+
+  public readonly menuItems$ = input.required<MenuItem[]>({ alias: 'menuItems' });
 
   protected readonly ui$ = this.store.selectSignal(UI_FEATURE.selectUiState);
 
   @HostBinding()
   private readonly class = 'flex items-center';
 
-
   protected readonly icons = { faAngleDown } as const;
-
-  protected readonly menuItems$ = computed(() => {
-    // TODO: make this react to auth changes
-    const isPublic = true;
-
-    if (isPublic) {
-      return this.menuState.publicMenu.horizontal$();
-    }
-    else
-      return [];
-  });
 
   private readonly collapseClass = 'collapse-all';
   private readonly dark$ = computed(() => this.ui$().topBar.dark);
@@ -49,7 +43,7 @@ export class AppHorizontalMenuComponent {
 
 
   unfocus() {
-    this.actions$.dispatch(uiActions.updateTouchDevice());
+    this.store.dispatch(uiActions.updateTouchDevice());
     (document.activeElement as HTMLElement).blur();
   }
 

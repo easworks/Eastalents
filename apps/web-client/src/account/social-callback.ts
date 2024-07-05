@@ -4,14 +4,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CanActivateFn, Router } from '@angular/router';
 import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AuthService } from '@easworks/app-shell/services/auth';
-import { AuthState } from '@easworks/app-shell/state/auth';
-import { RETURN_URL_KEY, Role } from '@easworks/models';
+import { RETURN_URL_KEY } from '@easworks/models';
 import { firstValueFrom } from 'rxjs';
 
 export const socialCallbackGuard: CanActivateFn = async (route) => {
   const auth = inject(AuthService);
   const dialog = inject(MatDialog);
-  const authState = inject(AuthState);
   const snackbar = inject(MatSnackBar);
   const router = inject(Router);
 
@@ -34,7 +32,6 @@ export const socialCallbackGuard: CanActivateFn = async (route) => {
 
 
     const result = await auth.socialCallback.getToken(state.request, {
-      isNewUser: state.request.authType === 'signup',
       returnUrl: state[RETURN_URL_KEY]
     });
     // TODO: THIS CATCH CHAIN IS TEMPORARY AND SHOULD BE REMOVED
@@ -50,7 +47,7 @@ export const socialCallbackGuard: CanActivateFn = async (route) => {
     }
     // user has not signed up yet. take his choice of role and sign him up
     else {
-      authState.partialSocialSignIn$.set(result);
+      auth.socialCallback.partialProfile$.set(result);
 
       const comp = await import('./social-callback.dialog')
         .then(m => m.SociallCallbackDialogComponent);
@@ -60,7 +57,7 @@ export const socialCallbackGuard: CanActivateFn = async (route) => {
         disableClose: true
       });
 
-      await firstValueFrom<Role>(dialogRef.afterClosed())
+      await firstValueFrom<string>(dialogRef.afterClosed());
     }
   }
   catch (e) {
@@ -70,4 +67,4 @@ export const socialCallbackGuard: CanActivateFn = async (route) => {
   }
 
   return true;
-}
+};

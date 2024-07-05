@@ -1,14 +1,15 @@
 <div id="app-top-bar" *ngrxLet="topBar$() as topBar" [class.dark]="topBar.dark">
   @if(sideBarState.toggle.position$() === 'left'){
-    <button class="icon-button" mat-ripple (click)="appSidenav.toggle()">
-      <fa-icon [icon]="icons.faBars"></fa-icon>
-    </button>
+  <button class="icon-button" mat-ripple (click)="appSidenav.toggle()">
+    <fa-icon [icon]="icons.faBars"></fa-icon>
+  </button>
   }
   <a routerLink="/" class="grid content-center mr-auto">
     <img [src]="topBar.brandImage">
   </a>
-  @if(showHorizontalMenu$()) {
-    <app-horizontal-menu class="mx-auto"></app-horizontal-menu>
+  @if(publicMenu.main.horizontal.show$()) {
+  <app-horizontal-menu class="mx-auto"
+                       [menuItems]="publicMenu.main.horizontal.$()"></app-horizontal-menu>
   }
 
   <div class="flex gap-2 items-center flex-none">
@@ -18,11 +19,11 @@
     </a>
     <div class="flex items-center">
       @if(sideBarState.toggle.position$() === 'right'){
-        <button class="icon-button" mat-ripple (click)="appSidenav.toggle()">
-          <fa-icon [icon]="icons.faBars"></fa-icon>
-        </button>
+      <button class="icon-button" mat-ripple (click)="appSidenav.toggle()">
+        <fa-icon [icon]="icons.faBars"></fa-icon>
+      </button>
       }
-      
+
       <button class="icon-button text-emerald-500" mat-ripple [class.hidden]="sw.hidden$()" (click)="sw.update()">
         <fa-icon [icon]="icons.faCircleArrowUp"></fa-icon>
       </button>
@@ -35,12 +36,20 @@
 </div>
 
 <mat-sidenav-container class="flex-grow !flex flex-col !overflow-visible">
-  <mat-sidenav #appSidenav fixedInViewport class="!top-16"
-    [mode] = "sideBarState.mode$()" 
-    [opened] = "sideBarState.opened$()"
-    [position] = "sideBarState.position$()">
-    <!-- <app-vertical-menu></app-vertical-menu> -->
-    <app-nav-menu></app-nav-menu>
+  <mat-sidenav #appSidenav fixedInViewport
+               id="app-sidenav"
+               [mode]="sideBarState.mode$()"
+               [opened]="sideBarState.opened$()"
+               [position]="sideBarState.position$()">
+    @if (isSignedIn$()) {
+    <authenticated-vertical-menu></authenticated-vertical-menu>
+    }
+    @else {
+    <public-vertical-menu [public]="publicMenu.main.vertical.$()"
+                          [static]="publicMenu.static"
+                          [about]="publicMenu.about"
+                          [social]="publicMenu.social"></public-vertical-menu>
+    }
   </mat-sidenav>
 
   <mat-sidenav-content class="flex-grow !flex flex-col !overflow-visible bg-white">
@@ -60,10 +69,11 @@
         </p>
         <div class="mt-8">
           <div class="flex gap-4 text-2xl">
-            <a *ngFor="let icon of brandLinks$()" [href]="icon.link">
-              <fa-icon [icon]="icon.icon!"></fa-icon>
+            @for(link of publicMenu.social; track link) {
+            <a [routerLink]="link.link" [href]="link.link">
+              <fa-icon [icon]="link.icon!"></fa-icon>
             </a>
-
+            }
           </div>
           <p class="mt-4">
             4653 Carmel Mountain Rd, <br>
@@ -74,64 +84,22 @@
       </div>
       <nav class="@container flex-1">
         <div class="w-full lg:w-max lg:m-auto grid gap-4 @lg:gap-x-8 grid-cols-12 grid-flow-row-dense">
-
-          <div *ngrxLet="footerNav.companies as group" class="col-span-6
-                @sm:col-span-6 
-                @3xl:col-span-4 
-                @6xl:col-span-3">
-            <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
+          @for (group of footerNav; track group) {
+          <div [class]="group.class">
+            <p class="m-0 font-semibold @sm:text-lg">{{group.name}}</p>
+            <ul class="mt-2 text-sm @sm:text-base">
+              @for(item of group.items; track item) {
+              <li class="py-1">
+                <a [routerLink]="item.link" [fragment]="item.fragment" class="flex gap-2 max-w-fit">
+                  <fa-icon [icon]="icons.faAngleRight" class="inline-block mt-1"></fa-icon>
+                  <span>{{item.text}}</span>
+                </a>
+              </li>
+              }
+            </ul>
           </div>
-
-          <div *ngrxLet="footerNav.freelancers as group" class="col-span-6
-                @sm:col-span-6 
-                @3xl:col-span-4 
-                @6xl:col-span-3">
-            <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
-          </div>
-
-          <div *ngrxLet="footerNav.useCase as group" class="col-span-12 
-                @sm:col-span-6 
-                @3xl:col-span-4 @3xl:row-span-2 @3xl:col-start-1 
-                @6xl:col-span-3 @6xl:col-start-7">
-            <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
-          </div>
-
-          <div *ngrxLet="footerNav.industries as group" class="col-span-12 
-                @sm:col-span-6 
-                @3xl:col-span-4 @3xl:row-span-2 @3xl:col-start-5 
-                @6xl:col-span-3 @6xl:col-start-10">
-            <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
-          </div>
-
-          <div *ngrxLet="footerNav.about as group" class="col-span-12 
-                @sm:col-span-6 
-                @3xl:col-span-4 @3xl:col-start-9 
-                @6xl:col-span-3">
-            <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
-          </div>
-
-          <div *ngrxLet="footerNav.contact as group" class="col-span-12 
-                @sm:col-span-6 
-                @3xl:col-span-4 @3xl:col-start-9 
-                @6xl:col-span-3">
-            <ng-container *ngTemplateOutlet="footerNavGroup; context: {$implicit: group}"></ng-container>
-          </div>
-
+          }
         </div>
-
-        <ng-template let-group #footerNavGroup>
-          <p class="m-0 font-semibold @sm:text-lg">{{group.group}}</p>
-          <ul class="mt-2 text-sm @sm:text-base">
-            @for(item of group.items; track item) {
-            <li class="py-1">
-              <a [routerLink]="item.link" class="flex gap-2 max-w-fit">
-                <fa-icon [icon]="icons.faAngleRight" class="inline-block mt-1"></fa-icon>
-                <span>{{item.name}}</span>
-              </a>
-            </li>
-            }
-          </ul>
-        </ng-template>
       </nav>
     </div>
 

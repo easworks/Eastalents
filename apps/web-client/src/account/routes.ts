@@ -1,12 +1,14 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Route, Router } from '@angular/router';
-import { NotFoundPageComponent } from '@easworks/app-shell/navigation/not-found.page';
-import { AuthState } from '@easworks/app-shell/state/auth';
+import { NotFoundPageComponent } from '@easworks/app-shell/navigation/not-found/not-found.page';
+import { authFeature } from '@easworks/app-shell/state/auth';
+import { Store } from '@ngrx/store';
 import { socialCallbackGuard } from './social-callback';
 import { emailVerificationGuard } from './verification-callback';
 
 const redirectUser: CanActivateFn = () => {
-  const user = inject(AuthState).user$();
+  const store = inject(Store);
+  const user = store.selectSignal(authFeature.selectUser)();
 
 
   if (user) {

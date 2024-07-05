@@ -4,10 +4,11 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { AuthService } from '@easworks/app-shell/services/auth';
-import { AuthState } from '@easworks/app-shell/state/auth';
+import { authFeature } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { RETURN_URL_KEY, pattern } from '@easworks/models';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'account-sign-in-page',
@@ -23,7 +24,7 @@ import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 })
 export class AccountSignInPageComponent {
   constructor() {
-    if (this.state.user$() && this.returnUrl) {
+    if (this.user$() && this.returnUrl) {
       const currentPath = window.location.pathname;
       if (!this.returnUrl.startsWith(currentPath))
         this.router.navigateByUrl(this.returnUrl);
@@ -31,8 +32,8 @@ export class AccountSignInPageComponent {
   }
 
   protected readonly auth = inject(AuthService);
-
-  protected readonly state = inject(AuthState);
+  private readonly store = inject(Store);
+  protected readonly user$ = this.store.selectSignal(authFeature.selectUser);
 
   protected readonly loading = generateLoadingState<['signing in']>();
   private readonly route = inject(ActivatedRoute);

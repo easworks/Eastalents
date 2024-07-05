@@ -1,17 +1,27 @@
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { ENVIRONMENT } from '../environment';
-import { AuthState } from '../state/auth';
+import { AUTH_READY } from '../services/auth.ready';
+import { authFeature } from '../state/auth';
 import { ApiService } from './api';
 
 export class BackendApi extends ApiService {
   protected readonly apiUrl = inject(ENVIRONMENT).apiUrl;
-  private readonly auth = inject(AuthState);
+  private readonly store = inject(Store);
+  private readonly ready = inject(AUTH_READY);
+  private readonly token$ = (() => {
+    const user$ = this.store.selectSignal(authFeature.selectUser);
+    return computed(() => user$()?.token);
+  })();
 
   protected async headers(init?: HeadersInit) {
+    await this.ready;
+
     const headers = new Headers({
       'content-type': 'application/json'
     });
-    const token = await this.auth.token();
+
+    const token = this.token$();
     if (token)
       headers.set('authorization', `Bearer ${token}`);
 
@@ -46,13 +56,13 @@ export class BackendApi extends ApiService {
       });
   }
 
-  protected override verifyOk(response: Response) {
-    if (!response.ok) {
-      if (response.status === 401) {
-        throw new Error('should implement sign out');
-        // this.auth.signOut();
-      }
-    }
-    return super.verifyOk(response);
-  }
+  // protected override verifyOk(response: Response) {
+  //   if (!response.ok) {
+  //     if (response.status === 401) {
+  //       throw new Error('should implement sign out');
+  //       // this.auth.signOut();
+  //     }
+  //   }
+  //   return super.verifyOk(response);
+  // }
 }
