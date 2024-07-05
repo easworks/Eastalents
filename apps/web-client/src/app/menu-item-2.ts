@@ -37,7 +37,7 @@ export const publicMenu = {
     { id: 'about-press-center', text: 'Press Center', link: NOOP_CLICK },
     { id: 'about-easworks', text: 'About EASWORKS', link: NOOP_CLICK },
     { id: 'about-careers', text: 'Careers', link: NOOP_CLICK },
-  ],
+  ] satisfies MenuItem[],
   social: [
     { id: 'social-linkedin', text: 'LinkedIn', icon: faLinkedin, link: 'https://www.linkedin.com/company/easworks' },
     { id: 'social-facebook', text: 'Facebook', icon: faFacebook, link: 'https://web.facebook.com/easworks/' },

@@ -1,55 +1,55 @@
-<ng-container *ngIf="publicMenu.show$()">
+@if (showPublicMenu$()) {
+<nav class="public-menu">
+  <ul class="grid">
+    @for(item of publicItems$(); track item.id) {
 
-  <nav class="public-menu">
-    <ul class="grid">
-      <ng-container *ngFor="let item of publicMenu.items()">
+    @if (item.children?.length) {
+    <li class="has-submenu" #listItem>
+      <a class="p-2 px-4 rounded hover:bg-slate-500/10 focus:bg-slate-500/10
+                  flex justify-between items-center"
+         href="javascript:void(0)" mat-ripple
+         (click)="toggleOpen(listItem)">
+        <span>{{item.text}}</span>
+        <fa-icon [icon]="icons.faAngleDown"></fa-icon>
+      </a>
+      <ul class="hidden overflow-hidden">
+        <li *ngFor="let subItem of item.children">
+          <a class="p-2 px-4 pl-8 rounded hover:bg-slate-500/10 focus:bg-slate-500/10
+                                  flex justify-between items-center"
+             [routerLink]="subItem.link" [fragment]="item.fragment" mat-ripple>
+            <span>{{subItem.text}}</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    }
+    @else {
+    <li>
+      <a class="p-2 px-4 block rounded hover:bg-slate-500/10 focus:bg-slate-500/10"
+         [routerLink]="item.link" [fragment]="item.fragment" mat-ripple>
+        {{item.text}}
+      </a>
+    </li>
+    }
 
-        <ng-container *ngIf="item.children?.length; else $noChildren">
-          <li class="has-submenu" #listItem>
-            <a class="p-2 px-4 rounded hover:bg-slate-500/10 focus:bg-slate-500/10
-                flex justify-between items-center"
-               href="javascript:void(0)" mat-ripple
-               (click)="toggleOpen(listItem)">
-              <span>{{item.name}}</span>
-              <fa-icon [icon]="icons.faAngleDown"></fa-icon>
-            </a>
-            <ul class="hidden overflow-hidden">
-              <li *ngFor="let subItem of item.children">
-                <a class="p-2 px-4 pl-8 rounded hover:bg-slate-500/10 focus:bg-slate-500/10
-                                flex justify-between items-center"
-                   [routerLink]="subItem.link" mat-ripple>
-                  <span>{{subItem.name}}</span>
-                </a>
-              </li>
-            </ul>
-          </li>
-        </ng-container>
+    }
+  </ul>
 
-        <ng-template #$noChildren>
-          <li>
-            <a class="p-2 px-4 block rounded hover:bg-slate-500/10 focus:bg-slate-500/10"
-               [routerLink]="item.link" mat-ripple>
-              {{item.name}}
-            </a>
-          </li>
-        </ng-template>
+</nav>
 
-      </ng-container>
-    </ul>
-
-  </nav>
-
-  <mat-divider></mat-divider>
-</ng-container>
+<mat-divider></mat-divider>
+}
 
 <nav>
   <ul>
-    <li *ngFor="let item of staticMenuItems">
+    @for(item of staticItems$(); track item.id) {
+    <li>
       <a class="p-2 px-4 block rounded hover:bg-slate-500/10 focus:bg-slate-500/10"
-         [routerLink]="item.link">
-        <span>{{item.name}}</span>
+         [routerLink]="item.link" [fragment]="item.fragment">
+        <span>{{item.text}}</span>
       </a>
     </li>
+    }
   </ul>
 </nav>
 
@@ -82,12 +82,14 @@
 <nav>
   <p class="text-lg m-0">About Us</p>
   <ul class="mt-2">
-    <li *ngFor="let item of aboutMenuItems">
+    @for(item of aboutItems$(); track item.id) {
+    <li>
       <a class="p-2 px-4 block rounded hover:bg-slate-500/10 focus:bg-slate-500/10"
-         [routerLink]="item.link">
-        <span>{{item.name}}</span>
+         [routerLink]="item.link" [fragment]="item.fragment">
+        <span>{{item.text}}</span>
       </a>
     </li>
+    }
   </ul>
 </nav>
 
@@ -103,8 +105,10 @@
 <div>
   <p>Follow Us</p>
   <div class="flex gap-2">
-    <a class="icon-button" *ngFor="let link of brandLinks$()" mat-ripple>
-      <fa-icon [icon]="link.icon!"></fa-icon>
+    @for (item of socialItems$(); track item.id) {
+    <a class="icon-button" [routerLink]="item.link" [fragment]="item.fragment" mat-ripple>
+      <fa-icon [icon]="item.icon!"></fa-icon>
     </a>
+    }
   </div>
 </div>
