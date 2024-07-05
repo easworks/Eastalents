@@ -92,7 +92,7 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
   ...itemsForParent('manage-talents', [
     {
       id: 'hire-talents', text: 'Hire Talents',
-      link: NOOP_CLICK,
+      link: '/employer/hire-talents',
       permissions: ['role.employer']
     },
     {
