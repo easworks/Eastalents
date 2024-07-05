@@ -1,5 +1,3 @@
-import { Role } from './user';
-
 export const RETURN_URL_KEY = 'returnUrl';
 
 export type SocialIdp = 'google' | 'linkedin' | 'github';
@@ -16,7 +14,7 @@ interface SignUpDetails {
   firstName: string;
   lastName: string;
   email: string;
-  userRole: Role;
+  userRole: string;
 }
 
 export interface EmailSignUpRequest extends SignUpDetails {
@@ -36,7 +34,7 @@ interface SocialCodeParams {
 
 interface SocialSignUpBase {
   authType: 'signup',
-  userRole: Role;
+  userRole: string;
 }
 
 export type SocialSignUpWithCode = SocialSignUpBase & SocialCodeParams;

@@ -2,7 +2,7 @@ import { DestroyRef, INJECTOR, Injectable, effect, inject } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRouteSnapshot, Route, Router, UrlSegment } from '@angular/router';
-import { EmailSignInRequest, EmailSignUpRequest, RETURN_URL_KEY, Role, SocialCallbackState, SocialIdp, SocialSignInRequest, SocialSignUpRequest, User, UserWithToken } from '@easworks/models';
+import { EmailSignInRequest, EmailSignUpRequest, RETURN_URL_KEY, SocialCallbackState, SocialIdp, SocialSignInRequest, SocialSignUpRequest, User, UserWithToken } from '@easworks/models';
 import { Subject, fromEvent } from 'rxjs';
 import { AccountApi } from '../api/account.api';
 import { EmployerApi } from '../api/employer.api';
@@ -65,7 +65,7 @@ export class AuthService {
   };
 
   readonly signup = {
-    social: (provider: SocialIdp, role: Role) => {
+    social: (provider: SocialIdp, role: string) => {
       const state = this.socialCallback.set({
         request: {
           authType: 'signup',
@@ -280,7 +280,7 @@ export class AuthGuard {
 }
 
 export const AUTH_GUARD_CHECKS = {
-  isInRole: (role: Role) => (user: User) => user.role === role
+  isInRole: (role: string) => (user: User) => user.role === role
 } as const;
 
 

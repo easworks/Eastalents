@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Message, MessageRoom, Role, User } from '@easworks/models';
+import { Message, MessageRoom, User } from '@easworks/models';
 import { SwSocketService } from '../services/sw.socket';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class MessagingApi {
   readonly requests = {
     getUsers: (input: {
       _id: string;
-      role: Role;
+      role: string;
     }) => this.socket.send('getUsers', input, 'getUsersResponse')
       .then(response => {
         return (response.data as any[])

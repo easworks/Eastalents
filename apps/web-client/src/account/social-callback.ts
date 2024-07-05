@@ -5,7 +5,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { ErrorSnackbarDefaults, SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AuthService } from '@easworks/app-shell/services/auth';
 import { AuthState } from '@easworks/app-shell/state/auth';
-import { RETURN_URL_KEY, Role } from '@easworks/models';
+import { RETURN_URL_KEY } from '@easworks/models';
 import { firstValueFrom } from 'rxjs';
 
 export const socialCallbackGuard: CanActivateFn = async (route) => {
@@ -60,7 +60,7 @@ export const socialCallbackGuard: CanActivateFn = async (route) => {
         disableClose: true
       });
 
-      await firstValueFrom<Role>(dialogRef.afterClosed())
+      await firstValueFrom<string>(dialogRef.afterClosed());
     }
   }
   catch (e) {
@@ -70,4 +70,4 @@ export const socialCallbackGuard: CanActivateFn = async (route) => {
   }
 
   return true;
-}
+};
