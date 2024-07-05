@@ -9,7 +9,7 @@ export const FREELANCER_ROUTES: Route[] = [
     data: {
       auth: AUTH_GUARD_CHECKS.hasPermissions(['role.freelancer'])
     },
-    loadComponent: () => import('./dashboard.page').then(m => m.FreelancerDashboardComponent)
+    loadComponent: () => import('./dashboard/dashboard.page').then(m => m.TalentDashboardComponent)
   },
   {
     path: 'freelancer',
