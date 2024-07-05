@@ -2,7 +2,7 @@ import { INJECTOR, effect, inject } from '@angular/core';
 import { UserWithToken } from '@easworks/models';
 import { createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { NEVER, fromEvent, of, tap } from 'rxjs';
+import { EMPTY, fromEvent, of, tap } from 'rxjs';
 import { PERMISSION_DEF_DTO } from '../permissions';
 import { SWManagementService } from '../services/sw.manager';
 import { CURRENT_USER_KEY, authActions, authFeature } from './auth';
@@ -65,7 +65,7 @@ export const authEffects = {
         }, { injector });
       });
 
-      return NEVER;
+      return EMPTY;
     },
     { functional: true, dispatch: false }
   ),

@@ -10,6 +10,7 @@ import { SWManagementService, SW_URL } from '@easworks/app-shell/services/sw.man
 import { authFeature } from '@easworks/app-shell/state/auth';
 import { authEffects } from '@easworks/app-shell/state/auth.effects';
 import { navMenuFeature } from '@easworks/app-shell/state/nav-menu';
+import { navMenuEffects } from '@easworks/app-shell/state/nav-menu.effects';
 import { UI_FEATURE } from '@easworks/app-shell/state/ui';
 import { uiEffects } from '@easworks/app-shell/state/ui.effects';
 import { provideEffects } from '@ngrx/effects';
@@ -20,12 +21,14 @@ import { adminData } from '../admin/state/admin-data';
 import { adminDataEffects } from '../admin/state/admin-data.effects';
 import { serviceWorkerUrl } from '../service-worker/sw.loader';
 import { provideEnvironment } from './environment';
+import { menuItemEffects } from './menu-items/menu-item.effects';
 import { routes } from './routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideExperimentalZonelessChangeDetection(),
     provideStore(),
+    provideEffects(),
     provideStoreDevtools({
       name: 'Easworks',
       logOnly: true
@@ -77,6 +80,9 @@ export const appConfig: ApplicationConfig = {
     provideState(authFeature),
     provideEffects(authEffects),
     provideEffects(signInEffects),
+
+    provideEffects(navMenuEffects),
+    provideEffects(menuItemEffects),
 
     provideState(UI_FEATURE),
     provideEffects(uiEffects),

@@ -3,11 +3,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SnackbarComponent, SuccessSnackbarDefaults } from '@easworks/app-shell/notification/snackbar';
 import { authActions, authFeature } from '@easworks/app-shell/state/auth';
-import { navMenuActions } from '@easworks/app-shell/state/nav-menu';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs';
-import { authenticatedMenu } from '../app/menu-items/authenticated';
 
 const noRedirects = [
   '/account/sign-in',
@@ -16,20 +14,6 @@ const noRedirects = [
 ] as const;
 
 export const signInEffects = {
-  addAuthMenuItems: createEffect(
-    () => {
-      const store = inject(Store);
-      const user$ = store.select(authFeature.selectUser);
-
-      return user$.pipe(
-        map(user => {
-          const items = user ? authenticatedMenu : [];
-          return navMenuActions.updateAllItems({ payload: { items } });
-        })
-      );
-    },
-    { functional: true }
-  ),
   afterSignIn: createEffect(
     () => {
       const actions$ = inject(Actions);

@@ -11,19 +11,10 @@ export interface MenuItem extends MenuItemBase {
   children?: MenuItem[];
 }
 
-interface MenuItemWithId extends MenuItemBase {
+export interface AuthenticatedMenuItem extends MenuItemBase {
   id: string;
   parent?: string;
-}
-
-interface LeafMenuItem extends MenuItemWithId {
   permissions?: string[];
 }
-
-interface BranchMenuItem extends MenuItemWithId {
-  children: AuthenticatedMenuItem[];
-}
-
-export type AuthenticatedMenuItem = LeafMenuItem | BranchMenuItem;
 
 export const NOOP_CLICK = 'javascript:void(0)' as const;

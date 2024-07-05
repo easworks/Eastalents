@@ -3,15 +3,22 @@ import { AuthenticatedMenuItem } from '../navigation/models';
 import { sortNumber } from '../utilities/sort';
 
 export interface State {
-  list: AuthenticatedMenuItem[];
-  map: Record<string, AuthenticatedMenuItem>;
-  order: Record<string, number>;
+  all: {
+    list: AuthenticatedMenuItem[];
+    map: Record<string, AuthenticatedMenuItem>;
+    order: Record<string, number>;
+  };
+  allowed: {
+    set: Set<string>;
+    ordered: AuthenticatedMenuItem[];
+  };
 }
 
 export const navMenuActions = createActionGroup({
   source: 'nav-menu',
   events: {
-    'update all items': props<{ payload: { items: AuthenticatedMenuItem[]; }; }>()
+    'update all items': props<{ payload: { items: AuthenticatedMenuItem[]; }; }>(),
+    'update allowed items': props<{ payload: { items: Set<string>; }; }>()
   }
 });
 
@@ -19,18 +26,27 @@ export const navMenuFeature = createFeature({
   name: 'navMenu',
   reducer: createReducer<State>(
     {
-      list: [],
-      map: {},
-      order: {}
+      all: {
+        list: [],
+        map: {},
+        order: {},
+      },
+      allowed: {
+        set: new Set(),
+        ordered: [],
+      }
     },
 
     on(navMenuActions.updateAllItems, (state, { payload }) => {
+      state = { ...state };
 
       const list = payload.items;
-      const map: State['map'] = {};
-      const order: State['order'] = {};
+      const map: State['all']['map'] = {};
+      const order: State['all']['order'] = {};
 
       list.forEach((item, index) => {
+        if (item.id in map)
+          throw new Error(`duplicate id for menu item: '${item.id}'`);
         map[item.id] = item;
         order[item.id] = index;
       });
@@ -43,13 +59,26 @@ export const navMenuFeature = createFeature({
         }
       }
 
-      state = { list, map, order };
+      state.all = { list, map, order };
+      return state;
+    }),
+
+    on(navMenuActions.updateAllowedItems, (state, { payload }) => {
+      state = { ...state };
+
+      const set = payload.items;
+      const ordered = [...set]
+        .sort(sortNavMenu.ids(state.all.order))
+        .map(i => state.all.map[i]);
+
+      state.allowed = { set, ordered };
+
       return state;
     })
   ),
 });
 
-type OrderMap = State['order'];
+type OrderMap = State['all']['order'];
 export const sortNavMenu = {
   ids: (order: OrderMap) =>
     (a: string, b: string) =>
