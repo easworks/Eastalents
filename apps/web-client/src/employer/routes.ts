@@ -55,6 +55,15 @@ export const EMPLOYER_ROUTES: Route[] = [
         loadComponent: () => import('./my-account/my-account.component').then(m => m.MyAccountComponent)
       },
       {
+        path: 'my-teammates',
+        pathMatch: 'full',
+        canMatch: [AuthGuard.asFunction],
+        data: {
+          auth: AUTH_GUARD_CHECKS.hasPermissions(['role.employer'])
+        },
+        loadComponent: () => import('./my-teammates/my-teammates.components').then(m => m.MyTeammatesComponent)
+      },
+      {
         path: 'profile',
         pathMatch: 'full',
         loadComponent: () => import('./profile.page').then(m => m.EmployerProfilePageComponent),

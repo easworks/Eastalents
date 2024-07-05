@@ -98,7 +98,7 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
     },
     {
       id: 'my-teammates', text: 'My Teammates',
-      link: NOOP_CLICK,
+      link: '/employer/my-teammates',
       permissions: ['role.employer']
     }
   ])

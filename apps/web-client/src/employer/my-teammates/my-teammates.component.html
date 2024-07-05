@@ -1,0 +1,49 @@
+<div class="bg-gray-100 ">
+    <div class=" bg-white p-6 rounded-lg shadow-lg">
+        <div class="text-left mb-6 flex flex-row justify-between items-center">
+            
+            <div>
+                <h1 class="text-2xl font-bold">My Teammates</h1>
+                <p class="text-gray-600">Your hired talents will be showcased here, enabling you to build your global team.</p>
+            </div>
+            <div>
+                <fa-icon [icon]="bellIcon" class=" text-purple-600 text-4xl cursor-pointer"></fa-icon>
+            </div>
+        </div>
+        <main>
+            <section>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-gray-600 font-medium">App ID</th>
+                                <th class="px-4 py-2 text-left text-gray-600 font-medium">Name</th>
+                                <th class="px-4 py-2 text-left text-gray-600 font-medium">Country</th>
+                                <th class="px-4 py-2 text-left text-gray-600 font-medium">Job Title</th>
+                                <th class="px-4 py-2 text-left text-gray-600 font-medium">Type of Job</th>
+                                <th class="px-4 py-2 text-left text-gray-600 font-medium">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-700">
+                            <tr *ngIf = "items.length == 0" >
+                                <td  class=""colspan="6" class="px-4 py-6 text-center">No Data Found!!</td>
+                            </tr>
+                            <tr>
+                                <tr *ngFor="let item of items">
+                                        <td class="px-4 py-2 border-t">1</td>
+                                        <td class="px-4 py-2 border-t">John Doe</td>
+                                        <td class="px-4 py-2 border-t">USA</td>
+                                        <td class="px-4 py-2 border-t">Backend Developer</td>
+                                        <td class="px-4 py-2 border-t">Full-time</td>
+                                <td class="py-2 border-t flex flex-row justify-around">
+                                    <fa-icon [icon]="editIcon" class=" text-purple-600 text-2xl cursor-pointer"></fa-icon>
+                                    <fa-icon [icon]="trashIcon" class=" text-red-600 text-2xl cursor-pointer"></fa-icon>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
