@@ -9,16 +9,16 @@ import { SelectableOption } from '../../utilities/options';
 
 @Component({
   standalone: true,
-  selector: 'app-vertical-menu',
-  templateUrl: './vertical-menu.component.html',
-  styleUrls: ['./vertical-menu.component.less'],
+  selector: 'public-vertical-menu',
+  templateUrl: './public-vertical-menu.component.html',
+  styleUrls: ['./public-vertical-menu.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
     RouterModule
   ]
 })
-export class AppVerticalMenuComponent {
+export class PublicVerticalMenuComponent {
 
   @HostBinding()
   private readonly class = 'grid gap-4 p-4';
