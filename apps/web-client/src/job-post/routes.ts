@@ -1,4 +1,4 @@
-import { Route } from '@angular/router';
+import { ActivatedRouteSnapshot, Route } from '@angular/router';
 import { AUTH_GUARD_CHECKS, AuthGuard } from '@easworks/app-shell/services/auth';
 
 export const JOB_POST_ROUTE: Route = {
@@ -44,14 +44,22 @@ export const JOB_POST_ROUTE: Route = {
       }
     },
     {
-      path: 'list',
+      path: 'list/:tab',
       pathMatch: 'full',
       loadComponent: () => import('./list/list-job-post.page').then(m => m.ListJobPostPageComponent),
       resolve: {
-        data: async () => {
-          const data = import('./list/mock-job-post')
-            .then(m => m.mockJobPost);
-          return data;
+        data: async (route: ActivatedRouteSnapshot) => {
+          const key = route.paramMap.get('tab');
+          if (key === "Applied") {
+            const data = import('./list/mock-job-post')
+              .then(m => m.mockJobPost);
+            return data;
+          }
+          else {
+            const data = import('./list/mock-available-job-post')
+              .then(m => m.mockJobPost);
+            return data;
+          }
         }
       }
     },
