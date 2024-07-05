@@ -4,8 +4,8 @@ import { NotFoundPageComponent } from '@easworks/app-shell/navigation/not-found/
 import { AUTH_READY } from '@easworks/app-shell/services/auth.ready';
 import { ACCOUNT_ROUTES } from '../account/routes';
 import { ADMIN_ROUTES } from '../admin/routes';
-import { EMPLOYER_ROUTE } from '../employer/routes';
-import { FREELANCER_ROUTE } from '../freelancer/routes';
+import { EMPLOYER_ROUTES } from '../employer/routes';
+import { FREELANCER_ROUTES } from '../freelancer/routes';
 import { JOB_POST_ROUTE } from '../job-post/routes';
 import { MESSAGES_ROUTE } from '../messages/routes';
 import { PUBLIC_ROUTES } from '../public/routes';
@@ -13,8 +13,8 @@ import { PUBLIC_ROUTES } from '../public/routes';
 export const routes: Routes = [
   ...ACCOUNT_ROUTES,
   ADMIN_ROUTES,
-  FREELANCER_ROUTE,
-  EMPLOYER_ROUTE,
+  ...FREELANCER_ROUTES,
+  ...EMPLOYER_ROUTES,
   JOB_POST_ROUTE,
   MESSAGES_ROUTE,
   ...PUBLIC_ROUTES,
