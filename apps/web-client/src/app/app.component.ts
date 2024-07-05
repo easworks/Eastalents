@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, HostBinding, INJECTOR, OnInit, ViewChild, computed, effect, inject, untracked, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, HostBinding, INJECTOR, OnInit, computed, effect, inject, untracked, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { NavigationModule } from '@easworks/app-shell/navigation/navigation.module';
+import { AppHorizontalMenuComponent } from '@easworks/app-shell/navigation/horizontal-menu/horizontal-menu.component';
+import { AppVerticalMenuComponent } from '@easworks/app-shell/navigation/public-vertical-menu/vertical-menu.component';
 import { SWManagementService } from '@easworks/app-shell/services/sw.manager';
 import { AuthState } from '@easworks/app-shell/state/auth';
 import { MenuItem, NOOP_CLICK, NavMenuState } from '@easworks/app-shell/state/menu';
@@ -24,8 +25,8 @@ import { publicMenu } from './menu-items';
     ImportsModule,
     RouterModule,
     MatSidenavModule,
-
-    NavigationModule,
+    AppHorizontalMenuComponent,
+    AppVerticalMenuComponent,
     AccountWidgetComponent
   ]
 })
@@ -59,7 +60,7 @@ export class AppComponent implements OnInit {
     faYoutube
   } as const;
 
-  protected readonly navigating$ = computed(() => this.ui$().navigating)
+  protected readonly navigating$ = computed(() => this.ui$().navigating);
   protected readonly sw = {
     hidden$: computed(() => !this.swm.updateAvailable$()),
     updating$: this.swm.updating$,
@@ -68,7 +69,7 @@ export class AppComponent implements OnInit {
     }
   } as const;
 
-  private readonly screenSize$ = computed(() => this.ui$().screenSize)
+  private readonly screenSize$ = computed(() => this.ui$().screenSize);
 
   protected readonly sideBarState = (() => {
     const state$ = this.store.selectSignal(UI_FEATURE.selectSidebar);
@@ -83,20 +84,20 @@ export class AppComponent implements OnInit {
 
     const toggle = (() => {
       const show$ = computed(() => mode$() === 'over');
-    
+
       const position$ = computed(() => {
         if (show$()) {
           return this.isSignedIn$() ? 'left' : 'right';
         }
         return null;
       });
-    
+
       const click = () => this.store.dispatch(sidebarActions.toggleExpansion());
-    
+
       return { position$, click } as const;
     })();
 
-    return { mode$, opened$, position$, toggle} as const;
+    return { mode$, opened$, position$, toggle } as const;
   })();
 
 
@@ -214,7 +215,7 @@ export class AppComponent implements OnInit {
     }, { injector: this.injector });
   }
   private updateSidebarIfNeeded() {
-    const largeScreenSizes: ScreenSize[] = [ '7xl', '8xl', '9xl', '10xl'];
+    const largeScreenSizes: ScreenSize[] = ['7xl', '8xl', '9xl', '10xl'];
     const alwaysShowSideMenu$ = computed(() => largeScreenSizes.includes(this.screenSize$()));
 
     effect(() => {

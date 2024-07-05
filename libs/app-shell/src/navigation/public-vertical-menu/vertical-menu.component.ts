@@ -1,15 +1,22 @@
 import { ChangeDetectionStrategy, Component, HostBinding, computed, inject, signal } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { Domain } from '@easworks/models';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { ImportsModule } from '../../common/imports.module';
 import { DomainState } from '../../state/domains';
 import { MenuItem, NOOP_CLICK, NavMenuState } from '../../state/menu';
 import { SelectableOption } from '../../utilities/options';
 
 @Component({
+  standalone: true,
   selector: 'app-vertical-menu',
   templateUrl: './vertical-menu.component.html',
   styleUrls: ['./vertical-menu.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ImportsModule,
+    RouterModule
+  ]
 })
 export class AppVerticalMenuComponent {
 

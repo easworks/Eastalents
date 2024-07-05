@@ -1,15 +1,22 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, computed, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
+import { ImportsModule } from '../../common/imports.module';
 import { NavMenuState } from '../../state/menu';
 import { ACTIONS } from '../../state/redux-signals';
 import { UI_FEATURE, uiActions } from '../../state/ui';
 
 @Component({
+  standalone: true,
   selector: 'app-horizontal-menu',
   templateUrl: './horizontal-menu.component.html',
   styleUrls: ['./horizontal-menu.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ImportsModule,
+    RouterModule
+  ]
 })
 export class AppHorizontalMenuComponent {
   private readonly hostElement = inject(ElementRef).nativeElement as HTMLElement;
