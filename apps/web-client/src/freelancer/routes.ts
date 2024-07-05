@@ -23,9 +23,18 @@ export const FREELANCER_ROUTES: Route[] = [
         pathMatch: 'full',
         canMatch: [AuthGuard.asFunction],
         data: {
-          auth: AUTH_GUARD_CHECKS.hasPermissions(['role.employer'])
+          auth: AUTH_GUARD_CHECKS.hasPermissions(['role.freelancer'])
         },
         loadComponent: () => import('./contact-us/contact-us.component').then(m => m.ContactUsComponent)
+      },
+      {
+        path: 'my-profile',
+        pathMatch: 'full',
+        canMatch: [AuthGuard.asFunction],
+        data: {
+          auth: AUTH_GUARD_CHECKS.hasPermissions(['role.freelancer'])
+        },
+        loadComponent: () => import('./my-profile/my-profile.component').then(m => m.MyProfileComponent)
       },
       {
         path: 'profile',

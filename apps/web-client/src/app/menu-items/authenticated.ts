@@ -13,7 +13,7 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
   },
   {
     id: 'profile', text: 'My Profile',
-    link: '/freelancer/profile/me',
+    link: '/freelancer/my-profile',
     icon: faUser,
     permissions: ['role.freelancer']
   },
