@@ -1,0 +1,35 @@
+<!-- TODO: change to material tabs -->
+
+<div class="bg-gray-100">
+    <div class=" mx-auto p-6 bg-white shadow-lg rounded-lg">
+        <div class="mb-6">
+            <h1 class="text-2xl font-bold">General Information</h1>
+            <p class="text-gray-600">Ensure smooth verification and onboarding by updating your company details and address.</p>
+        </div>
+
+        <div class="border-b border-gray-200 mb-6">
+            <button class="tab-button"
+                    [class.active]="activeTab$() === 'details'"
+                    (click)="activeTab$.set('details')"
+                    mat-ripple>
+                Company Details
+            </button>
+            <button class="tab-button"
+                    [class.active]="activeTab$() === 'address'"
+                    (click)="activeTab$.set('address')"
+                    mat-ripple>
+                Company Address
+            </button>
+        </div>
+    </div>
+
+
+
+    @if (activeTab$() === 'details') {
+    <company-detail></company-detail>
+    }
+
+    @if (activeTab$() === 'address') {
+    <company-address></company-address>
+    }
+</div>
