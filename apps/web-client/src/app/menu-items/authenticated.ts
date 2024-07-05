@@ -3,7 +3,7 @@ import { faBriefcase, faCalculator, faIdBadge, faMicrochip, faQuestionCircle, fa
 
 export const authenticatedMenu: AuthenticatedMenuItem[] = [
   {
-    id: 'dashboard', text: 'Dashbooard',
+    id: 'dashboard', text: 'Dashboard',
     link: '/dashboard',
     icon: faSquarePollVertical,
     permissions: [
