@@ -17,6 +17,7 @@ import { adminData, techSkillActions } from '../../state/admin-data';
   standalone: true,
   selector: 'tech-skills-page',
   templateUrl: './tech-skills.page.html',
+  styleUrl: './tech-skills.page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
@@ -55,6 +56,8 @@ export class TechSkillsPageComponent {
       search$
     } as const;
   })();
+
+  private readonly techGroups$ = this.store.selectSignal(adminData.selectors.techGroup.selectEntities);
 
   protected readonly search = (() => {
 
@@ -157,6 +160,8 @@ export class TechSkillsPageComponent {
         rowSubs.unsubscribe();
         rowSubs = new Subscription();
 
+        const techGroups = untracked(this.techGroups$);
+
         return view$().map(skill => {
           const form = new FormGroup({ ...rowControls() });
 
@@ -200,15 +205,21 @@ export class TechSkillsPageComponent {
             loading$: updating.has(skill.id)
           } as const;
 
-          const groups = async () => {
-            const ref = DialogLoaderComponent.open(this.dialog);
-            const comp = await import('../group/tech-skill-groups.dialog')
-              .then(m => m.TechSkillGroupsDialogComponent);
+          const groups = (() => {
+            const list = skill.groups.map(([id, generic]) => ({ label: techGroups[id]?.name, generic }));
 
-            comp.open(ref, {
-              skill
-            });
-          };
+            const edit = async () => {
+              const ref = DialogLoaderComponent.open(this.dialog);
+              const comp = await import('../group/tech-skill-groups.dialog')
+                .then(m => m.TechSkillGroupsDialogComponent);
+
+              comp.open(ref, {
+                skill
+              });
+            };
+
+            return { list, edit } as const;
+          })();
 
           rowSubs.add(form.statusChanges
             .pipe(map(s => s === 'VALID'))

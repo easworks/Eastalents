@@ -85,13 +85,13 @@ const feature = createFeature({
             const skill = state.techSkills.entities[id];
             if (!skill)
               throw new Error('invalid operation');
-            skill.groups.push([group.id, 'generic']);
+            skill.groups.push([group.id, true]);
           }
           for (const id of group.nonGeneric) {
             const skill = state.techSkills.entities[id];
             if (!skill)
               throw new Error('invalid operation');
-            skill.groups.push([group.id, 'non-generic']);
+            skill.groups.push([group.id, false]);
           }
         }
       }

@@ -1,26 +1,8 @@
-.group-accordion {
-  > .mat-expansion-panel {
-    @apply shadow-none border;
+.group-tag {
+  @apply font-normal text-sm rounded-md p-1 px-2 ;
+  @apply bg-primary-500/10 text-primary-500;
 
-    &:not(:first-child) {
-      @apply border-t-0;
-    }
-
-    &.mat-expanded,
-    &.mat-expanded + .mat-expansion-panel {
-      @apply border-t;
-    }
-
-    ::ng-deep {
-      .mat-expansion-panel-body {
-        @apply p-2;
-      }
-    }
-  }
-}
-
-.skill-accordion {
-  > .mat-expansion-panel {
-    @apply shadow-none border;
+  &.generic {
+    @apply bg-emerald-50 text-emerald-600;
   }
 }
