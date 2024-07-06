@@ -106,6 +106,16 @@ export class TechSkillsPageComponent {
             loading$: updating.has(skill.id)
           } as const;
 
+          const groups = async () => {
+            const ref = DialogLoaderComponent.open(this.dialog);
+            const comp = await import('../group/tech-skill-groups.dialog')
+              .then(m => m.TechSkillGroupsDialogComponent);
+
+            comp.open(ref, {
+              skill
+            });
+          };
+
           rowSubs.add(form.statusChanges
             .pipe(map(s => s === 'VALID'))
             .subscribe(valid$.set),
@@ -122,7 +132,8 @@ export class TechSkillsPageComponent {
             data: skill,
             form,
             submit,
-            reset
+            reset,
+            groups
           };
         });
       });

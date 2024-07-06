@@ -16,7 +16,7 @@
             <input type="text" class="field" [formControl]="control">
           </td>
           <td class="actions">
-            <div class="flex">
+            <div class="flex gap-2 items-center">
               <button class="icon-button small enabled:text-emerald-500" mat-ripple
                       [disabled]="row.submit.disabled$()" (click)="row.submit.click()">
                 <replace-spinner [showSpinner]="row.submit.loading$()">
@@ -26,6 +26,10 @@
               <button class="icon-button small enabled:text-warn" mat-ripple
                       [disabled]="row.reset.disabled$()" (click)="row.reset.click()">
                 <fa-icon [icon]="icons.faRefresh"></fa-icon>
+              </button>
+              <button class="highlight-button font-normal text-sm rounded-full my-1 p-1 px-3"
+                      mat-ripple (click)="row.groups()">
+                Groups
               </button>
             </div>
           </td>
