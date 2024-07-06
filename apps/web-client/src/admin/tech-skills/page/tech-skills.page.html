@@ -10,13 +10,13 @@
         <tr>
           <th>Id</th>
           <th>Name</th>
-          <th></th>
+          <th colspan="2"></th>
         </tr>
       </thead>
       <tbody>
         @if (table.empty$()) {
         <tr>
-          <td colspan="3" class="italics text-gray-400 text-center">
+          <td colspan="4" class="italics text-gray-400 text-center">
             No data
           </td>
         </tr>
@@ -39,11 +39,13 @@
                       [disabled]="row.reset.disabled$()" (click)="row.reset.click()">
                 <fa-icon [icon]="icons.faRefresh"></fa-icon>
               </button>
-              <button class="highlight-button font-normal text-sm rounded-full my-1 p-1 px-3"
-                      mat-ripple (click)="row.groups()">
-                Groups
-              </button>
             </div>
+          </td>
+          <td class="actions">
+            <button class="highlight-button font-normal text-sm rounded-full my-1 p-1 px-3"
+                    mat-ripple (click)="row.groups()">
+              Groups
+            </button>
           </td>
         </tr>
         }
