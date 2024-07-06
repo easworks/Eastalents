@@ -1,0 +1,31 @@
+@if (showFirstLast$()) {
+<button class="icon-button" mat-ripple matTooltip="First"
+        [disabled]="disabledPrev$()"
+        (click)="first.emit()">
+  <fa-icon [icon]="icons.faBackwardFast"></fa-icon>
+</button>
+}
+
+<button class="icon-button" mat-ripple matTooltip="Previous"
+        [disabled]="disabledPrev$()"
+        (click)="previous.emit()">
+  <fa-icon [icon]="icons.faCaretLeft"></fa-icon>
+</button>
+
+@if (pageDisplay$(); as display) {
+<span>{{display}}</span>
+}
+
+<button class="icon-button" mat-ripple matTooltip="Next"
+        [disabled]="disabledNext$()"
+        (click)="next.emit()">
+  <fa-icon [icon]="icons.faCaretRight"></fa-icon>
+</button>
+
+@if (showFirstLast$()) {
+<button class="icon-button" mat-ripple matTooltip="Last"
+        [disabled]="disabledNext$()"
+        (click)="last.emit()">
+  <fa-icon [icon]="icons.faForwardFast"></fa-icon>
+</button>
+}
