@@ -7,12 +7,12 @@ import { DialogLoaderComponent } from '@easworks/app-shell/common/dialog-loader.
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faPlus, faRefresh } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import Fuse, { FuseResult } from 'fuse.js';
 import { Subscription, map } from 'rxjs';
-import { adminData, techGroupActions } from '../../state/admin-data';
 import { TechSkill } from '../../models/tech-skill';
+import { adminData, techGroupActions } from '../../state/admin-data';
 
 @Component({
   standalone: true,
@@ -35,7 +35,9 @@ export class TechGroupsPageComponent {
   protected readonly maxlength = { name: 64 } as const;
 
   protected readonly icons = {
-    faPlus
+    faPlus,
+    faCheck,
+    faRefresh
   } as const;
   private readonly loading = generateLoadingState<[
     'updating tech group',
@@ -92,8 +94,8 @@ export class TechGroupsPageComponent {
     } as const;
   })();
 
-  protected readonly accordion = (() => {
-    const panelControls = () => {
+  protected readonly table = (() => {
+    const rowControls = () => {
       return {
         name: new FormControl('', {
           nonNullable: true,
@@ -105,7 +107,7 @@ export class TechGroupsPageComponent {
       };
     };
 
-    const panels = (() => {
+    const rows = (() => {
       const updating = generateLoadingState<string[]>();
       this.loading.react('updating tech group', updating.any$);
 
@@ -126,7 +128,7 @@ export class TechGroupsPageComponent {
             return { group, genericSkills };
           })
           .map(({ group, genericSkills }) => {
-            const form = new FormGroup({ ...panelControls() });
+            const form = new FormGroup({ ...rowControls() });
 
 
             const changeCheck = (value: typeof form['value']) =>
@@ -229,7 +231,7 @@ export class TechGroupsPageComponent {
     })();
 
     return {
-      panels
+      rows
     } as const;
 
   })();
