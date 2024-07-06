@@ -17,6 +17,6 @@ export interface AdminDataState {
 
 export interface AdminDataDTO {
   softwareProducts: SoftwareProduct[];
-  techSkills: TechSkill[];
+  techSkills: Omit<TechSkill, 'groups'>[];
   techGroups: TechGroup[];
 }

@@ -1,6 +1,7 @@
 export interface TechSkill {
   id: string,
   name: string;
+  groups: [string, 'generic' | 'non-generic'][];
 }
 
 export interface TechGroup {

@@ -16,7 +16,20 @@ export const techSkillActions = createActionGroup({
   source: 'tech-skills',
   events: {
     add: props<{ payload: TechSkill; }>(),
-    update: props<{ payload: TechSkill; }>()
+    update: props<{ payload: TechSkill; }>(),
+    'add to group': props<{
+      payload: {
+        skill: string;
+        group: string;
+        generic: boolean;
+      };
+    }>(),
+    'remove from group': props<{
+      payload: {
+        skill: string;
+        group: string;
+      };
+    }>()
   }
 });
 
@@ -25,18 +38,6 @@ export const techGroupActions = createActionGroup({
   events: {
     add: props<{ payload: TechGroup; }>(),
     update: props<{ payload: { id: string; name: string; }; }>(),
-    'add skill': props<{
-      payload: {
-        group: string;
-        skill: string;
-      };
-    }>(),
-    'remove skill': props<{
-      payload: {
-        group: string;
-        skill: string;
-      };
-    }>(),
   }
 });
 
@@ -44,19 +45,7 @@ export const softwareProductActions = createActionGroup({
   source: 'software-product',
   events: {
     'add': props<{ payload: SoftwareProduct; }>(),
-    'update': props<{ payload: SoftwareProduct; }>(),
-    'add techgroup': props<{
-      payload: {
-        softwareId: string;
-        techgroup: string;
-      };
-    }>(),
-    'remove techgroup': props<{
-      payload: {
-        group: string;
-        techgroup: string;
-      };
-    }>()
+    'update': props<{ payload: SoftwareProduct; }>()
   }
 });
 
@@ -78,10 +67,35 @@ const feature = createFeature({
 
     on(adminDataActions.updateState, (state, { payload }) => {
       state = {
-        softwareProducts: adapters.softwareProduct.setMany(payload.softwareProducts, adapters.softwareProduct.getInitialState()),
-        techSkills: adapters.techSkill.setMany(payload.techSkills, adapters.techSkill.getInitialState()),
-        techGroups: adapters.techGroup.setMany(payload.techGroups, adapters.techGroup.getInitialState())
+        softwareProducts: adapters.softwareProduct.getInitialState(),
+        techGroups: adapters.techGroup.getInitialState(),
+        techSkills: adapters.techSkill.getInitialState(),
       };
+
+      state.softwareProducts = adapters.softwareProduct.setMany(payload.softwareProducts, state.softwareProducts);
+      state.techGroups = adapters.techGroup.setMany(payload.techGroups, state.techGroups);
+      state.techSkills = adapters.techSkill.setMany(
+        payload.techSkills.map(t => ({ ...t, groups: [] })),
+        state.techSkills
+      );
+
+      for (const group of Object.values(state.techGroups.entities)) {
+        if (group) {
+          for (const id of group.generic) {
+            const skill = state.techSkills.entities[id];
+            if (!skill)
+              throw new Error('invalid operation');
+            skill.groups.push([group.id, 'generic']);
+          }
+          for (const id of group.nonGeneric) {
+            const skill = state.techSkills.entities[id];
+            if (!skill)
+              throw new Error('invalid operation');
+            skill.groups.push([group.id, 'non-generic']);
+          }
+        }
+      }
+
       return state;
     }),
 
@@ -127,19 +141,6 @@ const feature = createFeature({
           group.name = payload.name;
           return group;
         },
-      }, state.techGroups);
-      return state;
-    }),
-    on(techGroupActions.addSkill, (state, { payload }) => {
-      state = { ...state };
-      state.techGroups = adapters.techGroup.mapOne({
-        id: payload.group,
-        map: group => {
-          group = { ...group };
-          group.generic = [...group.generic, payload.skill];
-          group.generic.sort(sortString);
-          return group;
-        }
       }, state.techGroups);
       return state;
     })

@@ -70,7 +70,9 @@ export const adminDataEffects = {
         ofType(
           adminDataActions.saveState,
           techSkillActions.add,
-          techSkillActions.update
+          techSkillActions.update,
+          techSkillActions.addToGroup,
+          techSkillActions.removeFromGroup
         ),
         concatMap(() => api.techSkills.write(list$()))
       );
@@ -90,9 +92,7 @@ export const adminDataEffects = {
         ofType(
           adminDataActions.saveState,
           techGroupActions.add,
-          techGroupActions.update,
-          techGroupActions.addSkill,
-          techGroupActions.removeSkill
+          techGroupActions.update
         ),
         concatMap(() => api.techGroups.write(list$()))
       );

@@ -61,7 +61,7 @@ export function extractTechSkills(dto: TechGroupDto) {
           }
         }
 
-        const skill: TechSkill = { id, name };
+        const skill: TechSkill = { id, name, groups: [] };
         map.set(id, skill);
         genericSkills.add(skill.id);
       }

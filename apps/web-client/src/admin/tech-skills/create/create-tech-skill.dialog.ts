@@ -102,6 +102,7 @@ export class CreateTechSkillDialogComponent {
         const skill: TechSkill = {
           id: value.id,
           name: value.name,
+          groups: []
         };
 
         this.store.dispatch(techSkillActions.add({ payload: skill }));
