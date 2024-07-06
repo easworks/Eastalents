@@ -47,7 +47,6 @@ export class TechGroupsPageComponent {
 
   private readonly skills = (() => {
     const list$ = this.store.selectSignal(adminData.selectors.techSkill.selectAll);
-    const map$ = this.store.selectSignal(adminData.selectors.techSkill.selectEntities);
 
     const search$ = computed(() => new Fuse(list$(), {
       keys: ['name'],
@@ -56,8 +55,6 @@ export class TechGroupsPageComponent {
 
 
     return {
-      list$,
-      map$,
       search$
     } as const;
   })();
@@ -118,16 +115,8 @@ export class TechGroupsPageComponent {
         panelSubs.unsubscribe();
         panelSubs = new Subscription();
 
-        const skillMap = untracked(this.skills.map$);
-        const skillCount$ = computed(() => this.skills.list$().length);
-
         return this.groups$()
           .map(group => {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const genericSkills = group.generic.map(id => skillMap[id]!);
-            return { group, genericSkills };
-          })
-          .map(({ group, genericSkills }) => {
             const form = new FormGroup({ ...rowControls() });
 
 
@@ -179,37 +168,8 @@ export class TechGroupsPageComponent {
 
             reset.click();
 
-            const skills = (() => {
-              const list = genericSkills;
-
-              const create = (() => {
-                const visible$ = computed(() => skillCount$() > list.length);
-
-                const click = async () => {
-                  const ref = DialogLoaderComponent.open(this.dialog);
-                  const comp = await import('../add-tech-skill/add-tech-skill-to-group.dialog')
-                    .then(m => m.AddTechSkillToGroupDialogComponent);
-                  comp.open(ref, {
-                    search: this.skills.search$(),
-                    group
-                  });
-                };
-
-                return {
-                  visible$,
-                  click
-                } as const;
-              })();
-
-              return {
-                list,
-                create
-              } as const;
-            })();
-
             return {
               data: group,
-              skills,
               form,
               submit,
               reset,
