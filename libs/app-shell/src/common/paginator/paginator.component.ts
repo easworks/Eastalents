@@ -21,7 +21,7 @@ import { faBackwardFast, faCaretLeft, faCaretRight, faForwardFast } from '@forta
 })
 export class PaginatorComponent {
 
-  @HostBinding() private readonly class = 'flex gap-2';
+  @HostBinding() private readonly class = 'flex gap-2 items-center';
 
   protected readonly icons = {
     faBackwardFast,

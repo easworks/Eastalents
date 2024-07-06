@@ -1,12 +1,14 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, effect, inject, signal, untracked } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogLoaderComponent } from '@easworks/app-shell/common/dialog-loader.component';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { PaginatorComponent } from '@easworks/app-shell/common/paginator/paginator.component';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { faCheck, faPlus, faRefresh } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
+import Fuse from 'fuse.js';
 import { Subscription, map } from 'rxjs';
 import { TechSkill } from '../../models/tech-skill';
 import { adminData, techSkillActions } from '../../state/admin-data';
@@ -18,7 +20,8 @@ import { adminData, techSkillActions } from '../../state/admin-data';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
-    FormImportsModule
+    FormImportsModule,
+    PaginatorComponent
   ]
 })
 export class TechSkillsPageComponent {
@@ -34,12 +37,96 @@ export class TechSkillsPageComponent {
 
   protected readonly maxlength = { name: 64 } as const;
 
-  private readonly skills$ = this.store.selectSignal(adminData.selectors.techSkill.selectAll);
   private readonly loading = generateLoadingState<[
     'updating tech skill',
   ]>();
 
+  private readonly skills = (() => {
+    const list$ = this.store.selectSignal(adminData.selectors.techSkill.selectAll);
+
+    const search$ = computed(() => new Fuse(list$(), {
+      keys: ['name'],
+      includeScore: true
+    }));
+
+
+    return {
+      list$,
+      search$
+    } as const;
+  })();
+
+  protected readonly search = (() => {
+
+    const query$ = signal('');
+
+    const result$ = computed(() => {
+      const q = query$().trim();
+
+      if (!q)
+        return this.skills.list$();
+
+      const options = untracked(this.skills.search$).search(q);
+      return options.map(o => o.item);
+    });
+
+    return {
+      query$,
+      result$
+    } as const;
+  })();
+
   protected readonly table = (() => {
+
+    const paginator = (() => {
+
+      const resetScroll = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      const current$ = signal(1);
+      const pages$ = computed(() => {
+        const total = this.search.result$().length;
+        return Math.ceil(total / 100);
+      });
+
+      effect(() => {
+        pages$();
+        current$.set(1);
+      }, { allowSignalWrites: true });
+
+      const prev = {
+        disabled$: computed(() => current$() <= 1),
+        click: () => {
+          current$.update(v => --v);
+          resetScroll();
+        }
+      } as const;
+      const first = () => {
+        current$.set(1);
+        resetScroll();
+      };
+
+      const next = {
+        disabled$: computed(() => current$() >= pages$()),
+        click: () => {
+          current$.update(v => ++v);
+          resetScroll();
+        }
+      } as const;
+      const last = () => {
+        current$.set(pages$());
+        resetScroll();
+      };
+
+      return {
+        current$,
+        pages$,
+        first,
+        prev,
+        next,
+        last
+      } as const;
+    })();
+
     const rowControls = () => {
       return {
         name: new FormControl('', {
@@ -59,11 +146,18 @@ export class TechSkillsPageComponent {
       let rowSubs = new Subscription();
       this.dRef.onDestroy(() => rowSubs.unsubscribe());
 
+      const view$ = computed(() => {
+        const results = this.search.result$();
+        const itemsPerPage = 100;
+        const start = (paginator.current$() - 1) * itemsPerPage;
+        return results.slice(start, start + itemsPerPage);
+      });
+
       const $ = computed(() => {
         rowSubs.unsubscribe();
         rowSubs = new Subscription();
 
-        return this.skills$().map(skill => {
+        return view$().map(skill => {
           const form = new FormGroup({ ...rowControls() });
 
           const changeCheck = (value: typeof form['value']) =>
@@ -143,8 +237,12 @@ export class TechSkillsPageComponent {
       } as const;
     })();
 
+    const empty$ = computed(() => rows.$().length === 0);
+
     return {
-      rows
+      rows,
+      empty$,
+      paginator
     } as const;
 
   })();

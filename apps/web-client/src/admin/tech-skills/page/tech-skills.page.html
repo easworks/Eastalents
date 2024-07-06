@@ -1,3 +1,8 @@
+<div class="form-field mt-4">
+  <input type="text" [(ngModel)]="search.query$"
+         placeholder="Search Tech Skill">
+</div>
+
 <div class="mt-4 table-container">
   <div>
     <table>
@@ -9,6 +14,13 @@
         </tr>
       </thead>
       <tbody>
+        @if (table.empty$()) {
+        <tr>
+          <td colspan="3" class="italics text-gray-400 text-center">
+            No data
+          </td>
+        </tr>
+        }
         @for(row of table.rows.$(); track row.data.id) {
         <tr>
           <td>{{row.data.id}}</td>
@@ -39,6 +51,19 @@
       </tbody>
     </table>
   </div>
+  <div class="border-t p-2">
+    <paginator class="w-max ml-auto"
+               showFirstLast
+               [pages]="table.paginator.pages$()"
+               [current]="table.paginator.current$()"
+               [disablePrev]="table.paginator.prev.disabled$()"
+               [disableNext]="table.paginator.next.disabled$()"
+               (first)="table.paginator.first()"
+               (previous)="table.paginator.prev.click()"
+               (next)="table.paginator.next.click()"
+               (last)="table.paginator.last()"></paginator>
+  </div>
+
 </div>
 
 <button class="icon-button primary large !sticky bottom-4 ml-auto mr-4 mt-4 shadow-z1 shadow-gray-500"
