@@ -43,6 +43,7 @@ export const uiEffects = {
             }
             return result;
           }),
+          distinctUntilChanged(),
           map(size => uiActions.updateScreenSize({ payload: { size } }))
         );
     },

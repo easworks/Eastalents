@@ -29,28 +29,33 @@
             <input type="text" class="field" [formControl]="control">
           </td>
           <td class="!p-1 group">
-            <div class="flex flex-wrap gap-2 items-center relative">
-              @for(group of row.groups.list; track group) {
-              <div class="group-tag" [class.generic]="group.generic">{{group.label}}</div>
-              }
-              <button class="stroked-button p-1 px-2 rounded-md !absolute right-0 transition-all
-                invisible opacity-0 group-hover:visible group-hover:opacity-100"
-                      mat-ripple (click)="row.groups.edit()">
-                Edit
+            <div class="flex gap-2 items-center justify-between">
+              <div class="flex flex-wrap gap-2 items-center relative">
+                @for(group of row.groups.list; track group) {
+                <div class="group-tag" [class.generic]="group.generic">{{group.label}}</div>
+                }
+              </div>
+              <button class="icon-button small p-1 px-2 rounded-md"
+                      mat-ripple (click)="row.groups.edit()"
+                      matTooltip="Edit Groups">
+                <fa-icon [icon]="icons.faPen"></fa-icon>
               </button>
             </div>
-
           </td>
           <td class="actions">
             <div class="flex gap-2 items-center">
               <button class="icon-button small enabled:text-emerald-500" mat-ripple
-                      [disabled]="row.submit.disabled$()" (click)="row.submit.click()">
+                      [disabled]="row.submit.disabled$()"
+                      (click)="row.submit.click()"
+                      matTooltip="Save">
                 <replace-spinner [showSpinner]="row.submit.loading$()">
                   <fa-icon [icon]="icons.faCheck"></fa-icon>
                 </replace-spinner>
               </button>
               <button class="icon-button small enabled:text-warn" mat-ripple
-                      [disabled]="row.reset.disabled$()" (click)="row.reset.click()">
+                      [disabled]="row.reset.disabled$()"
+                      (click)="row.reset.click()"
+                      matTooltip="Reset">
                 <fa-icon [icon]="icons.faRefresh"></fa-icon>
               </button>
             </div>
