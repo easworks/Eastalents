@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal, untracked } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogClose, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -10,6 +10,7 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { pattern } from '@easworks/models';
 import { faQuestionCircle, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
+import Fuse from 'fuse.js';
 import { TechSkill } from '../../models/tech-skill';
 import { adminData, techSkillActions } from '../../state/admin-data';
 
@@ -37,8 +38,20 @@ export class CreateTechSkillDialogComponent {
     'creating tech skill'
   ]>();
 
-  private readonly list$ = this.store.selectSignal(adminData.selectors.techSkill.selectAll);
-  private readonly ids$ = computed(() => new Set(this.list$().map(skill => skill.id)));
+  private readonly skills = (() => {
+    const list$ = this.store.selectSignal(adminData.selectors.techSkill.selectAll);
+    const ids$ = computed(() => new Set(list$().map(skill => skill.id)));
+    const search$ = computed(() => new Fuse(list$(), {
+      keys: ['name'],
+      includeScore: true
+    }));
+
+    return {
+      ids$,
+      search$
+    } as const;
+
+  })();
 
   protected readonly formId = 'create-tech-skill-form';
 
@@ -50,7 +63,7 @@ export class CreateTechSkillDialogComponent {
   private readonly validators = {
     id: (control: AbstractControl) => {
       const value = control.value as string;
-      if (this.ids$().has(value))
+      if (this.skills.ids$().has(value))
         return { exists: true };
 
       return null;
@@ -103,6 +116,33 @@ export class CreateTechSkillDialogComponent {
       disabled$
     } as const;
   })();
+
+  protected readonly similarity = (() => {
+    const input$ = signal('');
+
+    const items$ = computed(() => {
+
+      const input = input$();
+      if (!input)
+        return [];
+
+      return untracked(this.skills.search$).search(input)
+        .map(result => result.item)
+        .slice(0, 5);
+    });
+
+    const show$ = computed(() => items$().length > 0);
+
+    return {
+      input$,
+      items$,
+      show$
+    } as const;
+  })();
+
+  protected reset() {
+    this.similarity.input$.set('');
+  }
 
   public static open(ref: MatDialogRef<DialogLoaderComponent>) {
     DialogLoaderComponent.replace(ref, this);

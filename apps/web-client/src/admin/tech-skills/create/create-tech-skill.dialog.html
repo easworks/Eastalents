@@ -7,9 +7,10 @@
 
 <mat-divider class="!my-0"></mat-divider>
 
-<form class="px-4 mt-4"
+<form class="px-4 mt-2"
       [id]="formId" [formGroup]="form"
-      (ngSubmit)="buttons.submit.click()">
+      (ngSubmit)="buttons.submit.click()"
+      (reset)="reset()">
 
   <div *ngrxLet="form.controls.id as control"
        [formFieldControl]="control"
@@ -33,7 +34,7 @@
   <div *ngrxLet="form.controls.name as control"
        [formFieldControl]="control">
     <label>Name</label>
-    <input type="text" [formControl]="control" #input>
+    <input type="text" [formControl]="control" #input (input)="similarity.input$.set(input.value)">
     @if(control.hasError('required')){<span class="error">Required</span>}
     @if(control.hasError('maxlength')){<span class="error">{{input.value.length}}/{{maxlength.name}}</span>}
     <span class="hint">{{input.value.length}}/{{maxlength.name}}</span>
@@ -42,10 +43,23 @@
 
 </form>
 
+@if (similarity.show$()) {
+<mat-divider class="!m-0"></mat-divider>
+<div class="border m-4 rounded-md p-2 border-amber-600 bg-amber-100 
+  text-amber-600 text-sm">
+  <span class="font-bold">Potential similarities:</span>
+  <ul>
+    @for(item of similarity.items$(); track item.id) {
+    <li>- {{item.name}}</li>
+    }
+  </ul>
+</div>
+}
+
 <mat-divider class="!m-0"></mat-divider>
 
 
-<div class="flex gap-2 p-2">
+<div class="flex gap-2 p-4">
   <button type="submit" [attr.form]="formId"
           class="stroked-button primary" mat-ripple
           [disabled]="buttons.disabled$()">
