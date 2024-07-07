@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal, untracked } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogClose, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogClose, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogLoaderComponent } from '@easworks/app-shell/common/dialog-loader.component';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
@@ -13,6 +13,10 @@ import { Store } from '@ngrx/store';
 import Fuse from 'fuse.js';
 import { TechSkill } from '../../models/tech-skill';
 import { adminData, techSkillActions } from '../../state/admin-data';
+
+interface CreateTechSkillDialogComponentData {
+  created: (id: string) => void;
+}
 
 @Component({
   standalone: true,
@@ -28,6 +32,7 @@ export class CreateTechSkillDialogComponent {
   private readonly store = inject(Store);
   private readonly dialog = inject(MatDialogRef);
   private readonly snackbar = inject(MatSnackBar);
+  private readonly data = inject<CreateTechSkillDialogComponentData>(MAT_DIALOG_DATA);
 
   protected readonly icons = {
     faXmark,
@@ -107,6 +112,7 @@ export class CreateTechSkillDialogComponent {
 
         this.store.dispatch(techSkillActions.add({ payload: skill }));
         SnackbarComponent.forSuccess(this.snackbar);
+        this.data.created(skill.id);
         this.dialog.close();
       },
       loading$: this.loading.has('creating tech skill')
@@ -145,7 +151,7 @@ export class CreateTechSkillDialogComponent {
     this.similarity.input$.set('');
   }
 
-  public static open(ref: MatDialogRef<DialogLoaderComponent>) {
-    DialogLoaderComponent.replace(ref, this);
+  public static open(ref: MatDialogRef<DialogLoaderComponent>, data: CreateTechSkillDialogComponentData) {
+    DialogLoaderComponent.replace(ref, this, data);
   }
 }

@@ -213,15 +213,7 @@ export class TechSkillsPageComponent {
               generic
             }));
 
-            const edit = async () => {
-              const ref = DialogLoaderComponent.open(this.dialog);
-              const comp = await import('../group/tech-skill-groups.dialog')
-                .then(m => m.TechSkillGroupsDialogComponent);
-
-              comp.open(ref, {
-                skill: skill.id
-              });
-            };
+            const edit = async () => this.editGroups(skill.id);
 
             return { list, edit } as const;
           })();
@@ -268,7 +260,9 @@ export class TechSkillsPageComponent {
       const ref = DialogLoaderComponent.open(this.dialog);
       const comp = await import('../create/create-tech-skill.dialog')
         .then(m => m.CreateTechSkillDialogComponent);
-      comp.open(ref);
+      comp.open(ref, {
+        created: id => this.editGroups(id)
+      });
     };
 
     return {
@@ -276,4 +270,13 @@ export class TechSkillsPageComponent {
     } as const;
   })();
 
+  private readonly editGroups = async (id: string) => {
+    const ref = DialogLoaderComponent.open(this.dialog);
+    const comp = await import('../group/tech-skill-groups.dialog')
+      .then(m => m.TechSkillGroupsDialogComponent);
+
+    comp.open(ref, {
+      skill: id
+    });
+  };
 }

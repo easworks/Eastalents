@@ -40,7 +40,7 @@ export class TechSkillGroupsDialogComponent implements OnInit {
     faRemove
   } as const;
 
-  private readonly skill$ = (() => {
+  protected readonly skill$ = (() => {
     const map$ = this.store.selectSignal(adminData.selectors.techSkill.selectEntities);
 
     return computed(() => {
