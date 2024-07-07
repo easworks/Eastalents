@@ -1,4 +1,4 @@
-<div class="form-field mt-4">
+<div class="form-field mt-4 mb-0">
   <input type="text" [(ngModel)]="search.query$"
          placeholder="Search Tech Skill">
 </div>
@@ -44,18 +44,24 @@
           </td>
           <td class="actions">
             <div class="flex gap-2 items-center">
-              <button class="icon-button small enabled:text-emerald-500" mat-ripple
+              <button class="icon-button small enabled:text-emerald-500"
+                      #button
+                      mat-ripple
                       [disabled]="row.submit.disabled$()"
                       (click)="row.submit.click()"
-                      matTooltip="Save">
+                      matTooltip="Save"
+                      [matTooltipDisabled]="button.disabled">
                 <replace-spinner [showSpinner]="row.submit.loading$()">
                   <fa-icon [icon]="icons.faCheck"></fa-icon>
                 </replace-spinner>
               </button>
-              <button class="icon-button small enabled:text-warn" mat-ripple
+              <button class="icon-button small enabled:text-warn"
+                      #button
+                      mat-ripple
                       [disabled]="row.reset.disabled$()"
                       (click)="row.reset.click()"
-                      matTooltip="Reset">
+                      matTooltip="Reset"
+                      [matTooltipDisabled]="button.disabled">
                 <fa-icon [icon]="icons.faRefresh"></fa-icon>
               </button>
             </div>

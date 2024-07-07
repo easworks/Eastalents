@@ -229,6 +229,7 @@ export class TechSkillGroupsDialogComponent implements OnInit {
 
   public static open(ref: MatDialogRef<DialogLoaderComponent>, data: AddTechSkillToGroupDialogData) {
     DialogLoaderComponent.replace(ref, this, data);
+    ref.addPanelClass('w-80');
   }
 
   ngOnInit() {
