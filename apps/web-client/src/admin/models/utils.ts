@@ -23,6 +23,7 @@ const alt_ids = {
 export class ExtractionLogger {
   private readonly warnings: string[] = [];
   public warn(message: string) {
+    console.warn(message);
     this.warnings.push(message);
   };
 
@@ -135,9 +136,10 @@ export function extractDomains(dto: DomainDictionaryDto, logger: ExtractionLogge
             id = convertToSlug(name);
             const mapped = map.get(id);
             if (mapped) {
-              logger.warn(log.conflict('software-product', name, id, mapped.name));
-              if (mapped.name !== name)
+              if (mapped.name !== name) {
+                logger.warn(log.conflict('software-product', name, id, mapped.name));
                 throw new Error(log.error('software-product', name));
+              }
             }
           }
 
