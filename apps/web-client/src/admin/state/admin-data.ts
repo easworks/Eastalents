@@ -1,8 +1,9 @@
+import { sortString } from '@easworks/app-shell/utilities/sort';
 import { createEntityAdapter } from '@ngrx/entity';
 import { createActionGroup, createFeature, createReducer, createSelector, emptyProps, on, props } from '@ngrx/store';
+import { produce } from 'immer';
 import { AdminDataDTO, AdminDataState } from '../models/admin-data';
 import { SoftwareProduct, TechGroup, TechSkill } from '../models/tech-skill';
-import { sortString } from '@easworks/app-shell/utilities/sort';
 
 export const adminDataActions = createActionGroup({
   source: 'admin-data',
@@ -17,17 +18,10 @@ export const techSkillActions = createActionGroup({
   events: {
     add: props<{ payload: TechSkill; }>(),
     update: props<{ payload: TechSkill; }>(),
-    'add to group': props<{
+    'update groups': props<{
       payload: {
-        skill: string;
-        group: string;
-        generic: boolean;
-      };
-    }>(),
-    'remove from group': props<{
-      payload: {
-        skill: string;
-        group: string;
+        id: string;
+        groups: TechSkill['groups'];
       };
     }>()
   }
@@ -125,6 +119,66 @@ const feature = createFeature({
       return state;
     }),
 
+    on(techSkillActions.updateGroups, produce((state, { payload }) => {
+      const skill = state.techSkills.entities[payload.id];
+      if (!skill)
+        throw new Error('invalid operation');
+
+      // update tech groups
+      {
+        const prev = Object.fromEntries(skill.groups.map(g => [g[0], g]));
+        const next = Object.fromEntries(payload.groups.map(g => [g[0], g]));
+
+        const added = new Set<string>();
+        const removed = new Set<string>();
+        const changed = new Set<string>();
+
+        for (const p of skill.groups) {
+          if (p[0] in next) {
+            if (p[1] === next[p[0]][1]) {
+              // no change
+            }
+            else {
+              changed.add(p[0]);
+            }
+          }
+          else {
+            removed.add(p[0]);
+          }
+        }
+
+        for (const n of payload.groups) {
+          if (n[0] in prev) {
+            // already handled
+          }
+          else {
+            added.add(n[0]);
+          }
+        }
+
+        [...added]
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          .map(id => state.techGroups.entities[id]!)
+          .forEach(group => techGroupUtils.addSkill(skill, group, next[group.id][1]));
+
+        [...changed]
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          .map(id => state.techGroups.entities[id]!)
+          .forEach(group => techGroupUtils.updateSkill(skill, group, next[group.id][1]));
+
+        [...removed]
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          .map(id => state.techGroups.entities[id]!)
+          .forEach(group => techGroupUtils.removeSkill(skill, group, prev[group.id][1]));
+
+      }
+
+      // update tech skill
+      skill.groups = payload.groups.sort((a, b) => sortString(a[0], b[0]));
+
+      return state;
+    })),
+
     // Tech Groups
     on(techGroupActions.add, (state, { payload }) => {
       state = { ...state };
@@ -172,5 +226,24 @@ export const adminData = {
     softwareProduct: adapters.softwareProduct.getSelectors(feature.selectSoftwareProducts),
     techSkill: adapters.techSkill.getSelectors(feature.selectTechSkills),
     techGroup: adapters.techGroup.getSelectors(feature.selectTechGroups),
+  }
+} as const;
+
+
+const techGroupUtils = {
+  addSkill: (skill: TechSkill, group: TechGroup, generic: boolean) => {
+    const arr = generic ? group.generic : group.nonGeneric;
+    arr.push(skill.id);
+    arr.sort(sortString);
+  },
+  removeSkill: (skill: TechSkill, group: TechGroup, generic: boolean) => {
+    const arr = generic ? group.generic : group.nonGeneric;
+    const idx = arr.findIndex(s => s === skill.id);
+    if (idx !== -1)
+      arr.splice(idx, 1);
+  },
+  updateSkill: (skill: TechSkill, group: TechGroup, generic: boolean) => {
+    techGroupUtils.removeSkill(skill, group, !generic);
+    techGroupUtils.addSkill(skill, group, generic);
   }
 } as const;

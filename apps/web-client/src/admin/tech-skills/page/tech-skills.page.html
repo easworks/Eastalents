@@ -31,7 +31,7 @@
           <td class="!p-1 group">
             <div class="flex gap-2 items-center justify-between">
               <div class="flex flex-wrap gap-2 items-center relative">
-                @for(group of row.groups.list; track group) {
+                @for(group of row.groups.list; track group.id) {
                 <div class="group-tag" [class.generic]="group.generic">{{group.label}}</div>
                 }
               </div>

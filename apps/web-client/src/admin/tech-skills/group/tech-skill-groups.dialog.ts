@@ -7,7 +7,7 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { faRemove, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { TechSkill } from '../../models/tech-skill';
-import { adminData } from '../../state/admin-data';
+import { adminData, techSkillActions } from '../../state/admin-data';
 
 interface AddTechSkillToGroupDialogData {
   skill: TechSkill;
@@ -32,10 +32,6 @@ export class TechSkillGroupsDialogComponent implements OnInit {
     faXmark,
     faRemove
   } as const;
-
-  private readonly loading = generateLoadingState<[
-    'saving'
-  ]>();
 
 
   protected readonly table = (() => {
@@ -92,15 +88,20 @@ export class TechSkillGroupsDialogComponent implements OnInit {
     const save = (() => {
       const disabled$ = computed(() => !this.table.changes.any$());
 
-      const loading$ = this.loading.has('saving');
-
       const click = () => {
-        console.debug('should save');
+        const value: TechSkill['groups'] = this.table.rows$()
+          .map(row => [row.id, row.generic]);
+
+        this.store.dispatch(techSkillActions.updateGroups({
+          payload: {
+            id: this.data.skill.id,
+            groups: value
+          }
+        }));
       };
 
       return {
         disabled$,
-        loading$,
         click
       } as const;
 

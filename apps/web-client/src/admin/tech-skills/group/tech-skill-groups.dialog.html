@@ -53,10 +53,9 @@
 <div class="flex gap-2 p-2">
   <button type="button"
           class="stroked-button primary" mat-ripple
-          [disabled]="buttons.save.disabled$()">
-    <replace-spinner [showSpinner]="buttons.save.loading$()">
-      Save
-    </replace-spinner>
+          [disabled]="buttons.save.disabled$()"
+          (click)="buttons.save.click()">
+    Save
   </button>
   <button type="button" class="stroked-button" mat-ripple
           (click)="buttons.reset.click()">
