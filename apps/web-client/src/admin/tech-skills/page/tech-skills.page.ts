@@ -272,7 +272,7 @@ export class TechSkillsPageComponent {
 
   private readonly editGroups = async (id: string) => {
     const ref = DialogLoaderComponent.open(this.dialog);
-    const comp = await import('../group/tech-skill-groups.dialog')
+    const comp = await import('../groups/tech-skill-groups.dialog')
       .then(m => m.TechSkillGroupsDialogComponent);
 
     comp.open(ref, {
