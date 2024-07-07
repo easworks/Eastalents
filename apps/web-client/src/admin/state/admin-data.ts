@@ -72,6 +72,7 @@ const feature = createFeature({
         featuredDomains: []
       };
 
+      state.domains = adapters.domain.setMany(payload.domains, state.domains);
       state.softwareProducts = adapters.softwareProduct.setMany(payload.softwareProducts, state.softwareProducts);
       state.techGroups = adapters.techGroup.setMany(payload.techGroups, state.techGroups);
       state.techSkills = adapters.techSkill.setMany(
@@ -207,6 +208,7 @@ const feature = createFeature({
   ),
   extraSelectors: base => {
     const selectors = {
+      domain: adapters.domain.getSelectors(),
       softwareProduct: adapters.softwareProduct.getSelectors(),
       techSkill: adapters.techSkill.getSelectors(),
       techGroup: adapters.techGroup.getSelectors(),
@@ -216,7 +218,9 @@ const feature = createFeature({
       selectDto: createSelector(
         base.selectAdminDataState,
         (state): AdminDataDTO => ({
-          techSkills: selectors.techSkill.selectAll(state.techSkills),
+          domains: selectors.domain.selectAll(state.domains),
+          techSkills: selectors.techSkill.selectAll(state.techSkills)
+            .map(({ groups, ...rest }) => rest),
           softwareProducts: selectors.softwareProduct.selectAll(state.softwareProducts),
           techGroups: selectors.techGroup.selectAll(state.techGroups),
         })
@@ -229,6 +233,7 @@ export const adminData = {
   adapters,
   feature,
   selectors: {
+    domains: adapters.domain.getSelectors(feature.selectDomains),
     softwareProduct: adapters.softwareProduct.getSelectors(feature.selectSoftwareProducts),
     techSkill: adapters.techSkill.getSelectors(feature.selectTechSkills),
     techGroup: adapters.techGroup.getSelectors(feature.selectTechGroups),

@@ -24890,7 +24890,846 @@
       ],
       "Role-Prefix and Product-Suffix": "Supply Chain",
       "Icon": false,
-      "Roles": false
+      "Roles": false,
+      "Properties": {
+        "SAP Ariba": {
+          "Administration": ["Ariba Administration Console"],
+          "APIs": ["Ariba API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["Ariba Configuration Tool"],
+          "Dashboard and reporting tools": ["Ariba Reporting and Analytics"],
+          "Data migration utilities": ["Ariba Data Import/Export Utility"],
+          "Database": ["SAP HANA"],
+          "Frameworks": ["SAPUI5", "Spring Framework"],
+          "Integration Type": ["RESTful APIs", "SOAP"],
+          "Middleware and Integration Technologies": [
+            "SAP Process Orchestration",
+            "SAP Cloud Platform Integration"
+          ],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java", "ABAP"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab CI/CD",
+            "Bamboo",
+            "CircleCI",
+            "Travis CI"
+          ]
+        },
+        "Oracle SCM Cloud": {
+          "Administration": ["Oracle SCM Cloud Administration Console"],
+          "APIs": ["Oracle SCM Cloud RESTful APIs"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["Oracle SCM Cloud Configuration Console"],
+          "Dashboard and reporting tools": [
+            "Oracle Business Intelligence (OBIEE)",
+            "Oracle Transactional Business Intelligence (OTBI)"
+          ],
+          "Data migration utilities": [
+            "Oracle Data Integrator (ODI)",
+            "Oracle Data Migration Utility"
+          ],
+          "Database": ["Oracle Database"],
+          "Frameworks": ["Oracle ADF (Application Development Framework)"],
+          "Integration Type": ["RESTful APIs", "SOAP"],
+          "Middleware and Integration Technologies": [
+            "Oracle Integration Cloud",
+            "Oracle SOA Suite"
+          ],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab CI/CD",
+            "Bamboo",
+            "CircleCI",
+            "Travis CI"
+          ]
+        },
+        "Coupa": {
+          "Administration": ["Coupa Administration Console"],
+          "APIs": ["Coupa RESTful APIs"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["Coupa Configuration Console"],
+          "Dashboard and reporting tools": [
+            "Coupa Analytics",
+            "Coupa Reporting"
+          ],
+          "Data migration utilities": ["Coupa Data Import/Export Utility"],
+          "Database": ["PostgreSQL"],
+          "Frameworks": ["Ruby on Rails", "AngularJS"],
+          "Integration Type": ["RESTful APIs"],
+          "Middleware and Integration Technologies": [
+            "Coupa Integration Hub",
+            "Coupa Open Business Network"
+          ],
+          "Programming Language": ["Ruby", "JavaScript"],
+          "Server-side customization": ["Ruby"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab CI/CD",
+            "Bamboo",
+            "CircleCI",
+            "Travis CI"
+          ]
+        },
+        "JDA Software": {
+          "Administration": ["JDA Administration Console"],
+          "APIs": ["JDA APIs"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["JDA Configuration Console"],
+          "Dashboard and reporting tools": ["JDA Reporting and Analytics"],
+          "Data migration utilities": ["JDA Data Import/Export Utility"],
+          "Database": ["Oracle Database"],
+          "Frameworks": ["JDA Frameworks"],
+          "Integration Type": ["RESTful APIs", "SOAP"],
+          "Middleware and Integration Technologies": [
+            "JDA Integration Platform",
+            "JDA Connector Hub"
+          ],
+          "Programming Language": ["Java"],
+          "Server-side customization": ["Java"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab CI/CD",
+            "Bamboo",
+            "CircleCI",
+            "Travis CI"
+          ]
+        },
+        "Infor SCM": {
+          "Administration": ["Infor SCM Administration Console"],
+          "APIs": ["Infor SCM APIs"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["Infor SCM Configuration Console"],
+          "Dashboard and reporting tools": [
+            "Infor SCM Reporting and Analytics"
+          ],
+          "Data migration utilities": ["Infor SCM Data Import/Export Utility"],
+          "Database": ["Infor SCM Database"],
+          "Frameworks": ["Infor SCM Frameworks"],
+          "Integration Type": ["RESTful APIs", "SOAP"],
+          "Middleware and Integration Technologies": [
+            "Infor ION",
+            "Infor Intelligent Open Network (ION)"
+          ],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab CI/CD",
+            "Bamboo",
+            "CircleCI",
+            "Travis CI"
+          ]
+        },
+        "IBM Sterling Supply Chain Suite": {
+          "Administration": ["IBM Sterling Control Center"],
+          "APIs": ["IBM Sterling API Gateway"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["IBM Sterling Configuration Manager"],
+          "Dashboard and Reporting Tools": ["IBM Sterling Analytics"],
+          "Data Migration Utilities": [
+            "IBM Sterling Integrator Migration Toolkit"
+          ],
+          "Database": ["IBM Db2", "Oracle Database"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": [
+            "IBM Sterling B2B Integrator",
+            "IBM Sterling File Gateway"
+          ],
+          "Integration Type": ["API-based integration", "EDI integration"],
+          "Middleware and Integration Technologies": [
+            "IBM MQ",
+            "IBM Transformation Extender",
+            "IBM DataPower"
+          ],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java", "IBM Sterling B2B Integrator"]
+        },
+        "GEP SMART": {
+          "Administration": ["GEP SMART Admin Console"],
+          "APIs": ["GEP SMART API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["GEP SMART Configuration Manager"],
+          "Dashboard and Reporting Tools": ["GEP SMART Analytics"],
+          "Data Migration Utilities": ["GEP SMART Data Migration Tool"],
+          "Database": ["Oracle Database", "Microsoft SQL Server"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["Spring Framework", "AngularJS"],
+          "Integration Type": ["API-based integration", "EDI integration"],
+          "Middleware and Integration Technologies": ["MuleSoft", "Dell Boomi"],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java", "Spring Framework"]
+        },
+        "BluJay Solutions": {
+          "Administration": ["BluJay Solutions Admin Console"],
+          "APIs": ["BluJay Solutions API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["BluJay Solutions Configuration Manager"],
+          "Dashboard and Reporting Tools": ["BluJay Solutions Analytics"],
+          "Data Migration Utilities": ["BluJay Solutions Data Migration Tool"],
+          "Database": ["Oracle Database", "Microsoft SQL Server"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["Spring Framework", "AngularJS"],
+          "Integration Type": ["API-based integration", "EDI integration"],
+          "Middleware and Integration Technologies": ["MuleSoft", "Dell Boomi"],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java", "Spring Framework"]
+        },
+        "Kinaxis RapidResponse": {
+          "Administration": ["Kinaxis RapidResponse Admin Console"],
+          "APIs": ["Kinaxis RapidResponse API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["Kinaxis RapidResponse Configuration Manager"],
+          "Dashboard and Reporting Tools": ["Kinaxis RapidResponse Analytics"],
+          "Data Migration Utilities": [
+            "Kinaxis RapidResponse Data Migration Tool"
+          ],
+          "Database": ["Oracle Database", "Microsoft SQL Server"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["Spring Framework", "AngularJS"],
+          "Integration Type": ["API-based integration", "EDI integration"],
+          "Middleware and Integration Technologies": ["MuleSoft", "Dell Boomi"],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java", "Spring Framework"]
+        },
+        "LLamasoft Supply Chain Guru": {
+          "Administration": ["LLamasoft Supply Chain Guru Admin Console"],
+          "APIs": ["LLamasoft Supply Chain Guru API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": [
+            "LLamasoft Supply Chain Guru Configuration Manager"
+          ],
+          "Dashboard and Reporting Tools": [
+            "LLamasoft Supply Chain Guru Analytics"
+          ],
+          "Data Migration Utilities": [
+            "LLamasoft Supply Chain Guru Data Migration Tool"
+          ],
+          "Database": ["Oracle Database", "Microsoft SQL Server"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["Spring Framework", "AngularJS"],
+          "Integration Type": ["API-based integration", "EDI integration"],
+          "Middleware and Integration Technologies": ["MuleSoft", "Dell Boomi"],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java", "Spring Framework"]
+        },
+        "Ivalua": {
+          "Administration": ["Ivalua Admin Console"],
+          "APIs": ["Ivalua API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["Ivalua Configuration Manager"],
+          "Dashboard and Reporting Tools": ["Ivalua Analytics"],
+          "Data Migration Utilities": ["Ivalua Data Migration Tool"],
+          "Database": ["Oracle Database", "Microsoft SQL Server"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["Spring Framework", "AngularJS"],
+          "Integration Type": ["API-based integration", "EDI integration"],
+          "Middleware and Integration Technologies": ["MuleSoft", "Dell Boomi"],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java", "Spring Framework"]
+        },
+        "Manhattan Associates": {
+          "Administration": ["Manhattan Associates Admin Console"],
+          "APIs": ["Manhattan Associates API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["Manhattan Associates Configuration Manager"],
+          "Dashboard and Reporting Tools": ["Manhattan Associates Analytics"],
+          "Data Migration Utilities": [
+            "Manhattan Associates Data Migration Tool"
+          ],
+          "Database": ["Oracle Database", "Microsoft SQL Server"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["Spring Framework", "AngularJS"],
+          "Integration Type": ["API-based integration", "EDI integration"],
+          "Middleware and Integration Technologies": ["MuleSoft", "Dell Boomi"],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java", "Spring Framework"]
+        },
+        "SAP S/4HANA": {
+          "Administration": ["SAP S/4HANA Admin Console"],
+          "APIs": ["SAP S/4HANA API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript", "SAPUI5"],
+          "Configuration": ["SAP S/4HANA Configuration Manager"],
+          "Dashboard and Reporting Tools": [
+            "SAP Analytics Cloud",
+            "SAP Fiori Launchpad"
+          ],
+          "Data Migration Utilities": ["SAP S/4HANA Data Migration Tool"],
+          "Database": ["SAP HANA"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["SAP Fiori", "SAPUI5"],
+          "Integration Type": ["API-based integration", "EDI integration"],
+          "Middleware and Integration Technologies": [
+            "SAP PI/PO",
+            "SAP Cloud Integration"
+          ],
+          "Programming Language": ["ABAP", "Java", "JavaScript"],
+          "Server-side customization": ["ABAP", "Java"]
+        },
+        "Zycus": {
+          "Administration": ["Zycus Admin Console"],
+          "APIs": ["Zycus API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["Zycus Configuration Manager"],
+          "Dashboard and Reporting Tools": ["Zycus Analytics"],
+          "Data Migration Utilities": ["Zycus Data Migration Tool"],
+          "Database": ["Oracle Database", "Microsoft SQL Server"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["Spring Framework", "AngularJS"],
+          "Integration Type": ["API-based integration", "EDI integration"],
+          "Middleware and Integration Technologies": ["MuleSoft", "Dell Boomi"],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java", "Spring Framework"]
+        },
+        "Epicor SCM": {
+          "Administration": ["Epicor SCM Admin Console"],
+          "APIs": ["Epicor SCM API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["Epicor SCM Configuration Tool"],
+          "Dashboard and Reporting Tools": ["Epicor SCM Analytics"],
+          "Data Migration Utilities": ["Epicor Data Migration Tool"],
+          "Database": ["Microsoft SQL Server", "Oracle Database"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": [".NET Framework"],
+          "Integration Type": ["API-based integration", "EDI integration"],
+          "Middleware and Integration Technologies": [
+            "Epicor Service Connect",
+            "MuleSoft"
+          ],
+          "Programming Language": ["C#", "Java", "JavaScript"],
+          "Server-side customization": ["C#", "Java"]
+        },
+        "E2open": {
+          "Administration": ["E2open Admin Console"],
+          "APIs": ["E2open API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["E2open Configuration Manager"],
+          "Dashboard and Reporting Tools": ["E2open Analytics"],
+          "Data Migration Utilities": ["E2open Data Migration Tool"],
+          "Database": ["Oracle Database", "Microsoft SQL Server"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["Spring Framework", "AngularJS"],
+          "Integration Type": ["API-based integration", "EDI integration"],
+          "Middleware and Integration Technologies": ["MuleSoft", "Dell Boomi"],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java", "Spring Framework"]
+        },
+        "Basware": {
+          "Administration": ["Basware Admin Console"],
+          "APIs": ["Basware API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["Basware Configuration Manager"],
+          "Dashboard and Reporting Tools": ["Basware Analytics"],
+          "Data Migration Utilities": ["Basware Data Migration Tool"],
+          "Database": ["Oracle Database", "Microsoft SQL Server"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["Spring Framework", "AngularJS"],
+          "Integration Type": ["API-based integration", "EDI integration"],
+          "Middleware and Integration Technologies": ["MuleSoft", "Dell Boomi"],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java", "Spring Framework"]
+        },
+        "Tradeshift": {
+          "Administration": ["Tradeshift Admin Console"],
+          "APIs": ["Tradeshift API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["Tradeshift Configuration Manager"],
+          "Dashboard and Reporting Tools": ["Tradeshift Analytics"],
+          "Data Migration Utilities": ["Tradeshift Data Migration Tool"],
+          "Database": ["MongoDB"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["Spring Framework", "AngularJS"],
+          "Integration Type": ["API-based integration", "EDI integration"],
+          "Middleware and Integration Technologies": ["MuleSoft", "Dell Boomi"],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java", "Spring Framework"]
+        },
+        "SAP Fieldglass": {
+          "Administration": ["SAP Fieldglass Admin Console"],
+          "APIs": ["SAP Fieldglass API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["SAP Fieldglass Configuration Manager"],
+          "Dashboard and Reporting Tools": ["SAP Fieldglass Analytics"],
+          "Data Migration Utilities": ["SAP Fieldglass Data Migration Tool"],
+          "Database": ["SAP HANA"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["Spring Framework", "AngularJS"],
+          "Integration Type": ["API-based integration", "EDI integration"],
+          "Middleware and Integration Technologies": ["MuleSoft", "Dell Boomi"],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java", "Spring Framework"]
+        },
+        "Synertrade Accelerate": {
+          "Administration": ["Synertrade Admin Console"],
+          "APIs": ["Synertrade API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["Synertrade Configuration Manager"],
+          "Dashboard and Reporting Tools": ["Synertrade Analytics"],
+          "Data Migration Utilities": ["Synertrade Data Migration Tool"],
+          "Database": ["Oracle Database", "Microsoft SQL Server"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["Spring Framework", "AngularJS"],
+          "Integration Type": ["API-based integration", "EDI integration"],
+          "Middleware and Integration Technologies": ["MuleSoft", "Dell Boomi"],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java", "Spring Framework"]
+        },
+        "SAP IBP (Integrated Business Planning)": {
+          "Administration": ["SAP IBP Admin Console"],
+          "APIs": ["SAP IBP API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript", "SAPUI5"],
+          "Configuration": ["SAP IBP Configuration Tool"],
+          "Dashboard and Reporting Tools": ["SAP IBP Analytics"],
+          "Data Migration Utilities": ["SAP IBP Data Migration Tool"],
+          "Database": ["SAP HANA"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["SAP NetWeaver", "SAPUI5"],
+          "Integration Type": ["API-based integration"],
+          "Middleware and Integration Technologies": [
+            "SAP Process Orchestration",
+            "SAP Cloud Integration"
+          ],
+          "Programming Language": ["ABAP", "Java", "JavaScript"],
+          "Server-side customization": ["ABAP", "Java"]
+        },
+        "Jaggaer": {
+          "Administration": ["Jaggaer Admin Console"],
+          "APIs": ["Jaggaer API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": ["Jaggaer Configuration Manager"],
+          "Dashboard and Reporting Tools": ["Jaggaer Analytics"],
+          "Data Migration Utilities": ["Jaggaer Data Migration Tool"],
+          "Database": ["Oracle Database", "Microsoft SQL Server"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["Spring Framework", "AngularJS"],
+          "Integration Type": ["API-based integration", "EDI integration"],
+          "Middleware and Integration Technologies": ["MuleSoft", "Dell Boomi"],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java", "Spring Framework"]
+        },
+        "Advanced Supply Chain Software": {
+          "Administration": ["Advanced Supply Chain Software Admin Console"],
+          "APIs": ["Advanced Supply Chain Software API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript"],
+          "Configuration": [
+            "Advanced Supply Chain Software Configuration Manager"
+          ],
+          "Dashboard and Reporting Tools": [
+            "Advanced Supply Chain Software Analytics"
+          ],
+          "Data Migration Utilities": [
+            "Advanced Supply Chain Software Data Migration Tool"
+          ],
+          "Database": ["Oracle Database", "Microsoft SQL Server"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["Spring Framework", "AngularJS"],
+          "Integration Type": ["API-based integration", "EDI integration"],
+          "Middleware and Integration Technologies": ["MuleSoft", "Dell Boomi"],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java", "Spring Framework"]
+        },
+        "SAP MM (Materials Management)": {
+          "Administration": ["SAP MM Admin Console"],
+          "APIs": ["SAP MM API"],
+          "Client-side customization": ["SAPGUI", "WebDynpro ABAP"],
+          "Configuration": ["SAP MM Configuration Tool"],
+          "Dashboard and Reporting Tools": ["SAP MM Analytics"],
+          "Data Migration Utilities": ["SAP MM Data Migration Tool"],
+          "Database": ["SAP HANA"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["SAP NetWeaver"],
+          "Integration Type": ["API-based integration"],
+          "Middleware and Integration Technologies": [
+            "SAP Process Orchestration",
+            "SAP Cloud Integration"
+          ],
+          "Programming Language": ["ABAP"],
+          "Server-side customization": ["ABAP"]
+        },
+        "Oracle Procurement Cloud": {
+          "Administration": ["Oracle Procurement Cloud Admin Console"],
+          "APIs": ["Oracle Procurement Cloud API"],
+          "Client-side customization": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "Oracle JET"
+          ],
+          "Configuration": ["Oracle Procurement Cloud Configuration Manager"],
+          "Dashboard and Reporting Tools": [
+            "Oracle Procurement Cloud Analytics"
+          ],
+          "Data Migration Utilities": [
+            "Oracle Procurement Cloud Data Migration Tool"
+          ],
+          "Database": ["Oracle Database"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["Oracle ADF", "Oracle JET"],
+          "Integration Type": ["API-based integration"],
+          "Middleware and Integration Technologies": [
+            "Oracle Integration Cloud",
+            "Oracle SOA Suite"
+          ],
+          "Programming Language": ["Java", "JavaScript"],
+          "Server-side customization": ["Java"]
+        },
+        "SAP SRM (Supplier Relationship Management)": {
+          "Administration": ["SAP SRM Admin Console"],
+          "APIs": ["SAP SRM API"],
+          "Client-side customization": ["SAPGUI", "WebDynpro ABAP"],
+          "Configuration": ["SAP SRM Configuration Tool"],
+          "Dashboard and Reporting Tools": ["SAP SRM Analytics"],
+          "Data Migration Utilities": ["SAP SRM Data Migration Tool"],
+          "Database": ["SAP HANA"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "GitLab",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["SAP NetWeaver"],
+          "Integration Type": ["API-based integration"],
+          "Middleware and Integration Technologies": [
+            "SAP Process Orchestration",
+            "SAP Cloud Integration"
+          ],
+          "Programming Language": ["ABAP"],
+          "Server-side customization": ["ABAP"]
+        },
+        "Oracle E-Business Suite SCM": {
+          "Administration": [
+            "Oracle Applications Manager",
+            " Oracle E-Business Suite Control Panel"
+          ],
+          "APIs": [
+            "Oracle E-Business Suite API",
+            "Oracle Integration Repository"
+          ],
+          "Client-side customization": [
+            "Oracle Forms",
+            "Oracle Application Framework (OAF)",
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "JSP"
+          ],
+          "Configuration": ["Oracle E-Business Suite Configuration Manager"],
+          "Dashboard and Reporting Tools": [
+            "Oracle Business Intelligence (OBIEE)",
+            "Oracle Reports",
+            "Oracle Discoverer"
+          ],
+          "Data Migration Utilities": [
+            "Oracle Data Migration Tool",
+            "Oracle Data Import/Export Utilities"
+          ],
+          "Database": ["Oracle Database"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "Git",
+            "Maven",
+            "JUnit",
+            "SonarQube"
+          ],
+          "Frameworks": [
+            "Oracle Application Framework (OAF)",
+            "Oracle Forms and Reports"
+          ],
+          "Integration Type": ["API-based integration", "Web services"],
+          "Middleware and Integration Technologies": [
+            "Oracle SOA Suite",
+            "Oracle Integration Cloud Service (ICS)"
+          ],
+          "Programming Language": ["PL/SQL", "Java"],
+          "Server-side customization": [
+            "PL/SQL",
+            "Java",
+            "Oracle Forms",
+            "Oracle Application Framework (OAF)"
+          ]
+        },
+        "SAP ECC (Enterprise Core Component)": {
+          "Administration": [
+            "SAP NetWeaver Administrator",
+            " SAP System Administration (SAP Basis)"
+          ],
+          "APIs": [
+            "SAP ECC API",
+            "BAPI (Business Application Programming Interface)"
+          ],
+          "Client-side customization": [
+            "SAPGUI",
+            "SAPUI5",
+            "WebDynpro ABAP",
+            "ABAP Web Services"
+          ],
+          "Configuration": [
+            "SAP ECC Configuration Tool",
+            "SAP Solution Manager"
+          ],
+          "Dashboard and Reporting Tools": [
+            "SAP ECC Analytics",
+            "SAP BusinessObjects",
+            "SAP Lumira"
+          ],
+          "Data Migration Utilities": [
+            "SAP Legacy System Migration Workbench (LSMW)",
+            "SAP Data Services",
+            "SAP S/4HANA Migration Cockpit"
+          ],
+          "Database": [
+            "SAP HANA",
+            "Oracle Database",
+            "Microsoft SQL Server",
+            "IBM Db2"
+          ],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "Git",
+            "Maven",
+            "JUnit",
+            "SonarQube"
+          ],
+          "Frameworks": ["SAP NetWeaver", "SAPUI5"],
+          "Integration Type": [
+            "API-based integration",
+            "IDoc (Intermediate Document) integration",
+            "RFC (Remote Function Call)"
+          ],
+          "Middleware and Integration Technologies": [
+            "SAP Process Orchestration",
+            "SAP Cloud Platform Integration"
+          ],
+          "Programming Language": [
+            "ABAP (Advanced Business Application Programming)"
+          ],
+          "Server-side customization": [
+            "ABAP",
+            "ABAP Objects",
+            "ABAP WebDynpro"
+          ]
+        },
+        "Sage X3": {
+          "Administration": ["Sage X3 Admin Console", " X3 Management Console"],
+          "APIs": ["Sage X3 Web Services API", "X3API"],
+          "Client-side customization": ["HTML", "CSS", "JavaScript", "Ext JS"],
+          "Configuration": [
+            "Sage X3 Configuration Tool",
+            "X3 Customization Engine"
+          ],
+          "Dashboard and Reporting Tools": [
+            "Sage X3 Analytics",
+            "Sage Enterprise Intelligence",
+            "Sage X3 Reporting Studio"
+          ],
+          "Data Migration Utilities": [
+            "Sage X3 Data Migration Tool",
+            "X3 Import/Export Utilities"
+          ],
+          "Database": ["Microsoft SQL Server", "Oracle Database", "PostgreSQL"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "Git",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": ["Spring Framework", "AngularJS", "Ext JS"],
+          "Integration Type": [
+            "API-based integration",
+            "Web services",
+            "XML-based integration"
+          ],
+          "Middleware and Integration Technologies": [
+            "MuleSoft",
+            "Dell Boomi",
+            "SAP PI/PO"
+          ],
+          "Programming Language": [
+            "Java",
+            "JavaScript",
+            "X3 Programming Language"
+          ],
+          "Server-side customization": [
+            "Java",
+            "X3 Programming Language",
+            "X3 Business Logic"
+          ]
+        },
+        "Workday SCM": {
+          "Administration": [
+            "Workday Admin Console",
+            " Workday Security Console"
+          ],
+          "APIs": [
+            "Workday Web Services API",
+            "Workday Public API",
+            "Workday SOAP API"
+          ],
+          "Client-side customization": [
+            "Workday Studio",
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "XSLT"
+          ],
+          "Configuration": ["Workday Configuration Tool", "Workday Studio"],
+          "Dashboard and Reporting Tools": [
+            "Workday Prism Analytics",
+            "Workday Report Writer",
+            "Workday Composite Reporting"
+          ],
+          "Data Migration Utilities": [
+            "Workday Data Migration Tool",
+            "Workday Studio"
+          ],
+          "Database": ["Workday Database (Proprietary)"],
+          "DevOps Integration Tools": [
+            "Jenkins",
+            "Git",
+            "Bamboo",
+            "Azure DevOps",
+            "CircleCI"
+          ],
+          "Frameworks": [
+            "Workday Integration Cloud Platform",
+            "Workday Studio"
+          ],
+          "Integration Type": ["API-based integration", "Web services"],
+          "Middleware and Integration Technologies": [
+            "Workday Integration Cloud Platform",
+            "Workday Studio"
+          ],
+          "Programming Language": [
+            "Workday Studio",
+            "XSLT (Extensible Stylesheet Language Transformations)"
+          ],
+          "Server-side customization": ["Workday Studio", "XSLT"]
+        }
+      }
     },
     "AI": {
       "Primary Domain": "Artificial Intelligence (AI)",

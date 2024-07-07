@@ -7,6 +7,7 @@ export const CACHE = {
   domains: createCache('domain-data'),
   csc: createCache('csc-cache'),
   admin: {
+    domains: adminDataDB('domains'),
     softwareProducts: adminDataDB('software-products'),
     techSkills: adminDataDB('tech-skills'),
     techGroups: adminDataDB('tech-groups')

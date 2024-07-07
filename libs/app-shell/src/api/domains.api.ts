@@ -14,7 +14,7 @@ export class DomainsApi extends BackendApi {
     .then<IndustryGroupDto>(this.handleJson)
     .catch(this.handleError);
 
-  readonly allDomains = () => this.request(`${this.apiUrl}/talentProfile/getTalentProfileSteps`)
+  readonly allDomains = () => fetch('/assets/utils/domain-response.json')
     .then(this.handleJson)
     .then(r => r['talentProfile'] as DomainDictionaryDto)
     .catch(this.handleError);
