@@ -74,26 +74,17 @@ const feature = createFeature({
 
       state.domains = adapters.domain.setMany(payload.domains, state.domains);
       state.softwareProducts = adapters.softwareProduct.setMany(payload.softwareProducts, state.softwareProducts);
-      state.techGroups = adapters.techGroup.setMany(payload.techGroups, state.techGroups);
-      state.techSkills = adapters.techSkill.setMany(
-        payload.techSkills.map(t => ({ ...t, groups: [] })),
-        state.techSkills
-      );
+      state.techSkills = adapters.techSkill.setMany(payload.techSkills, state.techSkills);
+      state.techGroups = adapters.techGroup.setMany(
+        payload.techGroups.map(g => ({ ...g, skills: [] })),
+        state.techGroups);
 
-      for (const group of Object.values(state.techGroups.entities)) {
-        if (group) {
-          for (const id of group.generic) {
-            const skill = state.techSkills.entities[id];
-            if (!skill)
-              throw new Error('invalid operation');
-            skill.groups.push([group.id, true]);
-          }
-          for (const id of group.nonGeneric) {
-            const skill = state.techSkills.entities[id];
-            if (!skill)
-              throw new Error('invalid operation');
-            skill.groups.push([group.id, false]);
-          }
+      for (const skill of payload.techSkills) {
+        for (const id of skill.groups) {
+          const group = state.techGroups.entities[id];
+          if (!group)
+            throw new Error('invalid operation');
+          group.skills.push(skill.id);
         }
       }
 
@@ -133,50 +124,31 @@ const feature = createFeature({
 
       // update tech groups
       {
-        const prev = Object.fromEntries(skill.groups.map(g => [g[0], g]));
-        const next = Object.fromEntries(payload.groups.map(g => [g[0], g]));
+        const prev = new Set(skill.groups);
+        const next = new Set(payload.groups);
 
         const added = new Set<string>();
         const removed = new Set<string>();
-        const changed = new Set<string>();
 
         for (const p of skill.groups) {
-          if (p[0] in next) {
-            if (p[1] === next[p[0]][1]) {
-              // no change
-            }
-            else {
-              changed.add(p[0]);
-            }
-          }
-          else {
-            removed.add(p[0]);
-          }
+          if (!next.has(p))
+            removed.add(p);
         }
 
         for (const n of payload.groups) {
-          if (n[0] in prev) {
-            // already handled
-          }
-          else {
-            added.add(n[0]);
-          }
+          if (!prev.has(n))
+            added.add(n);
         }
 
         [...added]
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           .map(id => state.techGroups.entities[id]!)
-          .forEach(group => techGroupUtils.addSkill(skill, group, next[group.id][1]));
-
-        [...changed]
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          .map(id => state.techGroups.entities[id]!)
-          .forEach(group => techGroupUtils.updateSkill(skill, group, next[group.id][1]));
+          .forEach(group => techGroupUtils.addSkill(skill, group));
 
         [...removed]
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           .map(id => state.techGroups.entities[id]!)
-          .forEach(group => techGroupUtils.removeSkill(skill, group, prev[group.id][1]));
+          .forEach(group => techGroupUtils.removeSkill(skill, group));
 
       }
 
@@ -219,10 +191,10 @@ const feature = createFeature({
         base.selectAdminDataState,
         (state): AdminDataDTO => ({
           domains: selectors.domain.selectAll(state.domains),
-          techSkills: selectors.techSkill.selectAll(state.techSkills)
-            .map(({ groups, ...rest }) => rest),
+          techSkills: selectors.techSkill.selectAll(state.techSkills),
           softwareProducts: selectors.softwareProduct.selectAll(state.softwareProducts),
-          techGroups: selectors.techGroup.selectAll(state.techGroups),
+          techGroups: selectors.techGroup.selectAll(state.techGroups)
+            .map(({ skills, ...rest }) => rest),
         })
       )
     };
@@ -242,19 +214,13 @@ export const adminData = {
 
 
 const techGroupUtils = {
-  addSkill: (skill: TechSkill, group: TechGroup, generic: boolean) => {
-    const arr = generic ? group.generic : group.nonGeneric;
-    arr.push(skill.id);
-    arr.sort(sortString);
+  addSkill: (skill: TechSkill, group: TechGroup) => {
+    group.skills.push(skill.id);
+    group.skills.sort(sortString);
   },
-  removeSkill: (skill: TechSkill, group: TechGroup, generic: boolean) => {
-    const arr = generic ? group.generic : group.nonGeneric;
-    const idx = arr.findIndex(s => s === skill.id);
+  removeSkill: (skill: TechSkill, group: TechGroup) => {
+    const idx = group.skills.findIndex(s => s === skill.id);
     if (idx !== -1)
-      arr.splice(idx, 1);
-  },
-  updateSkill: (skill: TechSkill, group: TechGroup, generic: boolean) => {
-    techGroupUtils.removeSkill(skill, group, !generic);
-    techGroupUtils.addSkill(skill, group, generic);
+      group.skills.splice(idx, 1);
   }
 } as const;

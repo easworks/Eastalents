@@ -1,14 +1,13 @@
 export interface TechSkill {
   id: string,
   name: string;
-  groups: [string, boolean][];
+  groups: string[];
 }
 
 export interface TechGroup {
   id: string,
   name: string;
-  generic: string[];
-  nonGeneric: string[];
+  skills: string[];
 }
 
 
@@ -16,5 +15,5 @@ export interface SoftwareProduct {
   id: string;
   name: string;
   imageUrl: string;
-  techSkills: string[];
+  skills: Record<string, string[]>;
 }

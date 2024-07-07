@@ -58,7 +58,7 @@ export function extractTechSkills(dto: TechGroupDto, logger: ExtractionLogger) {
       }
     }
 
-    const group: TechGroup = { id, name, generic: [], nonGeneric: [] };
+    const group: TechGroup = { id, name, skills: [] };
     map.set(id, group);
 
     {
@@ -86,7 +86,7 @@ export function extractTechSkills(dto: TechGroupDto, logger: ExtractionLogger) {
         genericSkills.add(skill.id);
       }
 
-      group.generic = [...genericSkills].sort(sortString);
+      group.skills = [...genericSkills].sort(sortString);
     }
   }
 
@@ -145,7 +145,7 @@ export function extractDomains(dto: DomainDictionaryDto, logger: ExtractionLogge
             id,
             name,
             imageUrl: '',
-            techSkills: []
+            skills: {}
           };
           map.set(product.id, product);
           products.add(product.id);
