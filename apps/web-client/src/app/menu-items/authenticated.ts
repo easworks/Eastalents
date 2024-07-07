@@ -67,12 +67,12 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
   ...itemsForParent('work-opportunity', [
     {
       id: 'all-jobs', text: 'All Jobs',
-      link: NOOP_CLICK,
+      link: '/job-post/list/available',
       permissions: ['role.freelancer']
     },
     {
       id: 'my-applications', text: 'My Applications',
-      link: NOOP_CLICK,
+      link: '/job-post/list/applied',
       permissions: ['role.freelancer']
     },
     {
