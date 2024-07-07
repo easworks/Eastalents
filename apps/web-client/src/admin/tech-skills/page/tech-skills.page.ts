@@ -6,7 +6,7 @@ import { FormImportsModule } from '@easworks/app-shell/common/form.imports.modul
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { PaginatorComponent } from '@easworks/app-shell/common/paginator/paginator.component';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
-import { faCheck, faPlus, faRefresh } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faPen, faPlus, faRefresh } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import Fuse from 'fuse.js';
 import { Subscription, map } from 'rxjs';
@@ -33,7 +33,8 @@ export class TechSkillsPageComponent {
   protected readonly icons = {
     faCheck,
     faRefresh,
-    faPlus
+    faPlus,
+    faPen
   } as const;
 
   protected readonly maxlength = { name: 64 } as const;
@@ -206,7 +207,11 @@ export class TechSkillsPageComponent {
           } as const;
 
           const groups = (() => {
-            const list = skill.groups.map(([id, generic]) => ({ label: techGroups[id]?.name, generic }));
+            const list = skill.groups.map(([id, generic]) => ({
+              id,
+              label: techGroups[id]?.name,
+              generic
+            }));
 
             const edit = async () => {
               const ref = DialogLoaderComponent.open(this.dialog);
