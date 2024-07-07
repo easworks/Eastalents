@@ -13,7 +13,7 @@ import Fuse from 'fuse.js';
 import { TechGroup, TechSkill } from '../../models/tech-skill';
 import { adminData, techSkillActions } from '../../state/admin-data';
 
-interface AddTechSkillToGroupDialogData {
+interface TechSkillGroupsDialogData {
   skill: string;
 }
 
@@ -31,7 +31,7 @@ interface AddTechSkillToGroupDialogData {
   ]
 })
 export class TechSkillGroupsDialogComponent implements OnInit {
-  private readonly data = inject<AddTechSkillToGroupDialogData>(MAT_DIALOG_DATA);
+  private readonly data = inject<TechSkillGroupsDialogData>(MAT_DIALOG_DATA);
   private readonly store = inject(Store);
   private readonly cdRef = inject(ChangeDetectorRef);
 
@@ -227,7 +227,7 @@ export class TechSkillGroupsDialogComponent implements OnInit {
     return { save, reset } as const;
   })();
 
-  public static open(ref: MatDialogRef<DialogLoaderComponent>, data: AddTechSkillToGroupDialogData) {
+  public static open(ref: MatDialogRef<DialogLoaderComponent>, data: TechSkillGroupsDialogData) {
     DialogLoaderComponent.replace(ref, this, data);
     ref.addPanelClass('w-80');
   }

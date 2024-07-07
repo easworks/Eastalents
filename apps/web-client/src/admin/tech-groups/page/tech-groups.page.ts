@@ -108,12 +108,12 @@ export class TechGroupsPageComponent {
       const updating = generateLoadingState<string[]>();
       this.loading.react('updating tech group', updating.any$);
 
-      let panelSubs = new Subscription();
-      this.dRef.onDestroy(() => panelSubs.unsubscribe());
+      let rowSubs = new Subscription();
+      this.dRef.onDestroy(() => rowSubs.unsubscribe());
 
       const unfiltered$ = computed(() => {
-        panelSubs.unsubscribe();
-        panelSubs = new Subscription();
+        rowSubs.unsubscribe();
+        rowSubs = new Subscription();
 
         return this.groups$()
           .map(group => {
@@ -156,23 +156,26 @@ export class TechGroupsPageComponent {
             } as const;
 
 
-            panelSubs.add(form.statusChanges
+            rowSubs.add(form.statusChanges
               .pipe(map(s => s === 'VALID'))
               .subscribe(valid$.set),
 
             );
-            panelSubs.add(form.valueChanges
+            rowSubs.add(form.valueChanges
               .pipe(map(changeCheck))
               .subscribe(unchanged$.set)
             );
 
             reset.click();
 
+            const skills = () => this.editSkills(group.id);
+
             return {
               data: group,
               form,
               submit,
               reset,
+              skills,
               unchanged$
             };
           });
@@ -182,7 +185,7 @@ export class TechGroupsPageComponent {
         const full = unfiltered$();
         const selected = this.search.selected$();
         if (selected)
-          return full.filter(panel => panel.data.generic.includes(selected.id));
+          return full.filter(row => row.data.generic.includes(selected.id));
         else
           return full;
       });
@@ -210,6 +213,13 @@ export class TechGroupsPageComponent {
     } as const;
   })();
 
+  private readonly editSkills = async (id: string) => {
+    const ref = DialogLoaderComponent.open(this.dialog);
+    const comp = await import('../skills/tech-group-skills.dialog')
+      .then(m => m.TechGroupSkillsDialogComponent);
+
+    comp.open(ref, { group: id });
+  };
 
 
 }
