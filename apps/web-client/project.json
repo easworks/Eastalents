@@ -129,6 +129,8 @@
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {
+        "staticFilePath": "dist/apps/web-client/browser",
+        "spa": true,
         "buildTarget": "web-client:build"
       }
     }

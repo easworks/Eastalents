@@ -174,7 +174,7 @@ const feature = createFeature({
       }
 
       // update tech skill
-      skill.groups = payload.groups.sort((a, b) => sortString(a[0], b[0]));
+      skill.groups = [...payload.groups].sort((a, b) => sortString(a[0], b[0]));
 
       return state;
     })),

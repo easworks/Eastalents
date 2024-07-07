@@ -1,4 +1,4 @@
-<div class="flex justify-between items-center p-2 px-4 gap-4">
+<div class="flex justify-between items-center p-2 pl-4 gap-4">
   <h1 class="font-bold">Add Tech Skill To Group</h1>
   <button class="icon-button small" mat-dialog-close mat-ripple>
     <fa-icon [icon]="icons.faXmark"></fa-icon>
@@ -45,6 +45,24 @@
       </table>
     </div>
   </div>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="p-2">
+  <div class="form-field mb-0">
+    <input type="text" [(ngModel)]="table.add.query$"
+           [matAutocomplete]="searchOptions"
+           placeholder="Add Tech Group">
+  </div>
+
+  <mat-autocomplete #searchOptions hideSingleSelectionIndicator
+                    [displayWith]="table.add.displayWith"
+                    (optionSelected)="table.add.onSelect($event)">
+    @for(option of table.add.results$(); track option.id) {
+    <mat-option [value]="option">{{option.name}}</mat-option>
+    }
+  </mat-autocomplete>
 </div>
 
 <mat-divider></mat-divider>

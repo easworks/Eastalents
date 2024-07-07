@@ -219,7 +219,7 @@ export class TechSkillsPageComponent {
                 .then(m => m.TechSkillGroupsDialogComponent);
 
               comp.open(ref, {
-                skill
+                skill: skill.id
               });
             };
 

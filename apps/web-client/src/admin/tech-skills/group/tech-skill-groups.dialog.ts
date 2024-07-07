@@ -1,16 +1,20 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { DialogLoaderComponent } from '@easworks/app-shell/common/dialog-loader.component';
+import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
+import { sortString } from '@easworks/app-shell/utilities/sort';
 import { faRemove, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { TechSkill } from '../../models/tech-skill';
+import Fuse from 'fuse.js';
+import { TechGroup, TechSkill } from '../../models/tech-skill';
 import { adminData, techSkillActions } from '../../state/admin-data';
 
 interface AddTechSkillToGroupDialogData {
-  skill: TechSkill;
+  skill: string;
 }
 
 @Component({
@@ -20,28 +24,56 @@ interface AddTechSkillToGroupDialogData {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
+    FormImportsModule,
     MatDialogModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatAutocompleteModule
   ]
 })
 export class TechSkillGroupsDialogComponent implements OnInit {
   private readonly data = inject<AddTechSkillToGroupDialogData>(MAT_DIALOG_DATA);
   private readonly store = inject(Store);
+  private readonly cdRef = inject(ChangeDetectorRef);
 
   protected readonly icons = {
     faXmark,
     faRemove
   } as const;
 
+  private readonly skill$ = (() => {
+    const map$ = this.store.selectSignal(adminData.selectors.techSkill.selectEntities);
+
+    return computed(() => {
+      const skill = map$()[this.data.skill];
+      if (!skill)
+        throw new Error('invalid operation');
+      return skill;
+    });
+  })();
+
+
+  private readonly groups = (() => {
+    const map$ = this.store.selectSignal(adminData.selectors.techGroup.selectEntities);
+    const list$ = this.store.selectSignal(adminData.selectors.techGroup.selectAll);
+
+    return {
+      map$,
+      list$
+    } as const;
+  })();
+
 
   protected readonly table = (() => {
 
     const changes = generateLoadingState<string[]>();
 
-    const original = this.data.skill.groups.reduce((state, [id, generic]) => {
-      state[id] = generic;
-      return state;
-    }, {} as Record<string, boolean>);
+    const original$ = computed(() => this.skill$().groups.reduce<Record<string, boolean>>(
+      (state, [id, generic]) => {
+        state[id] = generic;
+        return state;
+      },
+      {}
+    ));
 
     const rows$ = signal<{
       id: string;
@@ -52,6 +84,7 @@ export class TechSkillGroupsDialogComponent implements OnInit {
     const empty$ = computed(() => rows$().length === 0);
 
     const remove = (id: string) => {
+      const original = original$();
       rows$.update(rows => rows.filter(r => r.id !== id));
       if (id in original)
         changes.add(id);
@@ -60,6 +93,7 @@ export class TechSkillGroupsDialogComponent implements OnInit {
     };
 
     const updateGeneric = (id: string, value: boolean) => {
+      const original = original$();
       rows$.update(rows => {
         const skill = rows.find(r => r.id === id);
         if (!skill) throw new Error('invalid operation');
@@ -75,10 +109,72 @@ export class TechSkillGroupsDialogComponent implements OnInit {
 
     };
 
+    const add = (() => {
+      const query$ = signal('' as TechGroup | string);
+      const displayWith = (v: TechGroup | string | null) => typeof v === 'string' ? v : v?.name || '';
+
+      const searchable$ = computed(() => {
+        const rows = rows$();
+        const list = this.groups.list$();
+
+        const added = new Set(rows.map(r => r.id));
+        return list.filter(s => !added.has(s.id));
+      });
+
+      const search$ = computed(() => new Fuse(searchable$(), {
+        keys: ['name'],
+        includeScore: true,
+      }));
+
+      const results$ = computed(() => {
+        let q = query$();
+
+        if (typeof q === 'string') {
+          q = q.trim();
+
+          if (q)
+            return search$()
+              .search(q)
+              .map(r => r.item);
+        }
+
+        return searchable$();
+      });
+
+      const onSelect = (event: MatAutocompleteSelectedEvent) => {
+
+        const value = event.option.value as TechGroup;
+
+        rows$.update(v => {
+          v.push({
+            id: value.id,
+            generic: true,
+            name: value.name
+          });
+
+          v.sort((a, b) => sortString(a.id, b.id));
+
+          return [...v];
+        });
+        changes.add(value.id);
+        this.cdRef.detectChanges();
+        query$.set('');
+      };
+
+
+      return {
+        query$,
+        displayWith,
+        results$,
+        onSelect
+      } as const;
+    })();
+
     return {
       rows$,
       empty$,
       changes,
+      add,
       updateGeneric,
       remove
     } as const;
@@ -94,10 +190,12 @@ export class TechSkillGroupsDialogComponent implements OnInit {
 
         this.store.dispatch(techSkillActions.updateGroups({
           payload: {
-            id: this.data.skill.id,
+            id: this.data.skill,
             groups: value
           }
         }));
+
+        this.table.changes.clear();
       };
 
       return {
@@ -108,10 +206,11 @@ export class TechSkillGroupsDialogComponent implements OnInit {
     })();
 
     const reset = (() => {
-      const groups = this.store.selectSignal(adminData.selectors.techGroup.selectEntities)();
 
       const click = () => {
-        const value = this.data.skill.groups.map(([id, generic]) => ({
+        const groups = this.groups.map$();
+        const skill = this.skill$();
+        const value = skill.groups.map(([id, generic]) => ({
           id,
           generic,
           name: groups[id]?.name || ''
@@ -119,6 +218,7 @@ export class TechSkillGroupsDialogComponent implements OnInit {
 
         this.table.rows$.set(value);
         this.table.changes.clear();
+        this.table.add.query$.set('');
       };
 
       return { click } as const;
