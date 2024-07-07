@@ -82,12 +82,10 @@ export function extractTechSkills(dto: TechGroupDto, logger: ExtractionLogger) {
           }
         }
 
-        const skill: TechSkill = { id, name, groups: [] };
+        const skill: TechSkill = { id, name, groups: [group.id] };
         map.set(id, skill);
         genericSkills.add(skill.id);
       }
-
-      group.skills = [...genericSkills].sort(sortString);
     }
   }
 

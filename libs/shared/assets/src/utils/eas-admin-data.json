@@ -3341,5372 +3341,5372 @@
     {
       "id": "3d",
       "name": "3D",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "3d-cad",
       "name": "3D CAD",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "3d-printing",
       "name": "3D Printing",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "3ds-max",
       "name": "3DS Max",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "abap",
       "name": "ABAP",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "absinthe",
       "name": "Absinthe",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "acceleratedmobilepages",
       "name": "AcceleratedMobilePages",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "access",
       "name": "Access",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "accessibility-devices",
       "name": "Accessibility Devices",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "account-manager",
       "name": "Account Manager",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "actions-on-google",
       "name": "Actions on Google",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "actionscript",
       "name": "ActionScript",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "active-admin",
       "name": "Active Admin",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "active-directory",
       "name": "Active Directory",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "active-mq",
       "name": "Active MQ",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "active-x",
       "name": "Active-X",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "adaptive-design",
       "name": "Adaptive Design",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "administration",
       "name": "Administration",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "admob",
       "name": "AdMob",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "ado-net",
       "name": "ADO.NET",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "adobe-air",
       "name": "Adobe AIR",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "adobe-captivate",
       "name": "Adobe Captivate",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "adobe-coldfusion",
       "name": "Adobe ColdFusion",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "adobe-creative-suite",
       "name": "Adobe Creative Suite",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "adobe-flash",
       "name": "Adobe Flash",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "adobe-hbase",
       "name": "Adobe HBase",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "adobe-indesign",
       "name": "Adobe Indesign",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "adobe-xd",
       "name": "Adobe XD",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "adrobots",
       "name": "AdRobots",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "adtech",
       "name": "AdTech",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "advanced-custom-fields",
       "name": "Advanced Custom Fields",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "adwords",
       "name": "AdWords",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "affinity-designer",
       "name": "Affinity Designer",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "agile",
       "name": "Agile",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "aikit",
       "name": "AIkit",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "ajax",
       "name": "AJAX",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "akamai",
       "name": "Akamai",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "akka",
       "name": "Akka",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "algolia-api",
       "name": "Algolia API",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "algorithm-development",
       "name": "Algorithm Development",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "algorithmic-trading",
       "name": "Algorithmic Trading",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "alm",
       "name": "ALM",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "alpine-js",
       "name": "Alpine.js",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "altium",
       "name": "Altium",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "amazon-alexa-skills-kit",
       "name": "Amazon Alexa Skills Kit",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "amazon-cloudfront",
       "name": "Amazon Cloudfront",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "amazon-ec2",
       "name": "Amazon EC2",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "amazon-ecs",
       "name": "Amazon ECS",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "amazon-efs",
       "name": "Amazon EFS",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "amazon-eks",
       "name": "Amazon EKS",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "amazon-elastic-mapreduce",
       "name": "Amazon Elastic MapReduce",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "amazon-elb",
       "name": "Amazon ELB",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "amazon-iam",
       "name": "Amazon IAM",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "amazon-kinesis",
       "name": "Amazon Kinesis",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "amazon-lambda",
       "name": "Amazon Lambda",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "amazon-payments",
       "name": "Amazon Payments",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "amazon-rds",
       "name": "Amazon RDS",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "amazon-redshift",
       "name": "Amazon Redshift",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "amazon-s3",
       "name": "Amazon S3",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "amazon-sqs",
       "name": "Amazon SQS",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "amplitude",
       "name": "Amplitude",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "ams",
       "name": "AMS",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "anaconda",
       "name": "Anaconda",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "analog-ic-design",
       "name": "Analog IC Design",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "analytics",
       "name": "Analytics",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "android",
       "name": "Android",
-      "groups": []
+      "groups": ["os"]
     },
     {
       "id": "android-design",
       "name": "Android Design",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "android-sdk",
       "name": "Android SDK",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "angulardart",
       "name": "AngularDart",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "animation",
       "name": "Animation",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "ann",
       "name": "ANN",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "ansible",
       "name": "Ansible",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "ant",
       "name": "Ant",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "ant-design",
       "name": "Ant Design",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "aop",
       "name": "AOP",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "apache",
       "name": "Apache",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "apache-hive",
       "name": "Apache Hive",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "apache-mxnet",
       "name": "Apache MXNet",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "apache-nifi",
       "name": "Apache Nifi",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "apache-solr",
       "name": "Apache Solr",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "apache-spark",
       "name": "Apache Spark",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "apache-storm",
       "name": "Apache Storm",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "apache-thrift",
       "name": "Apache Thrift",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "apache-traffic-server",
       "name": "Apache Traffic Server",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "apache-wicket",
       "name": "Apache Wicket",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "apex",
       "name": "Apex",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "apis",
       "name": "APIs",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "apollo",
       "name": "Apollo",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "appengine-datastore",
       "name": "AppEngine Datastore",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "appium",
       "name": "Appium",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "apple-watch",
       "name": "Apple Watch",
-      "groups": []
+      "groups": ["os"]
     },
     {
       "id": "appletv",
       "name": "AppleTV",
-      "groups": []
+      "groups": ["os"]
     },
     {
       "id": "application-security",
       "name": "Application Security",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "arangodb",
       "name": "ArangoDB",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "arcgis",
       "name": "ArcGIS",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "architecture",
       "name": "Architecture",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "arduino",
       "name": "Arduino",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "arkit",
       "name": "ARKit",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "arm",
       "name": "ARM",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "artificial-intelligence",
       "name": "Artificial Intelligence",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "asana",
       "name": "Asana",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "asp-net",
       "name": "ASP.NET",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "assembly",
       "name": "Assembly",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "associate-cloud-engineer",
       "name": "Associate Cloud Engineer",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "asterisk",
       "name": "Asterisk",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "atg",
       "name": "ATG",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "atrium",
       "name": "Atrium",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "augmented-reality",
       "name": "Augmented Reality",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "aurelia",
       "name": "Aurelia",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "auth0",
       "name": "Auth0",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "autocad",
       "name": "AutoCad",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "automated-testing",
       "name": "Automated Testing",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "automation",
       "name": "Automation",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "avs",
       "name": "AVS",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "awk",
       "name": "AWK",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "aws",
       "name": "AWS",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "aws-certified-developer",
       "name": "AWS Certified Developer",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "aws-certified-network-architect",
       "name": "AWS Certified Network Architect",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "aws-certified-solutions-architect",
       "name": "AWS Certified Solutions Architect",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "aws-certified-solutions-architect-associate",
       "name": "AWS Certified Solutions Architect Associate",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "aws-certified-sysops-administrator",
       "name": "AWS Certified SysOps Administrator",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "axure",
       "name": "Axure",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "azure",
       "name": "Azure",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "azure-devops",
       "name": "Azure DevOps",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "azure-iot",
       "name": "Azure IoT",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "babel",
       "name": "Babel",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "backbone-js",
       "name": "Backbone.js",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "bamboo",
       "name": "Bamboo",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "bamp",
       "name": "BAMP",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "bapp",
       "name": "BAPP",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "bash",
       "name": "Bash",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "basic",
       "name": "BASIC",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "bayesian-inference",
       "name": "Bayesian inference",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "bazel",
       "name": "Bazel",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "bdd",
       "name": "BDD",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "beaglebone",
       "name": "Beaglebone",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "beaver-builder",
       "name": "Beaver Builder",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "behavioral-analytics",
       "name": "Behavioral Analytics",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "behavioral-synthesis",
       "name": "Behavioral Synthesis",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "bem",
       "name": "BEM",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "bgp",
       "name": "BGP",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "big-data",
       "name": "Big Data",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "bigcommerce",
       "name": "BigCommerce",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "bigquery",
       "name": "BigQuery",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "bind",
       "name": "BIND",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "bioinformatics",
       "name": "Bioinformatics",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "biotech",
       "name": "Biotech",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "bitbucket",
       "name": "Bitbucket",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "bitcoin",
       "name": "Bitcoin",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "bitrise",
       "name": "Bitrise",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "blade",
       "name": "Blade",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "blaze-js",
       "name": "Blaze.JS",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "blender",
       "name": "Blender",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "blender-python",
       "name": "Blender (Python)",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "blockchain",
       "name": "Blockchain",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "bluebird",
       "name": "Bluebird",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "bluetooth",
       "name": "Bluetooth",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "boobrightscript-roku",
       "name": "BooBrightScript (Roku)",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "bootstrap",
       "name": "Bootstrap",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "boozang",
       "name": "Boozang",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "bower",
       "name": "Bower",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "braintree",
       "name": "Braintree",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "braintree-api",
       "name": "Braintree API",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "branding",
       "name": "Branding",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "brightcove",
       "name": "Brightcove",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "brightcove-api",
       "name": "Brightcove API",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "britrix",
       "name": "Britrix",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "browserify",
       "name": "Browserify",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "browserstack",
       "name": "BrowserStack",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "bsd",
       "name": "BSD",
-      "groups": []
+      "groups": ["os"]
     },
     {
       "id": "buddybuild",
       "name": "BuddyBuild",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "bulma",
       "name": "Bulma",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "business-analyst",
       "name": "Business Analyst",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "business-development",
       "name": "Business Development",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "business-intelligence",
       "name": "Business Intelligence",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "c",
       "name": "C",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "c-plus-plus",
       "name": "C++",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "c-sharp",
       "name": "C#",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "caddy",
       "name": "Caddy",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "cakephp",
       "name": "CakePHP",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "camel",
       "name": "Camel",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "cameraapi",
       "name": "CameraAPI",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "camtasia",
       "name": "camtasia",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "canvas",
       "name": "Canvas",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "canvas-lms",
       "name": "Canvas LMS",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "capistrano",
       "name": "Capistrano",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "cassandra",
       "name": "Cassandra",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "cbap",
       "name": "CBAP",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "cdn",
       "name": "CDN",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "celery",
       "name": "Celery",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "ceph",
       "name": "Ceph",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "certified-salesforce-administrator",
       "name": "Certified Salesforce Administrator",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "certified-scrum-master",
       "name": "Certified Scrum Master",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "certified-scrum-professional",
       "name": "Certified Scrum Professional",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "certified-six-sigma-black-belt",
       "name": "Certified Six Sigma Black Belt",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "cgi",
       "name": "CGI",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "chai",
       "name": "chai",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "chai-js",
       "name": "chai.js",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "chatbots",
       "name": "ChatBots",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "cherrypy",
       "name": "CherryPy",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "chrome-extensions",
       "name": "Chrome Extensions",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "chrome-os",
       "name": "Chrome OS",
-      "groups": []
+      "groups": ["os"]
     },
     {
       "id": "chromecast",
       "name": "Chromecast",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "ci/cd",
       "name": "CI/CD",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "cipher",
       "name": "Cipher",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "circleci",
       "name": "CircleCI",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "citrix-xen-server",
       "name": "Citrix Xen Server",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "clojure",
       "name": "Clojure",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "clojurescript",
       "name": "ClojureScript",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "cloud-architecture",
       "name": "Cloud Architecture",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "cloud-firestore",
       "name": "Cloud Firestore",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "cloud-foundry",
       "name": "Cloud Foundry",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "cloud-solutions",
       "name": "Cloud Solutions",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "clouddeploy",
       "name": "CloudDeploy",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "cloudflare",
       "name": "Cloudflare",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "cluster-computing",
       "name": "Cluster Computing",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "cmake",
       "name": "CMake",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "cms-platforms",
       "name": "CMS Platforms",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "cobol",
       "name": "Cobol",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "cockroachdb",
       "name": "CockroachDB",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "cocoatouch",
       "name": "CocoaTouch",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "codeigniter",
       "name": "CodeIgniter",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "codeship",
       "name": "Codeship",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "coffeescript",
       "name": "CoffeeScript",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "cognos",
       "name": "Cognos",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "commandqueryresponsibilitysegregation",
       "name": "CommandQueryResponsibilitySegregation",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "commonlisp",
       "name": "CommonLISP",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "compiler-design",
       "name": "Compiler Design",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "composer",
       "name": "Composer",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "comptia-linux-certification",
       "name": "CompTIA Linux+ Certification",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "computer-vision",
       "name": "Computer Vision",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "concourse-ci",
       "name": "ConCourse CI",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "configuration-management",
       "name": "Configuration Management",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "confluence",
       "name": "Confluence",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "content-creation",
       "name": "Content Creation",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "content-marketing",
       "name": "Content Marketing",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "contentful",
       "name": "Contentful",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "cordova",
       "name": "Cordova",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "core-audio",
       "name": "Core Audio",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "core-bluetooth",
       "name": "Core Bluetooth",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "core-data",
       "name": "Core Data",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "core-location",
       "name": "Core Location",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "core-point",
       "name": "Core Point",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "coreldraw",
       "name": "CorelDraw",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "couchbase",
       "name": "Couchbase",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "couchdb",
       "name": "CouchDB",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "cplex-optimizer",
       "name": "CPLEX Optimizer",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "cqrs",
       "name": "CQRS",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "craft-cms",
       "name": "Craft CMS",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "crashlytics",
       "name": "Crashlytics",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "crm",
       "name": "CRM",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "cryengine",
       "name": "Cryengine",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "cryptocurrency",
       "name": "Cryptocurrency",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "crystal",
       "name": "Crystal",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "crystal-reports",
       "name": "Crystal Reports",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "css",
       "name": "CSS",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "css3",
       "name": "CSS3",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "css5",
       "name": "CSS5",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "cucumber",
       "name": "Cucumber",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "cuda",
       "name": "CUDA",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "custom-wordpress-themes",
       "name": "Custom Wordpress Themes",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "cyber-security",
       "name": "Cyber Security",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "cypress",
       "name": "Cypress",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "cython",
       "name": "Cython",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "d",
       "name": "D",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "d3-js",
       "name": "D3.js",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "dagger",
       "name": "Dagger",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "dart",
       "name": "Dart",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "data-analysis-expressions",
       "name": "Data Analysis Expressions",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "data-modeling",
       "name": "Data Modeling",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "data-visualization",
       "name": "Data Visualization",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "data-warehouse",
       "name": "Data Warehouse",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "database-administrator",
       "name": "Database Administrator",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "database-architecture",
       "name": "Database Architecture",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "database-design",
       "name": "Database Design",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "dataflow",
       "name": "DataFlow",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "datomic",
       "name": "Datomic",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "db2",
       "name": "DB2",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "dbase",
       "name": "Dbase",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "ddd",
       "name": "DDD",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "debian",
       "name": "Debian",
-      "groups": []
+      "groups": ["os"]
     },
     {
       "id": "debugging",
       "name": "Debugging",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "deep-learning",
       "name": "Deep Learning",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "deepspeech",
       "name": "DeepSpeech",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "defold",
       "name": "Defold",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "delphi",
       "name": "Delphi",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "design",
       "name": "Design",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "design-prototyping",
       "name": "Design prototyping",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "design-systems",
       "name": "Design systems",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "design-thinking",
       "name": "Design thinking",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "desktop-applications",
       "name": "Desktop Applications",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "dhcp",
       "name": "DHCP",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "dhtml",
       "name": "DHTML",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "digital-branding",
       "name": "Digital Branding",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "digital-imaging",
       "name": "Digital Imaging",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "digital-marketing",
       "name": "Digital Marketing",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "digital-signal-processing",
       "name": "Digital Signal Processing",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "digitalocean",
       "name": "DigitalOcean",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "distributed-systems",
       "name": "Distributed Systems",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "django",
       "name": "Django",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "dns",
       "name": "DNS",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "docker",
       "name": "Docker",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "docker-compose",
       "name": "Docker Compose",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "docker-swarm",
       "name": "Docker Swarm",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "dojo",
       "name": "Dojo",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "dotcms",
       "name": "DotCMS",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "dotnet",
       "name": ".NET",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "doxygen",
       "name": "Doxygen",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "dreamweaver",
       "name": "Dreamweaver",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "druid",
       "name": "Druid",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "drupal",
       "name": "Drupal",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "drupal-7",
       "name": "Drupal 7",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "drupal-8",
       "name": "Drupal 8",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "dynamodb",
       "name": "DynamoDB",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "eclipse",
       "name": "Eclipse",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "ecommerce",
       "name": "eCommerce",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "edi",
       "name": "EDI",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "ejb",
       "name": "EJB",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "elasticsearch",
       "name": "Elasticsearch",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "elearning",
       "name": "eLearning",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "electrical-engineering",
       "name": "Electrical engineering",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "electron",
       "name": "Electron",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "elixir",
       "name": "Elixir",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "elk",
       "name": "ELK",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "elm",
       "name": "Elm",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "email-marketing",
       "name": "Email Marketing",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "embedded-systems",
       "name": "Embedded Systems",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "ember-js",
       "name": "Ember.js",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "encryption",
       "name": "Encryption",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "engineering-management",
       "name": "Engineering Management",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "enterprise-content-management",
       "name": "Enterprise Content Management",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "enterprise-networking",
       "name": "Enterprise Networking",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "enterprise-systems-administrator",
       "name": "Enterprise Systems Administrator",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "entity-framework",
       "name": "Entity Framework",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "enzyme",
       "name": "Enzyme",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "erc20",
       "name": "ERC20",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "erc721",
       "name": "ERC721",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "erlang",
       "name": "Erlang",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "erp",
       "name": "ERP",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "es",
       "name": "ES",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "es5",
       "name": "ES5",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "es6",
       "name": "ES6",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "es7",
       "name": "ES7",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "es8",
       "name": "ES8",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "eslint",
       "name": "ESLint",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "esp-microcontrollers",
       "name": "ESP Microcontrollers",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "ethereum",
       "name": "Ethereum",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "ethical-hacker",
       "name": "Ethical Hacker",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "etl",
       "name": "ETL",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "event-sourcing",
       "name": "Event Sourcing",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "express",
       "name": "Express",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "expression-engine",
       "name": "Expression Engine",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "extjs",
       "name": "ExtJS",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "f",
       "name": "F#",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "fabric",
       "name": "Fabric",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "fabricjs",
       "name": "FabricJS",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "facebook-api",
       "name": "Facebook API",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "famp",
       "name": "FAMP",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "fastapi",
       "name": "FastAPI",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "fastlane",
       "name": "Fastlane",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "fastly",
       "name": "Fastly",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "fdd",
       "name": "FDD",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "fhir",
       "name": "FHIR",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "figma",
       "name": "Figma",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "filemaker",
       "name": "FileMaker",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "financial-information-exchange",
       "name": "Financial Information exchange",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "financial-modeling",
       "name": "Financial modeling",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "firebase",
       "name": "Firebase",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "firewalls",
       "name": "Firewalls",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "firmware",
       "name": "Firmware",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "flask",
       "name": "Flask",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "flex",
       "name": "Flex",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "flexbox",
       "name": "Flexbox",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "flink",
       "name": "Flink",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "flutter",
       "name": "Flutter",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "flux",
       "name": "Flux",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "forex",
       "name": "Forex",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "fortran",
       "name": "Fortran",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "foundation",
       "name": "Foundation",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "foursquare-api",
       "name": "Foursquare API",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "foxycart",
       "name": "FoxyCart",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "freebsd",
       "name": "FreeBSD",
-      "groups": []
+      "groups": ["os"]
     },
     {
       "id": "freertos",
       "name": "FreeRTOS",
-      "groups": []
+      "groups": ["os"]
     },
     {
       "id": "ftp",
       "name": "FTP",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "fwap",
       "name": "FWAP",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "fwip",
       "name": "FWIP",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "game-engines",
       "name": "Game Engines",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "gaming",
       "name": "Gaming",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "gatsbyjs",
       "name": "GatsbyJS",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "gcc",
       "name": "Gcc",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "gdb",
       "name": "GDB",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "gdscript",
       "name": "GDScript",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "genetic-algorithms",
       "name": "Genetic Algorithms",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "geographic-information-systems",
       "name": "Geographic Information Systems",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "gherkin",
       "name": "gherkin",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "ghost",
       "name": "Ghost",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "gimp",
       "name": "GIMP",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "git",
       "name": "Git",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "git-flow",
       "name": "Git Flow",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "github",
       "name": "GitHub",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "github-api",
       "name": "GitHub API",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "gitlab",
       "name": "GitLab",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "go",
       "name": "Go",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "gocd",
       "name": "GoCD",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "google-analytics",
       "name": "Google Analytics",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "google-apis",
       "name": "Google APIs",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "google-app-engine",
       "name": "Google App Engine",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "google-apps-script",
       "name": "Google Apps Script",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "google-cloud-certified-professional",
       "name": "Google Cloud Certified  Professional",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "google-cloud-functions",
       "name": "Google Cloud Functions",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "google-cloud-platform",
       "name": "Google Cloud Platform",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "google-cloud-storage",
       "name": "Google Cloud Storage",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "google-cloudsql",
       "name": "Google CloudSQL",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "google-play",
       "name": "Google Play",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "google-professional-data-engineering-certified",
       "name": "Google Professional Data Engineering Certified",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "google-web-toolkit",
       "name": "Google Web Toolkit",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "googlemaps-api",
       "name": "GoogleMaps API",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "gradie",
       "name": "Gradie",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "gradle",
       "name": "Gradle",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "grafana",
       "name": "Grafana",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "grails",
       "name": "Grails",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "graph-databases",
       "name": "Graph Databases",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "graphic-design",
       "name": "Graphic Design",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "graphite",
       "name": "Graphite",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "graphql",
       "name": "GraphQL",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "greenfield",
       "name": "Greenfield",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "groovy",
       "name": "Groovy",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "growth-hacking",
       "name": "Growth Hacking",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "grpc",
       "name": "gRPC",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "grunt",
       "name": "Grunt",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "gstreamer",
       "name": "GStreamer",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "gsuite",
       "name": "GSuite",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "gulp-js",
       "name": "gulp.js",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "gunicorn",
       "name": "Gunicorn",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "gurobi",
       "name": "Gurobi",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "hadoop",
       "name": "Hadoop",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "handlebars",
       "name": "Handlebars",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "hapi-js",
       "name": "hapi.js",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "hardware",
       "name": "Hardware",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "hashicorp-configuration-language",
       "name": "HashiCorp Configuration Language",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "haskell",
       "name": "Haskell",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "haxe",
       "name": "Haxe",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "helm",
       "name": "Helm",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "heroku",
       "name": "Heroku",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "hexo",
       "name": "Hexo",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "hibernate-or",
       "name": "Hibernate OR",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "hierarchical-multi-task-learning",
       "name": "Hierarchical Multi-Task Learning",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "highcharts",
       "name": "Highcharts",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "hipaa",
       "name": "HIPAA",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "hive-on-spark",
       "name": "Hive on Spark",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "html",
       "name": "HTML",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "http",
       "name": "HTTP",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "https",
       "name": "HTTPS",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "hubspot",
       "name": "HubSpot",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "hudson",
       "name": "Hudson",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "hugo",
       "name": "Hugo",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "human-computer-interaction-design",
       "name": "Human Computer Interaction Design",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "hybrid-apps",
       "name": "Hybrid Apps",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "hybrid-cloud",
       "name": "Hybrid Cloud",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "hyperledger",
       "name": "Hyperledger",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "ibeacons",
       "name": "iBeacons",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "ibm-cloud",
       "name": "IBM Cloud",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "icon-design",
       "name": "Icon Design",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "idris",
       "name": "Idris",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "iis",
       "name": "IIS",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "illustrator",
       "name": "Illustrator",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "imagemagick",
       "name": "ImageMagick",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "incident-response",
       "name": "Incident response",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "influxdb",
       "name": "InfluxDB",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "infographics",
       "name": "Infographics",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "information-architechture",
       "name": "Information Architechture",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "information-security",
       "name": "Information Security",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "informix",
       "name": "informix",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "integration-testing",
       "name": "Integration Testing",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "interactive-design",
       "name": "Interactive Design",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "intercom",
       "name": "Intercom",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "invision",
       "name": "InVision",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "iodash",
       "name": "Iodash",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "ionic",
       "name": "Ionic",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "ios",
       "name": "iOS",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "ios-design",
       "name": "iOS Design",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "iot",
       "name": "IoT",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "ipfs",
       "name": "IPFS",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "istio",
       "name": "Istio",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "itcss",
       "name": "ITCSS",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "j2ee",
       "name": "J2EE",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "jacoco",
       "name": "JaCoCo",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "jad",
       "name": "JAD",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "jade",
       "name": "Jade",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "jakarta",
       "name": "Jakarta",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "jamp",
       "name": "JAMP",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "jasmine",
       "name": "Jasmine",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "java",
       "name": "Java",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "javafx",
       "name": "JavaFX",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "javascript",
       "name": "JavaScript",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "jboss",
       "name": "JBoss",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "jdbc",
       "name": "JDBC",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "jekyll",
       "name": "Jekyll",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "jenkins",
       "name": "Jenkins",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "jest",
       "name": "Jest",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "jira",
       "name": "JIRA",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "jmeter",
       "name": "Jmeter",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "jms",
       "name": "JMS",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "jolt",
       "name": "JOLT",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "joomla",
       "name": "Joomla",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "jpa",
       "name": "JPA",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "jquery",
       "name": "jQuery",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "jqueryui",
       "name": "jQueryUI",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "jruby",
       "name": "jRuby",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "jsdoc",
       "name": "JSDoc",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "jsf",
       "name": "JSF",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "json",
       "name": "JSON",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "jsonnet",
       "name": "Jsonnet",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "jsp",
       "name": "JSP",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "juce",
       "name": "JUCE",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "julia",
       "name": "Julia",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "junit",
       "name": "JUnit",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "jupyter-notebook",
       "name": "Jupyter Notebook",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "jwt",
       "name": "JWT",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "kafka",
       "name": "Kafka",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "kanban",
       "name": "Kanban",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "karate-testing",
       "name": "Karate (testing)",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "keberos",
       "name": "Keberos",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "kendo",
       "name": "Kendo",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "kentico",
       "name": "Kentico",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "keras",
       "name": "Keras",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "kibana",
       "name": "Kibana",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "kicad",
       "name": "KiCad",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "klaviyo",
       "name": "Klaviyo",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "knex-js",
       "name": "Knex.js",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "knockout-js",
       "name": "Knockout.js",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "knowledge-graph",
       "name": "Knowledge Graph",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "koa",
       "name": "KOA",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "koin-io",
       "name": "Koin.io",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "kops",
       "name": "Kops",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "kotlin",
       "name": "Kotlin",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "kubernetes",
       "name": "Kubernetes",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "kvm",
       "name": "KVM",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "lamj",
       "name": "LAMJ",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "lamp",
       "name": "LAMP",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "laragon",
       "name": "Laragon",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "laravel",
       "name": "Laravel",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "latex",
       "name": "LaTeX",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "leaflet-js",
       "name": "Leaflet.js",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "lean",
       "name": "Lean",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "lectora",
       "name": "Lectora",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "lemonstand",
       "name": "Lemonstand",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "lemp",
       "name": "LEMP",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "less",
       "name": "LESS",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "libp2p",
       "name": "libp2p",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "linode",
       "name": "Linode",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "linq",
       "name": "LINQ",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "linux",
       "name": "Linux",
-      "groups": []
+      "groups": ["os"]
     },
     {
       "id": "linux-device-driver",
       "name": "Linux Device Driver",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "liquibase",
       "name": "Liquibase",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "liquid-templates",
       "name": "Liquid templates",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "litelement",
       "name": "LitElement",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "lms",
       "name": "Lms",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "localization",
       "name": "Localization",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "locust",
       "name": "Locust",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "lodash",
       "name": "Lodash",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "log4j",
       "name": "Log4j",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "logistic-regression",
       "name": "Logistic Regression",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "logo-design",
       "name": "Logo Design",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "logstash",
       "name": "Logstash",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "looker",
       "name": "Looker",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "lot",
       "name": "loT",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "lotusnotes",
       "name": "LotusNotes",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "lua",
       "name": "Lua",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "lxc",
       "name": "LXC",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "machine-learning",
       "name": "Machine Learning",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "macos",
       "name": "macOS",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "magento",
       "name": "Magento",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "magento2",
       "name": "Magento2",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "mailchimp",
       "name": "Mailchimp",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "make",
       "name": "Make",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "makefile",
       "name": "makefile",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "malware-research",
       "name": "Malware research",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "mamp",
       "name": "MAMP",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "managed-services",
       "name": "Managed Services",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "management",
       "name": "Management",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "mandrill",
       "name": "Mandrill",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "mapbox",
       "name": "Mapbox",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "mapboxgl",
       "name": "MapboxGL",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "mapkit",
       "name": "MapKit",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "mapreduce",
       "name": "MapReduce",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "mariadb",
       "name": "MariaDB",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "mars",
       "name": "MARS",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "material-design",
       "name": "Material Design",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "mathematical-finance",
       "name": "Mathematical finance",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "mathjax",
       "name": "MathJax",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "matlab",
       "name": "Matlab",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "maven",
       "name": "Maven",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "mba",
       "name": "MBA",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "mcsa-certification",
       "name": "MCSA Certification",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "mean",
       "name": "MEAN",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "memcached",
       "name": "Memcached",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "memsql",
       "name": "MemSQL",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "mercurial",
       "name": "Mercurial",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "mern",
       "name": "MERN",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "mesos",
       "name": "Mesos",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "message-passing-interface",
       "name": "Message Passing Interface",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "meteor",
       "name": "Meteor",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "meteor-galaxy",
       "name": "Meteor Galaxy",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "mfc",
       "name": "MFC",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "microcontrollers",
       "name": "Microcontrollers",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "micropython",
       "name": "MicroPython",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "microservices",
       "name": "Microservices",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "microsoft-dynamics",
       "name": "Microsoft Dynamics",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "microsoft-exchange-server",
       "name": "Microsoft Exchange Server",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "microsoft-sharepoint",
       "name": "Microsoft SharePoint",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "microsoft-sql-server",
       "name": "Microsoft SQL Server",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "microsoft-visual-studio",
       "name": "Microsoft Visual Studio",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "mithril-js",
       "name": "Mithril.js",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "mixpanel",
       "name": "Mixpanel",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "mobile-security",
       "name": "Mobile Security",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "mobx",
       "name": "MobX",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "mocha",
       "name": "Mocha",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "mockito",
       "name": "Mockito",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "modx",
       "name": "MODx",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "mojolicious",
       "name": "mojolicious",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "moment-js",
       "name": "Moment.js",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "monetdb",
       "name": "MonetDB",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "mongodb",
       "name": "MongoDB",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "monogame",
       "name": "MonoGame",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "moodle",
       "name": "Moodle",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "motion-design",
       "name": "Motion Design",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "mqtt",
       "name": "MQTT",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "ms-access",
       "name": "MS Access",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "ms-dynamics-crm",
       "name": "MS Dynamics CRM",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "ms-flow",
       "name": "MS Flow",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "msce-certification",
       "name": "MSCE Certification",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "mulesoft",
       "name": "muleSoft",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "mustachejs",
       "name": "MustacheJS",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "mysql",
       "name": "MySQL",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "namp",
       "name": "NAMP",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "nativescript",
       "name": "NativeScript",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "nestjs",
       "name": "NestJS",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "netlify",
       "name": "Netlify",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "netsuite",
       "name": "Netsuite",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "network-admin",
       "name": "Network Admin",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "network-engineering",
       "name": "Network Engineering",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "network-security",
       "name": "Network Security",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "networking",
       "name": "Networking",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "networkx",
       "name": "Networkx",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "neural-networks",
       "name": "Neural Networks",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "newrelic",
       "name": "NewRelic",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "next-js",
       "name": "Next.js",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "nginx",
       "name": "Nginx",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "ngrx",
       "name": "NgRx",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "nhibernate",
       "name": "NHibernate",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "nightmare-js",
       "name": "Nightmare JS",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "nightwatch",
       "name": "Nightwatch",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "nim",
       "name": "Nim",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "nintex",
       "name": "Nintex",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "nixos",
       "name": "NixOS",
-      "groups": []
+      "groups": ["os"]
     },
     {
       "id": "nlog",
       "name": "NLog",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "nlp",
       "name": "NLP",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "node-js",
       "name": "Node.js",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "node-red",
       "name": "Node-RED",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "nomad",
       "name": "Nomad",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "nosql",
       "name": "NoSQL",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "npl",
       "name": "NPL",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "npm",
       "name": "NPM",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "nservicebus",
       "name": "NServiceBus",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "numpy",
       "name": "NumPy",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "nuxt-js",
       "name": "Nuxt.js",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "oauth",
       "name": "OAuth",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "objective-c",
       "name": "Objective-C",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "ocaml",
       "name": "OCaml",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "octobercms",
       "name": "OctoberCMS",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "octopus-deploy",
       "name": "Octopus Deploy",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "oculus-rift",
       "name": "Oculus Rift",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "odata",
       "name": "OData",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "office365",
       "name": "Office365",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "okr-50",
       "name": "OKR-50",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "omega",
       "name": "Omega",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "ood",
       "name": "OOD",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "oop",
       "name": "OOP",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "opal",
       "name": "OPAL",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "open-source-contributor",
       "name": "Open Source Contributor",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "openapi",
       "name": "OpenAPI",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "opencart",
       "name": "OpenCart",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "opencl",
       "name": "OpenCL",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "opencv",
       "name": "OpenCV",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "openedx",
       "name": "OpenEDX",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "opengl",
       "name": "OpenGL",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "openid",
       "name": "OpenID",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "openlayers",
       "name": "OpenLayers",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "openshift",
       "name": "OpenShift",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "openstack",
       "name": "OpenStack",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "openstreetmap",
       "name": "OpenStreetMap",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "opentelemetry",
       "name": "OpenTelemetry",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "opentracing",
       "name": "OpenTracing",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "openvr",
       "name": "OpenVR",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "openwrt",
       "name": "OpenWrt",
-      "groups": []
+      "groups": ["os"]
     },
     {
       "id": "optical-character-recognition",
       "name": "Optical character recognition",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "optimizely",
       "name": "Optimizely",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "oracle-datastore",
       "name": "Oracle Datastore",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "oracle-developer-tools",
       "name": "Oracle developer Tools",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "oracle-service-cloud",
       "name": "Oracle Service Cloud",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "oracle-sql",
       "name": "Oracle SQL",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "orm",
       "name": "ORM",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "osquery",
       "name": "OSQuery",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "p2p-networking",
       "name": "P2P networking",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "packer",
       "name": "Packer",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "pair-programming",
       "name": "Pair Programming",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "pandas",
       "name": "Pandas",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "pantheon",
       "name": "Pantheon",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "pardot",
       "name": "Pardot",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "pascal",
       "name": "Pascal",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "paypal-api",
       "name": "Paypal API",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "pci-compliance",
       "name": "PCI Compliance",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "pdftoolbox",
       "name": "pdfToolbox",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "penetration-testing",
       "name": "Penetration Testing",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "peoplesoft",
       "name": "Peoplesoft",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "percona-server",
       "name": "Percona Server",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "perforce",
       "name": "Perforce",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "perl",
       "name": "Perl",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "phalcon",
       "name": "Phalcon",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "phantomjs",
       "name": "PhantomJS",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "phaser-js",
       "name": "Phaser.js",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "phoenix-framework",
       "name": "Phoenix Framework",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "phonegap",
       "name": "PhoneGap",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "photoshop",
       "name": "Photoshop",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "php",
       "name": "PHP",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "phpunit",
       "name": "PhpUnit",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "pl/sql",
       "name": "PL/SQL",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "play-framework",
       "name": "Play Framework",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "playstation",
       "name": "Playstation",
-      "groups": []
+      "groups": ["os"]
     },
     {
       "id": "plone",
       "name": "Plone",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "pmi",
       "name": "PMI",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "pmi-acp",
       "name": "PMI-ACP",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "pmp",
       "name": "PMP",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "poe",
       "name": "PoE",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "polymer",
       "name": "Polymer",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "posix",
       "name": "POSIX",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "postcss",
       "name": "PostCSS",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "postgresql",
       "name": "PostgreSQL",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "postman",
       "name": "Postman",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "power-bi",
       "name": "Power BI",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "powerapps",
       "name": "PowerApps",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "powershell",
       "name": "PowerShell",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "ppc",
       "name": "PPC",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "preact",
       "name": "Preact",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "predictive-analytics",
       "name": "Predictive Analytics",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "prestashop",
       "name": "Prestashop",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "presto",
       "name": "Presto",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "print-design",
       "name": "Print Design",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "product-designer",
       "name": "Product Designer",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "product-development",
       "name": "Product Development",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "progressive-web-apps",
       "name": "Progressive Web Apps",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "prolog",
       "name": "Prolog",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "prometheus",
       "name": "Prometheus",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "protocol-buffers",
       "name": "Protocol Buffers",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "prototyping",
       "name": "Prototyping",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "protractor",
       "name": "Protractor",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "psd-slicing",
       "name": "PSD slicing",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "psd-to-html/css/js",
       "name": "PSD to HTML/CSS/JS",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "psm",
       "name": "PSM",
-      "groups": []
+      "groups": ["certification"]
     },
     {
       "id": "public-key-infrastructure",
       "name": "Public Key Infrastructure",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "pug-js",
       "name": "pug.js",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "puppet",
       "name": "Puppet",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "pusher",
       "name": "Pusher",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "pycharm",
       "name": "Pycharm",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "pylibrary",
       "name": "PyLibrary",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "pyqt",
       "name": "PyQt",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "pyspark",
       "name": "PySpark",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "python",
       "name": "Python",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "pytorch",
       "name": "PyTorch",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "qa",
       "name": "QA",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "qa-automation",
       "name": "QA Automation",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "qa-professional",
       "name": "QA Professional",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "qt",
       "name": "Qt",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "r",
       "name": "R",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "r-shiny",
       "name": "r-shiny",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "rabbitmq",
       "name": "RabbitMQ",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "rackspace",
       "name": "Rackspace",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "rad",
       "name": "RAD",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "rails",
       "name": "Rails",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "ramda",
       "name": "Ramda",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "raspberry-pi",
       "name": "Raspberry Pi",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "ravendb",
       "name": "RavenDB",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "react",
       "name": "React",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "react-native",
       "name": "React Native",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "reactivex",
       "name": "ReactiveX",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "reactql",
       "name": "ReactQL",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "redhat",
       "name": "redhat",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "redis",
       "name": "Redis",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "redux",
       "name": "Redux",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "regular-expressions",
       "name": "Regular Expressions",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "relay",
       "name": "Relay",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "requirejs",
       "name": "RequireJS",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "responsive-design",
       "name": "Responsive Design",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "rest",
       "name": "REST",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "rethinkdb",
       "name": "RethinkDB",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "revel",
       "name": "Revel",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "rf-networking",
       "name": "RF Networking",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "rfid",
       "name": "RFID",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "riak",
       "name": "Riak",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "rman",
       "name": "RMAN",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "robotics",
       "name": "Robotics",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "roda",
       "name": "Roda",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "rollbar",
       "name": "Rollbar",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "ros",
       "name": "ROS",
-      "groups": []
+      "groups": ["os"]
     },
     {
       "id": "routing",
       "name": "Routing",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "routing-algorithms",
       "name": "Routing Algorithms",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "rpa",
       "name": "RPA",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "rsa-archer-platform",
       "name": "RSA Archer Platform",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "rspec",
       "name": "Rspec",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "rstudio",
       "name": "RStudio",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "rtos",
       "name": "RTOS",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "ruby",
       "name": "Ruby",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "ruby-on-rails",
       "name": "Ruby on Rails",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "rup",
       "name": "RUP",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "rust",
       "name": "Rust",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "rxcocoa",
       "name": "RxCocoa",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "rxjava",
       "name": "RxJava",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "rxjs",
       "name": "RxJS",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "rxswift",
       "name": "RxSwift",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "s3",
       "name": "S3",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "sails",
       "name": "Sails",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "salesforce",
       "name": "Salesforce",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "saltstack",
       "name": "SaltStack",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "saml",
       "name": "SAML",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "samp",
       "name": "SAMP",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "sap",
       "name": "SAP",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "sap-crystal-reports",
       "name": "SAP Crystal Reports",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "sapper",
       "name": "Sapper",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "sapui5",
       "name": "SAPUI5",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "sas",
       "name": "SAS",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "sass",
       "name": "SASS",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "sasslint",
       "name": "SassLint",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "sbt",
       "name": "sbt",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "scala",
       "name": "Scala",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "scapy",
       "name": "Scapy",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "scikit-learn",
       "name": "SciKit-Learn",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "scipy",
       "name": "SciPy",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "scorm",
       "name": "SCORM",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "scotty",
       "name": "Scotty",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "scrum",
       "name": "Scrum",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "scrum-master",
       "name": "Scrum Master",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "scrumban",
       "name": "SCRUMBan",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "scss",
       "name": "SCSS",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "sdlc",
       "name": "SDLC",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "seaborn",
       "name": "Seaborn",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "search-engine-optimization",
       "name": "Search engine optimization",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "segment",
       "name": "Segment",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "selenium",
       "name": "Selenium",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "selenium-grids",
       "name": "Selenium Grids",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "selenium-ide",
       "name": "Selenium IDE",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "selenium-webdriver",
       "name": "Selenium Webdriver",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "selinux",
       "name": "SELinux",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "semantic-ui",
       "name": "Semantic UI",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "sencha",
       "name": "Sencha",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "sendgrid",
       "name": "SendGrid",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "sentry",
       "name": "Sentry",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "sequelize",
       "name": "Sequelize",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "servant",
       "name": "Servant",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "serverless",
       "name": "Serverless",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "sftp",
       "name": "SFTP",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "sharepoint",
       "name": "Sharepoint",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "sharepoint-administration",
       "name": "Sharepoint Administration",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "sharepoint-framework",
       "name": "SharePoint Framework",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "shopify",
       "name": "Shopify",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "sidekiq",
       "name": "Sidekiq",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "siebel",
       "name": "Siebel",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "silex",
       "name": "Silex",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "sinatra",
       "name": "Sinatra",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "sinonjs",
       "name": "SinonJS",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "sitecore-cms",
       "name": "Sitecore CMS",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "sitefinity-cms",
       "name": "Sitefinity CMS",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "sketch",
       "name": "Sketch",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "slack-api",
       "name": "Slack API",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "slim-framework",
       "name": "Slim Framework",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "smalltalk",
       "name": "SmallTalk",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "smart-contracts",
       "name": "Smart contracts",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "smarty",
       "name": "Smarty",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "snowflake",
       "name": "Snowflake",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "soa",
       "name": "SOA",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "soap",
       "name": "SOAP",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "socket-io",
       "name": "Socket IO",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "solid",
       "name": "SOLID",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "solidity",
       "name": "Solidity",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "spa",
       "name": "SPA",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "speech-recognition",
       "name": "Speech recognition",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "speech-to-text",
       "name": "Speech to Text",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "spinnaker",
       "name": "Spinnaker",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "spiral",
       "name": "Spiral",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "splunk",
       "name": "Splunk",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "spock",
       "name": "Spock",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "spring-boot",
       "name": "Spring Boot",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "spring-framework",
       "name": "Spring Framework",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "spritekit",
       "name": "SpriteKit",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "sprockets",
       "name": "Sprockets",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "spss",
       "name": "SPSS",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "sql",
       "name": "SQL",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "sql-loader",
       "name": "SQL Loader",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "sql-server-integration-services",
       "name": "SQL Server Integration Services",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "sql-server-reporting-services",
       "name": "SQL Server Reporting Services",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "sqlalchemy",
       "name": "SQLAlchemy",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "sqlite",
       "name": "SQLite",
-      "groups": []
+      "groups": ["datastore"]
     },
     {
       "id": "square-api",
       "name": "Square API",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "squarespace",
       "name": "Squarespace",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "ssas",
       "name": "SSAS",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "ssis",
       "name": "SSIS",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "ssms",
       "name": "SSMS",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "sso",
       "name": "SSO",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "ssrs",
       "name": "SSRS",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "stackphp",
       "name": "StackPHP",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "standard-ml",
       "name": "Standard ML",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "stata",
       "name": "STATA",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "stellar",
       "name": "Stellar",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "stencil",
       "name": "Stencil",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "stm-microcontrollers",
       "name": "STM Microcontrollers",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "stored-procedures",
       "name": "Stored Procedures",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "storybook",
       "name": "Storybook",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "stripe",
       "name": "Stripe",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "struts",
       "name": "Struts",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "styled-components",
       "name": "styled-components",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "stylus",
       "name": "Stylus",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "sugarcrm",
       "name": "SugarCRM",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "suitecrm",
       "name": "SuiteCRM",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "supercomputing",
       "name": "SuperComputing",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "superlibrary",
       "name": "SuperLibrary",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "suse-11",
       "name": "SUSE 11",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "svelte",
       "name": "Svelte",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "svn",
       "name": "SVN",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "swarm",
       "name": "Swarm",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "swift",
       "name": "Swift",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "swing",
       "name": "Swing",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "symfony",
       "name": "Symfony",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "sysadmin",
       "name": "SysAdmin",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "systemd",
       "name": "Systemd",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "t",
       "name": "T",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "tableau",
       "name": "Tableau",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "tailwind-css",
       "name": "Tailwind CSS",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "talend",
       "name": "TALEND",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "taleo-learn-lms",
       "name": "Taleo Learn LMS",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "tcl",
       "name": "TCL",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "tcp/ip",
       "name": "TCP/IP",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "tcp/ip-networking",
       "name": "TCP/IP Networking",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "tdd",
       "name": "TDD",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "teamcity",
       "name": "TeamCity",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "technical-writing",
       "name": "Technical Writing",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "telegraf",
       "name": "Telegraf",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "tensorflow",
       "name": "TensorFlow",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "terraform",
       "name": "Terraform",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "three-js",
       "name": "Three.js",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "titanium",
       "name": "Titanium",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "tkinter",
       "name": "Tkinter",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "toad",
       "name": "TOAD",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "tokbox",
       "name": "Tokbox",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "tomcat",
       "name": "Tomcat",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "topic-modeling",
       "name": "Topic Modeling",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "tornado",
       "name": "Tornado",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "transact-sql",
       "name": "Transact SQL",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "travis",
       "name": "Travis",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "truffle",
       "name": "Truffle",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "tvos",
       "name": "tvOS",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "twig",
       "name": "Twig",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "twilio",
       "name": "Twilio",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "twisted",
       "name": "Twisted",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "typescript",
       "name": "TypeScript",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "ubuntu",
       "name": "Ubuntu",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "ui/ux",
       "name": "UI/UX",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "uikit",
       "name": "UIKit",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "uml",
       "name": "UML",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "underscore",
       "name": "Underscore",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "unit-testing",
       "name": "Unit Testing",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "unity",
       "name": "Unity",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "unix",
       "name": "Unix",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "unix-shells",
       "name": "Unix Shells",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "unreal-engine",
       "name": "Unreal Engine",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "usability-testing",
       "name": "Usability Testing",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "user-research",
       "name": "User Research",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "uwsgi",
       "name": "uWSGI",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "vagrant",
       "name": "Vagrant",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "varnish",
       "name": "Varnish",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "vault",
       "name": "Vault",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "vb-net",
       "name": "VB.NET",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "vb-script",
       "name": "VB Script",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "vba",
       "name": "VBA",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "vbulletin",
       "name": "vBulletin",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "vector-tiles",
       "name": "Vector Tiles",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "verilog",
       "name": "Verilog",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "vert-x",
       "name": "vert.x",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "vhdl",
       "name": "VHDL",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "video-streaming",
       "name": "Video Streaming",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "vim",
       "name": "vim",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "viper",
       "name": "Viper",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "virtual-reality",
       "name": "Virtual Reality",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "visio",
       "name": "Visio",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "visual-basic",
       "name": "Visual Basic",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "visual-c",
       "name": "Visual C++",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "visualforce",
       "name": "VisualForce",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "vlan",
       "name": "VLAN",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "vmware",
       "name": "VMware",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "voip",
       "name": "VoIP",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "volusion",
       "name": "Volusion",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "vue-js",
       "name": "Vue.js",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "vuforia",
       "name": "Vuforia",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "wagtail-cms",
       "name": "Wagtail CMS",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "wamp",
       "name": "WAMP",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "watchos",
       "name": "watchOS",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "waterfall",
       "name": "Waterfall",
-      "groups": []
+      "groups": ["methodology"]
     },
     {
       "id": "watson-analytic",
       "name": "Watson Analytic",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "wcag",
       "name": "WCAG",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "web-accessibility",
       "name": "Web accessibility",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "web-animation",
       "name": "Web animation",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "web-audio",
       "name": "web audio",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "web-components",
       "name": "Web Components",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "web-crawling",
       "name": "Web Crawling",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "web-performance",
       "name": "Web performance",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "web-scraping",
       "name": "Web scraping",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "web-services",
       "name": "Web Services",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "web2py",
       "name": "Web2py",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "web3",
       "name": "Web3",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "webassembly",
       "name": "WebAssembly",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "webflow",
       "name": "Webflow",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "webgd",
       "name": "WebGD",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "webgl",
       "name": "WebGL",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "webpack",
       "name": "Webpack",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "webpacker",
       "name": "Webpacker",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "webrtc",
       "name": "WebRTC",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "websocket",
       "name": "WebSocket",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "websphere",
       "name": "WebSphere",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "wimsa",
       "name": "WIMSA",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "windows",
       "name": "Windows",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "windows-administration",
       "name": "Windows Administration",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "windows-apis",
       "name": "Windows APIs",
-      "groups": []
+      "groups": ["api"]
     },
     {
       "id": "windows-server",
       "name": "Windows Server",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "windows-services",
       "name": "Windows Services",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "windows-system-administrator",
       "name": "Windows System Administrator",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "winforms",
       "name": "WinForms",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "wireframing",
       "name": "Wireframing",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "wireless-multimedia-content-delivery",
       "name": "Wireless Multimedia Content Delivery",
-      "groups": []
+      "groups": ["discipline"]
     },
     {
       "id": "wisa",
       "name": "WISA",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "wix",
       "name": "Wix",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "woocommerce",
       "name": "WooCommerce",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "wordpress",
       "name": "WordPress",
-      "groups": []
+      "groups": ["cms"]
     },
     {
       "id": "workato",
       "name": "Workato",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "wpf",
       "name": "WPF",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "wpml",
       "name": "WPML",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "wsdl",
       "name": "WSDL",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "wsgi",
       "name": "WSGI",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "xamarin",
       "name": "Xamarin",
-      "groups": []
+      "groups": ["frontend-framework"]
     },
     {
       "id": "xaml",
       "name": "XAML",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "xampp",
       "name": "XAMPP",
-      "groups": []
+      "groups": ["stack"]
     },
     {
       "id": "xbox",
       "name": "Xbox",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "xcode",
       "name": "Xcode",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "xhtml",
       "name": "XHTML",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "xml",
       "name": "XML",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "xmpp",
       "name": "XMPP",
-      "groups": []
+      "groups": ["standards"]
     },
     {
       "id": "xp",
       "name": "XP",
-      "groups": []
+      "groups": ["stylesheets"]
     },
     {
       "id": "xslt",
       "name": "XSLT",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "xunit",
       "name": "xUnit",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "yaml",
       "name": "YAML",
-      "groups": []
+      "groups": ["markup"]
     },
     {
       "id": "yarn",
       "name": "Yarn",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "yeoman",
       "name": "Yeoman",
-      "groups": []
+      "groups": ["build-tool"]
     },
     {
       "id": "yii",
       "name": "Yii",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "yii2",
       "name": "Yii2",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "yocto-project",
       "name": "Yocto Project",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "yui-library",
       "name": "YUI Library",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "zappa",
       "name": "Zappa",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "zen",
       "name": "Zen",
-      "groups": []
+      "groups": ["language"]
     },
     {
       "id": "zend-framework",
       "name": "Zend Framework",
-      "groups": []
+      "groups": ["backend-framework"]
     },
     {
       "id": "zendesk",
       "name": "Zendesk",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "zeplin",
       "name": "Zeplin",
-      "groups": []
+      "groups": ["tools"]
     },
     {
       "id": "zeromq",
       "name": "ZeroMQ",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "zmq",
       "name": "ZMQ",
-      "groups": []
+      "groups": ["library"]
     },
     {
       "id": "zookeeper",
       "name": "Zookeeper",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "zope",
       "name": "Zope",
-      "groups": []
+      "groups": ["infrastructure"]
     },
     {
       "id": "zuora-api",
       "name": "Zuora API",
-      "groups": []
+      "groups": ["api"]
     }
   ],
   "softwareProducts": [

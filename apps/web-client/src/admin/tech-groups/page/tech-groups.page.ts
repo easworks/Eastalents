@@ -185,7 +185,7 @@ export class TechGroupsPageComponent {
         const full = unfiltered$();
         const selected = this.search.selected$();
         if (selected)
-          return full.filter(row => row.data.generic.includes(selected.id));
+          return full.filter(row => row.data.skills.includes(selected.id));
         else
           return full;
       });
@@ -193,8 +193,11 @@ export class TechGroupsPageComponent {
       return { $ } as const;
     })();
 
+    const empty$ = computed(() => rows.$().length === 0);
+
     return {
-      rows
+      rows,
+      empty$
     } as const;
 
   })();

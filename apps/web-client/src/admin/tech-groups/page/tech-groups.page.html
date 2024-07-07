@@ -21,6 +21,13 @@
         </tr>
       </thead>
       <tbody>
+        @if (table.empty$()) {
+        <tr>
+          <td colspan="4" class="italics text-gray-400 text-center">
+            No data
+          </td>
+        </tr>
+        }
         @for(row of table.rows.$(); track row.data.id) {
         <tr>
           <td>{{row.data.id}}</td>
