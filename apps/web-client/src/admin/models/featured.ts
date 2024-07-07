@@ -1,13 +1,9 @@
 import { Domain } from "./domain";
 import { SoftwareProduct } from "./tech-skill";
 
-export interface FeaturedProductDomain {
+export interface FeaturedDomain {
   domain: string;
   software: string[];
-}
-
-export interface FeaturedRoleDomain {
-  domain: string;
   roles: string[];
 }
 

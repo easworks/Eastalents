@@ -3,6 +3,7 @@ import { createEntityAdapter } from '@ngrx/entity';
 import { createActionGroup, createFeature, createReducer, createSelector, emptyProps, on, props } from '@ngrx/store';
 import { produce } from 'immer';
 import { AdminDataDTO, AdminDataState } from '../models/admin-data';
+import { Domain } from '../models/domain';
 import { SoftwareProduct, TechGroup, TechSkill } from '../models/tech-skill';
 
 export const adminDataActions = createActionGroup({
@@ -45,6 +46,7 @@ export const softwareProductActions = createActionGroup({
 
 
 const adapters = {
+  domain: createEntityAdapter<Domain>(),
   techSkill: createEntityAdapter<TechSkill>(),
   softwareProduct: createEntityAdapter<SoftwareProduct>(),
   techGroup: createEntityAdapter<TechGroup>(),
@@ -54,16 +56,20 @@ const feature = createFeature({
   name: 'adminData',
   reducer: createReducer<AdminDataState>(
     {
+      domains: adapters.domain.getInitialState(),
       techSkills: adapters.techSkill.getInitialState(),
       softwareProducts: adapters.softwareProduct.getInitialState(),
       techGroups: adapters.techGroup.getInitialState(),
+      featuredDomains: [],
     },
 
     on(adminDataActions.updateState, (state, { payload }) => {
       state = {
+        domains: adapters.domain.getInitialState(),
         softwareProducts: adapters.softwareProduct.getInitialState(),
         techGroups: adapters.techGroup.getInitialState(),
         techSkills: adapters.techSkill.getInitialState(),
+        featuredDomains: []
       };
 
       state.softwareProducts = adapters.softwareProduct.setMany(payload.softwareProducts, state.softwareProducts);

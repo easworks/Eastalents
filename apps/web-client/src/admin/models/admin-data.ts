@@ -1,18 +1,14 @@
 import { EntityState } from '@ngrx/entity';
 import { SoftwareProduct, TechGroup, TechSkill } from '../models/tech-skill';
-import { Domain, DomainModule } from './domain';
-import { EASRole } from './eas-role';
-import { FeaturedProductDomain, FeaturedRoleDomain } from './featured';
+import { Domain } from './domain';
+import { FeaturedDomain } from './featured';
 
 export interface AdminDataState {
   techSkills: EntityState<TechSkill>;
   techGroups: EntityState<TechGroup>;
-  // easRoles: EASRole[];
   softwareProducts: EntityState<SoftwareProduct>;
-  // domainModules: DomainModule[];
-  // domains: Domain[];
-  // featuredProducts: FeaturedProductDomain[];
-  // featuredRoles: FeaturedRoleDomain[];
+  domains: EntityState<Domain>;
+  featuredDomains: FeaturedDomain[];
 }
 
 export interface AdminDataDTO {
