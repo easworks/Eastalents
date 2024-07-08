@@ -3,8 +3,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatDialog } from '@angular/material/dialog';
 import { MatSelectModule } from "@angular/material/select";
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogLoaderComponent } from '@easworks/app-shell/common/dialog-loader.component';
 import { FormImportsModule } from "@easworks/app-shell/common/form.imports.module";
 import { ImportsModule } from "@easworks/app-shell/common/imports.module";
 import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
@@ -19,7 +21,6 @@ import { adminData, softwareProductActions } from '../../state/admin-data';
   standalone: true,
   selector: 'software-products-page',
   templateUrl: './software-products.page.html',
-  //styleUrl: './tech-group.page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
@@ -33,6 +34,7 @@ export class SoftwareProductsPageComponent {
   private readonly store = inject(Store);
   private readonly snackbar = inject(MatSnackBar);
   private readonly dRef = inject(DestroyRef);
+  private readonly dialog = inject(MatDialog);
 
   protected readonly icons = {
     faCheck,
@@ -207,4 +209,29 @@ export class SoftwareProductsPageComponent {
     } as const;
 
   })();
+
+  protected readonly create = (() => {
+    const click = async () => {
+      const ref = DialogLoaderComponent.open(this.dialog);
+      const comp = await import('../create/create-software-product.dialog')
+        .then(m => m.CreateSoftwareProductDialogComponent);
+      comp.open(ref, {
+        created: id => this.editSkills(id)
+      });
+    };
+
+    return {
+      click,
+    } as const;
+  })();
+
+  private readonly editSkills = async (id: string) => {
+    const ref = DialogLoaderComponent.open(this.dialog);
+    const comp = await import('../skills/software-product-skills.dialog')
+      .then(m => m.SoftwareProductSkillsDialogComponent);
+
+    comp.open(ref, {
+      product: id
+    });
+  };
 }
