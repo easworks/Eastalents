@@ -33,6 +33,12 @@ export const techGroupActions = createActionGroup({
   events: {
     add: props<{ payload: TechGroup; }>(),
     update: props<{ payload: { id: string; name: string; }; }>(),
+    'update skills': props<{
+      payload: {
+        id: string;
+        skills: TechGroup['skills'];
+      };
+    }>()
   }
 });
 

@@ -1,1 +1,68 @@
-Tech Group Skills Component
+<div class="flex justify-between items-center p-2 pl-4 gap-4">
+  <h1 class="font-bold">Add Tech Skills To Group</h1>
+  <button class="icon-button small" mat-dialog-close mat-ripple>
+    <fa-icon [icon]="icons.faXmark"></fa-icon>
+  </button>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="p-2">
+  <div class="form-field mb-0">
+    <label>Group</label>
+    <input type="text" readonly [ngModel]="group$().name">
+  </div>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="p-2 flex flex-wrap gap-4">
+  @if(skillContainer.empty$()) {
+  <div class="w-full p-2 px-4 rounded border italics text-gray-400 text-center">
+    No Data
+  </div>
+  }
+
+  @for(chip of skillContainer.chips$(); track chip.id) {
+  <div class="chip">
+    <span>{{chip.name}}</span>
+    <button type="button" mat-ripple class="icon-button"
+            (click)="skillContainer.remove(chip.id)">
+      <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
+    </button>
+  </div>
+  }
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="p-2">
+  <div class="form-field mb-0">
+    <input type="text" [(ngModel)]="skillContainer.add.query$"
+           [matAutocomplete]="searchOptions"
+           placeholder="Add Tech Skill">
+  </div>
+
+  <mat-autocomplete #searchOptions hideSingleSelectionIndicator
+                    [displayWith]="skillContainer.add.displayWith"
+                    (optionSelected)="skillContainer.add.onSelect($event)">
+    @for(option of skillContainer.add.results$(); track option.id) {
+    <mat-option [value]="option">{{option.name}}</mat-option>
+    }
+  </mat-autocomplete>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="flex gap-2 p-2">
+  <button type="button"
+          class="stroked-button primary" mat-ripple
+          [disabled]="buttons.save.disabled$()"
+          (click)="buttons.save.click()">
+    Save
+  </button>
+  <button type="button" class="stroked-button" mat-ripple
+          (click)="buttons.reset.click()">
+    Reset
+  </button>
+</div>
