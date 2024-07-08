@@ -15,7 +15,7 @@ export const ADMIN_ROUTES: Route =
     {
       path: 'software-products',
       pathMatch: 'full',
-      loadComponent: () => import('./software-products/software-products.page')
+      loadComponent: () => import('./software-products/page/software-products.page')
         .then(m => m.SoftwareProductsPageComponent)
     },
     {

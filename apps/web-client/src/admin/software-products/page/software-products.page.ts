@@ -12,8 +12,8 @@ import { generateLoadingState } from "@easworks/app-shell/state/loading";
 import { faCheck, faRefresh, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Store } from '@ngrx/store';
 import { Subscription, map } from 'rxjs';
-import { SoftwareProduct } from '../models/tech-skill';
-import { adminData, softwareProductActions } from '../state/admin-data';
+import { SoftwareProduct } from '../../models/tech-skill';
+import { adminData, softwareProductActions } from '../../state/admin-data';
 
 @Component({
   standalone: true,
