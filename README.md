@@ -1,32 +1,46 @@
 # Eastalents Frontend
 
-## Go-Live Tasks
+### Requirements
 
-0. Make a mapping script for current domain data to new model
-1. Admin Panel
-  - DomainModule
-  - Domain
-  - FeaturedDomains
-  - FeaturedProducts
-  - UI/UX polish + generate json
+1. node 20+
+2. pnpm package manager
+3. nx cli
 
-2. Detect new user
-3. submit freelnacer profile to the api
-4. submit admin profile to the api
-5. submit new job post to the api
-6. make the view job post page
-7. make the list job posts page
-8. Submit the api design to Mr. Ram
+### Development
 
-## Entity Models
-
-Folder: `libs/models`
+1. Clone the repo
+2. `pnpm i` to install dependencies
+3. `nx serve web-client` to serve the angular app
 
 
-## Styles
+### Folder Structure
 
-Folder: `shared/styles`
+- apps - for applications
+- libs - for libraries
 
-Primarily, we use tailwind and angular material.
+- libs/models - critical types and interfaces for the app
+- libs/shared/assets - assets that may be shared across apps
+- libs/shared/styles - styles that may be shared across apps
+- libs/app-shell - library containing angular components, directives, services or other frontend utils, that may be shared across apps
 
-## 
+- apps/web-client - angular application
+
+### General Instructions
+
+>  when writing code, use indentation of 2 spaces
+
+#### Component authoring
+
+- always use standalone components
+- always use `OnPush` change detection
+- prefer using signals and other latest features of angular
+
+#### Styles
+- our main tailwind config lives at [libs/shared/styles/src/tailwind.config.js](libs/shared/styles/src/tailwind.config.js)
+- applications also have their own tailwind configs which extend the main tailwind config
+- we use 2 files to customize angular material
+  - [libs/shared/styles/src/material.scss](libs/shared/styles/src/material.scss) contains the code that import material styles for components
+  - [libs/shared/styles/src/material.overrides.less](libs/shared/styles/src/material.overrides.less) contains the code that customizes material,
+  - we use the available css properties from angular material, and tailwind utilities to get a tailor-made appearance
+- prefer using tailwind styles or utilities over custom css, unless unavoidable
+- do not change global styles without consulting the team
