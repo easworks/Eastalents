@@ -105,7 +105,8 @@ export const adminDataEffects = {
           techSkillActions.add,
           techSkillActions.update,
 
-          techSkillActions.updateGroups
+          techSkillActions.updateGroups,
+          techGroupActions.updateSkills
         ),
         concatMap(() => api.techSkills.write(list$()))
       );
@@ -126,8 +127,6 @@ export const adminDataEffects = {
           adminDataActions.saveState,
           techGroupActions.add,
           techGroupActions.update,
-
-          techSkillActions.updateGroups,
 
         ),
         concatMap(() => api.techGroups.write(list$()))

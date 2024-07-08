@@ -130,36 +130,22 @@ const feature = createFeature({
 
       // update tech groups
       {
-        const prev = new Set(skill.groups);
-        const next = new Set(payload.groups);
+        const { added, removed } = diffList(skill.groups, payload.groups);
 
-        const added = new Set<string>();
-        const removed = new Set<string>();
-
-        for (const p of skill.groups) {
-          if (!next.has(p))
-            removed.add(p);
-        }
-
-        for (const n of payload.groups) {
-          if (!prev.has(n))
-            added.add(n);
-        }
-
-        [...added]
+        added
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           .map(id => state.techGroups.entities[id]!)
-          .forEach(group => techGroupUtils.addSkill(skill, group));
+          .forEach(group => utils.techGroup.addSkill(skill, group));
 
-        [...removed]
+        removed
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           .map(id => state.techGroups.entities[id]!)
-          .forEach(group => techGroupUtils.removeSkill(skill, group));
+          .forEach(group => utils.techGroup.removeSkill(skill, group));
 
       }
 
       // update tech skill
-      skill.groups = [...payload.groups].sort((a, b) => sortString(a[0], b[0]));
+      skill.groups = [...payload.groups].sort(sortString);
 
       return state;
     })),
@@ -182,7 +168,31 @@ const feature = createFeature({
         },
       }, state.techGroups);
       return state;
-    })
+    }),
+    on(techGroupActions.updateSkills, produce((state, { payload }) => {
+      const group = state.techGroups.entities[payload.id];
+      if (!group)
+        throw new Error('invalid operation');
+
+      // update tech skills 
+      {
+        const { added, removed } = diffList(group.skills, payload.skills);
+
+        added
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          .map(id => state.techSkills.entities[id]!)
+          .forEach(skill => utils.techSkill.addGroup(group, skill));
+        removed
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          .map(id => state.techSkills.entities[id]!)
+          .forEach(skill => utils.techSkill.removeGroup(group, skill));
+
+      }
+
+      // update tech group
+      group.skills = [...payload.skills].sort(sortString);
+
+    }))
   ),
   extraSelectors: base => {
     const selectors = {
@@ -219,14 +229,51 @@ export const adminData = {
 } as const;
 
 
-const techGroupUtils = {
-  addSkill: (skill: TechSkill, group: TechGroup) => {
-    group.skills.push(skill.id);
-    group.skills.sort(sortString);
+const utils = {
+  techGroup: {
+    addSkill: (skill: TechSkill, group: TechGroup) => {
+      group.skills.push(skill.id);
+      group.skills.sort(sortString);
+    },
+    removeSkill: (skill: TechSkill, group: TechGroup) => {
+      const idx = group.skills.findIndex(s => s === skill.id);
+      if (idx !== -1)
+        group.skills.splice(idx, 1);
+    }
   },
-  removeSkill: (skill: TechSkill, group: TechGroup) => {
-    const idx = group.skills.findIndex(s => s === skill.id);
-    if (idx !== -1)
-      group.skills.splice(idx, 1);
+  techSkill: {
+    addGroup: (group: TechGroup, skill: TechSkill) => {
+      skill.groups.push(group.id);
+      skill.groups.sort(sortString);
+    },
+    removeGroup: (group: TechGroup, skill: TechSkill) => {
+      const idx = skill.groups.findIndex(g => g === group.id);
+      if (idx !== -1)
+        skill.groups.splice(idx, 1);
+    }
   }
 } as const;
+
+
+function diffList<T>(from: readonly T[], to: readonly T[]) {
+  const prev = new Set(from);
+  const next = new Set(to);
+
+  const added = new Set<T>();
+  const removed = new Set<T>();
+
+  for (const p of from) {
+    if (!next.has(p))
+      removed.add(p);
+  }
+
+  for (const n of to) {
+    if (!prev.has(n))
+      added.add(n);
+  }
+
+  return {
+    added: [...added],
+    removed: [...removed],
+  } as const;
+}
