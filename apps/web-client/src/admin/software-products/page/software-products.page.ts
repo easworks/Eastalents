@@ -1,18 +1,17 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal } from "@angular/core";
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, effect, inject, signal, untracked } from "@angular/core";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectModule } from "@angular/material/select";
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogLoaderComponent } from '@easworks/app-shell/common/dialog-loader.component';
 import { FormImportsModule } from "@easworks/app-shell/common/form.imports.module";
 import { ImportsModule } from "@easworks/app-shell/common/imports.module";
-import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
+import { PaginatorComponent } from '@easworks/app-shell/common/paginator/paginator.component';
 import { generateLoadingState } from "@easworks/app-shell/state/loading";
-import { faCheck, faRefresh, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faPlus, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { Store } from '@ngrx/store';
+import Fuse from 'fuse.js';
 import { Subscription, map } from 'rxjs';
 import { SoftwareProduct } from '../../models/tech-skill';
 import { adminData, softwareProductActions } from '../../state/admin-data';
@@ -27,95 +26,122 @@ import { adminData, softwareProductActions } from '../../state/admin-data';
     FormImportsModule,
     MatCheckboxModule,
     MatSelectModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    PaginatorComponent
   ]
 })
 export class SoftwareProductsPageComponent {
   private readonly store = inject(Store);
-  private readonly snackbar = inject(MatSnackBar);
   private readonly dRef = inject(DestroyRef);
   private readonly dialog = inject(MatDialog);
 
   protected readonly icons = {
     faCheck,
     faRefresh,
-    faXmark,
+    faPlus,
   } as const;
+
+  protected readonly maxlength = { name: 64 } as const;
 
   protected readonly loading = generateLoadingState<[
     'updating software product',
-    'adding software product'
   ]>();
 
-  private readonly softwareProduct$ = this.store.selectSignal(adminData.selectors.softwareProduct.selectAll);
+  private readonly products = (() => {
+    const list$ = this.store.selectSignal(adminData.selectors.softwareProduct.selectAll);
+
+    const search$ = computed(() => new Fuse(list$(), {
+      keys: ['name'],
+      includeScore: true
+    }));
+
+    return {
+      list$,
+      search$
+    } as const;
+  })();
+
+  protected readonly search = (() => {
+    const query$ = signal('');
+
+    const result$ = computed(() => {
+      const q = query$().trim();
+
+      if (!q)
+        return this.products.list$();
+
+      const options = untracked(this.products.search$).search(q);
+      return options.map(o => o.item);
+    });
+
+    return {
+      query$,
+      result$
+    } as const;
+  })();
 
   protected readonly table = (() => {
-    const rowControls = () => {
-      return {
-        name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-        imageUrl: new FormControl('', { nonNullable: true }),
-        //softwareId: new FormControl('', { nonNullable: true, validators: [] })
-      };
-    };
+    const paginator = (() => {
 
-    const add = (() => {
-      const form = new FormGroup({
-        id: new FormControl('', {
-          nonNullable: true,
-          validators:
-            [
-              Validators.required,
-              ({ value }) => {
-                const list = this.softwareProduct$();
-                const exists = list.some(group => group.id === value);
-                if (exists)
-                  return { exists: true };
-                return null;
-              }
-            ],
-        }),
-        ...rowControls()
+      const resetScroll = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      const current$ = signal(1);
+      const pages$ = computed(() => {
+        const total = this.search.result$().length;
+        return Math.ceil(total / 100);
       });
 
-      const status$ = toSignal(form.statusChanges, { initialValue: form.status });
-      const valid$ = computed(() => status$() === 'VALID');
+      effect(() => {
+        pages$();
+        current$.set(1);
+      }, { allowSignalWrites: true });
 
-      const submitting$ = this.loading.has('adding software product');
-      const submitDisabled$ = computed(() => this.loading.any$() || !valid$());
-
-      const submit = () => {
-        if (!form.valid)
-          return;
-
-        try {
-          this.loading.add('adding software product');
-          const value = form.getRawValue();
-
-          const payload: SoftwareProduct = {
-            id: value.id,
-            name: value.name,
-            imageUrl: value.imageUrl,
-            skills: {}
-          };
-
-          this.store.dispatch(softwareProductActions.add({ payload }));
-          form.reset();
+      const prev = {
+        disabled$: computed(() => current$() <= 1),
+        click: () => {
+          current$.update(v => --v);
+          resetScroll();
         }
-        catch (err) {
-          SnackbarComponent.forError(this.snackbar, err);
+      } as const;
+      const first = () => {
+        current$.set(1);
+        resetScroll();
+      };
+
+      const next = {
+        disabled$: computed(() => current$() >= pages$()),
+        click: () => {
+          current$.update(v => ++v);
+          resetScroll();
         }
-        finally {
-          this.loading.delete('adding software product');
-        }
+      } as const;
+      const last = () => {
+        current$.set(pages$());
+        resetScroll();
       };
 
       return {
-        form,
-        submit,
-        submitting$,
-        submitDisabled$
+        current$,
+        pages$,
+        first,
+        prev,
+        next,
+        last
       } as const;
     })();
+
+    const rowControls = () => {
+      return {
+        name: new FormControl('', {
+          nonNullable: true,
+          validators: [
+            Validators.required,
+            Validators.maxLength(this.maxlength.name)
+          ]
+        }),
+        imageUrl: new FormControl('', { nonNullable: true }),
+      };
+    };
 
     const rows = (() => {
 
@@ -125,12 +151,18 @@ export class SoftwareProductsPageComponent {
       let rowSubs = new Subscription();
       this.dRef.onDestroy(() => rowSubs.unsubscribe());
 
+      const view$ = computed(() => {
+        const results = this.search.result$();
+        const itemsPerPage = 100;
+        const start = (paginator.current$() - 1) * itemsPerPage;
+        return results.slice(start, start + itemsPerPage);
+      });
+
       const $ = computed(() => {
         rowSubs.unsubscribe();
         rowSubs = new Subscription();
 
-        return this.softwareProduct$().map(sp => {
-
+        return view$().map(sp => {
           const form = new FormGroup({ ...rowControls() });
 
           const changeCheck = (value: typeof form['value']) =>
@@ -203,9 +235,12 @@ export class SoftwareProductsPageComponent {
       } as const;
     })();
 
+    const empty$ = computed(() => rows.$().length === 0);
+
     return {
-      add,
-      rows
+      rows,
+      empty$,
+      paginator
     } as const;
 
   })();

@@ -1,5 +1,10 @@
+<div class="form-field mt-4 mb-0">
+  <input type="text" [(ngModel)]="search.query$"
+         placeholder="Search Software Product">
+</div>
+
 <div class="mt-4 table-container">
-  <div>
+  <div class="overflow-wrapper">
     <table>
       <thead>
         <tr>
@@ -10,6 +15,13 @@
         </tr>
       </thead>
       <tbody>
+        @if (table.empty$()) {
+        <tr>
+          <td colspan="4" class="italics text-gray-400 text-center">
+            No data
+          </td>
+        </tr>
+        }
         @for(row of table.rows.$(); track row.data.id) {
         <tr>
           <td>{{ row.data.id }}</td>
@@ -35,33 +47,26 @@
           </td>
         </tr>
         }
-        <tr *ngrxLet="table.add.form as form">
-          <td *ngrxLet="form.controls.id as control" [formFieldControl]="control">
-            <input type="text" [formControl]="control" placeholder="Add new software product...">
-          </td>
-          <td *ngrxLet="form.controls.name as control" [formFieldControl]="control">
-            <input type="text" [formControl]="control">
-          </td>
-          <td *ngrxLet="form.controls.imageUrl as control" [formFieldControl]="control">
-            <input type="text" [formControl]="control">
-          </td>
-          <td class="actions">
-            <div class="flex">
-              <button class="icon-button small enabled:text-emerald-500" mat-ripple
-                      [disabled]="table.add.submitDisabled$()" (click)="table.add.submit()">
-                <replace-spinner [showSpinner]="table.add.submitting$()">
-                  <fa-icon [icon]="icons.faCheck"></fa-icon>
-                </replace-spinner>
-              </button>
-              <button class="icon-button small" mat-ripple
-                      [disabled]="loading.any$() || form.pristine"
-                      (click)="form.reset()">
-                <fa-icon [icon]="icons.faXmark"></fa-icon>
-              </button>
-            </div>
-          </td>
-        </tr>
       </tbody>
     </table>
   </div>
+  <div class="border-t p-2">
+    <paginator class="w-max ml-auto"
+               showFirstLast
+               [pages]="table.paginator.pages$()"
+               [current]="table.paginator.current$()"
+               [disablePrev]="table.paginator.prev.disabled$()"
+               [disableNext]="table.paginator.next.disabled$()"
+               (first)="table.paginator.first()"
+               (previous)="table.paginator.prev.click()"
+               (next)="table.paginator.next.click()"
+               (last)="table.paginator.last()"></paginator>
+  </div>
 </div>
+
+
+<button class="icon-button primary large !sticky bottom-4 ml-auto mr-4 mt-4 shadow-z1 shadow-gray-500"
+        mat-ripple
+        (click)="create.click()">
+  <fa-icon [icon]="icons.faPlus"></fa-icon>
+</button>
