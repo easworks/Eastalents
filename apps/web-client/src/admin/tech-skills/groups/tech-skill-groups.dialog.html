@@ -23,14 +23,13 @@
         <thead>
           <tr>
             <th>Group</th>
-            <th class="text-center">Generic</th>
             <th class="w-0"></th>
           </tr>
         </thead>
         <tbody>
           @if(table.empty$()) {
           <tr>
-            <td colspan="3" class="italics text-gray-400 text-center">
+            <td colspan="2" class="italics text-gray-400 text-center">
               No data
             </td>
           </tr>
@@ -38,9 +37,6 @@
           @for(row of table.rows$(); track row.id) {
           <tr>
             <td>{{row.name}}</td>
-            <td class="text-center">
-              <mat-checkbox [checked]="row.generic" (change)="table.updateGeneric(row.id, $event.checked)"></mat-checkbox>
-            </td>
             <td class="!p-0">
               <button class="icon-button rounded-md hover:text-warn"
                       mat-ripple matTooltip="Remove"

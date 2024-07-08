@@ -67,18 +67,11 @@ export class TechSkillGroupsDialogComponent implements OnInit {
 
     const changes = generateLoadingState<string[]>();
 
-    const original$ = computed(() => this.skill$().groups.reduce<Record<string, boolean>>(
-      (state, [id, generic]) => {
-        state[id] = generic;
-        return state;
-      },
-      {}
-    ));
+    const original$ = computed(() => new Set(this.skill$().groups));
 
     const rows$ = signal<{
       id: string;
       name: string;
-      generic: boolean;
     }[]>([]);
 
     const empty$ = computed(() => rows$().length === 0);
@@ -86,27 +79,10 @@ export class TechSkillGroupsDialogComponent implements OnInit {
     const remove = (id: string) => {
       const original = original$();
       rows$.update(rows => rows.filter(r => r.id !== id));
-      if (id in original)
+      if (original.has(id))
         changes.add(id);
       else
         changes.delete(id);
-    };
-
-    const updateGeneric = (id: string, value: boolean) => {
-      const original = original$();
-      rows$.update(rows => {
-        const skill = rows.find(r => r.id === id);
-        if (!skill) throw new Error('invalid operation');
-        skill.generic = value;
-        return rows;
-      });
-      if (id in original) {
-        if (original[id] === value)
-          changes.delete(id);
-        else
-          changes.add(id);
-      }
-
     };
 
     const add = (() => {
@@ -142,13 +118,12 @@ export class TechSkillGroupsDialogComponent implements OnInit {
       });
 
       const onSelect = (event: MatAutocompleteSelectedEvent) => {
-
+        const original = original$();
         const value = event.option.value as TechGroup;
 
         rows$.update(v => {
           v.push({
             id: value.id,
-            generic: true,
             name: value.name
           });
 
@@ -156,7 +131,10 @@ export class TechSkillGroupsDialogComponent implements OnInit {
 
           return [...v];
         });
-        changes.add(value.id);
+        if (original.has(value.id))
+          changes.delete(value.id);
+        else
+          changes.add(value.id);
         this.cdRef.detectChanges();
         query$.set('');
       };
@@ -175,7 +153,6 @@ export class TechSkillGroupsDialogComponent implements OnInit {
       empty$,
       changes,
       add,
-      updateGeneric,
       remove
     } as const;
   })();
@@ -186,7 +163,7 @@ export class TechSkillGroupsDialogComponent implements OnInit {
 
       const click = () => {
         const value: TechSkill['groups'] = this.table.rows$()
-          .map(row => [row.id, row.generic]);
+          .map(row => row.id);
 
         this.store.dispatch(techSkillActions.updateGroups({
           payload: {
@@ -210,9 +187,8 @@ export class TechSkillGroupsDialogComponent implements OnInit {
       const click = () => {
         const groups = this.groups.map$();
         const skill = this.skill$();
-        const value = skill.groups.map(([id, generic]) => ({
+        const value = skill.groups.map(id => ({
           id,
-          generic,
           name: groups[id]?.name || ''
         }));
 

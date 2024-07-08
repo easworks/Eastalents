@@ -17,7 +17,6 @@ import { adminData, techSkillActions } from '../../state/admin-data';
   standalone: true,
   selector: 'tech-skills-page',
   templateUrl: './tech-skills.page.html',
-  styleUrl: './tech-skills.page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
@@ -207,10 +206,9 @@ export class TechSkillsPageComponent {
           } as const;
 
           const groups = (() => {
-            const list = skill.groups.map(([id, generic]) => ({
+            const list = skill.groups.map((id) => ({
               id,
-              label: techGroups[id]?.name,
-              generic
+              label: techGroups[id]?.name
             }));
 
             const edit = async () => this.editGroups(skill.id);

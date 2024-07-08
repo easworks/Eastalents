@@ -91,8 +91,7 @@ export class CreateTechGroupDialogComponent {
           const group: TechGroup = {
             id: value.id,
             name: value.name,
-            generic: [],
-            nonGeneric: [],
+            skills: []
           };
 
           this.store.dispatch(techGroupActions.add({ payload: group }));

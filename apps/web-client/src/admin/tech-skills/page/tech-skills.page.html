@@ -32,7 +32,10 @@
             <div class="flex gap-2 items-center justify-between">
               <div class="flex flex-wrap gap-2 items-center relative">
                 @for(group of row.groups.list; track group.id) {
-                <div class="group-tag" [class.generic]="group.generic">{{group.label}}</div>
+                <div class="font-normal text-sm rounded-md p-1 px-2 
+                    bg-primary-500/10 text-primary-500">
+                  {{group.label}}
+                </div>
                 }
               </div>
               <button class="icon-button small p-1 px-2 rounded-md"
