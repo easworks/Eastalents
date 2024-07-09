@@ -46,7 +46,13 @@ export const softwareProductActions = createActionGroup({
   source: 'software-product',
   events: {
     'add': props<{ payload: SoftwareProduct; }>(),
-    'update': props<{ payload: SoftwareProduct; }>()
+    'update': props<{ payload: SoftwareProduct; }>(),
+    'updateSkills': props<{
+      payload: {
+        id: string;
+        skills: SoftwareProduct['skills'];
+      };
+    }>()
   }
 });
 
@@ -107,6 +113,20 @@ const feature = createFeature({
     on(softwareProductActions.update, (state, { payload }) => {
       state = { ...state };
       state.softwareProducts = adapters.softwareProduct.setOne(payload, state.softwareProducts);
+      return state;
+    }),
+    on(softwareProductActions.updateSkills, (state, { payload }) => {
+      state = { ...state };
+
+      state.softwareProducts = adapters.softwareProduct.mapOne({
+        id: payload.id,
+        map: product => {
+          product = { ...product };
+          product.skills = payload.skills;
+          return product;
+        }
+      }, state.softwareProducts);
+
       return state;
     }),
 

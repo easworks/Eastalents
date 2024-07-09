@@ -83,7 +83,8 @@ export const adminDataEffects = {
         ofType(
           adminDataActions.saveState,
           softwareProductActions.add,
-          softwareProductActions.update
+          softwareProductActions.update,
+          softwareProductActions.updateSkills
         ),
         concatMap(() => api.softwareProducts.write(list$()))
       );

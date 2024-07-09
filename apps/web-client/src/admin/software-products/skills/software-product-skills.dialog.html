@@ -4,3 +4,98 @@
     <fa-icon [icon]="icons.faXmark"></fa-icon>
   </button>
 </div>
+
+<mat-divider></mat-divider>
+
+<div class="p-2">
+  <div class="form-field mb-0">
+    <label>Product</label>
+    <input type="text" readonly [ngModel]="product$().name">
+  </div>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="p-2 grid gap-2">
+  @if (table.cards.empty$()) {
+  <div class="w-full p-2 px-4 rounded border italics text-gray-400 text-center">
+    No Data
+  </div>
+  }
+  @for(card of table.cards.$(); track card.data.group.id) {
+  <div class="border rounded">
+    <div class="flex gap-4 p-1 pl-2 justify-between items-center">
+      <label class="font-bold text-sm">{{card.data.group.name}}</label>
+      <button class="icon-button small" mat-ripple
+              (click)="table.cards.remove(card.data.group.id)">
+        <fa-icon [icon]="icons.faXmark"></fa-icon>
+      </button>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="p-2 flex flex-wrap gap-4">
+      @if (card.empty) {
+      <div class="w-full p-2 px-4 italics text-gray-400 text-center">
+        No Data
+      </div>
+      }
+      @for (chip of card.data.skills; track chip.id) {
+      <div class="chip">
+        <span>{{chip.name}}</span>
+        <button type="button" mat-ripple class="icon-button"
+                (click)="card.remove(chip.id)">
+          <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
+        </button>
+      </div>
+      }
+    </div>
+    <mat-divider></mat-divider>
+    <div class="p-2">
+      <div class="form-field mb-0">
+        <input type="text" [(ngModel)]="card.add.query$"
+               [matAutocomplete]="searchOptions"
+               clearTriggerOnSelect
+               placeholder="Add Tech Skill">
+      </div>
+
+      <mat-autocomplete #searchOptions hideSingleSelectionIndicator
+                        [displayWith]="card.add.displayWith"
+                        (optionSelected)="card.add.onSelect($event)">
+        @for(option of card.add.results$(); track option.id) {
+        <mat-option [value]="option">{{option.name}}</mat-option>
+        }
+      </mat-autocomplete>
+    </div>
+  </div>
+  }
+  <div>
+    <div class="form-field mb-0">
+      <input type="text" [(ngModel)]="table.cards.add.query$"
+             [matAutocomplete]="searchOptions"
+             clearTriggerOnSelect
+             placeholder="Add Tech Group">
+    </div>
+
+    <mat-autocomplete #searchOptions hideSingleSelectionIndicator
+                      [displayWith]="table.cards.add.displayWith"
+                      (optionSelected)="table.cards.add.onSelect($event)">
+      @for(option of table.cards.add.results$(); track option.id) {
+      <mat-option [value]="option">{{option.name}}</mat-option>
+      }
+    </mat-autocomplete>
+  </div>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="flex gap-2 p-2">
+  <button type="button"
+          class="stroked-button primary" mat-ripple
+          [disabled]="buttons.save.disabled$()"
+          (click)="buttons.save.click()">
+    Save
+  </button>
+  <button type="button" class="stroked-button" mat-ripple
+          (click)="buttons.reset.click()">
+    Reset
+  </button>
+</div>

@@ -11,13 +11,13 @@
           <th>Id</th>
           <th>Name</th>
           <th>Image URL</th>
-          <th></th>
+          <th colspan="2"></th>
         </tr>
       </thead>
       <tbody>
         @if (table.empty$()) {
         <tr>
-          <td colspan="4" class="italics text-gray-400 text-center">
+          <td colspan="5" class="italics text-gray-400 text-center">
             No data
           </td>
         </tr>
@@ -44,6 +44,13 @@
                 <fa-icon [icon]="icons.faRefresh"></fa-icon>
               </button>
             </div>
+          </td>
+          <td class="actions">
+            <button class="highlight-button font-normal text-sm rounded-full my-1 p-1 px-3"
+                    mat-ripple
+                    (click)="row.skills()">
+              Skills
+            </button>
           </td>
         </tr>
         }
