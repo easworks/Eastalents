@@ -1,19 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccountSecurityComponent } from './account-security/account-security.component';
-import { AccountEditPopupComponent } from './account-edit-popup/account-edit-popup.component';
 import { ManageCollabratorComponent } from './manage-collabrator/manage-collabrator.component';
-
+import { AccountEditPopupComponent } from './account-edit-popup/account-edit-popup.component';
 
 @Component({
   selector: 'app-my-account',
   standalone: true,
-  imports: [CommonModule, AccountSecurityComponent, AccountEditPopupComponent, ManageCollabratorComponent],
+  imports: [ CommonModule,AccountSecurityComponent,ManageCollabratorComponent,AccountEditPopupComponent],
   templateUrl: './my-account.component.html',
-  styleUrl: './my-account.component.less',
+  styleUrl: './my-account.component.css'
 })
 export class MyAccountComponent {
-  activeTab: string = 'myaccount';
+  @HostBinding() private readonly class = "page"
+  activeTab: string = 'manage-collab';
   isEditPopupVisible: boolean = false;
 
   setActiveTab(tab: string) {
@@ -23,7 +23,7 @@ export class MyAccountComponent {
   isActive(tab: string) {
     return this.activeTab === tab;
   }
-
+  
   setIsEditPopupVisible(value: boolean) {
     this.isEditPopupVisible = value;
   }

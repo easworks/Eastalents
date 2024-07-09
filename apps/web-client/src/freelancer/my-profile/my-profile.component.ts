@@ -7,11 +7,12 @@ import { UpdateCoreSkillPopupComponent } from './update-core-skill-popup/update-
 import { EducationPopupComponent } from './education-popup/education-popup.component';
 import { CertificationPopupComponent } from './certification-popup/certification-popup.component';
 import { LeftDrawerComponent } from './left-drawer/left-drawer.component';
+import { AccountEditPopupComponent } from './account-edit-popup/account-edit-popup.component';
 
 @Component({
   selector: 'app-my-profile',
   standalone: true,
-  imports: [ExperienceSkillLayoutComponent,EducationPopupComponent, CertificationPopupComponent, JobReferenceLayoutComponent, UpdateCoreSkillPopupComponent, EducationCertificateLayoutComponent, CommonModule, LeftDrawerComponent],
+  imports: [ExperienceSkillLayoutComponent,EducationPopupComponent, AccountEditPopupComponent ,CertificationPopupComponent, JobReferenceLayoutComponent, UpdateCoreSkillPopupComponent, EducationCertificateLayoutComponent, CommonModule, LeftDrawerComponent],
   templateUrl: './my-profile.component.html',
   styleUrl: './my-profile.component.css'
 })
@@ -23,6 +24,7 @@ export class MyProfileComponent {
   isEducationPopupVisible: boolean = false;
   isCertificationPopupVisible: boolean = false;
   showLeftDrawer: boolean = true;
+  isEditPopupVisible: boolean = false;
 
   setActiveTab(tab: string) {
     this.activeTab = tab;
@@ -43,6 +45,10 @@ export class MyProfileComponent {
 
   setShowLeftDrawer() {
     this.showLeftDrawer = !this.showLeftDrawer;
+  }
+
+  setIsEditPopupVisible(value: boolean) {
+    this.isEditPopupVisible = value;
   }
   
 }

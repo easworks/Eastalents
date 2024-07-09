@@ -70,7 +70,7 @@ export const EMPLOYER_ROUTES: Route[] = [
         data: {
           auth: AUTH_GUARD_CHECKS.hasPermissions(['role.employer'])
         },
-        loadComponent: () => import('./my-account/my-account.component').then(m => m.MyAccountComponent)
+        loadComponent: () => import('./my-profile/my-account.component').then(m => m.MyAccountComponent)
       },
       {
         path: 'my-teammates',
