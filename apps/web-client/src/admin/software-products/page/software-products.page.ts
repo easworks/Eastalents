@@ -221,11 +221,14 @@ export class SoftwareProductsPageComponent {
 
           reset.click();
 
+          const skills = () => this.editSkills(sp.id);
+
           return {
             data: sp,
             form,
             submit,
             reset,
+            skills
           };
         });
       });

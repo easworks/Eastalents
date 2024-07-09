@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import Fuse from 'fuse.js';
 import { TechGroup, TechSkill } from '../../models/tech-skill';
 import { adminData, techSkillActions } from '../../state/admin-data';
+import { ClearTriggerOnSelectDirective } from '@easworks/app-shell/common/clear-trigger-on-select.directive';
 
 interface TechSkillGroupsDialogData {
   skill: string;
@@ -27,13 +28,13 @@ interface TechSkillGroupsDialogData {
     FormImportsModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    ClearTriggerOnSelectDirective
   ]
 })
 export class TechSkillGroupsDialogComponent implements OnInit {
   private readonly data = inject<TechSkillGroupsDialogData>(MAT_DIALOG_DATA);
   private readonly store = inject(Store);
-  private readonly cdRef = inject(ChangeDetectorRef);
 
   protected readonly icons = {
     faXmark,
@@ -135,8 +136,6 @@ export class TechSkillGroupsDialogComponent implements OnInit {
           changes.delete(value.id);
         else
           changes.add(value.id);
-        this.cdRef.detectChanges();
-        query$.set('');
       };
 
 

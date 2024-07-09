@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { ClearTriggerOnSelectDirective } from '@easworks/app-shell/common/clear-trigger-on-select.directive';
 import { DialogLoaderComponent } from '@easworks/app-shell/common/dialog-loader.component';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
@@ -25,13 +26,13 @@ interface TechGroupSkillsDialogData {
     ImportsModule,
     MatDialogModule,
     FormImportsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    ClearTriggerOnSelectDirective
   ]
 })
 export class TechGroupSkillsDialogComponent implements OnInit {
   private readonly data = inject<TechGroupSkillsDialogData>(MAT_DIALOG_DATA);
   private readonly store = inject(Store);
-  private readonly cdRef = inject(ChangeDetectorRef);
 
   protected readonly icons = {
     faXmark,
@@ -130,8 +131,6 @@ export class TechGroupSkillsDialogComponent implements OnInit {
           changes.delete(value.id);
         else
           changes.add(value.id);
-        this.cdRef.detectChanges();
-        query$.set('');
       };
 
 
