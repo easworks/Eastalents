@@ -73,6 +73,16 @@ export const EMPLOYER_ROUTES: Route[] = [
         loadComponent: () => import('./my-teammates/my-teammates.components').then(m => m.MyTeammatesComponent)
       },
       {
+        path: 'spoc',
+        pathMatch: 'full',
+        canMatch: [AuthGuard.asFunction],
+        data: {
+          auth: AUTH_GUARD_CHECKS.hasPermissions(['role.employer'])
+        },
+        loadComponent: () => import('./spoc/spoc.component').then(m => m.SpocComponent
+        )
+      },
+      {
         path: 'profile',
         pathMatch: 'full',
         loadComponent: () => import('./profile.page').then(m => m.EmployerProfilePageComponent),

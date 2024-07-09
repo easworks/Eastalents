@@ -21,6 +21,16 @@ export const FREELANCER_ROUTES: Route[] = [
     loadComponent: () => import('./gen-ai-vitting/gen-ai-vatting.component').then(m => m.GenAiVattingComponent)
   },
   {
+    path: 'spoc',
+    pathMatch: 'full',
+    canMatch: [AuthGuard.asFunction],
+    data: {
+      auth: AUTH_GUARD_CHECKS.hasPermissions(['role.freelancer'])
+    },
+    loadComponent: () => import('./spoc/spoc.component').then(m => m.SpocComponent
+    )
+  },
+  {
     path: 'freelancer',
     children: [
       {
