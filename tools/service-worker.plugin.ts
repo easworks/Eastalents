@@ -88,7 +88,6 @@ function extractManifest(main: string, metaFile: Metafile,) {
 
   const fileNames: string[] = [
     'index.html',
-    'styles.css',
     main,
   ];
 

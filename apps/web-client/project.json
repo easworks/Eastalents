@@ -133,6 +133,21 @@
         "spa": true,
         "buildTarget": "web-client:build"
       }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "args": ["--remote=root@216.225.201.134"],
+        "commands": [
+          "tar -czf dist/archives/web-client.tar.gz -C dist/apps web-client",
+          "scp -r dist/archives/web-client.tar.gz {args.remote}:~",
+          "ssh {args.remote} 'rm -rf /var/www/web-client'",
+          "ssh {args.remote} 'tar -xzf web-client.tar.gz -C /var/www'"
+        ],
+        "forwardAllArgs": false,
+        "parallel": false
+      },
+      "dependsOn": ["build"]
     }
   }
 }
