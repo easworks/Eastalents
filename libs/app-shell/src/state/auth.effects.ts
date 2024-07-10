@@ -5,18 +5,32 @@ import { Store } from '@ngrx/store';
 import { EMPTY, fromEvent, of, tap } from 'rxjs';
 import { PERMISSION_DEF_DTO } from '../permissions';
 import { SWManagementService } from '../services/sw.manager';
+import { isBrowser, isServer } from '../utilities/platform-type';
 import { CURRENT_USER_KEY, authActions, authFeature } from './auth';
 
 export const authEffects = {
+  /** This effect does 2 things
+    * - add the permission definitions on first load
+    * - read the user on first load
+    * 
+    * The first task is done on both server and browser
+    * The second task cannot be done on the browser
+    * 
+    * Therefore we cannot just return `EMPTY` after `isServer()`,
+    * we should gracefully handle the situation
+    */
   readOnFirstLoad: createEffect(
     () => {
-      const storedUser = localStorage.getItem(CURRENT_USER_KEY);
+
 
       let user: UserWithToken | null = null;
 
-      if (storedUser) {
+      if (isBrowser()) {
         try {
+          const storedUser = localStorage.getItem(CURRENT_USER_KEY);
+          if (storedUser) {
           user = JSON.parse(storedUser);
+          }
         }
         catch (e) {
           user = null;
@@ -34,6 +48,9 @@ export const authEffects = {
 
   reloadOnUserChange: createEffect(
     () => {
+      if (isServer())
+        return EMPTY;
+
       return fromEvent<StorageEvent>(window, 'storage')
         .pipe(
           tap(ev => {
