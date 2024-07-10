@@ -14,6 +14,7 @@ export default function serviceWorkerPlugin(config: ServiceWorkerPluginOptions) 
   const plugin: Plugin = {
     name: pluginName,
     setup: (build) => {
+      return;
       const options = build.initialOptions;
       options.metafile = true;
 

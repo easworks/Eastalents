@@ -13,6 +13,10 @@
         "outputPath": "dist/apps/web-client",
         "index": "apps/web-client/src/index.html",
         "browser": "apps/web-client/src/main.ts",
+        "server": "apps/web-client/src/main.server.ts",
+        "ssr": {
+          "entry": "apps/web-client/src/server.ts"
+        },
         "polyfills": ["@lottiefiles/lottie-player"],
         "tsConfig": "apps/web-client/tsconfig.app.json",
         "assets": [
