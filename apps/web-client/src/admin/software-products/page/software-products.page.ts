@@ -9,12 +9,13 @@ import { FormImportsModule } from "@easworks/app-shell/common/form.imports.modul
 import { ImportsModule } from "@easworks/app-shell/common/imports.module";
 import { PaginatorComponent } from '@easworks/app-shell/common/paginator/paginator.component';
 import { generateLoadingState } from "@easworks/app-shell/state/loading";
-import { faCheck, faPlus, faRefresh } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faPen, faPlus, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { Store } from '@ngrx/store';
 import Fuse from 'fuse.js';
-import { Subscription, map } from 'rxjs';
+import { Subscription, firstValueFrom, map } from 'rxjs';
 import { SoftwareProduct } from '../../models/tech-skill';
 import { adminData, softwareProductActions } from '../../state/admin-data';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -39,6 +40,7 @@ export class SoftwareProductsPageComponent {
     faCheck,
     faRefresh,
     faPlus,
+    faPen
   } as const;
 
   protected readonly maxlength = { name: 64 } as const;
@@ -46,6 +48,14 @@ export class SoftwareProductsPageComponent {
   protected readonly loading = generateLoadingState<[
     'updating software product',
   ]>();
+
+  private readonly domains = (() => {
+    const map$ = this.store.selectSignal(adminData.selectors.domains.selectEntities);
+
+    return {
+      map$
+    } as const;
+  })();
 
   private readonly products = (() => {
     const list$ = this.store.selectSignal(adminData.selectors.softwareProduct.selectAll);
@@ -162,7 +172,23 @@ export class SoftwareProductsPageComponent {
         rowSubs.unsubscribe();
         rowSubs = new Subscription();
 
+        const allDomains = this.domains.map$();
+
         return view$().map(sp => {
+          const domains = (() => {
+            const list = sp.domains.map(id => {
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              return allDomains[id]!;
+            });
+
+            const edit = () => this.editDomains(sp.id);
+
+            return {
+              list,
+              edit
+            } as const;
+          })();
+
           const form = new FormGroup({ ...rowControls() });
 
           const changeCheck = (value: typeof form['value']) =>
@@ -225,6 +251,7 @@ export class SoftwareProductsPageComponent {
 
           return {
             data: sp,
+            domains,
             form,
             submit,
             reset,
@@ -254,7 +281,10 @@ export class SoftwareProductsPageComponent {
       const comp = await import('../create/create-software-product.dialog')
         .then(m => m.CreateSoftwareProductDialogComponent);
       comp.open(ref, {
-        created: id => this.editSkills(id)
+        created: id =>
+          this.editSkills(id)
+            .then(ref => firstValueFrom(ref.afterClosed().pipe(takeUntilDestroyed(this.dRef))))
+            .then(() => this.editDomains(id))
       });
     };
 
@@ -271,5 +301,18 @@ export class SoftwareProductsPageComponent {
     comp.open(ref, {
       product: id
     });
+    return ref;
+  };
+
+  private readonly editDomains = async (id: string) => {
+    const ref = DialogLoaderComponent.open(this.dialog);
+    const comp = await import('../domains/software-product-domains.dialog')
+      .then(m => m.SoftwareProductDomainsDialogComponent);
+
+    comp.open(ref, {
+      product: id
+    });
+
+    return ref;
   };
 }
