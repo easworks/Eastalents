@@ -36,9 +36,14 @@
                                         <td class="px-4 py-2 border-t">Backend Developer</td>
                                         <td class="px-4 py-2 border-t">Full-time</td>
                                 <td class="py-2 border-t flex flex-row justify-around">
-                                    <fa-icon [icon]="editIcon" class=" text-purple-600 text-2xl cursor-pointer"></fa-icon>
-                                    <fa-icon [icon]="trashIcon" class=" text-red-600 text-2xl cursor-pointer"></fa-icon>
+                                    <button (click)="isEditPopupVisible$.set(true)">
+                                        <fa-icon [icon]="editIcon" class=" text-purple-600 text-2xl cursor-pointer"></fa-icon>
+                                    </button>
+                                    <button>
+                                        <fa-icon [icon]="trashIcon" class=" text-red-600 text-2xl cursor-pointer"></fa-icon>
+                                    </button>
                                 </td>
+
                             </tr>
                         </tbody>
                     </table>
@@ -46,4 +51,7 @@
             </section>
         </main>
     </div>
+    @if(isEditPopupVisible$()){
+        <app-collab-popup (closePopup)="isEditPopupVisible$.set(false)" ></app-collab-popup>
+    }
 </div>
