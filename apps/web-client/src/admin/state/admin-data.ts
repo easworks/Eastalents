@@ -85,7 +85,9 @@ const feature = createFeature({
       };
 
       state.domains = adapters.domain.setMany(payload.domains, state.domains);
-      state.softwareProducts = adapters.softwareProduct.setMany(payload.softwareProducts, state.softwareProducts);
+      state.softwareProducts = adapters.softwareProduct.setMany(
+        payload.softwareProducts.map(p => ({ ...p, domains: [] })),
+        state.softwareProducts);
       state.techSkills = adapters.techSkill.setMany(payload.techSkills, state.techSkills);
       state.techGroups = adapters.techGroup.setMany(
         payload.techGroups.map(g => ({ ...g, skills: [] })),
@@ -97,6 +99,15 @@ const feature = createFeature({
           if (!group)
             throw new Error('invalid operation');
           group.skills.push(skill.id);
+        }
+      }
+
+      for (const domain of payload.domains) {
+        for (const id of domain.products) {
+          const product = state.softwareProducts.entities[id];
+          if (!product)
+            throw new Error('invalid operation');
+          product.domains.push(domain.id);
         }
       }
 
