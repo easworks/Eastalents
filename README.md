@@ -44,6 +44,3 @@
   - we use the available css properties from angular material, and tailwind utilities to get a tailor-made appearance
 - prefer using tailwind styles or utilities over custom css, unless unavoidable
 - do not change global styles without consulting the team
-
-
--changes by jatan
