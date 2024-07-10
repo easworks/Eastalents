@@ -11,3 +11,6 @@ export const PLATFORM_TYPE = new InjectionToken(
     }
   }
 );
+
+export const isServer = () => inject(PLATFORM_TYPE) === 'server';
+export const isBrowser = () => inject(PLATFORM_TYPE) === 'browser';
