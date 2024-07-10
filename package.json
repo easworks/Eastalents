@@ -68,6 +68,7 @@
     "@angular/material-luxon-adapter": "18.0.6",
     "@angular/platform-browser": "18.0.6",
     "@angular/platform-browser-dynamic": "18.0.6",
+    "@angular/platform-server": "^18.0.6",
     "@angular/router": "18.0.6",
     "@angular/ssr": "^18.0.7",
     "@fortawesome/angular-fontawesome": "0.15.0",
