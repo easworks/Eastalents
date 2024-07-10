@@ -41,6 +41,9 @@ importers:
       '@angular/router':
         specifier: 18.0.6
         version: 18.0.6(@angular/common@18.0.6(@angular/core@18.0.6(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.0.6(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.0.6(@angular/animations@18.0.6(@angular/core@18.0.6(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.0.6(@angular/core@18.0.6(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.0.6(rxjs@7.8.1)(zone.js@0.14.7)))(rxjs@7.8.1)
+      '@angular/ssr':
+        specifier: ^18.0.7
+        version: 18.0.7(@angular/common@18.0.6(@angular/core@18.0.6(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.0.6(rxjs@7.8.1)(zone.js@0.14.7))
       '@fortawesome/angular-fontawesome':
         specifier: 0.15.0
         version: 0.15.0(@angular/core@18.0.6(rxjs@7.8.1)(zone.js@0.14.7))
@@ -582,6 +585,12 @@ packages:
       '@angular/core': 18.0.6
       '@angular/platform-browser': 18.0.6
       rxjs: ^6.5.3 || ^7.4.0
+
+  '@angular/ssr@18.0.7':
+    resolution: {integrity: sha512-Z+HTcvMeXRmMsgtAG+K4QBUlgoYS1/V9PURcpiZOwfHxcDaHvpiWFYT2DQfIaR/hFwdkwnvk+TKXY/s52ilKFQ==}
+    peerDependencies:
+      '@angular/common': ^18.0.0
+      '@angular/core': ^18.0.0
 
   '@babel/code-frame@7.24.7':
     resolution: {integrity: sha512-BcYH1CVJBO9tvyIZ2jVeXgSIMvGZ2FDRvDdOIVQyuklNKSsx+eppDEBq/g47Ayw+RqNFE+URvOShmf+f/qwAlA==}
@@ -8712,6 +8721,13 @@ snapshots:
       '@angular/core': 18.0.6(rxjs@7.8.1)(zone.js@0.14.7)
       '@angular/platform-browser': 18.0.6(@angular/animations@18.0.6(@angular/core@18.0.6(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.0.6(@angular/core@18.0.6(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.0.6(rxjs@7.8.1)(zone.js@0.14.7))
       rxjs: 7.8.1
+      tslib: 2.6.3
+
+  '@angular/ssr@18.0.7(@angular/common@18.0.6(@angular/core@18.0.6(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.0.6(rxjs@7.8.1)(zone.js@0.14.7))':
+    dependencies:
+      '@angular/common': 18.0.6(@angular/core@18.0.6(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
+      '@angular/core': 18.0.6(rxjs@7.8.1)(zone.js@0.14.7)
+      critters: 0.0.22
       tslib: 2.6.3
 
   '@babel/code-frame@7.24.7':
