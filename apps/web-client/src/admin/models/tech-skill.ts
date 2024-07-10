@@ -16,4 +16,5 @@ export interface SoftwareProduct {
   name: string;
   imageUrl: string;
   skills: Record<string, string[]>;
+  domains: string[];
 }
