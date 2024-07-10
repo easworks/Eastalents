@@ -25,6 +25,15 @@ export const EMPLOYER_ROUTES: Route[] = [
     loadComponent: () => import('./spoc/spoc.component').then(m => m.SpocComponent)
   },
   {
+    path: 'help',
+    pathMatch: 'full',
+    canMatch: [AuthGuard.asFunction],
+    data: {
+      auth: AUTH_GUARD_CHECKS.hasPermissions(['role.employer'])
+    },
+    loadComponent: () => import('./contact-us/contact-us.component').then(m => m.ContactUsComponent)
+  },
+  {
     path: 'employer',
     loadChildren: () => [
       {
@@ -61,7 +70,7 @@ export const EMPLOYER_ROUTES: Route[] = [
         data: {
           auth: AUTH_GUARD_CHECKS.hasPermissions(['role.employer'])
         },
-        loadComponent: () => import('./my-account/my-account.component').then(m => m.MyAccountComponent)
+        loadComponent: () => import('./my-profile/my-account.component').then(m => m.MyAccountComponent)
       },
       {
         path: 'my-teammates',
@@ -71,6 +80,16 @@ export const EMPLOYER_ROUTES: Route[] = [
           auth: AUTH_GUARD_CHECKS.hasPermissions(['role.employer'])
         },
         loadComponent: () => import('./my-teammates/my-teammates.components').then(m => m.MyTeammatesComponent)
+      },
+      {
+        path: 'spoc',
+        pathMatch: 'full',
+        canMatch: [AuthGuard.asFunction],
+        data: {
+          auth: AUTH_GUARD_CHECKS.hasPermissions(['role.employer'])
+        },
+        loadComponent: () => import('./spoc/spoc.component').then(m => m.SpocComponent
+        )
       },
       {
         path: 'profile',

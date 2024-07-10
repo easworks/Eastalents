@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faAngleRight, faCheck, faFileLines, faSchoolCircleExclamation, faSearch, faVolleyballBall } from '@fortawesome/free-solid-svg-icons';
+import { faAdd, faAngleRight, faCheck, faFileLines, faSchoolCircleExclamation, faSearch, faVolleyballBall } from '@fortawesome/free-solid-svg-icons';
 import { JobPostCardComponent } from '../job-post-card/job-post-card.component';
 
 @Component({
@@ -21,10 +21,11 @@ import { JobPostCardComponent } from '../job-post-card/job-post-card.component';
 })
 export class EmployerDashboardComponent {
   protected readonly icons = {
-    faCheck, faAngleRight, faSearch, faFileLines, faVolleyballBall, faSchoolCircleExclamation
+    faCheck, faAngleRight, faSearch, faFileLines, faVolleyballBall, faSchoolCircleExclamation,faAdd
   } as const;
 
   protected readonly items = Array(12).fill(0);
+
 
   protected readonly accelerate = [
     {

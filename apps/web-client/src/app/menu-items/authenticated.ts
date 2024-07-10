@@ -49,7 +49,7 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
 
   {
     id: 'help', text: 'Help',
-    link: NOOP_CLICK,
+    link: '/help',
     icon: faQuestionCircle,
   },
   {

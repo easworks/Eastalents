@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ContactUsPopupComponent } from './contact-us-popup.component';
+import { SpocComponent } from './spoc.component';
 
-describe('ContactUsPopupComponent', () => {
-  let component: ContactUsPopupComponent;
-  let fixture: ComponentFixture<ContactUsPopupComponent>;
+describe('SpocComponent', () => {
+  let component: SpocComponent;
+  let fixture: ComponentFixture<SpocComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ContactUsPopupComponent],
+      imports: [SpocComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ContactUsPopupComponent);
+    fixture = TestBed.createComponent(SpocComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
