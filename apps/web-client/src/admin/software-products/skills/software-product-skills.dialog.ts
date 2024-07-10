@@ -176,6 +176,19 @@ export class SoftwareProductSkillsDialogComponent implements OnInit {
                 v[group.id] = v[group.id].filter(s => s !== id);
                 return { ...v };
               });
+
+              const changeKey = `${group.id}/${id}`;
+              const ogGroup = original[group.id];
+              if (ogGroup) {
+                if (ogGroup.has(id))
+                  changes.add(changeKey);
+                else
+                  changes.delete(changeKey);
+              }
+              else
+                // the group itself is new
+                // so we should remove sub-changes
+                changes.delete(changeKey);
             };
 
             return {
@@ -253,14 +266,15 @@ export class SoftwareProductSkillsDialogComponent implements OnInit {
         const original = original$();
 
         value$.update(v => {
+          v = { ...v };
           delete v[id];
-          return { ...v };
+          return v;
         });
 
         if (id in original)
-          changes.delete(id);
-        else
           changes.add(id);
+        else
+          changes.delete(id);
       };
 
       return {
@@ -296,7 +310,7 @@ export class SoftwareProductSkillsDialogComponent implements OnInit {
           }
         }));
 
-        this.table.changes.clear();
+        this.buttons.reset.click();
       };
 
       return {
