@@ -133,7 +133,12 @@ const feature = createFeature({
         id: payload.id,
         map: product => {
           product = { ...product };
-          product.skills = payload.skills;
+          product.skills = {};
+          for (const group in payload.skills) {
+            if (payload.skills[group].length > 0) {
+              product.skills[group] = payload.skills[group];
+            }
+          }
           return product;
         }
       }, state.softwareProducts);
