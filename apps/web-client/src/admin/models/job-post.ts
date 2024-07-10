@@ -128,8 +128,10 @@ export type JobPostCancellationStatus = typeof JOB_POST_CANCELLATION_STATUS_OPTI
 
 export interface JobPost {
   _id: string;
-  status: JobPostStatus;
-  cancellation: JobPostCancellationStatus | null;
+  status: {
+    current: JobPostStatus;
+    cancellation: JobPostCancellationStatus | null;
+  };
   createdBy: string;
 
 
