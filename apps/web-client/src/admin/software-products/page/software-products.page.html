@@ -11,13 +11,14 @@
           <th>Id</th>
           <th>Name</th>
           <th>Image URL</th>
+          <th>Domains</th>
           <th colspan="2"></th>
         </tr>
       </thead>
       <tbody>
         @if (table.empty$()) {
         <tr>
-          <td colspan="5" class="italics text-gray-400 text-center">
+          <td colspan="6" class="italics text-gray-400 text-center">
             No data
           </td>
         </tr>
@@ -30,6 +31,23 @@
           </td>
           <td *ngrxLet="row.form.controls.imageUrl as control" [formFieldControl]="control">
             <input type="text" [formControl]="control">
+          </td>
+          <td class="!p-1 group">
+            <div class="flex gap-2 items-center justify-between">
+              <div class="flex flex-wrap gap-2 items-center relative">
+                @for(domain of row.domains.list; track domain.id) {
+                <div class="font-normal text-sm rounded-md p-1 px-2 
+                    bg-primary-500/10 text-primary-500">
+                  {{domain.shortName}}
+                </div>
+                }
+              </div>
+              <button class="icon-button small p-1 px-2 rounded-md"
+                      mat-ripple (click)="row.domains.edit()"
+                      matTooltip="Edit Groups">
+                <fa-icon [icon]="icons.faPen"></fa-icon>
+              </button>
+            </div>
           </td>
           <td class="actions">
             <div class="flex">
