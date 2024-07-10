@@ -123,7 +123,7 @@ export const JOB_POST_CANCELLATION_STATUS_OPTIONS = [
   'Awaiting Cancellation',
   'Cancelled'
 ] as const;
-export type JobPostCancellationStatus = typeof JOB_POST_STATUS_OPTIONS[number];
+export type JobPostCancellationStatus = typeof JOB_POST_CANCELLATION_STATUS_OPTIONS[number];
 
 
 export interface JobPost {
@@ -135,6 +135,8 @@ export interface JobPost {
 
   easworksServiceType: EasworksServiceType;
   projectType: ProjectType;
+  projectKickoff: ProjectKickoffTimeline;
+
 
   domain: {
     id: string;
@@ -149,7 +151,6 @@ export interface JobPost {
     items: string[];
   }[];
 
-  projectKickoff: ProjectKickoffTimeline;
 
   metrics: JobMetrics;
 }
