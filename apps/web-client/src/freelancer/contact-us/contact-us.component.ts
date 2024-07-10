@@ -1,18 +1,14 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ContactUsPopupComponent } from './contact-us-popup/contact-us-popup.component';
+import { Component } from '@angular/core';
+import { ContactFormComponent } from '@easworks/app-shell/common/contact-form/contact-form.component';
 
 @Component({
   selector: 'app-contact-us',
   standalone: true,
-  imports: [CommonModule, ContactUsPopupComponent],
+  imports: [CommonModule, ContactFormComponent],
   templateUrl: './contact-us.component.html',
   styleUrl: './contact-us.component.less',
 })
 export class ContactUsComponent {
-  isContactPopupVisible: boolean = false;
 
-  toggleContactsPopup() {
-    this.isContactPopupVisible = !this.isContactPopupVisible;
-  }
 }

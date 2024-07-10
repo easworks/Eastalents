@@ -47,7 +47,11 @@
   <div *ngrxLet="form.controls.subject as control"
        [formFieldControl]="control">
     <label>Subject <span class="text-warn">*</span></label>
-    <input type="text" [formControl]="control">
+    <mat-select>
+      @for(option of contact.options.subject; track option) {
+      <mat-option [value]="option">{{option}}</mat-option>
+      }
+    </mat-select>
   </div>
 
   <div *ngrxLet="form.controls.message as control"

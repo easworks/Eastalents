@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ContactUsRequest } from '@easworks/models/contact-us';
 import { pattern } from '@easworks/models/pattern';
@@ -26,7 +27,8 @@ import { ContactFormAcknowledgementComponent } from './acknowledgement.snackbar'
     ImportsModule,
     FormImportsModule,
     DropDownIndicatorComponent,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSelectModule
   ]
 })
 export class ContactFormComponent {
@@ -85,7 +87,8 @@ export class ContactFormComponent {
     } as const;
 
     const filteredOptions = {
-      code$: filterCountryCode(allOptions.countryCodes$, values.code$)
+      code$: filterCountryCode(allOptions.countryCodes$, values.code$),
+      subject: SUBJECT_OPTIONS
     } as const;
 
     {
@@ -140,3 +143,17 @@ export class ContactFormComponent {
   })();
 
 }
+
+const SUBJECT_OPTIONS = [
+  'General Questions',
+  'Sales Inquiries',
+  'Help/Support',
+  'Find Work Related',
+  'Talent Onboarding',
+  'Client Onboarding',
+  'Project Proposals',
+  'Partnerships',
+  'Billing and Payments',
+  'Press',
+  'Other',
+] as const;
