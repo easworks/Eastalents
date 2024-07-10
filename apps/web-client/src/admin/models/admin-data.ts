@@ -13,7 +13,7 @@ export interface AdminDataState {
 
 export interface AdminDataDTO {
   domains: Domain[];
-  softwareProducts: SoftwareProduct[];
+  softwareProducts: Omit<SoftwareProduct, 'domains'>[];
   techSkills: TechSkill[];
   techGroups: Omit<TechGroup, 'skills'>[];
 }

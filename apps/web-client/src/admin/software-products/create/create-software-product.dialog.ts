@@ -110,7 +110,8 @@ export class CreateSoftwareProductDialogComponent {
           id: value.id,
           name: value.name,
           imageUrl: value.imageUrl,
-          skills: {}
+          skills: {},
+          domains: []
         };
 
         this.store.dispatch(softwareProductActions.add({ payload: product }));
