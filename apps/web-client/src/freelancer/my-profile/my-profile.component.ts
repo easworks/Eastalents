@@ -8,11 +8,18 @@ import { EducationPopupComponent } from './education-popup/education-popup.compo
 import { CertificationPopupComponent } from './certification-popup/certification-popup.component';
 import { LeftDrawerComponent } from './left-drawer/left-drawer.component';
 import { AccountEditPopupComponent } from './account-edit-popup/account-edit-popup.component';
+import { faFileExport, faLink } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FileUploadComponent } from '@easworks/app-shell/common/file-upload/file-upload.component';
 
 @Component({
   selector: 'app-my-profile',
   standalone: true,
-  imports: [ExperienceSkillLayoutComponent,EducationPopupComponent, AccountEditPopupComponent ,CertificationPopupComponent, JobReferenceLayoutComponent, UpdateCoreSkillPopupComponent, EducationCertificateLayoutComponent, CommonModule, LeftDrawerComponent],
+  imports: [ExperienceSkillLayoutComponent,EducationPopupComponent,
+     AccountEditPopupComponent ,CertificationPopupComponent, JobReferenceLayoutComponent,
+     UpdateCoreSkillPopupComponent, EducationCertificateLayoutComponent, 
+     CommonModule, LeftDrawerComponent,FontAwesomeModule,
+     FileUploadComponent],
   templateUrl: './my-profile.component.html',
   styleUrl: './my-profile.component.css'
 })
@@ -25,6 +32,9 @@ export class MyProfileComponent {
   isCertificationPopupVisible: boolean = false;
   showLeftDrawer: boolean = true;
   isEditPopupVisible: boolean = false;
+  protected readonly icons = {
+    faLink, faFileExport
+  } as const;
 
   setActiveTab(tab: string) {
     this.activeTab = tab;
