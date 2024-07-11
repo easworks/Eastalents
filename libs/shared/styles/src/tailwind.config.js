@@ -65,6 +65,15 @@ module.exports = {
           '900': '#3d3d3d',
           '950': '#0f0f0f',
         },
+        // purple color
+        'purple': {
+          '50': '#7D7DFF',
+          '100': '#9747FF',
+        },
+        // red color
+        'red': {
+          '500': '#F34A02',
+        },
         'divider': colors.slate[300],
         'warn': colors.red[600]
       },
