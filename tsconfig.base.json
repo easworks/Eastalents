@@ -27,6 +27,7 @@
       "@easworks/models": ["libs/models/src/index.ts"],
       "@easworks/models/*": ["libs/models/src/*"],
       "custom-icons": ["libs/shared/assets/src/icons/custom-icons.ts"],
+      "custom-nx": ["tools/custom-nx/src/index.ts"],
       "server-side/*": ["libs/server-side/src/*"]
     }
   },
