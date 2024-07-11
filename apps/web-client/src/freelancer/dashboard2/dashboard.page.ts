@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faEnvelope, faPaperPlane, faSuitcase, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faPaperPlane, faSuitcase, faUser, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   standalone: true,
@@ -23,7 +23,32 @@ export class DashboardComponent {
     faSuitcase, faPaperPlane, faUser, faEnvelope
   } as const;
 
-  protected readonly metrics = mockMetrics;
+  protected readonly metrics: {
+    icon: IconDefinition,
+    label: string;
+    value: string | number;
+  }[] = [
+      {
+        icon: faSuitcase,
+        label: 'Scheduled Interview',
+        value: mockMetrics.scheduledInterviews
+      },
+      {
+        icon: faPaperPlane,
+        label: 'Sent Applications',
+        value: mockMetrics.applicationCount
+      },
+      {
+        icon: faUser,
+        label: 'Viewed by Others',
+        value: mockMetrics.profileViewCount
+      },
+      {
+        icon: faEnvelope,
+        label: 'Unread Messages',
+        value: mockMetrics.unreadMessages
+      }
+    ];
 
 
 }

@@ -1,26 +1,14 @@
 <p class="text-gray-400 text-sm">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias repudiandae et adipisci ducimus nulla culpa eos quod enim nihil architecto.</p>
 
-<div class="metrics-container mt-4">
+<div class="mt-4 metric-container">
+  @for(metric of metrics; track metric) {
   <div class="metric-card">
-    <fa-icon [icon]="icons.faSuitcase"></fa-icon>
-    <p class="label">Scheduled Interviews</p>
-    <p class="value">{{metrics.scheduledInterviews}}</p>
+    <fa-icon [icon]="metric.icon">
+    </fa-icon>
+    <p class="label">{{metric.label}}</p>
+    <p class="value">{{metric.value}}</p>
   </div>
-  <div class="metric-card">
-    <fa-icon [icon]="icons.faPaperPlane"></fa-icon>
-    <p class="label">Sent Applications</p>
-    <p class="value">{{metrics.applicationCount}}</p>
-  </div>
-  <div class="metric-card">
-    <fa-icon [icon]="icons.faUser"></fa-icon>
-    <p class="label">Viewed by Others</p>
-    <p class="value">{{metrics.profileViewCount}}</p>
-  </div>
-  <div class="metric-card">
-    <fa-icon [icon]="icons.faEnvelope"></fa-icon>
-    <p class="label">Unread Messages</p>
-    <p class="value">{{metrics.unreadMessages}}</p>
-  </div>
+  }
 </div>
 
 
