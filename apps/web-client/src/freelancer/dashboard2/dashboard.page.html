@@ -1,0 +1,25 @@
+<p class="text-gray-400 text-sm">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias repudiandae et adipisci ducimus nulla culpa eos quod enim nihil architecto.</p>
+
+<div class="mt-4 metric-container">
+  @for(metric of metrics; track metric) {
+  <div class="metric-card">
+    <fa-icon [icon]="metric.icon">
+    </fa-icon>
+    <p class="label">{{metric.label}}</p>
+    <p class="value">{{metric.value}}</p>
+  </div>
+  }
+</div>
+
+
+
+<div class="mt-2 border rounded">
+  <div class="flex felx-col items-center">
+    <div class="rounded border-2 border-blue-800">
+      <div class="bg-blue-800 h-2 w-2/3 rounded-full"></div>
+    </div>
+  </div>
+  <div>
+
+  </div>
+</div>

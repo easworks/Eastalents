@@ -1,0 +1,44 @@
+.metrics-container {
+  @apply grid grid-cols-2 gap-4;
+
+  > .metric-card {
+    @apply  p-4 grid gap-2 place-items-center border rounded;
+
+
+    > fa-icon {
+      @apply text-4xl transition-all;
+    }
+
+    > .label {
+      @apply text-center text-sm transition-all;
+    }
+
+    > .value {
+      @apply text-3xl font-semibold transition-all;
+    }
+
+    &:nth-child(odd) {
+      > fa-icon, > .value {
+        @apply text-primary-500;
+      }
+    }
+  }
+
+  @container (min-width: theme('containers.2xl')) {
+    @apply grid-cols-4;
+  }
+
+  @container (min-width: theme('containers.4xl')) {
+    > .metric-card {
+
+      > .label {
+        @apply text-base;
+      }
+
+      > .value {
+        @apply text-4xl;
+      }
+    }
+  }
+
+}
