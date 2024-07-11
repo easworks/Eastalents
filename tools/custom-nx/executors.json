@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "ng-application": {
+      "implementation": "./src/executors/ng-application/executor",
+      "schema": "./src/executors/ng-application/schema.json",
+      "description": "ng-application executor"
+    }
+  }
+}
