@@ -19,7 +19,7 @@ export default function shimPlugin(options: ShimOptions) {
         buildResult = await build.esbuild.build({
           ...build.initialOptions,
           entryPoints: [
-            path.resolve(__dirname, 'shims', options.with + '.js')
+            path.resolve(__dirname, '../shims', options.with + '.js')
           ],
           bundle: true,
           write: false,
