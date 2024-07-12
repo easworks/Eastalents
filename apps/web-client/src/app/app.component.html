@@ -1,34 +1,11 @@
-<div id="app-top-bar" *ngrxLet="topBar$() as topBar" [class.dark]="topBar.dark">
-  @if(sideBarState.toggle.position$() === 'left'){
-  <button class="icon-button" mat-ripple (click)="appSidenav.toggle()">
-    <fa-icon [icon]="icons.faBars"></fa-icon>
-  </button>
+<div>
+  @if (isSignedIn$()) {
+  <app-authenticated-header></app-authenticated-header>
   }
-  <a routerLink="/" class="grid content-center mr-auto">
-    <img [src]="topBar.brandImage">
-  </a>
-  @if(publicMenu.main.horizontal.show$()) {
-  <app-horizontal-menu class="mx-auto"
-                       [menuItems]="publicMenu.main.horizontal.$()"></app-horizontal-menu>
+  @else {
+  <app-public-header></app-public-header>
   }
 
-  <div class="flex gap-2 items-center flex-none">
-    <account-widget></account-widget>
-    <a routerLink="/register/employer" class="shaded-button primary" mat-ripple>
-      Hire Now
-    </a>
-    <div class="flex items-center">
-      @if(sideBarState.toggle.position$() === 'right'){
-      <button class="icon-button" mat-ripple (click)="appSidenav.toggle()">
-        <fa-icon [icon]="icons.faBars"></fa-icon>
-      </button>
-      }
-
-      <button class="icon-button text-emerald-500" mat-ripple [class.hidden]="sw.hidden$()" (click)="sw.update()">
-        <fa-icon [icon]="icons.faCircleArrowUp"></fa-icon>
-      </button>
-    </div>
-  </div>
   @if(navigating$()) {
   <mat-progress-bar class="!absolute bottom-0 left-0" mode="indeterminate">
   </mat-progress-bar>

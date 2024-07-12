@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { publicMenu } from '../../menu-items/public';
 
 @Component({
   standalone: true,
@@ -9,4 +10,5 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 })
 export class AppPublicHeaderComponent {
 
+  protected readonly menuItems = publicMenu.main;
 }

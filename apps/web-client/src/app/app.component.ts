@@ -14,8 +14,10 @@ import { faFacebook, faGithub, faInstagram, faLinkedin, faTwitter, faYoutube } f
 import { faAngleRight, faBars, faCircleArrowUp, } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AccountWidgetComponent } from '../account/account.widget';
-import { footerNav, publicMenu } from './menu-items/public';
 import { AppFooterComponent } from './footer/footer.component';
+import { AppAuthenticatedHeaderComponent } from './header/authenticated/authenticated-header.component';
+import { AppPublicHeaderComponent } from './header/public/public-header.component';
+import { footerNav, publicMenu } from './menu-items/public';
 
 @Component({
   standalone: true,
@@ -31,7 +33,9 @@ import { AppFooterComponent } from './footer/footer.component';
     PublicVerticalMenuComponent,
     AuthenticateVerticalMenuComponent,
     AccountWidgetComponent,
-    AppFooterComponent
+    AppFooterComponent,
+    AppPublicHeaderComponent,
+    AppAuthenticatedHeaderComponent
   ]
 })
 export class AppComponent implements OnInit {
