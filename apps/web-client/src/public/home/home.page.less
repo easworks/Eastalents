@@ -107,14 +107,16 @@
   background-size: 100% 100%;
 }
 
-// Enterprise App dev
-.enterprise-app-card {
-  background-image: url(../../assets/public/home/enterprise-app-dev/card-bg.png);
-  background-size: 100% 100%;
-}
-
 .enterprise-app-dev {
-  background-image: url(../../assets/public/home/enterprise-app-dev/sec-bg.png);
+  background-image: url(/assets/public/home/enterprise-app-dev/sec-bg.png);
+
+  &-card {
+    @apply relative transition-all;
+
+    &.highlight {
+      @apply ring-4 ring-primary-500 4xl:translate-x-12;
+    }
+  }
 }
 
 //Testimonial Css

@@ -88,75 +88,45 @@
           </div>
 
         </div>
-        <div class="order-1 3xl:order-2 text-white ">
-          <div class="enterprise-app-card px-4 py-2 font-inter mb-4">
-            <div class="flex justify-between items-end">
-              <div class="flex items-center">
-                <div class="relative">
-                  <img src="../../assets/public/home/enterprise-app-dev/dev1.png" alt="Developer image" />
-
-                  <div
-                       class="absolute right-2 top-0.5 border border-primary-500 rounded-full w-3.5 h-3.5 bg-primary-400">
-                  </div>
+        <div class="order-1 3xl:order-2 text-white grid gap-8">
+          @for (dev of madeEasySection.devs; track dev) {
+          <div class="enterprise-app-dev-card
+                  flex gap-4 items-center 
+                  p-2 px-4 rounded-md
+                  bg-gradient-to-r from-zinc-800 to-black
+                  shadow shadow-z8 shadow-black/40"
+               [class.highlight]="dev.highlight">
+            <div class="relative">
+              <img [src]="dev.image">
+              <div class="absolute right-2 top-0.5 
+                  border border-primary-500 
+                  rounded-full w-3.5 h-3.5"
+                   [class]="dev.badge">
+              </div>
+            </div>
+            <div class="flex-grow flex flex-col gap-2">
+              <div>
+                <div class="text-xl text-primary-400">{{dev.name}}</div>
+                <div class="mt-1">{{dev.role}}</div>
+              </div>
+              <div class="flex gap-2 items-center justify-between">
+                <div class="flex gap-2 items-center">
+                  <fa-icon [icon]="icons.faLocationDot" class="text-gray-600"></fa-icon>
+                  <span class="leading-none">{{dev.location}}</span>
                 </div>
-                <div class="ms-3">
-                  <h5 class="text-xl text-primary-400">Arizona Cardinals</h5>
-                  <p>Full-stack Developer</p>
-                  <div class="flex"><img src="../../assets/public/home/enterprise-app-dev/location.svg"
-                         alt="Developer image" /><span>Puna, India</span></div>
-
+                <div class="flex gap-2 items-center text-primary-400">
+                  <fa-icon [icon]="icons.facCertificateCheck" class="text-lg"></fa-icon>
+                  <span class="leading-none">Excellent Fit</span>
                 </div>
               </div>
-              <div class="flex items-center"><img src="../../assets/public/home/enterprise-app-dev/check-fill.png"
-                     alt="Filled Check image" /><span class="text-primary-400">Excellent fit</span></div>
             </div>
+            @if(dev.highlight) {
+            <fa-icon [icon]="icons.facCornerRibbon"
+                     class="absolute top-0 right-0
+                     text-5xl text-primary-600"></fa-icon>
+            }
           </div>
-          <div
-               class="enterprise-app-card px-4 py-2 font-inter mb-4 relative 4xl:translate-x-12 translate-x-0 shadow-[5px_5px_18.3px_0px_#4949FC66]">
-            <img src="../../assets/public/home/enterprise-app-dev/right-shape.png" class="absolute right-0 top-0"
-                 alt="Shape image" />
-
-            <div class="flex justify-between items-end">
-              <div class="flex items-center">
-                <div class="relative">
-                  <img src="../../assets/public/home/enterprise-app-dev/dev2.png" alt="Developer image" />
-
-                  <div class="absolute right-2 top-0.5 border border-primary-500 rounded-full w-3.5 h-3.5 bg-red-500">
-                  </div>
-                </div>
-                <div class="ms-3">
-                  <h5 class="text-xl text-primary-400">Arizona Cardinals</h5>
-                  <p>Full-stack Developer</p>
-                  <div class="flex"><img src="../../assets/public/home/enterprise-app-dev/location.svg"
-                         alt="Developer image" /><span>Puna, India</span></div>
-
-                </div>
-              </div>
-              <div class="flex items-center"><img src="../../assets/public/home/enterprise-app-dev/check-fill.png"
-                     alt="Filled Check image" /><span class="text-primary-400">Excellent fit</span></div>
-            </div>
-          </div>
-          <div class="enterprise-app-card px-4 py-2 font-inter mb-4">
-            <div class="flex justify-between items-end">
-              <div class="flex items-center">
-                <div class="relative">
-                  <img src="../../assets/public/home/enterprise-app-dev/dev3.png" alt="Developer image" />
-                  <div
-                       class="absolute right-2 top-0.5 border border-primary-500 rounded-full w-3.5 h-3.5 bg-primary-400">
-                  </div>
-                </div>
-                <div class="ms-3">
-                  <h5 class="text-xl text-primary-400">Arizona Cardinals</h5>
-                  <p>Full-stack Developer</p>
-                  <div class="flex"><img src="../../assets/public/home/enterprise-app-dev/location.svg"
-                         alt="Developer image" /><span>Puna, India</span></div>
-
-                </div>
-              </div>
-              <div class="flex items-center"><img src="../../assets/public/home/enterprise-app-dev/check-fill.png"
-                     alt="Filled Check image" /><span class="text-primary-400">Excellent fit</span></div>
-            </div>
-          </div>
+          }
         </div>
       </div>
       <button
