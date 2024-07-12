@@ -15,6 +15,7 @@ import { faAngleRight, faBars, faCircleArrowUp, } from '@fortawesome/free-solid-
 import { Store } from '@ngrx/store';
 import { AccountWidgetComponent } from '../account/account.widget';
 import { footerNav, publicMenu } from './menu-items/public';
+import { AppFooterComponent } from './footer/footer.component';
 
 @Component({
   standalone: true,
@@ -29,7 +30,8 @@ import { footerNav, publicMenu } from './menu-items/public';
     AppHorizontalMenuComponent,
     PublicVerticalMenuComponent,
     AuthenticateVerticalMenuComponent,
-    AccountWidgetComponent
+    AccountWidgetComponent,
+    AppFooterComponent
   ]
 })
 export class AppComponent implements OnInit {
