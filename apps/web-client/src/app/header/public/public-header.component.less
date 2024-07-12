@@ -1,0 +1,28 @@
+.gradient-btn {
+    background-image: linear-gradient(315deg,
+            hsl(216deg 73% 59%) 0%,
+            hsl(221deg 36% 20%) 35%,
+            hsl(249deg 46% 21%) 65%,
+            hsl(240deg 97% 64%) 100%);
+
+    @apply me-3 block relative rounded-xl text-white w-fit text-sm min-w-min px-5 before:absolute before:inset-0 before:rounded-xl;
+}
+
+.border-gradient::before {
+    padding: 1px;
+    background: linear-gradient(91.19deg, #FFFFFF 12.46%, rgba(255, 255, 255, 0) 100.28%);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+.border-only-btn:before {
+    border-image-source: linear-gradient(96.53deg, #9EADFF 2.09%, #1C174F 101.67%);
+    background: linear-gradient(96.53deg, #9EADFF 2.09%, #1C174F 101.67%);
+}
+
+.border-only-btn {
+    @apply block bg-transparent relative rounded-xl text-white w-fit text-sm min-w-min px-5 before:absolute before:inset-0 before:rounded-xl;
+}
