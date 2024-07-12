@@ -1,278 +1,774 @@
-<section class="relative bg-white pb-8">
-  <div class="absolute inset-0">
-    <img class="w-full h-full opacity-5" src="/assets/img/building.jpg" alt="">
-  </div>
+<div class="bg-black">
+  <!-- Hero Section Start -->
+  <section class="hero-sec">
+    <video autoplay loop class="absolute top-0 object-cover h-full">
+      <source src="/assets/public/home/hero-bg-video.webm" type="video/mp4" type="video/webm" />
+    </video>
+    <div class="6xl:w-4/6 w-11/12 mx-auto text-center z-10 relative py-6">
+      <h1 class="text-primary-500 text-4xl 7xl:text-6xl 7xl:leading-tight transition-all font-anton">
+        <span class="text-white">Unlock the Future of </span> <br>
+        <span class="drop-shadow-[2px_1px_0px_rgb(255,255,255)]">Enterprise Application Development</span>
+      </h1>
+      <h5 class="text-primary-400 my-3 3xl:text-xl text-lg capitalize font-inter">Hire Elite Enterprise Application
+        Talents On-Demand.</h5>
+      <p class="text-xs text-white">EASWORKS connects you with top-tier, pre-vetted talents specializing in diverse
+        <span class="font-bold">
+          Enterprise Application Software (EAS) and domains.</span>
+        Maximize your project's potential with experts who bring deep industry knowledge, extensive experience, and
+        superior collaboration skills.
+      </p>
+      <div class="my-6 flex gap-x-6 gap-y-3 justify-center flex-wrap">
+        <button class="hero-sec-btns font-anton">
+          Hire Now
+        </button>
+        <button class="hero-sec-btns font-anton">
+          Find Jobs
+        </button>
+      </div>
+      <h5 class="text-primary-400 text-xs font-bold capitalize font-inter">Join Our Community...</h5>
+      <p class="text-white text-sm font-inter">Network, learn, and grow in the enterprise application ecosystem.</p>
 
-  <div class="flex gap-4 justify-between 
-        flex-wrap-reverse 5xl:flex-nowrap relative">
-    <div class="mt-4 p-4 w-full transition-all 5xl:w-80 5xl:flex-auto
-          flex flex-col">
-      <div class="grid content-center flex-grow">
-        <h1 class="text-primary-500 font-bold text-3xl 7xl:text-4xl 7xl:leading-tight transition-all">Effortlessly Connect with Top Talent for Enterprise Application Development</h1>
-        <p class=" mt-4 font-semibold text-xl 7xl:text-2xl 7xl:mt-8 transition-all">Hire Elite Enterprise Application Talents On-Demand.</p>
-        <p class="7xl:text-lg mt-2 transition-all">
-          Easworks is a specialized Enterprise Application Software (EAS)
-          freelancing platform that connects businesses, startups, and leading
-          companies with a network of highly skilled enterprise software
-          developers with extensive domain knowledge.
+      <!-- Achievement Section Start -->
+      <section class="mt-20 2xl:lg:pt-6 3xl:pt-20">
+        <div class="page achievement-sec">
+          <div class="text-white 3xl:text-lg font-inter text-left leading-5">
+            See Our <br />
+            Achievement
+          </div>
+
+          <div class="flex 4xl:justify-between">
+            <div class="text-left">
+              <h5 class="3xl:text-5xl text-3xl font-anton shaded-text">210+</h5>
+              <p class="text-white text-xs mt-2 font-inter">EAS Experts Vetted</p>
+            </div>
+            <img src="/assets/public/home/achievement-border-r.png" class="4xl:block hidden"
+                 alt="Developer image" />
+          </div>
+
+          <div class="flex 4xl:justify-between">
+            <div class="text-left">
+              <h5 class="3xl:text-5xl text-3xl font-anton shaded-text">60 Apps</h5>
+              <p class="text-white text-xs mt-2 font-inter">Enterprise Apps Supported</p>
+            </div>
+            <img src="/assets/public/home/achievement-border-r.png" class="4xl:block hidden"
+                 alt="Developer image" />
+          </div>
+
+          <div class="flex 4xl:justify-between">
+            <div class="text-left">
+              <h5 class="3xl:text-5xl text-3xl font-anton shaded-text">72 Hrs</h5>
+              <p class="text-white text-xs mt-2 font-inter">Avg. Time-to-Hire</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Achievement Section End -->
+    </div>
+  </section>
+  <!-- Hero Section End -->
+
+  <!-- Enterprise Application Development Section Start -->
+  <section class="enterprise-app-dev bg-cover bg-center">
+    <div class="page 2xl:py-12">
+      <h2 class="text-center font-bold 4xl:text-5xl transition-all font-anton text-xl 2xl:text-2xl  text-white">
+        Enterprise Application Development <p class="text-primary-500 pt-4">
+          Made Easy with Easworks
         </p>
-      </div>
-      <div class="mt-12">
-        <div class="flex gap-4 mt-4">
-          <button class="shaded-button secondary mat-elevation-z1">Hire Now</button>
-          <button class="stroked-button border-primary-950 border-2 font-medium">Find Jobs</button>
-        </div>
-      </div>
-
-    </div>
-    <div class="mx-auto w-full transition-all 5xl:w-40 5xl:flex-auto">
-      <lottie-player src="https://lottie.host/6ba2be73-f581-4302-8a7e-d239af1b177b/i4dV3wJAo2.json"
-                     background="transparent" speed="1" loop autoplay class="contents"></lottie-player>
-    </div>
-  </div>
-</section>
-
-<section class="page">
-  <div class="grid gap-4 mx-auto xl:grid-cols-3 3xl:max-w-max justify-items-center ">
-
-    @for(counter of counters; track counter) {
-    <div class="text-center">
-      <p class="font-extrabold text-2xl transition-all
-          3xl:text-4xl">{{counter.count}}</p>
-      <p class="font-bold text-sm mt-2 text-gray-500">{{counter.text}}</p>
-    </div>
-    }
-
-  </div>
-</section>
-
-<section class="bg-white">
-  <div class="page 2xl:py-12">
-    <h2 class="text-center text-2xl font-bold 3xl:text-3xl transition-all">
-      Enterprise Application Development Made Easy
-    </h2>
-    <div class="grid gap-12 mt-8 justify-center 2xl:mt-12 transition-all">
-      <div class="flex items-center gap-4 gap-x-8 flex-col-reverse text-center transition-all
-            2xl:flex-row 2xl:text-left 3xl:max-w-3xl ">
-        <div>
-          <h3 class="font-bold text-primary-500 text-xl">Specialized Skills</h3>
-          <p class="mt-2">
-            Access professionals with targeted expertise and experience in the
-            specific industry domain you require.
-          </p>
-        </div>
-        <img src="/assets/public/home/dev-made-easy/specialized-skills.png" class="rounded-lg">
-      </div>
-
-      <div class="flex items-center gap-4 gap-x-8 flex-col-reverse text-center transition-all 
-              2xl:flex-row-reverse 2xl:text-left 3xl:max-w-3xl">
-        <div>
-          <h3 class="font-bold text-primary-500 text-xl">Expert Screening and Tailored Matching</h3>
-          <p class="mt-2">
-            Benefit from our rigorous vetting
-            process and customized matching to ensure the perfect fit for your
-            project needs.
-          </p>
-        </div>
-        <img src="/assets/public/home/dev-made-easy/expert-screening.png" class="rounded-lg">
-      </div>
-
-      <div class="flex items-center gap-4 gap-x-8 flex-col-reverse text-center transition-all
-            2xl:flex-row 2xl:text-left 3xl:max-w-3xl">
-        <div>
-          <h3 class="font-bold text-primary-500 text-xl">Rapid Deployment</h3>
-          <p class="mt-2">
-            Quickly onboard specialized talent with our efficient hiring platform,
-            enabling you to start your project without delay.
-          </p>
-        </div>
-        <img src="/assets/public/home/dev-made-easy/expert-screening.png" class="rounded-lg">
-      </div>
-    </div>
-    <button class="shaded-button block secondary mt-12 mx-auto text-lg min-w-min max-w-full w-80">Get Started</button>
-  </div>
-</section>
-
-<section class="page py-12">
-  <h2 class="text-2xl lg:text-3xl text-center font-bold transition-all">Maximize Project Success with EASWORKS</h2>
-
-  <div class="grid mt-12 gap-4 mx-auto justify-center grid-cols-1 lg:grid-cols-2 4xl:grid-cols-4 7xl:max-w-7xl">
-    @for (promise of promises; track promise.title) {
-    <div class="flex flex-col gap-y-4 p-2 px-4 pb-4 
-        bg-white shadow-md rounded-md text-center transition-all">
-      <lottie-player [src]="promise.lottie" background="transparent" class="w-24 h-24 mx-auto" autoplay loop>
-      </lottie-player>
-      <h4 class="text-lg font-semibold">{{promise.title}}</h4>
-      <p class="text-sm leading-6 text-center">{{promise.content}}</p>
-    </div>
-    }
-  </div>
-</section>
-
-
-<section id="help-app-development">
-  <h2 class="text-2xl lg:text-3xl font-bold text-center transition-all">
-    How EASWORKS can help you with Enterprise App Development.
-  </h2>
-
-  <div class="item-container">
-    @for(acc of accelerate; track acc.title) {
-    <div>
-      <lottie-player [src]="acc.lottie" background="transparent"
-                     class="mx-auto w-full h-20 md:w-24 md:h-24 transition-all" autoplay loop></lottie-player>
-      <h4 class="text-xl font-semibold">{{acc.title}}</h4>
-      <p class="text-sm leading-6 my-auto">{{acc.content}}</p>
-
-      <button class="shaded-button secondary mt-auto rounded-lg">Get Started</button>
-      <button class="stroked-button secondary rounded-lg font-bold">Talk To Us</button>
-    </div>
-    }
-
-  </div>
-</section>
-
-
-<section class="page py-12">
-  <h2 class="text-2xl font-bold text-center transition-all xl:mr-60">How it Works</h2>
-
-  <div class="grid gap-8 mt-12 4xl:max-w-4xl mx-auto">
-    @for(hitw of howItWorks; track hitw.title) {
-    <div class="flex gap-4 gap-x-12 items-center flex-col-reverse xl:flex-row  transition-all">
-      <div class="max-w-lg">
-        <h4 class="text-lg font-semibold text-primary-500">{{hitw.title}}</h4>
-        <p class="text-sm leading-6">{{hitw.content}}</p>
-      </div>
-      <img [src]="hitw.image" class="xl:w-48 rounded-lg">
-    </div>
-    }
-  </div>
-
-  <div class="flex justify-center mt-4 text-center xl:mr-60">
-    <button class="shaded-button secondary mt-4">Describe Your Project Needs</button>
-  </div>
-</section>
-
-<section>
-  <div class="page 4xl:max-w-screen-4xl py-12 
-    flex gap-4 justify-center items-center flex-wrap 3xl:flex-nowrap">
-    <div>
-      <h2 class="text-2xl 4xl:text-3xl font-bold text-center transition-all">
-        Hire elite EAS talent based on
-        <span class="text-primary-500">Enterprise Application Software</span>
       </h2>
-      <h3 class="text-xl lg:text-xl text-center mt-2">
-        60+ Enterprise Apps Supported
-      </h3>
-    </div>
-
-    <mat-divider vertical class="hidden 3xl:block"></mat-divider>
-
-    <div class="flex gap-4 flex-none items-center transition-all">
-      <button class="stroked-button border-primary-950 border-2 font-medium">Apply for Jobs</button>
-      <button class="shaded-button secondary"> Hire Now</button>
-    </div>
-  </div>
-
-  <featured-domains></featured-domains>
-</section>
-
-<section id="industries" class="page py-12">
-  <h2 class="text-3xl text-center font-bold">We've supported companies of all sizes and various use cases</h2>
-
-  <div class="mt-8">
-    <h3 class="text-center text-xl font-bold text-gray-500">Industries supported</h3>
-    <swiper [options]="industries.swiper.options" [modules]="industries.swiper.modules" class="mt-4">
-      <div class="absolute bottom-0 flex items-center left-0 m-auto text-center top-0 z-10">
-        <fa-icon [icon]="icons.faAngleLeft" mat-ripple class="swiper-button swiper-button-prev"></fa-icon>
-      </div>
-      <div class="swiper-wrapper">
-        @for (slide of industries.slides; track slide) {
-        <swiper-slide index={{$index}}>
-          <div class="grid text-center justify-items-center border p-4 rounded-lg gap-4">
-            <fa-icon [icon]="slide.icon" class="text-4xl text-primary-500"></fa-icon>
-            <p>{{slide.text}}</p>
+      <div
+           class="grid gap-12 mt-8 grid-cols-1 4xl:grid-cols-2 2xl:mt-12 transition-all justify-center mx-auto 7xl:max-w-7xl">
+        <div class="flex items-center gap-4 w-96 gap-x-12 flex-col-reverse transition-all
+                2xl:flex-row order-2 3xl:order-1">
+          <div class="justify-center">
+            <h3 class="font-bold text-primary-500 3xl:text-2xl text-xl">Specialized Skills</h3>
+            <p class="mt-2 text-white 3xl:text-2xl text-xl">
+              Access professionals with targeted expertise and experience in the
+              specific industry domain you require.
+            </p>
           </div>
-        </swiper-slide>
-        }
 
+        </div>
+        <div class="order-1 3xl:order-2 text-white grid gap-8">
+          @for (dev of madeEasySection.devs; track dev) {
+          <div class="enterprise-app-dev-card
+                  flex gap-4 items-center 
+                  p-2 px-4 rounded-md
+                  bg-gradient-to-r from-zinc-800 to-black
+                  shadow shadow-z8 shadow-black/40"
+               [class.highlight]="dev.highlight">
+            <div class="relative">
+              <img [src]="dev.image">
+              <div class="absolute right-2 top-0.5 
+                  border border-primary-500 
+                  rounded-full w-3.5 h-3.5"
+                   [class]="dev.badge">
+              </div>
+            </div>
+            <div class="flex-grow flex flex-col gap-2">
+              <div>
+                <div class="text-xl text-primary-400">{{dev.name}}</div>
+                <div class="mt-1">{{dev.role}}</div>
+              </div>
+              <div class="flex gap-2 items-center justify-between">
+                <div class="flex gap-2 items-center">
+                  <fa-icon [icon]="icons.faLocationDot" class="text-gray-600"></fa-icon>
+                  <span class="leading-none">{{dev.location}}</span>
+                </div>
+                <div class="flex gap-2 items-center text-primary-400">
+                  <fa-icon [icon]="icons.facCertificateCheck" class="text-lg"></fa-icon>
+                  <span class="leading-none">Excellent Fit</span>
+                </div>
+              </div>
+            </div>
+            @if(dev.highlight) {
+            <fa-icon [icon]="icons.facCornerRibbon"
+                     class="absolute top-0 right-0
+                     text-5xl text-primary-600"></fa-icon>
+            }
+          </div>
+          }
+        </div>
       </div>
-      <div class=" absolute bottom-0 flex items-center right-0 m-auto text-center top-0 z-10">
-        <fa-icon [icon]="icons.faAngleRight" mat-ripple class="swiper-button swiper-button-next"></fa-icon>
+      <button
+              class="shaded-button block gradient-btn border-gradient relative rounded-xl text-white mt-12 mx-auto text-lg min-w-min max-w-full px-14 before:absolute before:inset-0 before:rounded-xl">Get
+        Started</button>
+    </div>
+  </section>
+  <!-- Enterprise Application Development Section End -->
+
+  <!-- Maximize Project Section start -->
+  <section class="page p-0 maximize-project">
+    <img src="/assets/public/home/canvas-to-top.svg" class="w-full -translate-y-4" alt="canvas to top image" />
+    <div class="py-16">
+      <div class="text-center">
+        <p class="text-white text-sm leading-4 font-inter mb-3">FEATURES</p>
+        <h2 class="text-white 7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight transition-all font-anton">
+          Maximize Project Success with <span class="text-primary-500">EASWORKS</span></h2>
       </div>
-    </swiper>
-  </div>
+      <div
+           class="grid my-12 gap-x-4 lg:gap-y-20 gap-y-7 mx-auto justify-center grid-cols-1 lg:grid-cols-2 5xl:grid-cols-4 7xl:max-w-7xl">
+        <div class="relative flex flex-col gap-y-4 bg-transparent shadow-md rounded-md transition-all">
+          <div class="card-box p-4 h-full bg-no-repeat">
+            <div>
+              <img src="/assets/public/home/maximize-project/flexibility.svg" alt="Flexibility Image" />
+              <div class="mt-10">
+                <h4 class="text-xl font-semibold text-primary-500 font-anton mb-4">Flexibility</h4>
+                <p class="leading-4 text-white text-xs font-inter font-normal">Enable an on-demand workforce, access
+                  global
+                  talent,
+                  find
+                  specialized skills, and adapt to project needs, optimizing resource utilization for agile allocation.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
-  <div class="mt-12">
-    <h3 class="text-center text-xl font-bold text-gray-500">Use Cases</h3>
+        <div
+             class="relative flex flex-col gap-y-4 bg-transparent shadow-md rounded-md transition-all lg:translate-y-12 lg:hover:translate-y-0">
+          <div class="card-box p-4 h-full bg-no-repeat">
+            <img src="/assets/public/home/maximize-project/business-val.svg" alt="Business Value Image" />
+            <div class="mt-10">
+              <h4 class="text-xl font-semibold text-primary-500 font-anton mb-4">Business Value</h4>
+              <p class="leading-4 text-white text-xs font-inter font-normal">Gain expertise and specialization from
+                Enterprise Application
+                talents with deep knowledge and experience.</p>
+            </div>
+          </div>
 
-    <use-case-tiles-container class="mt-4"></use-case-tiles-container>
-  </div>
-</section>
 
-<section>
-  <div class="page py-12">
-    <h2 class="text-2xl text-center font-bold">Get Started based on <span class="text-primary-500">Enterprise
-        Applications</span></h2>
 
-    <domain-software-selector class="mt-4"></domain-software-selector>
-  </div>
-</section>
+        </div>
 
-<section>
-  <div class="page py-12">
-    <h2 class="text-2xl lg:text-3xl text-center font-bold">
-      Hire Elite EAS Talent Based On <span class="text-primary-500">Enterprise Application Roles</span>
-    </h2>
+        <div class="relative flex flex-col gap-y-4 bg-transparent shadow-md rounded-md transition-all">
+          <div class="card-box p-4 h-full bg-no-repeat">
+            <img src="/assets/public/home/maximize-project/accountability.svg" alt="Accountability Image" />
+            <div class="mt-10">
+              <h4 class="text-xl font-semibold text-primary-500 font-anton mb-4">Accountability</h4>
+              <p class="leading-4 text-white text-xs font-inter font-normal">Enhance accountability with a quality
+                assurance process that uses
+                technological tools and human oversight to evaluate and monitor talent performance.</p>
+            </div>
+          </div>
 
-    <mat-progress-spinner *ngIf="roleList.loading$(); else $roleList" class="mx-auto mt-8" mode="indeterminate"
-                          diameter="32"></mat-progress-spinner>
+        </div>
 
-    <ng-template #$roleList>
-      <div class="grid mt-8 gap-8">
-        @for(domain of roleList.list$(); track domain.key) {
+        <div
+             class="relative flex flex-col gap-y-4 bg-transparent shadow-md rounded-md transition-all lg:translate-y-12 lg:hover:translate-y-0">
+          <div class="card-box p-4 h-full bg-no-repeat">
+            <img src="/assets/public/home/maximize-project/cost-effect.svg" alt="Cost-Effectiveness Image" />
+            <div class="mt-10">
+              <h4 class="text-xl font-semibold text-primary-500 font-anton mb-4">Cost-Effectiveness</h4>
+              <p class="leading-4 text-white text-xs font-inter font-normal">Transform your cost structure by leveraging
+                a
+                diverse, skilled
+                multidisciplinary team that delivers exceptional results within your budget.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <img src="/assets/public/home/canvas-to-bottom.svg" class="w-full" alt="canvas to bottom image" />
+  </section>
+  <!-- Maximize Project Section end -->
+
+  <!-- Dedicated Community Section Start -->
+  <section class="my-24 3xl:px-8 px-5">
+    <div class="page p-0">
+
+      <div
+           class="rounded-4xl bg-gradient-to-r from-primary-500 from-1% to-[#4949fc00] to-99.85% grid 4xl:grid-cols-2 gap-0 4xl:items-center">
+        <div class="6xl:pt-0 lg:pt-12 lg:pb-20 pt-7 pb-14 3xl:ps-9 ps-5 3xl:pe-0 pe-5 4xl:order-1 order-2">
+          <h2 class="font-anton text-white 8xl:text-[56px] 3xl:text-4xl text-3xl">Join the <span
+                  class="text-black">EASWORKS
+              Community</span></h2>
+          <p class="3xl:text-xl text-lg font-medium font-inter text-white lg:my-4 my-2.5">Stay updated with industry
+            trends, connect
+            with peers, and participate in exclusive events. Network, learn, and grow in the enterprise application
+            ecosystem.
+          </p>
+
+          <button
+                  class="bg-white text-primary-500 3xl:px-10 lg:px-8 px-5 3xl:py-4 py-2.5 rounded-lg 3xl:text-xl text-lg font-bold">Explore
+            the Community</button>
+
+        </div>
+        <div class="flex 4xl:justify-end justify-center 4xl:order-2 order-1">
+          <img src="/assets/public/home/dedicated-community/join-community-img.png" alt="Join Community Image"
+               class="4xl:w-3/4 lg:w-2/4 sm:w-3/4">
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- Dedicated Community Section Start -->
+
+  <!-- Hire contractors Section start -->
+  <section class="page py-18 relative">
+    <div class="text-center">
+      <h2 class="text-white 7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight transition-all font-anton">
+        How EASWORKS can help you with <br /><span class="text-primary-500">Enterprise App Development.</span></h2>
+    </div>
+    <div class="grid gap-8 mt-12 7xl:max-w-7xl mx-auto">
+      <div class="flex gap-y-7 gap-x-12 items-center flex-col-reverse 3xl:flex-row transition-all">
+        <div class="gradient-bg 3xl:p-10 3xl:w-fit w-full">
+          <img src="/assets/public/home/hire-contractors/hire-contractor.svg" alt="Hire Contractor Image" />
+        </div>
+
+        <div class="max-w-lg text-white font-inter">
+          <h4 class="7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight font-bold my-4 font-inter">Hire Contractors
+          </h4>
+          <p class="text-sm leading-5">Fill Enterprise Application Software (EAS) talent gaps with pre-vetted
+            professionals for specialized Enterprise App skills with Industry domain expertise.</p>
+
+          <div class="flex mt-4 text-center gap-4">
+            <button
+                    class="shaded-button block gradient-btn relative rounded-xl text-white w-fit font-inter min-w-min 5xl:py-3.5 py-2.5 5xl:px-11 lg:px-7 px-5">Get
+              Started</button>
+            <button
+                    class="shaded-button block relative rounded-xl text-black w-fit font-inter min-w-min 5xl:py-4 py-2.5 5xl:px-10 lg:px-7 px-5 bg-primary-500">Talk
+              To Us</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+         class="grid my-12 gap-4 mx-auto justify-center grid-cols-1 lg:grid-cols-2 4xl:grid-cols-4 7xl:max-w-7xl text-white font-inter">
+      <div>
+        <div class="h-[2px] bg-white mb-4"></div>
+        <div
+             class="active-tab shadow-[0px_-1px_11.6px_0px_#9747FF96] bg-gradient-to-b from-[#4E00B3] 0% to-[#14002F] h-7 w-7 rounded-full flex items-center justify-center text-xs mb-3">
+          01</div>
+        <p class="text-xl font-bold">Hire Contractors</p>
+      </div>
+      <div class="opacity-50">
+        <div class="h-[2px] bg-white mb-4"></div>
+        <div
+             class="active-tab shadow-[0px_-1px_11.6px_0px_#9747FF96] bg-gradient-to-b from-[#4E00B3] 0% to-[#14002F] 100% h-7 w-7 rounded-full flex items-center justify-center text-xs mb-3">
+          02</div>
+        <p class="text-xl font-bold">Hire Full-Time</p>
+      </div>
+      <div class="opacity-50">
+        <div class="h-[2px] bg-white mb-4"></div>
+        <div
+             class="active-tab shadow-[0px_-1px_11.6px_0px_#9747FF96] bg-gradient-to-b from-[#4E00B3] 0% to-[#14002F] h-7 w-7 rounded-full flex items-center justify-center text-xs mb-3">
+          03</div>
+        <p class="text-xl font-bold">Hire Fully Managed Team</p>
+      </div>
+      <div class="opacity-50">
+        <div class="h-[2px] bg-white mb-4"></div>
+        <div
+             class="active-tab shadow-[0px_-1px_11.6px_0px_#9747FF96] bg-gradient-to-b from-[#4E00B3] 0% to-[#14002F] h-7 w-7 rounded-full flex items-center justify-center text-xs mb-3">
+          04</div>
+        <p class="text-xl font-bold">Managed end-to-end Solution</p>
+      </div>
+    </div>
+
+    <img src="/assets/public/home/hire-contractors/hiring-left-gradient.svg" class="absolute top-0 left-0"
+         alt="gradient-bg Image" />
+    <img src="/assets/public/home/hire-contractors/gradient-ellipse.svg" class="absolute top-0 right-0"
+         alt="Circle Image" />
+    <img src="/assets/public/home/hire-contractors/big-circle.svg" class="absolute top-0 right-0"
+         alt="Circle Image" />
+
+  </section>
+  <!-- Hire contractors Section end -->
+
+  <!-- How Easworks Works Section Start -->
+  <section class="how-easworks">
+    <div class="page px-0 ">
+      <h2 class="text-white 7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight transition-all font-anton text-center">
+        How Easworks Works
+      </h2>
+      <div class="grid 4xl:grid-cols-2 bg-effect bg-no-repeat 4xl:bg-right bg-bottom py-12 4xl:gap-x-10 gap-y-5">
         <div>
-          <div class="flex gap-4 justify-between">
-            <h3 class="text-xl font-bold mt-1">{{domain.name}}</h3>
-            <!-- TODO: discuss with Mr.Nanda what to do about roles selection -->
-            <!-- <div class="form-field mb-0 w-32 flex-none">
-              <mat-select [ngModel]="domain.selectedModule$()"
-                          (ngModelChange)="domain.selectedModule$.set($event)"
-                          placeholder="All"
-                          class="with-non-empty-null text-sm">
-                <mat-option *ngFor="let module of domain.modules"
-                            [value]="module">
-                  {{module?.name || 'All'}}
-                </mat-option>
-              </mat-select>
-            </div> -->
+          <div class="flex xl:gap-8 gap-4">
+            <img src="/assets/public/home/how-eas-works/stepper-line.svg" alt="Stepper Line Image" class=" h-full">
+            <div class="pt-3">
+              <h3
+                  class="text-primary-500 7xl:text-4xl 3xl:text-3xl text-2xl 7xl:leading-tight transition-all font-anton">
+                Share Your Enterprise Application
+                Challenge
+              </h3>
+              <p class="text-white mt-3">Describe your project requirements and desired outcomes. We'll analyze your
+                needs and prepare a detailed talent profile, considering tech stack, experience, and industry-specific
+                challenges.</p>
+            </div>
           </div>
-
-          <div class="mt-4 grid gap-x-4 2xl:grid-cols-2 4xl:grid-cols-3 6xl:grid-cols-4 8xl:grid-cols-5">
-            @for(role of domain.roles$(); track role) {
-            <a class="flex gap-2 max-w-max" [routerLink]="'/roles/'+domain.key+'/'+role"
-               [class.hidden]="$index >= roleList.items$() && !domain.showMore$() ">
-              <fa-icon [icon]="icons.faAngleRight" class="text-sm mt-1"></fa-icon>
-              {{role}}
-            </a>
-            }
-
+          <div class="flex xl:gap-8 gap-4">
+            <img src="/assets/public/home/how-eas-works/stepper-line.svg" alt="Stepper Line Image"
+                 class="h-full invisible">
+            <div class="pt-3">
+              <h3
+                  class="text-white opacity-20 7xl:text-4xl 3xl:text-3xl text-2xl 7xl:leading-tight transition-all font-anton">
+                Choose from Our EAS Expert
+                Recommendations
+              </h3>
+              <p class="text-white opacity-20 mt-3">Receive tailored recommendations of top professionals who match your
+                talent profile. Handpick the candidate who perfectly fits your needs, ensuring a seamless integration
+                into your team.</p>
+            </div>
           </div>
+          <div class="flex xl:gap-8 gap-4">
+            <img src="/assets/public/home/how-eas-works/stepper-line.svg" alt="Stepper Line Image"
+                 class="h-full invisible">
+            <div class="pt-3">
+              <h3
+                  class="text-white opacity-20 7xl:text-4xl 3xl:text-3xl text-2xl 7xl:leading-tight transition-all font-anton">
+                Deploy & Enhance Your
+                Application
+              </h3>
+              <p class="text-white opacity-20 mt-3">After selecting your ideal candidate, we handle all contractual
+                details. Focus on starting and enhancing your enterprise application with our skilled professionals.</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <img src="/assets/public/home/how-eas-works/share-enterprise-challenge.jpg"
+               alt="Share Enterprise Challenge Image">
+          <div class="flex justify-center mt-5">
+            <button
+                    class="3xl:text-xl text-lg text-white lg:py-4 py-2.5 5xl:px-10 lg:px-7 px-5 rounded-xl font-inter font-bold how-easworks-btn bg-cover bg-no-repeat">
+              Describe Your Project Needs </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- How Easworks Works Section End -->
 
-          <button class="highlight-button flex items-center font-normal text-sm leading-none" mat-ripple
-                  (click)="domain.toggleMore()">
-            @if (domain.showMore$()) {
-            <fa-icon [icon]="icons.faMinus" class="mr-2"></fa-icon>
-            Show Less
-            }
-            @else {
-            <fa-icon [icon]="icons.faPlus" class="mr-2"></fa-icon>
-            Show More
-            }
+  <!-- Hire Elite Talent Section Start -->
+  <section class="my-24 3xl:px-8 px-5">
+    <div class="page px-0 pt-16 5xl:pb-28 pb-20 rounded-4xl bg-cover bg-no-repeat hire-elite-bg">
+
+      <div class="xl:w-4/6 sm:w-5/6 w-11/12 mx-auto text-center">
+        <h2
+            class="text-primary-500 8xl:text-[56px] 3xl:text-4xl xl:text-3xl text-2xl 7xl:leading-tight transition-all font-anton">
+          <span class="text-white">Hire elite EAS talent based on</span> <br>
+          Enterprise Application Software
+        </h2>
+        <h5 class="text-white my-1.5 3xl:text-2xl text-xl capitalize font-inter">60+ Enterprise Apps Supported</h5>
+        <div class="3xl:mt-12 mt-7 flex gap-2 justify-center flex-wrap">
+          <button
+                  class="3xl:text-xl text-lg text-white lg:py-3 py-1.5 5xl:px-10 lg:px-7 px-5 rounded-xl font-inter font-bold hire-elite-btn bg-cover bg-no-repeat">
+            Apply for Jobs
+          </button>
+          <button
+                  class="3xl:text-xl text-lg text-primary-500 bg-white lg:py-3 py-1.5 5xl:px-16 lg:px-14 px-11 rounded-xl font-inter font-bold">
+            Hire Now
           </button>
         </div>
-        }
       </div>
-    </ng-template>
-  </div>
-</section>
+
+    </div>
+
+  </section>
+  <!-- Hire Elite Talent Section End -->
+
+  <!-- Cases Section start -->
+  <section class="page py-18 relative">
+    <div class="text-center">
+      <h2 class="text-white 7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight transition-all fw-bold font-anton">
+        We've supported companies of all sizes <br /><span class="text-primary-500">and various use cases</span></h2>
+
+      <p class="text-white text-sm leading-4 font-inter my-3">Industries supported</p>
+    </div>
+    <div
+         class="grid gap-4 mx-auto justify-center 8xl:grid-cols-6 6xl:grid-cols-4 3xl:grid-cols-3 lg:grid-cols-2 grid-cols-1  text-white py-12">
+      <div class="p-3 rounded-xl case-card">
+        <div class="flex items-center">
+          <img src="/assets/public/home/cases/popular.png" alt="Popular Image" />
+          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4 font-inter ms-3">Popular</p>
+        </div>
+      </div>
+      <div class="p-3 rounded-xl case-card">
+        <div class="flex items-center">
+          <img src="/assets/public/home/cases/ecom.svg" alt="Ecom Image" />
+          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4 font-inter ms-3">E-Commerce</p>
+        </div>
+      </div>
+      <div class="p-3 rounded-xl case-card">
+        <div class="flex items-center">
+          <img src="/assets/public/home/cases/healthcare.png" alt="Healthcare Image" />
+          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4 font-inter ms-3">Healthcare</p>
+        </div>
+      </div>
+      <div class="p-3 rounded-xl case-card">
+        <div class="flex items-center">
+          <img src="/assets/public/home/cases/automob.svg" alt="Automobile Image" />
+          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4 font-inter ms-3">Automobile</p>
+        </div>
+      </div>
+      <div class="p-3 rounded-xl case-card">
+        <div class="flex items-center">
+          <img src="/assets/public/home/cases/aerospace.svg" alt="Aerospace Image" />
+          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4 font-inter ms-3">Aerospace</p>
+        </div>
+      </div>
+      <div class="p-3 rounded-xl case-card">
+        <div class="flex items-center">
+          <img src="/assets/public/home/cases/banking.svg" alt="Banking Image" />
+          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4 font-inter ms-3">Banking</p>
+        </div>
+      </div>
+    </div>
+    <img src="/assets/public/home/cases/case-rect.svg" class="absolute top-0 left-0" alt="gradient-bg Image" />
+
+    <div>
+      <h5 class="text-center font-medium text-2xl text-white">Use Cases</h5>
+      <div class="grid 6xl:grid-cols-5 5xl:grid-cols-4 3xl:grid-cols-3 lg:grid-cols-2 gap-x-5 gap-y-12 xl:mt-16 mt-7">
+        <div class="shadow-[-5px_-3px_20.2px_0px_#FFFFFF66_inset] p-3.5 rounded-2xl">
+          <img src="/assets/public/home/use-cases/ic-hand.svg" alt="Digital Transformation Image" class="-mt-7">
+          <h6 class="text-lg text-white font-semibold mt-2.5  leading-tight">Digital Transformation
+            (DX)</h6>
+        </div>
+
+        <div class="shadow-[-5px_-3px_20.2px_0px_#FFFFFF66_inset] p-3.5 rounded-2xl">
+          <img src="/assets/public/home/use-cases/ic-light.svg" alt="Innovation Image" class="-mt-10">
+          <h6 class="text-lg text-white font-semibold mt-2.5 leading-tight">Innovation</h6>
+        </div>
+
+        <div class="shadow-[-5px_-3px_20.2px_0px_#FFFFFF66_inset] p-3.5 rounded-2xl">
+          <img src="/assets/public/home/use-cases/ic-computer.svg" alt="Prototyping Image" class="-mt-10">
+          <h6 class="text-lg text-white font-semibold mt-2.5 leading-tight">Prototyping</h6>
+        </div>
+
+        <div class="shadow-[-5px_-3px_20.2px_0px_#FFFFFF66_inset] p-3.5 rounded-2xl">
+          <img src="/assets/public/home/use-cases/ic-tabs.svg" alt="Enterprise Application
+            Design Image" class="-mt-10">
+          <h6 class="text-lg text-white font-semibold mt-2.5  leading-tight">Enterprise Application
+            Design</h6>
+        </div>
+
+        <div class="shadow-[-5px_-3px_20.2px_0px_#FFFFFF66_inset] p-3.5 rounded-2xl">
+          <img src="/assets/public/home/use-cases/ic-search.svg" alt="Business Intelligence Image" class="-mt-10">
+          <h6 class="text-lg text-white font-semibold mt-2.5  leading-tight">Business Intelligence</h6>
+        </div>
+
+      </div>
+
+      <div class="flex justify-center gap-5 mt-8">
+        <div class="bg-primary-500 w-9 h-1"></div>
+        <div class="bg-white w-9 h-1"></div>
+      </div>
+    </div>
+
+
+  </section>
+  <!-- Cases Section end -->
+
+  <!-- ERP Operations section starts -->
+  <section class="py-18 relative my-12">
+    <div class="7xl:max-w-7xl mx-auto p-4 rounded-3xl">
+      <div class="erp-operations rounded-3xl p-4">
+        <div class="grid gap-6 mx-auto justify-center grid-cols-1 5xl:grid-cols-2 text-white py-12">
+          <div class="logo-sec-bg p-6">
+            <div class="grid gap-4 mx-auto justify-center grid-cols-3 2xl:grid-cols-4 text-white">
+              <img src="/assets/public/home/erp-operations/logo1.png" alt="Logo Image">
+              <img src="/assets/public/home/erp-operations/logo2.png" alt="Logo Image">
+              <img src="/assets/public/home/erp-operations/logo3.png" alt="Logo Image">
+              <img src="/assets/public/home/erp-operations/logo4.png" alt="Logo Image">
+              <img src="/assets/public/home/erp-operations/logo5.png" alt="Logo Image">
+              <img src="/assets/public/home/erp-operations/logo6.png" alt="Logo Image">
+              <img src="/assets/public/home/erp-operations/logo7.png" alt="Logo Image">
+              <img src="/assets/public/home/erp-operations/logo8.png" alt="Logo Image">
+              <img src="/assets/public/home/erp-operations/logo9.png" alt="Logo Image">
+              <img src="/assets/public/home/erp-operations/logo10.png" alt="Logo Image">
+              <img src="/assets/public/home/erp-operations/logo11.png" alt="Logo Image">
+              <img src="/assets/public/home/erp-operations/logo12.png" alt="Logo Image">
+              <img src="/assets/public/home/erp-operations/logo13.png" alt="Logo Image">
+              <img src="/assets/public/home/erp-operations/logo14.png" alt="Logo Image">
+              <img src="/assets/public/home/erp-operations/logo15.png" alt="Logo Image">
+              <div class="bg-primary-500 p-4 rounded-xl text-center text-sm">
+                <p class="mb-0">See more ERP</p>
+                <p class="mb-0">Ops software</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h5 class="text-center font-bold mb-4 text-3xl text-white">ERP Operations and Services</h5>
+            <div class="flex 5xl:ms-5 ms-0">
+              <div class="me-5">
+                <ul>
+                  <li>Account Manager
+                  </li>
+                  <li>Business Continuity Analyst
+                  </li>
+                  <li>Business Process Analyst
+                  </li>
+                  <li>Change Mgt
+                  </li>
+                  <li>Compliance Specialist
+                  </li>
+                  <li>CRM Consultant
+                  </li>
+                  <li>Customization Specialist</li>
+                  <li>Back-end Developer
+                  </li>
+                  <li>Business Intelligence (Bl) Analy
+                  </li>
+                  <li>Change Analyst
+                  </li>
+                  <li>Cloud Specialist
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <ul>
+                  <li>Audit Manager
+
+                  </li>
+                  <li>Business Continuity Manager
+
+                  </li>
+                  <li>Business Process Owner
+
+                  </li>
+                  <li>Cloud Engineer
+
+                  </li>
+                  <li>Configuration Analyst
+
+                  </li>
+                  <li>Customer Relationship Manager
+
+                  </li>
+                  <li>Data Analyst</li>
+                  <li>Business Analyst
+
+                  </li>
+                  <li>Business Intelligence Developer
+
+                  </li>
+                  <li>Change Management Specialist
+
+                  </li>
+                  <li>Compliance Manager
+
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <button class="view-more">
+              View More <img src="/assets/public/home/erp-operations/arrow-up.png" alt="Arrow Up Image">
+            </button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <img src="/assets/public/home/erp-operations/line-img.png" alt="Line Image" />
+      </div>
+      <div>
+        <div class="grid gap-4 mx-auto justify-center grid-cols-1 lg:grid-cols-2 4xl:grid-cols-5 text-white py-12">
+          <div class="shadow-[5px_5px_18.3px_0px_#4949FC66] bg-primary-500 p-4 rounded-xl text-center">
+            <p class="mb-0">ERP Ops</p>
+            <p class="mb-0">ERP Operations and</p>
+            <p class="mb-0">Services (ERP Ops)</p>
+          </div>
+          <div class="p-4 text-center opacity-50">
+            <p class="mb-0">ERP Finance</p>
+            <p class="mb-0">ERP Financial Management </p>
+            <p class="mb-0">(ERP Finance)</p>
+          </div>
+          <div class="p-4 text-center opacity-50">
+            <p class="mb-0">CRM</p>
+            <p class="mb-0">Customer Relationship </p>
+            <p class="mb-0">Management (CRM)</p>
+          </div>
+          <div class="p-4 text-center opacity-50">
+            <p class="mb-0">PLM</p>
+            <p class="mb-0">Product Lifecycle</p>
+            <p class="mb-0">Management (PLM)</p>
+          </div>
+          <div class="p-4 text-center opacity-50">
+            <p class="mb-0">HCM</p>
+            <p class="mb-0">Human Capital</p>
+            <p class="mb-0">Management (HCM)</p>
+          </div>
+
+          <!-- Next Grid -->
+          <div class="p-4 text-center opacity-50">
+            <p class="mb-0">BI</p>
+            <p class="mb-0">Business Analytics</p>
+            <p class="mb-0">and BI (BA/BI)</p>
+          </div>
+          <div class="p-4 text-center opacity-50">
+            <p class="mb-0">SCM</p>
+            <p class="mb-0"> Supply Chain</p>
+            <p class="mb-0">Management (SCM)</p>
+          </div>
+          <div class="p-4 text-center opacity-50">
+            <p class="mb-0">EQMS</p>
+            <p class="mb-0"> Enterprise Quality </p>
+            <p class="mb-0">Management Software </p>
+          </div>
+          <div class="p-4 text-center opacity-50">
+            <p class="mb-0">MES</p>
+            <p class="mb-0">Manufacturing Execution</p>
+            <p class="mb-0">System (MES)</p>
+          </div>
+          <div class="p-4 text-center opacity-50">
+            <p class="mb-0">IoT</p>
+            <p class="mb-0">Internet of Things (IoT)</p>
+            <p class="mb-0"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ERP Operations section ends -->
+
+  <!-- Enterprise Section start -->
+  <section class="py-18 relative my-12">
+    <div class="text-center pt-12">
+      <h2 class="text-white text-4xl 7xl:text-5xl 7xl:leading-tight transition-all fw-bold font-anton">
+        Get Started based on <span class="text-primary-500">Enterprise Applications</span></h2>
+    </div>
+
+    <div
+         class="grid gap-4 mx-auto justify-center grid-cols-1 lg:grid-cols-2 4xl:grid-cols-3 text-white py-12 7xl:max-w-7xl">
+      <div class="relative">
+        <select id="artificial-intelligence" name="artificial-intelligence" autocomplete="artificial-intelligence"
+                class="block w-full border border-[#7D7DFF] h-14 rounded-xl py-1.5 text-white bg-transparent appearance-none">
+          <option>Artificial Intelligence (A1)</option>
+        </select>
+        <img src="/assets/public/home/down-arrow.svg" class="absolute top-6 right-5" alt="Down arrow Image" />
+      </div>
+      <div>
+        <div class="relative">
+          <select id="artificial-intelligence" name="artificial-intelligence" autocomplete="artificial-intelligence"
+                  class="block w-full border border-[#7D7DFF] h-14 rounded-xl py-1.5 text-white bg-transparent appearance-none">
+            <option>ABBYY</option>
+          </select>
+          <img src="/assets/public/home/down-arrow.svg" class="absolute top-6 right-5" alt="Down arrow Image" />
+        </div>
+      </div>
+      <button
+              class="shaded-button block gradient-btn border-gradient relative rounded-xl text-white w-fit text-lg min-w-min px-14 before:absolute before:inset-0 before:rounded-xl">Get
+        Started</button>
+    </div>
+  </section>
+  <!-- Enterprise Section end -->
+
+  <!-- Testimonial Section Start -->
+  <section class="bg-black my-24 3xl:px-8 px-5 5xl:pb-40 pb-24 testimonial-sec">
+    <div class="page p-0 vector-bg bg-no-repeat bg-left-bottom">
+      <div class="bg-cover bg-no-repeat bg-center cards-bg-effect py-12">
+        <h2
+            class="text-primary-500 7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight transition-all font-anton text-center">
+          <span class="text-white">Why 100+ of fast-growing companies
+          </span><br> love EASWORKS
+        </h2>
+        <div class="grid 4xl:grid-cols-3 xl:grid-cols-2 gap-4 pt-14 pb-9">
+          <div class="py-5 px-3.5 rounded-3xl border-b-8 border-primary-500 bg-black">
+            <div class="flex items-center gap-2 mb-2.5">
+              <img src="/assets/public/home/testimonial/user-profile1.svg" alt="User Profile">
+              <div>
+                <h5 class="3xl:text-xl text-lg text-white font-semibold font-inter">Thomas Israel</h5>
+                <p class="text-neutral-500 text-sm font-inter font-normal mt-0.5">VP Finance, CREO</p>
+              </div>
+            </div>
+            <div class="relative testimonial-divider before:absolute before:inset-0"></div>
+            <p class="text-white font-normal font-inter pt-2.5 px-4">“ Easworks spent a good amount of time
+              understanding
+              our requirements, resulting in accurate recommendations and quick ramp up by developers. We also found
+              them
+              to be much more affordable than other alternatives for the same level of quality. I used to have to remit
+              tax to the EU and with Easworks I somehow don't have to do that anymore.” </p>
+          </div>
+          <div class="py-5 px-3.5 rounded-3xl border-b-8 border-primary-500 bg-black">
+            <div class="flex items-center gap-2 mb-2.5">
+              <img src="/assets/public/home/testimonial/user-profile2.svg" alt="User Profile">
+              <div>
+                <h5 class="3xl:text-xl text-lg text-white font-semibold font-inter">Thomas Israel</h5>
+                <p class="text-neutral-500 text-sm font-inter font-normal mt-0.5">Operations Manager</p>
+              </div>
+            </div>
+            <div class="relative testimonial-divider before:absolute before:inset-0"></div>
+            <p class="text-white font-normal font-inter pt-2.5 px-4">“ Easworks spent a good amount of time
+              understanding
+              our requirements, resulting in accurate recommendations and quick ramp up by developers. We also found
+              them
+              to be much more affordable than other alternatives for the same level of quality.” </p>
+          </div>
+          <div class="py-5 px-3.5 rounded-3xl border-b-8 border-primary-500 bg-black">
+            <div class="flex items-center gap-2 mb-2.5">
+              <img src="/assets/public/home/testimonial/user-profile3.svg" alt="User Profile">
+              <div>
+                <h5 class="3xl:text-xl text-lg text-white font-semibold font-inter">Thomas Israel</h5>
+                <p class="text-neutral-500 text-sm font-inter font-normal mt-0.5">Chef</p>
+              </div>
+            </div>
+            <div class="relative testimonial-divider"></div>
+            <p class="text-white font-normal font-inter pt-2.5 px-4">“ It's been great working with Easworks for hiring
+              talented, hardworking folks. We needed a suitable back-end developer and got to know Ankur through
+              Easworks.
+              We are very happy with his commitment and skills and will be working with Easworks going forward as well.”
+            </p>
+          </div>
+        </div>
+        <div class="flex justify-center gap-5">
+          <div class="bg-primary-500 w-24 h-1"></div>
+          <div class="bg-white w-24 h-1"></div>
+        </div>
+      </div>
+      <div class="3xl:mt-12 mt-7 flex gap-2 justify-center flex-wrap">
+        <!-- 5xl:px-10 lg:px-7 px-5 -->
+        <button
+                class="3xl:text-xl text-lg text-white rounded-xl font-inter font-bold testimonial-btn bg-cover bg-no-repeat flex items-center gap-5 justify-center lg:py-3 py-2 2xl:w-72 xl:w-60 w-52 border-gradient  relative before:absolute before:inset-0 before:rounded-xl">
+          Hire Talent
+          <img src="/assets/public/home/testimonial/ic-right-arrow.svg" alt="Right Arrow Icon">
+        </button>
+        <button
+                class="3xl:text-xl text-lg text-primary-500 bg-white rounded-xl font-inter font-bold flex items-center gap-5 justify-center lg:py-3 py-2 2xl:w-72 xl:w-60 w-52">
+          Find remote jobs
+          <img src="/assets/public/home/testimonial/ic-right-arrow-primary.svg" alt="Right Arrow Icon">
+        </button>
+      </div>
+    </div>
+  </section>
+  <!-- Testimonial Section End -->
+</div>

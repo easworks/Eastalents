@@ -1,14 +1,159 @@
-#help-app-development {
-  @apply page py-12;
+// New CSS Start
+.hero-sec {
+  @apply relative flex justify-center items-center 4xl:py-20 py-10 before:content-[''] before:bg-cover before:bg-no-repeat before:absolute before:inset-0 before:z-10;
 
-  .item-container {
-    @apply mt-12 grid gap-8 justify-center
-      3xl:grid-cols-2 6xl:grid-cols-4;
+  &::before {
+    background-image: url(/assets/public/home/hero-sec-bg.png);
+    background: color-mix(in srgb, #060606, transparent 50%);
+  }
 
-    > div {
-      @apply flex flex-col gap-2 p-4 text-center 
-      border border-b-primary-500 bg-white shadow-md 
-      rounded-tr-4xl rounded-bl-4xl border-b-4;
+  .hero-sec-btns {
+    @apply relative 3xl:text-2xl text-xl text-primary-500 lg:py-3 py-1.5 5xl:px-16 lg:px-10 px-5 rounded-xl hover:hover:text-white hover:bg-black hover:duration-500 before:content-[''] before:absolute before:inset-0 before:rounded-xl before:p-[1px];
+
+    &:before {
+      background: linear-gradient(95.23deg, #4B4BF0 28.56%, #F34A02 100%);
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
     }
   }
 }
+
+.achievement-sec {
+  @apply grid gap-12 mt-8 4xl:grid-cols-4 grid-cols-2 justify-between items-center 2xl:flex-row flex-col gap-y-5 py-6 overflow-auto relative 4xl:before:content-[''] before:content-none before:absolute before:inset-0 before:rounded-full before:p-[1px];
+
+  &:before {
+    background: linear-gradient(91.19deg, #FFFFFF 12.46%, rgba(255, 255, 255, 0) 100.28%);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .shaded-text {
+    background: linear-gradient(110.93deg, #EDF1FF -1.39%, #6A6C76 93.3%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+  }
+}
+
+// Maximize Project section classes
+.maximize-project {
+  .card-box {
+    background-image: url(/assets/public/home/maximize-project/border-shape-img.png);
+    background-size: 100% 100%;
+  }
+}
+
+.gradient-bg {
+  background-image: url(/assets/public/home/hire-contractors/hiring-bg-img.png);
+  background-size: 100% 100%;
+}
+
+.hire-elite-bg {
+  background-image: url(/assets/public/home/hire-elite-bg.png);
+
+  .hire-elite-btn {
+    background-image: url(/assets/public/home/hire-elite-btn-bg.svg);
+  }
+}
+
+.gradient-btn {
+  background-image: linear-gradient(315deg,
+      hsl(216deg 73% 59%) 0%,
+      hsl(221deg 36% 20%) 35%,
+      hsl(249deg 46% 21%) 65%,
+      hsl(240deg 97% 64%) 100%);
+}
+
+.border-gradient::before {
+  padding: 1px;
+  background: linear-gradient(91.19deg, #FFFFFF 12.46%, rgba(255, 255, 255, 0) 100.28%);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+// Cases css
+.case-card {
+  background-image: linear-gradient(252deg, hsl(0, 0%, 0%) 0%, hsl(0deg 0% 72.91%) 70%, hsl(355deg 0% 12.44%) 100%);
+}
+
+// ERP services
+.erp-operations {
+  background: linear-gradient(180deg, rgba(73, 73, 252, 0.28) 0%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+.view-more {
+  @apply relative text-sm flex items-center text-primary-500 px-4 mt-5 rounded-full hover:hover:text-white hover:duration-500 before:content-[''] before:absolute before:inset-0 before:rounded-xl before:p-[1px];
+
+  &:before {
+    background: linear-gradient(95.23deg, #4B4BF0 28.56%, #F34A02 100%);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+}
+
+.logo-sec-bg {
+  background-image: url(/assets/public/home/erp-operations/logo-sec-bg.png);
+  background-size: 100% 100%;
+}
+
+.enterprise-app-dev {
+  background-image: url(/assets/public/home/enterprise-app-dev/sec-bg.png);
+
+  &-card {
+    @apply relative transition-all;
+
+    &.highlight {
+      @apply ring-4 ring-primary-500 4xl:translate-x-12;
+    }
+  }
+}
+
+//Testimonial Css
+.testimonial-sec {
+  .vector-bg {
+    background-image: url(/assets/public/home/testimonial/vector-bg.png);
+    background-size: 50%;
+  }
+
+  .cards-bg-effect {
+    background-image: url(/assets/public/home/testimonial/bg-effect.png);
+  }
+
+  .testimonial-divider::before {
+    padding: 1px;
+    background: linear-gradient(90deg, rgba(153, 153, 153, 0) 0%, #FFFFFF 51%, rgba(153, 153, 153, 0) 100%);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .testimonial-btn {
+    background-image: url(/assets/public/home/hire-elite-btn-bg.svg);
+  }
+}
+
+.how-easworks {
+  .bg-effect {
+    background-image: url(/assets/public/home/how-eas-works/main-bg-effect.png);
+    background-size: 60%;
+  }
+
+  .how-easworks-btn {
+    background-image: url(/assets/public/home/hire-elite-btn-bg.svg);
+  }
+}
+
+// New CSS End
