@@ -4,6 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   standalone: true,
   selector: 'app-authenticated-header',
   templateUrl: './authenticated-header.component.html',
+  styleUrl: './authenticated-header.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: []
 })

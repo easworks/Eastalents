@@ -8,6 +8,7 @@ import { footerNav, publicMenu } from '../menu-items/public';
   standalone: true,
   selector: 'app-footer',
   templateUrl: './footer.component.html',
+  styleUrl: './footer.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterModule,

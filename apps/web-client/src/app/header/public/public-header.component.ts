@@ -5,6 +5,7 @@ import { publicMenu } from '../../menu-items/public';
   standalone: true,
   selector: 'app-public-header',
   templateUrl: './public-header.component.html',
+  styleUrl: './public-header.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: []
 })
