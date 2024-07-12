@@ -139,6 +139,7 @@
       "options": {
         "args": ["--remote=root@216.225.201.134"],
         "commands": [
+          "mkdir -p dist/archives",
           "tar -czf dist/archives/web-client.tar.gz -C dist/apps web-client",
           "scp -r dist/archives/web-client.tar.gz {args.remote}:~",
           "ssh {args.remote} 'rm -rf /var/www/web-client'",
