@@ -1,9 +1,8 @@
-import { BuildResult, Metafile, Plugin } from 'esbuild';
-import { DateTime } from 'luxon';
+import { BuildResult, Metafile, Plugin, build } from 'esbuild';
 import * as path from 'path';
-import shimPlugin from './shim.plugin';
+import { extractManifest } from './extract-manifest';
 
-interface ServiceWorkerPluginOptions {
+export interface ServiceWorkerPluginOptions {
   src: string,
   destination: string,
   tsconfig: string;
@@ -14,31 +13,19 @@ export default function serviceWorkerPlugin(config: ServiceWorkerPluginOptions) 
   const plugin: Plugin = {
     name: pluginName,
     setup: (build) => {
-      return;
       const options = build.initialOptions;
-      options.metafile = true;
+      if (options.platform !== 'browser')
+        return;
 
       let swBuild: BuildResult;
 
       build.onStart(async () => {
-        const result = await build.esbuild.build({
-          entryPoints: [
-            { out: config.destination, in: config.src }
-          ],
-          entryNames: '[name]',
-          plugins: [
-            shimPlugin({ replace: '@angular/core', with: 'angular-sw' }),
-          ],
-          bundle: true,
-          write: false,
-          sourcemap: false,
-          platform: 'browser',
-          metafile: true,
-
-          absWorkingDir: options.absWorkingDir,
+        const result = await buildSw(build.esbuild.build, {
+          src: config.src,
+          destination: config.destination,
           outdir: options.outdir,
-          format: options.format,
-          tsconfig: config.tsconfig
+          absWorkingDir: options.absWorkingDir,
+          tsconfig: options.tsconfig,
         });
         swBuild = result;
         return {
@@ -69,6 +56,7 @@ export default function serviceWorkerPlugin(config: ServiceWorkerPluginOptions) 
         }
 
         result.metafile = mergeMetaFiles(swBuild.metafile, result.metafile);
+
         result.outputFiles.push(...swBuild.outputFiles);
       });
     }
@@ -85,21 +73,30 @@ function mergeMetaFiles(a: Metafile, b: Metafile) {
   };
 }
 
-function extractManifest(main: string, metaFile: Metafile,) {
-
-  const fileNames: string[] = [
-    'index.html',
-    main,
-  ];
-
-  const mainChunk = metaFile.outputs[main];
-
-  for (const imp of mainChunk.imports) {
-    if (!imp.external && imp.kind === 'import-statement') fileNames.push(imp.path);
+export function buildSw(
+  buildFn: typeof build,
+  options: {
+    src: string;
+    destination: string;
+    tsconfig: string;
+    absWorkingDir: string;
+    outdir: string;
   }
+) {
+  return buildFn({
+    entryPoints: [
+      { out: options.destination, in: options.src }
+    ],
+    entryNames: '[name]',
+    bundle: true,
+    write: false,
+    sourcemap: false,
+    platform: 'browser',
+    metafile: true,
 
-  const now = DateTime.now().toMillis().toString();
-  const manifest = fileNames.map(name => ({ url: name, revision: now }));
-
-  return manifest;
+    absWorkingDir: options.absWorkingDir,
+    outdir: options.outdir,
+    format: 'esm',
+    tsconfig: options.tsconfig
+  });
 }
