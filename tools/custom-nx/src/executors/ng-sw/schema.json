@@ -1,0 +1,9 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "version": 2,
+  "title": "ng-sw",
+  "description": "build a service worker on the basis of the built files",
+  "type": "object",
+  "properties": {},
+  "required": []
+}

@@ -19,6 +19,7 @@
         },
         "polyfills": ["@lottiefiles/lottie-player"],
         "tsConfig": "apps/web-client/tsconfig.app.json",
+        "webWorkerTsConfig": "apps/web-client/tsconfig.worker.json",
         "assets": [
           {
             "glob": "**/*",
@@ -39,9 +40,10 @@
           "apps/web-client/src/styles.less"
         ],
         "scripts": [],
+        "statsJson": true,
         "plugins": [
           {
-            "path": "tools/service-worker.plugin.ts",
+            "path": "tools/esbuild/service-worker.plugin.ts",
             "options": {
               "src": "apps/web-client/src/service-worker/sw.worker.ts",
               "destination": "eastalents-web-client.sw",
@@ -49,7 +51,7 @@
             }
           },
           {
-            "path": "tools/inject-tw-theme.plugin.ts",
+            "path": "tools/esbuild/inject-tw-theme.plugin.ts",
             "options": {
               "configPath": "apps/web-client/tailwind.config.js"
             }
@@ -85,6 +87,13 @@
         }
       },
       "defaultConfiguration": "production"
+    },
+    "build-service-worker": {
+      "executor": "custom-nx:ng-sw",
+      "options": {
+        "buildTarget": "web-client:build"
+      },
+      "dependsOn": ["build"]
     },
     "serve": {
       "executor": "@nx/angular:dev-server",
@@ -152,7 +161,7 @@
         "forwardAllArgs": false,
         "parallel": false
       },
-      "dependsOn": ["build"]
+      "dependsOn": ["build", "build-service-worker"]
     }
   }
 }

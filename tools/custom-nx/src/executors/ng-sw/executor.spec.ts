@@ -1,18 +1,17 @@
 import { ExecutorContext } from '@nx/devkit';
-
-import { NgApplicationExecutorSchema } from './schema';
 import executor from './executor';
+import { NgSwExecutorSchema } from './schema';
 
-const options: NgApplicationExecutorSchema = {};
+const options: NgSwExecutorSchema = {};
 const context: ExecutorContext = {
   root: '',
   cwd: process.cwd(),
   isVerbose: false,
 };
 
-describe('NgApplication Executor', () => {
+describe('ng-sw executor', () => {
   it('can run', async () => {
-    const output = await executor(options, context);
+    const output = (await executor(options, context).next()).value;
     expect(output.success).toBe(true);
   });
 });

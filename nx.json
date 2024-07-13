@@ -20,6 +20,7 @@
   },
   "targetDefaults": {
     "build": {
+      "cache": true,
       "inputs": ["production", "^production"]
     },
     "@nx/jest:jest": {
