@@ -1,11 +1,11 @@
-import { ValidationFailed } from '../errors/definitions';
-import { FastifyInstance } from 'fastify';
 import { ErrorWithMetadata, ProblemDetails } from '@easworks/models/problem-details';
+import { FastifyPluginAsync } from 'fastify';
 import { ZodError } from 'zod';
+import { ValidationFailed } from '../errors/definitions';
 
 const contentType = 'application/problem+json';
 
-export function useProblemDetailsGlobally(server: FastifyInstance) {
+export const useProblemDetailsGlobally: FastifyPluginAsync = async (server) => {
   server.setErrorHandler(async (err, req, reply) => {
 
     const problemDetails = (() => {
@@ -23,4 +23,4 @@ export function useProblemDetailsGlobally(server: FastifyInstance) {
       .type(contentType)
       .send(problemDetails);
   });
-}
+};

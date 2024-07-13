@@ -3,6 +3,8 @@ import { fastifyCors } from '@fastify/cors';
 import { fastify, FastifyInstance } from 'fastify';
 import { useProblemDetailsGlobally } from 'server-side/utils/fastify-problem-details';
 import { printRoutes } from 'server-side/utils/print-routes.plugin';
+import { serveAngularSSR } from 'server-side/utils/angular-ssr';
+import { bootstrap } from './main.server';
 
 const development = isDevMode();
 
@@ -19,9 +21,13 @@ async function initServer() {
 
 async function configureServer(server: FastifyInstance) {
 
-  useProblemDetailsGlobally(server);
-
+  server.register(useProblemDetailsGlobally);
   server.register(printRoutes);
+
+  server.register(serveAngularSSR, {
+    bootstrap,
+    directory: import.meta.url
+  });
 
   await server.register(fastifyCors, {
     origin: true

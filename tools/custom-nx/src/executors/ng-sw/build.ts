@@ -26,7 +26,7 @@ export function getSwBuildConfig(
     tsconfig: options.tsconfig,
     write: false,
     define: {
-      'ngDevMode': ngDevMode,
+      'ngDevMode': ngDevMode || 'undefined',
       'self.__WB_MANIFEST': JSON.stringify(manifest)
     }
   };
