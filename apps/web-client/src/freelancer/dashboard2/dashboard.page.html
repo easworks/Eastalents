@@ -1,6 +1,7 @@
-<p class="text-gray-400 text-sm">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias repudiandae et adipisci ducimus nulla culpa eos quod enim nihil architecto.</p>
+<p class="text-gray-400 text-sm">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias repudiandae et
+  adipisci ducimus nulla culpa eos quod enim nihil architecto.</p>
 
-<div class="mt-4 metric-container">
+<div class="mt-4 metrics-container">
   @for(metric of metrics; track metric) {
   <div class="metric-card">
     <fa-icon [icon]="metric.icon">
@@ -12,14 +13,76 @@
 </div>
 
 
+<div class="profile-container">
+  <div class="mt-2 metric-card">
+    <div class="profile">
+      <div class="profile-border">
+        <div class="flex felx-col p-1 items-center">
+          <div class="profile-img">
+            <img src="https://picsum.photos/200/200" alt="Profile Picture" class="w-full h-full object-cover">
+          </div>
+        </div>
+      </div>
+    </div>
 
-<div class="mt-2 border rounded">
-  <div class="flex felx-col items-center">
-    <div class="rounded border-2 border-blue-800">
-      <div class="bg-blue-800 h-2 w-2/3 rounded-full"></div>
+    <div class="flex flex-col justify-center text-center">
+      <span class="text-xl font-semibold ">jermny</span>
+      <span>Programmer</span>
+    </div>
+
+    <div class="flex space-x-4 justify-center">
+      @for(tech of techGroup; track tech) {
+      <div class="flex flex-col items-center">
+        <div class="relative w-16 h-16">
+          <svg class="w-full h-full">
+            <circle class="text-gray-200" stroke-width="4" stroke="currentColor" fill="transparent" r="30" cx="32"
+              cy="32" />
+            <circle class="{{tech.color}}" stroke-width="4" stroke-dasharray="188.4" stroke-dashoffset="175.7"
+              stroke-linecap="round" stroke="currentColor" fill="transparent" r="30" cx="32" cy="32" />
+          </svg>
+          <div class="absolute inset-0 flex items-center justify-center text-xl font-semibold">
+            {{tech.value}}%
+          </div>
+        </div>
+        <p class="mt-2  text-xs text-gray-600">{{tech.label}}</p>
+      </div>
+      }
     </div>
   </div>
-  <div>
+  <div class="mt-2 col-span-3  metric-card">
+    <div class="flex felx-col items-center">
+      <img src="../../assets/img/chart.png" alt="Profile Picture" class="w-full h-full object-cover">
+    </div>
+  </div>
+</div>
 
+<div class=" grid grid-cols-1 @3xl:grid-cols-5 transition-all my-6 p-4 gap-2 place-items-center border rounded">
+  <div class="mt-2 col-span-3 w-full metric-card">
+    <div class=" flex items-start justify-start"><span
+        class=" text-left max-w-lg text-lg font-bold text-gray-700">Recruitment Funnel</span></div>
+
+    <div class="w-full">
+      @for(req of reqFunnel; track req) {
+
+      <div class="{{req.color}} text-white text-center py-6 mb-2">{{req.value}}<br>{{req.leftLabel}}</div>
+      }
+    </div>
+
+  </div>
+
+  <div class="mt-2 col-span-2 space-y-3 metric-card">
+    <div class=" flex items-start  justify-start"><span
+        class=" text-left max-w-lg text-lg font-bold text-gray-700">Average Time for Recruitment Process</span></div>
+    <div class=" w-full">
+      @for(req of reqFunnel; track req) {
+
+      <div class="bg-blue-100 relative border rounded-r-xl {{req.colorRightFade}} text-center py-4 mb-4">
+        <div class="w-6 absolute top-0 left-0  h-full {{req.colorRight}}"></div><span
+          class="text-lg {{req.colorText}}">{{req.rightLabel}}</span><br>
+        <div class=" text-xl font-extrabold text-black">{{req.days}} Days</div>
+      </div>
+      }
+
+    </div>
   </div>
 </div>

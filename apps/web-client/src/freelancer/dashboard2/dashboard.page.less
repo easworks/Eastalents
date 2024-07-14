@@ -1,5 +1,6 @@
+
 .metrics-container {
-  @apply grid grid-cols-2 gap-4;
+  @apply grid grid-cols-4 gap-4;
 
   > .metric-card {
     @apply  p-4 grid gap-2 place-items-center border rounded;
@@ -41,4 +42,22 @@
     }
   }
 
+}
+
+.profile-container {
+  @apply grid grid-cols-4 gap-4;
+
+  > .metric-card {
+    @apply  p-4 grid gap-2 place-items-center border rounded;
+  }
+  > .profile {
+    @apply relative flex flex-row justify-center items-center w-full h-full;
+  }
+  .profile-border {
+    @apply flex items-center border-4 border-blue-500 rounded-full justify-center;
+  }
+
+  .profile-img {
+    @apply w-16 h-16 bg-gray-100 rounded-full overflow-hidden;
+  }
 }
