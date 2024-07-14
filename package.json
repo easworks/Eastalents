@@ -91,6 +91,7 @@
     "axios": "1.6.8",
     "chart.js": "^4.4.3",
     "chartjs-plugin-datalabels": "^2.2.0",
+    "esbuild-plugin-pino": "^2.2.0",
     "fastify": "^4.28.1",
     "fastify-socket.io": "^5.0.0",
     "fuse.js": "^7.0.0",

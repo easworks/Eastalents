@@ -15,8 +15,9 @@ export default async function serviceWorkerPlugin(config: ServiceWorkerPluginOpt
     name: pluginName,
     setup: (build) => {
       const options = build.initialOptions;
-      if (options.platform !== 'browser')
+      if (options.platform === 'node') {
         return;
+      }
 
       build.onEnd(async (result) => {
         if (result.errors.length) return;
