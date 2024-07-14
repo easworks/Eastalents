@@ -55,7 +55,8 @@
             "options": {
               "configPath": "apps/web-client/tailwind.config.js"
             }
-          }
+          },
+          "tools/custom-nx/src/executors/ng-pack-ssr/esbuild.plugin.ts"
         ]
       },
       "configurations": {
@@ -90,6 +91,13 @@
     },
     "build-service-worker": {
       "executor": "custom-nx:ng-sw",
+      "options": {
+        "buildTarget": "web-client:build"
+      },
+      "dependsOn": ["build"]
+    },
+    "pack-ssr": {
+      "executor": "custom-nx:ng-pack-ssr",
       "options": {
         "buildTarget": "web-client:build"
       },
@@ -161,7 +169,7 @@
         "forwardAllArgs": false,
         "parallel": false
       },
-      "dependsOn": ["build", "build-service-worker"]
+      "dependsOn": ["build", "build-service-worker", "pack-ssr"]
     }
   }
 }

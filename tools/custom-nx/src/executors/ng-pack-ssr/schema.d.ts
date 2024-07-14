@@ -1,1 +1,3 @@
-export interface NgPackSsrExecutorSchema {} // eslint-disable-line
+export interface NgPackSsrExecutorSchema {
+  buildTarget: string;
+} // eslint-disable-line
