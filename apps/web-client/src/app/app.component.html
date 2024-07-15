@@ -1,34 +1,11 @@
-<div id="app-top-bar" *ngrxLet="topBar$() as topBar" [class.dark]="topBar.dark">
-  @if(sideBarState.toggle.position$() === 'left'){
-  <button class="icon-button" mat-ripple (click)="appSidenav.toggle()">
-    <fa-icon [icon]="icons.faBars"></fa-icon>
-  </button>
+<div>
+  @if (isSignedIn$()) {
+  <app-authenticated-header></app-authenticated-header>
   }
-  <a routerLink="/" class="grid content-center mr-auto">
-    <img [src]="topBar.brandImage">
-  </a>
-  @if(publicMenu.main.horizontal.show$()) {
-  <app-horizontal-menu class="mx-auto"
-                       [menuItems]="publicMenu.main.horizontal.$()"></app-horizontal-menu>
+  @else {
+  <app-public-header></app-public-header>
   }
 
-  <div class="flex gap-2 items-center flex-none">
-    <account-widget></account-widget>
-    <a routerLink="/register/employer" class="shaded-button primary" mat-ripple>
-      Hire Now
-    </a>
-    <div class="flex items-center">
-      @if(sideBarState.toggle.position$() === 'right'){
-      <button class="icon-button" mat-ripple (click)="appSidenav.toggle()">
-        <fa-icon [icon]="icons.faBars"></fa-icon>
-      </button>
-      }
-
-      <button class="icon-button text-emerald-500" mat-ripple [class.hidden]="sw.hidden$()" (click)="sw.update()">
-        <fa-icon [icon]="icons.faCircleArrowUp"></fa-icon>
-      </button>
-    </div>
-  </div>
   @if(navigating$()) {
   <mat-progress-bar class="!absolute bottom-0 left-0" mode="indeterminate">
   </mat-progress-bar>
@@ -55,64 +32,6 @@
   <mat-sidenav-content class="flex-grow !flex flex-col !overflow-visible bg-white">
     <router-outlet class="hidden [&_+_*]:flex-1"></router-outlet>
 
-    <div class="flex flex-wrap gap-8 gap-x-16 px-10 bg-white py-10 border-t 
-          lg:flex-nowrap lg:justify-between">
-      <div class="lg:max-w-[20rem] transition-all">
-        <img src="/assets/brand/logo-full-dark.png">
-        <p class="mt-8 text-base">
-          EASWORKS serves as a specialized Enterprise Application Software (EAS) platform that connects businesses,
-          startups, and leading companies with a network of highly skilled enterprise software developers.
-        </p>
-        <p class="mt-8 text-base">
-          Our primary goal is to meticulously match our clients with the most suitable technical talent, leveraging
-          their deep industry domain knowledge and expertise in enterprise applications.
-        </p>
-        <div class="mt-8">
-          <div class="flex gap-4 text-2xl">
-            @for(link of publicMenu.social; track link) {
-            <a [routerLink]="link.link" [href]="link.link">
-              <fa-icon [icon]="link.icon!"></fa-icon>
-            </a>
-            }
-          </div>
-          <p class="mt-4">
-            4653 Carmel Mountain Rd, <br>
-            Ste 308 PMB 1024 San Diego, <br>
-            CA 92130-6650
-          </p>
-        </div>
-      </div>
-      <nav class="@container flex-1">
-        <div class="w-full lg:w-max lg:m-auto grid gap-4 @lg:gap-x-8 grid-cols-12 grid-flow-row-dense">
-          @for (group of footerNav; track group) {
-          <div [class]="group.class">
-            <p class="m-0 font-semibold @sm:text-lg">{{group.name}}</p>
-            <ul class="mt-2 text-sm @sm:text-base">
-              @for(item of group.items; track item) {
-              <li class="py-1">
-                <a [routerLink]="item.link" [fragment]="item.fragment" class="flex gap-2 max-w-fit">
-                  <fa-icon [icon]="icons.faAngleRight" class="inline-block mt-1"></fa-icon>
-                  <span>{{item.text}}</span>
-                </a>
-              </li>
-              }
-            </ul>
-          </div>
-          }
-        </div>
-      </nav>
-    </div>
-
-    <div class="py-4 px-8 text-center text-sm bg-secondary-950 flex justify-between">
-      <p class="text-white"> © Copyright 2023 EASWORKS. All Rights Reserved.</p>
-      <ul class="flex text-white">
-        <li>
-          <a href="#" class="border-r pr-2">Privacy Policy</a>
-        </li>
-        <li>
-          <a href="#" class="pl-2">Terms of Service</a>
-        </li>
-      </ul>
-    </div>
+    <app-footer></app-footer>
   </mat-sidenav-content>
 </mat-sidenav-container>

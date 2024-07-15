@@ -5,11 +5,11 @@
       <source src="/assets/public/home/hero-bg-video.webm" type="video/mp4" type="video/webm" />
     </video>
     <div class="6xl:w-4/6 w-11/12 mx-auto text-center z-10 relative py-6">
-      <h1 class="text-primary-500 text-4xl 7xl:text-6xl 7xl:leading-tight transition-all font-anton">
+      <h1 class="text-primary-500 text-4xl 7xl:text-6xl 7xl:leading-tight transition-all ">
         <span class="text-white">Unlock the Future of </span> <br>
         <span class="drop-shadow-[2px_1px_0px_rgb(255,255,255)]">Enterprise Application Development</span>
       </h1>
-      <h5 class="text-primary-400 my-3 3xl:text-xl text-lg capitalize font-inter">Hire Elite Enterprise Application
+      <h5 class="text-primary-400 my-3 3xl:text-xl text-lg capitalize ">Hire Elite Enterprise Application
         Talents On-Demand.</h5>
       <p class="text-xs text-white">EASWORKS connects you with top-tier, pre-vetted talents specializing in diverse
         <span class="font-bold">
@@ -18,46 +18,44 @@
         superior collaboration skills.
       </p>
       <div class="my-6 flex gap-x-6 gap-y-3 justify-center flex-wrap">
-        <button class="hero-sec-btns font-anton">
+        <button class="hero-sec-btns ">
           Hire Now
         </button>
-        <button class="hero-sec-btns font-anton">
+        <button class="hero-sec-btns ">
           Find Jobs
         </button>
       </div>
-      <h5 class="text-primary-400 text-xs font-bold capitalize font-inter">Join Our Community...</h5>
-      <p class="text-white text-sm font-inter">Network, learn, and grow in the enterprise application ecosystem.</p>
+      <h5 class="text-primary-400 text-xs font-bold capitalize ">Join Our Community...</h5>
+      <p class="text-white text-sm ">Network, learn, and grow in the enterprise application ecosystem.</p>
 
       <!-- Achievement Section Start -->
       <section class="mt-20 2xl:lg:pt-6 3xl:pt-20">
         <div class="page achievement-sec">
-          <div class="text-white 3xl:text-lg font-inter text-left leading-5">
+          <div class="text-white 3xl:text-lg  text-left leading-5">
             See Our <br />
             Achievement
           </div>
 
           <div class="flex 4xl:justify-between">
             <div class="text-left">
-              <h5 class="3xl:text-5xl text-3xl font-anton shaded-text">210+</h5>
-              <p class="text-white text-xs mt-2 font-inter">EAS Experts Vetted</p>
+              <h5 class="3xl:text-5xl text-3xl  shaded-text">210+</h5>
+              <p class="text-white text-xs mt-2 ">EAS Experts Vetted</p>
             </div>
-            <img src="/assets/public/home/achievement-border-r.png" class="4xl:block hidden"
-                 alt="Developer image" />
+            <img src="/assets/public/home/achievement-border-r.png" class="4xl:block hidden" alt="Developer image" />
           </div>
 
           <div class="flex 4xl:justify-between">
             <div class="text-left">
-              <h5 class="3xl:text-5xl text-3xl font-anton shaded-text">60 Apps</h5>
-              <p class="text-white text-xs mt-2 font-inter">Enterprise Apps Supported</p>
+              <h5 class="3xl:text-5xl text-3xl  shaded-text">60 Apps</h5>
+              <p class="text-white text-xs mt-2 ">Enterprise Apps Supported</p>
             </div>
-            <img src="/assets/public/home/achievement-border-r.png" class="4xl:block hidden"
-                 alt="Developer image" />
+            <img src="/assets/public/home/achievement-border-r.png" class="4xl:block hidden" alt="Developer image" />
           </div>
 
           <div class="flex 4xl:justify-between">
             <div class="text-left">
-              <h5 class="3xl:text-5xl text-3xl font-anton shaded-text">72 Hrs</h5>
-              <p class="text-white text-xs mt-2 font-inter">Avg. Time-to-Hire</p>
+              <h5 class="3xl:text-5xl text-3xl  shaded-text">72 Hrs</h5>
+              <p class="text-white text-xs mt-2 ">Avg. Time-to-Hire</p>
             </div>
           </div>
         </div>
@@ -70,13 +68,13 @@
   <!-- Enterprise Application Development Section Start -->
   <section class="enterprise-app-dev bg-cover bg-center">
     <div class="page 2xl:py-12">
-      <h2 class="text-center font-bold 4xl:text-5xl transition-all font-anton text-xl 2xl:text-2xl  text-white">
+      <h2 class="text-center font-bold 4xl:text-5xl transition-all  text-xl 2xl:text-2xl  text-white">
         Enterprise Application Development <p class="text-primary-500 pt-4">
           Made Easy with Easworks
         </p>
       </h2>
       <div
-           class="grid gap-12 mt-8 grid-cols-1 4xl:grid-cols-2 2xl:mt-12 transition-all justify-center mx-auto 7xl:max-w-7xl">
+        class="grid gap-12 mt-8 grid-cols-1 4xl:grid-cols-2 2xl:mt-12 transition-all justify-center mx-auto 7xl:max-w-7xl">
         <div class="flex items-center gap-4 w-96 gap-x-12 flex-col-reverse transition-all
                 2xl:flex-row order-2 3xl:order-1">
           <div class="justify-center">
@@ -94,14 +92,12 @@
                   flex gap-4 items-center 
                   p-2 px-4 rounded-md
                   bg-gradient-to-r from-zinc-800 to-black
-                  shadow shadow-z8 shadow-black/40"
-               [class.highlight]="dev.highlight">
+                  shadow shadow-z8 shadow-black/40" [class.highlight]="dev.highlight">
             <div class="relative">
               <img [src]="dev.image">
               <div class="absolute right-2 top-0.5 
                   border border-primary-500 
-                  rounded-full w-3.5 h-3.5"
-                   [class]="dev.badge">
+                  rounded-full w-3.5 h-3.5" [class]="dev.badge">
               </div>
             </div>
             <div class="flex-grow flex flex-col gap-2">
@@ -121,8 +117,7 @@
               </div>
             </div>
             @if(dev.highlight) {
-            <fa-icon [icon]="icons.facCornerRibbon"
-                     class="absolute top-0 right-0
+            <fa-icon [icon]="icons.facCornerRibbon" class="absolute top-0 right-0
                      text-5xl text-primary-600"></fa-icon>
             }
           </div>
@@ -130,7 +125,7 @@
         </div>
       </div>
       <button
-              class="shaded-button block gradient-btn border-gradient relative rounded-xl text-white mt-12 mx-auto text-lg min-w-min max-w-full px-14 before:absolute before:inset-0 before:rounded-xl">Get
+        class="shaded-button block gradient-btn border-gradient relative rounded-xl text-white mt-12 mx-auto text-lg min-w-min max-w-full px-14 before:absolute before:inset-0 before:rounded-xl">Get
         Started</button>
     </div>
   </section>
@@ -141,19 +136,19 @@
     <img src="/assets/public/home/canvas-to-top.svg" class="w-full -translate-y-4" alt="canvas to top image" />
     <div class="py-16">
       <div class="text-center">
-        <p class="text-white text-sm leading-4 font-inter mb-3">FEATURES</p>
-        <h2 class="text-white 7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight transition-all font-anton">
+        <p class="text-white text-sm leading-4  mb-3">FEATURES</p>
+        <h2 class="text-white 7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight transition-all ">
           Maximize Project Success with <span class="text-primary-500">EASWORKS</span></h2>
       </div>
       <div
-           class="grid my-12 gap-x-4 lg:gap-y-20 gap-y-7 mx-auto justify-center grid-cols-1 lg:grid-cols-2 5xl:grid-cols-4 7xl:max-w-7xl">
+        class="grid my-12 gap-x-4 lg:gap-y-20 gap-y-7 mx-auto justify-center grid-cols-1 lg:grid-cols-2 5xl:grid-cols-4 7xl:max-w-7xl">
         <div class="relative flex flex-col gap-y-4 bg-transparent shadow-md rounded-md transition-all">
           <div class="card-box p-4 h-full bg-no-repeat">
             <div>
               <img src="/assets/public/home/maximize-project/flexibility.svg" alt="Flexibility Image" />
               <div class="mt-10">
-                <h4 class="text-xl font-semibold text-primary-500 font-anton mb-4">Flexibility</h4>
-                <p class="leading-4 text-white text-xs font-inter font-normal">Enable an on-demand workforce, access
+                <h4 class="text-xl font-semibold text-primary-500  mb-4">Flexibility</h4>
+                <p class="leading-4 text-white text-xs  font-normal">Enable an on-demand workforce, access
                   global
                   talent,
                   find
@@ -166,12 +161,12 @@
 
 
         <div
-             class="relative flex flex-col gap-y-4 bg-transparent shadow-md rounded-md transition-all lg:translate-y-12 lg:hover:translate-y-0">
+          class="relative flex flex-col gap-y-4 bg-transparent shadow-md rounded-md transition-all lg:translate-y-12 lg:hover:translate-y-0">
           <div class="card-box p-4 h-full bg-no-repeat">
             <img src="/assets/public/home/maximize-project/business-val.svg" alt="Business Value Image" />
             <div class="mt-10">
-              <h4 class="text-xl font-semibold text-primary-500 font-anton mb-4">Business Value</h4>
-              <p class="leading-4 text-white text-xs font-inter font-normal">Gain expertise and specialization from
+              <h4 class="text-xl font-semibold text-primary-500  mb-4">Business Value</h4>
+              <p class="leading-4 text-white text-xs  font-normal">Gain expertise and specialization from
                 Enterprise Application
                 talents with deep knowledge and experience.</p>
             </div>
@@ -185,8 +180,8 @@
           <div class="card-box p-4 h-full bg-no-repeat">
             <img src="/assets/public/home/maximize-project/accountability.svg" alt="Accountability Image" />
             <div class="mt-10">
-              <h4 class="text-xl font-semibold text-primary-500 font-anton mb-4">Accountability</h4>
-              <p class="leading-4 text-white text-xs font-inter font-normal">Enhance accountability with a quality
+              <h4 class="text-xl font-semibold text-primary-500  mb-4">Accountability</h4>
+              <p class="leading-4 text-white text-xs  font-normal">Enhance accountability with a quality
                 assurance process that uses
                 technological tools and human oversight to evaluate and monitor talent performance.</p>
             </div>
@@ -195,12 +190,12 @@
         </div>
 
         <div
-             class="relative flex flex-col gap-y-4 bg-transparent shadow-md rounded-md transition-all lg:translate-y-12 lg:hover:translate-y-0">
+          class="relative flex flex-col gap-y-4 bg-transparent shadow-md rounded-md transition-all lg:translate-y-12 lg:hover:translate-y-0">
           <div class="card-box p-4 h-full bg-no-repeat">
             <img src="/assets/public/home/maximize-project/cost-effect.svg" alt="Cost-Effectiveness Image" />
             <div class="mt-10">
-              <h4 class="text-xl font-semibold text-primary-500 font-anton mb-4">Cost-Effectiveness</h4>
-              <p class="leading-4 text-white text-xs font-inter font-normal">Transform your cost structure by leveraging
+              <h4 class="text-xl font-semibold text-primary-500  mb-4">Cost-Effectiveness</h4>
+              <p class="leading-4 text-white text-xs  font-normal">Transform your cost structure by leveraging
                 a
                 diverse, skilled
                 multidisciplinary team that delivers exceptional results within your budget.</p>
@@ -219,25 +214,24 @@
     <div class="page p-0">
 
       <div
-           class="rounded-4xl bg-gradient-to-r from-primary-500 from-1% to-[#4949fc00] to-99.85% grid 4xl:grid-cols-2 gap-0 4xl:items-center">
+        class="rounded-4xl bg-gradient-to-r from-primary-500 from-1% to-[#4949fc00] to-99.85% grid 4xl:grid-cols-2 gap-0 4xl:items-center">
         <div class="6xl:pt-0 lg:pt-12 lg:pb-20 pt-7 pb-14 3xl:ps-9 ps-5 3xl:pe-0 pe-5 4xl:order-1 order-2">
-          <h2 class="font-anton text-white 8xl:text-[56px] 3xl:text-4xl text-3xl">Join the <span
-                  class="text-black">EASWORKS
+          <h2 class=" text-white 8xl:text-[56px] 3xl:text-4xl text-3xl">Join the <span class="text-black">EASWORKS
               Community</span></h2>
-          <p class="3xl:text-xl text-lg font-medium font-inter text-white lg:my-4 my-2.5">Stay updated with industry
+          <p class="3xl:text-xl text-lg font-medium  text-white lg:my-4 my-2.5">Stay updated with industry
             trends, connect
             with peers, and participate in exclusive events. Network, learn, and grow in the enterprise application
             ecosystem.
           </p>
 
           <button
-                  class="bg-white text-primary-500 3xl:px-10 lg:px-8 px-5 3xl:py-4 py-2.5 rounded-lg 3xl:text-xl text-lg font-bold">Explore
+            class="bg-white text-primary-500 3xl:px-10 lg:px-8 px-5 3xl:py-4 py-2.5 rounded-lg 3xl:text-xl text-lg font-bold">Explore
             the Community</button>
 
         </div>
         <div class="flex 4xl:justify-end justify-center 4xl:order-2 order-1">
           <img src="/assets/public/home/dedicated-community/join-community-img.png" alt="Join Community Image"
-               class="4xl:w-3/4 lg:w-2/4 sm:w-3/4">
+            class="4xl:w-3/4 lg:w-2/4 sm:w-3/4">
         </div>
       </div>
     </div>
@@ -248,7 +242,7 @@
   <!-- Hire contractors Section start -->
   <section class="page py-18 relative">
     <div class="text-center">
-      <h2 class="text-white 7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight transition-all font-anton">
+      <h2 class="text-white 7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight transition-all ">
         How EASWORKS can help you with <br /><span class="text-primary-500">Enterprise App Development.</span></h2>
     </div>
     <div class="grid gap-8 mt-12 7xl:max-w-7xl mx-auto">
@@ -257,18 +251,18 @@
           <img src="/assets/public/home/hire-contractors/hire-contractor.svg" alt="Hire Contractor Image" />
         </div>
 
-        <div class="max-w-lg text-white font-inter">
-          <h4 class="7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight font-bold my-4 font-inter">Hire Contractors
+        <div class="max-w-lg text-white ">
+          <h4 class="7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight font-bold my-4 ">Hire Contractors
           </h4>
           <p class="text-sm leading-5">Fill Enterprise Application Software (EAS) talent gaps with pre-vetted
             professionals for specialized Enterprise App skills with Industry domain expertise.</p>
 
           <div class="flex mt-4 text-center gap-4">
             <button
-                    class="shaded-button block gradient-btn relative rounded-xl text-white w-fit font-inter min-w-min 5xl:py-3.5 py-2.5 5xl:px-11 lg:px-7 px-5">Get
+              class="shaded-button block gradient-btn relative rounded-xl text-white w-fit  min-w-min 5xl:py-3.5 py-2.5 5xl:px-11 lg:px-7 px-5">Get
               Started</button>
             <button
-                    class="shaded-button block relative rounded-xl text-black w-fit font-inter min-w-min 5xl:py-4 py-2.5 5xl:px-10 lg:px-7 px-5 bg-primary-500">Talk
+              class="shaded-button block relative rounded-xl text-black w-fit  min-w-min 5xl:py-4 py-2.5 5xl:px-10 lg:px-7 px-5 bg-primary-500">Talk
               To Us</button>
           </div>
         </div>
@@ -276,43 +270,42 @@
     </div>
 
     <div
-         class="grid my-12 gap-4 mx-auto justify-center grid-cols-1 lg:grid-cols-2 4xl:grid-cols-4 7xl:max-w-7xl text-white font-inter">
+      class="grid my-12 gap-4 mx-auto justify-center grid-cols-1 lg:grid-cols-2 4xl:grid-cols-4 7xl:max-w-7xl text-white ">
       <div>
         <div class="h-[2px] bg-white mb-4"></div>
         <div
-             class="active-tab shadow-[0px_-1px_11.6px_0px_#9747FF96] bg-gradient-to-b from-[#4E00B3] 0% to-[#14002F] h-7 w-7 rounded-full flex items-center justify-center text-xs mb-3">
+          class="active-tab shadow-[0px_-1px_11.6px_0px_#9747FF96] bg-gradient-to-b from-[#4E00B3] 0% to-[#14002F] h-7 w-7 rounded-full flex items-center justify-center text-xs mb-3">
           01</div>
         <p class="text-xl font-bold">Hire Contractors</p>
       </div>
       <div class="opacity-50">
         <div class="h-[2px] bg-white mb-4"></div>
         <div
-             class="active-tab shadow-[0px_-1px_11.6px_0px_#9747FF96] bg-gradient-to-b from-[#4E00B3] 0% to-[#14002F] 100% h-7 w-7 rounded-full flex items-center justify-center text-xs mb-3">
+          class="active-tab shadow-[0px_-1px_11.6px_0px_#9747FF96] bg-gradient-to-b from-[#4E00B3] 0% to-[#14002F] 100% h-7 w-7 rounded-full flex items-center justify-center text-xs mb-3">
           02</div>
         <p class="text-xl font-bold">Hire Full-Time</p>
       </div>
       <div class="opacity-50">
         <div class="h-[2px] bg-white mb-4"></div>
         <div
-             class="active-tab shadow-[0px_-1px_11.6px_0px_#9747FF96] bg-gradient-to-b from-[#4E00B3] 0% to-[#14002F] h-7 w-7 rounded-full flex items-center justify-center text-xs mb-3">
+          class="active-tab shadow-[0px_-1px_11.6px_0px_#9747FF96] bg-gradient-to-b from-[#4E00B3] 0% to-[#14002F] h-7 w-7 rounded-full flex items-center justify-center text-xs mb-3">
           03</div>
         <p class="text-xl font-bold">Hire Fully Managed Team</p>
       </div>
       <div class="opacity-50">
         <div class="h-[2px] bg-white mb-4"></div>
         <div
-             class="active-tab shadow-[0px_-1px_11.6px_0px_#9747FF96] bg-gradient-to-b from-[#4E00B3] 0% to-[#14002F] h-7 w-7 rounded-full flex items-center justify-center text-xs mb-3">
+          class="active-tab shadow-[0px_-1px_11.6px_0px_#9747FF96] bg-gradient-to-b from-[#4E00B3] 0% to-[#14002F] h-7 w-7 rounded-full flex items-center justify-center text-xs mb-3">
           04</div>
         <p class="text-xl font-bold">Managed end-to-end Solution</p>
       </div>
     </div>
 
     <img src="/assets/public/home/hire-contractors/hiring-left-gradient.svg" class="absolute top-0 left-0"
-         alt="gradient-bg Image" />
+      alt="gradient-bg Image" />
     <img src="/assets/public/home/hire-contractors/gradient-ellipse.svg" class="absolute top-0 right-0"
-         alt="Circle Image" />
-    <img src="/assets/public/home/hire-contractors/big-circle.svg" class="absolute top-0 right-0"
-         alt="Circle Image" />
+      alt="Circle Image" />
+    <img src="/assets/public/home/hire-contractors/big-circle.svg" class="absolute top-0 right-0" alt="Circle Image" />
 
   </section>
   <!-- Hire contractors Section end -->
@@ -320,7 +313,7 @@
   <!-- How Easworks Works Section Start -->
   <section class="how-easworks">
     <div class="page px-0 ">
-      <h2 class="text-white 7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight transition-all font-anton text-center">
+      <h2 class="text-white 7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight transition-all  text-center">
         How Easworks Works
       </h2>
       <div class="grid 4xl:grid-cols-2 bg-effect bg-no-repeat 4xl:bg-right bg-bottom py-12 4xl:gap-x-10 gap-y-5">
@@ -328,8 +321,7 @@
           <div class="flex xl:gap-8 gap-4">
             <img src="/assets/public/home/how-eas-works/stepper-line.svg" alt="Stepper Line Image" class=" h-full">
             <div class="pt-3">
-              <h3
-                  class="text-primary-500 7xl:text-4xl 3xl:text-3xl text-2xl 7xl:leading-tight transition-all font-anton">
+              <h3 class="text-primary-500 7xl:text-4xl 3xl:text-3xl text-2xl 7xl:leading-tight transition-all ">
                 Share Your Enterprise Application
                 Challenge
               </h3>
@@ -340,10 +332,9 @@
           </div>
           <div class="flex xl:gap-8 gap-4">
             <img src="/assets/public/home/how-eas-works/stepper-line.svg" alt="Stepper Line Image"
-                 class="h-full invisible">
+              class="h-full invisible">
             <div class="pt-3">
-              <h3
-                  class="text-white opacity-20 7xl:text-4xl 3xl:text-3xl text-2xl 7xl:leading-tight transition-all font-anton">
+              <h3 class="text-white opacity-20 7xl:text-4xl 3xl:text-3xl text-2xl 7xl:leading-tight transition-all ">
                 Choose from Our EAS Expert
                 Recommendations
               </h3>
@@ -354,10 +345,9 @@
           </div>
           <div class="flex xl:gap-8 gap-4">
             <img src="/assets/public/home/how-eas-works/stepper-line.svg" alt="Stepper Line Image"
-                 class="h-full invisible">
+              class="h-full invisible">
             <div class="pt-3">
-              <h3
-                  class="text-white opacity-20 7xl:text-4xl 3xl:text-3xl text-2xl 7xl:leading-tight transition-all font-anton">
+              <h3 class="text-white opacity-20 7xl:text-4xl 3xl:text-3xl text-2xl 7xl:leading-tight transition-all ">
                 Deploy & Enhance Your
                 Application
               </h3>
@@ -368,10 +358,10 @@
         </div>
         <div>
           <img src="/assets/public/home/how-eas-works/share-enterprise-challenge.jpg"
-               alt="Share Enterprise Challenge Image">
+            alt="Share Enterprise Challenge Image">
           <div class="flex justify-center mt-5">
             <button
-                    class="3xl:text-xl text-lg text-white lg:py-4 py-2.5 5xl:px-10 lg:px-7 px-5 rounded-xl font-inter font-bold how-easworks-btn bg-cover bg-no-repeat">
+              class="3xl:text-xl text-lg text-white lg:py-4 py-2.5 5xl:px-10 lg:px-7 px-5 rounded-xl  font-bold how-easworks-btn bg-cover bg-no-repeat">
               Describe Your Project Needs </button>
           </div>
         </div>
@@ -386,18 +376,18 @@
 
       <div class="xl:w-4/6 sm:w-5/6 w-11/12 mx-auto text-center">
         <h2
-            class="text-primary-500 8xl:text-[56px] 3xl:text-4xl xl:text-3xl text-2xl 7xl:leading-tight transition-all font-anton">
+          class="text-primary-500 8xl:text-[56px] 3xl:text-4xl xl:text-3xl text-2xl 7xl:leading-tight transition-all ">
           <span class="text-white">Hire elite EAS talent based on</span> <br>
           Enterprise Application Software
         </h2>
-        <h5 class="text-white my-1.5 3xl:text-2xl text-xl capitalize font-inter">60+ Enterprise Apps Supported</h5>
+        <h5 class="text-white my-1.5 3xl:text-2xl text-xl capitalize ">60+ Enterprise Apps Supported</h5>
         <div class="3xl:mt-12 mt-7 flex gap-2 justify-center flex-wrap">
           <button
-                  class="3xl:text-xl text-lg text-white lg:py-3 py-1.5 5xl:px-10 lg:px-7 px-5 rounded-xl font-inter font-bold hire-elite-btn bg-cover bg-no-repeat">
+            class="3xl:text-xl text-lg text-white lg:py-3 py-1.5 5xl:px-10 lg:px-7 px-5 rounded-xl  font-bold hire-elite-btn bg-cover bg-no-repeat">
             Apply for Jobs
           </button>
           <button
-                  class="3xl:text-xl text-lg text-primary-500 bg-white lg:py-3 py-1.5 5xl:px-16 lg:px-14 px-11 rounded-xl font-inter font-bold">
+            class="3xl:text-xl text-lg text-primary-500 bg-white lg:py-3 py-1.5 5xl:px-16 lg:px-14 px-11 rounded-xl  font-bold">
             Hire Now
           </button>
         </div>
@@ -411,47 +401,47 @@
   <!-- Cases Section start -->
   <section class="page py-18 relative">
     <div class="text-center">
-      <h2 class="text-white 7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight transition-all fw-bold font-anton">
+      <h2 class="text-white 7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight transition-all fw-bold ">
         We've supported companies of all sizes <br /><span class="text-primary-500">and various use cases</span></h2>
 
-      <p class="text-white text-sm leading-4 font-inter my-3">Industries supported</p>
+      <p class="text-white text-sm leading-4  my-3">Industries supported</p>
     </div>
     <div
-         class="grid gap-4 mx-auto justify-center 8xl:grid-cols-6 6xl:grid-cols-4 3xl:grid-cols-3 lg:grid-cols-2 grid-cols-1  text-white py-12">
+      class="grid gap-4 mx-auto justify-center 8xl:grid-cols-6 6xl:grid-cols-4 3xl:grid-cols-3 lg:grid-cols-2 grid-cols-1  text-white py-12">
       <div class="p-3 rounded-xl case-card">
         <div class="flex items-center">
           <img src="/assets/public/home/cases/popular.png" alt="Popular Image" />
-          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4 font-inter ms-3">Popular</p>
+          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4  ms-3">Popular</p>
         </div>
       </div>
       <div class="p-3 rounded-xl case-card">
         <div class="flex items-center">
           <img src="/assets/public/home/cases/ecom.svg" alt="Ecom Image" />
-          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4 font-inter ms-3">E-Commerce</p>
+          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4  ms-3">E-Commerce</p>
         </div>
       </div>
       <div class="p-3 rounded-xl case-card">
         <div class="flex items-center">
           <img src="/assets/public/home/cases/healthcare.png" alt="Healthcare Image" />
-          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4 font-inter ms-3">Healthcare</p>
+          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4  ms-3">Healthcare</p>
         </div>
       </div>
       <div class="p-3 rounded-xl case-card">
         <div class="flex items-center">
           <img src="/assets/public/home/cases/automob.svg" alt="Automobile Image" />
-          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4 font-inter ms-3">Automobile</p>
+          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4  ms-3">Automobile</p>
         </div>
       </div>
       <div class="p-3 rounded-xl case-card">
         <div class="flex items-center">
           <img src="/assets/public/home/cases/aerospace.svg" alt="Aerospace Image" />
-          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4 font-inter ms-3">Aerospace</p>
+          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4  ms-3">Aerospace</p>
         </div>
       </div>
       <div class="p-3 rounded-xl case-card">
         <div class="flex items-center">
           <img src="/assets/public/home/cases/banking.svg" alt="Banking Image" />
-          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4 font-inter ms-3">Banking</p>
+          <p class="text-white 5xl:text-2xl text-xl font-semibold leading-4  ms-3">Banking</p>
         </div>
       </div>
     </div>
@@ -664,15 +654,15 @@
   <!-- Enterprise Section start -->
   <section class="py-18 relative my-12">
     <div class="text-center pt-12">
-      <h2 class="text-white text-4xl 7xl:text-5xl 7xl:leading-tight transition-all fw-bold font-anton">
+      <h2 class="text-white text-4xl 7xl:text-5xl 7xl:leading-tight transition-all fw-bold ">
         Get Started based on <span class="text-primary-500">Enterprise Applications</span></h2>
     </div>
 
     <div
-         class="grid gap-4 mx-auto justify-center grid-cols-1 lg:grid-cols-2 4xl:grid-cols-3 text-white py-12 7xl:max-w-7xl">
+      class="grid gap-4 mx-auto justify-center grid-cols-1 lg:grid-cols-2 4xl:grid-cols-3 text-white py-12 7xl:max-w-7xl">
       <div class="relative">
         <select id="artificial-intelligence" name="artificial-intelligence" autocomplete="artificial-intelligence"
-                class="block w-full border border-[#7D7DFF] h-14 rounded-xl py-1.5 text-white bg-transparent appearance-none">
+          class="block w-full border border-[#7D7DFF] h-14 rounded-xl py-1.5 text-white bg-transparent appearance-none">
           <option>Artificial Intelligence (A1)</option>
         </select>
         <img src="/assets/public/home/down-arrow.svg" class="absolute top-6 right-5" alt="Down arrow Image" />
@@ -680,25 +670,24 @@
       <div>
         <div class="relative">
           <select id="artificial-intelligence" name="artificial-intelligence" autocomplete="artificial-intelligence"
-                  class="block w-full border border-[#7D7DFF] h-14 rounded-xl py-1.5 text-white bg-transparent appearance-none">
+            class="block w-full border border-[#7D7DFF] h-14 rounded-xl py-1.5 text-white bg-transparent appearance-none">
             <option>ABBYY</option>
           </select>
           <img src="/assets/public/home/down-arrow.svg" class="absolute top-6 right-5" alt="Down arrow Image" />
         </div>
       </div>
       <button
-              class="shaded-button block gradient-btn border-gradient relative rounded-xl text-white w-fit text-lg min-w-min px-14 before:absolute before:inset-0 before:rounded-xl">Get
+        class="shaded-button block gradient-btn border-gradient relative rounded-xl text-white w-fit text-lg min-w-min px-14 before:absolute before:inset-0 before:rounded-xl">Get
         Started</button>
     </div>
   </section>
   <!-- Enterprise Section end -->
 
   <!-- Testimonial Section Start -->
-  <section class="bg-black my-24 3xl:px-8 px-5 5xl:pb-40 pb-24 testimonial-sec">
+  <section class="bg-black mt-24 3xl:px-8 px-5 5xl:pb-40 pb-24 testimonial-sec">
     <div class="page p-0 vector-bg bg-no-repeat bg-left-bottom">
       <div class="bg-cover bg-no-repeat bg-center cards-bg-effect py-12">
-        <h2
-            class="text-primary-500 7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight transition-all font-anton text-center">
+        <h2 class="text-primary-500 7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight transition-all  text-center">
           <span class="text-white">Why 100+ of fast-growing companies
           </span><br> love EASWORKS
         </h2>
@@ -707,12 +696,12 @@
             <div class="flex items-center gap-2 mb-2.5">
               <img src="/assets/public/home/testimonial/user-profile1.svg" alt="User Profile">
               <div>
-                <h5 class="3xl:text-xl text-lg text-white font-semibold font-inter">Thomas Israel</h5>
-                <p class="text-neutral-500 text-sm font-inter font-normal mt-0.5">VP Finance, CREO</p>
+                <h5 class="3xl:text-xl text-lg text-white font-semibold ">Thomas Israel</h5>
+                <p class="text-neutral-500 text-sm  font-normal mt-0.5">VP Finance, CREO</p>
               </div>
             </div>
             <div class="relative testimonial-divider before:absolute before:inset-0"></div>
-            <p class="text-white font-normal font-inter pt-2.5 px-4">“ Easworks spent a good amount of time
+            <p class="text-white font-normal  pt-2.5 px-4">“ Easworks spent a good amount of time
               understanding
               our requirements, resulting in accurate recommendations and quick ramp up by developers. We also found
               them
@@ -723,12 +712,12 @@
             <div class="flex items-center gap-2 mb-2.5">
               <img src="/assets/public/home/testimonial/user-profile2.svg" alt="User Profile">
               <div>
-                <h5 class="3xl:text-xl text-lg text-white font-semibold font-inter">Thomas Israel</h5>
-                <p class="text-neutral-500 text-sm font-inter font-normal mt-0.5">Operations Manager</p>
+                <h5 class="3xl:text-xl text-lg text-white font-semibold ">Thomas Israel</h5>
+                <p class="text-neutral-500 text-sm  font-normal mt-0.5">Operations Manager</p>
               </div>
             </div>
             <div class="relative testimonial-divider before:absolute before:inset-0"></div>
-            <p class="text-white font-normal font-inter pt-2.5 px-4">“ Easworks spent a good amount of time
+            <p class="text-white font-normal  pt-2.5 px-4">“ Easworks spent a good amount of time
               understanding
               our requirements, resulting in accurate recommendations and quick ramp up by developers. We also found
               them
@@ -738,12 +727,12 @@
             <div class="flex items-center gap-2 mb-2.5">
               <img src="/assets/public/home/testimonial/user-profile3.svg" alt="User Profile">
               <div>
-                <h5 class="3xl:text-xl text-lg text-white font-semibold font-inter">Thomas Israel</h5>
-                <p class="text-neutral-500 text-sm font-inter font-normal mt-0.5">Chef</p>
+                <h5 class="3xl:text-xl text-lg text-white font-semibold ">Thomas Israel</h5>
+                <p class="text-neutral-500 text-sm  font-normal mt-0.5">Chef</p>
               </div>
             </div>
             <div class="relative testimonial-divider"></div>
-            <p class="text-white font-normal font-inter pt-2.5 px-4">“ It's been great working with Easworks for hiring
+            <p class="text-white font-normal  pt-2.5 px-4">“ It's been great working with Easworks for hiring
               talented, hardworking folks. We needed a suitable back-end developer and got to know Ankur through
               Easworks.
               We are very happy with his commitment and skills and will be working with Easworks going forward as well.”
@@ -758,12 +747,12 @@
       <div class="3xl:mt-12 mt-7 flex gap-2 justify-center flex-wrap">
         <!-- 5xl:px-10 lg:px-7 px-5 -->
         <button
-                class="3xl:text-xl text-lg text-white rounded-xl font-inter font-bold testimonial-btn bg-cover bg-no-repeat flex items-center gap-5 justify-center lg:py-3 py-2 2xl:w-72 xl:w-60 w-52 border-gradient  relative before:absolute before:inset-0 before:rounded-xl">
+          class="3xl:text-xl text-lg text-white rounded-xl  font-bold testimonial-btn bg-cover bg-no-repeat flex items-center gap-5 justify-center lg:py-3 py-2 2xl:w-72 xl:w-60 w-52 border-gradient  relative before:absolute before:inset-0 before:rounded-xl">
           Hire Talent
           <img src="/assets/public/home/testimonial/ic-right-arrow.svg" alt="Right Arrow Icon">
         </button>
         <button
-                class="3xl:text-xl text-lg text-primary-500 bg-white rounded-xl font-inter font-bold flex items-center gap-5 justify-center lg:py-3 py-2 2xl:w-72 xl:w-60 w-52">
+          class="3xl:text-xl text-lg text-primary-500 bg-white rounded-xl  font-bold flex items-center gap-5 justify-center lg:py-3 py-2 2xl:w-72 xl:w-60 w-52">
           Find remote jobs
           <img src="/assets/public/home/testimonial/ic-right-arrow-primary.svg" alt="Right Arrow Icon">
         </button>
