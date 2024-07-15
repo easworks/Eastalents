@@ -19,7 +19,7 @@ export function setupCaching(cachePrefix: string) {
 
 
   registerRoute(new NavigationRoute(
-    createHandlerBoundToURL('/index.html')
+    createHandlerBoundToURL('/')
   ));
 
   registerRoute(new Route(

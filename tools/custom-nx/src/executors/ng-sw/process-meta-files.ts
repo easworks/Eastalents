@@ -2,7 +2,7 @@ import { ImportKind, Metafile } from 'esbuild';
 
 export function extractManifest(main: string, metaFile: Metafile) {
 
-  const files = new Set(['index.html']);
+  const files = new Set(['/']);
 
   for (const outputName in metaFile.outputs) {
     const file = metaFile.outputs[outputName];
