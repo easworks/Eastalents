@@ -160,16 +160,19 @@
       "options": {
         "args": ["--remote=root@216.225.201.134"],
         "commands": [
-          "mkdir -p dist/archives",
-          "tar -czf dist/archives/web-client.tar.gz -C dist/apps web-client",
-          "scp -r dist/archives/web-client.tar.gz {args.remote}:~",
-          "ssh {args.remote} 'rm -rf /var/www/web-client'",
-          "ssh {args.remote} 'tar -xzf web-client.tar.gz -C /var/www'"
+          "nx build-service-worker web-client",
+          "nx pack-ssr web-client",
+          "mkdir -p dist/docker/web-client",
+          "tar -czf dist/docker/web-client/dist.tar.gz -C dist/apps web-client",
+          "cp apps/web-client/dockerfile dist/docker/web-client",
+          "cp apps/web-client/compose.yml dist/docker/web-client",
+          "scp -r dist/docker/web-client {args.remote}:~",
+          "ssh {args.remote} 'cd ~/web-client && docker compose up -d --build'"
         ],
         "forwardAllArgs": false,
         "parallel": false
       },
-      "dependsOn": ["build", "build-service-worker", "pack-ssr"]
+      "dependsOn": ["build"]
     }
   }
 }

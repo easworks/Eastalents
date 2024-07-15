@@ -1,9 +1,9 @@
 import { parseTargetString, PromiseExecutor, readTargetOptions } from '@nx/devkit';
+import { execSync, spawn } from 'child_process';
 import { Metafile } from 'esbuild';
 import { readFile, writeFile } from 'fs/promises';
 import { PackageJson } from 'nx/src/utils/package-json';
 import { NgPackSsrExecutorSchema } from './schema';
-import { exec, spawn, spawnSync } from 'child_process';
 
 const runExecutor: PromiseExecutor<NgPackSsrExecutorSchema> = async (
   options,
@@ -17,7 +17,7 @@ const runExecutor: PromiseExecutor<NgPackSsrExecutorSchema> = async (
 
   const buildOptions = readTargetOptions(target, context);
 
-  console.log('analyzing...');
+  console.log('analyzing...\n');
 
   const statsPath = `${buildOptions.outputPath}/stats.json`;
   const buildMeta = await (async () => {
@@ -26,19 +26,22 @@ const runExecutor: PromiseExecutor<NgPackSsrExecutorSchema> = async (
     return meta;
   })();
 
-  const { main, packages } = extractPackages(buildMeta, buildOptions.server);
+  const { main, packages } = extractPackages(buildMeta, buildOptions.ssr.entry);
 
-  console.log('generating package.json...');
 
   const rootPkg: PackageJson = await import(`${context.root}/package.json`);
   const allDeps = rootPkg.dependencies || {};
-  const resolved = packages.map(d => [d, allDeps[d]]);
+  const resolved = await getPackageVersions(packages, allDeps);
 
+  console.log('\n\n');
+
+  console.log('generating package.json...');
   const outPkg: PackageJson = {
     name: 'eastalents-web-client-ssr',
     version: rootPkg.version,
     main,
-    dependencies: Object.fromEntries(resolved),
+    type: 'module',
+    dependencies: resolved,
   };
 
   await writeFile(
@@ -47,8 +50,10 @@ const runExecutor: PromiseExecutor<NgPackSsrExecutorSchema> = async (
     'utf-8'
   );
 
+  console.log('\n\n');
+
   console.log('generating pnpm-lock.yaml...');
-  await new Promise<void>(resolve => {
+  await new Promise<void>((resolve, reject) => {
     const task = spawn(
       'pnpm', ['i', '--lockfile-only'],
       {
@@ -56,6 +61,7 @@ const runExecutor: PromiseExecutor<NgPackSsrExecutorSchema> = async (
         stdio: 'inherit'
       });
     task.on('close', () => resolve());
+    task.on('error', (error) => reject(error));
   });
 
   return {
@@ -93,4 +99,71 @@ function extractPackages(meta: Metafile, server: string) {
     main,
     packages: [...packages].sort()
   };
+}
+
+async function getPackageVersions(packages: string[], allDeps: PackageJson['dependencies']) {
+  if (!allDeps)
+    throw new Error('invalid operation');
+
+  const allDepKeys = Object.keys(allDeps);
+
+  const getPackageName = async (packageName: string) => {
+    if (packageName in allDeps)
+      return packageName;
+    const key = allDepKeys.find(k => packageName.startsWith(k));
+    if (key)
+      return key;
+
+    try {
+      await import(`node:${packageName}`);
+      return undefined;
+    }
+    catch (e) {
+      throw new Error(`could not find package version for '${packageName}'`);
+    }
+
+  };
+
+  packages = await Promise.all(packages.map(p => getPackageName(p)))
+    .then(names => names.filter((p): p is string => !!p));
+
+  const pkgSet = new Set<string>();
+
+  for (const pkgName of packages) {
+    if (pkgSet.has(pkgName))
+      continue;
+
+    pkgSet.add(pkgName);
+    console.debug(`- ${pkgName}`);
+
+    const peers = await new Promise<string[]>((resolve, reject) => {
+      try {
+        const out = execSync(`pnpm info ${pkgName} peerDependencies --json`, {
+          encoding: 'utf-8',
+          cwd: process.cwd(),
+          env: process.env
+        });
+        const peers = out ? Object.keys(JSON.parse(out)) : [];
+        resolve(peers);
+      }
+      catch (e) {
+        console.log(pkgName);
+        reject(e);
+      }
+    });
+
+    for (const peer of peers) {
+      if (pkgSet.has(peer))
+        continue;
+      else
+        packages.push(peer);
+    }
+  };
+
+  return Object.fromEntries(
+    packages
+      .sort()
+      .map(p => [p, allDeps[p]])
+      .filter((e): e is [string, string] => !!e[1])
+  );
 }
