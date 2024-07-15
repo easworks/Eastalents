@@ -1,12 +1,12 @@
-import { INJECTOR, effect, inject } from '@angular/core';
+import { effect, inject, INJECTOR } from '@angular/core';
 import { UserWithToken } from '@easworks/models';
 import { createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { EMPTY, fromEvent, of, tap } from 'rxjs';
 import { PERMISSION_DEF_DTO } from '../permissions';
-import { SWManagementService } from '../services/sw.manager';
+import { SW_MANAGER } from '../services/sw.manager';
 import { isBrowser, isServer } from '../utilities/platform-type';
-import { CURRENT_USER_KEY, authActions, authFeature } from './auth';
+import { authActions, authFeature, CURRENT_USER_KEY } from './auth';
 
 export const authEffects = {
   /** This effect does 2 things
@@ -29,7 +29,7 @@ export const authEffects = {
         try {
           const storedUser = localStorage.getItem(CURRENT_USER_KEY);
           if (storedUser) {
-          user = JSON.parse(storedUser);
+            user = JSON.parse(storedUser);
           }
         }
         catch (e) {
@@ -65,7 +65,13 @@ export const authEffects = {
 
   syncWithServiceWorker: createEffect(
     () => {
-      const swm = inject(SWManagementService);
+      if (!isBrowser())
+        return EMPTY;
+
+      const swm = inject(SW_MANAGER);
+      if (!swm)
+        return EMPTY;
+
       const injector = inject(INJECTOR);
       const store = inject(Store);
 

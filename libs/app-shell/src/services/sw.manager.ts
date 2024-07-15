@@ -1,15 +1,25 @@
-import { DestroyRef, Injectable, InjectionToken, effect, inject, isDevMode, signal } from '@angular/core';
+import { DestroyRef, effect, inject, InjectionToken, isDevMode, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { concatMap, interval } from 'rxjs';
-import { Workbox, messageSW } from 'workbox-window';
+import { messageSW, Workbox } from 'workbox-window';
 import { Deferred } from '../utilities/deferred';
+import { isBrowser } from '../utilities/platform-type';
 
-export const SW_URL = new InjectionToken<string>('SW_URL: The service worker url');
+declare const __SW_URL: string | undefined;
+export const SW_URL = new InjectionToken<string>('SW_URL: The service worker url', {
+  providedIn: 'root',
+  factory: () => isBrowser() && __SW_URL || ''
+});
 
-@Injectable({
-  providedIn: 'root'
-})
-export class SWManagementService {
+export const SW_MANAGER = new InjectionToken(
+  'SW_MANAGER: Manages service worker registration and updates',
+  {
+    providedIn: 'root',
+    factory: () => isBrowser() && new SWManagerService(),
+  }
+);
+
+class SWManagerService {
   constructor() {
     effect(() => {
       const updateAvailable = this.updateAvailable$();

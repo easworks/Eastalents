@@ -18,6 +18,8 @@ export default async function serviceWorkerPlugin(config: ServiceWorkerPluginOpt
       if (options.platform !== 'browser')
         return;
 
+      options.define['__SW_URL'] = `'/${config.destination}.js'`;
+
       build.onEnd(async (result) => {
         if (result.errors.length) return;
 
