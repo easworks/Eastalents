@@ -1,7 +1,6 @@
-import { DestroyRef, effect, inject, InjectionToken, isDevMode, signal } from '@angular/core';
+import { DestroyRef, effect, inject, Injectable, InjectionToken, INJECTOR, isDevMode, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { concatMap, interval } from 'rxjs';
-import { messageSW, Workbox } from 'workbox-window';
 import { Deferred } from '../utilities/deferred';
 import { isBrowser } from '../utilities/platform-type';
 
@@ -19,22 +18,63 @@ export const SW_MANAGER = new InjectionToken(
   }
 );
 
+export const WORKBOX_WINDOW = new InjectionToken('WORKBOX_WINDOW', {
+  providedIn: 'root',
+  factory: () => inject(SW_URL) ? import('workbox-window') : undefined
+});
+
+
+@Injectable({
+  providedIn: 'root'
+})
 class SWManagerService {
+  private readonly workboxWindow = inject(WORKBOX_WINDOW);
+  private readonly swUrl = inject(SW_URL);
+  private readonly dRef = inject(DestroyRef);
+  private readonly injector = inject(INJECTOR);
+
+  private readonly devMode = isDevMode();
+  readonly updateAvailable$ = signal(false);
+  readonly updating$ = signal(false);
+  readonly ready = new Deferred();
+
+  readonly wb = (async () => {
+    const ww = await this.workboxWindow;
+    if (!ww)
+      return undefined;
+    return new ww.Workbox(this.swUrl);
+  })();
+
+  readonly messageSW = (async () => {
+    const ww = await this.workboxWindow;
+    return ww?.messageSW;
+  })();
+
   constructor() {
+    this.init();
+  }
+
+  private async init() {
+    const wb = await this.wb;
+    const messageSW = await this.messageSW;
+    if (!wb || !messageSW)
+      return;
+
     effect(() => {
       const updateAvailable = this.updateAvailable$();
       if (updateAvailable) {
         if (this.devMode) {
-          this.wb.messageSkipWaiting();
+          wb.messageSkipWaiting();
         }
         this.ready.resolve();
       }
-    });
+    }, { injector: this.injector });
 
-    this.wb.register({ immediate: true })
+
+    wb.register({ immediate: true })
       .then(async reg => {
         if (reg?.active) {
-          const lookForUpdates = () => this.wb.update().catch(() => void 0);
+          const lookForUpdates = () => wb.update().catch(() => void 0);
 
           await lookForUpdates();
 
@@ -68,7 +108,7 @@ class SWManagerService {
         }
       });
 
-    this.wb.addEventListener('waiting', async event => {
+    wb.addEventListener('waiting', async event => {
       // console.debug('waiting', event);
 
       if (!event.wasWaitingBeforeRegister) {
@@ -76,7 +116,7 @@ class SWManagerService {
       }
     });
 
-    this.wb.addEventListener('activated', async event => {
+    wb.addEventListener('activated', async event => {
       // console.debug('activated', event);
       if (!event.sw)
         throw new Error('activated service worker not in event');
@@ -85,7 +125,7 @@ class SWManagerService {
         await messageSW(event.sw, { type: 'CLAIM_CLIENTS' });
     });
 
-    this.wb.addEventListener('controlling', event => {
+    wb.addEventListener('controlling', event => {
       // console.debug('controlling', event);
       this.updateAvailable$.set(false);
       this.ready.resolve();
@@ -94,13 +134,4 @@ class SWManagerService {
     });
   }
 
-
-  private readonly swUrl = inject(SW_URL);
-  readonly dRef = inject(DestroyRef);
-
-  private readonly devMode = isDevMode();
-  readonly wb = new Workbox(this.swUrl);
-  readonly updateAvailable$ = signal(false);
-  readonly updating$ = signal(false);
-  readonly ready = new Deferred();
 }

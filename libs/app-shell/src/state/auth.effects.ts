@@ -77,16 +77,21 @@ export const authEffects = {
 
       const user$ = store.selectSignal(authFeature.selectUser);
 
-      swm.ready.then(() => {
-        effect(() => {
-          const user = user$();
-          swm.wb.messageSW({
-            type: 'USER CHANGE', payload: {
-              user
-            }
-          });
-        }, { injector });
-      });
+      swm.ready
+        .then(() => swm.wb)
+        .then(wb => {
+          if (!wb)
+            return;
+
+          effect(() => {
+            const user = user$();
+            wb.messageSW({
+              type: 'USER CHANGE', payload: {
+                user
+              }
+            });
+          }, { injector });
+        });
 
       return EMPTY;
     },
