@@ -53,30 +53,6 @@
   </ul>
 </nav>
 
-<!-- <mat-divider></mat-divider>
-
-<mat-progress-spinner class="mx-auto" diameter="32" mode="indeterminate" *ngIf="domains.loading$(); else $domainsLoaded"></mat-progress-spinner>
-
-<ng-template #$domainsLoaded>
-  <div class="domain-selector">
-    <div class="domains">
-      <button *ngFor="let domain of domains.domains$()"
-              (click)="domains.selectDomain(domain)"
-              [class.selected]="domain.selected">
-        {{domain.value.key | uppercase}}
-      </button>
-    </div>
-    <div class="products">
-      <input type="text" [ngModel]="domains.filter$()" (ngModelChange)="domains.filter$.set($event)" placeholder="Type to search products">
-      <div class="filtered">
-        <div>
-          <a [routerLink]="product.link" *ngFor="let product of domains.filteredProducts$()">{{product.name | uppercase}}</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</ng-template> -->
-
 <mat-divider></mat-divider>
 
 <nav>
