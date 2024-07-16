@@ -1,18 +1,19 @@
 import { isDevMode } from '@angular/core';
 import { fastifyCors } from '@fastify/cors';
 import { fastify, FastifyInstance } from 'fastify';
+import * as path from 'path';
 import { serveAngularSSR } from 'server-side/utils/angular-ssr';
 import { useProblemDetailsGlobally } from 'server-side/utils/fastify-problem-details';
 import { getLoggerOptions } from 'server-side/utils/logging';
 import { printRoutes } from 'server-side/utils/print-routes.plugin';
-import bootstrap from './main.server';
 import { fileURLToPath } from 'url';
-import * as path from 'path';
+import bootstrap from './main.server';
 
 const development = isDevMode();
 
 async function initServer() {
-  const options = development ? {} : { http2: true };
+  // const options = development ? {} : { http2: true };
+  const options = {};
 
   const server = fastify({
     ...options,

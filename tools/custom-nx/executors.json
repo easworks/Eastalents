@@ -4,11 +4,6 @@
       "implementation": "./src/executors/ng-sw/executor",
       "schema": "./src/executors/ng-sw/schema.json",
       "description": "ng-sw executor"
-    },
-    "ng-pack-ssr": {
-      "implementation": "./src/executors/ng-pack-ssr/executor",
-      "schema": "./src/executors/ng-pack-ssr/schema.json",
-      "description": "ng-pack-ssr executor"
     }
   }
 }
