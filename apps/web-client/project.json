@@ -13,8 +13,13 @@
         "outputPath": "dist/apps/web-client",
         "index": "apps/web-client/src/index.html",
         "browser": "apps/web-client/src/main.ts",
+        "server": "apps/web-client/src/main.server.ts",
+        "ssr": {
+          "entry": "apps/web-client/src/server.ts"
+        },
         "polyfills": ["@lottiefiles/lottie-player"],
         "tsConfig": "apps/web-client/tsconfig.app.json",
+        "webWorkerTsConfig": "apps/web-client/tsconfig.worker.json",
         "assets": [
           {
             "glob": "**/*",
@@ -35,9 +40,10 @@
           "apps/web-client/src/styles.less"
         ],
         "scripts": [],
+        "statsJson": true,
         "plugins": [
           {
-            "path": "tools/service-worker.plugin.ts",
+            "path": "tools/esbuild/service-worker.plugin.ts",
             "options": {
               "src": "apps/web-client/src/service-worker/sw.worker.ts",
               "destination": "eastalents-web-client.sw",
@@ -45,7 +51,7 @@
             }
           },
           {
-            "path": "tools/inject-tw-theme.plugin.ts",
+            "path": "tools/esbuild/inject-tw-theme.plugin.ts",
             "options": {
               "configPath": "apps/web-client/tailwind.config.js"
             }
@@ -67,6 +73,7 @@
             }
           ],
           "outputHashing": "all",
+          "namedChunks": true,
           "optimization": {
             "scripts": true,
             "styles": true,
@@ -81,6 +88,13 @@
         }
       },
       "defaultConfiguration": "production"
+    },
+    "build-service-worker": {
+      "executor": "custom-nx:ng-sw",
+      "options": {
+        "buildTarget": "web-client:build"
+      },
+      "dependsOn": ["build"]
     },
     "serve": {
       "executor": "@nx/angular:dev-server",
@@ -134,21 +148,43 @@
         "buildTarget": "web-client:build"
       }
     },
+    "prep-deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx build web-client",
+          "nx build-service-worker web-client",
+          "mkdir -p dist/docker/web-client",
+          "tar -czf dist/docker/web-client/dist.tar.gz -C dist/apps web-client",
+          "cp apps/web-client/dockerfile dist/docker/web-client",
+          "cp apps/web-client/compose.yml dist/docker/web-client"
+        ],
+        "parallel": false
+      }
+    },
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
         "args": ["--remote=root@216.225.201.134"],
-        "commands": [
-          "mkdir -p dist/archives",
-          "tar -czf dist/archives/web-client.tar.gz -C dist/apps web-client",
-          "scp -r dist/archives/web-client.tar.gz {args.remote}:~",
-          "ssh {args.remote} 'rm -rf /var/www/web-client'",
-          "ssh {args.remote} 'tar -xzf web-client.tar.gz -C /var/www'"
-        ],
+        "commands": [],
         "forwardAllArgs": false,
         "parallel": false
       },
-      "dependsOn": ["build"]
+      "configurations": {
+        "local": {
+          "commands": [
+            "cd dist/docker/web-client && docker compose up -d --build"
+          ]
+        },
+        "production": {
+          "commands": [
+            "scp -r dist/docker/web-client {args.remote}:~",
+            "ssh {args.remote} 'cd ~/web-client && docker compose up -d --build'"
+          ]
+        }
+      },
+      "defaultConfiguration": "production",
+      "dependsOn": ["prep-deploy"]
     }
   }
 }

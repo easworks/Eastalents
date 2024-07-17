@@ -25,7 +25,7 @@ export class DomainState {
     domains: inject(DomainsApi)
   } as const;
 
-  private readonly cache = CACHE.domains;
+  private readonly cache = inject(CACHE)?.domains;
 
   readonly domains;
   readonly products;
@@ -36,7 +36,7 @@ export class DomainState {
   private async loadDomains(forceCache = false) {
     try {
       const expiry = forceCache ? undefined : ONE_HOUR_MS;
-      const cached = await this.cache.get<Map<string, Domain>>('domains', expiry);
+      const cached = this.cache && await this.cache.get<Map<string, Domain>>('domains', expiry);
       if (cached) {
         const domains = cached;
         const products = await this.cache.get<Map<string, SoftwareProduct>>('products');
@@ -84,9 +84,12 @@ export class DomainState {
 
       const { domains, tech, products } = mapDomainEntities(ddto, tdto);
 
-      await this.cache.set('domains', domains);
-      await this.cache.set('tech', tech);
-      await this.cache.set('products', products);
+      if (this.cache) {
+        await this.cache.set('domains', domains);
+        await this.cache.set('tech', tech);
+        await this.cache.set('products', products);
+      }
+
 
       this.domains.map$.set(domains);
       this.products.map$.set(products);
@@ -100,13 +103,15 @@ export class DomainState {
 
   async loadIndustries() {
     const cacheKey = 'industries';
-    const cached = await this.cache.get<IndustryGroup[]>(cacheKey);
+    const cached = this.cache && await this.cache.get<IndustryGroup[]>(cacheKey);
     if (cached)
       this.industries$.set(cached);
 
     const r = await this.api.domains.industryGroups();
     const ig = mapIndustryGroupDto(r);
-    await this.cache.set(cacheKey, ig);
+
+    if (this.cache)
+      await this.cache.set(cacheKey, ig);
     this.industries$.set(ig);
   }
 

@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "ng-sw": {
+      "implementation": "./src/executors/ng-sw/executor",
+      "schema": "./src/executors/ng-sw/schema.json",
+      "description": "ng-sw executor"
+    }
+  }
+}

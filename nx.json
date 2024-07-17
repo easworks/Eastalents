@@ -20,6 +20,7 @@
   },
   "targetDefaults": {
     "build": {
+      "cache": true,
       "inputs": ["production", "^production"]
     },
     "@nx/jest:jest": {
@@ -42,6 +43,16 @@
         "{workspaceRoot}/.eslintignore"
       ],
       "cache": true
+    },
+    "@nx/esbuild:esbuild": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    },
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "$schema": "./node_modules/nx/schemas/nx-schema.json",

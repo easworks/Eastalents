@@ -1,65 +1,48 @@
-<header>
-    <div>
-        <!-- Main navigation container -->
-        <nav
-            class="flex-no-wrap relative flex w-full items-center justify-between bg-black py-2 2xl:flex-wrap 2xl:justify-start 2xl:py-4">
-            <div class="flex w-full flex-wrap items-center px-3 gap-4 justify-center">
-                <!-- navigation container -->
-                <div class="flex-grow basis-[100%] items-center 2xl:!flex 2xl:basis-auto">
-                    <!-- Logo -->
-                    <a class="mb-4 me-5 ms-2 mt-3 flex items-center 2xl:mb-0 2xl:mt-0" href="#">
-                        <img src="/assets/brand/logo-full-light.png" alt="App Logo" loading="lazy" />
-                    </a>
-                    <!-- Menus navigation links -->
-                    <ul class="list-style-none mx-auto 5xl:flex hidden flex-col ps-0 2xl:flex-row">
-                        <li class="mb-4 2xl:mb-0 2xl:pe-8">
-                            <a class="text-white text-sm font-bold" href="#">For Companies
-                                <img src="/assets/public/header/arrow-to-down.svg" class="ms-auto translate-x-2"
-                                    alt="Arrow image" />
-                            </a>
-                        </li>
-                        <li class="mb-4 2xl:mb-0 2xl:pe-8">
-                            <a class="text-white text-sm font-bold" href="#">Services <img
-                                    src="/assets/public/header/arrow-to-down.svg" class="ms-auto translate-x-2"
-                                    alt="Arrow image" /></a>
-                        </li>
-                        <li class="mb-4 2xl:mb-0 2xl:pe-8">
-                            <a class="text-white text-sm font-bold" href="#">For Talents <img
-                                    src="/assets/public/header/arrow-to-down.svg" class="ms-auto translate-x-2"
-                                    alt="Arrow image" /></a>
-                        </li>
-                        <li class="mb-4 2xl:mb-0 2xl:pe-8">
-                            <a class="text-white text-sm font-bold" href="#">Enterprise solutions <img
-                                    src="/assets/public/header/arrow-to-down.svg" class="ms-auto translate-x-2"
-                                    alt="Arrow image" /></a>
-                        </li>
-                        <li class="mb-4 2xl:mb-0 2xl:pe-8">
-                            <a class="text-white text-sm font-bold" href="#">Why EASWORKS</a>
-                        </li>
-                        <li class="mb-4 2xl:mb-0 2xl:pe-8">
-                            <a class="text-white text-sm font-bold" href="#">Community</a>
-                        </li>
-                    </ul>
-                    <!-- Menus navigation links -->
-                </div>
+<!-- Logo -->
+<a routerLink="/">
+  <img class="h-8 hidden 2xl:block" src="/assets/brand/logo-full-light.png" alt="App Logo" loading="lazy" />
+  <img class="h-8 block 2xl:hidden" src="/assets/brand/symbol-white.png" alt="App Logo" loading="lazy" />
+</a>
+<!-- Logo -->
 
-                <!-- Right elements -->
-                <div class="relative flex items-center gap-3">
-                    <div class="flex items-center gap-3 border-r border-primary-500">
-                        <button class="shaded-button border-gradient border-only-btn">Find
-                            Jobs</button>
-                        <button class="shaded-button gradient-btn border-gradient">Find
-                            Hire Now</button>
-                    </div>
-                    <div class="text-primary-500 text-lg font-extrabold">
-                        Hire
-                    </div>
-                    <div>
-                        <img src="/assets/public/header/btn-for-sidebar.svg" alt="Sidebar Open image" />
-                    </div>
-                </div>
-                <!-- Right elements -->
-            </div>
-        </nav>
-    </div>
-</header>
+<!-- Main Navigation container -->
+<nav class="flex flex-no-wrap mx-auto items-center gap-4">
+
+  <ul class="flex list-style-none mx-auto gap-4">
+    @for(item of menuItems; track item) {
+    <li>
+      <a [routerLink]="item.link"
+         class="text-sm font-bold text-nowrap
+        text-primary-400 hover:text-white focus:text-white">
+        {{item.text}}
+      </a>
+    </li>
+    }
+  </ul>
+
+</nav>
+<!-- Main Navigation container -->
+
+<!-- right-side elements -->
+<div class="flex flex-nowrap gap-4 text-nowrap items-center">
+  <button class="shaded-button border-gradient border-only-btn">
+    Find Jobs
+  </button>
+  <button class="shaded-button gradient-btn border-gradient">
+    Hire Now
+  </button>
+
+  <mat-divider vertical class="self-stretch"></mat-divider>
+
+  <a class="text-lg font-extrabold 
+    text-primary-400 hover:text-white focus:text-white" mat-ripple
+     routerLink="/account/sign-in">
+    Login
+  </a>
+  <button class="icon-button" mat-ripple (click)="toggleSidebar()">
+    <fa-icon [icon]="icons.faHighTechFourLeaf" class="text-primary-400 hover:text-white focus:text-white 
+      text-3xl leading-none"></fa-icon>
+  </button>
+</div>
+
+<!-- right-side elements -->

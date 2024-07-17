@@ -1,16 +1,18 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { inject } from '@angular/core';
+import { inject, isDevMode } from '@angular/core';
+import { EventType, Router, Scroll } from '@angular/router';
 import { createEffect } from '@ngrx/effects';
-import { EMPTY, distinctUntilChanged, filter, first, fromEvent, map, startWith, switchMap } from 'rxjs';
+import { EMPTY, distinctUntilChanged, filter, first, fromEvent, map, startWith } from 'rxjs';
 import type { ScreensConfig } from 'tailwindcss/types/config';
 import { TW_THEME } from '../common/tw-theme';
+import { isServer } from '../utilities/platform-type';
 import { ScreenSize, screenSizes, uiActions } from './ui';
-import { EventType, Router, Scroll } from '@angular/router';
-import { AuthService } from '../services/auth';
 
 export const uiEffects = {
   validateScreenDeclarations: createEffect(
     () => {
+      if (isServer() || !isDevMode())
+        return EMPTY;
 
       const screens = inject(TW_THEME).screens as ScreensConfig;
       const themeSizes = Object.keys(screens);
@@ -22,6 +24,9 @@ export const uiEffects = {
     { functional: true, dispatch: false }),
   updateBreakpoints: createEffect(
     () => {
+      if (isServer())
+        return EMPTY;
+
       const screens = inject(TW_THEME).screens as Record<string, string>;
 
       const breakpoints = new Map(
@@ -50,6 +55,9 @@ export const uiEffects = {
     { functional: true }),
   updateTopBarDarkMode: createEffect(
     () => {
+      if (isServer())
+        return EMPTY;
+
       const scrollingElement = document.scrollingElement;
       if (!scrollingElement)
         throw new Error('invalid operation');
@@ -68,7 +76,6 @@ export const uiEffects = {
   watchRouterNavigation: createEffect(
     () => {
       const router = inject(Router);
-      const auth = inject(AuthService);
 
       return router.events.pipe(
         // TODO: implement auth.ready$

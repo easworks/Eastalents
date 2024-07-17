@@ -1,0 +1,7 @@
+FROM node:lts-slim
+
+WORKDIR /root
+
+ADD dist.tar.gz .
+
+CMD [ "node", "web-client/server/server.mjs" ]

@@ -57,7 +57,7 @@ export const sidebarActions = createActionGroup({
     'expand': emptyProps(),
     'contract': emptyProps()
   }
-})
+});
 
 export const UI_FEATURE = createFeature({
   name: 'ui',
@@ -69,7 +69,7 @@ export const UI_FEATURE = createFeature({
         dark: true
       },
       sidebar: {
-        visible:false ,
+        visible: false,
         expanded: false,
       },
       navigating: true,
@@ -91,7 +91,7 @@ export const UI_FEATURE = createFeature({
       state.topBar.dark = payload.dark;
       return state;
     })),
-    
+
     on(sidebarActions.expand, produce(state => {
       state.sidebar.expanded = true;
     })),

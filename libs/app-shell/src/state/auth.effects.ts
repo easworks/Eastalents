@@ -1,22 +1,36 @@
-import { INJECTOR, effect, inject } from '@angular/core';
+import { effect, inject, INJECTOR } from '@angular/core';
 import { UserWithToken } from '@easworks/models';
 import { createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { EMPTY, fromEvent, of, tap } from 'rxjs';
 import { PERMISSION_DEF_DTO } from '../permissions';
-import { SWManagementService } from '../services/sw.manager';
-import { CURRENT_USER_KEY, authActions, authFeature } from './auth';
+import { SW_MANAGER } from '../services/sw.manager';
+import { isBrowser, isServer } from '../utilities/platform-type';
+import { authActions, authFeature, CURRENT_USER_KEY } from './auth';
 
 export const authEffects = {
+  /** This effect does 2 things
+    * - add the permission definitions on first load
+    * - read the user on first load
+    * 
+    * The first task is done on both server and browser
+    * The second task cannot be done on the browser
+    * 
+    * Therefore we cannot just return `EMPTY` after `isServer()`,
+    * we should gracefully handle the situation
+    */
   readOnFirstLoad: createEffect(
     () => {
-      const storedUser = localStorage.getItem(CURRENT_USER_KEY);
+
 
       let user: UserWithToken | null = null;
 
-      if (storedUser) {
+      if (isBrowser()) {
         try {
-          user = JSON.parse(storedUser);
+          const storedUser = localStorage.getItem(CURRENT_USER_KEY);
+          if (storedUser) {
+            user = JSON.parse(storedUser);
+          }
         }
         catch (e) {
           user = null;
@@ -34,6 +48,9 @@ export const authEffects = {
 
   reloadOnUserChange: createEffect(
     () => {
+      if (isServer())
+        return EMPTY;
+
       return fromEvent<StorageEvent>(window, 'storage')
         .pipe(
           tap(ev => {
@@ -48,22 +65,33 @@ export const authEffects = {
 
   syncWithServiceWorker: createEffect(
     () => {
-      const swm = inject(SWManagementService);
+      if (!isBrowser())
+        return EMPTY;
+
+      const swm = inject(SW_MANAGER);
+      if (!swm)
+        return EMPTY;
+
       const injector = inject(INJECTOR);
       const store = inject(Store);
 
       const user$ = store.selectSignal(authFeature.selectUser);
 
-      swm.ready.then(() => {
-        effect(() => {
-          const user = user$();
-          swm.wb.messageSW({
-            type: 'USER CHANGE', payload: {
-              user
-            }
-          });
-        }, { injector });
-      });
+      swm.ready
+        .then(() => swm.wb)
+        .then(wb => {
+          if (!wb)
+            return;
+
+          effect(() => {
+            const user = user$();
+            wb.messageSW({
+              type: 'USER CHANGE', payload: {
+                user
+              }
+            });
+          }, { injector });
+        });
 
       return EMPTY;
     },

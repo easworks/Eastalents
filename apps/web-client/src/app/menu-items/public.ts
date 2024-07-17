@@ -24,8 +24,7 @@ export const publicMenu = {
     { text: 'For Freelancers', link: '/for-freelancer' },
     { text: 'Why Easworks?', link: '/why-easworks' },
     { text: 'EASWORKS Talent', link: '/easworks-talent' },
-    useCases,
-    { text: 'Apply as Freelancer', link: '/register/freelancer' }
+    useCases
   ] satisfies MenuItem[],
   static: [
     { text: 'Hire Talent', link: NOOP_CLICK },
