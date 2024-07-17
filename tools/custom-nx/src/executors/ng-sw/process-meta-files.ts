@@ -6,10 +6,25 @@ export function extractManifest(main: string, metaFile: Metafile) {
 
   for (const outputName in metaFile.outputs) {
     const file = metaFile.outputs[outputName];
-    if (file.entryPoint === main) {
+    if ((file as Record<string, unknown>)['ng-platform-server'] === true) {
+      continue;
+    }
+    else if (file.entryPoint === main) {
       extractImportChain(files, metaFile, {
         name: outputName,
         followImport: 'import-statement',
+      });
+    }
+    else if (file.entryPoint?.startsWith('node_modules/.pnpm/workbox-window@')) {
+      extractImportChain(files, metaFile, {
+        name: outputName,
+        followImport: 'import-statement'
+      });
+    }
+    else if (file.entryPoint === 'angular:polyfills:angular:polyfills') {
+      extractImportChain(files, metaFile, {
+        name: outputName,
+        followImport: 'import-statement'
       });
     }
     else if (file.entryPoint === 'angular:styles/global:styles') {
