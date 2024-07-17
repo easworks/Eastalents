@@ -189,6 +189,12 @@ export const PUBLIC_ROUTES: Routes = [
     }
   },
   {
+    path: 'service-type/hire-contractors',
+    pathMatch: 'full',
+    loadComponent: () => import('./service-type/hire-contractors/hire-contractors.page')
+      .then(m => m.HireContractorsPageComponent)
+  },
+  {
     path: 'service-type/:ServiceType',
     pathMatch: 'full',
     loadComponent: () => import('./service-type/service-type.page').then(m => m.ServiceTypePageComponent),

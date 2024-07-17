@@ -1,0 +1,181 @@
+.hero-sec {
+    background-image: url(/assets/public/hire-contractors/hero-sec/sec-effect.png);
+
+    .hero-btn {
+        background-image: url(/assets/public/hire-contractors/hero-btn-bg.png);
+        background-size: 100% 100%;
+    }
+
+    .shaded-text {
+        background: linear-gradient(90deg, #4949FC 50%, #FFFFFF 130%);
+        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text;
+    }
+}
+
+.hire-contractor-sec {
+    .grey-shaded-text {
+        background: linear-gradient(90deg, #4949FC 50%, #999999 130%);
+        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text;
+    }
+}
+
+.build-app-btn {
+    background-image: url(/assets/public/hire-contractors/hero-btn-bg.png);
+    background-size: 100% 100%;
+}
+
+// Build Enterprise Apps Teams
+.app-teams {
+    background-image: url(/assets/public/hire-contractors/build-enterprise-apps/bg-img.png);
+}
+
+// Steps to hire section classes
+.steps-sec {
+    background-image: url(/assets/public/hire-contractors/steps-sec/bg-circle.png);
+    border: 1.5px solid #FFFFFF;
+
+    .card-box {
+        background-image: url(/assets/public/hire-contractors/steps-sec/card-shape.svg);
+    }
+}
+
+.gradient-bg {
+    background-image: url(/assets/public/home/hire-contractors/hiring-bg-img.png);
+    background-size: 100% 100%;
+}
+
+.hire-elite-bg {
+    background-image: url(/assets/public/home/hire-elite-bg.png);
+
+    .hire-elite-btn {
+        background-image: url(/assets/public/home/hire-elite-btn-bg.svg);
+    }
+}
+
+// Why choose section
+.why-choose {
+    background-image: url(/assets/public/hire-contractors/why-choose-us/why-choose-img.svg);
+    background-position: 100%;
+}
+
+.why-card-box {
+    background-image: url(/assets/public/hire-contractors/why-choose-us/why1.svg);
+    max-width: 100%;
+}
+
+.why-card-box1 {
+    background-image: url(/assets/public/hire-contractors/why-choose-us/why2.svg);
+    max-width: 100%;
+}
+
+.why-card-box2 {
+    background-image: url(/assets/public/hire-contractors/why-choose-us/why3.svg);
+    max-width: 100%;
+}
+
+.custom-box {
+    width: 400px;
+    height: 250px;
+    margin: 0 auto;
+}
+
+// Cases css
+.case-card {
+    background-image: url(/assets/public/hire-contractors/cases-sec/gradient-bg.svg);
+}
+
+// ERP services
+.erp-operations {
+    background-image: url(/assets/public/hire-contractors/erp-bg.png);
+}
+
+.view-more {
+    @apply relative text-sm flex items-center text-primary-500 px-4 mt-5 rounded-full hover:hover:text-white hover:duration-500 before:content-[''] before:absolute before:inset-0 before:rounded-xl before:p-[1px];
+
+    &:before {
+        background: linear-gradient(95.23deg, #4B4BF0 28.56%, #F34A02 100%);
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+    }
+}
+
+.logo-sec-bg {
+    background-image: url(/assets/public/home/erp-operations/logo-sec-bg.png);
+    background-size: 100% 100%;
+}
+
+.enterprise-app-dev {
+    background-image: url(/assets/public/home/enterprise-app-dev/sec-bg.png);
+
+    &-card {
+        @apply relative transition-all;
+
+        &.highlight {
+            @apply ring-4 ring-primary-500 4xl:translate-x-12;
+        }
+    }
+}
+
+.sec-bg {
+    background-image: url(/assets/public/hire-contractors/hand-picking/sec-bg.svg);
+}
+
+// Discover Elite Enterprise
+.elite-enterprise-bg {
+    background-image: url(/assets/public/hire-contractors/discover-elite-enterprise/card-bg.png);
+    background-size: 100% 100%;
+}
+
+.elite-enterprise-img,
+.elite-enterprise-text {
+    transition: all 0.5s;
+}
+
+.elite-enterprise-card:hover .elite-enterprise-img {
+    transform: translateX(50px);
+    transition: all 0.5s;
+}
+
+.elite-enterprise-card:hover .elite-enterprise-text {
+    transform: rotate(-90deg) translateY(50px);
+    transition: all 0.5s;
+}
+
+.elite-enterprise-card:hover .elite-enterprise-img-sec {
+    box-shadow: 0 -2px 50px -100px #4949FC inset;
+}
+
+.elite-enterprise-card:hover .elite-enterprise-logo-img {
+    box-shadow: 0 0px 20px 10px #4949FC;
+}
+
+.elite-enterprise-card:hover .elite-enterprise-bg {
+    box-shadow: 0 -80px 200px #9b9bff;
+}
+
+//Testimonial Css
+.testimonial-sec {
+    .vector-bg {
+        background-image: url(/assets/public/hire-contractors/build-enterprise-apps/bg-img.png);
+        background-size: 100% 100%;
+    }
+
+    .testimonial-divider::before {
+        padding: 1px;
+        background: linear-gradient(90deg, rgba(153, 153, 153, 0) 0%, #FFFFFF 51%, rgba(153, 153, 153, 0) 100%);
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+    }
+
+    .testimonial-btn {
+        background-image: url(/assets/public/home/hire-elite-btn-bg.svg);
+    }
+}
