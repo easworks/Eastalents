@@ -1,4 +1,4 @@
-<div>
+<header id="app-header" class="z-10 sticky top-0">
   @if (isSignedIn$()) {
   <app-authenticated-header></app-authenticated-header>
   }
@@ -10,7 +10,7 @@
   <mat-progress-bar class="!absolute bottom-0 left-0" mode="indeterminate">
   </mat-progress-bar>
   }
-</div>
+</header>
 
 <mat-sidenav-container class="flex-grow !flex flex-col !overflow-visible">
   <mat-sidenav #appSidenav fixedInViewport
@@ -22,10 +22,10 @@
     <authenticated-vertical-menu></authenticated-vertical-menu>
     }
     @else {
-    <public-vertical-menu [public]="publicMenu.main.vertical.$()"
-                          [static]="publicMenu.static"
-                          [about]="publicMenu.about"
-                          [social]="publicMenu.social"></public-vertical-menu>
+    <public-sidebar [public]="publicMenu.main.vertical.$()"
+                    [static]="publicMenu.static"
+                    [about]="publicMenu.about"
+                    [social]="publicMenu.social"></public-sidebar>
     }
   </mat-sidenav>
 

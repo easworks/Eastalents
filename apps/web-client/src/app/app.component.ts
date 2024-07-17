@@ -1,23 +1,19 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, HostBinding, INJECTOR, OnInit, computed, effect, inject, untracked, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, HostBinding, inject, INJECTOR, OnInit, untracked, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { AuthenticateVerticalMenuComponent } from '@easworks/app-shell/navigation/authenticated-vertical-menu/authenticated-vertical-menu.component';
-import { AppHorizontalMenuComponent } from '@easworks/app-shell/navigation/horizontal-menu/horizontal-menu.component';
 import { MenuItem } from '@easworks/app-shell/navigation/models';
-import { PublicVerticalMenuComponent } from '@easworks/app-shell/navigation/public-vertical-menu/public-vertical-menu.component';
-import { SWManagementService } from '@easworks/app-shell/services/sw.manager';
 import { authFeature } from '@easworks/app-shell/state/auth';
-import { ScreenSize, UI_FEATURE, sidebarActions } from '@easworks/app-shell/state/ui';
-import { faFacebook, faGithub, faInstagram, faLinkedin, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import { faAngleRight, faBars, faCircleArrowUp, } from '@fortawesome/free-solid-svg-icons';
+import { ScreenSize, sidebarActions, UI_FEATURE } from '@easworks/app-shell/state/ui';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { AccountWidgetComponent } from '../account/account.widget';
 import { AppFooterComponent } from './footer/footer.component';
 import { AppAuthenticatedHeaderComponent } from './header/authenticated/authenticated-header.component';
 import { AppPublicHeaderComponent } from './header/public/public-header.component';
 import { footerNav, publicMenu } from './menu-items/public';
+import { PublicSidebarComponent } from './sidebar/public/public-sidebar.component';
 
 @Component({
   standalone: true,
@@ -29,10 +25,8 @@ import { footerNav, publicMenu } from './menu-items/public';
     ImportsModule,
     RouterModule,
     MatSidenavModule,
-    AppHorizontalMenuComponent,
-    PublicVerticalMenuComponent,
+    PublicSidebarComponent,
     AuthenticateVerticalMenuComponent,
-    AccountWidgetComponent,
     AppFooterComponent,
     AppPublicHeaderComponent,
     AppAuthenticatedHeaderComponent
@@ -41,7 +35,6 @@ import { footerNav, publicMenu } from './menu-items/public';
 export class AppComponent implements OnInit {
 
   private readonly store = inject(Store);
-  private readonly swm = inject(SWManagementService);
   private readonly injector = inject(INJECTOR);
   private readonly dRef = inject(DestroyRef);
 
@@ -56,25 +49,17 @@ export class AppComponent implements OnInit {
   private readonly appSidenav$ = viewChild.required<MatSidenav>('appSidenav');
 
   protected readonly icons = {
-    faBars,
-    faCircleArrowUp,
-    faAngleRight,
-    faLinkedin,
-    faFacebook,
-    faGithub,
-    faTwitter,
-    faInstagram,
-    faYoutube
+    faAngleRight
   } as const;
 
   protected readonly navigating$ = computed(() => this.ui$().navigating);
-  protected readonly sw = {
-    hidden$: computed(() => !this.swm.updateAvailable$()),
-    updating$: this.swm.updating$,
-    update: () => {
-      this.swm.wb.messageSkipWaiting();
-    }
-  } as const;
+  protected readonly topBar$ = computed(() => {
+    const dark = this.ui$().topBar.dark;
+    return {
+      brandImage: dark ? '/assets/brand/logo-full-light.png' : '/assets/brand/logo-full-dark.png',
+      dark
+    } as const;
+  });
 
   private readonly screenSize$ = computed(() => this.ui$().screenSize);
 
@@ -89,22 +74,7 @@ export class AppComponent implements OnInit {
     const opened$ = computed(() => state$().expanded);
     const position$ = computed(() => this.isSignedIn$() ? 'start' : 'end');
 
-    const toggle = (() => {
-      const show$ = computed(() => mode$() === 'over');
-
-      const position$ = computed(() => {
-        if (show$()) {
-          return this.isSignedIn$() ? 'left' : 'right';
-        }
-        return null;
-      });
-
-      const click = () => this.store.dispatch(sidebarActions.toggleExpansion());
-
-      return { position$, click } as const;
-    })();
-
-    return { mode$, opened$, position$, toggle } as const;
+    return { mode$, opened$, position$ } as const;
   })();
 
   protected readonly publicMenu = (() => {
@@ -137,22 +107,22 @@ export class AppComponent implements OnInit {
         let vertical: MenuItem[] = [];
         let horizontal: MenuItem[] = [];
 
-        if (!this.isSignedIn$()) {
-          const split = split$();
+        // if (!this.isSignedIn$()) {
+        const split = split$();
 
-          if (split === 'horizontal') {
-            vertical = [];
-            horizontal = publicMenu.main;
-          }
-          else if (split === 'vertical') {
-            vertical = publicMenu.main;
-            horizontal = [];
-          }
-          else {
-            vertical = publicMenu.main.slice(split);
-            horizontal = publicMenu.main.slice(0, split);
-          }
+        if (split === 'horizontal') {
+          vertical = [];
+          horizontal = publicMenu.main;
         }
+        else if (split === 'vertical') {
+          vertical = publicMenu.main;
+          horizontal = [];
+        }
+        else {
+          vertical = publicMenu.main.slice(split);
+          horizontal = publicMenu.main.slice(0, split);
+        }
+        // }
 
         return { vertical, horizontal } as const;
       });
@@ -177,16 +147,6 @@ export class AppComponent implements OnInit {
     } as const;
 
   })();
-
-  protected readonly topBar$ = computed(() => {
-    const dark = this.ui$().topBar.dark;
-    return {
-      brandImage: dark ? '/assets/brand/logo-full-light.png' : '/assets/brand/logo-full-dark.png',
-      dark
-    } as const;
-  });
-
-  protected readonly social = publicMenu.social;
 
   protected readonly footerNav = footerNav;
 
