@@ -2,30 +2,31 @@ import { ViewportScroller } from '@angular/common';
 import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
-import { DefaultSeoConfig, SEO_DEFAULT_CONFIG } from '@easworks/app-shell/services/seo';
-import { SW_MANAGER } from '@easworks/app-shell/services/sw.manager';
+import { AuthService } from '@easworks/app-shell/services/auth';
+import { DefaultSeoConfig, SEOService, SEO_DEFAULT_CONFIG } from '@easworks/app-shell/services/seo';
+import { SWManagementService, SW_URL } from '@easworks/app-shell/services/sw.manager';
 import { authFeature } from '@easworks/app-shell/state/auth';
 import { authEffects } from '@easworks/app-shell/state/auth.effects';
+import { navMenuFeature } from '@easworks/app-shell/state/nav-menu';
+import { navMenuEffects } from '@easworks/app-shell/state/nav-menu.effects';
 import { UI_FEATURE } from '@easworks/app-shell/state/ui';
 import { uiEffects } from '@easworks/app-shell/state/ui.effects';
 import { provideEffects } from '@ngrx/effects';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { provideEnvironment } from './environment';
-import { routes } from './routes';
+import { signInEffects } from '../account/sign-in.effects';
 import { adminData } from '../admin/state/admin-data';
 import { adminDataEffects } from '../admin/state/admin-data.effects';
+import { serviceWorkerUrl } from '../service-worker/sw.loader';
+import { provideEnvironment } from './environment';
+import { menuItemEffects } from './menu-items/menu-item.effects';
+import { routes } from './routes';
 
 export const appConfig: ApplicationConfig = {
-
   providers: [
     provideExperimentalZonelessChangeDetection(),
-    provideClientHydration(
-      withEventReplay(),
-    ),
     provideStore(),
     provideEffects(),
     provideStoreDevtools({
@@ -58,30 +59,35 @@ export const appConfig: ApplicationConfig = {
       MatSnackBarModule,
       MatDialogModule
     ]),
+    { provide: SW_URL, useValue: serviceWorkerUrl },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (swm: SWManagementService) => () => swm.ready,
+      deps: [SWManagementService],
+      multi: true
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: () => () => undefined,
       deps: [
-        SW_MANAGER,
-        // AuthService,
-        // SEOService,
+        SWManagementService,
+        AuthService,
+        SEOService,
       ],
       multi: true
     },
 
+    provideState(authFeature),
+    provideEffects(authEffects),
+    provideEffects(signInEffects),
+
+    provideEffects(navMenuEffects),
+    provideEffects(menuItemEffects),
+
     provideState(UI_FEATURE),
     provideEffects(uiEffects),
 
-    provideState(authFeature),
-    provideEffects(authEffects),
-    // provideEffects(signInEffects),
-
-    // provideEffects(navMenuEffects),
-    // provideEffects(menuItemEffects),
-
-
-
-    // provideState(navMenuFeature),
+    provideState(navMenuFeature),
 
     provideState(adminData.feature),
     provideEffects(adminDataEffects)
