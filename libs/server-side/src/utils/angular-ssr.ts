@@ -35,13 +35,14 @@ export const serveAngularSSR: FastifyPluginAsync<ServeAngularSSROptions> = async
     }
     else {
       rep.type(htmlMime);
+      const url = `${req.protocol}://${req.headers.host}${req.originalUrl}`;
 
       return engine.render({
         bootstrap: options.bootstrap,
         documentFilePath: indexHtml,
-        url: `${req.protocol}://${req.headers.host}${req.originalUrl}`,
+        url,
         publicPath: browserDirectory,
-        providers: [{ provide: APP_BASE_HREF, useValue: req.raw.url }],
+        providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
       });
     }
   });

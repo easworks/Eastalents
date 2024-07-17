@@ -19,7 +19,7 @@ export function setupCaching(cachePrefix: string) {
 
 
   registerRoute(new NavigationRoute(
-    createHandlerBoundToURL('/')
+    createHandlerBoundToURL('/index.csr.html')
   ));
 
   registerRoute(new Route(
@@ -39,7 +39,7 @@ export function setupCaching(cachePrefix: string) {
           url.pathname.endsWith('.css')
         );
       },
-      new NetworkFirst()
+      new StaleWhileRevalidate()
     ),
   );
 
