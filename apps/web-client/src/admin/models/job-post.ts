@@ -162,7 +162,7 @@ export interface JobPostRole {
   software: string[];
   techSkills: string[];
 
-  positions: JobPostPosition;
+  positions: JobPostPosition[];
   description: string;
 
   metrics: JobMetrics;
