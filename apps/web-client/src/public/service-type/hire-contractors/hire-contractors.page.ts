@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ServiceTypeHiringStepsSectionComponent } from '../common/hiring-steps/hiring-steps.section';
+import { ServiceTypeWhyChooseEasworksSectionComponent } from '../common/why-choose-easworks/why-choose-easworks.section';
 
 @Component({
   standalone: true,
@@ -6,7 +8,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './hire-contractors.page.html',
   styleUrl: './hire-contractors.page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: []
+  imports: [
+    ServiceTypeHiringStepsSectionComponent,
+    ServiceTypeWhyChooseEasworksSectionComponent
+  ]
 })
 export class HireContractorsPageComponent {
 
