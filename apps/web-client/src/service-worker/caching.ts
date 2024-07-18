@@ -19,7 +19,7 @@ export function setupCaching(cachePrefix: string) {
 
 
   registerRoute(new NavigationRoute(
-    createHandlerBoundToURL('/index.csr.html')
+    createHandlerBoundToURL('/?__blank_page')
   ));
 
   registerRoute(new Route(
