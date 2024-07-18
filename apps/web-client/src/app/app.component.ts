@@ -1,23 +1,20 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, HostBinding, INJECTOR, OnInit, computed, effect, inject, untracked, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, HostBinding, inject, INJECTOR, OnInit, signal, untracked, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { AuthenticateVerticalMenuComponent } from '@easworks/app-shell/navigation/authenticated-vertical-menu/authenticated-vertical-menu.component';
-import { AppHorizontalMenuComponent } from '@easworks/app-shell/navigation/horizontal-menu/horizontal-menu.component';
 import { MenuItem } from '@easworks/app-shell/navigation/models';
-import { PublicVerticalMenuComponent } from '@easworks/app-shell/navigation/public-vertical-menu/public-vertical-menu.component';
-import { SWManagementService } from '@easworks/app-shell/services/sw.manager';
 import { authFeature } from '@easworks/app-shell/state/auth';
-import { ScreenSize, UI_FEATURE, sidebarActions } from '@easworks/app-shell/state/ui';
-import { faFacebook, faGithub, faInstagram, faLinkedin, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import { faAngleRight, faBars, faCircleArrowUp, } from '@fortawesome/free-solid-svg-icons';
+import { ScreenSize, sidebarActions, UI_FEATURE } from '@easworks/app-shell/state/ui';
+import { isServer } from '@easworks/app-shell/utilities/platform-type';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { AccountWidgetComponent } from '../account/account.widget';
 import { AppFooterComponent } from './footer/footer.component';
 import { AppAuthenticatedHeaderComponent } from './header/authenticated/authenticated-header.component';
 import { AppPublicHeaderComponent } from './header/public/public-header.component';
 import { footerNav, publicMenu } from './menu-items/public';
+import { PublicSidebarComponent } from './sidebar/public/public-sidebar.component';
 
 @Component({
   standalone: true,
@@ -228,7 +225,23 @@ export class AppComponent implements OnInit {
     }, { injector: this.injector });
   }
 
+  private serveBlankPage() {
+    if (!this.isServer)
+      return;
+
+    const route = this.injector.get(ActivatedRoute);
+
+    route.queryParamMap
+      .pipe(takeUntilDestroyed(this.dRef))
+      .subscribe(params => {
+        if (params.has('__blank_page')) {
+          this.blankPage$.set(true);
+        }
+      });
+  }
+
   ngOnInit() {
     this.updateSidebarIfNeeded();
+    this.serveBlankPage();
   }
 }
