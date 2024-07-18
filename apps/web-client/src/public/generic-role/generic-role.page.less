@@ -1,0 +1,87 @@
+.hero-sec {
+    background-image: url(/assets/public/hire-contractors/hero-sec/sec-effect.png);
+
+    .hero-btn {
+        background-image: url(/assets/public/hire-contractors/hero-btn-bg.png);
+        background-size: 100% 100%;
+    }
+
+    .shaded-text {
+        background: linear-gradient(90deg, #4949FC 50%, #FFFFFF 130%);
+        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text;
+    }
+}
+
+.build-app-btn {
+    background-image: url(/assets/public/hire-contractors/hero-btn-bg.png);
+    background-size: 100% 100%;
+}
+
+.achievement-sec {
+    @apply grid 6xl:gap-12 gap-5 mt-8 4xl:grid-cols-5 xl:grid-cols-3 grid-cols-2 justify-between items-center 2xl:flex-row flex-col gap-y-5 py-6 overflow-auto relative 4xl:before:content-[''] before:content-none before:absolute before:inset-0 before:rounded-full before:p-[1px];
+
+    &:before {
+        background: linear-gradient(91.19deg, #000000 12.46%, rgba(0, 0, 0, 0) 100.28%);
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+    }
+
+    .shaded-text {
+        background: linear-gradient(110.93deg, #4949FC -1.39%, #000000 93.3%);
+        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text;
+    }
+}
+
+// Solution Architect Section
+.steps-sec {
+    background-image: url(/assets/public/hire-contractors/steps-sec/bg-circle.png);
+    border: 1.5px solid #FFFFFF;
+
+    .card-box {
+        background-image: url(/assets/public/generic-roles/erp-sol/erp-bg.png);
+        background-size: 100% 100%;
+    }
+}
+
+// Discover Elite Enterprise
+.elite-enterprise-bg {
+    background-image: url(/assets/public/hire-contractors/discover-elite-enterprise/card-bg.png);
+    background-size: 100% 100%;
+}
+
+.elite-enterprise-img,
+.elite-enterprise-text {
+    transition: all 0.5s;
+}
+
+.elite-enterprise-card:hover .elite-enterprise-img {
+    transform: translateX(50px);
+    transition: all 0.5s;
+}
+
+.elite-enterprise-card:hover .elite-enterprise-text {
+    transform: rotate(-90deg) translateY(50px);
+    transition: all 0.5s;
+}
+
+.elite-enterprise-card:hover .elite-enterprise-img-sec {
+    box-shadow: 0 -2px 50px -100px #4949FC inset;
+}
+
+.elite-enterprise-card:hover .elite-enterprise-logo-img {
+    box-shadow: 0 0px 20px 10px #4949FC;
+}
+
+.elite-enterprise-card:hover .elite-enterprise-bg {
+    box-shadow: 0 -80px 200px #9b9bff;
+}
+
+// Build Enterprise Apps Teams
+.app-teams {
+    background-image: url(/assets/public/hire-contractors/build-enterprise-apps/bg-img.png);
+}

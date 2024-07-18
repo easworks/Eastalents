@@ -1,0 +1,22 @@
+// ERP services
+.erp-operations {
+    background-image: url(/assets/public/hire-contractors/erp-bg.png);
+}
+
+.view-more {
+    @apply relative text-sm flex items-center text-primary-500 px-4 mt-5 rounded-full hover:hover:text-white hover:duration-500 before:content-[''] before:absolute before:inset-0 before:rounded-xl before:p-[1px];
+
+    &:before {
+        background: linear-gradient(95.23deg, #4B4BF0 28.56%, #F34A02 100%);
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+    }
+}
+
+.logo-sec-bg {
+    background-image: url(/assets/public/home/erp-operations/logo-sec-bg.png);
+    background-size: 100% 100%;
+}

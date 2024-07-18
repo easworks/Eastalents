@@ -3,10 +3,10 @@ import { Component } from '@angular/core';
 
 @Component({
   standalone: true,
-  selector: 'service-type-hiring-steps-section',
-  templateUrl: './hiring-steps.section.html',
-  styleUrl: './hiring-steps.section.less',
+  selector: 'service-type-hero-section',
+  styleUrl: './hero.section.less',
+  templateUrl: './hero.section.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: []
 })
-export class ServiceTypeHiringStepsSectionComponent { } 
+export class ServiceTypeHeroSectionComponent { }
