@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, Routes } from '@angular/router';
 import { HelpCategory, HelpCenterService } from '@easworks/app-shell/services/help';
+import { firstValueFrom } from 'rxjs';
 
 export const HELP_CENTER_ROUTES: Routes = [
   {
@@ -57,7 +58,7 @@ export const HELP_CENTER_ROUTES: Routes = [
         const catKey = ensureParameter('category', route);
         const gKey = ensureParameter('group', route);
 
-        const categories = await service.getCategories();
+        const categories = await firstValueFrom(service.getCategories());
 
         const category = categories.find(c => c.slug === catKey);
         if (!category) {
@@ -65,7 +66,7 @@ export const HELP_CENTER_ROUTES: Routes = [
           throw new Error('not found');
         }
 
-        category.groups = await service.getGroups(catKey);
+        category.groups = await firstValueFrom(service.getGroups(catKey));
 
         const group = category.groups.find(g => g.slug === gKey);
         if (!group) {
