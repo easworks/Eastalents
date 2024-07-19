@@ -1,22 +1,22 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ContactUsRequest } from '@easworks/models/contact-us';
 import { pattern } from '@easworks/models/pattern';
+import { finalize } from 'rxjs';
 import { ContactUsApi } from '../../api/contact-us';
 import { Country, CSCApi } from '../../api/csc.api';
 import { SnackbarComponent } from '../../notification/snackbar';
 import { generateLoadingState } from '../../state/loading';
 import { sortString } from '../../utilities/sort';
 import { DropDownIndicatorComponent } from '../drop-down-indicator.component';
-import { controlValue$ } from '../form-field.directive';
 import { FormImportsModule } from '../form.imports.module';
 import { ImportsModule } from '../imports.module';
-import { filterCountryCode, getPhoneCodeOptions, PhoneCodeOption, updatePhoneValidatorEffect } from '../phone-code';
+import { getPhoneCodeOptions, PhoneCodeOption, updatePhoneValidatorEffect } from '../phone-code';
 import { ContactFormAcknowledgementComponent } from './acknowledgement.snackbar';
+import { PhoneNumberInputComponent } from './phone-number-input/phone-number-input.component';
 
 @Component({
   standalone: true,
@@ -28,7 +28,8 @@ import { ContactFormAcknowledgementComponent } from './acknowledgement.snackbar'
     FormImportsModule,
     DropDownIndicatorComponent,
     MatAutocompleteModule,
-    MatSelectModule
+    MatSelectModule,
+    PhoneNumberInputComponent
   ]
 })
 export class ContactFormComponent {
@@ -59,8 +60,8 @@ export class ContactFormComponent {
         nonNullable: true
       }),
       phoneNumber: new FormGroup({
-        code: new FormControl(''),
-        number: new FormControl('')
+        code: new FormControl('', { nonNullable: true }),
+        number: new FormControl('', { nonNullable: true }),
       }, {
         updateOn: 'change'
       }),
@@ -76,18 +77,10 @@ export class ContactFormComponent {
       updateOn: 'submit'
     });
 
-    const values = {
-      code$: toSignal(controlValue$(form.controls.phoneNumber.controls.code), { requireSync: true })
-    } as const;
-
     updatePhoneValidatorEffect(form.controls.phoneNumber);
 
     const allOptions = {
-      countryCodes$: signal<PhoneCodeOption[]>([])
-    } as const;
-
-    const filteredOptions = {
-      code$: filterCountryCode(allOptions.countryCodes$, values.code$),
+      countryCodes$: signal<PhoneCodeOption[]>([]),
       subject: SUBJECT_OPTIONS
     } as const;
 
@@ -121,22 +114,24 @@ export class ContactFormComponent {
         message: v.message || null
       };
 
-      try {
-        await this.api.contactUs.create(input);
-        ContactFormAcknowledgementComponent.open(this.snackbar);
-      }
-      catch (e) {
-        SnackbarComponent.forError(this.snackbar, e);
-      }
-      finally {
-        this.loading.delete('submitting');
-
-      }
+      this.api.contactUs.create(input)
+        .pipe(
+          finalize(() => {
+            this.loading.delete('submitting');
+          })
+        ).subscribe({
+          next: () => {
+            ContactFormAcknowledgementComponent.open(this.snackbar);
+          },
+          error: (e) => {
+            SnackbarComponent.forError(this.snackbar, e);
+          }
+        });
     };
 
     return {
       form,
-      options: filteredOptions,
+      options: allOptions,
       submit,
       submitting$: this.loading.has('submitting')
     } as const;

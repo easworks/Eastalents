@@ -42,18 +42,15 @@ export function getPhoneCodeOptions(countries: Country[]) {
   return mapped;
 }
 
-export function filterCountryCode(all$: Signal<PhoneCodeOption[]>, value$: Signal<Country | string>) {
+export function filterCountryCode(all$: Signal<PhoneCodeOption[]>, query$: Signal<string>) {
   const index$ = computed(() => new Fuse(all$(), {
     keys: ['code']
   }));
 
   return computed(() => {
-    let q = value$();
-    if (typeof q === 'string') {
-      q = q.trim();
-      if (q)
-        return index$().search(q).map(r => r.item);
-    }
+    const q = query$().trim();
+    if (q)
+      return index$().search(q).map(r => r.item);
 
     return all$();
 
@@ -61,7 +58,7 @@ export function filterCountryCode(all$: Signal<PhoneCodeOption[]>, value$: Signa
 }
 
 export type PhoneCodeForm = FormGroup<{
-  code: FormControl<Country | string>;
+  code: FormControl<string>;
   number: FormControl<string>;
 }>;
 const telPattern = Validators.pattern(pattern.telephone);
