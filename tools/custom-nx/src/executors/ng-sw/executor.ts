@@ -5,7 +5,7 @@ import { getSwBuildConfig, NgSwBuildOptions } from './build';
 import { NgSwExecutorSchema } from './schema';
 import { extractManifest, mergeMetaFiles } from './process-meta-files';
 
-const swPluginPath = 'tools/esbuild/service-worker.plugin.ts';
+const swPluginPath = 'tools/custom-nx/src/executors/ng-sw/service-worker.plugin.ts';
 
 async function* ngServiceWorkerBuilder(
   options: NgSwExecutorSchema,
