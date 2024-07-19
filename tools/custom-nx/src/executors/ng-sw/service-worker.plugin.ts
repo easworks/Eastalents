@@ -1,7 +1,7 @@
 import { Plugin } from 'esbuild';
 import * as path from 'path';
-import { getSwBuildConfig } from '../custom-nx/src/executors/ng-sw/build';
-import { extractManifest, mergeMetaFiles } from '../custom-nx/src/executors/ng-sw/process-meta-files';
+import { getSwBuildConfig } from './build';
+import { extractManifest, mergeMetaFiles } from './process-meta-files';
 
 export interface ServiceWorkerPluginOptions {
   src: string,
@@ -18,7 +18,7 @@ export default async function serviceWorkerPlugin(config: ServiceWorkerPluginOpt
       if (options.platform !== 'browser')
         return;
 
-      options.define['__SW_URL'] = `'/${config.destination}.js'`;
+      options.define!['__SW_URL'] = `'/${config.destination}.js'`;
 
       build.onEnd(async (result) => {
         if (result.errors.length) return;
@@ -26,7 +26,7 @@ export default async function serviceWorkerPlugin(config: ServiceWorkerPluginOpt
         if (!result.metafile || !result.outputFiles) return;
 
         const metafile = result.metafile;
-        const main = path.relative(options.absWorkingDir!, options.entryPoints!['main'])
+        const main = path.relative(options.absWorkingDir!, (options.entryPoints as Record<string, string>)['main'])
           .replace(/\\/g, '/');
 
         const manifest = extractManifest(main, metafile);
@@ -35,16 +35,16 @@ export default async function serviceWorkerPlugin(config: ServiceWorkerPluginOpt
           ...getSwBuildConfig(
             config,
             manifest,
-            options.define.ngDevMode
+            options.define!['ngDevMode']
           ),
           absWorkingDir: options.absWorkingDir,
           outdir: options.outdir,
           sourcemap: options.sourcemap
         });
 
-        result.metafile = mergeMetaFiles(swBuild.metafile, result.metafile);
+        result.metafile = mergeMetaFiles(swBuild.metafile!, result.metafile);
 
-        result.outputFiles.push(...swBuild.outputFiles);
+        result.outputFiles.push(...swBuild.outputFiles!);
       });
     }
   };

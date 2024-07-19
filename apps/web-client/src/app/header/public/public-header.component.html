@@ -43,6 +43,11 @@
     <fa-icon [icon]="icons.faHighTechFourLeaf" class="text-primary-400 hover:text-white focus:text-white 
       text-3xl leading-none"></fa-icon>
   </button>
+  <button class="icon-button text-red-500" mat-ripple
+          [class.hidden]="sw.hidden$()" (click)="sw.update()"
+          matTooltip="Site Update Available">
+    <fa-icon [icon]="icons.faCircleArrowUp"></fa-icon>
+  </button>
 </div>
 
 <!-- right-side elements -->

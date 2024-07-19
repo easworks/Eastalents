@@ -43,7 +43,7 @@
         "statsJson": true,
         "plugins": [
           {
-            "path": "tools/esbuild/service-worker.plugin.ts",
+            "path": "tools/custom-nx/src/executors/ng-sw/service-worker.plugin.ts",
             "options": {
               "src": "apps/web-client/src/service-worker/sw.worker.ts",
               "destination": "eastalents-web-client.sw",
