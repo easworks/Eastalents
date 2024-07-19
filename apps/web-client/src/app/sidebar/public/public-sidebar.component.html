@@ -1,7 +1,7 @@
-@if (showPublicMenu$()) {
+@if (showDynamicItems$()) {
 <nav class="public-menu">
   <ul class="grid">
-    @for(item of publicItems$(); track item) {
+    @for(item of dynamicItems$(); track item) {
 
     @if (item.children?.length) {
     <li class="has-submenu" #listItem>
@@ -42,10 +42,10 @@
 
 <nav>
   <ul>
-    @for(item of staticItems$(); track item) {
+    @for(item of staticItems; track item) {
     <li>
       <a class="p-2 px-4 block rounded hover:bg-slate-500/10 focus:bg-slate-500/10"
-         [routerLink]="item.link" [fragment]="item.fragment">
+         [routerLink]="item.link">
         <span>{{item.text}}</span>
       </a>
     </li>
@@ -58,10 +58,10 @@
 <nav>
   <p class="text-lg m-0">About Us</p>
   <ul class="mt-2">
-    @for(item of aboutItems$(); track item) {
+    @for(item of aboutItems; track item) {
     <li>
       <a class="p-2 px-4 block rounded hover:bg-slate-500/10 focus:bg-slate-500/10"
-         [routerLink]="item.link" [fragment]="item.fragment">
+         [routerLink]="item.link">
         <span>{{item.text}}</span>
       </a>
     </li>
@@ -81,8 +81,8 @@
 <div>
   <p>Follow Us</p>
   <div class="flex gap-2">
-    @for (item of socialItems$(); track item) {
-    <a class="icon-button" [routerLink]="item.link" [fragment]="item.fragment" mat-ripple>
+    @for (item of socialItems; track item) {
+    <a class="icon-button" [routerLink]="item.link" mat-ripple>
       <fa-icon [icon]="item.icon!"></fa-icon>
     </a>
     }
