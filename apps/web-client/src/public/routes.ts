@@ -1,10 +1,11 @@
+import { HttpClient } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { HelpCenterService } from '@easworks/app-shell/services/help';
 import { COMPANY_TYPE_DATA } from './company-type/data';
+import { HELP_CENTER_ROUTES } from './help-center/routes';
 import { GENERIC_SERVICE_TYPE_DATA, GenericTeamServiceID } from './service-type/data';
 import { USE_CASE_DATA } from './use-cases/data';
-import { inject } from '@angular/core';
-import { HelpCenterService } from '@easworks/app-shell/services/help';
-import { HttpClient } from '@angular/common/http';
 
 export const PUBLIC_ROUTES: Routes = [
   {
@@ -114,7 +115,7 @@ export const PUBLIC_ROUTES: Routes = [
       }
     }
   },
-  // ...HELP_CENTER_ROUTES,
+  ...HELP_CENTER_ROUTES,
   {
     path: 'about-us',
     pathMatch: 'full',
