@@ -5,7 +5,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ContactUsRequest } from '@easworks/models/contact-us';
 import { pattern } from '@easworks/models/pattern';
-import { finalize } from 'rxjs';
+import { finalize, firstValueFrom } from 'rxjs';
 import { ContactUsApi } from '../../api/contact-us';
 import { Country, CSCApi } from '../../api/csc.api';
 import { SnackbarComponent } from '../../notification/snackbar';
@@ -17,6 +17,7 @@ import { ImportsModule } from '../imports.module';
 import { getPhoneCodeOptions, PhoneCodeOption, updatePhoneValidatorEffect } from '../phone-code';
 import { ContactFormAcknowledgementComponent } from './acknowledgement.snackbar';
 import { PhoneNumberInputComponent } from './phone-number-input/phone-number-input.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -43,7 +44,7 @@ export class ContactFormComponent {
     country: (_: number, c: Country) => c.iso2,
   } as const;
 
-  private readonly allCountries = this.api.csc.allCountries();
+  private readonly allCountries = firstValueFrom(this.api.csc.allCountries().pipe(takeUntilDestroyed()));
   protected readonly loading = generateLoadingState<[
     'countries',
     'submitting'
@@ -118,7 +119,8 @@ export class ContactFormComponent {
         .pipe(
           finalize(() => {
             this.loading.delete('submitting');
-          })
+          }),
+          takeUntilDestroyed()
         ).subscribe({
           next: () => {
             ContactFormAcknowledgementComponent.open(this.snackbar);

@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { forkJoin, map, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -6,25 +8,33 @@ import { Injectable } from '@angular/core';
 export class HelpCenterService {
   private readonly assets = '/assets/pages/help-center/content';
 
-  async getCategories() {
-    return fetch(`${this.assets}/all.json`)
-      .then(r => r.json() as Promise<HelpCategory[]>);
+  private readonly http = inject(HttpClient);
+
+  getCategories() {
+    return this.http.get<HelpCategory[]>(`${this.assets}/all.json`);
   }
 
-  async getGroups(category: string, hydrate = false) {
-    const all = await fetch(`${this.assets}/${category}/all.json`)
-      .then(r => r.json() as Promise<HelpGroup[]>);
+  getGroups(category: string, hydrate = false) {
+    let all = this.http.get<HelpGroup[]>(`${this.assets}/${category}/all.json`);
 
     if (hydrate)
-      await Promise.all(all.map(g => this.hydrateGroup(category, g)));
+      all = all.pipe(
+        switchMap(all =>
+          forkJoin(all.map(g => this.hydrateGroup(category, g))).pipe(
+            map(() => all))
+        )
+      );
 
     return all;
   }
 
-  async hydrateGroup(category: string, group: HelpGroup) {
-    const d = await fetch(`${this.assets}/${category}/${group.slug}.json`)
-      .then(r => r.json());
-    group.items.forEach(i => Object.assign(i, d[i.slug]));
+  hydrateGroup(category: string, group: HelpGroup) {
+    return this.http.get<any>(`${this.assets}/${category}/${group.slug}.json`)
+      .pipe(
+        map(d => {
+          group.items.forEach(i => Object.assign(i, d[i.slug]));
+        }));
+    ;
   }
 }
 

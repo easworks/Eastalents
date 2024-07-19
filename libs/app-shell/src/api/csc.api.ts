@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { isBrowser } from '../utilities/platform-type';
 
 @Injectable({
@@ -17,18 +17,16 @@ export class CSCApi {
   private readonly isBrowser = isBrowser();
 
 
-  async allCountries() {
+  allCountries() {
     if (!this.isBrowser)
-      return [];
+      return of([]);
 
     const url = `${this.apiUrl}/countries`;
 
-    const countries = await firstValueFrom(this.http.get<Country[]>(url, { headers: this.headers }));
+    const countries = this.http.get<Country[]>(url, { headers: this.headers });
 
 
-    const details = await Promise.all(countries.map(c => this.countryDetails(c.iso2)));
-
-    return details;
+    return countries;
   }
 
   async allTimezones() {
