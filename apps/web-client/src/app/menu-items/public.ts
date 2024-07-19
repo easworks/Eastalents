@@ -137,8 +137,8 @@ export const PUBLIC_MENU = new InjectionToken('PUBLIC_MENU', {
         case 'md':
         case 'lg':
         case 'xl':
-        case '2xl': return 'vertical';
-        case '3xl':
+        case '2xl':
+        case '3xl': return 'vertical';
         case '4xl':
         case '5xl': return 3;
         case '6xl':

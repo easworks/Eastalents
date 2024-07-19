@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
-import { publicMenu } from '../../menu-items/public';
-import { RouterModule } from '@angular/router';
-import { MatDividerModule } from '@angular/material/divider';
-import { faHighTechFourLeaf } from 'custom-icons';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ChangeDetectionStrategy, Component, computed, HostBinding, inject } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
-import { Store } from '@ngrx/store';
+import { MatDividerModule } from '@angular/material/divider';
+import { RouterModule } from '@angular/router';
 import { sidebarActions } from '@easworks/app-shell/state/ui';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { Store } from '@ngrx/store';
+import { faHighTechFourLeaf } from 'custom-icons';
+import { PUBLIC_MENU } from '../../menu-items/public';
 
 @Component({
   standalone: true,
@@ -31,7 +31,9 @@ export class AppPublicHeaderComponent {
     faHighTechFourLeaf
   } as const;
 
-  protected readonly menuItems = publicMenu.main;
+  private readonly publicMenu$ = inject(PUBLIC_MENU);
+
+  protected readonly menuItems$ = computed(() => this.publicMenu$().horizontal);
 
   protected toggleSidebar() {
     this.store.dispatch(sidebarActions.toggleExpansion());
