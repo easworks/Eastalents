@@ -1,7 +1,7 @@
-import { Injectable, InjectionToken, inject } from '@angular/core';
+import { Injectable, InjectionToken, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Title } from '@angular/platform-browser';
-import { ActivationEnd, Router } from '@angular/router';
+import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRouteSnapshot, ActivationEnd, Router } from '@angular/router';
 import { map } from 'rxjs';
 
 export interface DefaultSeoConfig {
@@ -9,6 +9,12 @@ export interface DefaultSeoConfig {
   baseTitle?: string;
   /** Default Page description */
   defaultDescription?: string;
+}
+
+export interface PageMetadata {
+  title?: string;
+  description?: string;
+  canonicalUrl?: string;
 }
 
 export const SEO_DEFAULT_CONFIG = new InjectionToken<DefaultSeoConfig>('SEO_DEFAULT_CONFIG: Site-wide title used to build the page title');
@@ -20,98 +26,71 @@ export class SEOService {
 
   private readonly defaultConfig = inject(SEO_DEFAULT_CONFIG, { optional: true });
   private readonly platformTitle = inject(Title);
+  private readonly meta = inject(Meta);
   private readonly router = inject(Router);
 
+  private readonly title$ = signal(null as string | null);
+  private readonly description$ = signal(null as string | null);
+
   constructor() {
+    this.updateTitleOnChange();
+    this.updateDescriptionOnChange();
+
+    this.listenToRouterEvents();
+  }
+
+  private updateTitleOnChange() {
+    effect(() => {
+      let title = this.title$();
+      if (title) {
+        if (this.defaultConfig?.baseTitle) {
+          title = title + ` | ${this.defaultConfig.baseTitle}`;
+        }
+      }
+      else
+        title = this.defaultConfig?.baseTitle ?? null;
+
+      this.platformTitle.setTitle(title || '');
+    });
+  }
+
+  private updateDescriptionOnChange() {
+    effect(() => {
+      let description = this.description$();
+      if (!description)
+        description = this.defaultConfig?.defaultDescription || '';
+      this.meta.updateTag({
+        name: 'description',
+        content: description,
+      });
+    });
+  }
+
+  private listenToRouterEvents() {
     this.router.events.pipe(
       map(event => {
         if (event instanceof ActivationEnd) {
           const snap = (event as ActivationEnd).snapshot;
-          if (snap.component) {
-            const config = snap.data?.['seo'] ?
-              typeof snap.data['seo'] === 'function' ?
-                snap.data['seo'](snap) : snap.data['seo']
-              : null;
-            this.canonicalUrl = config?.canonical?.(snap) || null;
-            this.title = config?.title?.(snap) || null;
-            this.description = config?.description?.(snap) || null;
-          }
+          const config = getSeoConfig(snap);
+          this.title$.set(config?.title || null);
+          this.description$.set(config?.description || null);
         }
       }),
       takeUntilDestroyed(),
     ).subscribe();
   }
+}
 
-  private _title: string | null = null;
-
-  get title() {
-    return this._title;
-  }
-
-  set title(newTitle: string | null) {
-    this._title = newTitle;
-    this.platformTitle.setTitle(this.formatTitle() ?? '');
-  }
-
-  private get canonicalLinkTag() {
-    return document.head.querySelector('link[rel=canonical]') as HTMLLinkElement;
-  }
-
-  set canonicalUrl(value: string) {
-
-    if (value) {
-      if (value.startsWith('/')) {
-        value = `${location.protocol}//${location.host}${value}`;
+function getSeoConfig(snap: ActivatedRouteSnapshot) {
+  if (snap.component) {
+    if ('meta' in snap.data) {
+      let config = snap.data['meta'];
+      if (typeof config === 'function') {
+        config = config(snap);
       }
-
-      let link = this.canonicalLinkTag;
-
-      if (link) {
-        link.href = value;
-      }
-      else {
-        link = document.createElement('link');
-        link.rel = 'canonical';
-        link.href = value;
-
-        this.descriptionTag.insertAdjacentElement('afterend', link);
-      }
-    }
-    else {
-      this.canonicalLinkTag?.remove();
-      return;
+      return config as PageMetadata;
     }
   }
 
-  private get descriptionTag() {
-    const meta = document.head.querySelector<HTMLMetaElement>('meta[name=description]');
-    if (meta) {
-      return meta;
-    }
-    else {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const title = document.head.querySelector('title')!;
-      const meta = document.createElement('meta');
-      meta.name = 'description';
-      meta.content = this.defaultConfig?.defaultDescription ?? '';
-      title.insertAdjacentElement('afterend', meta);
-      return meta;
-    }
-  }
-
-  set description(newDescription: string) {
-    this.descriptionTag.setAttribute('content', newDescription?.length > 0 ? newDescription : (this.defaultConfig?.defaultDescription ?? ''));
-  }
-
-  private formatTitle() {
-    if (this.title) {
-      let t = this.title;
-      if (this.defaultConfig?.baseTitle) {
-        t = t + ` | ${this.defaultConfig.baseTitle}`;
-      }
-      return t;
-    }
-    else
-      return this.defaultConfig?.baseTitle ?? null;
-  }
+  return null;
 }
