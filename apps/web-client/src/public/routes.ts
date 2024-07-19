@@ -4,7 +4,6 @@ import { HelpCenterService } from '@easworks/app-shell/services/help';
 import { DomainState } from '@easworks/app-shell/state/domains';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { COMPANY_TYPE_DATA } from './company-type/data';
-import { GENERIC_ROLE_DATA } from './generic-role/data';
 import { HELP_CENTER_ROUTES } from './help-center/routes';
 import { GENERIC_SERVICE_TYPE_DATA, GenericTeamServiceID } from './service-type/data';
 import { USE_CASE_DATA } from './use-cases/data';
@@ -211,19 +210,9 @@ export const PUBLIC_ROUTES: Routes = [
   },
 
   {
-    path: 'generic-role/:GenericRole',
+    path: 'generic-role',
     pathMatch: 'full',
     loadComponent: () => import('./generic-role/generic-role.page').then(m => m.GenericRolePageComponent),
-    runGuardsAndResolvers: 'pathParamsChange',
-    resolve: {
-      GenericRole: (route: ActivatedRouteSnapshot) => {
-        const key = route.paramMap.get('GenericRole');
-        if (!key || !(key in GENERIC_ROLE_DATA))
-          throw new Error('invalid operation');
-
-        return GENERIC_ROLE_DATA[key];
-      }
-    }
   },
   {
     path: 'landing',
