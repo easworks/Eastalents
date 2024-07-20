@@ -1,10 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { HelpCenterService } from '@easworks/app-shell/services/help';
-import { COMPANY_TYPE_DATA } from './company-type/data';
-import { HELP_CENTER_ROUTES } from './help-center/routes';
-import { GENERIC_SERVICE_TYPE_DATA, GenericTeamServiceID } from './service-type/data';
+import { PageMetadata } from '@easworks/app-shell/services/seo';
 import { USE_CASE_DATA } from './use-cases/data';
 
 export const PUBLIC_ROUTES: Routes = [
@@ -115,7 +112,7 @@ export const PUBLIC_ROUTES: Routes = [
       }
     }
   },
-  ...HELP_CENTER_ROUTES,
+  // ...HELP_CENTER_ROUTES,
   {
     path: 'about-us',
     pathMatch: 'full',
@@ -124,90 +121,96 @@ export const PUBLIC_ROUTES: Routes = [
   {
     path: 'contact-us',
     pathMatch: 'full',
-    loadComponent: () => import('./contact-us/contact-us.page').then(m => m.ContactUsPageComponent)
+    loadComponent: () => import('./contact-us/contact-us.page').then(m => m.ContactUsPageComponent),
+    data: {
+      meta: {
+        title: 'Contact Us',
+        description: 'Random Description'
+      } satisfies PageMetadata
+    }
   },
-  {
-    path: 'code-of-conduct',
-    pathMatch: 'full',
-    loadComponent: () => import('./code-of-conduct/code-of-conduct.page').then(m => m.CodeOfConductPageComponent),
-    resolve: {
-      content: () => inject(HttpClient)
-        .get('/assets/pages/code-of-conduct/content.md', { responseType: 'text' })
+  // {
+  //   path: 'code-of-conduct',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./code-of-conduct/code-of-conduct.page').then(m => m.CodeOfConductPageComponent),
+  //   resolve: {
+  //     content: () => inject(HttpClient)
+  //       .get('/assets/pages/code-of-conduct/content.md', { responseType: 'text' })
 
-    }
-  },
-  {
-    path: 'cookie-policy',
-    pathMatch: 'full',
-    loadComponent: () => import('./cookie-policy/cookie-policy.page').then(m => m.CookiePolicyPageComponent),
-    resolve: {
-      content: () => inject(HttpClient)
-        .get('/assets/pages/cookie-policy/content.md', { responseType: 'text' })
-    }
-  },
-  {
-    path: 'data-processing-agreement',
-    pathMatch: 'full',
-    loadComponent: () => import('./data-processing-agreement/data-processing-agreement.page').then(m => m.DataProcessingAgreementPageComponent),
-    resolve: {
-      content: () => inject(HttpClient)
-        .get('/assets/pages/data-processing-agreement/content.md', { responseType: 'text' })
-    }
-  },
-  {
-    path: 'privacy-policy',
-    pathMatch: 'full',
-    loadComponent: () => import('./privacy-policy/privacy-policy.page').then(m => m.PrivacyPolicyPageComponent),
-    resolve: {
-      content: () => inject(HttpClient)
-        .get('/assets/pages/privacy-policy/content.md', { responseType: 'text' })
-    }
-  },
-  {
-    path: 'terms-of-use',
-    pathMatch: 'full',
-    loadComponent: () => import('./terms-of-use/terms-of-use.page').then(m => m.TermsOfUsePageComponent),
-    resolve: {
-      content: () => inject(HttpClient)
-        .get('/assets/pages/terms-of-use/content.md', { responseType: 'text' })
-    }
-  },
-  {
-    path: 'company-type/:CompanyType',
-    pathMatch: 'full',
-    loadComponent: () => import('./company-type/company-type.page').then(m => m.CompanyTypePageComponent),
-    runGuardsAndResolvers: 'pathParamsChange',
-    resolve: {
-      CompanyType: (route: ActivatedRouteSnapshot) => {
-        const key = route.paramMap.get('CompanyType');
-        if (!key || !(key in COMPANY_TYPE_DATA))
-          throw new Error('invalid operation');
+  //   }
+  // },
+  // {
+  //   path: 'cookie-policy',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./cookie-policy/cookie-policy.page').then(m => m.CookiePolicyPageComponent),
+  //   resolve: {
+  //     content: () => inject(HttpClient)
+  //       .get('/assets/pages/cookie-policy/content.md', { responseType: 'text' })
+  //   }
+  // },
+  // {
+  //   path: 'data-processing-agreement',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./data-processing-agreement/data-processing-agreement.page').then(m => m.DataProcessingAgreementPageComponent),
+  //   resolve: {
+  //     content: () => inject(HttpClient)
+  //       .get('/assets/pages/data-processing-agreement/content.md', { responseType: 'text' })
+  //   }
+  // },
+  // {
+  //   path: 'privacy-policy',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./privacy-policy/privacy-policy.page').then(m => m.PrivacyPolicyPageComponent),
+  //   resolve: {
+  //     content: () => inject(HttpClient)
+  //       .get('/assets/pages/privacy-policy/content.md', { responseType: 'text' })
+  //   }
+  // },
+  // {
+  //   path: 'terms-of-use',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./terms-of-use/terms-of-use.page').then(m => m.TermsOfUsePageComponent),
+  //   resolve: {
+  //     content: () => inject(HttpClient)
+  //       .get('/assets/pages/terms-of-use/content.md', { responseType: 'text' })
+  //   }
+  // },
+  // {
+  //   path: 'company-type/:CompanyType',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./company-type/company-type.page').then(m => m.CompanyTypePageComponent),
+  //   runGuardsAndResolvers: 'pathParamsChange',
+  //   resolve: {
+  //     CompanyType: (route: ActivatedRouteSnapshot) => {
+  //       const key = route.paramMap.get('CompanyType');
+  //       if (!key || !(key in COMPANY_TYPE_DATA))
+  //         throw new Error('invalid operation');
 
-        return COMPANY_TYPE_DATA[key];
-      }
-    }
-  },
+  //       return COMPANY_TYPE_DATA[key];
+  //     }
+  //   }
+  // },
   {
     path: 'service-type/hire-contractors',
     pathMatch: 'full',
     loadComponent: () => import('./service-type/hire-contractors/hire-contractors.page')
       .then(m => m.HireContractorsPageComponent)
   },
-  {
-    path: 'service-type/:ServiceType',
-    pathMatch: 'full',
-    loadComponent: () => import('./service-type/service-type.page').then(m => m.ServiceTypePageComponent),
-    runGuardsAndResolvers: 'pathParamsChange',
-    resolve: {
-      ServiceType: (route: ActivatedRouteSnapshot) => {
-        const key = route.paramMap.get('ServiceType') as GenericTeamServiceID;
-        if (!key || !(key in GENERIC_SERVICE_TYPE_DATA))
-          throw new Error('invalid operation');
+  // {
+  //   path: 'service-type/:ServiceType',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./service-type/service-type.page').then(m => m.ServiceTypePageComponent),
+  //   runGuardsAndResolvers: 'pathParamsChange',
+  //   resolve: {
+  //     ServiceType: (route: ActivatedRouteSnapshot) => {
+  //       const key = route.paramMap.get('ServiceType') as GenericTeamServiceID;
+  //       if (!key || !(key in GENERIC_SERVICE_TYPE_DATA))
+  //         throw new Error('invalid operation');
 
-        return GENERIC_SERVICE_TYPE_DATA[key];
-      }
-    }
-  },
+  //       return GENERIC_SERVICE_TYPE_DATA[key];
+  //     }
+  //   }
+  // },
 
   {
     path: 'generic-role',
