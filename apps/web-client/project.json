@@ -175,10 +175,7 @@
           "commands": [
             "cp apps/web-client/docker/compose.development.yml dist/docker/web-client/compose.yml",
             "cd dist/docker/web-client && docker compose up -d --build"
-          ],
-          "env": {
-            "PORT": "5101"
-          }
+          ]
         },
         "production": {
           "commands": [

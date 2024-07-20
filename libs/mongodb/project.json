@@ -1,0 +1,35 @@
+{
+  "name": "mongodb",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/mongodb/src",
+  "prefix": "lib",
+  "tags": [],
+  "projectType": "library",
+  "targets": {
+    "prep-deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "mkdir -p dist/docker/mongodb",
+          "cp libs/mongodb/docker/compose.extend.yml dist/docker/mongodb"
+        ],
+        "parallel": false
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "parallel": false
+      },
+      "configurations": {
+        "local": {
+          "commands": [
+            "cp libs/mongodb/docker/compose.development.yml dist/docker/mongodb/compose.yml",
+            "cd dist/docker/mongodb && docker compose up -d --build"
+          ]
+        }
+      },
+      "dependsOn": ["prep-deploy"]
+    }
+  }
+}
