@@ -93,6 +93,7 @@
     "chart.js": "^4.4.3",
     "chartjs-plugin-datalabels": "^2.2.0",
     "fastify": "^4.28.1",
+    "fastify-plugin": "^4.5.1",
     "fastify-socket.io": "^5.0.0",
     "fuse.js": "^7.0.0",
     "hastscript": "^8.0.0",

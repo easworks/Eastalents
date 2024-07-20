@@ -1,11 +1,12 @@
 import { ErrorWithMetadata, ProblemDetails } from '@easworks/models/problem-details';
 import { FastifyPluginAsync } from 'fastify';
+import { fastifyPlugin } from 'fastify-plugin';
 import { ZodError } from 'zod';
 import { ValidationFailed } from '../errors/definitions';
 
 const contentType = 'application/problem+json';
 
-export const useProblemDetailsGlobally: FastifyPluginAsync = async (server) => {
+const pluginImpl: FastifyPluginAsync = async (server) => {
   server.setErrorHandler(async (err, req, reply) => {
 
     const problemDetails = (() => {
@@ -24,3 +25,6 @@ export const useProblemDetailsGlobally: FastifyPluginAsync = async (server) => {
       .send(problemDetails);
   });
 };
+
+// need to do this, else the error handler is set on a child context;
+export const useProblemDetailsGlobally = fastifyPlugin(pluginImpl);

@@ -1,7 +1,7 @@
 
 export interface Environment {
   development: boolean;
-  port?: number;
+  port: number;
   authHost?: string;
 }
 

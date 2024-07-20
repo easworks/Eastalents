@@ -40,12 +40,7 @@ async function configureServer(server: FastifyInstance) {
 
 export async function startServer() {
   const host = '0.0.0.0';
-  const port = (() => {
-    const p = process.env['PORT'];
-    if (!p)
-      throw new Error(`'PORT' not specified`);
-    return Number.parseInt(p);
-  })();
+  const port = Number.parseInt(process.env['PORT'] as string);
 
   const server = await initServer();
 
