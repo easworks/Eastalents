@@ -1,0 +1,13 @@
+name: eas-production
+
+services:
+  web-client:
+    extends:
+      file: compose.extend.yml
+      service: web-client
+    networks:
+      - eas-production
+
+networks:
+  eas-development:
+    name: eas-production
