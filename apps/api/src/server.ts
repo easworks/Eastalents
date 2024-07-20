@@ -2,7 +2,6 @@ import fastifyCors from '@fastify/cors';
 import { fastify, FastifyInstance } from 'fastify';
 import { useProblemDetailsGlobally } from 'server-side/utils/fastify-problem-details';
 import { getLoggerOptions } from 'server-side/utils/logging';
-import { printRoutes } from 'server-side/utils/print-routes.plugin';
 import { environment } from './environment';
 import { handlers } from './handlers';
 
@@ -24,8 +23,6 @@ async function configureServer(server: FastifyInstance) {
   await server.register(fastifyCors, {
     origin: true
   });
-
-  await server.register(printRoutes);
 
   await server.register(handlers);
 }

@@ -1,0 +1,13 @@
+name: eas-development
+
+services:
+  api:
+    extends:
+      file: compose.extend.yml
+      service: api
+    networks:
+      - eas-development
+
+networks:
+  eas-development:
+    name: eas-development

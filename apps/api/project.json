@@ -62,6 +62,46 @@
       "options": {
         "jestConfig": "apps/api/jest.config.ts"
       }
+    },
+    "prep-deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx build api",
+          "cd dist/apps/api && pnpm i --lockfile-only",
+          "mkdir -p dist/docker/api",
+          "tar -czf dist/docker/api/dist.tar.gz -C dist/apps api",
+          "cp apps/api/docker/dockerfile dist/docker/api",
+          "cp apps/api/docker/compose.extend.yml dist/docker/api"
+        ],
+        "parallel": false
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "args": ["--remote=root@216.225.201.134"],
+        "commands": [],
+        "forwardAllArgs": false,
+        "parallel": false
+      },
+      "configurations": {
+        "local": {
+          "commands": [
+            "cp apps/api/docker/compose.development.yml dist/docker/api/compose.yml",
+            "cd dist/docker/api && docker compose up -d --build"
+          ]
+        },
+        "development": {
+          "commands": [
+            "cp apps/api/docker/compose.development.yml dist/docker/api/compose.yml",
+            "scp -r dist/docker/api {args.remote}:~/development",
+            "ssh {args.remote} 'cd ~/development/api && docker compose up -d --build'"
+          ]
+        }
+      },
+      "defaultConfiguration": "development",
+      "dependsOn": ["prep-deploy"]
     }
   }
 }
