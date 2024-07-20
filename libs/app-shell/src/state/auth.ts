@@ -1,4 +1,4 @@
-import { UserWithToken } from '@easworks/models';
+import { UserWithToken } from '@easworks/models/user';
 import { PermissionDefinitionDTO, extractPermissionList } from '@easworks/models/permission-record';
 import { createActionGroup, createFeature, createReducer, createSelector, on, props } from '@ngrx/store';
 import { produce } from 'immer';

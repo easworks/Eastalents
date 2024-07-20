@@ -1,7 +1,7 @@
 import { Signal, computed, effect } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { pattern } from '@easworks/models';
+import { pattern } from '@easworks/models/pattern';
 import Fuse from 'fuse.js';
 import { Country } from '../api/csc.api';
 import { controlValue$ } from './form-field.directive';

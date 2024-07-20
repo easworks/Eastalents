@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { ContactUsRequest } from '@easworks/models';
+import { ContactUsRequest } from '@easworks/models/contact-us';
 import { BackendApi } from './backend';
 
 @Injectable({

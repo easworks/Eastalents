@@ -1,5 +1,5 @@
 import { effect, inject, INJECTOR } from '@angular/core';
-import { UserWithToken } from '@easworks/models';
+import { UserWithToken } from '@easworks/models/user';
 import { createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { EMPTY, fromEvent, of, tap } from 'rxjs';
