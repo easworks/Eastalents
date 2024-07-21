@@ -1,6 +1,7 @@
 import fastifyCors from '@fastify/cors';
 import { fastify, FastifyInstance } from 'fastify';
 import { useProblemDetailsGlobally } from 'server-side/utils/fastify-problem-details';
+import { useZodValidation } from 'server-side/utils/fastify-zod';
 import { getLoggerOptions } from 'server-side/utils/logging';
 import { environment } from './environment';
 import { handlers } from './handlers';
@@ -20,6 +21,7 @@ async function initServer() {
 async function configureServer(server: FastifyInstance) {
 
   await server.register(useProblemDetailsGlobally);
+  await server.register(useZodValidation);
 
   await server.register(fastifyCors, {
     origin: true
