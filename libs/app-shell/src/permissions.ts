@@ -1,5 +1,5 @@
-import { PermissionDefinitionDTO, extractPermissionList, permissionHeirarchy } from '@easworks/models/permission-record';
-import { Role } from '@easworks/models/role';
+import { PermissionDefinitionDTO, extractPermissionList, permissionHeirarchy } from 'models/permission-record';
+import { Role } from 'models/role';
 
 export const PERMISSION_DEF_DTO: PermissionDefinitionDTO = [
   ['role', ['freelancer', 'employer', 'admin']],
