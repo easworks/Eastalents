@@ -6,3 +6,4 @@ services:
       - ${PORT:?}:4200
     environment:
       - PORT=4200
+      - MONGODB

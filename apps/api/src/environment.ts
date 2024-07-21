@@ -1,8 +1,9 @@
-import { Environment } from 'server-side/environment';
+import { Environment, parseEnv } from 'server-side/environment';
 
 const devMode = process.env['NODE_ENV'] !== 'production';
 
-export const environment: Environment = {
+export const environment = {
   development: devMode,
-  port: Number.parseInt(process.env['PORT'] as string)
-} as const;
+  port: Number.parseInt(process.env['PORT'] as string),
+  mongodb: parseEnv.mongodb()
+} as const satisfies Environment;

@@ -103,6 +103,7 @@
     "lodash-es": "^4.17.21",
     "luxon": "^3.4.4",
     "mime": "^4.0.4",
+    "mongodb": "^6.8.0",
     "nanoid": "^5.0.7",
     "pino-pretty": "^11.2.1",
     "rehype-highlight": "^7.0.0",
