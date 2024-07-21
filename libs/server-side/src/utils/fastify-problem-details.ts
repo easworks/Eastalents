@@ -1,4 +1,4 @@
-import { ErrorWithMetadata, ProblemDetails } from '@easworks/models/problem-details';
+import { ErrorWithMetadata, ProblemDetails } from 'models/problem-details';
 import { FastifyPluginAsync } from 'fastify';
 import { fastifyPlugin } from 'fastify-plugin';
 import { ZodError } from 'zod';
