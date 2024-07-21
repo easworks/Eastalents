@@ -4,7 +4,7 @@ import { useProblemDetailsGlobally } from 'server-side/utils/fastify-problem-det
 import { getLoggerOptions } from 'server-side/utils/logging';
 import { environment } from './environment';
 import { handlers } from './handlers';
-import { mongo } from './mongodb';
+import { easMongo } from './mongodb';
 
 async function initServer() {
   const options = {};
@@ -25,7 +25,7 @@ async function configureServer(server: FastifyInstance) {
     origin: true
   });
 
-  await mongo.connect();
+  await easMongo.client.connect();
 
   await server.register(handlers);
 }
@@ -49,7 +49,7 @@ export async function startServer() {
 };
 
 async function closeServer(server: FastifyInstance) {
-  await mongo.close();
+  await easMongo.client.close();
   await server.close();
   process.exit();
 }
