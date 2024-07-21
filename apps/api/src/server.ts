@@ -39,14 +39,19 @@ export async function startServer() {
   try {
     await configureServer(server);
     await server.listen({ host, port });
-    process.on('SIGTERM', async () => {
-      await server.close();
-    });
+    process.on('SIGTERM', () => closeServer(server));
+    process.on('SIGINT', () => closeServer(server));
   }
   catch (e) {
     server.log.fatal(e);
-    await mongo.close();
+    closeServer(server);
   }
 };
+
+async function closeServer(server: FastifyInstance) {
+  await mongo.close();
+  await server.close();
+  process.exit();
+}
 
 startServer();
