@@ -19,7 +19,10 @@
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
-        "parallel": false
+        "args": ["--remote=root@216.225.201.134"],
+        "commands": [],
+        "parallel": false,
+        "forwardAllArgs": false
       },
       "configurations": {
         "local": {
@@ -27,8 +30,16 @@
             "cp libs/mongodb/docker/compose.development.yml dist/docker/mongodb/compose.yml",
             "cd dist/docker/mongodb && docker compose up -d --build"
           ]
+        },
+        "development": {
+          "commands": [
+            "cp libs/mongodb/docker/compose.development.yml dist/docker/mongodb/compose.yml",
+            "scp -r dist/docker/mongodb {args.remote}:~/development",
+            "ssh {args.remote} 'cd ~/development/mongodb && docker compose up -d --build'"
+          ]
         }
       },
+      "defaultConfiguration": "development",
       "dependsOn": ["prep-deploy"]
     }
   }
