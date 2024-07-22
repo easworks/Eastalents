@@ -7,7 +7,7 @@ dist
 tmp
 
 .env
-.pem
+*.pem
 .firebase
 
 .nx
