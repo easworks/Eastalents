@@ -1,0 +1,20 @@
+.why-eas-hero-sec {
+    background-image: url(/assets/public/why-eas-works/hero-bg.png);
+}
+
+:host ::ng-deep {
+    .tabs-wrapper {
+        .mat-mdc-tab-header {
+            box-shadow: 0px 7px 18px 1px #0000001C;
+            @apply p-8 rounded-2xl bg-white -translate-y-24;
+        }
+
+        .mat-mdc-tab.mdc-tab--active {
+            @apply bg-[#4949fc];
+        }
+
+        .mat-mdc-tab {
+            @apply rounded-lg;
+        }
+    }
+}

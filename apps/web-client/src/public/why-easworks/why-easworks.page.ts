@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   standalone: true,
@@ -6,9 +7,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './why-easworks.page.html',
   styleUrls: ['./why-easworks.page.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-
-  ]
+  imports: [MatTabsModule],
 })
 export class WhyEasworksPageComponent {
 

@@ -7,7 +7,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
   selector: 'about-us-page',
   templateUrl: './about-us.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: [],
+  styleUrl: './about-us.page.less',
   imports: [
     LottiePlayerDirective,
     ImportsModule,

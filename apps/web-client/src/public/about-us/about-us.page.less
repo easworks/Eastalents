@@ -1,0 +1,68 @@
+.hero-sec {
+  background-image: url(/assets/public/hire-contractors/hero-sec/sec-effect.png);
+}
+
+.achievement-sec {
+  @apply grid gap-12 mt-8 4xl:grid-cols-4 grid-cols-2 justify-between items-center 2xl:flex-row flex-col gap-y-5 py-6 overflow-auto relative 4xl:before:content-[''] before:content-none before:absolute before:inset-0 before:rounded-full before:p-[1px];
+
+  &:before {
+    background: linear-gradient(91.19deg,
+        #000000 12.46%,
+        rgba(0, 0, 0, 0) 100.28%);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .shaded-text {
+    background: linear-gradient(110.93deg, #4949fc -1.39%, #000000 93.3%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+  }
+}
+
+.why-easwork-sec {
+  background: linear-gradient(90deg, #f0f2f4 0%, rgba(240, 242, 244, 0) 100%);
+
+  .why-easwork-bg {
+    background-image: url(../../assets/public/about-us/why-easworks/bg-vector.png);
+  }
+}
+
+// Join Community
+.join-community-sec {
+  background-image: url(../../assets/public/generic-roles/join-community/join-community-bg.png);
+  background-size: 100% 100%;
+
+  @media only screen and (max-width:896px) {
+    background: linear-gradient(to bottom, rgb(73, 73, 252), rgb(255, 255, 255));
+  }
+}
+
+.crm-btn {
+  @apply relative text-xs flex items-center text-primary-500 px-2 rounded hover:duration-500 before:content-[''] before:absolute before:inset-0 before:rounded before:p-[0.5px];
+
+  &:before {
+    background: linear-gradient(95.23deg, #4B4BF0 28.56%, #F34A02 100%);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+}
+
+.empower-enterprises {
+  background-image: url(/assets/public/hire-contractors/hero-sec/sec-effect.png);
+}
+
+.text-shadow {
+  text-shadow: 0 0 2px #4949FC;
+
+  &:hover {
+    text-shadow: none;
+    color: #7881FF;
+  }
+}
