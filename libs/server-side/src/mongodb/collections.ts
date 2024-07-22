@@ -1,4 +1,4 @@
-import { IdpCredentials } from 'models/identity-provider';
+import { IdpCredential } from 'models/identity-provider';
 import { User } from 'models/user';
 import { Collection, MongoClient } from 'mongodb';
 
@@ -27,6 +27,6 @@ export function initialiseMongo(client: MongoClient) {
     db,
 
     users: db.collection('users') as Collection<User>,
-    userCredentials: db.collection('user-credentials') as Collection<IdpCredentials>,
+    userCredentials: db.collection('user-credentials') as Collection<IdpCredential>,
   };
 }

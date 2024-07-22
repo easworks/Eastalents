@@ -10,12 +10,12 @@ export const ALLOWED_IDENTITY_PROVIDERS = [
 
 export type IdentityProviderType = typeof ALLOWED_IDENTITY_PROVIDERS[number];
 
-export interface IdpCredentials extends Entity {
+export interface IdpCredential extends Entity {
   provider: {
     type: IdentityProviderType;
     id: string;
     email: string;
   };
   userId: string;
-  credentials?: string;
+  credential?: string;
 }
