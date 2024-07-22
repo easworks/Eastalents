@@ -34,6 +34,12 @@ export class Unauthorized extends ApiError {
   }
 }
 
+export class SignupEmailInUse extends ApiError {
+  constructor() {
+    super('signup-email-in-use', StatusCodes.UNAUTHORIZED);
+  }
+}
+
 export class Forbidden extends ApiError {
   constructor() {
     super('forbidden',
