@@ -14,4 +14,6 @@ networks:
 
 volumes:
   data:
-    name: eas-data-development
+    name: eas-development-data
+  config:
+    name: eas-development-config
