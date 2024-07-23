@@ -61,16 +61,18 @@ export const jwtUtils = {
     const expiresIn = TOKEN_EXPIRY_SECONDS;
 
     const tokenRef: TokenRef = {
-      _id: user._id,
+      _id: null as unknown as string,
       expiresIn
     };
     await easMongo.tokens.insertOne(tokenRef);
 
     const payload = {
-      id: user._id,
       firstName: user.firstName,
       lastName: user.lastName,
-      nickname: user.nickname
+      nickname: user.nickname,
+      email: user.email,
+      imageUrl: user.imageUrl,
+      roles
     };
 
     const token = await new Promise<string>((resolve, reject) => {
