@@ -1,5 +1,6 @@
 import { TypeOf, z } from 'zod';
 import { ALLOWED_IDENTITY_PROVIDERS } from '../identity-provider';
+import { oauthValidators } from './oauth';
 
 const types = {
   firstName: z.string().trim().min(1).max(24),
@@ -9,7 +10,7 @@ const types = {
   password: z.string().min(8).max(64), // don't trim, because user may want space
   role: z.enum(['talent', 'employer']),
   socialIdp: z.enum(ALLOWED_IDENTITY_PROVIDERS)
-    .exclude(['email'])
+    .exclude(['email']),
 };
 
 const inputs = {
@@ -23,10 +24,7 @@ const inputs = {
       password: types.password,
     }),
     social: z.strictObject({
-      firstName: types.firstName,
-      lastName: types.lastName,
-      nickName: types.nickName,
-      email: types.email,
+      code: oauthValidators.grantCode.external,
       role: types.role,
       idp: types.socialIdp
     })
