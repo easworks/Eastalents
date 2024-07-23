@@ -35,3 +35,5 @@ const inputs = {
 export const authValidators = { ...types, inputs } as const;
 
 export type EmailSignupInput = TypeOf<typeof inputs['signup']['email']>;
+
+export type SocialSignupInput = TypeOf<typeof inputs['signup']['social']>;
