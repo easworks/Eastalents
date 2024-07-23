@@ -14,13 +14,9 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
   const publicEmailProviderCache = new PublicEmailProviderCache();
 
-  server.route({
-    method: 'POST',
-    url: '/signup/email',
-    schema: {
-      body: authValidators.inputs.signup.email
-    },
-    handler: async (req) => {
+  server.post('/signup/email',
+    { schema: { body: authValidators.inputs.signup.email } },
+    async (req) => {
 
       const input = req.body;
 
@@ -66,13 +62,11 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       return true;
     }
-  });
+  );
 
-  server.route({
-    method: 'POST',
-    url: '/signup/social',
-    schema: { body: authValidators.inputs.signup.social },
-    handler: async (req) => {
+  server.post('/signup/social',
+    { schema: { body: authValidators.inputs.signup.social } },
+    async (req) => {
       const input = req.body;
 
       const externalUser = getExternalUserForSignup[input.idp](input.code);
@@ -131,7 +125,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       return tokenResponse;
     }
-  });
+  );
 
   async function saveNewUser(
     user: User,
