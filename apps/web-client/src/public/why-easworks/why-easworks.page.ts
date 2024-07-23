@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ServiceTypeGetTopEnterpriseSectionComponent } from './common/get-top-enterprise/get-top-enterprise.section';
 
 @Component({
   standalone: true,
@@ -7,8 +8,6 @@ import { MatTabsModule } from '@angular/material/tabs';
   templateUrl: './why-easworks.page.html',
   styleUrls: ['./why-easworks.page.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatTabsModule],
+  imports: [MatTabsModule, ServiceTypeGetTopEnterpriseSectionComponent],
 })
-export class WhyEasworksPageComponent {
-
-}
+export class WhyEasworksPageComponent { }
