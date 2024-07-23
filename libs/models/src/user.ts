@@ -3,10 +3,13 @@ import { Entity } from './entity';
 export interface User extends Entity {
   verified: boolean;
   enabled: boolean;
-  firstName: string;
-  lastName: string;
+
   nickname: string;
   email: string;
+
+  firstName: string;
+  lastName: string;
+  imageUrl: string | null;
 }
 
 export interface UserWithToken extends User {

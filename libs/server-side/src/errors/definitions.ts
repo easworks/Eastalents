@@ -61,6 +61,12 @@ export class UserNeedsPasswordReset extends ApiError {
   }
 }
 
+export class UserNicknameInUse extends ApiError {
+  constructor() {
+    super('user-nickname-in-use', StatusCodes.BAD_REQUEST);
+  }
+}
+
 export class InvalidPassword extends ApiError {
 
   constructor() {
