@@ -9,3 +9,4 @@ services:
       - MONGODB
       - JWT_PUBLIC_KEY
       - JWT_PRIVATE_KEY
+      - JWT_ISSUER

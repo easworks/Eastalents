@@ -7,6 +7,7 @@ export interface Environment {
   jwt?: {
     publicKey: string;
     privateKey: string;
+    issuer: string;
   };
 }
 
@@ -43,6 +44,14 @@ export const parseEnv = {
         throw new Error('jwt private key not provided');
 
       return key;
+    },
+    issuer: () => {
+      const value = process.env['JWT_ISSUER'] as string;
+
+      if (!value)
+        throw new Error('jwt issuer not provided');
+
+      return value;
     }
   }
 };
