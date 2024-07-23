@@ -11,5 +11,6 @@ export const pattern = {
   gitlab: {
     profile: /^(https:\/\/)?(www\.)?gitlab\.com\/[^/]+\/?$/
   },
-  slug: /^[a-z0-9-]+$/
+  slug: /^[a-z0-9-]+$/,
+  nickname: /^[a-z0-9_]+$/
 } as const; 
