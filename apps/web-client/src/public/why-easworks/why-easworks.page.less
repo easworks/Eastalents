@@ -13,6 +13,10 @@
             @apply gap-4;
         }
 
+        // .what-tab-content .mdc-tab__text-label{
+        //     color: #fff
+        // }
+
         .mat-mdc-tab.mdc-tab--active {
             @apply bg-[#4949fc];
         }
@@ -46,6 +50,7 @@
     }
 }
 
+// How tab contents
 .how-easworks-bg {
     background-image: url(../../assets/public/why-eas-works/bg-top-effect.png);
 }
@@ -55,17 +60,21 @@
     background-image: url(../../assets/public/why-eas-works/bg-center-effect.png);
 }
 
-
 // Tabs UI from What tab Content
 :host ::ng-deep {
     .what-tab-content {
+
+        .mat-mdc-tab-header .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+            color: white !important;
+        }
+
         .mat-mdc-tab-header {
             box-shadow: none;
             @apply p-0 bg-white -translate-y-0;
         }
 
         .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs>.mat-mdc-tab-header .mat-mdc-tab.mdc-tab--active {
-            @apply bg-[#4949FC];
+            @apply bg-[#4949FC] !text-white;
         }
 
         .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs>.mat-mdc-tab-header .mat-mdc-tab {
@@ -88,22 +97,17 @@
         .mat-mdc-tab-body-wrapper {
             @apply p-0;
         }
-
-        .mat-mdc-tab-body-content {
-            overflow: hidden;
-        }
     }
 }
-
 
 // What tab contents
 
 // First tab css
 .text-shadow {
-    text-shadow: 0 0 2px #4949FC;
-  
+    text-shadow: 0 0 2px #4949fc;
+
     &:hover {
-      text-shadow: none;
-      color: #7881FF;
+        text-shadow: none;
+        color: #7881ff;
     }
-  }
+}
