@@ -2,6 +2,7 @@ import { IdpCredential } from 'models/identity-provider';
 import { PermissionRecord } from 'models/permission-record';
 import { User } from 'models/user';
 import { Collection, MongoClient } from 'mongodb';
+import { TokenRef } from 'models/auth';
 
 const collections = [
   'users'
@@ -36,6 +37,8 @@ export function initialiseMongo(client: MongoClient) {
     users: db.collection('users') as Collection<User>,
     userCredentials: db.collection('user-credentials') as Collection<IdpCredential>,
     permissions: db.collection('permissions') as Collection<PermissionRecord>,
+
+    tokens: db.collection('tokens') as Collection<TokenRef>,
 
     keyval: {
       get: <T>(key: string) => (keyval as Collection<KeyValDocument<T>>).findOne({ key })
