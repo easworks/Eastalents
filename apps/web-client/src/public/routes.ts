@@ -1,8 +1,7 @@
 import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { HelpCenterService } from '@easworks/app-shell/services/help';
 import { PageMetadata } from '@easworks/app-shell/services/seo';
-import { USE_CASE_DATA } from './use-cases/data';
 
 export const PUBLIC_ROUTES: Routes = [
   {
@@ -98,19 +97,9 @@ export const PUBLIC_ROUTES: Routes = [
   //   }
   // },
   {
-    path: 'use-cases/:useCaseKey',
+    path: 'use-cases',
     pathMatch: 'full',
     loadComponent: () => import('./use-cases/use-cases.page').then(m => m.UseCasesPageComponent),
-    runGuardsAndResolvers: 'pathParamsChange',
-    resolve: {
-      useCase: (route: ActivatedRouteSnapshot) => {
-        const key = route.paramMap.get('useCaseKey');
-        if (!key || !(key in USE_CASE_DATA))
-          throw new Error('invalid operation');
-
-        return USE_CASE_DATA[key];
-      }
-    }
   },
   // ...HELP_CENTER_ROUTES,
   {
