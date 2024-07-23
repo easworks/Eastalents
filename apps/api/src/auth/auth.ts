@@ -33,7 +33,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
         firstName: input.firstName,
         lastName: input.lastName,
-        nickName: input.nickName,
+        nickname: input.nickname,
 
         enabled: true,
         verified: false,
@@ -91,7 +91,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
         firstName: externalUser.firstName,
         lastName: externalUser.lastName,
-        nickName: input.nickName,
+        nickname: input.nickname,
 
         enabled: true,
         verified: true,

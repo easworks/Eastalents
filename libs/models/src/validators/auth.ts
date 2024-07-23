@@ -5,7 +5,7 @@ import { oauthValidators } from './oauth';
 const types = {
   firstName: z.string().trim().min(1).max(24),
   lastName: z.string().trim().min(1).max(24),
-  nickName: z.string().trim().min(1).max(24),
+  nickname: z.string().trim().min(1).max(24),
   email: z.string().trim().max(64).email(),
   password: z.string().min(8).max(64), // don't trim, because user may want space
   role: z.enum(['talent', 'employer']),
@@ -18,7 +18,7 @@ const inputs = {
     email: z.strictObject({
       firstName: types.firstName,
       lastName: types.lastName,
-      nickName: types.nickName,
+      nickname: types.nickname,
       email: types.email,
       role: types.role,
       password: types.password,
@@ -27,7 +27,7 @@ const inputs = {
       code: oauthValidators.grantCode.external,
       idp: types.socialIdp,
       role: types.role,
-      nickName: types.nickName
+      nickname: types.nickname
     })
   }
 };

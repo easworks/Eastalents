@@ -5,7 +5,7 @@ export interface User extends Entity {
   enabled: boolean;
   firstName: string;
   lastName: string;
-  nickName: string;
+  nickname: string;
   email: string;
 }
 
