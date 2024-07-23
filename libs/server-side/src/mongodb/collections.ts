@@ -14,6 +14,11 @@ const collectionMeta = {
 
 export type TypeVersioned<T, V extends string> = T & { _typeVersion: V; };
 
+type KeyValDocument<T = unknown> = {
+  key: string;
+  value: T;
+};
+
 export function setTypeVersion<T extends object>(object: T, collection: collection):
   TypeVersioned<T, typeof collectionMeta[typeof collection]> {
   return Object.assign(object, { _typeVersion: collectionMeta[collection] });
@@ -22,6 +27,7 @@ export function setTypeVersion<T extends object>(object: T, collection: collecti
 export function initialiseMongo(client: MongoClient) {
 
   const db = client.db('easworks', { ignoreUndefined: true });
+  const keyval = db.collection('keyval') as Collection<KeyValDocument>;
 
   return {
     client,
@@ -30,5 +36,9 @@ export function initialiseMongo(client: MongoClient) {
     users: db.collection('users') as Collection<User>,
     userCredentials: db.collection('user-credentials') as Collection<IdpCredential>,
     permissions: db.collection('permissions') as Collection<PermissionRecord>,
+
+    keyval: {
+      get: <T>(key: string) => (keyval as Collection<KeyValDocument<T>>).findOne({ key })
+    }
   };
 }

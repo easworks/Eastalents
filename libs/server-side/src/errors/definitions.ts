@@ -44,13 +44,20 @@ export class Forbidden extends ApiError {
 
 export class SignupEmailInUse extends ApiError {
   constructor() {
-    super('signup-email-in-use', StatusCodes.UNAUTHORIZED);
+    super('signup-email-in-use', StatusCodes.BAD_REQUEST);
+  }
+}
+
+export class SignupRequiresWorkEmail extends ApiError {
+  constructor(domain: string) {
+    super('signup-requires-work-email', StatusCodes.BAD_REQUEST);
+    this.metadata['invalidDomain'] = domain;
   }
 }
 
 export class UserNeedsPasswordReset extends ApiError {
   constructor() {
-    super('user-needs-password-reset', StatusCodes.UNAUTHORIZED);
+    super('user-needs-password-reset', StatusCodes.BAD_REQUEST);
   }
 }
 

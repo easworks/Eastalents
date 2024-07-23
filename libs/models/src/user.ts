@@ -1,7 +1,5 @@
 import { Entity } from './entity';
 
-export const MAGIC_UNSET_NICKNAME = '__UNSET__';
-
 export interface User extends Entity {
   verified: boolean;
   enabled: boolean;

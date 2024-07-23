@@ -1,14 +1,17 @@
+import { DateTime } from 'luxon';
 import { IdpCredential } from 'models/identity-provider';
 import { PermissionRecord } from 'models/permission-record';
-import { MAGIC_UNSET_NICKNAME, User } from 'models/user';
+import { User } from 'models/user';
 import { authValidators } from 'models/validators/auth';
-import { SignupEmailInUse } from 'server-side/errors/definitions';
+import { SignupEmailInUse, SignupRequiresWorkEmail } from 'server-side/errors/definitions';
 import { setTypeVersion } from 'server-side/mongodb/collections';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 import { easMongo } from '../mongodb';
 import { getExternalUserForSignup, passwordUtils, sendVerificationEmail } from './utils';
 
 export const authHandlers: FastifyZodPluginAsync = async server => {
+
+  const publicEmailProviderCache = new PublicEmailProviderCache();
 
   server.route({
     method: 'POST',
@@ -20,12 +23,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       const input = req.body;
 
-      const emailExists = await easMongo.userCredentials.findOne({
-        'provider.email': input.email
-      });
-
-      if (emailExists)
-        throw new SignupEmailInUse();
+      await validateEmailCanSignup(input.email, input.role);
 
       const pwd = passwordUtils.generate(input.password);
 
@@ -76,6 +74,16 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       const externalUser = getExternalUserForSignup[input.idp](input.code);
 
+      await validateEmailCanSignup(externalUser.email, input.role)
+        .catch(e => {
+          if (e instanceof SignupRequiresWorkEmail) {
+            e.metadata['prefill'] = {
+              firstName: externalUser.firstName,
+              lastName: externalUser.lastName,
+            };
+          }
+          throw e;
+        });
 
       const user: User = {
         _id: null as unknown as string,
@@ -83,7 +91,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
         firstName: externalUser.firstName,
         lastName: externalUser.lastName,
-        nickName: MAGIC_UNSET_NICKNAME,
+        nickName: input.nickName,
 
         enabled: true,
         verified: true,
@@ -109,22 +117,60 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       await saveNewUser(user, permissions, credential);
 
-      return user;
+      return true;
     }
   });
 
+  async function saveNewUser(
+    user: User,
+    permissions: PermissionRecord,
+    credential: IdpCredential
+  ) {
+    await easMongo.users.insertOne(user);
+
+    credential.userId = user._id;
+    permissions._id = user._id;
+
+    await easMongo.userCredentials.insertOne(credential);
+    await easMongo.permissions.insertOne(permissions);
+  }
+
+
+  async function validateEmailCanSignup(email: string, role: string) {
+    const emailExists = await easMongo.userCredentials.findOne({
+      'provider.email': email
+    });
+
+    if (emailExists)
+      throw new SignupEmailInUse();
+
+    if (role === 'employer') {
+      const domain = email.split('@')[1];
+      if (await publicEmailProviderCache.has(domain))
+        throw new SignupRequiresWorkEmail(domain);
+    }
+  }
+
 };
 
-async function saveNewUser(
-  user: User,
-  permissions: PermissionRecord,
-  credential: IdpCredential
-) {
-  await easMongo.users.insertOne(user);
+class PublicEmailProviderCache {
+  private _data = new Set<string>();
+  private updatedOn: DateTime | null = null;
 
-  credential.userId = user._id;
-  permissions._id = user._id;
+  async has(domain: string) {
+    if (!this.updatedOn || this.updatedOn.diffNow('minutes').minutes < -5)
+      await this.fetch();
 
-  await easMongo.userCredentials.insertOne(credential);
-  await easMongo.permissions.insertOne(permissions);
+    return this._data.has(domain);
+  }
+
+  private async fetch() {
+    const data = await easMongo.keyval.get<string[]>('public-email-providers');
+
+    if (!data)
+      throw new Error('could not load public-email-providers from mongodb');
+
+    this._data = new Set(data.value);
+    this.updatedOn = DateTime.now();
+  }
 }

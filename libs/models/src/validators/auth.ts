@@ -25,8 +25,9 @@ const inputs = {
     }),
     social: z.strictObject({
       code: oauthValidators.grantCode.external,
+      idp: types.socialIdp,
       role: types.role,
-      idp: types.socialIdp
+      nickName: types.nickName
     })
   }
 };
