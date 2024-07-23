@@ -4,6 +4,10 @@ export interface Environment {
   port: number;
   authHost?: string;
   mongodb?: string;
+  jwt?: {
+    publicKey: string;
+    privateKey: string;
+  };
 }
 
 export const parseEnv = {
@@ -23,4 +27,22 @@ export const parseEnv = {
 
     return mongodb;
   },
+  jwt: {
+    publicKey: () => {
+      const key = process.env['JWT_PUBLIC_KEY'] as string;
+
+      if (!key)
+        throw new Error('jwt public key not provided');
+
+      return key;
+    },
+    privateKey: () => {
+      const key = process.env['JWT_PRIVATE_KEY'] as string;
+
+      if (!key)
+        throw new Error('jwt private key not provided');
+
+      return key;
+    }
+  }
 };
