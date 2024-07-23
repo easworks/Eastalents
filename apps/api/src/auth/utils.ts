@@ -1,4 +1,3 @@
-import { FastifyInstance } from 'fastify';
 import { User } from 'models/user';
 import * as crypto from 'node:crypto';
 import { InvalidPassword, UserNeedsPasswordReset } from 'server-side/errors/definitions';
@@ -38,6 +37,62 @@ export const passwordUtils = {
 };
 
 
-export async function sendVerificationEmail(server: FastifyInstance, user: User) {
-  server.log.error(user.email, 'email verification is not implemented');
+export async function sendVerificationEmail(user: User) {
+  // TODO: implement
+  // throw new Error(`email verification is not implemented : ${user.email}`);
 }
+
+export const getExternalUserForSignup = {
+  google: (code: string) => {
+    // TODO: implement
+    // throw new Error(`getting user from google is not implemented`);
+
+    const email = 'email@email.google';
+    const providerId = 'google-user-id';
+    const credential = 'google-token';
+
+    const firstName = 'firstName';
+    const lastName = 'lastName';
+
+    return { email, firstName, lastName, providerId, credential };
+  },
+  facebook: (code: string) => {
+    // TODO: implement
+    // throw new Error(`getting user from facebook is not implemented`);
+
+    const email = 'email@email.facebook';
+    const providerId = 'facebook-user-id';
+    const credential = 'facebook-token';
+
+    const firstName = 'firstName';
+    const lastName = 'lastName';
+
+    return { email, firstName, lastName, providerId, credential };
+  },
+  github: (code: string) => {
+    // TODO: implement
+    // throw new Error(`getting user from github is not implemented`);
+
+    const email = 'email@email.github';
+    const providerId = 'github-user-id';
+    const credential = 'github-token';
+
+    const firstName = 'firstName';
+    const lastName = 'lastName';
+
+    return { email, firstName, lastName, providerId, credential };
+  },
+  linkedin: (code: string) => {
+    // TODO: implement
+    // throw new Error(`getting user from linkedin is not implemented`);
+
+    const email = 'email@email.linkedin';
+    const providerId = 'linkedin-user-id';
+    const credential = 'linkedin-token';
+
+    const firstName = 'firstName';
+    const lastName = 'lastName';
+
+    return { email, firstName, lastName, providerId, credential };
+  }
+} as const;
