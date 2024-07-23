@@ -61,16 +61,15 @@
     .what-tab-content {
 
         .mat-mdc-tab-header .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
-            color: white !important;
+            @apply !text-white;
         }
 
         .mat-mdc-tab-body-content {
-            overflow: hidden;
+            @apply overflow-hidden;
         }
 
         .mat-mdc-tab-header {
-            box-shadow: none;
-            @apply p-0 bg-white -translate-y-0;
+            @apply p-0 bg-white -translate-y-0 shadow-none;
         }
 
         .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs>.mat-mdc-tab-header .mat-mdc-tab.mdc-tab--active {
@@ -91,7 +90,7 @@
         }
 
         .mdc-tab__content {
-            height: 100%;
+            @apply h-full;
         }
 
         .mat-mdc-tab-body-wrapper {
