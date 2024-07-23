@@ -40,3 +40,36 @@ export class Forbidden extends ApiError {
       StatusCodes.FORBIDDEN);
   }
 }
+
+
+export class SignupEmailInUse extends ApiError {
+  constructor() {
+    super('signup-email-in-use', StatusCodes.BAD_REQUEST);
+  }
+}
+
+export class SignupRequiresWorkEmail extends ApiError {
+  constructor(domain: string) {
+    super('signup-requires-work-email', StatusCodes.BAD_REQUEST);
+    this.metadata['invalidDomain'] = domain;
+  }
+}
+
+export class UserNeedsPasswordReset extends ApiError {
+  constructor() {
+    super('user-needs-password-reset', StatusCodes.BAD_REQUEST);
+  }
+}
+
+export class UserNicknameInUse extends ApiError {
+  constructor() {
+    super('user-nickname-in-use', StatusCodes.BAD_REQUEST);
+  }
+}
+
+export class InvalidPassword extends ApiError {
+
+  constructor() {
+    super('invalid-password', StatusCodes.UNAUTHORIZED);
+  }
+}

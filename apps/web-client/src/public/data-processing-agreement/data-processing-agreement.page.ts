@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MarkdownDirective } from '@easworks/app-shell/common/markdown.directive';
 
 @Component({
   standalone: true,
@@ -9,7 +8,6 @@ import { MarkdownDirective } from '@easworks/app-shell/common/markdown.directive
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: [],
   imports: [
-    MarkdownDirective
   ]
 })
 export class DataProcessingAgreementPageComponent {

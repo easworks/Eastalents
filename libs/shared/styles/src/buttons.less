@@ -117,7 +117,7 @@
   a:where([href]) {
     @apply transition-all outline-none;
     
-    &:hover, &:focus {
+    &:where(:hover), &:where(:focus) {
       @apply text-primary-500;
     }
   }

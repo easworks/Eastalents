@@ -1,0 +1,15 @@
+FROM node:lts-slim
+
+WORKDIR /root
+
+ADD dist.tar.gz .
+
+WORKDIR /root/api
+
+RUN corepack enable pnpm
+
+RUN pnpm i
+
+WORKDIR /root
+
+CMD [ "node", "api" ]

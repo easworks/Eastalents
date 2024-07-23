@@ -1,0 +1,23 @@
+@let form = form$();
+
+<div *ngrxLet="form.controls.code as control" class="relative">
+  <input type="tel" class="!w-24 !pr-4"
+         [formControl]="control" placeholder="ISD Code"
+         [matAutocomplete]="codeOptions">
+  <drop-down-indicator class="absolute top-1 right-0"></drop-down-indicator>
+
+  <mat-autocomplete #codeOptions panelWidth="auto"
+                    hideSingleSelectionIndicator>
+    @for(option of filteredOptions.$(); track option.id) {
+    <mat-option [value]="option.code">
+      <div class="flex gap-4 items-center">
+        <span class="font-emoji">{{option.flag}}</span>
+        <span>{{option.code}}</span>
+      </div>
+    </mat-option>
+    }
+  </mat-autocomplete>
+</div>
+
+<input *ngrxLet="form.controls.number as control"
+       type="tel" [formControl]="control" placeholder="Number">

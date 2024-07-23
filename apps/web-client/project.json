@@ -43,7 +43,7 @@
         "statsJson": true,
         "plugins": [
           {
-            "path": "tools/esbuild/service-worker.plugin.ts",
+            "path": "tools/custom-nx/src/executors/ng-sw/service-worker.plugin.ts",
             "options": {
               "src": "apps/web-client/src/service-worker/sw.worker.ts",
               "destination": "eastalents-web-client.sw",
@@ -68,8 +68,8 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "8kb",
-              "maximumError": "16kb"
+              "maximumWarning": "16kb",
+              "maximumError": "1Mb"
             }
           ],
           "outputHashing": "all",
@@ -156,8 +156,8 @@
           "nx build-service-worker web-client",
           "mkdir -p dist/docker/web-client",
           "tar -czf dist/docker/web-client/dist.tar.gz -C dist/apps web-client",
-          "cp apps/web-client/dockerfile dist/docker/web-client",
-          "cp apps/web-client/compose.yml dist/docker/web-client"
+          "cp apps/web-client/docker/dockerfile dist/docker/web-client",
+          "cp apps/web-client/docker/compose.extend.yml dist/docker/web-client"
         ],
         "parallel": false
       }
@@ -173,17 +173,26 @@
       "configurations": {
         "local": {
           "commands": [
+            "cp apps/web-client/docker/compose.development.yml dist/docker/web-client/compose.yml",
             "cd dist/docker/web-client && docker compose up -d --build"
           ]
         },
         "production": {
           "commands": [
-            "scp -r dist/docker/web-client {args.remote}:~",
-            "ssh {args.remote} 'cd ~/web-client && docker compose up -d --build'"
+            "cp apps/web-client/docker/compose.production.yml dist/docker/web-client/compose.yml",
+            "scp -r dist/docker/web-client {args.remote}:~/production",
+            "ssh {args.remote} 'cd ~/production/web-client && docker compose up -d --build'"
+          ]
+        },
+        "development": {
+          "commands": [
+            "cp apps/web-client/docker/compose.development.yml dist/docker/web-client/compose.yml",
+            "scp -r dist/docker/web-client {args.remote}:~/development",
+            "ssh {args.remote} 'cd ~/development/web-client && docker compose up -d --build'"
           ]
         }
       },
-      "defaultConfiguration": "production",
+      "defaultConfiguration": "development",
       "dependsOn": ["prep-deploy"]
     }
   }

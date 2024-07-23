@@ -1,0 +1,19 @@
+name: eas-development
+
+services:
+  mongodb:
+    extends:
+      file: compose.extend.yml
+      service: mongodb
+    networks:
+      - eas-development
+
+networks:
+  eas-development:
+    name: eas-development
+
+volumes:
+  data:
+    name: eas-development-data
+  config:
+    name: eas-development-config

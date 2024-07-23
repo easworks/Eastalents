@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, HostBinding, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, computed, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { MenuItem } from '@easworks/app-shell/navigation/models';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { PUBLIC_MENU, publicMenu } from '../../menu-items/public';
 
 @Component({
   standalone: true,
@@ -22,12 +22,15 @@ export class PublicSidebarComponent {
 
   protected readonly icons = { faAngleDown } as const;
 
-  public readonly publicItems$ = input.required<MenuItem[]>({ alias: 'public' });
-  public readonly staticItems$ = input.required<MenuItem[]>({ alias: 'static' });
-  public readonly aboutItems$ = input.required<MenuItem[]>({ alias: 'about' });
-  public readonly socialItems$ = input.required<MenuItem[]>({ alias: 'social' });
+  private readonly publicMenu$ = inject(PUBLIC_MENU);
 
-  protected readonly showPublicMenu$ = computed(() => this.publicItems$().length > 0);
+  protected readonly dynamicItems$ = computed(() => this.publicMenu$().vertical);
+
+  protected readonly staticItems = publicMenu.static;
+  protected readonly aboutItems = publicMenu.about;
+  protected readonly socialItems = publicMenu.social;
+
+  protected readonly showDynamicItems$ = computed(() => this.dynamicItems$().length > 0);
 
   toggleOpen(listItem: HTMLLIElement) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

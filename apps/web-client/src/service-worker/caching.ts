@@ -1,7 +1,8 @@
 import { cacheNames, setCacheNameDetails } from 'workbox-core';
+import { ExpirationPlugin } from 'workbox-expiration';
 import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching';
 import { NavigationRoute, Route, registerRoute } from 'workbox-routing';
-import { NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies';
+import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -19,7 +20,7 @@ export function setupCaching(cachePrefix: string) {
 
 
   registerRoute(new NavigationRoute(
-    createHandlerBoundToURL('/')
+    createHandlerBoundToURL('/?__blank_page')
   ));
 
   registerRoute(new Route(
@@ -39,8 +40,20 @@ export function setupCaching(cachePrefix: string) {
           url.pathname.endsWith('.css')
         );
       },
-      new NetworkFirst()
+      new StaleWhileRevalidate()
     ),
+  );
+
+  registerRoute(
+    ({ request }) => request.url.startsWith('https://api.countrystatecity.in/v1'),
+    new CacheFirst({
+      cacheName: 'country-state-city',
+      plugins: [
+        new ExpirationPlugin({
+          maxAgeSeconds: 3 * 24 * 60 * 60, // 3 DAYS
+        }),
+      ]
+    })
   );
 
 }

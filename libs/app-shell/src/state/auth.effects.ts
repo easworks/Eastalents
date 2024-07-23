@@ -1,10 +1,10 @@
 import { effect, inject, INJECTOR } from '@angular/core';
-import { UserWithToken } from '@easworks/models';
+import { UserWithToken } from 'models/user';
 import { createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { EMPTY, fromEvent, of, tap } from 'rxjs';
 import { PERMISSION_DEF_DTO } from '../permissions';
-import { SW_MANAGER } from '../services/sw.manager';
+import { SWManagerService } from '../services/sw.manager';
 import { isBrowser, isServer } from '../utilities/platform-type';
 import { authActions, authFeature, CURRENT_USER_KEY } from './auth';
 
@@ -68,10 +68,7 @@ export const authEffects = {
       if (!isBrowser())
         return EMPTY;
 
-      const swm = inject(SW_MANAGER);
-      if (!swm)
-        return EMPTY;
-
+      const swm = inject(SWManagerService);
       const injector = inject(INJECTOR);
       const store = inject(Store);
 

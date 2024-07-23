@@ -1,0 +1,12 @@
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongodb/mongodb-community-server:latest
+    volumes:
+      - data:/data/db
+      - config:/data/configdb
+    ports:
+      - ${PORT:?}:27017
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=${MONGODB_INITDB_ROOT_USERNAME:?}
+      - MONGODB_INITDB_ROOT_PASSWORD=${MONGODB_INITDB_ROOT_PASSWORD:?}

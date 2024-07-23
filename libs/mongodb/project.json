@@ -1,0 +1,46 @@
+{
+  "name": "mongodb",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/mongodb/src",
+  "prefix": "lib",
+  "tags": [],
+  "projectType": "library",
+  "targets": {
+    "prep-deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "mkdir -p dist/docker/mongodb",
+          "cp libs/mongodb/docker/compose.extend.yml dist/docker/mongodb"
+        ],
+        "parallel": false
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "args": ["--remote=root@216.225.201.134"],
+        "commands": [],
+        "parallel": false,
+        "forwardAllArgs": false
+      },
+      "configurations": {
+        "local": {
+          "commands": [
+            "cp libs/mongodb/docker/compose.development.yml dist/docker/mongodb/compose.yml",
+            "cd dist/docker/mongodb && docker compose up -d --build"
+          ]
+        },
+        "development": {
+          "commands": [
+            "cp libs/mongodb/docker/compose.development.yml dist/docker/mongodb/compose.yml",
+            "scp -r dist/docker/mongodb {args.remote}:~/development",
+            "ssh {args.remote} 'cd ~/development/mongodb && docker compose up -d --build'"
+          ]
+        }
+      },
+      "defaultConfiguration": "development",
+      "dependsOn": ["prep-deploy"]
+    }
+  }
+}

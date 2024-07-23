@@ -1,12 +1,13 @@
 import { ViewportScroller } from '@angular/common';
+import { provideHttpClient, withFetch, withInterceptors, withNoXsrfProtection } from '@angular/common/http';
 import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
-import { DefaultSeoConfig, SEO_DEFAULT_CONFIG } from '@easworks/app-shell/services/seo';
-import { SW_MANAGER } from '@easworks/app-shell/services/sw.manager';
+import { DefaultSeoConfig, SEO_DEFAULT_CONFIG, SEOService } from '@easworks/app-shell/services/seo';
+import { SWManagerService } from '@easworks/app-shell/services/sw.manager';
 import { authFeature } from '@easworks/app-shell/state/auth';
 import { authEffects } from '@easworks/app-shell/state/auth.effects';
 import { UI_FEATURE } from '@easworks/app-shell/state/ui';
@@ -14,14 +15,15 @@ import { uiEffects } from '@easworks/app-shell/state/ui.effects';
 import { provideEffects } from '@ngrx/effects';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { provideEnvironment } from './environment';
-import { routes } from './routes';
 import { adminData } from '../admin/state/admin-data';
 import { adminDataEffects } from '../admin/state/admin-data.effects';
+import { provideEnvironment } from './environment';
+import { routes } from './routes';
 
 export const appConfig: ApplicationConfig = {
 
   providers: [
+    provideEnvironment(),
     provideExperimentalZonelessChangeDetection(),
     provideClientHydration(
       withEventReplay(),
@@ -32,6 +34,12 @@ export const appConfig: ApplicationConfig = {
       name: 'Easworks',
       logOnly: true
     }),
+    provideHttpClient(
+      withFetch(),
+      withNoXsrfProtection(),
+      withInterceptors([])
+    ),
+
     provideAnimations(),
     {
       provide: APP_INITIALIZER, multi: true,
@@ -47,7 +55,6 @@ export const appConfig: ApplicationConfig = {
         scrollPositionRestoration: 'enabled'
       })
     ),
-    provideEnvironment(),
     {
       provide: SEO_DEFAULT_CONFIG, useValue: {
         baseTitle: 'EasWorks',
@@ -62,9 +69,9 @@ export const appConfig: ApplicationConfig = {
       provide: APP_INITIALIZER,
       useFactory: () => () => undefined,
       deps: [
-        SW_MANAGER,
+        SWManagerService,
         // AuthService,
-        // SEOService,
+        SEOService,
       ],
       multi: true
     },

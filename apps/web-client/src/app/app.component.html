@@ -22,16 +22,15 @@
     <authenticated-vertical-menu></authenticated-vertical-menu>
     }
     @else {
-    <public-sidebar [public]="publicMenu.main.vertical.$()"
-                    [static]="publicMenu.static"
-                    [about]="publicMenu.about"
-                    [social]="publicMenu.social"></public-sidebar>
+    <public-sidebar></public-sidebar>
     }
   </mat-sidenav>
 
   <mat-sidenav-content class="flex-grow !flex flex-col !overflow-visible bg-white">
+    @if (!blankPage$()) {
     <router-outlet class="hidden [&_+_*]:flex-1"></router-outlet>
+    }
 
-    <app-footer></app-footer>
+    <app-footer class="mt-auto !flex-none"></app-footer>
   </mat-sidenav-content>
 </mat-sidenav-container>

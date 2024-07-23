@@ -1,0 +1,12 @@
+services:
+  api:
+    container_name: api
+    build: .
+    ports:
+      - ${PORT:?}:4200
+    environment:
+      - PORT=4200
+      - MONGODB
+      - JWT_PUBLIC_KEY
+      - JWT_PRIVATE_KEY
+      - JWT_ISSUER

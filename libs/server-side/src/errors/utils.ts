@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import { ErrorWithCode } from '@easworks/models/problem-details';
+import { ErrorWithCode } from 'models/problem-details';
 
 export class ApiError extends ErrorWithCode {
   constructor(

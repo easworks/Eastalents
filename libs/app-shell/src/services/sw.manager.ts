@@ -10,13 +10,6 @@ export const SW_URL = new InjectionToken<string>('SW_URL: The service worker url
   factory: () => isBrowser() && __SW_URL || ''
 });
 
-export const SW_MANAGER = new InjectionToken(
-  'SW_MANAGER: Manages service worker registration and updates',
-  {
-    providedIn: 'root',
-    factory: () => isBrowser() && new SWManagerService(),
-  }
-);
 
 export const WORKBOX_WINDOW = new InjectionToken('WORKBOX_WINDOW', {
   providedIn: 'root',
@@ -27,7 +20,7 @@ export const WORKBOX_WINDOW = new InjectionToken('WORKBOX_WINDOW', {
 @Injectable({
   providedIn: 'root'
 })
-class SWManagerService {
+export class SWManagerService {
   private readonly workboxWindow = inject(WORKBOX_WINDOW);
   private readonly swUrl = inject(SW_URL);
   private readonly dRef = inject(DestroyRef);

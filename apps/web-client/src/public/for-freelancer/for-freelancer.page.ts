@@ -6,7 +6,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { HelpGroup } from '@easworks/app-shell/services/help';
 import { FAQGroup, FAQListComponent } from '../common/faq-list.component';
-import { FeaturedDomainsComponent } from '../common/featured-domains.component';
+// import { FeaturedDomainsComponent } from '../common/featured-domains.component';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -20,7 +20,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
     LottiePlayerDirective,
     MatExpansionModule,
     FAQListComponent,
-    FeaturedDomainsComponent
+    // FeaturedDomainsComponent
   ]
 })
 export class ForFreelancerPageComponent {

@@ -1,11 +1,15 @@
-export interface User {
-  _id: string;
-  role: string;
+import { Entity } from './entity';
+
+export interface User extends Entity {
   verified: boolean;
-  active: number;
+  enabled: boolean;
+
+  nickname: string;
+  email: string;
+
   firstName: string;
   lastName: string;
-  email: string;
+  imageUrl: string | null;
 }
 
 export interface UserWithToken extends User {

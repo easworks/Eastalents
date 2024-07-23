@@ -1,6 +1,9 @@
+import { computed, inject, InjectionToken } from '@angular/core';
 import { MenuItem, NOOP_CLICK } from '@easworks/app-shell/navigation/models';
+import { UI_FEATURE } from '@easworks/app-shell/state/ui';
 import { faFacebook, faGithub, faInstagram, faLinkedin, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { faBriefcase, faCubes, faDiagramNext, faGroupArrowsRotate, faHeadset, faLightbulb, faMicrochip, faPaintBrush, faPenRuler, faRocket } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
 
 const useCases = {
   text: 'Use Cases', link: NOOP_CLICK,
@@ -117,5 +120,61 @@ export const footerNav: {
     }
   ];
 
+export const PUBLIC_MENU = new InjectionToken('PUBLIC_MENU', {
+  providedIn: 'root',
+  factory: () => {
+    const store = inject(Store);
+    const screenSize$ = store.selectSignal(UI_FEATURE.selectScreenSize);
+
+    // where the public menu will split between horizontal and vertical
+    // items before the split is
+    const split$ = computed(() => {
+      const screenSize = screenSize$();
+
+      switch (screenSize) {
+        case 'xs':
+        case 'sm':
+        case 'md':
+        case 'lg':
+        case 'xl':
+        case '2xl':
+        case '3xl': return 'vertical';
+        case '4xl':
+        case '5xl': return 3;
+        case '6xl':
+        case '7xl':
+        case '8xl':
+        case '9xl':
+        case '10xl': return 'horizontal';
+      }
+    });
+
+    const items$ = computed(() => {
+      let vertical: MenuItem[] = [];
+      let horizontal: MenuItem[] = [];
+
+      // if (!this.isSignedIn$()) {
+      const split = split$();
+
+      if (split === 'horizontal') {
+        vertical = [];
+        horizontal = publicMenu.main;
+      }
+      else if (split === 'vertical') {
+        vertical = publicMenu.main;
+        horizontal = [];
+      }
+      else {
+        vertical = publicMenu.main.slice(split);
+        horizontal = publicMenu.main.slice(0, split);
+      }
+      // }
+
+      return { vertical, horizontal } as const;
+    });
+
+    return items$;
+  }
+})
 
 

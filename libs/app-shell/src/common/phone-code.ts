@@ -1,50 +1,65 @@
 import { Signal, computed, effect } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { pattern } from '@easworks/models';
+import { pattern } from 'models/pattern';
+import Fuse from 'fuse.js';
 import { Country } from '../api/csc.api';
-import { sortString } from '../utilities/sort';
 import { controlValue$ } from './form-field.directive';
 
-export type PhoneCodeOption = Country & { plainPhoneCode: string; };
+export type PhoneCodeOption = {
+  id: string;
+  flag: string;
+  code: string;
+  name: string;
+  countryId: number;
+};
 
-const notNumber = /[^\d\s]/g;
 export function getPhoneCodeOptions(countries: Country[]) {
-  const mapped = [] as Country[];
+  const mapped = [] as PhoneCodeOption[];
 
-  countries.forEach(c => {
-    if (c.phonecode.includes('and')) {
-      const codes = c.phonecode.split(' and ');
+  countries.forEach(country => {
+    if (country.phonecode.includes('and')) {
+      const codes = country.phonecode.split(' and ');
       codes.forEach(code => mapped.push({
-        ...c,
-        phonecode: code,
+        id: `${code}/${country.name}`,
+        countryId: country.id,
+        flag: country.emoji,
+        name: country.name,
+        code
       }));
     }
-    else mapped.push(c);
+    else {
+      mapped.push({
+        id: `${country.phonecode}/${country.name}`,
+        countryId: country.id,
+        flag: country.emoji,
+        name: country.name,
+        code: country.phonecode
+      });
+    }
   });
 
-  return mapped
-    .map<PhoneCodeOption>(c => ({
-      ...c,
-      plainPhoneCode: c.phonecode.replace(notNumber, '')
-    }))
-    .sort((a, b) => sortString(a.plainPhoneCode, b.plainPhoneCode));
+  return mapped;
 }
 
-export function filterCountryCode(all$: Signal<PhoneCodeOption[]>, value$: Signal<string | null>) {
+export function filterCountryCode(all$: Signal<PhoneCodeOption[]>, query$: Signal<string>) {
+  const index$ = computed(() => new Fuse(all$(), {
+    keys: ['code']
+  }));
+
   return computed(() => {
-    const all = all$();
-    const value = value$();
-    const filter = value && value.replace(notNumber, '');
-    if (filter)
-      return all.filter(c => c.plainPhoneCode.toLowerCase().includes(filter));
-    return all;
+    const q = query$().trim();
+    if (q)
+      return index$().search(q).map(r => r.item);
+
+    return all$();
+
   });
 }
 
 export type PhoneCodeForm = FormGroup<{
-  code: FormControl<string | null>;
-  number: FormControl<string | null>;
+  code: FormControl<string>;
+  number: FormControl<string>;
 }>;
 const telPattern = Validators.pattern(pattern.telephone);
 
@@ -59,7 +74,7 @@ export function updatePhoneValidatorEffect(form: PhoneCodeForm) {
 
   effect(() => {
     if (hasValue()) {
-      code.setValidators([Validators.required]);
+      code.setValidators([Validators.required, telPattern]);
       number.setValidators([Validators.required, telPattern]);
     }
     else {

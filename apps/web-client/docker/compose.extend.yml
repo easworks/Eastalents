@@ -1,0 +1,8 @@
+services:
+  web-client:
+    container_name: web-client
+    build: .
+    ports:
+      - ${PORT:?}:4200
+    environment:
+      - PORT=4200

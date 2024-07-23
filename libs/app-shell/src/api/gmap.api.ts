@@ -18,7 +18,7 @@ export class GMapsApi extends ApiService {
   }
 
   reverseGeocode(
-    coords: { lat: number, lng: number },
+    coords: { lat: number; lng: number; },
     components: AddressComponentType[] = []
   ) {
     const url = new URL('https://maps.googleapis.com/maps/api/geocode/json');
