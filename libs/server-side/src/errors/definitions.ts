@@ -34,15 +34,29 @@ export class Unauthorized extends ApiError {
   }
 }
 
+export class Forbidden extends ApiError {
+  constructor() {
+    super('forbidden',
+      StatusCodes.FORBIDDEN);
+  }
+}
+
+
 export class SignupEmailInUse extends ApiError {
   constructor() {
     super('signup-email-in-use', StatusCodes.UNAUTHORIZED);
   }
 }
 
-export class Forbidden extends ApiError {
+export class UserNeedsPasswordReset extends ApiError {
   constructor() {
-    super('forbidden',
-      StatusCodes.FORBIDDEN);
+    super('user-needs-password-reset', StatusCodes.UNAUTHORIZED);
+  }
+}
+
+export class InvalidPassword extends ApiError {
+
+  constructor() {
+    super('invalid-password', StatusCodes.UNAUTHORIZED);
   }
 }

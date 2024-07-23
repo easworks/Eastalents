@@ -19,6 +19,7 @@ const inputs = {
       lastName: types.lastName,
       nickName: types.nickName,
       email: types.email,
+      role: types.role,
       password: types.password,
     }),
     social: z.strictObject({
@@ -26,6 +27,7 @@ const inputs = {
       lastName: types.lastName,
       nickName: types.nickName,
       email: types.email,
+      role: types.role,
       idp: types.socialIdp
     })
   }
