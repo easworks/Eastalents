@@ -89,7 +89,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       const input = req.body;
 
       // validate the grant code
-      const externalUser = getExternalUserForSignup[input.idp](input.code);
+      const externalUser = await getExternalUserForSignup[input.idp](input.code);
 
       // sign in the user if already exists
       // if user email not registered, continue
@@ -193,7 +193,21 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       const tokenResponse = await oauthUtils.createTokenResponse(user, permissions.roles);
 
       return tokenResponse;
-    });
+    }
+  );
+
+  server.post('/signin/social',
+    { schema: { body: authValidators.inputs.signin.social } },
+    async (req) => {
+      const input = req.body;
+
+      // validate the grant code
+      const externalUser = await getExternalUserForSignup[input.idp](input.code);
+
+      // sign in the user if already exists
+      return signInExternalUser(externalUser, input.idp);
+    }
+  );
 
   async function signInExternalUser(external: ExternalIdpUser, idp: ExternalIdentityProviderType) {
 

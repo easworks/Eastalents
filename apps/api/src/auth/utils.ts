@@ -115,7 +115,7 @@ export async function sendVerificationEmail(user: User) {
 }
 
 export const getExternalUserForSignup = {
-  google: (code: string) => {
+  google: async (code: string) => {
     // TODO: implement
     // throw new Error(`getting user from google is not implemented`);
 
@@ -129,7 +129,7 @@ export const getExternalUserForSignup = {
 
     return externalUser;
   },
-  facebook: (code: string) => {
+  facebook: async (code: string) => {
     // TODO: implement
     // throw new Error(`getting user from facebook is not implemented`);
 
@@ -143,7 +143,7 @@ export const getExternalUserForSignup = {
 
     return externalUser;
   },
-  github: (code: string) => {
+  github: async (code: string) => {
     // TODO: implement
     // throw new Error(`getting user from github is not implemented`);
 
@@ -157,7 +157,7 @@ export const getExternalUserForSignup = {
 
     return externalUser;
   },
-  linkedin: (code: string) => {
+  linkedin: async (code: string) => {
     // TODO: implement
     // throw new Error(`getting user from linkedin is not implemented`);
 

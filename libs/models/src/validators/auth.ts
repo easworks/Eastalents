@@ -36,6 +36,10 @@ const inputs = {
     email: z.strictObject({
       email: types.email,
       password: types.password
+    }),
+    social: z.strictObject({
+      code: oauthValidators.grantCode.external,
+      idp: types.externalIdp,
     })
   }
 };
