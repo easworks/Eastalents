@@ -10,6 +10,13 @@ export class ValidationFailed extends ApiError {
   }
 }
 
+export class InvalidBearerToken extends ApiError {
+  constructor(message: string) {
+    super('invalid-bearer-token', StatusCodes.UNAUTHORIZED);
+    this.metadata['reason'] = message;
+  }
+}
+
 export class InvalidOAuthClientID extends ApiError {
   constructor() {
     super('invalid-oauth-client-id', StatusCodes.BAD_REQUEST);
@@ -75,7 +82,13 @@ export class UserNeedsEmailVerification extends ApiError {
 
 export class UserIsDisabled extends ApiError {
   constructor() {
-    super('user-is-disabled', StatusCodes.BAD_REQUEST);
+    super('user-is-disabled', StatusCodes.FORBIDDEN);
+  }
+}
+
+export class UserNotFound extends ApiError {
+  constructor() {
+    super('user-not-found', StatusCodes.NOT_FOUND);
   }
 }
 
