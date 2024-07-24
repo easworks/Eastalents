@@ -29,6 +29,19 @@ const useCases = (() => {
         process: () => import('./software-development/process/software-development-process.component')
           .then(m => m.SoftwareDevelopmentProcessComponent)
       }
+    },
+    {
+      id: 'advisory-and-consultancy',
+      dynamicComponents: {
+        hero: () => import('./advisory-and-consultancy/hero/advisory-and-consultancy-hero.component')
+          .then(m => m.AdvisoryAndConsultancyHeroComponent),
+        details: () => import('./advisory-and-consultancy/details/advisory-and-consultancy-details.component')
+          .then(m => m.AdvisoryAndConsultancyDetailsComponent),
+        overview: () => import('./advisory-and-consultancy/overview/advisory-and-consultancy-overview.component')
+          .then(m => m.AdvisoryAndConsultancyOverviewComponent),
+        process: () => import('./advisory-and-consultancy/process/advisory-and-consultancy-process.component')
+          .then(m => m.AdvisoryAndConsultancyProcessComponent)
+      }
     }
   ] as const;
 

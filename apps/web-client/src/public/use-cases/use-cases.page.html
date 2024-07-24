@@ -1,6 +1,7 @@
 <section class="flex gap-4 m-4 border rounded">
   <a class="shaded-button" routerLink="/use-cases/digital-transformation">digital-transformation</a>
   <a class="shaded-button" routerLink="/use-cases/software-development">software-development</a>
+  <a class="shaded-button" routerLink="/use-cases/advisory-and-consultancy">advisory-and-consultancy</a>
 </section>
 
 <ng-container *ngComponentOutlet="dynamicComponents.hero$()"></ng-container>
@@ -8,5 +9,63 @@
 <ng-container *ngComponentOutlet="dynamicComponents.overview$()"></ng-container>
 
 <ng-container *ngComponentOutlet="dynamicComponents.details$()"></ng-container>
+
+<!-- Why chooses EASWORKS section starts -->
+<div class="bg-gray-100">
+  <div class="py-16 7xl:py-20 page">
+    <div class="text-center">
+      <h2 class="text-black 7xl:text-5xl 3xl:text-4xl text-3xl 7xl:leading-tight transition-all font-bold">
+        Why Choose <span class="text-primary-500">EASWORKS
+        </span></h2>
+    </div>
+
+    <!-- Contents -->
+    <div
+      class="grid mt-12 gap-x-3 5xl:gap-x-4 6xl:gap-x-6 6xl:gap-y-20 gap-y-7 mx-auto justify-center grid-cols-1 4xl:grid-cols-2 5xl:grid-cols-2 6xl:grid-cols-3 7xl:max-w-7xl">
+      <div class="text-center">
+        <img src="/assets/public/use-cases/common/why-choose/network.svg" alt="Network Icon image" class="mx-auto" />
+        <h5 class="font-bold my-4 text-3xl text-[#464646]">Extensive Network</h5>
+        <p class="text-[#7A7A7A]">Access a wide range of skilled consultants from our platform with proven expertise.
+        </p>
+      </div>
+      <div class="text-center">
+        <img src="/assets/public/use-cases/common/why-choose/solution.svg" alt="Solution Icon image" class="mx-auto" />
+        <h5 class="font-bold my-4 text-3xl text-[#464646]">High-Quality Solutions</h5>
+        <p class="text-[#7A7A7A]">Our talents empower your organization to achieve its objectives.
+        </p>
+      </div>
+      <div class="text-center">
+        <img src="/assets/public/use-cases/common/why-choose/client-appraoch.svg" alt="Client-Appraoch Icon image"
+          class="mx-auto" />
+        <h5 class="font-bold my-4 text-3xl text-[#464646]">Client-Focused Approach</h5>
+        <p class="text-[#7A7A7A]">We prioritize understanding and fulfilling each client's specific requirements.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Why chooses EASWORKS section ends -->
+
+<!-- Shedule a demo section starts -->
+<section class="my-24 3xl:px-8 px-5">
+  <div class="page px-0 pt-16 5xl:pb-28 pb-20 rounded-4xl bg-primary-500">
+
+    <div class="xl:w-4/6 sm:w-5/6 w-11/12 mx-auto text-center">
+      <h2
+        class="text-white 8xl:text-[56px] 3xl:text-4xl xl:text-3xl text-2xl 7xl:leading-tight transition-all font-bold">
+        Ready to get frictionless?
+      </h2>
+      <h5 class="text-white my-5 3xl:text-2xl text-xl capitalize ">Get started with digital adoption today.
+      </h5>
+      <div class="flex justify-center">
+        <button
+          class="3xl:text-xl text-lg text-primary-500 bg-white lg:py-3 py-1.5 5xl:px-16 lg:px-14 px-11 rounded-xl font-bold">
+          Request a demo
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Shedule a demo section starts -->
 
 <ng-container *ngComponentOutlet="dynamicComponents.process$()"></ng-container>
