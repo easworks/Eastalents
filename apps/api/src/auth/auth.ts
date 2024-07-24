@@ -3,6 +3,7 @@ import { PermissionRecord } from 'models/permission-record';
 import { ALL_ROLES, PERMISSION_DEF_DTO } from 'models/permissions';
 import { User } from 'models/user';
 import { authValidators } from 'models/validators/auth';
+import { ObjectId } from 'mongodb';
 import { SignupEmailInUse, SignupRequiresWorkEmail, SignupRoleIsInvalid, UserEmailNotRegistered, UserIsDisabled, UserNeedsEmailVerification, UserNeedsPasswordReset, UserNicknameInUse } from 'server-side/errors/definitions';
 import { setTypeVersion } from 'server-side/mongodb/collections';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
@@ -45,7 +46,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       // create user
       const user: User = {
-        _id: null as unknown as string,
+        _id: new ObjectId().toString(),
         email: input.email,
 
         firstName: input.firstName,
@@ -59,11 +60,11 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       setTypeVersion(user, 'users');
 
       const credential: IdpCredential = {
-        _id: null as unknown as string,
+        _id: new ObjectId().toString(),
         provider: {
           type: 'email',
           email: input.email,
-          id: null as unknown as string,
+          id: input.email,
         },
         userId: user._id,
         credential: passwordUtils.generate(input.password)
@@ -131,7 +132,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       // create user
       const user: User = {
-        _id: null as unknown as string,
+        _id: new ObjectId().toString(),
         email: externalUser.email,
 
         firstName: externalUser.firstName,
@@ -145,7 +146,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       setTypeVersion(user, 'users');
 
       const credential: IdpCredential = {
-        _id: null as unknown as string,
+        _id: new ObjectId().toString(),
         provider: {
           type: input.idp,
           email: externalUser.email,
@@ -246,7 +247,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     const hasSameIdp = credentialExists.find(cred => cred.provider.type === idp);
     if (!hasSameIdp) {
       const credential: IdpCredential = {
-        _id: null as unknown as string,
+        _id: new ObjectId().toString(),
         provider: {
           type: idp,
           id: external.providerId,
@@ -273,12 +274,6 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     credential: IdpCredential
   ) {
     await easMongo.users.insertOne(user);
-
-    credential.userId = user._id;
-    if (credential.provider.type === 'email')
-      credential.provider.id = user._id;
-    permissions._id = user._id;
-
     await easMongo.userCredentials.insertOne(credential);
     await easMongo.permissions.insertOne(permissions);
   }

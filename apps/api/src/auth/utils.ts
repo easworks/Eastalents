@@ -4,6 +4,7 @@ import { TokenRef } from 'models/auth';
 import { ExternalIdpUser } from 'models/identity-provider';
 import { OAuthTokenSuccessResponse } from 'models/oauth';
 import { TokenPayload, User } from 'models/user';
+import { ObjectId } from 'mongodb';
 import * as crypto from 'node:crypto';
 import { InvalidPassword, UserNeedsPasswordReset } from 'server-side/errors/definitions';
 import { environment } from '../environment';
@@ -51,10 +52,9 @@ export const jwtUtils = {
     const expiresIn = TOKEN_EXPIRY_SECONDS;
 
     const tokenRef: TokenRef = {
-      _id: null as unknown as string,
+      _id: new ObjectId().toString(),
       expiresIn
     };
-    await easMongo.tokens.insertOne(tokenRef);
 
     const payload: TokenPayload = {
     };
@@ -68,6 +68,7 @@ export const jwtUtils = {
         subject: user._id.toString(),
       }, (err, encoded) => err ? reject(err) : resolve(encoded as string));
     });
+    await easMongo.tokens.insertOne(tokenRef);
 
     return { token, expiresIn };
 
