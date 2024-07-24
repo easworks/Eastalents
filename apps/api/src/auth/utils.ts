@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
+import { DateTime } from 'luxon';
 import { TokenRef } from 'models/auth';
+import { ExternalIdpUser } from 'models/identity-provider';
 import { OAuthTokenSuccessResponse } from 'models/oauth';
 import { User } from 'models/user';
 import * as crypto from 'node:crypto';
@@ -44,18 +46,6 @@ export const passwordUtils = {
 } as const;
 
 export const jwtUtils = {
-  addPropertiesToResponse: (user: User, response: OAuthTokenSuccessResponse) => {
-    Object.assign(response, {
-      user: {
-        _id: user._id,
-        name: `${user.firstName} ${user.lastName}`,
-        username: user.nickname,
-        email: user.email,
-        email_verified: user.verified,
-        avatar: user.imageUrl,
-      }
-    });
-  },
   createToken: async (user: User, roles: string[]) => {
     const { privateKey, issuer } = environment.jwt;
     const expiresIn = TOKEN_EXPIRY_SECONDS;
@@ -90,21 +80,38 @@ export const jwtUtils = {
   }
 } as const;
 
+export const oauthUtils = {
+  createTokenResponse: async (user: User, roles: string[]) => {
+    const { token, expiresIn } = await jwtUtils.createToken(user, roles);
+
+    const tokenResponse: OAuthTokenSuccessResponse = {
+      // oauth spec properties
+      access_token: token,
+      expires_in: expiresIn,
+      token_type: 'bearer',
+
+      // custom properties
+      user: {
+        _id: user._id,
+        email: user.email,
+        verified: user.verified,
+
+        firstName: user.firstName,
+        lastName: user.lastName,
+        fullName: `${user.firstName} ${user.lastName}`.trim(),
+        imageUrl: user.imageUrl,
+        roles
+      }
+    };
+
+    return tokenResponse;
+  },
+} as const;
+
 
 export async function sendVerificationEmail(user: User) {
   // TODO: implement
   // throw new Error(`email verification is not implemented : ${user.email}`);
-}
-
-interface ExternalUser {
-  email: string;
-  firstName: string;
-  lastName: string;
-  imageUrl: string;
-
-  providerId: string;
-  credential: string;
-
 }
 
 export const getExternalUserForSignup = {
@@ -112,10 +119,9 @@ export const getExternalUserForSignup = {
     // TODO: implement
     // throw new Error(`getting user from google is not implemented`);
 
-    const externalUser: ExternalUser = {
-      email: 'email@email.google',
+    const externalUser: ExternalIdpUser = {
+      email: 'email@gmail.com',
       providerId: 'google-user-id',
-      credential: 'google-token',
       firstName: 'firstName',
       lastName: 'lastName',
       imageUrl: 'google-profile-image-url'
@@ -127,10 +133,9 @@ export const getExternalUserForSignup = {
     // TODO: implement
     // throw new Error(`getting user from facebook is not implemented`);
 
-    const externalUser: ExternalUser = {
+    const externalUser: ExternalIdpUser = {
       email: 'email@email.facebook',
       providerId: 'facebook-user-id',
-      credential: 'facebook-token',
       firstName: 'firstName',
       lastName: 'lastName',
       imageUrl: 'facebook-profile-image-url'
@@ -142,10 +147,9 @@ export const getExternalUserForSignup = {
     // TODO: implement
     // throw new Error(`getting user from github is not implemented`);
 
-    const externalUser: ExternalUser = {
+    const externalUser: ExternalIdpUser = {
       email: 'email@email.github',
       providerId: 'github-user-id',
-      credential: 'github-token',
       firstName: 'firstName',
       lastName: 'lastName',
       imageUrl: 'github-profile-image-url'
@@ -157,10 +161,9 @@ export const getExternalUserForSignup = {
     // TODO: implement
     // throw new Error(`getting user from linkedin is not implemented`);
 
-    const externalUser: ExternalUser = {
+    const externalUser: ExternalIdpUser = {
       email: 'email@email.linkedin',
       providerId: 'linkedin-user-id',
-      credential: 'linkedin-token',
       firstName: 'firstName',
       lastName: 'lastName',
       imageUrl: 'linkedin-profile-image-url'
@@ -169,3 +172,35 @@ export const getExternalUserForSignup = {
     return externalUser;
   }
 } as const;
+
+/**
+ * 
+ * @param email the email to check
+ * @returns `false` if it is not a free email, the domain of the email otherwise
+ */
+export async function isFreeEmail(email: string) {
+  const domain = email.split('@')[1];
+  return await FreeEmailProviderCache.has(domain) ? domain : false;
+}
+
+export class FreeEmailProviderCache {
+  private static _data = new Set<string>();
+  private static updatedOn: DateTime | null = null;
+
+  public static async has(domain: string) {
+    if (!this.updatedOn || this.updatedOn.diffNow('minutes').minutes < -5)
+      await this.fetch();
+
+    return this._data.has(domain);
+  }
+
+  private static async fetch() {
+    const data = await easMongo.keyval.get<string[]>('free-email-providers');
+
+    if (!data)
+      throw new Error('could not load free-email-providers from mongodb');
+
+    this._data = new Set(data.value);
+    this.updatedOn = DateTime.now();
+  }
+}

@@ -3,6 +3,7 @@ import { PermissionRecord } from 'models/permission-record';
 import { User } from 'models/user';
 import { Collection, MongoClient } from 'mongodb';
 import { TokenRef } from 'models/auth';
+import { OAuthClientApplication } from 'models/oauth';
 
 const collections = [
   'users'
@@ -39,6 +40,8 @@ export function initialiseMongo(client: MongoClient) {
     permissions: db.collection('permissions') as Collection<PermissionRecord>,
 
     tokens: db.collection('tokens') as Collection<TokenRef>,
+
+    oauthApps: db.collection('oauth-apps') as Collection<OAuthClientApplication>,
 
     keyval: {
       get: <T>(key: string) => (keyval as Collection<KeyValDocument<T>>).findOne({ key })

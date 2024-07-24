@@ -2,8 +2,7 @@ import { DateTime } from 'luxon';
 import { customAlphabet } from 'nanoid';
 import { Entity } from './entity';
 
-export interface ClientApplication {
-  id: string;
+export interface OAuthClientApplication extends Entity {
   name: string;
   redirectUris: string[];
 }

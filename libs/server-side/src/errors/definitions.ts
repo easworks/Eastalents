@@ -67,6 +67,12 @@ export class UserNicknameInUse extends ApiError {
   }
 }
 
+export class UserEmailNotRegistered extends ApiError {
+  constructor() {
+    super('user-email-not-registered', StatusCodes.UNAUTHORIZED);
+  }
+}
+
 export class InvalidPassword extends ApiError {
 
   constructor() {

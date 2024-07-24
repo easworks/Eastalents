@@ -32,6 +32,11 @@ export class ProblemDetails {
 export class ErrorWithMetadata extends Error {
   metadata: Record<string, unknown> = {};
 
+  withMetadata(key: string, value: unknown) {
+    this.metadata[key] = value;
+    return this;
+  }
+
   public toProblemDetails() {
     const pd = ProblemDetails.from(this);
     Object.assign(pd, this.metadata);
