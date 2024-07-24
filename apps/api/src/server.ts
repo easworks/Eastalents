@@ -3,6 +3,7 @@ import { fastify, FastifyInstance } from 'fastify';
 import { useProblemDetailsGlobally } from 'server-side/utils/fastify-problem-details';
 import { useZodValidation } from 'server-side/utils/fastify-zod';
 import { getLoggerOptions } from 'server-side/utils/logging';
+import { useCloudContext } from './context';
 import { environment } from './environment';
 import { handlers } from './handlers';
 import { easMongo } from './mongodb';
@@ -26,6 +27,7 @@ async function configureServer(server: FastifyInstance) {
   await server.register(fastifyCors, {
     origin: true
   });
+  await server.register(useCloudContext);
 
   await easMongo.client.connect();
 

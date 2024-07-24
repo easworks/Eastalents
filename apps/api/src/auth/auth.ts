@@ -1,6 +1,6 @@
 import { ExternalIdentityProviderType, ExternalIdpUser, IdpCredential } from 'models/identity-provider';
 import { PermissionRecord } from 'models/permission-record';
-import { ALL_ROLES } from 'models/permissions';
+import { ALL_ROLES, PERMISSION_DEF_DTO } from 'models/permissions';
 import { User } from 'models/user';
 import { authValidators } from 'models/validators/auth';
 import { SignupEmailInUse, SignupRequiresWorkEmail, SignupRoleIsInvalid, UserEmailNotRegistered, UserIsDisabled, UserNeedsEmailVerification, UserNeedsPasswordReset, UserNicknameInUse } from 'server-side/errors/definitions';
@@ -11,14 +11,7 @@ import { getExternalUserForSignup, isFreeEmail, oauthUtils, passwordUtils, sendV
 
 export const authHandlers: FastifyZodPluginAsync = async server => {
 
-  server.get('/__reset',
-    async () => {
-      easMongo.users.deleteMany();
-      easMongo.userCredentials.deleteMany();
-      easMongo.permissions.deleteMany();
-      easMongo.tokens.deleteMany();
-    }
-  );
+  server.get('/permission-definition', async () => PERMISSION_DEF_DTO);
 
   server.post('/signup/email',
     { schema: { body: authValidators.inputs.signup.email } },

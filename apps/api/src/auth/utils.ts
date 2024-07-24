@@ -77,6 +77,14 @@ export const jwtUtils = {
 
     return { token, expiresIn };
 
+  },
+  validateToken: async (token: string) => {
+    const { issuer, publicKey } = environment.jwt;
+    return await new Promise((resolve, reject) => {
+      jwt.verify(token, publicKey, { issuer },
+        (err, decoded) => err ? reject(err) : resolve(decoded)
+      );
+    });
   }
 } as const;
 
