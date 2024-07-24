@@ -61,6 +61,18 @@ export class UserNeedsPasswordReset extends ApiError {
   }
 }
 
+export class UserNeedsEmailVerification extends ApiError {
+  constructor() {
+    super('user-needs-email-verification', StatusCodes.BAD_REQUEST);
+  }
+}
+
+export class UserIsDisabled extends ApiError {
+  constructor() {
+    super('user-is-disabled', StatusCodes.BAD_REQUEST);
+  }
+}
+
 export class UserNicknameInUse extends ApiError {
   constructor() {
     super('user-nickname-in-use', StatusCodes.BAD_REQUEST);

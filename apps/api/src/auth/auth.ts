@@ -2,7 +2,7 @@ import { ExternalIdentityProviderType, ExternalIdpUser, IdpCredential } from 'mo
 import { PermissionRecord } from 'models/permission-record';
 import { User } from 'models/user';
 import { authValidators } from 'models/validators/auth';
-import { SignupEmailInUse, SignupRequiresWorkEmail, UserEmailNotRegistered, UserNeedsPasswordReset, UserNicknameInUse } from 'server-side/errors/definitions';
+import { SignupEmailInUse, SignupRequiresWorkEmail, UserEmailNotRegistered, UserIsDisabled, UserNeedsEmailVerification, UserNeedsPasswordReset, UserNicknameInUse } from 'server-side/errors/definitions';
 import { setTypeVersion } from 'server-side/mongodb/collections';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 import { easMongo } from '../mongodb';
@@ -185,6 +185,15 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       if (!user)
         throw new Error('user should exist');
 
+      if (!user.verified) {
+        await sendVerificationEmail(user);
+        throw new UserNeedsEmailVerification();
+      }
+
+      if (!user.enabled) {
+        throw new UserIsDisabled();
+      }
+
       const permissions = await easMongo.permissions.findOne({ _id: emailCred.userId });
 
       if (!permissions)
@@ -220,6 +229,10 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     const user = await easMongo.users.findOneAndUpdate({ _id: credentialExists[0].userId }, { $set: { verified: true } });
     if (!user)
       throw new Error('user should not have been null');
+
+    if (!user.enabled) {
+      throw new UserIsDisabled();
+    }
 
     // create a new credential for the idp if does not exist
     const hasSameIdp = credentialExists.find(cred => cred.provider.type === idp);
