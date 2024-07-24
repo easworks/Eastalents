@@ -51,8 +51,8 @@ export async function startServer() {
 };
 
 async function closeServer(server: FastifyInstance) {
-  await easMongo.client.close();
   await server.close();
+  await easMongo.client.close();
   process.exit();
 }
 
