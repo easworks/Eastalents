@@ -1,9 +1,9 @@
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import { DateTime } from 'luxon';
 import { TokenRef } from 'models/auth';
 import { ExternalIdpUser } from 'models/identity-provider';
 import { OAuthTokenSuccessResponse } from 'models/oauth';
-import { User } from 'models/user';
+import { TokenPayload, User } from 'models/user';
 import * as crypto from 'node:crypto';
 import { InvalidPassword, UserNeedsPasswordReset } from 'server-side/errors/definitions';
 import { environment } from '../environment';
@@ -46,7 +46,7 @@ export const passwordUtils = {
 } as const;
 
 export const jwtUtils = {
-  createToken: async (user: User, roles: string[]) => {
+  createToken: async (user: User) => {
     const { privateKey, issuer } = environment.jwt;
     const expiresIn = TOKEN_EXPIRY_SECONDS;
 
@@ -56,13 +56,7 @@ export const jwtUtils = {
     };
     await easMongo.tokens.insertOne(tokenRef);
 
-    const payload = {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      nickname: user.nickname,
-      email: user.email,
-      imageUrl: user.imageUrl,
-      roles
+    const payload: TokenPayload = {
     };
 
     const token = await new Promise<string>((resolve, reject) => {
@@ -71,8 +65,8 @@ export const jwtUtils = {
         expiresIn,
         jwtid: tokenRef._id.toString(),
         issuer,
-        subject: user._id.toString()
-      }, (err, encoded) => err ? reject(err) : resolve(encoded!));
+        subject: user._id.toString(),
+      }, (err, encoded) => err ? reject(err) : resolve(encoded as string));
     });
 
     return { token, expiresIn };
@@ -80,9 +74,9 @@ export const jwtUtils = {
   },
   validateToken: async (token: string) => {
     const { issuer, publicKey } = environment.jwt;
-    return await new Promise((resolve, reject) => {
+    return await new Promise<JwtPayload>((resolve, reject) => {
       jwt.verify(token, publicKey, { issuer },
-        (err, decoded) => err ? reject(err) : resolve(decoded)
+        (err, decoded) => err ? reject(err) : resolve(decoded as JwtPayload)
       );
     });
   }
@@ -90,7 +84,7 @@ export const jwtUtils = {
 
 export const oauthUtils = {
   createTokenResponse: async (user: User, roles: string[]) => {
-    const { token, expiresIn } = await jwtUtils.createToken(user, roles);
+    const { token, expiresIn } = await jwtUtils.createToken(user);
 
     const tokenResponse: OAuthTokenSuccessResponse = {
       // oauth spec properties

@@ -12,6 +12,9 @@ export interface User extends Entity {
   imageUrl: string | null;
 }
 
+export interface TokenPayload {
+}
+
 export interface UserWithToken extends User {
   isNew: boolean;
   token: string;
