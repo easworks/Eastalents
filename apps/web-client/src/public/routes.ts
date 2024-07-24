@@ -2,6 +2,7 @@ import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
 import { HelpCenterService } from '@easworks/app-shell/services/help';
 import { PageMetadata } from '@easworks/app-shell/services/seo';
+import { USE_CASES_ROUTE } from './use-cases/routes';
 
 export const PUBLIC_ROUTES: Routes = [
   {
@@ -96,11 +97,7 @@ export const PUBLIC_ROUTES: Routes = [
   //     }
   //   }
   // },
-  {
-    path: 'use-cases',
-    pathMatch: 'full',
-    loadComponent: () => import('./use-cases/use-cases.page').then(m => m.UseCasesPageComponent),
-  },
+  USE_CASES_ROUTE,
   // ...HELP_CENTER_ROUTES,
   {
     path: 'about-us',
