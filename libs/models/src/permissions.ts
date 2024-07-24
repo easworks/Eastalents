@@ -31,17 +31,20 @@ const roleList: Role[] = [
   {
     id: 'talent',
     permissions: [],
-    static: false
+    static: false,
+    allowSignup: true,
   },
   {
     id: 'employer',
     permissions: [],
-    static: false
+    static: false,
+    allowSignup: true,
   },
   {
     id: 'super-admin',
     permissions: ['all'],
-    static: true
+    static: true,
+    allowSignup: false,
   }
 ];
 

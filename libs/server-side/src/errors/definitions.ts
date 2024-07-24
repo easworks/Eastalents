@@ -48,6 +48,12 @@ export class SignupEmailInUse extends ApiError {
   }
 }
 
+export class SignupRoleIsInvalid extends ApiError {
+  constructor() {
+    super('signup-role-is-invalid', StatusCodes.BAD_REQUEST);
+  }
+}
+
 export class SignupRequiresWorkEmail extends ApiError {
   constructor(domain: string) {
     super('signup-requires-work-email', StatusCodes.BAD_REQUEST);

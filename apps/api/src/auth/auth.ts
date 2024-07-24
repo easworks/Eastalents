@@ -1,8 +1,9 @@
 import { ExternalIdentityProviderType, ExternalIdpUser, IdpCredential } from 'models/identity-provider';
 import { PermissionRecord } from 'models/permission-record';
+import { ALL_ROLES } from 'models/permissions';
 import { User } from 'models/user';
 import { authValidators } from 'models/validators/auth';
-import { SignupEmailInUse, SignupRequiresWorkEmail, UserEmailNotRegistered, UserIsDisabled, UserNeedsEmailVerification, UserNeedsPasswordReset, UserNicknameInUse } from 'server-side/errors/definitions';
+import { SignupEmailInUse, SignupRequiresWorkEmail, SignupRoleIsInvalid, UserEmailNotRegistered, UserIsDisabled, UserNeedsEmailVerification, UserNeedsPasswordReset, UserNicknameInUse } from 'server-side/errors/definitions';
 import { setTypeVersion } from 'server-side/mongodb/collections';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 import { easMongo } from '../mongodb';
@@ -24,6 +25,13 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     async (req) => {
 
       const input = req.body;
+
+      // validate role
+      {
+        const role = ALL_ROLES.get(input.role);
+        if (!role || !role.allowSignup)
+          throw new SignupRoleIsInvalid();
+      }
 
       // validate email
       const emailExists = await easMongo.userCredentials.findOne({ 'provider.email': input.email });
@@ -87,6 +95,13 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     { schema: { body: authValidators.inputs.signup.social } },
     async (req) => {
       const input = req.body;
+
+      // validate role
+      {
+        const role = ALL_ROLES.get(input.role);
+        if (!role || !role.allowSignup)
+          throw new SignupRoleIsInvalid();
+      }
 
       // validate the grant code
       const externalUser = await getExternalUserForSignup[input.idp](input.code);
