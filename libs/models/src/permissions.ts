@@ -2,6 +2,7 @@ import { PermissionDefinitionDTO, extractPermissionList, permissionHeirarchy } f
 import { Role } from './role';
 
 export const PERMISSION_DEF_DTO: PermissionDefinitionDTO = [
+  ['migration', ['export', 'import']],
   ['job-post', [
     'create',
     'read',
