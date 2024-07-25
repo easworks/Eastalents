@@ -44,7 +44,8 @@ export function initialiseMongo(client: MongoClient) {
     oauthApps: db.collection('oauth-apps') as Collection<OAuthClientApplication>,
 
     keyval: {
-      get: <T>(key: string) => (keyval as Collection<KeyValDocument<T>>).findOne({ key })
+      get: <T>(key: string) => (keyval as Collection<KeyValDocument<T>>).findOne({ key }),
+      exists: (key: string) => keyval.countDocuments({ key }).then(count => count > 0)
     }
   };
 }

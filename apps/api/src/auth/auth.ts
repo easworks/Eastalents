@@ -12,7 +12,7 @@ import { FreeEmailProviderCache, getExternalUserForSignup, isFreeEmail, oauthUti
 
 export const authHandlers: FastifyZodPluginAsync = async server => {
 
-  await FreeEmailProviderCache.fetch();
+  await FreeEmailProviderCache.check();
 
   server.get('/permission-definition', async () => PERMISSION_DEF_DTO);
 

@@ -6,7 +6,7 @@ import { OAuthTokenSuccessResponse } from 'models/oauth';
 import { TokenPayload, User } from 'models/user';
 import { ObjectId } from 'mongodb';
 import * as crypto from 'node:crypto';
-import { InvalidPassword, UserNeedsPasswordReset } from 'server-side/errors/definitions';
+import { InvalidPassword, KeyValueDocumentNotFound, UserNeedsPasswordReset } from 'server-side/errors/definitions';
 import { environment } from '../environment';
 import { easMongo } from '../mongodb';
 
@@ -187,23 +187,35 @@ export async function isFreeEmail(email: string) {
 }
 
 export class FreeEmailProviderCache {
+  private static readonly docKey = 'free-email-providers';
   private static _data = new Set<string>();
   private static updatedOn: DateTime | null = null;
 
   public static async has(domain: string) {
-    if (!this.updatedOn || this.updatedOn.diffNow('minutes').minutes < -5)
-      await this.fetch();
+    if (this.isOld()) await this.fetch();
 
     return this._data.has(domain);
   }
 
-  static async fetch() {
-    const data = await easMongo.keyval.get<string[]>('free-email-providers');
+  private static isOld() {
+    // if it was never fetched or if 5 minutes hasve passes since last fetch
+    return !this.updatedOn ||
+      this.updatedOn.diffNow('minutes').minutes < -5;
+  }
+
+  private static async fetch() {
+    const data = await easMongo.keyval.get<string[]>(this.docKey);
 
     if (!data)
       throw new Error('could not load free-email-providers from mongodb');
 
     this._data = new Set(data.value);
     this.updatedOn = DateTime.now();
+  }
+
+  static async check() {
+    if (!(await easMongo.keyval.exists(this.docKey))) {
+      throw new KeyValueDocumentNotFound(this.docKey);
+    }
   }
 }

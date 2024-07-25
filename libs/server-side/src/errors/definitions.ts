@@ -10,6 +10,13 @@ export class ValidationFailed extends ApiError {
   }
 }
 
+export class KeyValueDocumentNotFound extends ApiError {
+  constructor(key: string) {
+    super('key-value-document-not-found', StatusCodes.INTERNAL_SERVER_ERROR);
+    this.metadata['docment'] = key;
+  }
+}
+
 export class InvalidBearerToken extends ApiError {
   constructor(message: string) {
     super('invalid-bearer-token', StatusCodes.UNAUTHORIZED);
