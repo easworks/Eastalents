@@ -10,5 +10,6 @@ export const environment = {
     publicKey: parseEnv.jwt.publicKey(),
     privateKey: parseEnv.jwt.privateKey(),
     issuer: parseEnv.jwt.issuer(),
-  }
+  },
+  authHost: parseEnv.authHost(),
 } as const satisfies Environment;

@@ -2,23 +2,27 @@
 export interface Environment {
   development: boolean;
   port: number;
-  authHost?: string;
+  authHost?: {
+    host: string;
+    oauthHandler: string;
+  };
   mongodb?: string;
   jwt?: {
     publicKey: string;
     privateKey: string;
     issuer: string;
   };
+
 }
 
 export const parseEnv = {
   authHost: () => {
-    const origin = process.env['AUTH_HOST'] as string;
+    const host = process.env['AUTH_HOST'] as string;
+    const oauthHandler = process.env['AUTH_HOST_OAUTH_HANDLER'] as string;
 
-    if (!origin)
-      throw new Error('auth host env variable not set');
-
-    return origin;
+    if (!host || !oauthHandler)
+      throw new Error('auth host not provided');
+    return { host, oauthHandler };
   },
   mongodb: () => {
     const mongodb = process.env['MONGODB'] as string;
