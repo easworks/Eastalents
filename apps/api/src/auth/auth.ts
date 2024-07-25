@@ -8,9 +8,11 @@ import { SignupEmailInUse, SignupRequiresWorkEmail, SignupRoleIsInvalid, UserEma
 import { setTypeVersion } from 'server-side/mongodb/collections';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 import { easMongo } from '../mongodb';
-import { getExternalUserForSignup, isFreeEmail, oauthUtils, passwordUtils, sendVerificationEmail } from './utils';
+import { FreeEmailProviderCache, getExternalUserForSignup, isFreeEmail, oauthUtils, passwordUtils, sendVerificationEmail } from './utils';
 
 export const authHandlers: FastifyZodPluginAsync = async server => {
+
+  await FreeEmailProviderCache.fetch();
 
   server.get('/permission-definition', async () => PERMISSION_DEF_DTO);
 

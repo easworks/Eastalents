@@ -197,7 +197,7 @@ export class FreeEmailProviderCache {
     return this._data.has(domain);
   }
 
-  private static async fetch() {
+  static async fetch() {
     const data = await easMongo.keyval.get<string[]>('free-email-providers');
 
     if (!data)
