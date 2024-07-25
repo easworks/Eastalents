@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
+import { OAuthAuthorizeErrorType, OAuthTokenErrorType } from 'models/oauth';
 import { ZodError } from 'zod';
 import { ApiError } from './utils';
 
@@ -24,21 +25,24 @@ export class InvalidBearerToken extends ApiError {
   }
 }
 
-export class InvalidOAuthClientID extends ApiError {
-  constructor() {
-    super('invalid-oauth-client-id', StatusCodes.BAD_REQUEST);
-  }
-}
-
-export class InvalidRedirectUri extends ApiError {
-  constructor() {
-    super('invalid-redirect-uri', StatusCodes.BAD_REQUEST);
-  }
-}
-
 export class InvalidOAuthCode extends ApiError {
   constructor() {
     super('invalid-oauth-code', StatusCodes.BAD_REQUEST);
+  }
+}
+
+export class OAuthRequestError<T extends
+  OAuthAuthorizeErrorType |
+  OAuthTokenErrorType |
+  'invalid-client-id' |
+  'invalid-redirect-uri'
+> extends ApiError {
+  constructor(
+    public readonly error: T,
+    public readonly redirect_uri?: string
+  ) {
+    super('oauth-request-error', StatusCodes.BAD_REQUEST);
+    this.metadata['oauth-error'] = error;
   }
 }
 

@@ -29,7 +29,28 @@ export interface OAuthTokenSuccessResponse {
   [key: string]: unknown;
 }
 
-type OAuthTokenErrorType =
+interface OAuthErrorResponse {
+  error: string;
+  error_description?: string;
+  error_uri?: string;
+}
+
+export type OAuthAuthorizeErrorType =
+  'invalid_request' |
+  'unauthorized_client' |
+  'access_denied' |
+  'unsupported_response_type' |
+  'invalid_scope' |
+  'server_error' |
+  'temporarily_unavailable';
+
+
+export interface OAuthAuthorizeErrorResponse extends OAuthErrorResponse {
+  error: OAuthAuthorizeErrorType;
+  state?: unknown;
+}
+
+export type OAuthTokenErrorType =
   'invalid_request' |
   'invalid_client' |
   'invalid_grant' |
@@ -37,10 +58,8 @@ type OAuthTokenErrorType =
   'unsupported_grant_type' |
   'invalid_scope';
 
-export interface OAuthTokenErrorResponse {
+export interface OAuthTokenErrorResponse extends OAuthErrorResponse {
   error: OAuthTokenErrorType;
-  error_description?: string;
-  error_uri?: string;
 }
 
 const codeAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890';
