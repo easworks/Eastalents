@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   selector: 'use-cases-page',
   templateUrl: './use-cases.page.html',
+  styleUrl: './use-cases.page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
