@@ -229,6 +229,20 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     }
   );
 
+  server.post('/verify-email',
+    async () => {
+      // TODO: implement
+      throw new Error('not implemented');
+    }
+  );
+
+  server.post('/reset-password',
+    async () => {
+      // TODO: implement
+      throw new Error('not implemented');
+    }
+  );
+
   async function signInExternalUser(external: ExternalIdpUser, idp: ExternalIdentityProviderType) {
 
     const credentialExists = await easMongo.userCredentials.find({ 'provider.email': external.email }).toArray();
