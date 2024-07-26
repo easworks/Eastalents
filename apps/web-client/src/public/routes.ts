@@ -1,89 +1,226 @@
 import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, Route, Router } from '@angular/router';
-import { UseCaseRouteData } from './data-v2';
+import { Routes } from '@angular/router';
+import { HelpCenterService } from '@easworks/app-shell/services/help';
+import { PageMetadata } from '@easworks/app-shell/services/seo';
+import { USE_CASES_ROUTE } from './use-cases/routes';
 
-const useCases = (() => {
-  const list = [
-    {
-      id: 'digital-transformation',
-      dynamicComponents: {
-        hero: () => import('./digital-transformation/hero/digital-transformation-hero.component')
-          .then(m => m.DigitalTransformationHeroComponent),
-        details: () => import('./digital-transformation/details/digital-transformation-details.component')
-          .then(m => m.DigitalTransformationDetailsComponent),
-        overview: () => import('./digital-transformation/overview/digital-transformation-overview.component')
-          .then(m => m.DigitalTransformationOverviewComponent),
-        process: () => import('./digital-transformation/process/digital-transformation-process.component')
-          .then(m => m.DigitalTransformationProcessComponent)
-      }
-    },
-    {
-      id: 'software-development',
-      dynamicComponents: {
-        hero: () => import('./software-development/hero/software-development-hero.component')
-          .then(m => m.SoftwareDevelopmentHeroComponent),
-        details: () => import('./software-development/details/software-development-details.component')
-          .then(m => m.SoftwareDevelopmentDetailsComponent),
-        overview: () => import('./software-development/overview/software-development-overview.component')
-          .then(m => m.SoftwareDevelopmentOverviewComponent),
-        process: () => import('./software-development/process/software-development-process.component')
-          .then(m => m.SoftwareDevelopmentProcessComponent)
-      }
-    },
-    {
-      id: 'advisory-and-consultancy',
-      dynamicComponents: {
-        hero: () => import('./advisory-and-consultancy/hero/advisory-and-consultancy-hero.component')
-          .then(m => m.AdvisoryAndConsultancyHeroComponent),
-        details: () => import('./advisory-and-consultancy/details/advisory-and-consultancy-details.component')
-          .then(m => m.AdvisoryAndConsultancyDetailsComponent),
-        overview: () => import('./advisory-and-consultancy/overview/advisory-and-consultancy-overview.component')
-          .then(m => m.AdvisoryAndConsultancyOverviewComponent),
-        process: () => import('./advisory-and-consultancy/process/advisory-and-consultancy-process.component')
-          .then(m => m.AdvisoryAndConsultancyProcessComponent)
+export const PUBLIC_ROUTES: Routes = [
+  {
+    path: 'for-companies',
+    pathMatch: 'full',
+    loadComponent: () => import('./for-companies/for-companies.page').then(m => m.ForCompaniesPageComponent),
+    resolve: {
+      help: () => {
+        const hcs = inject(HelpCenterService);
+        return hcs.getGroups('employer', true);
       }
     }
-  ] as const;
-
-  return Object.fromEntries(list.map(uc => [uc.id, uc]));
-})();
-
-export const USE_CASES_ROUTE: Route = {
-  path: 'use-cases/:useCaseId',
-  pathMatch: 'full',
-  loadComponent: () => import('./use-cases.page').then(m => m.UseCasesPageComponent),
-  resolve: {
-    useCaseData: async (snap: ActivatedRouteSnapshot) => {
-      const router = inject(Router);
-      const id = snap.paramMap.get('useCaseId');
-      if (!id)
-        throw new Error('unexpected error');
-
-      if (!(id in useCases)) {
-        router.navigateByUrl(`/error-404`, { skipLocationChange: true });
-        throw new Error('not found');
+  },
+  {
+    path: 'for-freelancer',
+    pathMatch: 'full',
+    loadComponent: () => import('./for-freelancer/for-freelancer.page').then(m => m.ForFreelancerPageComponent),
+    resolve: {
+      help: async () => {
+        const hcs = inject(HelpCenterService);
+        return hcs.getGroups('freelancer', true);
       }
-
-      const dynamicComponents = await (async () => {
-
-        const components = await Promise.all([
-          useCases[id].dynamicComponents.hero(),
-          useCases[id].dynamicComponents.details(),
-          useCases[id].dynamicComponents.overview(),
-          useCases[id].dynamicComponents.process(),
-        ]);
-
-        const [hero, details, overview, process] = components;
-        return { hero, details, overview, process };
-
-      })();
-
-      const data: UseCaseRouteData = {
-        id,
-        dynamicComponents
-      };
-
-      return data;
     }
-  }
-};
+  },
+  {
+    path: 'easworks-talent',
+    pathMatch: 'full',
+    loadComponent: () => import('./easworks-talent/easworks-talent.page').then(m => m.EasworksTalentPageComponent)
+  },
+  {
+    path: 'why-easworks',
+    pathMatch: 'full',
+    loadComponent: () => import('./why-easworks/why-easworks.page').then(m => m.WhyEasworksPageComponent)
+  },
+  // {
+  //   path: 'roles/:domain/:role',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./roles/roles.page').then(m => m.RolesPageComponent),
+  //   resolve: {
+  //     domain: async (route: ActivatedRouteSnapshot) => {
+  //       const key = route.paramMap.get('domain');
+  //       if (!key)
+  //         throw new Error('invalid operation');
+
+  //       return await getDomain(inject(DomainState), key);
+  //     },
+  //     role: async (route: ActivatedRouteSnapshot) => {
+  //       const key = route.paramMap.get('domain');
+  //       if (!key)
+  //         throw new Error('invalid operation');
+
+  //       const domain = await getDomain(inject(DomainState), key);
+
+  //       const roleInput = route.paramMap.get('role');
+  //       if (!roleInput)
+  //         throw new Error('invalid operation');
+
+  //       const found = domain.modules.some(m => m.roles.includes(roleInput));
+
+  //       if (!found)
+  //         throw new Error(`role '${roleInput}' not found in domain '${domain.key}'`);
+
+  //       return roleInput;
+  //     }
+  //   }
+  // },
+  // {
+  //   path: 'software/:domain/:software',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./software/software.page').then(m => m.SoftwarePageComponent),
+  //   runGuardsAndResolvers: 'pathParamsChange',
+  //   resolve: {
+  //     domain: async (route: ActivatedRouteSnapshot) => {
+  //       const key = route.paramMap.get('domain');
+  //       if (!key)
+  //         throw new Error('invalid operation');
+
+  //       return await getDomain(inject(DomainState), key);
+  //     },
+  //     software: async (route: ActivatedRouteSnapshot) => {
+  //       const key = route.paramMap.get('software');
+  //       if (!key)
+  //         throw new Error('invalid operation');
+
+  //       const map$ = inject(DomainState).products.map$;
+  //       await toPromise(map$, m => m.size > 0);
+
+  //       const software = map$().get(key);
+  //       if (!software)
+  //         throw new Error('invalid operation');
+  //       return software;
+  //     }
+  //   }
+  // },
+  USE_CASES_ROUTE,
+  // ...HELP_CENTER_ROUTES,
+  {
+    path: 'about-us',
+    pathMatch: 'full',
+    loadComponent: () => import('./about-us/about-us.page').then(m => m.AboutUsPageComponent)
+  },
+  {
+    path: 'contact-us',
+    pathMatch: 'full',
+    loadComponent: () => import('./contact-us/contact-us.page').then(m => m.ContactUsPageComponent),
+    data: {
+      meta: {
+        title: 'Contact Us',
+        description: 'Random Description'
+      } satisfies PageMetadata
+    }
+  },
+  // {
+  //   path: 'code-of-conduct',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./code-of-conduct/code-of-conduct.page').then(m => m.CodeOfConductPageComponent),
+  //   resolve: {
+  //     content: () => inject(HttpClient)
+  //       .get('/assets/pages/code-of-conduct/content.md', { responseType: 'text' })
+
+  //   }
+  // },
+  // {
+  //   path: 'cookie-policy',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./cookie-policy/cookie-policy.page').then(m => m.CookiePolicyPageComponent),
+  //   resolve: {
+  //     content: () => inject(HttpClient)
+  //       .get('/assets/pages/cookie-policy/content.md', { responseType: 'text' })
+  //   }
+  // },
+  // {
+  //   path: 'data-processing-agreement',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./data-processing-agreement/data-processing-agreement.page').then(m => m.DataProcessingAgreementPageComponent),
+  //   resolve: {
+  //     content: () => inject(HttpClient)
+  //       .get('/assets/pages/data-processing-agreement/content.md', { responseType: 'text' })
+  //   }
+  // },
+  // {
+  //   path: 'privacy-policy',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./privacy-policy/privacy-policy.page').then(m => m.PrivacyPolicyPageComponent),
+  //   resolve: {
+  //     content: () => inject(HttpClient)
+  //       .get('/assets/pages/privacy-policy/content.md', { responseType: 'text' })
+  //   }
+  // },
+  // {
+  //   path: 'terms-of-use',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./terms-of-use/terms-of-use.page').then(m => m.TermsOfUsePageComponent),
+  //   resolve: {
+  //     content: () => inject(HttpClient)
+  //       .get('/assets/pages/terms-of-use/content.md', { responseType: 'text' })
+  //   }
+  // },
+  // {
+  //   path: 'company-type/:CompanyType',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./company-type/company-type.page').then(m => m.CompanyTypePageComponent),
+  //   runGuardsAndResolvers: 'pathParamsChange',
+  //   resolve: {
+  //     CompanyType: (route: ActivatedRouteSnapshot) => {
+  //       const key = route.paramMap.get('CompanyType');
+  //       if (!key || !(key in COMPANY_TYPE_DATA))
+  //         throw new Error('invalid operation');
+
+  //       return COMPANY_TYPE_DATA[key];
+  //     }
+  //   }
+  // },
+  {
+    path: 'service-type/hire-contractors',
+    pathMatch: 'full',
+    loadComponent: () => import('./service-type/hire-contractors/hire-contractors.page')
+      .then(m => m.HireContractorsPageComponent)
+  },
+  // {
+  //   path: 'service-type/:ServiceType',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./service-type/service-type.page').then(m => m.ServiceTypePageComponent),
+  //   runGuardsAndResolvers: 'pathParamsChange',
+  //   resolve: {
+  //     ServiceType: (route: ActivatedRouteSnapshot) => {
+  //       const key = route.paramMap.get('ServiceType') as GenericTeamServiceID;
+  //       if (!key || !(key in GENERIC_SERVICE_TYPE_DATA))
+  //         throw new Error('invalid operation');
+
+  //       return GENERIC_SERVICE_TYPE_DATA[key];
+  //     }
+  //   }
+  // },
+
+  {
+    path: 'generic-role',
+    pathMatch: 'full',
+    loadComponent: () => import('./generic-role/generic-role.page').then(m => m.GenericRolePageComponent),
+  },
+  {
+    path: 'landing',
+    pathMatch: 'full',
+    loadComponent: () => import('./landing/landing.page').then(m => m.LandingPageComponent)
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    loadComponent: () => import('./home/home.page').then(m => m.HomePageComponent)
+  },
+];
+
+// async function getDomain(state: DomainState, key: string) {
+//   const map$ = inject(DomainState).domains.map$;
+//   await toPromise(map$, m => m.size > 0);
+
+//   const domain = map$().get(key);
+//   if (!domain)
+//     throw new Error('invalid operation');
+//   return domain;
+// }
