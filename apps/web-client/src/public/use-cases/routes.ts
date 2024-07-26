@@ -42,7 +42,20 @@ const useCases = (() => {
         process: () => import('./advisory-and-consultancy/process/advisory-and-consultancy-process.component')
           .then(m => m.AdvisoryAndConsultancyProcessComponent)
       }
-    }
+    },
+    {
+      id: 'prototyping',
+      dynamicComponents: {
+        hero: () => import('./prototyping/hero/prototyping-hero.component')
+          .then(m => m.PrototypingHeroComponent),
+        details: () => import('./prototyping/details/prototyping-details.component')
+          .then(m => m.PrototypingDetailsComponent),
+        overview: () => import('./prototyping/overview/prototyping-overview.component')
+          .then(m => m.PrototypingOverviewComponent),
+        process: () => import('./prototyping/process/prototyping-process.component')
+          .then(m => m.PrototypingProcessComponent)
+      }
+    },
   ] as const;
 
   return Object.fromEntries(list.map(uc => [uc.id, uc]));
