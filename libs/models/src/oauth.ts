@@ -7,10 +7,10 @@ export interface OAuthClientApplication extends Entity {
   redirectUris: string[];
 }
 
-export interface AuthCode extends Entity {
+export interface OAuthCode extends Entity {
   value: string;
   clientId: string;
-  uid: string;
+  userId: string;
   challenge?: {
     code: string;
     method: 'plain' | 'S256';
@@ -63,4 +63,4 @@ export interface OAuthTokenErrorResponse extends OAuthErrorResponse {
 }
 
 const codeAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890';
-export const oauthCodeGenerator = customAlphabet(codeAlphabet, 32);
+export const oauthCodeGenerator = customAlphabet(codeAlphabet, 64);

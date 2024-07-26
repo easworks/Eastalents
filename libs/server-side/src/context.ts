@@ -2,6 +2,7 @@ import type { JwtPayload } from 'jsonwebtoken';
 import { TokenPayload } from 'models/user';
 
 export type CloudUser = JwtPayload & TokenPayload & {
+  _id: string;
   token: string;
   permissions: Set<string>;
 };

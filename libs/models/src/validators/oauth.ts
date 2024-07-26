@@ -36,8 +36,8 @@ const inputs = {
     scope: types.scope.optional(),
     state: types.state.optional(),
     pkce: z.strictObject({
-      code_challenge_method: types.code_challenge_method,
-      code_challenge: types.code_challenge
+      method: types.code_challenge_method,
+      code: types.code_challenge
     })
   }
 } as const;

@@ -1,11 +1,16 @@
 import { FastifyPluginAsync, FastifyReply } from 'fastify';
 import { StatusCodes } from 'http-status-codes';
+import { DateTime } from 'luxon';
+import { OAuthAuthorizeErrorType, OAuthCode, oauthCodeGenerator } from 'models/oauth';
 import { oauthValidators } from 'models/validators/oauth';
+import { ObjectId } from 'mongodb';
+import { AuthenticatedCloudContext } from 'server-side/context';
 import { OAuthRequestError } from 'server-side/errors/definitions';
 import { ZodError } from 'zod';
+import { CLOUD_CONTEXT_KEY } from '../context';
 import { environment } from '../environment';
 import { easMongo } from '../mongodb';
-import { OAuthAuthorizeErrorType } from 'models/oauth';
+import { authHook } from './hooks';
 
 export const oauthHandlers: FastifyPluginAsync = async server => {
 
@@ -37,9 +42,36 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
   );
 
   server.post('/authorize',
-    { schema: { body: oauthValidators.inputs.authorize } },
-    async () => {
-      // 
+    { onRequest: authHook() },
+    async (req) => {
+      const rawInput = req.body as Record<string, string>;
+
+      const ctx = req.requestContext.get(CLOUD_CONTEXT_KEY) as AuthenticatedCloudContext;
+
+      const input = await validateAuthorizationInput(rawInput);
+
+      const now = DateTime.now();
+
+      const grantCode: OAuthCode = {
+        _id: new ObjectId().toString(),
+        value: oauthCodeGenerator(),
+        clientId: input.client_id,
+        userId: ctx.auth._id,
+        expiresAt: now.plus({ minutes: 5 }),
+        redirectUri: input.redirect_uri.was_provided ?
+          input.redirect_uri.value :
+          undefined,
+        challenge: input.pkce
+      };
+
+      await easMongo.oauthCodes.insertOne(grantCode);
+
+      const url = new URL(authHostHandler);
+      url.searchParams.set('code', grantCode.value);
+      if (input.state)
+        url.searchParams.set('state', input.state);
+
+      return url;
     }
   );
 
@@ -48,19 +80,6 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
     async () => {
       throw new Error('not implemented');
     });
-
-
-  const allowedParameters = {
-    authorize: new Set([
-      'client_id',
-      'redirect_uri',
-      'response_type',
-      'scope',
-      'state',
-      'code_challenge',
-      'code_challenge_method'
-    ])
-  };
 
   async function validateAuthorizationInput(input: Record<string, string>) {
     const validators = oauthValidators.inputs.authorize;
@@ -81,27 +100,25 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
       .catch(() => {
         throw new OAuthRequestError('invalid-client-id');
       });
+    let redirect_uri_was_provided;
 
     // if redirect_uri provided, check it is registered with client
     if (redirect_uri) {
       if (!clientApp.redirectUris.includes(redirect_uri))
         throw new OAuthRequestError('invalid-redirect-uri');
+      redirect_uri_was_provided = true;
     }
     // else take the default redirect_uri from database
     else {
       if (!clientApp.redirectUris.length)
         throw new OAuthRequestError('invalid-redirect-uri');
       redirect_uri = clientApp.redirectUris[0];
+      redirect_uri_was_provided = false;
     }
-
-    // check that only known keys are in the request
-    if (Object.keys(input).some(key => !allowedParameters.authorize.has(key)))
-      throw new OAuthRequestError('invalid_request', redirect_uri);
 
     // check the response_type is valid
     const response_type = await validators.response_type.parseAsync(input['response_type'])
       .catch((e: ZodError) => {
-        console.log(e.issues);
         if (e.issues[0].code === 'invalid_literal')
           throw new OAuthRequestError('unsupported_response_type', redirect_uri);
         throw new OAuthRequestError('invalid_request', redirect_uri);
@@ -115,6 +132,12 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
     if (scopes && scopes.length)
       throw new OAuthRequestError('invalid_scope', redirect_uri);
 
+    // check state
+    const state = await validators.state.parseAsync(input['state'])
+      .catch(() => {
+        throw new OAuthRequestError('invalid_scope', redirect_uri);
+      });
+
     // check pkce parameters if provided
     let pkce;
     {
@@ -125,20 +148,26 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
 
       if (has.method && has.challenge) {
         pkce = await validators.pkce.parseAsync({
-          code_challenge: input['code_challenge'],
-          code_challenge_method: input['code_challenge_method']
+          code: input['code_challenge'],
+          method: input['code_challenge_method']
+        }).catch(() => {
+          throw new OAuthRequestError('invalid_request', redirect_uri);
         });
       }
       else if (has.method || has.challenge)
-        throw new OAuthRequestError('invalid_request');
+        throw new OAuthRequestError('invalid_request', redirect_uri);
     }
 
     return {
       client_id,
-      redirect_uri,
+      redirect_uri: {
+        value: redirect_uri,
+        was_provided: redirect_uri_was_provided
+      },
       response_type,
       scopes,
-      pkce
+      pkce,
+      state
     };
   }
 
