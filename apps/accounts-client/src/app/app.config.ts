@@ -1,10 +1,78 @@
-import { ApplicationConfig, provideExperimentalZonelessChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
+import { provideHttpClient, withFetch, withInterceptors, withNoXsrfProtection } from '@angular/common/http';
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
+import { DefaultSeoConfig, SEO_DEFAULT_CONFIG, SEOService } from '@easworks/app-shell/services/seo';
+import { UI_FEATURE } from '@easworks/app-shell/state/ui';
+import { uiEffects } from '@easworks/app-shell/state/ui.effects';
+import { provideEffects } from '@ngrx/effects';
+import { provideState, provideStore } from '@ngrx/store';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { appRoutes } from './app.routes';
+import { provideEnvironment } from './environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideEnvironment(),
     provideExperimentalZonelessChangeDetection(),
-    provideRouter(appRoutes),
+    provideClientHydration(
+      withEventReplay()
+    ),
+    provideStore(),
+    provideEffects(),
+    provideStoreDevtools({
+      name: 'Easworks',
+      logOnly: true
+    }),
+
+    provideHttpClient(
+      withFetch(),
+      withNoXsrfProtection(),
+      withInterceptors([])
+    ),
+
+    provideAnimations(),
+    {
+      provide: APP_INITIALIZER, multi: true,
+      deps: [ViewportScroller],
+      useFactory: (vs: ViewportScroller) => () => {
+        vs.setOffset([0, 80]);
+      }
+    },
+
+    provideRouter(appRoutes,
+      withComponentInputBinding(),
+      withInMemoryScrolling({
+        anchorScrolling: 'enabled',
+        scrollPositionRestoration: 'enabled'
+      })
+    ),
+
+    {
+      provide: SEO_DEFAULT_CONFIG, useValue: {
+        baseTitle: 'Accounts | EASWORKS',
+        defaultDescription: 'Manage your Easworks account'
+      } satisfies DefaultSeoConfig
+    },
+    importProvidersFrom([
+      MatSnackBarModule,
+      MatDialogModule
+    ]),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => () => undefined,
+      deps: [
+        SEOService,
+      ],
+      multi: true
+    },
+
+    provideState(UI_FEATURE),
+    provideEffects(uiEffects),
+
   ],
 };
