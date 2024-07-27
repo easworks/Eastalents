@@ -1,7 +1,7 @@
 import { InjectionToken } from '@angular/core';
 
 export interface Environment {
-  // readonly apiUrl: string;
+  readonly apiUrl: string;
   // readonly imageUrl: string;
 }
 
