@@ -15,7 +15,7 @@
         "browser": "apps/accounts-client/src/main.ts",
         "server": "apps/accounts-client/src/main.server.ts",
         "ssr": {
-          "entry": "apps/web-client/src/server.ts"
+          "entry": "apps/accounts-client/src/server.ts"
         },
         "polyfills": [],
         "tsConfig": "apps/accounts-client/tsconfig.app.json",
