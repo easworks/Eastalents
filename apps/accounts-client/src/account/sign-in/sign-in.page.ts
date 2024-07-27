@@ -7,5 +7,5 @@ import { Component, HostBinding } from '@angular/core';
 })
 export class SignInPageComponent {
   @HostBinding()
-  private readonly class = 'block page';
+  private readonly class = 'page grid place-content-center';
 }
