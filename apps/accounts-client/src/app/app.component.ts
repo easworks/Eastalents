@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { ScreenSize, sidebarActions, UI_FEATURE } from '@easworks/app-shell/state/ui';
+import { ScreenSize, sidebarActions, uiFeature } from '@easworks/app-shell/state/ui';
 import { Store } from '@ngrx/store';
 import { AppHeaderComponent } from './header/app-header.component';
 
@@ -31,13 +31,14 @@ export class AppComponent implements OnInit {
 
   private readonly appSidenav$ = viewChild.required<MatSidenav>('appSidenav');
 
-  private readonly ui$ = this.store.selectSignal(UI_FEATURE.selectUiState);
+  private readonly ui$ = this.store.selectSignal(uiFeature.selectUiState);
 
   protected readonly navigating$ = computed(() => this.ui$().navigating);
   private readonly screenSize$ = computed(() => this.ui$().screenSize);
+  private readonly minimalUi$ = computed(() => this.ui$().minimalUi);
 
   protected readonly sideBarState = (() => {
-    const state$ = this.store.selectSignal(UI_FEATURE.selectSidebar);
+    const state$ = this.store.selectSignal(uiFeature.selectSidebar);
 
     const mode$ = computed(() => {
       return state$().visible ? 'side' : 'over';
@@ -54,14 +55,21 @@ export class AppComponent implements OnInit {
     effect(() => {
       const alwaysShowSideMenu = alwaysShowSideMenu$();
 
-      if (alwaysShowSideMenu) {
-        this.store.dispatch(sidebarActions.show());
-        this.store.dispatch(sidebarActions.expand());
-      }
-      else {
+      if (this.minimalUi$()) {
         this.store.dispatch(sidebarActions.hide());
         this.store.dispatch(sidebarActions.contract());
       }
+      else {
+        if (alwaysShowSideMenu) {
+          this.store.dispatch(sidebarActions.show());
+          this.store.dispatch(sidebarActions.expand());
+        }
+        else {
+          this.store.dispatch(sidebarActions.hide());
+          this.store.dispatch(sidebarActions.contract());
+        }
+      }
+
     }, { allowSignalWrites: true, injector: this.injector });
 
     this.appSidenav$().closedStart

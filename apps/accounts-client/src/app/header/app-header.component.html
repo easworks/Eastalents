@@ -1,6 +1,8 @@
+@if(!minimalUi$()) {
 <button class="icon-button" mat-ripple (click)="toggleSidebar()">
   <fa-icon [icon]="icons.faBars"></fa-icon>
 </button>
+}
 
 <!-- Logo -->
 <a routerLink="/" class="flex-none">

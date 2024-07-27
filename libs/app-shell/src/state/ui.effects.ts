@@ -111,6 +111,21 @@ export const uiEffects = {
         );
     },
     { functional: true }
+  ),
+  watchRouterMinimalUi: createEffect(
+    () => {
+      const router = inject(Router);
+
+      return router.events
+        .pipe(
+          filter(e => e.type === EventType.ActivationStart),
+          map(e => {
+            const snap = e.snapshot;
+            return uiActions.updateMinimalUi({ payload: { minimal: snap.data['minimalUi'] || false } });
+          })
+        );
+    },
+    { functional: true }
   )
 } as const;
 

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { sidebarActions } from '@easworks/app-shell/state/ui';
+import { sidebarActions, uiFeature } from '@easworks/app-shell/state/ui';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AccountWidgetComponent } from "../../account/account-widget/account.widget";
@@ -24,6 +24,8 @@ export class AppHeaderComponent {
   protected readonly icons = {
     faBars
   } as const;
+
+  protected readonly minimalUi$ = this.store.selectSignal(uiFeature.selectMinimalUi);
 
   protected toggleSidebar() {
     this.store.dispatch(sidebarActions.toggleExpansion());

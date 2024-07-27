@@ -6,7 +6,10 @@ export const routes: Route[] = [
     path: 'sign-in',
     pathMatch: 'full',
     loadComponent: () => import('../account/sign-in/sign-in.page')
-      .then(m => m.SignInPageComponent)
+      .then(m => m.SignInPageComponent),
+    data: {
+      minimalUi: true
+    }
   },
   {
     path: '',
