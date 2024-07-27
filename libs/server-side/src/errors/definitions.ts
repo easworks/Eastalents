@@ -34,8 +34,8 @@ export class InvalidOAuthCode extends ApiError {
 export class OAuthRequestError<T extends
   OAuthAuthorizeErrorType |
   OAuthTokenErrorType |
-  'invalid-client-id' |
-  'invalid-redirect-uri'
+  'invalid_client_id' |
+  'invalid_redirect_uri'
 > extends ApiError {
   constructor(
     public readonly error: T,

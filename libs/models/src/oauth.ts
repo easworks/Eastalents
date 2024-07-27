@@ -17,6 +17,7 @@ export interface OAuthCode extends Entity {
   };
   redirectUri?: string;
   expiresAt: DateTime;
+  grantedToken?: string;
 }
 
 export interface OAuthTokenSuccessResponse {

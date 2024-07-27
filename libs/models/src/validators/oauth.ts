@@ -18,7 +18,7 @@ const types = {
   grantCode: {
     external: z.string().trim().min(1),
     easworks: z.string().trim()
-      .min(1).max(32)
+      .length(64)
       .regex(codePattern),
   },
   code_challenge: z.string().trim()
@@ -39,6 +39,13 @@ const inputs = {
       method: types.code_challenge_method,
       code: types.code_challenge
     })
+  },
+  token: {
+    client_id: types.client_id,
+    grant_type: types.grant_type,
+    code: types.grantCode.easworks,
+    redirect_uri: types.redirect_uri.optional(),
+    code_verifier: types.code_challenge.optional()
   }
 } as const;
 
