@@ -7,7 +7,17 @@ import { isBrowser } from '../utilities/platform-type';
 declare const __SW_URL: string | undefined;
 export const SW_URL = new InjectionToken<string>('SW_URL: The service worker url', {
   providedIn: 'root',
-  factory: () => isBrowser() && __SW_URL || ''
+  factory: () => {
+    if (isBrowser()) {
+      try {
+        return __SW_URL || '';
+      }
+      catch {
+        return '';
+      }
+    }
+    return '';
+  }
 });
 
 

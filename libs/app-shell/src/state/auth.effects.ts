@@ -1,9 +1,9 @@
 import { effect, inject, INJECTOR } from '@angular/core';
-import { UserWithToken } from 'models/user';
 import { createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { PERMISSION_DEF_DTO } from 'models/permissions';
+import { UserWithToken } from 'models/user';
 import { EMPTY, fromEvent, of, tap } from 'rxjs';
-import { PERMISSION_DEF_DTO } from '../permissions';
 import { SWManagerService } from '../services/sw.manager';
 import { isBrowser, isServer } from '../utilities/platform-type';
 import { authActions, authFeature, CURRENT_USER_KEY } from './auth';

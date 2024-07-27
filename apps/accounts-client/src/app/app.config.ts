@@ -7,13 +7,15 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { DefaultSeoConfig, SEO_DEFAULT_CONFIG, SEOService } from '@easworks/app-shell/services/seo';
+import { authFeature } from '@easworks/app-shell/state/auth';
+import { authEffects } from '@easworks/app-shell/state/auth.effects';
 import { UI_FEATURE } from '@easworks/app-shell/state/ui';
 import { uiEffects } from '@easworks/app-shell/state/ui.effects';
 import { provideEffects } from '@ngrx/effects';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { appRoutes } from './app.routes';
 import { provideEnvironment } from './environment';
+import { routes } from './routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -44,7 +46,7 @@ export const appConfig: ApplicationConfig = {
       }
     },
 
-    provideRouter(appRoutes,
+    provideRouter(routes,
       withComponentInputBinding(),
       withInMemoryScrolling({
         anchorScrolling: 'enabled',
@@ -74,5 +76,7 @@ export const appConfig: ApplicationConfig = {
     provideState(UI_FEATURE),
     provideEffects(uiEffects),
 
+    provideState(authFeature),
+    provideEffects(authEffects),
   ],
 };
