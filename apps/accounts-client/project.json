@@ -22,8 +22,9 @@
         "inlineStyleLanguage": "less",
         "assets": [
           {
-            "glob": "(!software)/**/*",
-            "input": "apps/accounts-client/src/assets"
+            "glob": "!(software)/**/*",
+            "input": "libs/shared/assets/src",
+            "output": "./assets"
           },
           "apps/accounts-client/src/assets"
         ],
