@@ -43,7 +43,7 @@ async function mapTokenToCloudUser(token: string) {
       throw new InvalidBearerToken(e.message);
     });
 
-  const user = await easMongo.users.findOne({ _id: claims['sub'] });
+  const user = await easMongo.users.findOne({ _id: claims['_id'] });
   if (!user)
     throw new UserNotFound().withStatus(StatusCodes.UNAUTHORIZED);
 
@@ -61,11 +61,11 @@ async function mapTokenToCloudUser(token: string) {
   const permissions = getPermissionSet(permissionRecord.roles, permissionRecord.permissions);
 
   const auth: CloudUser = {
-    ...claims,
     _id: user._id,
     roles,
     permissions,
     token,
+    claims
   };
 
   return auth;

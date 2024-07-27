@@ -3,7 +3,8 @@ import { DateTime } from 'luxon';
 import { TokenRef } from 'models/auth';
 import { ExternalIdpUser } from 'models/identity-provider';
 import { OAuthTokenSuccessResponse } from 'models/oauth';
-import { TokenPayload, User } from 'models/user';
+import { PermissionRecord } from 'models/permission-record';
+import { User, UserClaims } from 'models/user';
 import { ObjectId } from 'mongodb';
 import * as crypto from 'node:crypto';
 import { InvalidPassword, KeyValueDocumentNotFound, UserNeedsPasswordReset } from 'server-side/errors/definitions';
@@ -47,7 +48,7 @@ export const passwordUtils = {
 } as const;
 
 export const jwtUtils = {
-  createToken: async (user: User) => {
+  createToken: async (user: User, permissionRecord: PermissionRecord) => {
     const { privateKey, issuer } = environment.jwt;
     const expiresIn = TOKEN_EXPIRY_SECONDS;
 
@@ -56,16 +57,18 @@ export const jwtUtils = {
       expiresIn
     };
 
-    const payload: TokenPayload = {
+    const payload: UserClaims = {
+      _id: user._id,
+      roles: permissionRecord.roles
     };
 
     const token = await new Promise<string>((resolve, reject) => {
       jwt.sign(payload, privateKey, {
         algorithm: 'RS256',
         expiresIn,
-        jwtid: tokenRef._id.toString(),
+        jwtid: tokenRef._id,
         issuer,
-        subject: user._id.toString(),
+        subject: payload._id,
       }, (err, encoded) => err ? reject(err) : resolve(encoded as string));
     });
     await easMongo.tokens.insertOne(tokenRef);
@@ -84,8 +87,8 @@ export const jwtUtils = {
 } as const;
 
 export const oauthUtils = {
-  createTokenResponse: async (user: User, roles: string[]) => {
-    const { token, expiresIn } = await jwtUtils.createToken(user);
+  createTokenResponse: async (user: User, permissionRecord: PermissionRecord) => {
+    const { token, expiresIn } = await jwtUtils.createToken(user, permissionRecord);
 
     const tokenResponse: OAuthTokenSuccessResponse = {
       // oauth spec properties
@@ -103,7 +106,7 @@ export const oauthUtils = {
         lastName: user.lastName,
         fullName: `${user.firstName} ${user.lastName}`.trim(),
         imageUrl: user.imageUrl,
-        roles
+        roles: permissionRecord.roles
       }
     };
 

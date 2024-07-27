@@ -1,10 +1,11 @@
 import type { JwtPayload } from 'jsonwebtoken';
-import { TokenPayload } from 'models/user';
 
-export type CloudUser = JwtPayload & TokenPayload & {
+export interface CloudUser {
   _id: string;
-  token: string;
+  roles: Set<string>;
   permissions: Set<string>;
+  token: string;
+  claims: JwtPayload;
 };
 
 export interface AuthenticatedCloudContext {

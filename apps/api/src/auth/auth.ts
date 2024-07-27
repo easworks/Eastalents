@@ -166,7 +166,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       await saveNewUser(user, permissions, credential);
 
-      const tokenResponse = oauthUtils.createTokenResponse(user, permissions.roles);
+      const tokenResponse = oauthUtils.createTokenResponse(user, permissions);
 
       return tokenResponse;
     }
@@ -210,7 +210,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       if (!permissions)
         throw new Error('user permissions should exist');
 
-      const tokenResponse = await oauthUtils.createTokenResponse(user, permissions.roles);
+      const tokenResponse = await oauthUtils.createTokenResponse(user, permissions);
 
       return tokenResponse;
     }
@@ -279,7 +279,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     if (!permissions)
       throw new Error('user permissions should not be null');
 
-    const tokenResponse = oauthUtils.createTokenResponse(user, permissions.roles);
+    const tokenResponse = oauthUtils.createTokenResponse(user, permissions);
 
     return tokenResponse;
   }
