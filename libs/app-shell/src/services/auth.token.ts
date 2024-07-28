@@ -11,16 +11,26 @@ export class AuthTokenService {
   private readonly cache = inject(CACHE)?.auth;
 
   async setToken(token: string) {
+    if (!this.cache)
+      return;
     const payload = this.getPayload(token);
     const exp = payload.exp;
     if (!exp)
       throw new Error('invalid token');
+
+    const expiry = DateTime.fromSeconds(exp);
+    const expired = expiry.diffNow().milliseconds < 0;
+    if (expired)
+      return;
 
     await set('token', token, this.cache);
     await set('expiry', DateTime.fromSeconds(exp).toISO(), this.cache);
   }
 
   async getToken() {
+    if (!this.cache)
+      return null;
+
     const exp = await get<string>('expiry', this.cache);
     if (!exp)
       return null;

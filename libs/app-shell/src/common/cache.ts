@@ -1,7 +1,7 @@
 import { InjectionToken } from '@angular/core';
+import { createStore } from 'idb-keyval';
 import { customKeyvalStore } from '../utilities/create-keyval-store';
 import { isBrowser } from '../utilities/platform-type';
-import { createStore } from 'idb-keyval';
 
 
 export const CACHE = new InjectionToken('CACHE', {
