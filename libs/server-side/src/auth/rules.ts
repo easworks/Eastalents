@@ -1,14 +1,31 @@
 import { permissionHeirarchy } from 'models/permission-record';
-import { isPermissionDefined } from 'models/permissions';
+import { ALL_ROLES, isPermissionDefined } from 'models/permissions';
 import { AuthenticatedCloudContext } from '../context';
 
 export type AuthValidator = (ctx: AuthenticatedCloudContext) => boolean;
 
 const cache = {
   hasPermission: new Map<string, AuthValidator>(),
+  hasRole: new Map<string, AuthValidator>(),
 } as const;
 
 export const authRules = {
+  hasRole: (role: string) => {
+    {
+      const cached = cache.hasPermission.get(role);
+      if (cached) return cached;
+    }
+
+    const foundRole = ALL_ROLES.get(role);
+    if (!foundRole) {
+      throw new Error(`role '${role}' is not defined`);
+    }
+
+    const validator: AuthValidator = ({ auth }) => auth.roles.has(role);
+
+    cache.hasRole.set(role, validator);
+    return validator;
+  },
   hasPermission: (permission: string) => {
     {
       const cached = cache.hasPermission.get(permission);

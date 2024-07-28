@@ -22,6 +22,12 @@ export function extractPermissionList(input: PermissionDefinitionDTO): string[] 
 
 const heirarchyCache = new Map<string, string[]>();
 
+/** Given a particular permission, 
+ * returns all the permission strings 
+ * that would allow the input permission
+ *  
+ * For example: `users.read.list` =>
+ * `[ 'all', 'users', 'users.read', 'users.read.list' ]`*/
 export function permissionHeirarchy(permission: string) {
   const cached = heirarchyCache.get(permission);
   if (cached) return cached;

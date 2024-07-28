@@ -10,3 +10,6 @@ services:
       - JWT_PUBLIC_KEY
       - JWT_PRIVATE_KEY
       - JWT_ISSUER
+      - AUTH_HOST
+      - AUTH_HOST_OAUTH_HANDLER
+
