@@ -57,7 +57,7 @@ export class ContactFormComponent {
         validators: [Validators.required]
       }),
       email: new FormControl('', {
-        validators: [Validators.required, Validators.pattern(pattern.email)],
+        validators: [Validators.required, Validators.email],
         nonNullable: true
       }),
       phoneNumber: new FormGroup({

@@ -100,7 +100,9 @@
       "executor": "@nx/angular:dev-server",
       "options": {
         "liveReload": false,
-        "hmr": false
+        "hmr": false,
+        "port": 4104,
+        "proxyConfig": "apps/accounts-client/proxy.config.json"
       },
       "configurations": {
         "production": {

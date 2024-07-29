@@ -6,12 +6,11 @@ const devMode = isDevMode();
 
 const env: Environment = devMode ?
   {
-    apiUrl: 'https://eas-works.onrender.com/api',
-    imageUrl: 'https://eas-works.onrender.com/api',
+    apiUrl: '/api',
+
   } :
   {
-    apiUrl: 'https://eas-works.onrender.com/api',
-    imageUrl: 'https://eas-works.onrender.com/api',
+    apiUrl: '/api'
   };
 
 

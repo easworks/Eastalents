@@ -1,6 +1,6 @@
 import { computed, inject, InjectionToken } from '@angular/core';
 import { MenuItem, NOOP_CLICK } from '@easworks/app-shell/navigation/models';
-import { UI_FEATURE } from '@easworks/app-shell/state/ui';
+import { uiFeature } from '@easworks/app-shell/state/ui';
 import { faFacebook, faGithub, faInstagram, faLinkedin, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { faBriefcase, faCubes, faDiagramNext, faGroupArrowsRotate, faHeadset, faLightbulb, faMicrochip, faPaintBrush, faPenRuler, faRocket } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
@@ -124,7 +124,7 @@ export const PUBLIC_MENU = new InjectionToken('PUBLIC_MENU', {
   providedIn: 'root',
   factory: () => {
     const store = inject(Store);
-    const screenSize$ = store.selectSignal(UI_FEATURE.selectScreenSize);
+    const screenSize$ = store.selectSignal(uiFeature.selectScreenSize);
 
     // where the public menu will split between horizontal and vertical
     // items before the split is
