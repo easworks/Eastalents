@@ -12,7 +12,7 @@ export const CACHE = new InjectionToken('CACHE', {
 
     const domainDataDB = customKeyvalStore('domain-data');
     const cache = {
-      admin: {
+      domainData: {
         domains: domainDataDB('domains'),
         softwareProducts: domainDataDB('software-products'),
         techSkills: domainDataDB('tech-skills'),

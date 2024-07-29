@@ -10,7 +10,7 @@ import { DefaultSeoConfig, SEO_DEFAULT_CONFIG, SEOService } from '@easworks/app-
 import { SWManagerService } from '@easworks/app-shell/services/sw.manager';
 import { authFeature } from '@easworks/app-shell/state/auth';
 import { authEffects } from '@easworks/app-shell/state/auth.effects';
-import { UI_FEATURE } from '@easworks/app-shell/state/ui';
+import { uiFeature } from '@easworks/app-shell/state/ui';
 import { uiEffects } from '@easworks/app-shell/state/ui.effects';
 import { provideEffects } from '@ngrx/effects';
 import { provideState, provideStore } from '@ngrx/store';
@@ -76,7 +76,7 @@ export const appConfig: ApplicationConfig = {
       multi: true
     },
 
-    provideState(UI_FEATURE),
+    provideState(uiFeature),
     provideEffects(uiEffects),
 
     provideState(authFeature),

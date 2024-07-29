@@ -5,7 +5,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { AuthenticateVerticalMenuComponent } from '@easworks/app-shell/navigation/authenticated-vertical-menu/authenticated-vertical-menu.component';
 import { authFeature } from '@easworks/app-shell/state/auth';
-import { ScreenSize, sidebarActions, UI_FEATURE } from '@easworks/app-shell/state/ui';
+import { ScreenSize, sidebarActions, uiFeature } from '@easworks/app-shell/state/ui';
 import { isServer } from '@easworks/app-shell/utilities/platform-type';
 import { Store } from '@ngrx/store';
 import { AppFooterComponent } from './footer/footer.component';
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
   private readonly isServer = isServer();
 
 
-  private readonly ui$ = this.store.selectSignal(UI_FEATURE.selectUiState);
+  private readonly ui$ = this.store.selectSignal(uiFeature.selectUiState);
   private readonly user$ = this.store.selectSignal(authFeature.selectUser);
   protected readonly isSignedIn$ = computed(() => !!this.user$());
 
@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
   private readonly screenSize$ = computed(() => this.ui$().screenSize);
 
   protected readonly sideBarState = (() => {
-    const state$ = this.store.selectSignal(UI_FEATURE.selectSidebar);
+    const state$ = this.store.selectSignal(uiFeature.selectSidebar);
 
     const mode$ = computed(() => {
       if (!this.isSignedIn$())

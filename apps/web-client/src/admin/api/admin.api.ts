@@ -11,7 +11,7 @@ export class AdminApi {
   private readonly cache = inject(CACHE);
 
   readonly domains = (() => {
-    const cache = this.cache?.admin.domains;
+    const cache = this.cache?.domainData.domains;
 
     return cache ?
       entityCache<Domain>(cache) :
@@ -19,7 +19,7 @@ export class AdminApi {
   })();
 
   readonly softwareProducts = (() => {
-    const cache = this.cache?.admin.softwareProducts;
+    const cache = this.cache?.domainData.softwareProducts;
 
     return cache ?
       entityCache<SoftwareProduct>(cache) :
@@ -27,7 +27,7 @@ export class AdminApi {
   })();
 
   readonly techSkills = (() => {
-    const cache = this.cache?.admin.techSkills;
+    const cache = this.cache?.domainData.techSkills;
 
     return cache ?
       entityCache<TechSkill>(cache) :
@@ -35,7 +35,7 @@ export class AdminApi {
   })();
 
   readonly techGroups = (() => {
-    const cache = this.cache?.admin.techGroups;
+    const cache = this.cache?.domainData.techGroups;
 
     return cache ?
       entityCache<TechGroup>(cache) :
