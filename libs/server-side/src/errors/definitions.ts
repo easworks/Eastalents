@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
+import { OAuthAuthorizeErrorType, OAuthTokenErrorType } from 'models/oauth';
 import { ZodError } from 'zod';
 import { ApiError } from './utils';
 
@@ -10,21 +11,38 @@ export class ValidationFailed extends ApiError {
   }
 }
 
-export class InvalidOAuthClientID extends ApiError {
-  constructor() {
-    super('invalid-oauth-client-id', StatusCodes.BAD_REQUEST);
+export class KeyValueDocumentNotFound extends ApiError {
+  constructor(key: string) {
+    super('key-value-document-not-found', StatusCodes.INTERNAL_SERVER_ERROR);
+    this.metadata['docment'] = key;
   }
 }
 
-export class InvalidRedirectUri extends ApiError {
-  constructor() {
-    super('invalid-redirect-uri', StatusCodes.BAD_REQUEST);
+export class InvalidBearerToken extends ApiError {
+  constructor(message: string) {
+    super('invalid-bearer-token', StatusCodes.UNAUTHORIZED);
+    this.metadata['reason'] = message;
   }
 }
 
 export class InvalidOAuthCode extends ApiError {
   constructor() {
     super('invalid-oauth-code', StatusCodes.BAD_REQUEST);
+  }
+}
+
+export class OAuthRequestError<T extends
+  OAuthAuthorizeErrorType |
+  OAuthTokenErrorType |
+  'invalid_client_id' |
+  'invalid_redirect_uri'
+> extends ApiError {
+  constructor(
+    public readonly error: T,
+    public readonly redirect_uri?: string
+  ) {
+    super('oauth-request-error', StatusCodes.BAD_REQUEST);
+    this.metadata['oauth-error'] = error;
   }
 }
 
@@ -48,6 +66,12 @@ export class SignupEmailInUse extends ApiError {
   }
 }
 
+export class SignupRoleIsInvalid extends ApiError {
+  constructor() {
+    super('signup-role-is-invalid', StatusCodes.BAD_REQUEST);
+  }
+}
+
 export class SignupRequiresWorkEmail extends ApiError {
   constructor(domain: string) {
     super('signup-requires-work-email', StatusCodes.BAD_REQUEST);
@@ -61,9 +85,33 @@ export class UserNeedsPasswordReset extends ApiError {
   }
 }
 
+export class UserNeedsEmailVerification extends ApiError {
+  constructor() {
+    super('user-needs-email-verification', StatusCodes.BAD_REQUEST);
+  }
+}
+
+export class UserIsDisabled extends ApiError {
+  constructor() {
+    super('user-is-disabled', StatusCodes.FORBIDDEN);
+  }
+}
+
+export class UserNotFound extends ApiError {
+  constructor() {
+    super('user-not-found', StatusCodes.NOT_FOUND);
+  }
+}
+
 export class UserNicknameInUse extends ApiError {
   constructor() {
     super('user-nickname-in-use', StatusCodes.BAD_REQUEST);
+  }
+}
+
+export class UserEmailNotRegistered extends ApiError {
+  constructor() {
+    super('user-email-not-registered', StatusCodes.UNAUTHORIZED);
   }
 }
 

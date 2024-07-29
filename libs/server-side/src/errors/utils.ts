@@ -9,6 +9,11 @@ export class ApiError extends ErrorWithCode {
     super(code);
   }
 
+  withStatus(code: StatusCodes) {
+    this.status = code;
+    return this;
+  }
+
   public override toProblemDetails() {
     const pd = super.toProblemDetails();
     pd.status = this.status;

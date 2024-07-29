@@ -2,22 +2,22 @@ import { DateTime } from 'luxon';
 import { customAlphabet } from 'nanoid';
 import { Entity } from './entity';
 
-export interface ClientApplication {
-  id: string;
+export interface OAuthClientApplication extends Entity {
   name: string;
   redirectUris: string[];
 }
 
-export interface AuthCode extends Entity {
+export interface OAuthCode extends Entity {
   value: string;
   clientId: string;
-  uid: string;
+  userId: string;
   challenge?: {
     code: string;
     method: 'plain' | 'S256';
   };
   redirectUri?: string;
   expiresAt: DateTime;
+  grantedToken?: string;
 }
 
 export interface OAuthTokenSuccessResponse {
@@ -30,7 +30,28 @@ export interface OAuthTokenSuccessResponse {
   [key: string]: unknown;
 }
 
-type OAuthTokenErrorType =
+interface OAuthErrorResponse {
+  error: string;
+  error_description?: string;
+  error_uri?: string;
+}
+
+export type OAuthAuthorizeErrorType =
+  'invalid_request' |
+  'unauthorized_client' |
+  'access_denied' |
+  'unsupported_response_type' |
+  'invalid_scope' |
+  'server_error' |
+  'temporarily_unavailable';
+
+
+export interface OAuthAuthorizeErrorResponse extends OAuthErrorResponse {
+  error: OAuthAuthorizeErrorType;
+  state?: unknown;
+}
+
+export type OAuthTokenErrorType =
   'invalid_request' |
   'invalid_client' |
   'invalid_grant' |
@@ -38,11 +59,9 @@ type OAuthTokenErrorType =
   'unsupported_grant_type' |
   'invalid_scope';
 
-export interface OAuthTokenErrorResponse {
+export interface OAuthTokenErrorResponse extends OAuthErrorResponse {
   error: OAuthTokenErrorType;
-  error_description?: string;
-  error_uri?: string;
 }
 
 const codeAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890';
-export const oauthCodeGenerator = customAlphabet(codeAlphabet, 32);
+export const oauthCodeGenerator = customAlphabet(codeAlphabet, 64);

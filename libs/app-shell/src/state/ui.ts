@@ -33,6 +33,7 @@ export interface State {
   navigating: boolean;
   verticalOffset: number;
   showSplashScreen: boolean;
+  minimalUi: boolean;
 }
 
 export const uiActions = createActionGroup({
@@ -43,7 +44,8 @@ export const uiActions = createActionGroup({
     'update top bar mode': props<{ payload: { dark: boolean; }; }>(),
     'update navigation state': props<{ navigating: boolean; }>(),
     'update vertical offset': props<{ verticalOffset: number; }>(),
-    'hide splash screen': emptyProps()
+    'hide splash screen': emptyProps(),
+    'update minimal ui': props<{ payload: { minimal: boolean; }; }>()
   }
 });
 
@@ -59,7 +61,7 @@ export const sidebarActions = createActionGroup({
   }
 });
 
-export const UI_FEATURE = createFeature({
+export const uiFeature = createFeature({
   name: 'ui',
   reducer: createReducer<State>(
     {
@@ -74,7 +76,8 @@ export const UI_FEATURE = createFeature({
       },
       navigating: true,
       verticalOffset: 0,
-      showSplashScreen: false
+      showSplashScreen: false,
+      minimalUi: false,
     },
     on(uiActions.updateNavigationState, produce((state, { navigating }) => {
       state.navigating = navigating;
@@ -116,7 +119,11 @@ export const UI_FEATURE = createFeature({
     })),
     on(uiActions.hideSplashScreen, produce((state) => {
       state.showSplashScreen = false;
-    }))
+    })),
+
+    on(uiActions.updateMinimalUi, produce((state, { payload }) => {
+      state.minimalUi = payload.minimal;
+    })),
   ),
 });
 

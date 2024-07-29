@@ -1,0 +1,33 @@
+<div class="p-4 px-6 rounded">
+  <form [id]="emailLogin.formId"
+        [formGroup]="emailLogin.form"
+        (ngSubmit)="emailLogin.submit()">
+
+    <div *ngrxLet="emailLogin.form.controls.email as control"
+         [formFieldControl]="control">
+      <label>Email</label>
+      <input type="email" [formControl]="control">
+      @if(control.hasError('required')) { <span class="error">Required</span> }
+      @if(control.hasError('email')) { <span class="error">Invalid Email</span> }
+    </div>
+
+    <div *ngrxLet="emailLogin.form.controls.password as control"
+         [formFieldControl]="control">
+      <label>Password</label>
+      <input type="password" [formControl]="control">
+      @if(control.hasError('required')) { <span class="error">Required</span> }
+    </div>
+
+  </form>
+
+  <div class="flex gap-4">
+    <button class="shaded-button primary relative"
+            [attr.form]="emailLogin.formId"
+            type="submit"
+            [disabled]="emailLogin.button.disabled$()">
+      <replace-spinner [showSpinner]="emailLogin.button.loading$()">
+        Sign In
+      </replace-spinner>
+    </button>
+  </div>
+</div>

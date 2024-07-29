@@ -1,0 +1,15 @@
+#app-header {
+  @apply h-16 z-10 sticky top-0 shadow;
+}
+
+#app-sidenav {
+  @apply !top-16;
+
+  --mat-sidenav-container-background-color: theme('colors.white');
+
+  &.mat-drawer-side {
+    --mat-sidenav-container-divider-color: theme('colors.divider');
+    --mat-sidenav-container-shape: theme('borderRadius.none');
+
+  }
+}

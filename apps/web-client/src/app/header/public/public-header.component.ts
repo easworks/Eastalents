@@ -30,7 +30,7 @@ export class AppPublicHeaderComponent {
   private readonly swm = inject(SWManagerService);
 
   @HostBinding()
-  private readonly class = 'flex h-full gap-4 items-center bg-black p-1 px-4 overflow-clip';
+  private readonly class = 'flex h-full gap-4 items-center bg-black p-1 px-4';
 
   protected readonly icons = {
     faHighTechFourLeaf,

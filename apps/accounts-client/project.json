@@ -13,17 +13,36 @@
         "outputPath": "dist/apps/accounts-client",
         "index": "apps/accounts-client/src/index.html",
         "browser": "apps/accounts-client/src/main.ts",
+        "server": "apps/accounts-client/src/main.server.ts",
+        "ssr": {
+          "entry": "apps/accounts-client/src/server.ts"
+        },
         "polyfills": [],
         "tsConfig": "apps/accounts-client/tsconfig.app.json",
         "inlineStyleLanguage": "less",
         "assets": [
           {
-            "glob": "**/*",
-            "input": "apps/accounts-client/public"
-          }
+            "glob": "!(software)/**/*",
+            "input": "libs/shared/assets/src",
+            "output": "./assets"
+          },
+          "apps/accounts-client/src/assets"
         ],
-        "styles": ["apps/accounts-client/src/styles.less"],
-        "scripts": []
+        "styles": [
+          "libs/shared/styles/src/fonts.css",
+          "libs/shared/styles/src/material.scss",
+          "apps/accounts-client/src/styles.less"
+        ],
+        "scripts": [],
+        "statsJson": true,
+        "plugins": [
+          {
+            "path": "tools/esbuild/inject-tw-theme.plugin.ts",
+            "options": {
+              "configPath": "apps/accounts-client/tailwind.config.js"
+            }
+          }
+        ]
       },
       "configurations": {
         "production": {
@@ -51,6 +70,12 @@
     },
     "serve": {
       "executor": "@nx/angular:dev-server",
+      "options": {
+        "liveReload": true,
+        "hmr": true,
+        "port": 4103,
+        "proxyConfig": "apps/accounts-client/proxy.config.json"
+      },
       "configurations": {
         "production": {
           "buildTarget": "accounts-client:build:production"
@@ -81,9 +106,18 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "accounts-client:build",
-        "port": 4200,
+        "port": 4103,
         "staticFilePath": "dist/apps/accounts-client/browser",
         "spa": true
+      }
+    },
+    "serve-ssr": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node dist/apps/accounts-client/server/server.mjs",
+        "env": {
+          "PORT": "4103"
+        }
       }
     }
   }

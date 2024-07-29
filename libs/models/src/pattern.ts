@@ -1,5 +1,4 @@
 export const pattern = {
-  email: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
   password: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
   telephone: /^[\d+\- ]+$/,
   linkedin: {
@@ -11,5 +10,9 @@ export const pattern = {
   gitlab: {
     profile: /^(https:\/\/)?(www\.)?gitlab\.com\/[^/]+\/?$/
   },
-  slug: /^[a-z0-9-]+$/
+  slug: /^[a-z0-9-]+$/,
+  nickname: /^[a-z0-9_]+$/,
+  hex: {
+    lowercase: /^[a-f0-9]+$/
+  }
 } as const; 

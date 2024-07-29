@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { createCache } from '../utilities/cache';
+import { createStore } from 'idb-keyval';
 import { customKeyvalStore } from '../utilities/create-keyval-store';
 import { isBrowser } from '../utilities/platform-type';
 
@@ -10,16 +10,15 @@ export const CACHE = new InjectionToken('CACHE', {
     if (!isBrowser())
       return;
 
-    const adminDataDB = customKeyvalStore('admin-data');
+    const domainDataDB = customKeyvalStore('domain-data');
     const cache = {
-      domains: createCache('domain-data'),
-      csc: createCache('csc-cache'),
       admin: {
-        domains: adminDataDB('domains'),
-        softwareProducts: adminDataDB('software-products'),
-        techSkills: adminDataDB('tech-skills'),
-        techGroups: adminDataDB('tech-groups')
-      }
+        domains: domainDataDB('domains'),
+        softwareProducts: domainDataDB('software-products'),
+        techSkills: domainDataDB('tech-skills'),
+        techGroups: domainDataDB('tech-groups')
+      },
+      auth: createStore('auth', 'auth')
     };
     return cache;
   }

@@ -3,6 +3,7 @@ import { PermissionRecord } from 'models/permission-record';
 import { User } from 'models/user';
 import { Collection, MongoClient } from 'mongodb';
 import { TokenRef } from 'models/auth';
+import { OAuthClientApplication, OAuthCode } from 'models/oauth';
 
 const collections = [
   'users'
@@ -40,8 +41,12 @@ export function initialiseMongo(client: MongoClient) {
 
     tokens: db.collection('tokens') as Collection<TokenRef>,
 
+    oauthApps: db.collection('oauth-apps') as Collection<OAuthClientApplication>,
+    oauthCodes: db.collection('oauth-codes') as Collection<OAuthCode>,
+
     keyval: {
-      get: <T>(key: string) => (keyval as Collection<KeyValDocument<T>>).findOne({ key })
+      get: <T>(key: string) => (keyval as Collection<KeyValDocument<T>>).findOne({ key }),
+      exists: (key: string) => keyval.countDocuments({ key }).then(count => count > 0)
     }
   };
 }

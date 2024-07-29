@@ -12,7 +12,8 @@ export interface User extends Entity {
   imageUrl: string | null;
 }
 
-export interface UserWithToken extends User {
-  isNew: boolean;
-  token: string;
+export interface UserClaims {
+  _id: string;
+  roles: string[];
 }
+

@@ -1,8 +1,8 @@
-import { PermissionDefinitionDTO, extractPermissionList, permissionHeirarchy } from 'models/permission-record';
-import { Role } from 'models/role';
+import { PermissionDefinitionDTO, extractPermissionList, permissionHeirarchy } from './permission-record';
+import { Role } from './role';
 
 export const PERMISSION_DEF_DTO: PermissionDefinitionDTO = [
-  ['role', ['freelancer', 'employer', 'admin']],
+  ['migration', ['export', 'import']],
   ['job-post', [
     'create',
     'read',
@@ -30,37 +30,22 @@ export function isPermissionGranted(permission: string, grants: string[]) {
 
 const roleList: Role[] = [
   {
-    id: 'freelancer',
-    permissions: [
-      'role.freelancer',
-      'gen-ai-vetting'
-    ],
-    static: false
+    id: 'talent',
+    permissions: [],
+    static: false,
+    allowSignup: true,
   },
   {
     id: 'employer',
-    permissions: [
-      'role.employer',
-      'job-post.create',
-      'job-post.read',
-      'job-post.update.details',
-      'cost-calculator'
-    ],
-    static: false
-  },
-  {
-    id: 'admin',
-    permissions: [
-      'role.admin',
-      'job-post.read',
-      'job-post.delete',
-    ],
-    static: false
+    permissions: [],
+    static: false,
+    allowSignup: true,
   },
   {
     id: 'super-admin',
     permissions: ['all'],
-    static: true
+    static: true,
+    allowSignup: false,
   }
 ];
 
