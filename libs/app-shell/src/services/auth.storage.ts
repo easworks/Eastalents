@@ -7,7 +7,7 @@ import { CACHE } from '../common/cache';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthTokenService {
+export class AuthStorageService {
   private readonly cache = inject(CACHE)?.auth;
 
   async setToken(token: string) {
