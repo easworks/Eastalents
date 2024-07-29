@@ -12,4 +12,3 @@ services:
       - JWT_ISSUER
       - AUTH_HOST
       - AUTH_HOST_OAUTH_HANDLER
-

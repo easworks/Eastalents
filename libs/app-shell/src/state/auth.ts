@@ -1,24 +1,68 @@
-import { createActionGroup, createFeature, createReducer, createSelector, props } from '@ngrx/store';
-import { PermissionDefinitionDTO } from 'models/permission-record';
-import { UserWithToken } from 'models/user';
+import { createActionGroup, createFeature, createReducer, createSelector, on, props } from '@ngrx/store';
+import { produce } from 'immer';
+import { extractPermissionList, PermissionDefinitionDTO, PermissionRecord } from 'models/permission-record';
+import { ALL_ROLES } from 'models/permissions';
+import { User } from 'models/user';
 
 export const CURRENT_USER_KEY = 'currentUser' as const;
 
-interface State {
+export interface AuthUser {
+  _id: string;
+
+  displayName: string | null;
+  imageUrl: string | null;
+
+  email: string | null;
+
+  roles: Set<string>;
+  permissions: Set<string>;
+}
+
+export function getAuthUserFromModel(
+  user: User, permissionRecord: PermissionRecord
+) {
+  const roles = permissionRecord.roles
+    .map(id => ALL_ROLES.get(id))
+    .filter(r => !!r);
+
+  const permissions = permissionRecord.permissions
+    .concat(roles.map(r => r.permissions).flat());
+
+  const authUser: AuthUser = {
+    _id: user._id,
+    displayName: `${user.firstName} ${user.lastName}`,
+    email: user.email,
+    imageUrl: user.imageUrl,
+    roles: new Set(roles.map(r => r.id)),
+    permissions: new Set(permissions),
+  };
+
+  return authUser;
+}
+
+
+interface AuthState {
   ready: boolean;
-  user: UserWithToken | null;
-  permissions: string[];
-  allPermissions: ReadonlySet<string>;
+  user: AuthUser | null;
+
+  /** all permissions */
+  permissions: ReadonlySet<string>;
 }
 
 export const authActions = createActionGroup({
   source: 'auth',
   events: {
+    'id token updated': props<{ payload: { token: string; }; }>(),
     'update permission definition': props<{ dto: PermissionDefinitionDTO; }>(),
-    'update user': props<{ payload: { user: UserWithToken | null; }; }>(),
+    'update user': props<{
+      payload: {
+        user: AuthUser | null;
+      };
+    }>(),
     'sign in': props<{
       payload: {
-        returnUrl?: string;
+        needsOnboarding: boolean;
+        returnUrl: string | null;
       };
     }>(),
     'sign out': props<{ payload: { revoked: boolean; }; }>()
@@ -27,17 +71,16 @@ export const authActions = createActionGroup({
 
 export const authFeature = createFeature({
   name: 'auth',
-  reducer: createReducer<State>(
+  reducer: createReducer<AuthState>(
     {
       ready: false,
-      allPermissions: new Set(),
       user: null,
-      permissions: [],
+      permissions: new Set(),
     },
 
-    // on(authActions.updatePermissionDefinition, produce((state, { dto }) => {
-    //   state.allPermissions = new Set(extractPermissionList(dto));
-    // })),
+    on(authActions.updatePermissionDefinition, produce((state, { dto }) => {
+      state.permissions = new Set(extractPermissionList(dto));
+    })),
 
     // on(authActions.updateUser, (state, { payload }) => {
     //   state = { ...state };
