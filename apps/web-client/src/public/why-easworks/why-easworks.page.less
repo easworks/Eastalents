@@ -6,7 +6,7 @@
     .tabs-wrapper {
         .mat-mdc-tab-header {
             box-shadow: 0px 7px 18px 1px #0000001c;
-            @apply p-8 rounded-2xl bg-white -translate-y-24;
+            @apply p-8 rounded-2xl bg-white -translate-y-24 4xl:mx-24 lg:mx-14 mx-5;
         }
 
         .mat-mdc-tab-labels {
@@ -41,7 +41,6 @@
 
         .mat-mdc-tab-body-wrapper {
             transform: translate(0px, -60px);
-            padding: 0 1rem;
         }
     }
 }
@@ -59,25 +58,21 @@
 // Tabs UI from What tab Content
 :host ::ng-deep {
     .what-tab-content {
-
-        .mat-mdc-tab-header .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
-            @apply !text-white;
-        }
-
-        .mat-mdc-tab-body-content {
-            @apply overflow-hidden;
-        }
-
         .mat-mdc-tab-header {
-            @apply p-0 bg-white -translate-y-0 shadow-none;
+            box-shadow: none;
+            @apply p-0 bg-white -translate-y-0;
         }
 
         .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs>.mat-mdc-tab-header .mat-mdc-tab.mdc-tab--active {
-            @apply bg-[#4949FC] !text-white;
+            @apply bg-[#4949FC];
         }
 
         .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs>.mat-mdc-tab-header .mat-mdc-tab {
             @apply bg-[#F0F2F4] h-16 rounded-4xl;
+        }
+
+        .mat-mdc-tab-header .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+            @apply text-white;
         }
 
         .mdc-tab__text-label {
@@ -90,11 +85,19 @@
         }
 
         .mdc-tab__content {
-            @apply h-full;
+            height: 100%;
         }
 
         .mat-mdc-tab-body-wrapper {
             @apply p-0;
+        }
+
+        .mat-mdc-tab:hover .mdc-tab__ripple::before {
+            opacity: 0;
+        }
+
+        .mat-mdc-tab-body-content {
+            overflow: hidden;
         }
     }
 }
