@@ -71,7 +71,7 @@
     "serve": {
       "executor": "@nx/angular:dev-server",
       "options": {
-        "liveReload": false,
+        "liveReload": true,
         "hmr": true,
         "port": 4103,
         "proxyConfig": "apps/accounts-client/proxy.config.json"
@@ -109,6 +109,15 @@
         "port": 4103,
         "staticFilePath": "dist/apps/accounts-client/browser",
         "spa": true
+      }
+    },
+    "serve-ssr": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node dist/apps/accounts-client/server/server.mjs",
+        "env": {
+          "PORT": "4103"
+        }
       }
     }
   }

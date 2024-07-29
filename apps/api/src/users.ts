@@ -1,3 +1,4 @@
+import { UserSelfOutput } from 'models/validators/users';
 import { AuthenticatedCloudContext } from 'server-side/context';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 import { authHook } from './auth/hooks';
@@ -18,7 +19,12 @@ export const userHandlers: FastifyZodPluginAsync = async server => {
       if (!permissionRecord)
         throw new Error('permissions should not be null');
 
-      return { user, permissionRecord };
+      const result: UserSelfOutput = {
+        user,
+        permissionRecord
+      };
+
+      return result;
     }
   );
 

@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { PermissionRecord } from 'models/permission-record';
-import { User } from 'models/user';
+import type { UserSelfOutput } from 'models/validators/users';
 import { EasworksApi } from './easworks.api';
 
 @Injectable({
@@ -10,9 +9,6 @@ import { EasworksApi } from './easworks.api';
 export class UsersApi extends EasworksApi {
   private readonly http = inject(HttpClient);
   readonly self = () => {
-    return this.http.get<{
-      user: User,
-      permissionRecord: PermissionRecord;
-    }>(`${this.apiUrl}/users/self`);
+    return this.http.get<UserSelfOutput>(`${this.apiUrl}/users/self`);
   };
 }

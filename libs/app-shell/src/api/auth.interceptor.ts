@@ -1,15 +1,15 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthTokenService } from '../services/auth.token';
+import { AuthStorageService } from '../services/auth.storage';
 import { from, switchMap } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const tokenService = inject(AuthTokenService);
+  const storage = inject(AuthStorageService);
 
   if (!req.url.startsWith('/api/'))
     return next(req);
 
-  return from(tokenService.getToken())
+  return from(storage.token.get())
     .pipe(
       switchMap(token => {
         if (!token)
