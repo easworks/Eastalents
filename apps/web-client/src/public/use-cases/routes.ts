@@ -56,6 +56,20 @@ const useCases = (() => {
           .then(m => m.PrototypingProcessComponent)
       }
     },
+
+    {
+      id: 'modernization',
+      dynamicComponents: {
+        hero: () => import('./modernization/hero/modernization-hero.component')
+          .then(m => m.ModernizationHeroComponent),
+        details: () => import('./modernization/details/modernization-details.component')
+          .then(m => m.ModernizationDetailsComponent),
+        overview: () => import('./modernization/overview/modernization-overview.component')
+          .then(m => m.ModernizationOverviewComponent),
+        process: () => import('./modernization/process/modernization-process.component')
+          .then(m => m.ModernizationProcessComponent)
+      }
+    },
   ] as const;
 
   return Object.fromEntries(list.map(uc => [uc.id, uc]));
