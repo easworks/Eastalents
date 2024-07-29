@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 @Component({
   standalone: true,
   selector: 'use-cases-software-development-process',
-  template: 'This is the software-development process component',
+  templateUrl: './software-development-process.component.html',
+  styleUrl: './software-development-process.less'
 })
 export class SoftwareDevelopmentProcessComponent {
 

@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 @Component({
   standalone: true,
   selector: 'use-cases-software-development-overview',
-  template: 'This is the software-development overview component',
+  templateUrl: './software-development-overview.component.html',
+  styleUrl: './software-development-overview.less'
 })
 export class SoftwareDevelopmentOverviewComponent {
 
