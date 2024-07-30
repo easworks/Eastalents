@@ -8,11 +8,14 @@ export const clientConfig: ClientConfig = {
     defaultDescription: 'EASWORKS'
   },
   oauth: {
-    type: 'host',
+    type: 'client',
+    clientId: '669fdb35cfa00a8ba5f3b800',
+    redirectUri: 'http://localhost:4104',
     endpoints: {
-      authorize: '/api/oauth/authorize'
+      authorize: '/api/oauth/authorize',
+      token: '/api/oauth/token'
     },
-    origin: env.oauth.origin
+    origin: env.oauth.origin,
   },
   sso: {
     domain: env.sso.domain

@@ -28,7 +28,7 @@ export class SignInPageComponent {
   @HostBinding()
   private readonly class = 'page grid place-content-center';
 
-  private loading = generateLoadingState<[
+  private readonly loading = generateLoadingState<[
     'signing in'
   ]>();
 
@@ -52,7 +52,7 @@ export class SignInPageComponent {
 
       this.loading.add('signing in');
 
-      this.auth.signin.email(
+      this.auth.signIn.email(
         this.emailLogin.form.getRawValue(),
         this.returnUrl || undefined
       ).pipe(
