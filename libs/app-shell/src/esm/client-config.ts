@@ -5,7 +5,7 @@ export interface ClientConfig {
     readonly baseTitle: string;
     readonly defaultDescription: string;
   },
-  readonly sso: {
+  readonly sso?: {
     readonly domain: string;
   };
 }

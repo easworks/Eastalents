@@ -1,11 +1,12 @@
 import { ViewportScroller } from '@angular/common';
 import { provideHttpClient, withFetch, withInterceptors, withNoXsrfProtection } from '@angular/common/http';
-import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, inject, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
+import { CLIENT_CONFIG } from '@easworks/app-shell/dependency-injection';
 import { DefaultSeoConfig, SEO_DEFAULT_CONFIG, SEOService } from '@easworks/app-shell/services/seo';
 import { SWManagerService } from '@easworks/app-shell/services/sw.manager';
 import { authFeature } from '@easworks/app-shell/state/auth';
@@ -17,13 +18,13 @@ import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { adminData } from '../admin/state/admin-data';
 import { adminDataEffects } from '../admin/state/admin-data.effects';
-import { provideEnvironment } from './environment';
+import { clientConfig } from './client-config';
 import { routes } from './routes';
 
 export const appConfig: ApplicationConfig = {
 
   providers: [
-    provideEnvironment(),
+    { provide: CLIENT_CONFIG, useValue: clientConfig },
     provideExperimentalZonelessChangeDetection(),
     provideClientHydration(
       withEventReplay(),
@@ -56,10 +57,10 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     {
-      provide: SEO_DEFAULT_CONFIG, useValue: {
-        baseTitle: 'EasWorks',
-        defaultDescription: 'EasWorks'
-      } satisfies DefaultSeoConfig
+      provide: SEO_DEFAULT_CONFIG, useFactory: () => {
+        const config = inject(CLIENT_CONFIG).seo;
+        return config satisfies DefaultSeoConfig;
+      },
     },
     importProvidersFrom([
       MatSnackBarModule,

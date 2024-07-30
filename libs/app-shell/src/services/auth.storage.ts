@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { get, set } from 'idb-keyval';
+import { clear, get, set } from 'idb-keyval';
 import type { JwtPayload } from 'jsonwebtoken';
 import { DateTime } from 'luxon';
 import { CACHE } from '../common/cache';
@@ -83,6 +83,10 @@ export class AuthStorageService {
       return await get<AuthUser>(this.user.key, this.cache) || null;
     }
   } as const;
+
+  async clear() {
+    await clear(this.cache);
+  }
 
   private getPayload(token: string) {
     const base64 = token.split('.')[1];
