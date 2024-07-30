@@ -1,13 +1,12 @@
 import { effect, inject, INJECTOR } from '@angular/core';
 import { createEffect } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { PERMISSION_DEF_DTO } from 'models/permissions';
-import { EMPTY, first, from, fromEvent, of, switchMap, takeUntil, tap } from 'rxjs';
-import { UsersApi } from '../api/users.api';
-import { AuthStorageLockSet, AuthStorageService } from '../services/auth.storage';
+import { EMPTY, from, fromEvent, of, switchMap, tap } from 'rxjs';
+import { AuthStorageService } from '../services/auth.storage';
 import { SWManagerService } from '../services/sw.manager';
 import { isBrowser, isServer } from '../utilities/platform-type';
-import { authActions, authFeature, CURRENT_USER_KEY, getAuthUserFromModel } from './auth';
+import { authActions, authFeature, CURRENT_USER_KEY } from './auth';
 
 export const authEffects = {
   /** This effect does 2 things
@@ -23,70 +22,21 @@ export const authEffects = {
   onPageLoad: createEffect(
     () => {
       const storage = inject(AuthStorageService);
-      const api = {
-        users: inject(UsersApi)
-      };
 
-      const anotherTabStartedRead$ = isBrowser() ?
-        fromEvent<StorageEvent>(window, 'storage')
-          .pipe(
-            first(event => event.key === storage.lock.key),
-          ) :
-        EMPTY;
-
-      const token$ = isBrowser() ?
-        from(storage.token.get()) :
+      const user$ = isBrowser() ?
+        from(storage.user.get()) :
         of(null);
 
-      const user$ = token$
-        .pipe(
-          switchMap((token) => {
-            if (!token)
-              return of(null);
-
-            try {
-              storage.lock.set();
-            }
-            catch (e) {
-              if (e instanceof AuthStorageLockSet) {
-                return of(null);
-              }
-              throw e;
-            }
-
-            return api.users.self();
-          }),
-          switchMap(async data => {
-            if (!data)
-              return null;
-
-            const user = getAuthUserFromModel(data.user, data.permissionRecord);
-
-            await storage.user.set(user);
-            storage.lock.remove();
-
-            return user;
-          }),
-          takeUntil(anotherTabStartedRead$),
-        );
-
       const actions$ = user$.pipe(
-        switchMap(user => {
-          const actions: Action[] = [
-            authActions.updatePermissionDefinition({ dto: PERMISSION_DEF_DTO })
-          ];
-
-          if (user) {
-            actions.push(authActions.updateUser({ payload: { user } }));
-          }
-
-          return actions;
-        }),
+        switchMap(user => [
+          authActions.updatePermissionDefinition({ dto: PERMISSION_DEF_DTO }),
+          authActions.updateUser({ payload: { user } })
+        ])
       );
 
       return actions$;
     },
-    { functional: true, dispatch: false }
+    { functional: true }
   ),
 
   reloadOnUserChange: createEffect(
