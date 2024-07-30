@@ -4,6 +4,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '@easworks/app-shell/services/auth';
 import { authFeature } from '@easworks/app-shell/state/auth';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
@@ -26,6 +27,7 @@ import { Store } from '@ngrx/store';
 export class AccountWidgetComponent {
 
   private readonly store = inject(Store);
+  private readonly auth = inject(AuthService);
 
   protected readonly user$ = this.store.selectSignal(authFeature.selectUser);
 
@@ -34,6 +36,6 @@ export class AccountWidgetComponent {
   };
 
   protected signOut() {
-    // 
+    this.auth.signOut();
   }
 }
