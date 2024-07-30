@@ -1,17 +1,28 @@
-import { Provider, isDevMode } from '@angular/core';
-import { ENVIRONMENT, Environment } from '@easworks/app-shell/environment';
+import { isDevMode } from '@angular/core';
 
 
 const devMode = isDevMode();
 
-const env: Environment = devMode ?
-  {
-    apiUrl: '/api'
-  } :
-  {
-    apiUrl: '/api'
-  };
+const configs = {
+  development: {
+    oauth: {
+      origin: 'http://localhost:4103'
+    },
+    sso: {
+      domain: 'localhost'
+    }
+  },
+  production: {
+    oauth: {
+      origin: 'https://accounts.easworks.com'
+    },
+    sso: {
+      domain: 'easworks.com'
+    }
+  }
+};
 
-export function provideEnvironment(): Provider {
-  return { provide: ENVIRONMENT, useValue: env };
-}
+export const env = devMode ?
+  configs.development :
+  configs.production;
+
