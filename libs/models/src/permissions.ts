@@ -64,7 +64,7 @@ const heirarchyCache = new Map<string, string[]>();
  *  
  * For example: `users.read.list` =>
  * `[ 'all', 'users', 'users.read', 'users.read.list' ]`*/
-export function permissionHeirarchy(permission: string) {
+function permissionHeirarchy(permission: string) {
   const cached = heirarchyCache.get(permission);
   if (cached) return cached;
 
@@ -83,7 +83,7 @@ export function isPermissionDefined(permission: string) {
   return permission === 'all' || ALL_PERMISSIONS.has(permission);
 }
 
-export function isPermissionGranted(permission: string, grants: string[]) {
+export function isPermissionGranted(permission: string, grants: Set<string>) {
   const heirarchy = permissionHeirarchy(permission);
-  return heirarchy.some(p => grants.includes(p));
+  return heirarchy.some(p => grants.has(p));
 }

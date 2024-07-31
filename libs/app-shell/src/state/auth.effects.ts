@@ -1,8 +1,7 @@
 import { effect, inject, INJECTOR } from '@angular/core';
 import { createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { PERMISSION_DEF_DTO } from 'models/permissions';
-import { EMPTY, from, fromEvent, of, switchMap, tap } from 'rxjs';
+import { EMPTY, from, fromEvent, map, of, tap } from 'rxjs';
 import { AuthStorageService } from '../services/auth.storage';
 import { SWManagerService } from '../services/sw.manager';
 import { isBrowser, isServer } from '../utilities/platform-type';
@@ -28,10 +27,7 @@ export const authEffects = {
         of(null);
 
       const actions$ = user$.pipe(
-        switchMap(user => [
-          authActions.updatePermissionDefinition({ dto: PERMISSION_DEF_DTO }),
-          authActions.updateUser({ payload: { user } })
-        ])
+        map(user => authActions.updateUser({ payload: { user } }))
       );
 
       return actions$;

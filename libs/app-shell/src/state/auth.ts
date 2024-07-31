@@ -1,6 +1,5 @@
 import { createActionGroup, createFeature, createReducer, createSelector, on, props } from '@ngrx/store';
-import { produce } from 'immer';
-import { extractPermissionList, PermissionDefinitionDTO, PermissionRecord } from 'models/permission-record';
+import { PermissionRecord } from 'models/permission-record';
 import { ALL_ROLES } from 'models/permissions';
 import { User } from 'models/user';
 
@@ -41,19 +40,15 @@ export function getAuthUserFromModel(
 }
 
 
-interface AuthState {
+export interface AuthState {
   ready: boolean;
   user: AuthUser | null;
-
-  /** all permissions */
-  permissions: ReadonlySet<string>;
 }
 
 export const authActions = createActionGroup({
   source: 'auth',
   events: {
     'id token updated': props<{ payload: { token: string; }; }>(),
-    'update permission definition': props<{ dto: PermissionDefinitionDTO; }>(),
     'update user': props<{
       payload: {
         user: AuthUser | null;
@@ -75,12 +70,7 @@ export const authFeature = createFeature({
     {
       ready: false,
       user: null,
-      permissions: new Set(),
     },
-
-    on(authActions.updatePermissionDefinition, produce((state, { dto }) => {
-      state.permissions = new Set(extractPermissionList(dto));
-    })),
 
     on(authActions.updateUser, (state, { payload }) => {
       state = { ...state };
