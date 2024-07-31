@@ -1,11 +1,17 @@
 import { inject, Injectable, INJECTOR } from '@angular/core';
-import { OAUTH_CLIENT_CONFIG } from '../dependency-injection';
+import { Params } from '@angular/router';
+import { from, switchMap } from 'rxjs';
+import { OAUTH_CLIENT_CONFIG, OAUTH_HOST_CONFIG } from '../dependency-injection';
+import { AuthStorageService } from '../services/auth.storage';
+import { EasworksApi } from './easworks.api';
 
 @Injectable({
   providedIn: 'root'
 })
-export class OAuthApi {
+export class OAuthApi extends EasworksApi {
   private readonly injector = inject(INJECTOR);
+  private readonly storage = inject(AuthStorageService);
+
   readonly authorize = (
     code: { challenge: string; method: string; },
     state?: string
@@ -21,5 +27,27 @@ export class OAuthApi {
       url.searchParams.set('state', state);
 
     location.href = url.href;
+  };
+
+  readonly generateCode = (params: Params) => {
+    const config = inject(OAUTH_HOST_CONFIG);
+
+    return from(this.storage.token.get())
+      .pipe(
+        switchMap(token => {
+          if (!token)
+            throw new Error('token should not be null');
+
+          return this.http.post<string>(
+            config.origin + config.endpoints.authorize,
+            params,
+            {
+              headers: {
+                'authorization': `Bearer ${token}`
+              },
+            });
+        }),
+
+      );
   };
 }
