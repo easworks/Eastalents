@@ -10,7 +10,7 @@ export const clientConfig: ClientConfig = {
   oauth: {
     type: 'client',
     clientId: '66a98aad5c881fc8f3ca2a57',
-    redirectUri: 'http://localhost:4104',
+    redirectUri: 'http://localhost:4104/oauth/callback',
     endpoints: {
       authorize: '/api/oauth/authorize',
       token: '/api/oauth/token'
