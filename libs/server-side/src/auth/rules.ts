@@ -1,5 +1,4 @@
-import { permissionHeirarchy } from 'models/permission-record';
-import { ALL_ROLES, isPermissionDefined } from 'models/permissions';
+import { ALL_ROLES, isPermissionDefined, permissionHeirarchy } from 'models/permissions';
 import { AuthenticatedCloudContext } from '../context';
 
 export type AuthValidator = (ctx: AuthenticatedCloudContext) => boolean;
