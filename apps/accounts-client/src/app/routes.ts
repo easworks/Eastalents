@@ -18,8 +18,8 @@ export const routes: Route[] = [
     path: 'oauth/authorize',
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
-    loadComponent: () => import('../account/sign-in/sign-in.page')
-      .then(m => m.SignInPageComponent)
+    loadComponent: () => import('../account/oauth/oauth.page')
+      .then(m => m.OAuthPageComponent)
   },
   {
     path: '',
