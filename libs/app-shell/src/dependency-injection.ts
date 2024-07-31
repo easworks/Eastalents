@@ -1,5 +1,5 @@
 import { inject, InjectionToken } from '@angular/core';
-import { ClientConfig } from './esm/client-config';
+import { ClientConfig } from 'models/client-config';
 
 export const CLIENT_CONFIG = new InjectionToken<ClientConfig>('CLIENT_CONFIG');
 

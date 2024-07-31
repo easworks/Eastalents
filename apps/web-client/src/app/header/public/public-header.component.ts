@@ -10,6 +10,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { faHighTechFourLeaf } from 'custom-icons';
+import { RETURN_URL_KEY } from 'models/auth';
 import { PUBLIC_MENU } from '../../menu-items/public';
 
 @Component({
@@ -56,6 +57,10 @@ export class AppPublicHeaderComponent {
   }
 
   protected signIn() {
-    this.auth.signIn.easworks();
+    const state = {
+      [RETURN_URL_KEY]: location.pathname + location.search
+    };
+    const state64 = btoa(JSON.stringify(state));
+    this.auth.signIn.easworks(state64);
   }
 }

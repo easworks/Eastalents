@@ -14,5 +14,8 @@ export const pattern = {
   nickname: /^[a-z0-9_]+$/,
   hex: {
     lowercase: /^[a-f0-9]+$/
+  },
+  base64: {
+    urlSafe: /^[A-Za-z0-9_-]+$/
   }
 } as const; 

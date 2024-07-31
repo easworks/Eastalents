@@ -1,4 +1,4 @@
-import { ClientConfig } from '@easworks/app-shell/esm/client-config';
+import { ClientConfig } from 'models/client-config';
 import { env } from './environment';
 
 export const clientConfig: ClientConfig = {
