@@ -7,6 +7,7 @@ import { OAuthApi } from '../api/oauth.api';
 import { UsersApi } from '../api/users.api';
 import { CLIENT_CONFIG } from '../dependency-injection';
 import { authActions, getAuthUserFromModel } from '../state/auth';
+import { base64url } from '../utilities/base64url';
 import { CookieService } from './auth.cookie';
 import { AuthStorageService } from './auth.storage';
 
@@ -72,3 +73,24 @@ export class AuthService {
       );
   }
 }
+
+const codeChallenge = {
+  key: 'code_verifier',
+  create: async () => {
+    const verifier = crypto.getRandomValues(new Uint8Array(64));
+    const verifier_base64 = base64url.fromBuffer(verifier);
+
+    const method = 'S256';
+    const challenge = await crypto.subtle.digest('SHA-256', verifier)
+      .then(buff => base64url.fromBuffer(buff));
+
+    sessionStorage.setItem(codeChallenge.key, verifier_base64);
+    return { method, challenge };
+  },
+  get: () => {
+    const verifier = sessionStorage.getItem(codeChallenge.key);
+    if (!verifier)
+      throw new Error(`'${codeChallenge.key}' not found in sessionStorage`);
+    return verifier;
+  }
+} as const;

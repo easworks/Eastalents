@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '@easworks/app-shell/services/auth';
 import { SWManagerService } from '@easworks/app-shell/services/sw.manager';
 import { sidebarActions } from '@easworks/app-shell/state/ui';
+import { base64url } from '@easworks/app-shell/utilities/base64url';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
@@ -60,7 +61,7 @@ export class AppPublicHeaderComponent {
     const state = {
       [RETURN_URL_KEY]: location.pathname + location.search
     };
-    const state64 = btoa(JSON.stringify(state));
+    const state64 = base64url.fromString(JSON.stringify(state));
     this.auth.signIn.easworks(state64);
   }
 }
