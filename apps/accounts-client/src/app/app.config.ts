@@ -16,9 +16,10 @@ import { uiEffects } from '@easworks/app-shell/state/ui.effects';
 import { provideEffects } from '@ngrx/effects';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { AUTH_GUARD_ACTIONS } from '../account/auth-guard-action';
+import { signInEffects } from '../account/sign-in.effects';
 import { clientConfig } from './client-config';
 import { routes } from './routes';
-import { AUTH_GUARD_ACTIONS } from '../account/auth-guard-action';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -82,5 +83,6 @@ export const appConfig: ApplicationConfig = {
 
     provideState(authFeature),
     provideEffects(authEffects),
+    provideEffects(signInEffects)
   ],
 };

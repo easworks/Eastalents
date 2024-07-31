@@ -1,11 +1,11 @@
 import { effect, inject, INJECTOR } from '@angular/core';
-import { createEffect } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { EMPTY, from, fromEvent, map, of, tap } from 'rxjs';
+import { EMPTY, from, map, of } from 'rxjs';
 import { AuthStorageService } from '../services/auth.storage';
 import { SWManagerService } from '../services/sw.manager';
-import { isBrowser, isServer } from '../utilities/platform-type';
-import { authActions, authFeature, CURRENT_USER_KEY } from './auth';
+import { isBrowser } from '../utilities/platform-type';
+import { authActions, authFeature } from './auth';
 
 export const authEffects = {
   /** This effect does 2 things
@@ -35,22 +35,14 @@ export const authEffects = {
     { functional: true }
   ),
 
-  reloadOnUserChange: createEffect(
-    () => {
-      if (isServer())
-        return EMPTY;
+  reloadOnSignOut: createEffect(() => {
+    const actions$ = inject(Actions);
 
-      return fromEvent<StorageEvent>(window, 'storage')
-        .pipe(
-          tap(ev => {
-            if (ev.key === CURRENT_USER_KEY) {
-              location.reload();
-            }
-          })
-        );
-    },
-    { functional: true, dispatch: false }
-  ),
+    return actions$.pipe(
+      ofType(authActions.signOut),
+      map(() => location.reload())
+    );
+  }, { functional: true, dispatch: false }),
 
   syncWithServiceWorker: createEffect(
     () => {

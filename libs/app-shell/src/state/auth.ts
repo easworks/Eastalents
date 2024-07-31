@@ -3,8 +3,6 @@ import { PermissionRecord } from 'models/permission-record';
 import { ALL_ROLES } from 'models/permissions';
 import { User } from 'models/user';
 
-export const CURRENT_USER_KEY = 'currentUser' as const;
-
 export interface AuthUser {
   _id: string;
 
@@ -56,7 +54,6 @@ export const authActions = createActionGroup({
     }>(),
     'sign in': props<{
       payload: {
-        needsOnboarding: boolean;
         returnUrl: string | null;
       };
     }>(),
