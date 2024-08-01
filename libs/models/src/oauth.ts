@@ -4,6 +4,7 @@ import { Entity } from './entity';
 export interface OAuthClientApplication extends Entity {
   name: string;
   redirectUris: string[];
+  firstParty: boolean;
 }
 
 export interface OAuthCode extends Entity {
@@ -16,7 +17,7 @@ export interface OAuthCode extends Entity {
   };
   redirectUri?: string;
   expiresAt: DateTime;
-  grantedToken?: string;
+  grantedTokens: string[];
 }
 
 export interface OAuthTokenSuccessResponse {

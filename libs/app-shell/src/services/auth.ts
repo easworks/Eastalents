@@ -39,6 +39,14 @@ export class AuthService {
     easworks: async (state?: string) => {
       const code = await codeChallenge.create();
       this.api.oauth.authorize(code, state);
+    },
+    oauthCode: (code: string, returnUrl?: string) => {
+      const verifier = codeChallenge.get();
+
+      return this.api.oauth.token(code, verifier)
+        .pipe(
+          switchMap(response => this.handleSignIn(response.access_token, returnUrl))
+        );
     }
   } as const;
 

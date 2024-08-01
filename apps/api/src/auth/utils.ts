@@ -2,7 +2,6 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import { DateTime } from 'luxon';
 import { TokenRef } from 'models/auth';
 import { ExternalIdpUser } from 'models/identity-provider';
-import { OAuthTokenSuccessResponse } from 'models/oauth';
 import { PermissionRecord } from 'models/permission-record';
 import { User, UserClaims } from 'models/user';
 import { ObjectId } from 'mongodb';
@@ -48,19 +47,31 @@ export const passwordUtils = {
 } as const;
 
 export const jwtUtils = {
-  createToken: async (user: User, permissionRecord: PermissionRecord) => {
+  createToken: async (
+    type: 'first-party' | 'third-party',
+    user: User,
+    permissionRecord: PermissionRecord) => {
     const { privateKey, issuer } = environment.jwt;
     const expiresIn = TOKEN_EXPIRY_SECONDS;
 
     const tokenRef: TokenRef = {
       _id: new ObjectId().toString(),
-      expiresIn
+      expiresIn,
+      userId: user._id,
     };
 
-    const payload: UserClaims = {
-      _id: user._id,
-      roles: permissionRecord.roles
-    };
+    const payload: UserClaims = type === 'first-party' ?
+      {
+        type,
+        _id: user._id,
+        permissions: permissionRecord.permissions,
+        roles: permissionRecord.roles
+      } :
+      {
+        type,
+        _id: user._id,
+        roles: permissionRecord.roles
+      };
 
     const token = await new Promise<string>((resolve, reject) => {
       jwt.sign(payload, privateKey, {
@@ -73,7 +84,11 @@ export const jwtUtils = {
     });
     await easMongo.tokens.insertOne(tokenRef);
 
-    return { token, expiresIn };
+    return {
+      tid: tokenRef._id,
+      token,
+      expiresIn
+    };
 
   },
   validateToken: async (token: string) => {
@@ -87,16 +102,8 @@ export const jwtUtils = {
 } as const;
 
 export const oauthUtils = {
-  createTokenResponse: async (user: User, permissionRecord: PermissionRecord) => {
-    const { token, expiresIn } = await jwtUtils.createToken(user, permissionRecord);
-
-    const tokenResponse: OAuthTokenSuccessResponse = {
-      // oauth spec properties
-      access_token: token,
-      expires_in: expiresIn,
-      token_type: 'bearer',
-
-      // custom properties
+  getSuccessProps: (user: User, permissionRecord: PermissionRecord) => {
+    return {
       user: {
         _id: user._id,
         email: user.email,
@@ -109,9 +116,7 @@ export const oauthUtils = {
         roles: permissionRecord.roles
       }
     };
-
-    return tokenResponse;
-  },
+  }
 } as const;
 
 

@@ -121,3 +121,9 @@ export class InvalidPassword extends ApiError {
     super('invalid-password', StatusCodes.UNAUTHORIZED);
   }
 }
+
+export class PermissionRecordNotFound extends ApiError {
+  constructor() {
+    super('permission-record-not-found', StatusCodes.NOT_FOUND);
+  }
+}

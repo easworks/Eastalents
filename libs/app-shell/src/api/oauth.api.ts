@@ -1,5 +1,6 @@
 import { inject, Injectable, INJECTOR } from '@angular/core';
 import { Params } from '@angular/router';
+import { OAuthTokenSuccessResponse } from 'models/oauth';
 import { from, switchMap } from 'rxjs';
 import { OAUTH_CLIENT_CONFIG, OAUTH_HOST_CONFIG } from '../dependency-injection';
 import { AuthStorageService } from '../services/auth.storage';
@@ -27,6 +28,31 @@ export class OAuthApi extends EasworksApi {
       url.searchParams.set('state', state);
 
     location.href = url.href;
+  };
+
+  readonly token = (
+    code: string,
+    verifier: string
+  ) => {
+    const config = this.injector.get(OAUTH_CLIENT_CONFIG);
+
+    const params = new URLSearchParams({
+      client_id: config.clientId,
+      grant_type: 'authorization_code',
+      code,
+      code_verifier: verifier,
+      redirect_uri: config.redirectUri
+    }).toString();
+
+    return this.http.post<OAuthTokenSuccessResponse>(
+      config.origin + config.endpoints.token,
+      params,
+      {
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded'
+        }
+      }
+    );
   };
 
   readonly generateCode = (params: Params) => {
