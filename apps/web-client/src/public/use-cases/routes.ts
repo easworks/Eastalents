@@ -70,6 +70,19 @@ const useCases = (() => {
           .then(m => m.ModernizationProcessComponent)
       }
     },
+    {
+      id: 'system-integration',
+      dynamicComponents: {
+        hero: () => import('./system-integration/hero/system-integration-hero.component')
+          .then(m => m.SystemIntegrationHeroComponent),
+        details: () => import('./system-integration/details/system-integration-details.component')
+          .then(m => m.SystemIntegrationDetailsComponent),
+        overview: () => import('./system-integration/overview/system-integration-overview.component')
+          .then(m => m.SystemIntegrationOverviewComponent),
+        process: () => import('./system-integration/process/system-integration-process.component')
+          .then(m => m.SystemIntegrationProcessComponent)
+      }
+    },
   ] as const;
 
   return Object.fromEntries(list.map(uc => [uc.id, uc]));
