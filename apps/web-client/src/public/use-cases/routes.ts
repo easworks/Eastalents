@@ -83,6 +83,19 @@ const useCases = (() => {
           .then(m => m.SystemIntegrationProcessComponent)
       }
     },
+    {
+      id: 'qa-and-testing',
+      dynamicComponents: {
+        hero: () => import('./qa-and-testing/hero/qa-and-testing-hero.component')
+          .then(m => m.QaAndTestingHeroComponent),
+        details: () => import('./qa-and-testing/details/qa-and-testing-details.component')
+          .then(m => m.QaAndTestingDetailsComponent),
+        overview: () => import('./qa-and-testing/overview/qa-and-testing-overview.component')
+          .then(m => m.QaAndTestingOverviewComponent),
+        process: () => import('./qa-and-testing/process/qa-and-testing-process.component')
+          .then(m => m.QaAndTestingProcessComponent)
+      }
+    },
   ] as const;
 
   return Object.fromEntries(list.map(uc => [uc.id, uc]));
