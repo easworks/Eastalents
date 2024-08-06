@@ -193,6 +193,27 @@ const useCases = (() => {
           ).then((m) => m.SupportMaintenanceProcessComponent),
       },
     },
+    {
+      id: 'software-customization',
+      dynamicComponents: {
+        hero: () =>
+          import(
+            './software-customization/hero/software-customization-hero.component'
+          ).then((m) => m.SoftwareCustomizationHeroComponent),
+        details: () =>
+          import(
+            './software-customization/details/software-customization-details.component'
+          ).then((m) => m.SoftwareCustomizationDetailsComponent),
+        overview: () =>
+          import(
+            './software-customization/overview/software-customization-overview.component'
+          ).then((m) => m.SoftwareCustomizationOverviewComponent),
+        process: () =>
+          import(
+            './software-customization/process/software-customization-process.component'
+          ).then((m) => m.SoftwareCustomizationProcessComponent),
+      },
+    },
   ] as const;
 
   return Object.fromEntries(list.map((uc) => [uc.id, uc]));
