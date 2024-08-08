@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { CommonFAQComponent } from '../common/faq/faq-lists.component';
 
 @Component({
   standalone: true,
@@ -6,8 +8,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './generic-role.page.html',
   styleUrl: './generic-role.page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: []
+  imports: [MatExpansionModule,CommonFAQComponent]
 })
 export class GenericRolePageComponent {
-
+  readonly panelOpenState = signal(false);
 }
