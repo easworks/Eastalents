@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { facCertificateCheck, facCornerRibbon } from 'custom-icons';
+import { ScrollToTopComponent } from '../common/scroll-to-top/scroll-to-top.component';
 
 @Component({
   standalone: true,
@@ -10,7 +11,8 @@ import { facCertificateCheck, facCornerRibbon } from 'custom-icons';
   styleUrl: './home.page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    FontAwesomeModule
+    FontAwesomeModule,
+    ScrollToTopComponent
   ]
 })
 export class HomePageComponent {
