@@ -1,6 +1,6 @@
 import { createActionGroup, createFeature, createReducer, createSelector, on, props } from '@ngrx/store';
 import { PermissionRecord } from 'models/permission-record';
-import { ALL_ROLES } from 'models/permissions';
+import { ALL_ROLES, isPermissionDefined, isPermissionGranted } from 'models/permissions';
 import { User } from 'models/user';
 
 export interface AuthUser {
@@ -88,5 +88,89 @@ export const authFeature = createFeature({
       }
     )
   })
-})
+});
+
+export type AuthValidator = (user: AuthUser) => boolean;
+
+export const AUTH_CHECKS = {
+  combine: {
+    all: (validators: AuthValidator[]) => {
+      const validator: AuthValidator = (user) => validators.every(v => v(user));
+      return validator;
+    },
+    any: (validators: AuthValidator[]) => {
+      const validator: AuthValidator = (user) => validators.some(v => v(user));
+      return validator;
+    }
+  },
+  hasRole: (() => {
+    const cache = new Map<string, AuthValidator>();
+
+    const single = (role: string) => {
+      {
+        const cached = cache.get(role);
+        if (cached) return cached;
+      }
+
+      const foundRole = ALL_ROLES.get(role);
+      if (!foundRole) {
+        throw new Error(`role '${role}' is not defined`);
+      }
+
+      const validator: AuthValidator = (user) => user.roles.has(role);
+
+      cache.set(role, validator);
+      return validator;
+    };
+
+    const all = (roles: string[]) => {
+      const mapped = roles.map(single);
+      return AUTH_CHECKS.combine.all(mapped);
+    };
+
+    const any = (roles: string[]) => {
+      const mapped = roles.map(single);
+      return AUTH_CHECKS.combine.any(mapped);
+    };
+
+    return Object.assign(
+      single, { all, any }
+    );
+  })(),
+  hasPermission: (() => {
+    const cache = new Map<string, AuthValidator>();
+
+    const single = (permission: string) => {
+      {
+        const cached = cache.get(permission);
+        if (cached) return cached;
+      }
+
+      // validate the permission string
+      if (!isPermissionDefined(permission))
+        throw new Error(`a route uses a permission '${permission}' which is not defined`);
+
+      const validator: AuthValidator = (user) => isPermissionGranted(permission, user.permissions);
+
+      cache.set(permission, validator);
+      return validator;
+    };
+
+    const all = (permission: string[]) => {
+      const mapped = permission.map(single);
+      return AUTH_CHECKS.combine.all(mapped);
+    };
+
+    const any = (permission: string[]) => {
+      const mapped = permission.map(single);
+      return AUTH_CHECKS.combine.any(mapped);
+    };
+
+    return Object.assign(
+      single, { all, any }
+    );
+  })()
+} as const;
+
+
 
