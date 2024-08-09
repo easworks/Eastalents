@@ -16,6 +16,7 @@ export const clientConfig: ClientConfig = {
       token: '/api/oauth/token'
     },
     origin: env.oauth.origin,
+    callbackPath: '/oauth/callback'
   },
   sso: {
     domain: env.sso.domain

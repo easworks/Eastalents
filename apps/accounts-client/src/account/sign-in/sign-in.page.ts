@@ -3,10 +3,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { AuthService } from '@easworks/app-shell/services/auth';
+import { authFeature } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { Store } from '@ngrx/store';
 import { RETURN_URL_KEY } from 'models/auth';
-import { AuthService } from '@easworks/app-shell/services/auth';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -33,6 +34,8 @@ export class SignInPageComponent {
   ]>();
 
   protected readonly returnUrl = this.snap.queryParamMap.get(RETURN_URL_KEY);
+
+  protected readonly user$ = this.store.selectSignal(authFeature.selectUser);
 
   protected readonly emailLogin = {
     formId: 'signin-email',

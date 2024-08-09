@@ -8,18 +8,23 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { authInterceptor } from '@easworks/app-shell/api/auth.interceptor';
 import { CLIENT_CONFIG } from '@easworks/app-shell/dependency-injection';
+import { AuthService } from '@easworks/app-shell/services/auth';
 import { DefaultSeoConfig, SEO_DEFAULT_CONFIG, SEOService } from '@easworks/app-shell/services/seo';
 import { SWManagerService } from '@easworks/app-shell/services/sw.manager';
 import { authFeature } from '@easworks/app-shell/state/auth';
 import { authEffects } from '@easworks/app-shell/state/auth.effects';
+import { navMenuFeature } from '@easworks/app-shell/state/nav-menu';
+import { navMenuEffects } from '@easworks/app-shell/state/nav-menu.effects';
 import { uiFeature } from '@easworks/app-shell/state/ui';
 import { uiEffects } from '@easworks/app-shell/state/ui.effects';
 import { provideEffects } from '@ngrx/effects';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { signInEffects } from '../account/sign-in.effects';
 import { adminData } from '../admin/state/admin-data';
 import { adminDataEffects } from '../admin/state/admin-data.effects';
 import { clientConfig } from './client-config';
+import { menuItemEffects } from './menu-items/menu-item.effects';
 import { routes } from './routes';
 
 export const appConfig: ApplicationConfig = {
@@ -74,7 +79,7 @@ export const appConfig: ApplicationConfig = {
       useFactory: () => () => undefined,
       deps: [
         SWManagerService,
-        // AuthService,
+        AuthService,
         SEOService,
       ],
       multi: true
@@ -85,14 +90,11 @@ export const appConfig: ApplicationConfig = {
 
     provideState(authFeature),
     provideEffects(authEffects),
-    // provideEffects(signInEffects),
+    provideEffects(signInEffects),
 
-    // provideEffects(navMenuEffects),
-    // provideEffects(menuItemEffects),
-
-
-
-    // provideState(navMenuFeature),
+    provideState(navMenuFeature),
+    provideEffects(navMenuEffects),
+    provideEffects(menuItemEffects),
 
     provideState(adminData.feature),
     provideEffects(adminDataEffects)

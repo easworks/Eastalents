@@ -8,6 +8,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { authInterceptor } from '@easworks/app-shell/api/auth.interceptor';
 import { CLIENT_CONFIG } from '@easworks/app-shell/dependency-injection';
+import { AuthService } from '@easworks/app-shell/services/auth';
 import { SEO_DEFAULT_CONFIG, SEOService } from '@easworks/app-shell/services/seo';
 import { authFeature } from '@easworks/app-shell/state/auth';
 import { authEffects } from '@easworks/app-shell/state/auth.effects';
@@ -73,6 +74,7 @@ export const appConfig: ApplicationConfig = {
       provide: APP_INITIALIZER,
       useFactory: () => () => undefined,
       deps: [
+        AuthService,
         SEOService,
       ],
       multi: true

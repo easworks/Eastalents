@@ -191,6 +191,8 @@ export const getExternalUserForSignup = {
  */
 export async function isFreeEmail(email: string) {
   const domain = email.split('@')[1];
+  if (environment.development && domain === 'mailinator.com')
+    return false;
   return await FreeEmailProviderCache.has(domain) ? domain : false;
 }
 

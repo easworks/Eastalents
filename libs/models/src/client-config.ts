@@ -27,4 +27,5 @@ export interface OAuthClientConfig {
   };
   readonly clientId: string;
   readonly redirectUri: string;
+  readonly callbackPath: string;
 }
