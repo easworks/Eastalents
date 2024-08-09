@@ -58,7 +58,12 @@
               "maximumError": "4kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "optimization": {
+            "scripts": true,
+            "styles": true,
+            "fonts": false
+          }
         },
         "development": {
           "optimization": false,
@@ -119,6 +124,40 @@
           "PORT": "4103"
         }
       }
+    },
+    "prep-deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "mkdir -p dist/docker/accounts-client",
+          "tar -czf dist/docker/accounts-client/dist.tar.gz -C dist/apps accounts-client",
+          "cp apps/accounts-client/docker/dockerfile dist/docker/accounts-client",
+          "cp apps/accounts-client/docker/compose.extend.yml dist/docker/accounts-client"
+        ],
+        "parallel": false
+      },
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"]
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "args": ["--remote=root@216.225.201.134"],
+        "commands": [],
+        "forwardAllArgs": false,
+        "parallel": false
+      },
+      "configurations": {
+        "development": {
+          "commands": [
+            "cp apps/accounts-client/docker/compose.development.yml dist/docker/accounts-client/compose.yml",
+            "scp -r dist/docker/accounts-client {args.remote}:~/development",
+            "ssh {args.remote} 'cd ~/development/accounts-client && docker compose up -d --build'"
+          ]
+        }
+      },
+      "defaultConfiguration": "development",
+      "dependsOn": ["prep-deploy"]
     }
   }
 }
