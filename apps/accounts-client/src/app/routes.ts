@@ -1,8 +1,26 @@
 import { inject } from '@angular/core';
-import { Route } from '@angular/router';
+import { CanMatchFn, Route, Router } from '@angular/router';
 import { NotFoundPageComponent } from '@easworks/app-shell/navigation/not-found/not-found.page';
 import { AUTH_READY } from '@easworks/app-shell/services/auth.ready';
 import { AuthGuardFn } from '@easworks/app-shell/services/auth.guard';
+import { Store } from '@ngrx/store';
+import { authFeature } from '@easworks/app-shell/state/auth';
+import { oauthCallback } from '../account/oauth-callback';
+
+// TODO: add this to signup routes
+const redirectUser: CanMatchFn = () => {
+  const store = inject(Store);
+  const user = store.selectSignal(authFeature.selectUser)();
+
+
+  if (user) {
+    const router = inject(Router);
+    return router.createUrlTree(['/sign-in']);
+  }
+
+  return true;
+};
+
 
 export const routes: Route[] = [
   {
@@ -18,8 +36,8 @@ export const routes: Route[] = [
     path: 'oauth/authorize',
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
-    loadComponent: () => import('../account/oauth/oauth.page')
-      .then(m => m.OAuthPageComponent)
+    canActivate: [oauthCallback],
+    component: NotFoundPageComponent
   },
   {
     path: '',
