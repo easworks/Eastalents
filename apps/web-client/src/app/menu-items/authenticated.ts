@@ -1,21 +1,29 @@
 import { AuthenticatedMenuItem, NOOP_CLICK } from '@easworks/app-shell/navigation/models';
-import { faBriefcase, faCalculator, faIdBadge, faMicrochip, faQuestionCircle, faSitemap, faSquarePollVertical, faUser, faUserGear, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { AUTH_CHECKS } from '@easworks/app-shell/state/auth';
+import { faBriefcase, faCalculator, faIdBadge, faMicrochip, faQuestionCircle, faSquarePollVertical, faUser, faUserGear, faUsers } from '@fortawesome/free-solid-svg-icons';
+
 
 export const authenticatedMenu: AuthenticatedMenuItem[] = [
   {
     id: 'dashboard', text: 'Dashboard',
     link: '/dashboard',
     icon: faSquarePollVertical,
-    permissions: [
-      'role.freelancer',
-      'role.employer'
-    ]
+    auth: AUTH_CHECKS.hasRole.any([
+      'talent',
+      'employer'
+    ])
   },
   {
-    id: 'profile', text: 'My Profile',
-    link: '/freelancer/my-profile',
+    id: 'talent-profile', text: 'My Profile',
+    link: '/talent/profile',
     icon: faUser,
-    permissions: ['role.freelancer']
+    auth: AUTH_CHECKS.hasRole('talent')
+  },
+  {
+    id: 'employer-profile', text: 'My Profile',
+    link: '/employer/profile',
+    icon: faUser,
+    auth: AUTH_CHECKS.hasRole('employer')
   },
 
   {
@@ -27,13 +35,7 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
     id: 'gen-ai-vetting', text: 'Gen AI Vetting',
     link: '/gen-ai-vetting',
     icon: faMicrochip,
-    permissions: ['gen-ai-vetting']
-  },
-
-  {
-    id: 'company-info', text: 'Company Info',
-    link: NOOP_CLICK,
-    icon: faSitemap,
+    auth: AUTH_CHECKS.hasPermission('gen-ai-vetting')
   },
   {
     id: 'manage-talents', text: 'Manage Talents',
@@ -44,49 +46,49 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
     id: 'cost-calculator', text: 'Cost Calculator',
     link: '/employer/cost-calculator',
     icon: faCalculator,
-    permissions: ['cost-calculator']
+    auth: AUTH_CHECKS.hasPermission('cost-calculator')
   },
 
   {
     id: 'help', text: 'Help',
     link: '/help',
     icon: faQuestionCircle,
+    auth: AUTH_CHECKS.hasRole.any([
+      'talent',
+      'employer'
+    ])
   },
   {
     id: 'spoc', text: 'SPOC',
     link: '/spoc',
     icon: faIdBadge,
+    auth: AUTH_CHECKS.hasRole.any([
+      'talent',
+      'employer'
+    ])
   },
   {
-    id: 'employer-account', text: 'My Account',
-    link: '/employer/account',
+    id: 'account', text: 'Account',
+    link: '/account',
     icon: faUserGear,
-    permissions: ['role.employer']
   },
+
 
   ...itemsForParent('work-opportunity', [
     {
       id: 'all-jobs', text: 'All Jobs',
       link: '/job-post/list/available',
-      permissions: ['role.freelancer']
+      auth: AUTH_CHECKS.hasRole('talent')
     },
     {
       id: 'my-applications', text: 'My Applications',
       link: '/job-post/list/applied',
-      permissions: ['role.freelancer']
+      auth: AUTH_CHECKS.hasRole('talent')
     },
     {
       id: 'saved-jobs', text: 'Saved Jobs',
       link: NOOP_CLICK,
-      permissions: ['role.freelancer']
-    }
-  ]),
-
-  ...itemsForParent('company-info', [
-    {
-      id: 'general-company-info', text: 'General Information',
-      link: '/employer/general-info',
-      permissions: ['role.employer']
+      auth: AUTH_CHECKS.hasRole('talent')
     }
   ]),
 
@@ -94,12 +96,13 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
     {
       id: 'hire-talents', text: 'Hire Talents',
       link: '/employer/hire-talents',
-      permissions: ['role.employer']
+      auth: AUTH_CHECKS.hasRole('employer')
+
     },
     {
       id: 'my-teammates', text: 'My Teammates',
       link: '/employer/my-teammates',
-      permissions: ['role.employer']
+      auth: AUTH_CHECKS.hasRole('employer')
     }
   ])
 

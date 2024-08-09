@@ -10,5 +10,10 @@ export const base64url = {
   },
   fromBuffer: (buffer: ArrayBuffer) => {
     return base64url.fromBytes(new Uint8Array(buffer));
+  },
+  toString: (encoded: string) => {
+    return atob(encoded
+      .replace(/-/g, '+')
+      .replace(/_/g, '/'));
   }
 } as const;

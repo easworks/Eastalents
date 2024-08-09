@@ -2,12 +2,18 @@ import { Role } from './role';
 
 export const PERMISSION_DEF_DTO: PermissionDefinitionDTO = [
   ['migration', ['export', 'import']],
+
   ['job-post', [
     'create',
-    'read',
+    'read', // even public everybody has this, honestly
     ['update', ['details', 'status']],
     'delete'
   ]],
+
+  ['job-post-application', [
+    'create'
+  ]],
+
   'gen-ai-vetting',
   'cost-calculator'
 ];
@@ -20,15 +26,28 @@ export const ALL_PERMISSIONS = new Set(permList);
 const roleList: Role[] = [
   {
     id: 'talent',
-    permissions: [],
+    permissions: [
+      'job-post-application.create'
+    ],
     static: false,
     allowSignup: true,
   },
   {
     id: 'employer',
-    permissions: [],
+    permissions: [
+      'job-post.create',
+      'job-post.update.details'
+    ],
     static: false,
     allowSignup: true,
+  },
+  {
+    id: 'admin',
+    permissions: [
+      'job-post.update.status'
+    ],
+    static: false,
+    allowSignup: false
   },
   {
     id: 'super-admin',
