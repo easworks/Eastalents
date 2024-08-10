@@ -1,0 +1,7 @@
+FROM node:lts-slim
+
+WORKDIR /root
+
+COPY ./dist/ ./accounts-client
+
+CMD [ "node", "accounts-client/server/server.mjs" ]

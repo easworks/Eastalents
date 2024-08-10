@@ -24,6 +24,7 @@
     "skipDefaultLibCheck": true,
     "paths": {
       "@easworks/app-shell/*": ["libs/app-shell/src/*"],
+      "app-shell/*": ["libs/app-shell/src/*"],
       "custom-icons": ["libs/shared/assets/src/icons/custom-icons.ts"],
       "custom-nx": ["tools/custom-nx/src/index.ts"],
       "models/*": ["libs/models/src/*"],

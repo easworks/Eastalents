@@ -34,11 +34,11 @@
 
   <mat-divider vertical class="self-stretch"></mat-divider>
 
-  <a class="text-lg font-extrabold 
-    text-primary-400 hover:text-white focus:text-white" mat-ripple
-     routerLink="/account/sign-in">
+  <button class="text-lg font-extrabold 
+  text-primary-400 hover:text-white focus:text-white" mat-ripple
+          (click)="signIn()">
     Login
-  </a>
+  </button>
   <button class="icon-button" mat-ripple (click)="toggleSidebar()">
     <fa-icon [icon]="icons.faHighTechFourLeaf" class="text-primary-400 hover:text-white focus:text-white 
       text-3xl leading-none"></fa-icon>

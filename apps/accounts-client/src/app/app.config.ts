@@ -1,13 +1,15 @@
-import { ViewportScroller } from '@angular/common';
+import { APP_BASE_HREF, ViewportScroller } from '@angular/common';
 import { provideHttpClient, withFetch, withInterceptors, withNoXsrfProtection } from '@angular/common/http';
-import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, inject, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { authInterceptor } from '@easworks/app-shell/api/auth.interceptor';
-import { DefaultSeoConfig, SEO_DEFAULT_CONFIG, SEOService } from '@easworks/app-shell/services/seo';
+import { CLIENT_CONFIG, provideBrowserEnvID } from '@easworks/app-shell/dependency-injection';
+import { AuthService } from '@easworks/app-shell/services/auth';
+import { SEO_DEFAULT_CONFIG, SEOService } from '@easworks/app-shell/services/seo';
 import { authFeature } from '@easworks/app-shell/state/auth';
 import { authEffects } from '@easworks/app-shell/state/auth.effects';
 import { uiFeature } from '@easworks/app-shell/state/ui';
@@ -15,16 +17,27 @@ import { uiEffects } from '@easworks/app-shell/state/ui.effects';
 import { provideEffects } from '@ngrx/effects';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { provideEnvironment } from './environment';
+import { AUTH_GUARD_ACTIONS } from '../account/auth-guard-action';
+import { signInEffects } from '../account/sign-in.effects';
+import { provideClientConfig } from './client.config';
 import { routes } from './routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideEnvironment(),
+    provideBrowserEnvID(),
+    provideClientConfig(),
+
+    { provide: APP_BASE_HREF, useValue: '/' },
+    {
+      provide: SEO_DEFAULT_CONFIG,
+      useFactory: () => inject(CLIENT_CONFIG).seo
+    },
+
     provideExperimentalZonelessChangeDetection(),
     provideClientHydration(
       withEventReplay()
     ),
+
     provideStore(),
     provideEffects(),
     provideStoreDevtools({
@@ -56,13 +69,8 @@ export const appConfig: ApplicationConfig = {
         scrollPositionRestoration: 'enabled'
       })
     ),
+    AUTH_GUARD_ACTIONS,
 
-    {
-      provide: SEO_DEFAULT_CONFIG, useValue: {
-        baseTitle: 'Accounts | EASWORKS',
-        defaultDescription: 'Manage your Easworks account'
-      } satisfies DefaultSeoConfig
-    },
     importProvidersFrom([
       MatSnackBarModule,
       MatDialogModule
@@ -71,6 +79,7 @@ export const appConfig: ApplicationConfig = {
       provide: APP_INITIALIZER,
       useFactory: () => () => undefined,
       deps: [
+        AuthService,
         SEOService,
       ],
       multi: true
@@ -81,5 +90,6 @@ export const appConfig: ApplicationConfig = {
 
     provideState(authFeature),
     provideEffects(authEffects),
+    provideEffects(signInEffects)
   ],
 };

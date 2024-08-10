@@ -1,7 +1,7 @@
-import { isDevMode } from '@angular/core';
 import { fastifyCors } from '@fastify/cors';
 import { fastify, FastifyInstance } from 'fastify';
 import * as path from 'path';
+import { parseEnv } from 'server-side/environment';
 import { serveAngularSSR } from 'server-side/utils/angular-ssr';
 import { useProblemDetailsGlobally } from 'server-side/utils/fastify-problem-details';
 import { getLoggerOptions } from 'server-side/utils/logging';
@@ -9,7 +9,7 @@ import { printRoutes } from 'server-side/utils/print-routes.plugin';
 import { fileURLToPath } from 'url';
 import bootstrap from './main.server';
 
-const development = isDevMode();
+const envId = parseEnv.nodeEnv();
 
 async function initServer() {
   // const options = development ? {} : { http2: true };
@@ -17,7 +17,7 @@ async function initServer() {
 
   const server = fastify({
     ...options,
-    logger: getLoggerOptions(development)
+    logger: getLoggerOptions(envId)
   });
 
   return server;
@@ -30,7 +30,8 @@ async function configureServer(server: FastifyInstance) {
 
   server.register(serveAngularSSR, {
     bootstrap,
-    directory: path.resolve(fileURLToPath(import.meta.url), '../..')
+    directory: path.resolve(fileURLToPath(import.meta.url), '../..'),
+    environmentId: envId
   });
 
   await server.register(fastifyCors, {
@@ -46,11 +47,19 @@ export async function startServer() {
 
   try {
     await configureServer(server);
-    server.listen({ host, port });
+    await server.listen({ host, port });
+    process.on('SIGTERM', () => closeServer(server));
+    process.on('SIGINT', () => closeServer(server));
   }
   catch (e) {
     server.log.fatal(e);
+    closeServer(server);
   }
 };
+
+async function closeServer(server: FastifyInstance) {
+  await server.close();
+  process.exit();
+}
 
 startServer();

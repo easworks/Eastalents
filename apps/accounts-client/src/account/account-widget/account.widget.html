@@ -4,12 +4,12 @@
   <fa-icon [icon]="icons.faCircleUser"></fa-icon>
 </button>
 <mat-menu #WidgetMenu="matMenu">
-  <!-- <a [routerLink]="profileLink$()" mat-ripple
-class="grid gap-2 px-4 py-2 !h-auto !leading-normal hover:bg-slate-500/10 focus:bg-slate-500/10">
-<div>{{user.firstName}} {{user.lastName}}</div>
-<div>{{user.email}}</div>
-<div class="text-sm">{{user.role | uppercase}}</div>
-</a> -->
+  <a mat-ripple
+     class="grid gap-2 px-4 py-2 !h-auto !leading-normal hover:bg-slate-500/10 focus:bg-slate-500/10">
+    <div>{{user.displayName}}</div>
+    <div>{{user.email}}</div>
+    <!-- <div class="text-sm">{{user.role | uppercase}}</div> -->
+  </a>
   <mat-divider></mat-divider>
   <div class="grid place-content-center py-4"
        (click)="$event.stopImmediatePropagation()">

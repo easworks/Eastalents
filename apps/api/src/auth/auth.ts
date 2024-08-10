@@ -8,7 +8,8 @@ import { SignupEmailInUse, SignupRequiresWorkEmail, SignupRoleIsInvalid, UserEma
 import { setTypeVersion } from 'server-side/mongodb/collections';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 import { easMongo } from '../mongodb';
-import { FreeEmailProviderCache, getExternalUserForSignup, isFreeEmail, oauthUtils, passwordUtils, sendVerificationEmail } from './utils';
+import { FreeEmailProviderCache, getExternalUserForSignup, isFreeEmail, jwtUtils, oauthUtils, passwordUtils, sendVerificationEmail } from './utils';
+import { OAuthTokenSuccessResponse } from 'models/oauth';
 
 export const authHandlers: FastifyZodPluginAsync = async server => {
 
@@ -166,9 +167,16 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       await saveNewUser(user, permissions, credential);
 
-      const tokenResponse = oauthUtils.createTokenResponse(user, permissions);
+      const accessToken = await jwtUtils.createToken('first-party', user, permissions);
 
-      return tokenResponse;
+      const response: OAuthTokenSuccessResponse = {
+        access_token: accessToken.token,
+        expires_in: accessToken.expiresIn,
+        token_type: 'bearer',
+        ...oauthUtils.getSuccessProps(user, permissions)
+      };
+
+      return response;
     }
   );
 
@@ -210,9 +218,16 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       if (!permissions)
         throw new Error('user permissions should exist');
 
-      const tokenResponse = await oauthUtils.createTokenResponse(user, permissions);
+      const accessToken = await jwtUtils.createToken('first-party', user, permissions);
 
-      return tokenResponse;
+      const response: OAuthTokenSuccessResponse = {
+        access_token: accessToken.token,
+        expires_in: accessToken.expiresIn,
+        token_type: 'bearer',
+        ...oauthUtils.getSuccessProps(user, permissions)
+      };
+
+      return response;
     }
   );
 
@@ -279,9 +294,16 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     if (!permissions)
       throw new Error('user permissions should not be null');
 
-    const tokenResponse = oauthUtils.createTokenResponse(user, permissions);
+    const accessToken = await jwtUtils.createToken('first-party', user, permissions);
 
-    return tokenResponse;
+    const response: OAuthTokenSuccessResponse = {
+      access_token: accessToken.token,
+      expires_in: accessToken.expiresIn,
+      token_type: 'bearer',
+      ...oauthUtils.getSuccessProps(user, permissions)
+    };
+
+    return response;
   }
 
   async function saveNewUser(

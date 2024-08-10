@@ -1,4 +1,5 @@
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { AuthUser } from '../state/auth';
 
 interface MenuItemBase {
   text: string;
@@ -14,7 +15,7 @@ export interface MenuItem extends MenuItemBase {
 export interface AuthenticatedMenuItem extends MenuItemBase {
   id: string;
   parent?: string;
-  permissions?: string[];
+  auth?: (user: AuthUser) => boolean;
 }
 
 export const NOOP_CLICK = 'javascript:void(0)' as const;

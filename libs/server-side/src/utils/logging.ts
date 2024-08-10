@@ -1,17 +1,20 @@
-import { FastifyBaseLogger, PinoLoggerOptions } from 'fastify/types/logger';
+import { PinoLoggerOptions } from 'fastify/types/logger';
+import { EnvironmentID } from 'models/environment';
 
-export function getLoggerOptions(devMode: boolean): PinoLoggerOptions {
+export function getLoggerOptions(envId: EnvironmentID): PinoLoggerOptions {
   const baseOptions = {
   };
-  const options: Partial<(FastifyBaseLogger & PinoLoggerOptions) | boolean> = devMode ?
-    {
-      ...baseOptions,
-    } :
-    {
-      // ...gcpLogOptions(),
-      ...baseOptions,
+
+  switch (envId) {
+    case 'local': return {
+      ...baseOptions
     };
-
-
-  return options;
+    case 'development': return {
+      ...baseOptions
+    };
+    case 'production': return {
+      // ...gcpLogOptions(),
+      ...baseOptions
+    };
+  }
 }

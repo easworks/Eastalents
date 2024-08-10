@@ -1,14 +1,14 @@
 import { ArrayDataSource } from '@angular/cdk/collections';
 import { CdkTreeModule, NestedTreeControl } from '@angular/cdk/tree';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Directive, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { navMenuFeature } from '../../state/nav-menu';
 import { MenuItem } from '../models';
-import { LetDirective } from '@ngrx/component';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   standalone: true,

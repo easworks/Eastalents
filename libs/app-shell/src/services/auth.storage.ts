@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { get, set } from 'idb-keyval';
+import { clear, get, set } from 'idb-keyval';
 import type { JwtPayload } from 'jsonwebtoken';
 import { DateTime } from 'luxon';
 import { CACHE } from '../common/cache';
@@ -10,7 +10,6 @@ import { AuthUser } from '../state/auth';
 })
 export class AuthStorageService {
   private readonly cache = inject(CACHE)?.auth;
-
 
   readonly lock = {
     key: 'auth_lock',
@@ -24,7 +23,35 @@ export class AuthStorageService {
     remove: () => localStorage.removeItem(this.lock.key)
   } as const;
 
+  readonly expiry = {
+    key: 'expiry',
+    set: async (seconds: number) => {
+      const expiry = DateTime.fromSeconds(seconds);
+      const expired = expiry.diffNow().milliseconds < 0;
+      if (expired)
+        throw new CannotSetExpiredValue();
+      await set(this.expiry.key, expiry.toISO(), this.cache);
+    },
+    get: async () => {
+      const stored = await get<string>(this.expiry.key, this.cache);
+      if (!stored)
+        return null;
+
+      const value = DateTime.fromISO(stored);
+
+      if (!value.isValid)
+        return null;
+
+      return value;
+    },
+    isExpired: async () => {
+      const expiry = await this.expiry.get();
+      return !expiry || expiry.diffNow().milliseconds < 0;
+    }
+  } as const;
+
   readonly token = {
+    key: 'token',
     set: async (token: string) => {
       if (!this.cache)
         return;
@@ -33,28 +60,14 @@ export class AuthStorageService {
       if (!exp)
         throw new Error('invalid token');
 
-      const expiry = DateTime.fromSeconds(exp);
-      const expired = expiry.diffNow().milliseconds < 0;
-      if (expired)
-        throw new CannotSetExpiredToken();
-
-      await set('token', token, this.cache);
-      await set('expiry', DateTime.fromSeconds(exp).toISO(), this.cache);
+      await this.expiry.set(exp);
+      await set(this.token.key, token, this.cache);
     },
     get: async () => {
-      if (!this.cache)
+      if (!this.cache || await this.expiry.isExpired())
         return null;
 
-      const exp = await get<string>('expiry', this.cache);
-      if (!exp)
-        return null;
-
-      const expiry = DateTime.fromISO(exp);
-      const expired = expiry.diffNow().milliseconds < 0;
-      if (expired)
-        return null;
-
-      return await get<string>('token', this.cache);
+      return await get<string>(this.token.key, this.cache) || null;
     }
   } as const;
 
@@ -64,9 +77,16 @@ export class AuthStorageService {
       return set(this.user.key, user, this.cache);
     },
     get: async () => {
-      return get<AuthUser>(this.user.key, this.cache);
+      if (!this.cache || await this.expiry.isExpired())
+        return null;
+
+      return await get<AuthUser>(this.user.key, this.cache) || null;
     }
   } as const;
+
+  async clear() {
+    await clear(this.cache);
+  }
 
   private getPayload(token: string) {
     const base64 = token.split('.')[1];
@@ -77,4 +97,4 @@ export class AuthStorageService {
 
 export class AuthStorageLockSet extends Error { }
 
-export class CannotSetExpiredToken extends Error { }
+export class CannotSetExpiredValue extends Error { }

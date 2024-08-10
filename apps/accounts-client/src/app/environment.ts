@@ -1,17 +1,41 @@
-import { Provider, isDevMode } from '@angular/core';
-import { ENVIRONMENT, Environment } from '@easworks/app-shell/environment';
+import { inject, InjectionToken } from '@angular/core';
+import { ENVIRONMENT_ID } from '@easworks/app-shell/dependency-injection';
+import { EnvironmentID } from 'models/environment';
+
+const configs = {
+  local: {
+    oauth: {
+      server: 'http://localhost:4103'
+    },
+    sso: {
+      domain: 'localhost'
+    }
+  },
+  development: {
+    oauth: {
+      server: 'https://accounts.development.branches.easworks.com'
+    },
+    sso: {
+      domain: 'development.branches.easworks.com'
+    }
+  },
+  production: {
+    oauth: {
+      server: 'https://accounts.easworks.com'
+    },
+    sso: {
+      domain: 'easworks.com'
+    }
+  },
+} as const satisfies Record<EnvironmentID, unknown>;
+
+export const ENVIRONMENT = new InjectionToken('ENVIRONMENT', {
+  providedIn: 'root',
+  factory: () => {
+    const envId = inject(ENVIRONMENT_ID);
+
+    return configs[envId];
+  }
+});
 
 
-const devMode = isDevMode();
-
-const env: Environment = devMode ?
-  {
-    apiUrl: '/api'
-  } :
-  {
-    apiUrl: '/api'
-  };
-
-export function provideEnvironment(): Provider {
-  return { provide: ENVIRONMENT, useValue: env };
-}

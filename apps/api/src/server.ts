@@ -1,4 +1,5 @@
-import fastifyCors from '@fastify/cors';
+import { fastifyCors } from '@fastify/cors';
+import { fastifyFormbody } from '@fastify/formbody';
 import { fastify, FastifyInstance } from 'fastify';
 import { useProblemDetailsGlobally } from 'server-side/utils/fastify-problem-details';
 import { useZodValidation } from 'server-side/utils/fastify-zod';
@@ -13,7 +14,7 @@ async function initServer() {
 
   const server = fastify({
     ...options,
-    logger: getLoggerOptions(environment.development)
+    logger: getLoggerOptions(environment.id)
   });
 
   return server;
@@ -27,6 +28,7 @@ async function configureServer(server: FastifyInstance) {
   await server.register(fastifyCors, {
     origin: true
   });
+  await server.register(fastifyFormbody);
   await server.register(useCloudContext);
 
   await easMongo.client.connect();

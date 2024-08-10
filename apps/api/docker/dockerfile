@@ -2,13 +2,17 @@ FROM node:lts-slim
 
 WORKDIR /root
 
-ADD dist.tar.gz .
+RUN mkdir api
 
 WORKDIR /root/api
 
-RUN corepack enable pnpm
+COPY ./dist/package.json .
+COPY ./dist/pnpm-lock.yaml .
 
+RUN corepack enable pnpm
 RUN pnpm i
+
+COPY ./dist/ .
 
 WORKDIR /root
 

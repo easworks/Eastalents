@@ -1,10 +1,10 @@
 import { DateTime } from 'luxon';
-import { customAlphabet } from 'nanoid';
 import { Entity } from './entity';
 
 export interface OAuthClientApplication extends Entity {
   name: string;
   redirectUris: string[];
+  firstParty: boolean;
 }
 
 export interface OAuthCode extends Entity {
@@ -17,7 +17,7 @@ export interface OAuthCode extends Entity {
   };
   redirectUri?: string;
   expiresAt: DateTime;
-  grantedToken?: string;
+  grantedTokens: string[];
 }
 
 export interface OAuthTokenSuccessResponse {
@@ -62,6 +62,3 @@ export type OAuthTokenErrorType =
 export interface OAuthTokenErrorResponse extends OAuthErrorResponse {
   error: OAuthTokenErrorType;
 }
-
-const codeAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890';
-export const oauthCodeGenerator = customAlphabet(codeAlphabet, 64);

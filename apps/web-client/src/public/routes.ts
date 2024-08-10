@@ -1,37 +1,35 @@
-import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
-import { HelpCenterService } from '@easworks/app-shell/services/help';
 import { PageMetadata } from '@easworks/app-shell/services/seo';
 import { USE_CASES_ROUTE } from './use-cases/routes';
 
 export const PUBLIC_ROUTES: Routes = [
-  {
-    path: 'for-companies',
-    pathMatch: 'full',
-    loadComponent: () => import('./for-companies/for-companies.page').then(m => m.ForCompaniesPageComponent),
-    resolve: {
-      help: () => {
-        const hcs = inject(HelpCenterService);
-        return hcs.getGroups('employer', true);
-      }
-    }
-  },
-  {
-    path: 'for-freelancer',
-    pathMatch: 'full',
-    loadComponent: () => import('./for-freelancer/for-freelancer.page').then(m => m.ForFreelancerPageComponent),
-    resolve: {
-      help: async () => {
-        const hcs = inject(HelpCenterService);
-        return hcs.getGroups('freelancer', true);
-      }
-    }
-  },
-  {
-    path: 'easworks-talent',
-    pathMatch: 'full',
-    loadComponent: () => import('./easworks-talent/easworks-talent.page').then(m => m.EasworksTalentPageComponent)
-  },
+  // {
+  //   path: 'for-companies',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./for-companies/for-companies.page').then(m => m.ForCompaniesPageComponent),
+  //   resolve: {
+  //     help: () => {
+  //       const hcs = inject(HelpCenterService);
+  //       return hcs.getGroups('employer', true);
+  //     }
+  //   }
+  // },
+  // {
+  //   path: 'for-freelancer',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./for-freelancer/for-freelancer.page').then(m => m.ForFreelancerPageComponent),
+  //   resolve: {
+  //     help: async () => {
+  //       const hcs = inject(HelpCenterService);
+  //       return hcs.getGroups('freelancer', true);
+  //     }
+  //   }
+  // },
+  // {
+  //   path: 'easworks-talent',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./easworks-talent/easworks-talent.page').then(m => m.EasworksTalentPageComponent)
+  // },
   {
     path: 'why-easworks',
     pathMatch: 'full',
@@ -99,11 +97,11 @@ export const PUBLIC_ROUTES: Routes = [
   // },
   USE_CASES_ROUTE,
   // ...HELP_CENTER_ROUTES,
-  {
-    path: 'about-us',
-    pathMatch: 'full',
-    loadComponent: () => import('./about-us/about-us.page').then(m => m.AboutUsPageComponent)
-  },
+  // {
+  //   path: 'about-us',
+  //   pathMatch: 'full',
+  //   loadComponent: () => import('./about-us/about-us.page').then(m => m.AboutUsPageComponent)
+  // },
   {
     path: 'contact-us',
     pathMatch: 'full',
