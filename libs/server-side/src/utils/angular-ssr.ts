@@ -1,7 +1,7 @@
 import { ApplicationRef } from '@angular/core';
 import { CommonEngine } from '@angular/ssr';
-import { ENVIRONMENT_ID } from '@easworks/app-shell/dependency-injection';
 import { fastifyStatic } from '@fastify/static';
+import { ENVIRONMENT_ID } from 'app-shell/dependency-injection';
 import { FastifyPluginAsync } from 'fastify';
 import mime from 'mime';
 import * as path from 'path';

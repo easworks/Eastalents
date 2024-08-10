@@ -1,6 +1,7 @@
+import { EnvironmentID } from 'models/environment';
 
 export interface Environment {
-  development: boolean;
+  id: EnvironmentID;
   port: number;
   authHost?: {
     host: string;
@@ -20,7 +21,7 @@ export const parseEnv = {
     const env = process.env['NODE_ENV'];
     if (!env)
       throw new Error('NODE_ENV not provided');
-    return env;
+    return env as EnvironmentID;
   },
   authHost: () => {
     const host = process.env['AUTH_HOST'] as string;

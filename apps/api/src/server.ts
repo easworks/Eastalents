@@ -14,7 +14,7 @@ async function initServer() {
 
   const server = fastify({
     ...options,
-    logger: getLoggerOptions(environment.development)
+    logger: getLoggerOptions(environment.id)
   });
 
   return server;
