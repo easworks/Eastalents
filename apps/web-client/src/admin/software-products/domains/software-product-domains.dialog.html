@@ -4,3 +4,78 @@
     <fa-icon [icon]="icons.faXmark"></fa-icon>
   </button>
 </div>
+
+<mat-divider></mat-divider>
+
+<div class="p-2">
+  <div class="form-field mb-0">
+    <label>Software Product</label>
+    <input type="text" readonly [ngModel]="product$().name">
+  </div>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="p-2">
+  <div class="table-container">
+    <div class="overlay-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Domains</th>
+            <th class="w-0"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @if(table.empty$()) {
+          <tr>
+            <td colspan="2" class="italics text-gray-400 text-center">
+              No data
+            </td>
+          </tr>
+          }
+          @for(row of table.rows$(); track row.id) {
+          <tr>
+            <td>{{row.name}}</td>
+            <td class="!p-0">
+              <button class="icon-button rounded-md hover:text-warn" mat-ripple matTooltip="Remove"
+                (click)="table.remove(row.id)">
+                <fa-icon [icon]="icons.faRemove"></fa-icon>
+              </button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="p-2">
+  <div class="form-field mb-0">
+    <input type="text" [(ngModel)]="table.add.query$" [matAutocomplete]="searchOptions" clearTriggerOnSelect
+      placeholder="Add Domains">
+  </div>
+
+  <mat-autocomplete #searchOptions hideSingleSelectionIndicator [displayWith]="table.add.displayWith"
+    (optionSelected)="table.add.onSelect($event)">
+    @for(option of table.add.results$(); track option.id) {
+    <mat-option [value]="option">{{option.longName}}</mat-option>
+    }
+  </mat-autocomplete>
+</div>
+
+<mat-divider></mat-divider>
+
+
+<div class="flex gap-2 p-2">
+  <button type="button" class="stroked-button primary" mat-ripple [disabled]="buttons.save.disabled$()"
+    (click)="buttons.save.click()">
+    Save
+  </button>
+  <button type="button" class="stroked-button" mat-ripple (click)="buttons.reset.click()">
+    Reset
+  </button>
+</div>

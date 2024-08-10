@@ -47,10 +47,16 @@ export const softwareProductActions = createActionGroup({
   events: {
     'add': props<{ payload: SoftwareProduct; }>(),
     'update': props<{ payload: SoftwareProduct; }>(),
-    'updateSkills': props<{
+    'update skills': props<{
       payload: {
         id: string;
         skills: SoftwareProduct['skills'];
+      };
+    }>(),
+    'update domains': props<{
+      payload: {
+        id: string;
+        domains: SoftwareProduct['domains'];
       };
     }>()
   }
@@ -145,6 +151,32 @@ const feature = createFeature({
 
       return state;
     }),
+    on(softwareProductActions.updateDomains, produce((state, { payload }) => {
+      const product = state.softwareProducts.entities[payload.id];
+      if (!product)
+        throw new Error('invalid operation');
+
+      // update domain
+      {
+        const { added, removed } = diffList(product.domains, payload.domains);
+
+        added
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          .map(id => state.domains.entities[id]!)
+          .forEach(domain => utils.domains.addProduct(domain, product));
+
+
+        removed
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          .map(id => state.domains.entities[id]!)
+          .forEach(domain => utils.domains.removeProduct(domain, product));
+      }
+
+      // update software product
+      product.domains = [...payload.domains].sort(sortString);
+
+      return state;
+    })),
 
     // Tech Skills
     on(techSkillActions.add, (state, { payload }) => {
@@ -266,6 +298,17 @@ export const adminData = {
 
 
 const utils = {
+  domains: {
+    addProduct: (domain: Domain, product: SoftwareProduct) => {
+      domain.products.push(product.id);
+      domain.products.sort(sortString);
+    },
+    removeProduct: (domain: Domain, product: SoftwareProduct) => {
+      const idx = domain.products.findIndex(s => s === product.id);
+      if (idx !== -1)
+        domain.products.splice(idx, 1);
+    },
+  },
   techGroup: {
     addSkill: (skill: TechSkill, group: TechGroup) => {
       group.skills.push(skill.id);
