@@ -37,7 +37,7 @@ export const authEffects = {
       const sso = clientConfig.sso;
       if (!sso)
         return EMPTY;
-      const isAuthHost = clientConfig.oauth.type === 'host';
+      const isAuthServer = clientConfig.oauth.type === 'server';
 
       const storage = inject(AuthStorageService);
       const store = inject(Store);
@@ -85,8 +85,7 @@ export const authEffects = {
         {
           // cookie id exists, but does not match user
 
-          if (isAuthHost) {
-
+          if (isAuthServer) {
             if (userId) {
               const exp = await storage.expiry.get()
                 .then(dt => dt!.toISO());
@@ -99,7 +98,7 @@ export const authEffects = {
           }
           else {
             const path = location.path();
-            if (path.startsWith(clientConfig.oauth.callbackPath))
+            if (path.startsWith(clientConfig.oauth.redirect.path))
               return;
 
             const state = {

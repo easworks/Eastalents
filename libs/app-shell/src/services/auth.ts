@@ -65,7 +65,7 @@ export class AuthService {
         switchMap(async self => {
           const user = getAuthUserFromModel(self.user, self.permissionRecord);
           await this.storage.user.set(user);
-          if (this.oauth.type === 'host' && this.sso) {
+          if (this.oauth.type === 'server' && this.sso) {
             const expiry = await this.storage.expiry.get();
             if (!expiry)
               throw new Error('expiry should not be null');

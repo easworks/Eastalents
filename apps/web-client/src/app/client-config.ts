@@ -1,24 +1,37 @@
+import { inject, Provider } from '@angular/core';
+import { CLIENT_CONFIG } from '@easworks/app-shell/dependency-injection';
 import { ClientConfig } from 'models/client-config';
-import { env } from './environment';
+import { ENVIRONMENT } from './environment';
 
-export const clientConfig: ClientConfig = {
-  version: '1.0.0',
-  seo: {
-    baseTitle: 'EASWORKS',
-    defaultDescription: 'EASWORKS'
-  },
-  oauth: {
-    type: 'client',
-    clientId: '66a98aad5c881fc8f3ca2a57',
-    redirectUri: 'http://localhost:4104/oauth/callback',
-    endpoints: {
-      authorize: '/api/oauth/authorize',
-      token: '/api/oauth/token'
-    },
-    origin: env.oauth.origin,
-    callbackPath: '/oauth/callback'
-  },
-  sso: {
-    domain: env.sso.domain
-  }
-};
+export function provideClientConfig(): Provider {
+  return {
+    provide: CLIENT_CONFIG,
+    useFactory: () => {
+      const env = inject(ENVIRONMENT);
+
+      return {
+        version: '1.0.0',
+        seo: {
+          baseTitle: 'EASWORKS',
+          defaultDescription: 'EASWORKS'
+        },
+        oauth: {
+          type: 'client',
+          server: env.oauth.server,
+          clientId: '66a98aad5c881fc8f3ca2a57',
+          endpoints: {
+            authorize: '/api/oauth/authorize',
+            token: '/api/oauth/token'
+          },
+          redirect: {
+            origin: env.oauth.redirect,
+            path: '/oauth/callback'
+          }
+        },
+        sso: {
+          domain: env.sso.domain
+        }
+      } satisfies ClientConfig;
+    }
+  };
+}

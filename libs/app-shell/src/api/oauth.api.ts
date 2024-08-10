@@ -2,7 +2,7 @@ import { inject, Injectable, INJECTOR } from '@angular/core';
 import { Params } from '@angular/router';
 import { OAuthTokenSuccessResponse } from 'models/oauth';
 import { from, switchMap } from 'rxjs';
-import { OAUTH_CLIENT_CONFIG, OAUTH_HOST_CONFIG } from '../dependency-injection';
+import { OAUTH_CLIENT_CONFIG, OAUTH_SERVER_CONFIG } from '../dependency-injection';
 import { AuthStorageService } from '../services/auth.storage';
 import { EasworksApi } from './easworks.api';
 
@@ -18,12 +18,12 @@ export class OAuthApi extends EasworksApi {
     state?: string
   ) => {
     const config = this.injector.get(OAUTH_CLIENT_CONFIG);
-    const url = new URL(config.origin + config.endpoints.authorize);
+    const url = new URL(config.server + config.endpoints.authorize);
     url.searchParams.set('response_type', 'code');
     url.searchParams.set('client_id', config.clientId);
     url.searchParams.set('code_challenge', code.challenge);
     url.searchParams.set('code_challenge_method', code.method);
-    url.searchParams.set('redirect_uri', config.redirectUri);
+    url.searchParams.set('redirect_uri', config.redirect.origin + config.redirect.path);
     if (state)
       url.searchParams.set('state', state);
 
@@ -41,11 +41,11 @@ export class OAuthApi extends EasworksApi {
       grant_type: 'authorization_code',
       code,
       code_verifier: verifier,
-      redirect_uri: config.redirectUri
+      redirect_uri: config.redirect.origin + config.redirect.path
     }).toString();
 
     return this.http.post<OAuthTokenSuccessResponse>(
-      config.origin + config.endpoints.token,
+      config.server + config.endpoints.token,
       params,
       {
         headers: {
@@ -56,7 +56,7 @@ export class OAuthApi extends EasworksApi {
   };
 
   readonly generateCode = (params: Params) => {
-    const config = inject(OAUTH_HOST_CONFIG);
+    const config = inject(OAUTH_SERVER_CONFIG);
 
     return from(this.storage.token.get())
       .pipe(
@@ -65,7 +65,7 @@ export class OAuthApi extends EasworksApi {
             throw new Error('token should not be null');
 
           return this.http.post<string>(
-            config.origin + config.endpoints.authorize,
+            config.server + config.endpoints.authorize,
             params,
             {
               headers: {

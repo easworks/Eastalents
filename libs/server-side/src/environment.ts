@@ -16,6 +16,12 @@ export interface Environment {
 }
 
 export const parseEnv = {
+  nodeEnv: () => {
+    const env = process.env['NODE_ENV'];
+    if (!env)
+      throw new Error('NODE_ENV not provided');
+    return env;
+  },
   authHost: () => {
     const host = process.env['AUTH_HOST'] as string;
     const oauthHandler = process.env['AUTH_HOST_OAUTH_HANDLER'] as string;

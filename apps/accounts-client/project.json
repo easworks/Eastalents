@@ -119,9 +119,12 @@
     "serve-ssr": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node dist/apps/accounts-client/server/server.mjs",
+        "args": ["--entry=dist/apps/accounts-client/server/server.mjs"],
+        "command": "nodemon -w {args.entry} {args.entry}",
+        "forwardAllArgs": false,
         "env": {
-          "PORT": "4103"
+          "PORT": "4103",
+          "NODE_ENV": "local"
         }
       }
     },

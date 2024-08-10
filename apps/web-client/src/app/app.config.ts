@@ -1,4 +1,4 @@
-import { ViewportScroller } from '@angular/common';
+import { APP_BASE_HREF, ViewportScroller } from '@angular/common';
 import { provideHttpClient, withFetch, withInterceptors, withNoXsrfProtection } from '@angular/common/http';
 import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, inject, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -7,9 +7,9 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { authInterceptor } from '@easworks/app-shell/api/auth.interceptor';
-import { CLIENT_CONFIG } from '@easworks/app-shell/dependency-injection';
+import { CLIENT_CONFIG, provideBrowserEnvID } from '@easworks/app-shell/dependency-injection';
 import { AuthService } from '@easworks/app-shell/services/auth';
-import { DefaultSeoConfig, SEO_DEFAULT_CONFIG, SEOService } from '@easworks/app-shell/services/seo';
+import { SEO_DEFAULT_CONFIG, SEOService } from '@easworks/app-shell/services/seo';
 import { SWManagerService } from '@easworks/app-shell/services/sw.manager';
 import { authFeature } from '@easworks/app-shell/state/auth';
 import { authEffects } from '@easworks/app-shell/state/auth.effects';
@@ -23,18 +23,27 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { signInEffects } from '../account/sign-in.effects';
 import { adminData } from '../admin/state/admin-data';
 import { adminDataEffects } from '../admin/state/admin-data.effects';
-import { clientConfig } from './client-config';
+import { provideClientConfig } from './client-config';
 import { menuItemEffects } from './menu-items/menu-item.effects';
 import { routes } from './routes';
 
 export const appConfig: ApplicationConfig = {
 
   providers: [
-    { provide: CLIENT_CONFIG, useValue: clientConfig },
+    provideBrowserEnvID(),
+    provideClientConfig(),
+
+    { provide: APP_BASE_HREF, useValue: '/' },
+    {
+      provide: SEO_DEFAULT_CONFIG,
+      useFactory: () => inject(CLIENT_CONFIG).seo
+    },
+
     provideExperimentalZonelessChangeDetection(),
     provideClientHydration(
       withEventReplay(),
     ),
+
     provideStore(),
     provideEffects(),
     provideStoreDevtools({
@@ -64,12 +73,7 @@ export const appConfig: ApplicationConfig = {
         scrollPositionRestoration: 'enabled'
       })
     ),
-    {
-      provide: SEO_DEFAULT_CONFIG, useFactory: () => {
-        const config = inject(CLIENT_CONFIG).seo;
-        return config satisfies DefaultSeoConfig;
-      },
-    },
+
     importProvidersFrom([
       MatSnackBarModule,
       MatDialogModule

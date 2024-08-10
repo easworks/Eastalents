@@ -2,6 +2,7 @@ import { isDevMode } from '@angular/core';
 import { fastifyCors } from '@fastify/cors';
 import { fastify, FastifyInstance } from 'fastify';
 import * as path from 'path';
+import { parseEnv } from 'server-side/environment';
 import { serveAngularSSR } from 'server-side/utils/angular-ssr';
 import { useProblemDetailsGlobally } from 'server-side/utils/fastify-problem-details';
 import { getLoggerOptions } from 'server-side/utils/logging';
@@ -10,6 +11,7 @@ import { fileURLToPath } from 'url';
 import bootstrap from './main.server';
 
 const development = isDevMode();
+const envId = parseEnv.nodeEnv();
 
 async function initServer() {
   // const options = development ? {} : { http2: true };
@@ -30,7 +32,8 @@ async function configureServer(server: FastifyInstance) {
 
   server.register(serveAngularSSR, {
     bootstrap,
-    directory: path.resolve(fileURLToPath(import.meta.url), '../..')
+    directory: path.resolve(fileURLToPath(import.meta.url), '../..'),
+    environmentId: envId
   });
 
   await server.register(fastifyCors, {

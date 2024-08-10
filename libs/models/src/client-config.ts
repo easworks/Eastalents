@@ -1,6 +1,6 @@
 export interface ClientConfig {
   readonly version: string;
-  readonly oauth: OAuthHostConfig | OAuthClientConfig;
+  readonly oauth: OAuthServerConfig | OAuthClientConfig;
   readonly seo: {
     readonly baseTitle: string;
     readonly defaultDescription: string;
@@ -10,9 +10,9 @@ export interface ClientConfig {
   };
 }
 
-export interface OAuthHostConfig {
-  readonly type: 'host';
-  readonly origin: string;
+export interface OAuthServerConfig {
+  readonly type: 'server';
+  readonly server: string;
   readonly endpoints: {
     readonly authorize: string;
   };
@@ -20,12 +20,14 @@ export interface OAuthHostConfig {
 
 export interface OAuthClientConfig {
   readonly type: 'client';
-  readonly origin: string;
+  readonly server: string;
   readonly endpoints: {
     readonly authorize: string;
     readonly token: string;
   };
   readonly clientId: string;
-  readonly redirectUri: string;
-  readonly callbackPath: string;
+  readonly redirect: {
+    origin: string;
+    path: string;
+  };
 }

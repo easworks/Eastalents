@@ -1,6 +1,6 @@
-import { APP_BASE_HREF } from '@angular/common';
 import { ApplicationRef } from '@angular/core';
 import { CommonEngine } from '@angular/ssr';
+import { ENVIRONMENT_ID } from '@easworks/app-shell/dependency-injection';
 import { fastifyStatic } from '@fastify/static';
 import { FastifyPluginAsync } from 'fastify';
 import mime from 'mime';
@@ -9,6 +9,7 @@ import * as path from 'path';
 interface ServeAngularSSROptions {
   bootstrap: () => Promise<ApplicationRef>;
   directory: string;
+  environmentId: string;
 }
 
 export const serveAngularSSR: FastifyPluginAsync<ServeAngularSSROptions> = async (server, options) => {
@@ -42,7 +43,9 @@ export const serveAngularSSR: FastifyPluginAsync<ServeAngularSSROptions> = async
         documentFilePath: indexHtml,
         url,
         publicPath: browserDirectory,
-        providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
+        providers: [
+          { provide: ENVIRONMENT_ID, useValue: options.environmentId },
+        ],
       });
     }
   });

@@ -1,13 +1,13 @@
-import { ViewportScroller } from '@angular/common';
+import { APP_BASE_HREF, ViewportScroller } from '@angular/common';
 import { provideHttpClient, withFetch, withInterceptors, withNoXsrfProtection } from '@angular/common/http';
-import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, inject, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { authInterceptor } from '@easworks/app-shell/api/auth.interceptor';
-import { CLIENT_CONFIG } from '@easworks/app-shell/dependency-injection';
+import { CLIENT_CONFIG, provideBrowserEnvID } from '@easworks/app-shell/dependency-injection';
 import { AuthService } from '@easworks/app-shell/services/auth';
 import { SEO_DEFAULT_CONFIG, SEOService } from '@easworks/app-shell/services/seo';
 import { authFeature } from '@easworks/app-shell/state/auth';
@@ -19,19 +19,24 @@ import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { AUTH_GUARD_ACTIONS } from '../account/auth-guard-action';
 import { signInEffects } from '../account/sign-in.effects';
-import { clientConfig } from './client-config';
+import { provideClientConfig } from './client-config';
 import { routes } from './routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideBrowserEnvID(),
+    provideClientConfig(),
+
+    { provide: APP_BASE_HREF, useValue: '/' },
+    {
+      provide: SEO_DEFAULT_CONFIG,
+      useFactory: () => inject(CLIENT_CONFIG).seo
+    },
+
     provideExperimentalZonelessChangeDetection(),
     provideClientHydration(
       withEventReplay()
     ),
-
-    { provide: CLIENT_CONFIG, useValue: clientConfig },
-    { provide: SEO_DEFAULT_CONFIG, useValue: clientConfig.seo },
-
 
     provideStore(),
     provideEffects(),
