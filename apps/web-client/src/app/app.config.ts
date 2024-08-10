@@ -23,7 +23,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { signInEffects } from '../account/sign-in.effects';
 import { adminData } from '../admin/state/admin-data';
 import { adminDataEffects } from '../admin/state/admin-data.effects';
-import { provideClientConfig } from './client-config';
+import { provideClientConfig } from './client.config';
 import { menuItemEffects } from './menu-items/menu-item.effects';
 import { routes } from './routes';
 

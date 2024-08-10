@@ -19,7 +19,7 @@ import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { AUTH_GUARD_ACTIONS } from '../account/auth-guard-action';
 import { signInEffects } from '../account/sign-in.effects';
-import { provideClientConfig } from './client-config';
+import { provideClientConfig } from './client.config';
 import { routes } from './routes';
 
 export const appConfig: ApplicationConfig = {
