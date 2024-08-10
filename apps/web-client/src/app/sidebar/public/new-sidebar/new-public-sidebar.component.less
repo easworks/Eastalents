@@ -1,0 +1,25 @@
+// Sidebar css
+.get-in-touch {
+  @apply relative 3xl:text-2xl text-xl text-primary-500 lg:py-3 py-1.5 5xl:px-16 lg:px-10 px-5 rounded-xl hover:hover:text-white hover:bg-black hover:duration-500 before:content-[''] before:absolute before:inset-0 before:rounded-xl before:p-[1px];
+
+  &:before {
+    background: linear-gradient(95.23deg, #4B4BF0 28.56%, #F34A02 100%);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+}
+
+.panel-shadow {
+  box-shadow: rgba(73, 73, 252, 0.25) 0px 54px 55px, rgba(73, 73, 252, 0.12) 0px -12px 30px, rgba(73, 73, 252, 0.12) 0px 4px 6px, rgba(73, 73, 252, 0.17) 0px 12px 13px, rgba(73, 73, 252, 0.09) 0px -3px 5px;
+}
+
+.cross-img {
+  transition: transform .7s ease-in-out;
+
+  &:hover {
+    transform: rotate(360deg);
+  }
+}

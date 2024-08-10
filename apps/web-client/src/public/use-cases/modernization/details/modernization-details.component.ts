@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'use-cases-modernization-details',
   templateUrl: './modernization-details.component.html',
+  styleUrl: './modernization-details.component.less',
 })
 export class ModernizationDetailsComponent {
 

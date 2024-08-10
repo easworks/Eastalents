@@ -2,14 +2,14 @@
   background-image: url(/assets/public/hire-contractors/hero-sec/sec-effect.png);
 
   .hero-btn {
-      background-image: url(/assets/public/hire-contractors/hero-btn-bg.png);
-      background-size: 100% 100%;
+    background-image: url(/assets/public/hire-contractors/hero-btn-bg.png);
+    background-size: 100% 100%;
   }
 
   .shaded-text {
-      background: linear-gradient(90deg, #4949FC 50%, #FFFFFF 130%);
-      -webkit-text-fill-color: transparent;
-      -webkit-background-clip: text;
+    background: linear-gradient(90deg, #4949FC 50%, #FFFFFF 130%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
   }
 }
 
@@ -22,18 +22,18 @@
   @apply grid 6xl:gap-12 gap-3 mt-8 4xl:grid-cols-4 grid-cols-2 justify-between items-center 2xl:flex-row flex-col gap-y-5 py-6 overflow-auto relative 4xl:before:content-[''] before:content-none before:absolute before:inset-0 before:rounded-full before:p-[1px];
 
   &:before {
-      background: linear-gradient(91.19deg, #000000 12.46%, rgba(0, 0, 0, 0) 100.28%);
-      -webkit-mask:
-          linear-gradient(#fff 0 0) content-box,
-          linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
+    background: linear-gradient(91.19deg, #000000 12.46%, rgba(0, 0, 0, 0) 100.28%);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
   }
 
   .shaded-text {
-      background: linear-gradient(110.93deg, #4949FC -1.39%, #000000 93.3%);
-      -webkit-text-fill-color: transparent;
-      -webkit-background-clip: text;
+    background: linear-gradient(110.93deg, #4949FC -1.39%, #000000 93.3%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
   }
 }
 
@@ -43,8 +43,8 @@
   border: 1.5px solid #FFFFFF;
 
   .card-box {
-      background-image: url(/assets/public/generic-roles/erp-sol/erp-bg.png);
-      background-size: 100% 100%;
+    background-image: url(/assets/public/generic-roles/erp-sol/erp-bg.png);
+    background-size: 100% 100%;
   }
 }
 
@@ -91,12 +91,12 @@
   background-image: url(/assets/public/hire-contractors/hero-sec/sec-effect.png);
 
   .bg-effect {
-      background-image: url(/assets/public/home/how-eas-works/main-bg-effect.png);
-      background-size: 60%;
+    background-image: url(/assets/public/home/how-eas-works/main-bg-effect.png);
+    background-size: 60%;
   }
 
   .how-easworks-btn {
-      background-image: url(/assets/public/home/hire-elite-btn-bg.svg);
+    background-image: url(/assets/public/home/hire-elite-btn-bg.svg);
   }
 }
 
@@ -109,12 +109,12 @@
   @apply relative text-sm flex items-center text-primary-500 px-4 mt-5 rounded-full hover:hover:text-white hover:duration-500 before:content-[''] before:absolute before:inset-0 before:rounded-xl before:p-[0.5px];
 
   &:before {
-      background: linear-gradient(95.23deg, #4B4BF0 28.56%, #F34A02 100%);
-      -webkit-mask:
-          linear-gradient(#fff 0 0) content-box,
-          linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
+    background: linear-gradient(95.23deg, #4B4BF0 28.56%, #F34A02 100%);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
   }
 }
 
@@ -124,12 +124,12 @@
 }
 
 // Join Community
-.join-community-sec{
+.join-community-sec {
   background-image: url(../../assets/public/generic-roles/join-community/join-community-bg.png);
   background-size: 100% 100%;
 
-  @media only screen and (max-width:896px){
-      background: linear-gradient(to bottom, rgb(73, 73, 252), rgb(255, 255, 255));
+  @media only screen and (max-width:896px) {
+    background: linear-gradient(to bottom, rgb(73, 73, 252), rgb(255, 255, 255));
   }
 }
 
@@ -137,11 +137,19 @@
   @apply relative text-xs flex items-center text-primary-500 px-2 rounded hover:hover:text-white hover:duration-500 before:content-[''] before:absolute before:inset-0 before:rounded before:p-[0.5px];
 
   &:before {
-      background: linear-gradient(95.23deg, #4B4BF0 28.56%, #F34A02 100%);
-      -webkit-mask:
-          linear-gradient(#fff 0 0) content-box,
-          linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
+    background: linear-gradient(95.23deg, #4B4BF0 28.56%, #F34A02 100%);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+}
+
+// FAQ dynamic changes
+
+:host ::ng-deep {
+  .mat-expansion-indicator {
+    display: none;
   }
 }

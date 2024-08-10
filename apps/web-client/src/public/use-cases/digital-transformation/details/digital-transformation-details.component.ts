@@ -4,6 +4,8 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'use-cases-digital-transformation-details',
   templateUrl: './digital-transformation-details.component.html',
+  styleUrl: './digital-transformation-details.component.less',
+
 })
 export class DigitalTransformationDetailsComponent {
 

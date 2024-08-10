@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { UseCaseRouteData } from './data-v2';
 import { RouterModule } from '@angular/router';
+import { CommonFAQComponent } from '../common/faq/faq-lists.component';
 
 @Component({
   standalone: true,
@@ -11,7 +12,8 @@ import { RouterModule } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
-    RouterModule
+    RouterModule,
+    CommonFAQComponent
   ]
 })
 export class UseCasesPageComponent {
