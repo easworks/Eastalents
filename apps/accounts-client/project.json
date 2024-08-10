@@ -42,36 +42,37 @@
               "configPath": "apps/accounts-client/tailwind.config.js"
             }
           }
-        ]
+        ],
+        "budgets": [
+          {
+            "type": "initial",
+            "maximumWarning": "500kb",
+            "maximumError": "1mb"
+          },
+          {
+            "type": "anyComponentStyle",
+            "maximumWarning": "2kb",
+            "maximumError": "4kb"
+          }
+        ],
+        "outputHashing": "all",
+        "optimization": {
+          "scripts": true,
+          "styles": true,
+          "fonts": false
+        }
       },
       "configurations": {
-        "production": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
-            }
-          ],
-          "outputHashing": "all",
-          "optimization": {
-            "scripts": true,
-            "styles": true,
-            "fonts": false
-          }
-        },
-        "development": {
+        "production": {},
+        "development": {},
+        "local": {
+          "budgets": [],
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "development"
     },
     "serve": {
       "executor": "@nx/angular:dev-server",
@@ -85,11 +86,11 @@
         "production": {
           "buildTarget": "accounts-client:build:production"
         },
-        "development": {
-          "buildTarget": "accounts-client:build:development"
+        "local": {
+          "buildTarget": "accounts-client:build:local"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "local"
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -121,25 +122,20 @@
       "options": {
         "args": ["--entry=dist/apps/accounts-client/server/server.mjs"],
         "command": "nodemon -w {args.entry} {args.entry}",
-        "forwardAllArgs": false,
-        "env": {
-          "PORT": "4103",
-          "NODE_ENV": "local"
-        }
+        "forwardAllArgs": false
       }
     },
     "prep-deploy": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
+          "rm -rf dist/docker/accounts-client",
           "mkdir -p dist/docker/accounts-client",
-          "tar -czf dist/docker/accounts-client/dist.tar.gz -C dist/apps accounts-client",
           "cp apps/accounts-client/docker/dockerfile dist/docker/accounts-client",
           "cp apps/accounts-client/docker/compose.extend.yml dist/docker/accounts-client"
         ],
         "parallel": false
       },
-      "defaultConfiguration": "development",
       "dependsOn": ["build"]
     },
     "deploy": {
@@ -151,10 +147,18 @@
         "parallel": false
       },
       "configurations": {
+        "local": {
+          "commands": [
+            "cp apps/accounts-client/docker/compose.development.yml dist/docker/accounts-client/compose.yml",
+            "mv -f dist/apps/accounts-client dist/docker/accounts-client/dist",
+            "cd dist/docker/accounts-client && docker compose up -d --build"
+          ]
+        },
         "development": {
           "commands": [
             "cp apps/accounts-client/docker/compose.development.yml dist/docker/accounts-client/compose.yml",
-            "scp -r dist/docker/accounts-client {args.remote}:~/development",
+            "rsync -vchr --delete dist/apps/accounts-client/ {args.remote}:~/development/accounts-client/dist",
+            "rsync -vchr dist/docker/accounts-client/ {args.remote}:~/development/accounts-client",
             "ssh {args.remote} 'cd ~/development/accounts-client && docker compose up -d --build'"
           ]
         }

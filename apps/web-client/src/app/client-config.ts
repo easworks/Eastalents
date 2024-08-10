@@ -18,7 +18,7 @@ export function provideClientConfig(): Provider {
         oauth: {
           type: 'client',
           server: env.oauth.server,
-          clientId: '66a98aad5c881fc8f3ca2a57',
+          clientId: env.oauth.clientId,
           endpoints: {
             authorize: '/api/oauth/authorize',
             token: '/api/oauth/token'

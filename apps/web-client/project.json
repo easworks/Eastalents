@@ -56,38 +56,39 @@
               "configPath": "apps/web-client/tailwind.config.js"
             }
           }
-        ]
+        ],
+        "budgets": [
+          {
+            "type": "initial",
+            "maximumWarning": "2mb",
+            "maximumError": "3mb"
+          },
+          {
+            "type": "anyComponentStyle",
+            "maximumWarning": "16kb",
+            "maximumError": "1Mb"
+          }
+        ],
+        "outputHashing": "all",
+        "namedChunks": true,
+        "optimization": {
+          "scripts": true,
+          "styles": true,
+          "fonts": false
+        }
       },
       "configurations": {
-        "production": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "2mb",
-              "maximumError": "3mb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "16kb",
-              "maximumError": "1Mb"
-            }
-          ],
-          "outputHashing": "all",
-          "namedChunks": true,
-          "optimization": {
-            "scripts": true,
-            "styles": true,
-            "fonts": false
-          }
-        },
-        "development": {
+        "production": {},
+        "development": {},
+        "local": {
+          "budgets": [],
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "development"
     },
     "build-service-worker": {
       "executor": "custom-nx:ng-sw",
@@ -108,11 +109,11 @@
         "production": {
           "buildTarget": "web-client:build:production"
         },
-        "development": {
+        "local": {
           "buildTarget": "web-client:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "local"
     },
     "build-tw": {
       "command": "tailwind -o apps/web-client/src/assets/tw.css --config apps/web-client/tailwind.config.js --minify --content ' '"
@@ -154,15 +155,14 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "nx build web-client",
-          "nx build-service-worker web-client",
+          "rm -rf dist/docker/web-client",
           "mkdir -p dist/docker/web-client",
-          "tar -czf dist/docker/web-client/dist.tar.gz -C dist/apps web-client",
           "cp apps/web-client/docker/dockerfile dist/docker/web-client",
           "cp apps/web-client/docker/compose.extend.yml dist/docker/web-client"
         ],
         "parallel": false
-      }
+      },
+      "dependsOn": ["build", "build-service-worker"]
     },
     "deploy": {
       "executor": "nx:run-commands",
@@ -176,7 +176,16 @@
         "local": {
           "commands": [
             "cp apps/web-client/docker/compose.development.yml dist/docker/web-client/compose.yml",
+            "mv -f dist/apps/web-client dist/docker/web-client/dist",
             "cd dist/docker/web-client && docker compose up -d --build"
+          ]
+        },
+        "development": {
+          "commands": [
+            "cp apps/web-client/docker/compose.development.yml dist/docker/web-client/compose.yml",
+            "rsync -vchr --delete dist/apps/web-client/ {args.remote}:~/development/web-client/dist",
+            "rsync -vchr dist/docker/web-client/ {args.remote}:~/development/web-client",
+            "ssh {args.remote} 'cd ~/development/web-client && docker compose up -d --build'"
           ]
         },
         "production": {
@@ -184,13 +193,6 @@
             "cp apps/web-client/docker/compose.production.yml dist/docker/web-client/compose.yml",
             "scp -r dist/docker/web-client {args.remote}:~/production",
             "ssh {args.remote} 'cd ~/production/web-client && docker compose up -d --build'"
-          ]
-        },
-        "development": {
-          "commands": [
-            "cp apps/web-client/docker/compose.development.yml dist/docker/web-client/compose.yml",
-            "scp -r dist/docker/web-client {args.remote}:~/development",
-            "ssh {args.remote} 'cd ~/development/web-client && docker compose up -d --build'"
           ]
         }
       },

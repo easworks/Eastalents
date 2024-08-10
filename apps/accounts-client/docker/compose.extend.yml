@@ -5,4 +5,5 @@ services:
     ports:
       - ${PORT:?}:4200
     environment:
+      - NODE_ENV=${NODE_ENV:?}
       - PORT=4200

@@ -5,6 +5,7 @@ import { EnvironmentID } from 'models/environment';
 const configs = {
   local: {
     oauth: {
+      clientId: "66a98aad5c881fc8f3ca2a57",
       server: 'http://localhost:4103',
       redirect: 'http://localhost:4104'
     },
@@ -14,6 +15,7 @@ const configs = {
   },
   development: {
     oauth: {
+      clientId: "66b7895420c29768cd795c19",
       server: 'https://accounts.development.branches.easworks.com',
       redirect: 'https://development.branches.easworks.com'
     },
@@ -23,6 +25,7 @@ const configs = {
   },
   production: {
     oauth: {
+      clientId: "66b789d820c29768cd795c1a",
       server: 'https://accounts.easworks.com',
       redirect: 'https://easworks.com'
     },

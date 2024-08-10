@@ -67,15 +67,15 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "nx build api",
           "cd dist/apps/api && pnpm i --lockfile-only",
+          "rm -rf dist/docker/api",
           "mkdir -p dist/docker/api",
-          "tar -czf dist/docker/api/dist.tar.gz -C dist/apps api",
           "cp apps/api/docker/dockerfile dist/docker/api",
           "cp apps/api/docker/compose.extend.yml dist/docker/api"
         ],
         "parallel": false
-      }
+      },
+      "dependsOn": ["build"]
     },
     "deploy": {
       "executor": "nx:run-commands",
@@ -89,13 +89,15 @@
         "local": {
           "commands": [
             "cp apps/api/docker/compose.development.yml dist/docker/api/compose.yml",
+            "mv -f dist/apps/api dist/docker/api/dist",
             "cd dist/docker/api && docker compose up -d --build"
           ]
         },
         "development": {
           "commands": [
             "cp apps/api/docker/compose.development.yml dist/docker/api/compose.yml",
-            "scp -r dist/docker/api {args.remote}:~/development",
+            "rsync -vchr --delete dist/apps/api/ {args.remote}:~/development/api/dist",
+            "rsync -vchr dist/docker/api/ {args.remote}:~/development/api",
             "ssh {args.remote} 'cd ~/development/api && docker compose up -d --build'"
           ]
         }
