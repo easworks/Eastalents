@@ -8,14 +8,17 @@ import { authFeature } from '@easworks/app-shell/state/auth';
 import { oauthCallback } from '../account/oauth-callback';
 
 // TODO: add this to signup routes
-const redirectUser: CanMatchFn = () => {
+const redirectUser: CanMatchFn = async () => {
+  const authReady = inject(AUTH_READY);
   const store = inject(Store);
+  const router = inject(Router);
+
+  await authReady;
+
   const user = store.selectSignal(authFeature.selectUser)();
 
-
   if (user) {
-    const router = inject(Router);
-    return router.createUrlTree(['/sign-in']);
+    return router.createUrlTree(['/sign-in/success']);
   }
 
   return true;
@@ -26,8 +29,19 @@ export const routes: Route[] = [
   {
     path: 'sign-in',
     pathMatch: 'full',
+    canMatch: [redirectUser],
     loadComponent: () => import('../account/sign-in/sign-in.page')
       .then(m => m.SignInPageComponent),
+    data: {
+      minimalUi: true
+    }
+  },
+  {
+    path: 'sign-in/success',
+    pathMatch: 'full',
+    canMatch: [AuthGuardFn],
+    loadComponent: () => import('../account/sign-in/success/sign-in-success.page')
+      .then(m => m.SignInSuccessPageComponent),
     data: {
       minimalUi: true
     }

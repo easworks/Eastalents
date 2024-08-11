@@ -22,9 +22,8 @@ export const signInEffects = {
       .pipe(
         ofType(authActions.signIn),
         switchMap(async ({ payload }) => {
-          if (payload.returnUrl) {
-            await router.navigateByUrl(payload.returnUrl);
-          }
+          const returnUrl = payload.returnUrl || '/';
+          await router.navigateByUrl(returnUrl);
           SnackbarComponent.forSuccess(snackbar);
         })
       );
