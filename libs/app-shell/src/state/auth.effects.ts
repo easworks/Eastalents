@@ -16,9 +16,9 @@ import { isBrowser } from '../utilities/platform-type';
 import { authActions, authFeature } from './auth';
 
 export const authEffects = {
-  logTokenInDevMode: createEffect(
+  logUserInDevMode: createEffect(
     () => {
-      if (!isDevMode())
+      if (!isDevMode() || !isBrowser())
         return EMPTY;
 
       const store = inject(Store);
