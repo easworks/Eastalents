@@ -103,9 +103,9 @@ export class UserNotFound extends ApiError {
   }
 }
 
-export class UserNicknameInUse extends ApiError {
+export class UsernameInUse extends ApiError {
   constructor() {
-    super('user-nickname-in-use', StatusCodes.BAD_REQUEST);
+    super('username-in-use', StatusCodes.BAD_REQUEST);
   }
 }
 

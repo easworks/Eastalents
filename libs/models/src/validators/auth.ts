@@ -6,8 +6,8 @@ import { oauthValidators } from './oauth';
 const types = {
   firstName: z.string().trim().min(1).max(24),
   lastName: z.string().trim().min(1).max(24),
-  nickname: z.string().trim().min(1).max(24)
-    .regex(pattern.nickname)
+  username: z.string().trim().min(1).max(24)
+    .regex(pattern.username)
     .refine(value => !(value.startsWith('_') || value.endsWith('_')), `should not start or end with '_'`),
   email: z.string().trim().max(64).email(),
   password: z.string().min(8).max(64), // don't trim, because user may want space
@@ -20,7 +20,7 @@ const inputs = {
     email: z.strictObject({
       firstName: types.firstName,
       lastName: types.lastName,
-      nickname: types.nickname,
+      username: types.username,
       email: types.email,
       role: types.role,
       password: types.password,
@@ -29,7 +29,7 @@ const inputs = {
       code: oauthValidators.grantCode.external,
       idp: types.externalIdp,
       role: types.role,
-      nickname: types.nickname
+      username: types.username
     })
   },
   signin: {

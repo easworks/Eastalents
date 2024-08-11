@@ -4,7 +4,7 @@ export interface User extends Entity {
   verified: boolean;
   enabled: boolean;
 
-  nickname: string;
+  username: string;
   email: string;
 
   firstName: string;

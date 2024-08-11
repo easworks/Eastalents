@@ -108,6 +108,7 @@ export const oauthUtils = {
         _id: user._id,
         email: user.email,
         verified: user.verified,
+        username: user.username,
 
         firstName: user.firstName,
         lastName: user.lastName,
