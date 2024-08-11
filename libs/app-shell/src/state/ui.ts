@@ -76,7 +76,7 @@ export const uiFeature = createFeature({
       },
       navigating: true,
       verticalOffset: 0,
-      showSplashScreen: false,
+      showSplashScreen: true,
       minimalUi: false,
     },
     on(uiActions.updateNavigationState, produce((state, { navigating }) => {

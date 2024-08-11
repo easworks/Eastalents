@@ -6,6 +6,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { ScreenSize, sidebarActions, uiFeature } from '@easworks/app-shell/state/ui';
 import { Store } from '@ngrx/store';
 import { AppHeaderComponent } from './header/app-header.component';
+import { SplashComponent } from './splash/splash.component';
 
 @Component({
   standalone: true,
@@ -17,7 +18,8 @@ import { AppHeaderComponent } from './header/app-header.component';
     ImportsModule,
     RouterModule,
     AppHeaderComponent,
-    MatSidenavModule
+    MatSidenavModule,
+    SplashComponent
   ]
 })
 export class AppComponent implements OnInit {
@@ -36,6 +38,7 @@ export class AppComponent implements OnInit {
   protected readonly navigating$ = computed(() => this.ui$().navigating);
   private readonly screenSize$ = computed(() => this.ui$().screenSize);
   private readonly minimalUi$ = computed(() => this.ui$().minimalUi);
+  protected readonly showSplashScreen$ = computed(() => this.ui$().showSplashScreen);
 
   protected readonly sideBarState = (() => {
     const state$ = this.store.selectSignal(uiFeature.selectSidebar);

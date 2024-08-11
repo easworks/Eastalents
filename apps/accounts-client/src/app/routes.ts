@@ -37,7 +37,10 @@ export const routes: Route[] = [
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
     canActivate: [oauthCallback],
-    component: NotFoundPageComponent
+    component: NotFoundPageComponent,
+    data: {
+      minimalUi: true
+    }
   },
   {
     path: '',
