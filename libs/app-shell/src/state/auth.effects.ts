@@ -1,12 +1,14 @@
 import { Location } from '@angular/common';
-import { effect, inject, INJECTOR } from '@angular/core';
+import { computed, effect, inject, INJECTOR } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { RETURN_URL_KEY } from 'models/auth';
-import { EMPTY, from, map, of } from 'rxjs';
+import { distinctUntilChanged, EMPTY, from, map, merge, of, switchMap } from 'rxjs';
 import { CLIENT_CONFIG } from '../dependency-injection';
 import { AuthService } from '../services/auth';
 import { CookieService } from '../services/auth.cookie';
+import { AUTH_READY } from '../services/auth.ready';
 import { AuthStorageService } from '../services/auth.storage';
 import { SWManagerService } from '../services/sw.manager';
 import { base64url } from '../utilities/base64url';
@@ -33,6 +35,9 @@ export const authEffects = {
 
   syncSSO: createEffect(
     () => {
+      if (!isBrowser())
+        return EMPTY;
+
       const clientConfig = inject(CLIENT_CONFIG);
       const sso = clientConfig.sso;
       if (!sso)
@@ -44,75 +49,77 @@ export const authEffects = {
       const cookies = inject(CookieService);
       const auth = inject(AuthService);
       const location = inject(Location);
+      const ready = inject(AUTH_READY);
 
       const user$ = store.selectSignal(authFeature.selectUser);
-      const ready$ = store.selectSignal(authFeature.selectReady);
-      const userCookie = cookies.USER_ID;
 
-      // always read cookie on user change
-      if (isBrowser()) {
-        effect(() => {
-          if (!ready$())
-            return;
+      const userId$ = computed(() => user$()?._id || null);
 
-          user$();
-          cookies.read();
-        }, { allowSignalWrites: true });
-      }
+      const cookieId$ = cookies.USER_ID.$;
 
+      const merged = merge(
+        toObservable(userId$).pipe(
+          map(value => {
+            cookies.read();
+            return [value, cookieId$()] as const;
+          })),
+        toObservable(cookieId$).pipe(
+          switchMap(async (value) => {
+            const user = await storage.user.get();
+            store.dispatch(authActions.updateUser({ payload: { user } }));
+            return [userId$() || null, value] as const;
+          })
+        )
+      ).pipe(distinctUntilChanged((prev, current) => prev[0] === current[0] && prev[1] === current[1]),);
 
-      effect(async () => {
-        if (!ready$())
-          return;
-
-        const cookieId = userCookie.$();
-        const userId = user$()?._id || null;
-
-        if (userId === cookieId) {
-          // user id and cookie id match, OR
-          // user id and cookie id are both empty
-          // - do nothing
-          return;
-        }
-
-        if (userId && !cookieId) {
-          // user exists, but cookie does not exist
-          // - sign out
-          await auth.signOut();
-          return;
-        }
-
-        {
-          // cookie id exists, but does not match user
-
-          if (isAuthServer) {
-            if (userId) {
-              const exp = await storage.expiry.get()
-                .then(dt => dt!.toISO());
-              userCookie.write(userId, exp, sso.domain);
-            }
-            else {
-              userCookie.delete(sso.domain);
-            }
-            return;
-          }
-          else {
-            const path = location.path();
-            if (path.startsWith(clientConfig.oauth.redirect.path))
+      return from(ready)
+        .pipe(
+          switchMap(() => merged),
+          switchMap(async ([userId, cookieId]) => {
+            if (userId === cookieId) {
+              // user id and cookie id match, OR
+              // user id and cookie id are both empty
+              // - do nothing
               return;
+            }
 
-            const state = {
-              [RETURN_URL_KEY]: path
-            };
+            if (userId && !cookieId) {
+              // user exists, but cookie does not exist
+              // - sign out
+              await auth.signOut();
+              return;
+            }
 
-            const state64 = base64url.fromString(JSON.stringify(state));
-            await auth.signIn.easworks(state64);
-            return;
-          }
-        }
-      });
+            {
+              // cookie id exists, but does not match user
 
-      return EMPTY;
+              if (isAuthServer) {
+                if (userId) {
+                  const exp = await storage.expiry.get()
+                    .then(dt => dt!.toISO());
+                  cookies.USER_ID.write(userId, exp, sso.domain);
+                }
+                else {
+                  cookies.USER_ID.delete(sso.domain);
+                }
+                return;
+              }
+              else {
+                const path = location.path();
+                if (path.startsWith(clientConfig.oauth.redirect.path))
+                  return;
+
+                const state = {
+                  [RETURN_URL_KEY]: path
+                };
+
+                const state64 = base64url.fromString(JSON.stringify(state));
+                await auth.signIn.easworks(state64);
+                return;
+              }
+            }
+          })
+        );
     },
     { functional: true, dispatch: false }
   ),
