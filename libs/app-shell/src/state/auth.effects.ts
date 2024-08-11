@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { computed, effect, inject, INJECTOR } from '@angular/core';
+import { computed, effect, inject, INJECTOR, isDevMode } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -16,6 +16,25 @@ import { isBrowser } from '../utilities/platform-type';
 import { authActions, authFeature } from './auth';
 
 export const authEffects = {
+  logTokenInDevMode: createEffect(
+    () => {
+      if (!isDevMode())
+        return EMPTY;
+
+      const store = inject(Store);
+      const storage = inject(AuthStorageService);
+      const user$ = store.selectSignal(authFeature.selectUser);
+
+      effect(async () => {
+        console.debug(user$());
+        console.debug(await storage.token.get());
+      });
+
+      return EMPTY;
+    },
+    { functional: true, dispatch: false }
+  ),
+
   onPageLoad: createEffect(
     () => {
       const storage = inject(AuthStorageService);
