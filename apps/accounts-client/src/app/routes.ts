@@ -43,6 +43,27 @@ export const routes: Route[] = [
     }
   },
   {
+    path: 'sign-up',
+    canMatch: [redirectUser],
+    loadComponent: () => import('../account/sign-up/sign-up.page')
+      .then(m => m.SignUpPageComponent),
+    data: {
+      minimalUi: true
+    },
+    children: [
+      {
+        path: 'employer',
+        loadComponent: () => import('../account/sign-up/employer/employer-sign-up-form.component')
+          .then(m => m.EmployerSignUpFormComponent),
+      },
+      {
+        path: 'talent',
+        loadComponent: () => import('../account/sign-up/talent/talent-sign-up-form.component')
+          .then(m => m.TalentSignUpFormComponent),
+      }
+    ]
+  },
+  {
     path: 'sign-in/success',
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
