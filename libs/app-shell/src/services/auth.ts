@@ -32,7 +32,7 @@ export class AuthService {
       if (this.oauth.type !== 'server')
         throw new Error('social is only allowed from the easworks accounts server');
       const state = {
-        provider,
+        idp: provider,
         [RETURN_URL_KEY]: returnUrl
       };
       const stateB64 = base64url.fromString(JSON.stringify(state));

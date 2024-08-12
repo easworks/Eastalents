@@ -1,6 +1,14 @@
 <div mat-tab-nav-bar [tabPanel]="formPanel">
-  <a mat-tab-link routerLink="/sign-up/talent">TALENT</a>
-  <a mat-tab-link routerLink="/sign-up/employer">EMPLOYER</a>
+  <a mat-tab-link routerLink="/sign-up/talent"
+     [queryParams]="query$()"
+     [info]="socialPrefill$()">
+    TALENT
+  </a>
+  <a mat-tab-link routerLink="/sign-up/employer"
+     [queryParams]="query$()"
+     [info]="socialPrefill$()">
+    EMPLOYER
+  </a>
 </div>
 
 <mat-tab-nav-panel #formPanel>
