@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { NotFoundPageComponent } from '@easworks/app-shell/navigation/not-found/not-found.page';
-import { oauthCodeCallback } from './oauth-callback';
+import { oauthCodeCallback } from './oauth-code-callback';
 
 export const ACCOUNT_ROUTES: Route[] = [
   {

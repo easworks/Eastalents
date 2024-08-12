@@ -4,7 +4,7 @@ import { CanActivateFn } from '@angular/router';
 import { OAuthApi } from '@easworks/app-shell/api/oauth.api';
 import { map } from 'rxjs';
 
-export const oauthCallback: CanActivateFn = (snap) => {
+export const oauthAuthorizeCallback: CanActivateFn = (snap) => {
   const api = inject(OAuthApi);
 
   return api.generateCode(snap.queryParams)
