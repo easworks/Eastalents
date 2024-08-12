@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import type { OAuthTokenSuccessResponse } from 'models/oauth';
-import type { EmailSignInInput } from 'models/validators/auth';
+import type { EmailSignInInput, SocialOAuthCodeExchange, SocialOAuthCodeExchangeOutput } from 'models/validators/auth';
 import { EasworksApi } from './easworks.api';
 
 @Injectable({
@@ -8,8 +8,13 @@ import { EasworksApi } from './easworks.api';
 })
 export class AuthApi extends EasworksApi {
   readonly signin = {
-    email: (input: EmailSignInInput) => {
-      return this.http.post<OAuthTokenSuccessResponse>(`${this.apiUrl}/auth/signin/email`, input);
-    }
+    email: (input: EmailSignInInput) =>
+      this.http.post<OAuthTokenSuccessResponse>(`${this.apiUrl}/auth/signin/email`, input)
+
   } as const;
+
+  readonly social = {
+    codeExchange: (input: SocialOAuthCodeExchange) =>
+      this.http.post<SocialOAuthCodeExchangeOutput>(`${this.apiUrl}/auth/social/code-exchange`, input)
+  };
 }

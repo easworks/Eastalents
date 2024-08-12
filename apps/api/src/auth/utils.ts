@@ -6,7 +6,7 @@ import { PermissionRecord } from 'models/permission-record';
 import { User, UserClaims } from 'models/user';
 import { ObjectId } from 'mongodb';
 import * as crypto from 'node:crypto';
-import { InvalidPassword, KeyValueDocumentNotFound, UserNeedsPasswordReset } from 'server-side/errors/definitions';
+import { FailedSocialProfileRequest, InvalidPassword, InvalidSocialOauthCode, KeyValueDocumentNotFound, UserNeedsPasswordReset } from 'server-side/errors/definitions';
 import { environment } from '../environment';
 import { easMongo } from '../mongodb';
 
@@ -127,58 +127,67 @@ export async function sendVerificationEmail(user: User) {
 }
 
 export const getExternalUserForSignup = {
-  google: async (code: string) => {
-    // TODO: implement
-    // throw new Error(`getting user from google is not implemented`);
+  google: async (code: string, redirect_uri: string) => {
+
+    const access_token = await externalUtils.google.getAccessToken(code, redirect_uri);
+    const profile = await externalUtils.google.getProfile(access_token);
 
     const externalUser: ExternalIdpUser = {
-      email: 'email@gmail.com',
-      providerId: 'google-user-id',
-      firstName: 'firstName',
-      lastName: 'lastName',
-      imageUrl: 'google-profile-image-url'
+      providerId: profile.id,
+      email: profile.email,
+      email_verified: profile.verified_email,
+      firstName: profile.given_name,
+      lastName: profile.family_name,
+      imageUrl: profile.picture,
+      credential: access_token
     };
 
     return externalUser;
   },
   facebook: async (code: string) => {
     // TODO: implement
-    // throw new Error(`getting user from facebook is not implemented`);
+    throw new Error(`getting user from facebook is not implemented`);
 
     const externalUser: ExternalIdpUser = {
       email: 'email@email.facebook',
+      email_verified: false,
       providerId: 'facebook-user-id',
       firstName: 'firstName',
       lastName: 'lastName',
-      imageUrl: 'facebook-profile-image-url'
+      imageUrl: 'facebook-profile-image-url',
+      credential: ''
     };
 
     return externalUser;
   },
   github: async (code: string) => {
     // TODO: implement
-    // throw new Error(`getting user from github is not implemented`);
+    throw new Error(`getting user from github is not implemented`);
 
     const externalUser: ExternalIdpUser = {
       email: 'email@email.github',
+      email_verified: false,
       providerId: 'github-user-id',
       firstName: 'firstName',
       lastName: 'lastName',
-      imageUrl: 'github-profile-image-url'
+      imageUrl: 'github-profile-image-url',
+      credential: ''
     };
 
     return externalUser;
   },
   linkedin: async (code: string) => {
     // TODO: implement
-    // throw new Error(`getting user from linkedin is not implemented`);
+    throw new Error(`getting user from linkedin is not implemented`);
 
     const externalUser: ExternalIdpUser = {
       email: 'email@email.linkedin',
+      email_verified: false,
       providerId: 'linkedin-user-id',
       firstName: 'firstName',
       lastName: 'lastName',
-      imageUrl: 'linkedin-profile-image-url'
+      imageUrl: 'linkedin-profile-image-url',
+      credential: ''
     };
 
     return externalUser;
@@ -233,3 +242,54 @@ export class FreeEmailProviderCache {
     }
   }
 }
+
+const externalUtils = {
+  google: {
+    getAccessToken: async (code: string, redirect_uri: string) => {
+      const config = environment.oauth.google;
+
+      const params = new URLSearchParams();
+      params.set('client_id', config.id);
+      params.set('client_secret', config.secret);
+      params.set('grant_type', 'authorization_code');
+      params.set('redirect_uri', redirect_uri);
+      params.set('code', code);
+
+      const res = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        body: params.toString(),
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded'
+        }
+      });
+
+      if (res.ok) {
+        const body = await res.json() as any;
+
+        return body.access_token as string;
+      }
+      else {
+        const body = await res.json();
+        throw new InvalidSocialOauthCode('google', body);
+      }
+    },
+    getProfile: async (accessToken: string) => {
+      const res = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+        method: 'GET',
+        headers: {
+          'authorization': `Bearer ${accessToken}`
+        }
+      });
+
+      if (res.ok) {
+        const body = await res.json() as any;
+
+        return body;
+      }
+      else {
+        const body = await res.json();
+        throw new FailedSocialProfileRequest('google', body);
+      }
+    }
+  }
+} as const;

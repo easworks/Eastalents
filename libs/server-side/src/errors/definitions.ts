@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
+import { ExternalIdentityProviderType } from 'models/identity-provider';
 import { OAuthAuthorizeErrorType, OAuthTokenErrorType } from 'models/oauth';
 import { ZodError } from 'zod';
 import { ApiError } from './utils';
@@ -59,6 +60,21 @@ export class Forbidden extends ApiError {
   }
 }
 
+export class InvalidSocialOauthCode extends ApiError {
+  constructor(provider: ExternalIdentityProviderType, body: unknown) {
+    super('invalid-social-oauth-code', StatusCodes.BAD_REQUEST);
+    this.withMetadata('provider', provider);
+    this.withMetadata('endpoint_response', body);
+  }
+}
+
+export class FailedSocialProfileRequest extends ApiError {
+  constructor(provider: ExternalIdentityProviderType, body: unknown) {
+    super('failed-social-profile-request', StatusCodes.BAD_REQUEST);
+    this.withMetadata('provide', provider);
+    this.withMetadata('endpoint_response', body);
+  }
+}
 
 export class SignupEmailInUse extends ApiError {
   constructor() {

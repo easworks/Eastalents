@@ -10,4 +10,7 @@ export const environment = {
     issuer: parseEnv.jwt.issuer(),
   },
   authHost: parseEnv.authHost(),
+  oauth: {
+    google: parseEnv.oauth.google()
+  }
 } as const satisfies Environment;

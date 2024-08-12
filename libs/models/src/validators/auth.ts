@@ -1,3 +1,4 @@
+import { OAuthTokenSuccessResponse } from 'models/oauth';
 import { TypeOf, z } from 'zod';
 import { EXTERNAL_IDENTITY_PROVIDERS } from '../identity-provider';
 import { pattern } from '../pattern';
@@ -24,22 +25,19 @@ const inputs = {
       email: types.email,
       role: types.role,
       password: types.password,
-    }),
-    social: z.strictObject({
-      code: oauthValidators.grantCode.external,
-      idp: types.externalIdp,
-      role: types.role,
-      username: types.username
     })
   },
   signin: {
     email: z.strictObject({
       email: types.email,
       password: types.password
-    }),
-    social: z.strictObject({
-      code: oauthValidators.grantCode.external,
+    })
+  },
+  social: {
+    codeExchange: z.strictObject({
       idp: types.externalIdp,
+      code: oauthValidators.grantCode.external,
+      redirect_uri: oauthValidators.redirect_uri
     })
   }
 };
@@ -47,7 +45,17 @@ const inputs = {
 export const authValidators = { ...types, inputs } as const;
 
 export type EmailSignupInput = TypeOf<typeof inputs['signup']['email']>;
-export type SocialSignupInput = TypeOf<typeof inputs['signup']['social']>;
 
 export type EmailSignInInput = TypeOf<typeof inputs['signin']['email']>;
-export type SocialSignInInput = TypeOf<typeof inputs['signin']['social']>;
+
+export type SocialOAuthCodeExchange = TypeOf<typeof inputs['social']['codeExchange']>;
+
+export type SocialOAuthCodeExchangeOutput =
+  {
+    result: 'sign-in',
+    data: OAuthTokenSuccessResponse;
+  } |
+  {
+    result: 'sign-up',
+    accessToken: string;
+  };

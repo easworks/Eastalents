@@ -3,7 +3,7 @@ import { OAuthTokenSuccessResponse } from 'models/oauth';
 import { PermissionRecord } from 'models/permission-record';
 import { ALL_ROLES, PERMISSION_DEF_DTO } from 'models/permissions';
 import { User } from 'models/user';
-import { authValidators } from 'models/validators/auth';
+import { authValidators, SocialOAuthCodeExchangeOutput } from 'models/validators/auth';
 import { ObjectId } from 'mongodb';
 import { SignupEmailInUse, SignupRequiresWorkEmail, SignupRoleIsInvalid, UserEmailNotRegistered, UserIsDisabled, UsernameInUse, UserNeedsEmailVerification, UserNeedsPasswordReset } from 'server-side/errors/definitions';
 import { setTypeVersion } from 'server-side/mongodb/collections';
@@ -231,16 +231,34 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     }
   );
 
-  server.post('/signin/social',
-    { schema: { body: authValidators.inputs.signin.social } },
+  server.post('/social/code-exchange',
+    { schema: { body: authValidators.inputs.social.codeExchange } },
     async (req) => {
       const input = req.body;
 
       // validate the grant code
-      const externalUser = await getExternalUserForSignup[input.idp](input.code);
+      const externalUser = await getExternalUserForSignup[input.idp](input.code, input.redirect_uri);
 
-      // sign in the user if already exists
-      return signInExternalUser(externalUser, input.idp);
+      // get token if user already exists
+      const tokenResponse = await signInExternalUser(externalUser, input.idp)
+        .catch(e => {
+          if (e instanceof UserEmailNotRegistered)
+            return null;
+          throw e;
+        });
+
+      if (tokenResponse) {
+        return {
+          result: 'sign-in',
+          data: tokenResponse
+        } satisfies SocialOAuthCodeExchangeOutput;
+      }
+
+      return {
+        result: 'sign-up',
+        accessToken: externalUser.credential,
+      } satisfies SocialOAuthCodeExchangeOutput;
+
     }
   );
 
@@ -260,34 +278,57 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
   async function signInExternalUser(external: ExternalIdpUser, idp: ExternalIdentityProviderType) {
 
-    const credentialExists = await easMongo.userCredentials.find({ 'provider.email': external.email }).toArray();
+    // look for an exact match by external user id
+    let credential = await easMongo.userCredentials.findOne({
+      'provider.type': idp,
+      'provider.id': external.providerId
+    });
 
-    if (!credentialExists.length)
+    if (!credential) {
+      // look for loose match by email
+      credential = await easMongo.userCredentials.findOne({
+        'provider.email': external.email
+      });
+
+      // email was not present in our db
+      if (!credential)
       throw new UserEmailNotRegistered();
 
-    // since it is an external user, we have 'verified' the user as well
-    const user = await easMongo.users.findOneAndUpdate({ _id: credentialExists[0].userId }, { $set: { verified: true } });
-    if (!user)
-      throw new Error('user should not have been null');
+      // we found the email was being used by a user
+      const userId = credential.userId;
 
-    if (!user.enabled) {
-      throw new UserIsDisabled();
-    }
-
-    // create a new credential for the idp if does not exist
-    const hasSameIdp = credentialExists.find(cred => cred.provider.type === idp);
-    if (!hasSameIdp) {
-      const credential: IdpCredential = {
+      // create a new credential for the same user
+      // and add to database
+      credential = {
         _id: new ObjectId().toString(),
         provider: {
           type: idp,
           id: external.providerId,
           email: external.email,
         },
-        userId: user._id,
+        userId,
         credential: external.credential
       };
       await easMongo.userCredentials.insertOne(credential);
+    }
+
+    const user = await easMongo.users.findOne({ _id: credential.userId });
+    if (!user)
+      throw new Error('user should not have been null');
+
+    if (!user.verified) {
+      // update the user if external user was verified
+      if (external.email_verified) {
+        user.verified = true;
+        await easMongo.users.replaceOne({ _id: user._id }, user);
+      }
+      else {
+        throw new UserNeedsEmailVerification();
+      }
+    }
+
+    if (!user.enabled) {
+      throw new UserIsDisabled();
     }
 
     const permissions = await easMongo.permissions.findOne({ _id: user._id });

@@ -1,12 +1,16 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { RETURN_URL_KEY } from 'models/auth';
+import { ExternalIdentityProviderType } from 'models/identity-provider';
 import type { EmailSignInInput } from 'models/validators/auth';
 import { first, from, switchMap, tap } from 'rxjs';
 import { AuthApi } from '../api/auth.api';
 import { OAuthApi } from '../api/oauth.api';
+import { CLIENT_CONFIG } from '../dependency-injection';
 import { authActions } from '../state/auth';
 import { base64url } from '../utilities/base64url';
+import { AuthRedirect } from './auth.external';
 import { AuthStorageService } from './auth.storage';
 
 @Injectable({
@@ -16,6 +20,7 @@ export class AuthService {
   private readonly store = inject(Store);
   private readonly storage = inject(AuthStorageService);
   private readonly actions$ = inject(Actions);
+  private readonly oauth = inject(CLIENT_CONFIG).oauth;
 
   private readonly api = {
     oauth: inject(OAuthApi),
@@ -23,6 +28,18 @@ export class AuthService {
   } as const;
 
   public readonly signIn = {
+    social: (provider: ExternalIdentityProviderType, returnUrl?: string) => {
+      if (this.oauth.type !== 'server')
+        throw new Error('social is only allowed from the easworks accounts server');
+      const state = {
+        provider,
+        [RETURN_URL_KEY]: returnUrl
+      };
+      const stateB64 = base64url.fromString(JSON.stringify(state));
+      const redirect_uri = `${this.oauth.server}/oauth/callback`;
+      const authUrl = AuthRedirect.getUrl(provider, redirect_uri, stateB64);
+      location.href = authUrl.toString();
+    },
     email: (input: EmailSignInInput, returnUrl?: string) => {
       return this.api.auth.signin.email(input)
         .pipe(
@@ -40,6 +57,9 @@ export class AuthService {
         .pipe(
           switchMap(response => this.handleSignIn(response.access_token, returnUrl))
         );
+    },
+    token: (token: string, returnUrl?: string) => {
+      return this.handleSignIn(token, returnUrl);
     }
   } as const;
 

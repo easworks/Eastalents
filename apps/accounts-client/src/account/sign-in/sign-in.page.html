@@ -8,7 +8,8 @@
   </h1>
 
   <div class="mt-4 grid gap-4 grid-cols-2 @xl:grid-cols-4">
-    <button class="social-button" mat-ripple>
+    <button class="social-button" mat-ripple
+            (click)="socialLogin('google')">
       <fa-icon [icon]="icons.faGoogle"></fa-icon>
       <span>Google</span>
     </button>

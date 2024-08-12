@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { sidebarActions, uiFeature } from '@easworks/app-shell/state/ui';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -12,7 +13,8 @@ import { AccountWidgetComponent } from "../../account/account-widget/account.wid
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
-    AccountWidgetComponent
+    AccountWidgetComponent,
+    RouterModule
   ]
 })
 export class AppHeaderComponent {

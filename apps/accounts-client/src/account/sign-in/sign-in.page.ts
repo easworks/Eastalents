@@ -9,6 +9,7 @@ import { AuthService } from '@easworks/app-shell/services/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { faFacebook, faGithub, faGoogle, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 import { RETURN_URL_KEY } from 'models/auth';
+import { ExternalIdentityProviderType } from 'models/identity-provider';
 import { ProblemDetails } from 'models/problem-details';
 import { catchError, EMPTY, finalize } from 'rxjs';
 
@@ -92,4 +93,7 @@ export class SignInPageComponent {
     }
   } as const;
 
+  socialLogin(provider: ExternalIdentityProviderType) {
+    this.auth.signIn.social(provider, this.returnUrl || undefined);
+  }
 }

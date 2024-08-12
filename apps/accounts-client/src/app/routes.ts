@@ -6,6 +6,7 @@ import { AUTH_READY } from '@easworks/app-shell/services/auth.ready';
 import { authActions, authFeature } from '@easworks/app-shell/state/auth';
 import { Store } from '@ngrx/store';
 import { oauthAuthorizeCallback } from '../account/oauth-authorize-callback';
+import { oauthCodeCallback } from '../account/oauth-code-callback';
 
 // TODO: add this to signup routes
 const redirectUser: CanMatchFn = async () => {
@@ -56,6 +57,15 @@ export const routes: Route[] = [
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
     canActivate: [oauthAuthorizeCallback],
+    component: NotFoundPageComponent,
+    data: {
+      minimalUi: true
+    }
+  },
+  {
+    path: 'oauth/callback',
+    pathMatch: 'full',
+    canActivate: [oauthCodeCallback],
     component: NotFoundPageComponent,
     data: {
       minimalUi: true

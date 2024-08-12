@@ -91,10 +91,21 @@ export const authEffects = {
   onPageLoad: createEffect(
     () => {
       const storage = inject(AuthStorageService);
+      const clientConfig = inject(CLIENT_CONFIG);
+      const cookies = inject(CookieService);
 
-      const token$ = isBrowser() ?
-        from(storage.token.get()) :
-        of(null);
+      const token$ = (() => {
+        if (!isBrowser())
+          return of(null);
+
+        if (clientConfig.sso) {
+          cookies.read();
+          if (!cookies.USER_ID.$())
+            return of(null);
+        }
+
+        return from(storage.token.get());
+      })();
 
       return token$.pipe(
         map(token => authActions.idTokenChanged({ payload: { token } }))
