@@ -1,10 +1,12 @@
 import { Location } from '@angular/common';
 import { computed, effect, inject, INJECTOR, isDevMode } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { RETURN_URL_KEY } from 'models/auth';
 import { distinctUntilChanged, EMPTY, from, map, merge, of, switchMap } from 'rxjs';
+import { UsersApi } from '../api/users.api';
 import { CLIENT_CONFIG } from '../dependency-injection';
 import { AuthService } from '../services/auth';
 import { CookieService } from '../services/auth.cookie';
@@ -13,7 +15,7 @@ import { AuthStorageService } from '../services/auth.storage';
 import { SWManagerService } from '../services/sw.manager';
 import { base64url } from '../utilities/base64url';
 import { isBrowser } from '../utilities/platform-type';
-import { authActions, authFeature } from './auth';
+import { authActions, authFeature, getAuthUserFromModel } from './auth';
 
 export const authEffects = {
   logUserInDevMode: createEffect(
@@ -26,8 +28,12 @@ export const authEffects = {
       const user$ = store.selectSignal(authFeature.selectUser);
 
       effect(async () => {
-        console.debug(user$());
-        console.debug(await storage.token.get());
+        const user = user$();
+        if (user) {
+          const token = await storage.token.get();
+          console.debug(user);
+          console.debug(token);
+        }
       });
 
       return EMPTY;
@@ -35,19 +41,64 @@ export const authEffects = {
     { functional: true, dispatch: false }
   ),
 
+  onTokenChange: createEffect(
+    () => {
+      const actions$ = inject(Actions);
+      const storage = inject(AuthStorageService);
+      const api = inject(UsersApi);
+      const clientConfig = inject(CLIENT_CONFIG);
+      const cookies = inject(CookieService);
+
+
+      const oauth = clientConfig.oauth;
+      const sso = clientConfig.sso;
+
+      return actions$.pipe(
+        ofType(authActions.idTokenChanged),
+        switchMap(({ payload }) => {
+          if (!payload.token)
+            return of(null);
+
+          if (payload.loadUser) {
+            return api.self()
+              .pipe(
+                switchMap(async self => {
+                  const user = getAuthUserFromModel(self.user, self.permissionRecord);
+                  await storage.user.set(user);
+                  return user;
+                })
+              );
+          }
+          else {
+            return storage.user.get();
+          }
+        }),
+        switchMap(async user => {
+          if (oauth.type === 'server' && sso && user) {
+            const expiry = await storage.expiry.get();
+            if (!expiry)
+              throw new Error('expiry should not be null');
+            cookies.USER_ID.write(user._id, expiry.toISO(), sso.domain);
+          }
+          return user;
+        }),
+        map(user => authActions.updateUser({ payload: { user } }))
+      );
+    },
+    { functional: true }
+  ),
+
   onPageLoad: createEffect(
     () => {
       const storage = inject(AuthStorageService);
 
-      const user$ = isBrowser() ?
-        from(storage.user.get()) :
+      const token$ = isBrowser() ?
+        from(storage.token.get()) :
         of(null);
 
-      const actions$ = user$.pipe(
-        map(user => authActions.updateUser({ payload: { user } }))
+      return token$.pipe(
+        map(token => authActions.idTokenChanged({ payload: { token } }))
       );
-
-      return actions$;
     },
     { functional: true }
   ),
@@ -73,27 +124,20 @@ export const authEffects = {
       const user$ = store.selectSignal(authFeature.selectUser);
 
       const userId$ = computed(() => user$()?._id || null);
-
       const cookieId$ = cookies.USER_ID.$;
 
-      const merged = merge(
-        toObservable(userId$).pipe(
-          map(value => {
-            cookies.read();
-            return [value, cookieId$()] as const;
-          })),
-        toObservable(cookieId$).pipe(
-          switchMap(async (value) => {
-            const user = await storage.user.get();
-            store.dispatch(authActions.updateUser({ payload: { user } }));
-            return [userId$() || null, value] as const;
-          })
-        )
-      ).pipe(distinctUntilChanged((prev, current) => prev[0] === current[0] && prev[1] === current[1]),);
+      const uid$ = toObservable(userId$)
+        .pipe(map(userId => {
+          cookies.read();
+          return [userId, cookieId$()];
+        }));
+      const cid$ = toObservable(cookieId$)
+        .pipe(map(cookieId => [userId$(), cookieId]));
 
       return from(ready)
         .pipe(
-          switchMap(() => merged),
+          switchMap(() => merge(uid$, cid$)),
+          distinctUntilChanged((prev, curr) => prev[0] === curr[0] && prev[1] === curr[1]),
           switchMap(async ([userId, cookieId]) => {
             if (userId === cookieId) {
               // user id and cookie id match, OR
@@ -102,8 +146,8 @@ export const authEffects = {
               return;
             }
 
-            if (userId && !cookieId) {
-              // user exists, but cookie does not exist
+            if (!cookieId && userId) {
+              // cookie does not exist, but user exists
               // - sign out
               await auth.signOut();
               return;
@@ -113,10 +157,9 @@ export const authEffects = {
               // cookie id exists, but does not match user
 
               if (isAuthServer) {
-                if (userId) {
-                  const exp = await storage.expiry.get()
-                    .then(dt => dt!.toISO());
-                  cookies.USER_ID.write(userId, exp, sso.domain);
+                const token = await storage.token.get();
+                if (token) {
+                  window.location.reload();
                 }
                 else {
                   cookies.USER_ID.delete(sso.domain);
@@ -143,12 +186,32 @@ export const authEffects = {
     { functional: true, dispatch: false }
   ),
 
-  reloadOnSignOut: createEffect(() => {
+  onSignOut: createEffect(() => {
     const actions$ = inject(Actions);
+    const sso = inject(CLIENT_CONFIG).sso;
+    const cookies = inject(CookieService);
+    const router = inject(Router);
+    const store = inject(Store);
+    const storage = inject(AuthStorageService);
 
     return actions$.pipe(
       ofType(authActions.signOut),
-      map(() => location.reload())
+      switchMap(async ({ payload }) => {
+        await storage.clear();
+        if (sso)
+          cookies.USER_ID.delete(sso.domain);
+
+        if (payload.revoked)
+          location.reload();
+        else {
+          await router.navigateByUrl('/', {
+            info: {
+              source: authActions.signOut.type
+            }
+          });
+        }
+        store.dispatch(authActions.idTokenChanged({ payload: { token: null } }));
+      }),
     );
   }, { functional: true, dispatch: false }),
 

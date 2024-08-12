@@ -46,7 +46,12 @@ export interface AuthState {
 export const authActions = createActionGroup({
   source: 'auth',
   events: {
-    'id token updated': props<{ payload: { token: string; }; }>(),
+    'id token changed': props<{
+      payload: {
+        token: string | null;
+        loadUser?: boolean;
+      };
+    }>(),
     'update user': props<{
       payload: {
         user: AuthUser | null;

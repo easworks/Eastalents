@@ -1,14 +1,12 @@
 import { inject, Injectable } from '@angular/core';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import type { EmailSignInInput } from 'models/validators/auth';
-import { from, switchMap } from 'rxjs';
+import { first, from, switchMap, tap } from 'rxjs';
 import { AuthApi } from '../api/auth.api';
 import { OAuthApi } from '../api/oauth.api';
-import { UsersApi } from '../api/users.api';
-import { CLIENT_CONFIG } from '../dependency-injection';
-import { authActions, getAuthUserFromModel } from '../state/auth';
+import { authActions } from '../state/auth';
 import { base64url } from '../utilities/base64url';
-import { CookieService } from './auth.cookie';
 import { AuthStorageService } from './auth.storage';
 
 @Injectable({
@@ -16,18 +14,13 @@ import { AuthStorageService } from './auth.storage';
 })
 export class AuthService {
   private readonly store = inject(Store);
-  private readonly clientConfig = inject(CLIENT_CONFIG);
-  private readonly cookies = inject(CookieService);
   private readonly storage = inject(AuthStorageService);
+  private readonly actions$ = inject(Actions);
 
   private readonly api = {
     oauth: inject(OAuthApi),
     auth: inject(AuthApi),
-    users: inject(UsersApi)
   } as const;
-
-  private readonly sso = this.clientConfig.sso;
-  private readonly oauth = this.clientConfig.oauth;
 
   public readonly signIn = {
     email: (input: EmailSignInInput, returnUrl?: string) => {
@@ -51,33 +44,26 @@ export class AuthService {
   } as const;
 
   async signOut() {
-    await this.storage.clear();
-    if (this.sso)
-      this.cookies.USER_ID.delete(this.sso.domain);
     this.store.dispatch(authActions.signOut({ payload: { revoked: false } }));
-    this.store.dispatch(authActions.updateUser({ payload: { user: null } }));
   }
 
   private handleSignIn(token: string, returnUrl?: string) {
     return from(this.storage.token.set(token))
       .pipe(
-        switchMap(() => this.api.users.self()),
-        switchMap(async self => {
-          const user = getAuthUserFromModel(self.user, self.permissionRecord);
-          await this.storage.user.set(user);
-          if (this.oauth.type === 'server' && this.sso) {
-            const expiry = await this.storage.expiry.get();
-            if (!expiry)
-              throw new Error('expiry should not be null');
-            this.cookies.USER_ID.write(user._id, expiry.toISO(), this.sso.domain);
+        tap(() => this.store.dispatch(authActions.idTokenChanged({
+          payload: {
+            token,
+            loadUser: true
           }
-          this.store.dispatch(authActions.updateUser({ payload: { user } }));
-          this.store.dispatch(authActions.signIn({
-            payload: {
-              returnUrl: returnUrl || null
-            }
-          }));
-        }),
+        }))),
+        switchMap(() => this.actions$),
+        ofType(authActions.updateUser),
+        first(),
+        tap(() => this.store.dispatch(authActions.signIn({
+          payload: {
+            returnUrl: returnUrl || null
+          }
+        })))
       );
   }
 }
