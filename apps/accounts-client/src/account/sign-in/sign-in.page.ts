@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -11,7 +12,7 @@ import { faFacebook, faGithub, faGoogle, faLinkedinIn } from '@fortawesome/free-
 import { RETURN_URL_KEY } from 'models/auth';
 import { ExternalIdentityProviderType } from 'models/identity-provider';
 import { ProblemDetails } from 'models/problem-details';
-import { catchError, EMPTY, finalize } from 'rxjs';
+import { catchError, EMPTY, finalize, map } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -27,7 +28,7 @@ import { catchError, EMPTY, finalize } from 'rxjs';
 })
 export class SignInPageComponent {
 
-  private readonly snap = inject(ActivatedRoute).snapshot;
+  private readonly route = inject(ActivatedRoute);
   private readonly auth = inject(AuthService);
   private readonly snackbar = inject(MatSnackBar);
 
@@ -45,7 +46,7 @@ export class SignInPageComponent {
     'signing in'
   ]>();
 
-  protected readonly returnUrl = this.snap.queryParamMap.get(RETURN_URL_KEY);
+  private readonly returnUrl$ = toSignal(this.route.queryParamMap.pipe(map(q => q.get(RETURN_URL_KEY))), { requireSync: true });
 
   protected readonly emailLogin = {
     formId: 'signin-email',
@@ -67,7 +68,7 @@ export class SignInPageComponent {
 
       this.auth.signIn.email(
         this.emailLogin.form.getRawValue(),
-        this.returnUrl || undefined
+        this.returnUrl$() || undefined
       ).pipe(
         catchError((err: ProblemDetails) => {
           if (err.type === 'user-email-not-registered') {
@@ -94,6 +95,6 @@ export class SignInPageComponent {
   } as const;
 
   socialLogin(provider: ExternalIdentityProviderType) {
-    this.auth.signIn.social(provider, this.returnUrl || undefined);
+    this.auth.signIn.social(provider, this.returnUrl$() || undefined);
   }
 }
