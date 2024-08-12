@@ -1,1 +1,30 @@
-Employer Sign Up Form
+<h2 class="text-center font-black text-lg">APPLY TO JOIN</h2>
+<p class="mt-2 text-center text-sm text-gray-400">
+  The Worlds Top Talent Enterprise Application Network &
+  work with the worlds leading Companies.
+</p>
+
+<p class="mt-4 text-lg text-center">
+  SIGN UP WITH
+</p>
+
+<div class="mt-4 grid gap-4 grid-cols-2 @xl:grid-cols-4">
+  <button class="social-button" mat-ripple
+          (click)="socialSignUp('google')">
+    <fa-icon [icon]="icons.faGoogle"></fa-icon>
+    <span>Google</span>
+  </button>
+  <button class="social-button" mat-ripple>
+    <fa-icon [icon]="icons.faGithub"></fa-icon>
+    <span>Github</span>
+  </button>
+  <button class="social-button" mat-ripple>
+    <fa-icon [icon]="icons.faLinkedinIn"></fa-icon>
+    <span>LinkedIn</span>
+  </button>
+  <button class="social-button" mat-ripple>
+    <fa-icon [icon]="icons.faFacebook"></fa-icon>
+    <span>Facebook</span>
+  </button>
+</div>
+

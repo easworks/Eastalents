@@ -35,10 +35,7 @@ export class AuthService {
         idp: provider,
         [RETURN_URL_KEY]: returnUrl
       };
-      const stateB64 = base64url.fromString(JSON.stringify(state));
-      const redirect_uri = `${this.oauth.server}/oauth/callback`;
-      const authUrl = AuthRedirect.getUrl(provider, redirect_uri, stateB64);
-      location.href = authUrl.toString();
+      return this.socialCodeExchange(provider, state);
     },
     email: (input: EmailSignInInput, returnUrl?: string) => {
       return this.api.auth.signin.email(input)
@@ -63,6 +60,19 @@ export class AuthService {
     }
   } as const;
 
+  public readonly signUp = {
+    social: (provider: ExternalIdentityProviderType, role: string, returnUrl?: string) => {
+      if (this.oauth.type !== 'server')
+        throw new Error('social is only allowed from the easworks accounts server');
+      const state = {
+        idp: provider,
+        role,
+        [RETURN_URL_KEY]: returnUrl
+      };
+      return this.socialCodeExchange(provider, state);
+    }
+  };
+
   async signOut() {
     this.store.dispatch(authActions.signOut({ payload: { revoked: false } }));
   }
@@ -85,6 +95,13 @@ export class AuthService {
           }
         })))
       );
+  }
+
+  private socialCodeExchange(provider: ExternalIdentityProviderType, state: unknown) {
+    const stateB64 = base64url.fromString(JSON.stringify(state));
+    const redirect_uri = `${this.oauth.server}/oauth/callback`;
+    const authUrl = AuthRedirect.getUrl(provider, redirect_uri, stateB64);
+    location.href = authUrl.toString();
   }
 }
 

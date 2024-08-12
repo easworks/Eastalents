@@ -94,7 +94,7 @@ export class SignInPageComponent {
     }
   } as const;
 
-  socialLogin(provider: ExternalIdentityProviderType) {
+  socialSignIn(provider: ExternalIdentityProviderType) {
     this.auth.signIn.social(provider, this.returnUrl$() || undefined);
   }
 }
