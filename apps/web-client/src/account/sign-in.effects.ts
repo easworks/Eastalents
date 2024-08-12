@@ -56,19 +56,4 @@ export const signInEffects = {
     },
     { functional: true, dispatch: false }
   ),
-
-  afterSignOut: createEffect(
-    () => {
-      const actions$ = inject(Actions);
-      const router = inject(Router);
-
-      return actions$.pipe(
-        ofType(authActions.signOut),
-        switchMap(() => {
-          return router.navigateByUrl('/');
-        })
-      );
-    },
-    { functional: true, dispatch: false }
-  ),
 } as const;

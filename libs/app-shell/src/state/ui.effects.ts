@@ -102,10 +102,12 @@ export const uiEffects = {
   hideSplashScreen: createEffect(
     () => {
       const router = inject(Router);
+      if (isServer())
+        return EMPTY;
 
       return router.events
         .pipe(
-          filter(e => e.type === EventType.ActivationStart),
+          filter(e => e.type === EventType.NavigationEnd),
           first(),
           map(() => uiActions.hideSplashScreen())
         );

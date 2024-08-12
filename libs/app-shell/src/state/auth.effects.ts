@@ -1,38 +1,113 @@
 import { Location } from '@angular/common';
-import { effect, inject, INJECTOR } from '@angular/core';
+import { computed, effect, inject, INJECTOR, isDevMode } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { RETURN_URL_KEY } from 'models/auth';
-import { EMPTY, from, map, of } from 'rxjs';
+import { distinctUntilChanged, EMPTY, from, map, merge, of, switchMap } from 'rxjs';
+import { UsersApi } from '../api/users.api';
 import { CLIENT_CONFIG } from '../dependency-injection';
 import { AuthService } from '../services/auth';
 import { CookieService } from '../services/auth.cookie';
+import { AUTH_READY } from '../services/auth.ready';
 import { AuthStorageService } from '../services/auth.storage';
 import { SWManagerService } from '../services/sw.manager';
 import { base64url } from '../utilities/base64url';
 import { isBrowser } from '../utilities/platform-type';
-import { authActions, authFeature } from './auth';
+import { authActions, authFeature, getAuthUserFromModel } from './auth';
 
 export const authEffects = {
+  logUserInDevMode: createEffect(
+    () => {
+      if (!isDevMode() || !isBrowser())
+        return EMPTY;
+
+      const store = inject(Store);
+      const storage = inject(AuthStorageService);
+      const user$ = store.selectSignal(authFeature.selectUser);
+
+      effect(async () => {
+        const user = user$();
+        if (user) {
+          const token = await storage.token.get();
+          console.debug(user);
+          console.debug(token);
+        }
+      });
+
+      return EMPTY;
+    },
+    { functional: true, dispatch: false }
+  ),
+
+  onTokenChange: createEffect(
+    () => {
+      const actions$ = inject(Actions);
+      const storage = inject(AuthStorageService);
+      const api = inject(UsersApi);
+      const clientConfig = inject(CLIENT_CONFIG);
+      const cookies = inject(CookieService);
+
+
+      const oauth = clientConfig.oauth;
+      const sso = clientConfig.sso;
+
+      return actions$.pipe(
+        ofType(authActions.idTokenChanged),
+        switchMap(({ payload }) => {
+          if (!payload.token)
+            return of(null);
+
+          if (payload.loadUser) {
+            return api.self()
+              .pipe(
+                switchMap(async self => {
+                  const user = getAuthUserFromModel(self.user, self.permissionRecord);
+                  await storage.user.set(user);
+                  return user;
+                })
+              );
+          }
+          else {
+            return storage.user.get();
+          }
+        }),
+        switchMap(async user => {
+          if (oauth.type === 'server' && sso && user) {
+            const expiry = await storage.expiry.get();
+            if (!expiry)
+              throw new Error('expiry should not be null');
+            cookies.USER_ID.write(user._id, expiry.toISO(), sso.domain);
+          }
+          return user;
+        }),
+        map(user => authActions.updateUser({ payload: { user } }))
+      );
+    },
+    { functional: true }
+  ),
+
   onPageLoad: createEffect(
     () => {
       const storage = inject(AuthStorageService);
 
-      const user$ = isBrowser() ?
-        from(storage.user.get()) :
+      const token$ = isBrowser() ?
+        from(storage.token.get()) :
         of(null);
 
-      const actions$ = user$.pipe(
-        map(user => authActions.updateUser({ payload: { user } }))
+      return token$.pipe(
+        map(token => authActions.idTokenChanged({ payload: { token } }))
       );
-
-      return actions$;
     },
     { functional: true }
   ),
 
   syncSSO: createEffect(
     () => {
+      if (!isBrowser())
+        return EMPTY;
+
       const clientConfig = inject(CLIENT_CONFIG);
       const sso = clientConfig.sso;
       if (!sso)
@@ -44,85 +119,99 @@ export const authEffects = {
       const cookies = inject(CookieService);
       const auth = inject(AuthService);
       const location = inject(Location);
+      const ready = inject(AUTH_READY);
 
       const user$ = store.selectSignal(authFeature.selectUser);
-      const ready$ = store.selectSignal(authFeature.selectReady);
-      const userCookie = cookies.USER_ID;
 
-      // always read cookie on user change
-      if (isBrowser()) {
-        effect(() => {
-          if (!ready$())
-            return;
+      const userId$ = computed(() => user$()?._id || null);
+      const cookieId$ = cookies.USER_ID.$;
 
-          user$();
+      const uid$ = toObservable(userId$)
+        .pipe(map(userId => {
           cookies.read();
-        }, { allowSignalWrites: true });
-      }
+          return [userId, cookieId$()];
+        }));
+      const cid$ = toObservable(cookieId$)
+        .pipe(map(cookieId => [userId$(), cookieId]));
 
-
-      effect(async () => {
-        if (!ready$())
-          return;
-
-        const cookieId = userCookie.$();
-        const userId = user$()?._id || null;
-
-        if (userId === cookieId) {
-          // user id and cookie id match, OR
-          // user id and cookie id are both empty
-          // - do nothing
-          return;
-        }
-
-        if (userId && !cookieId) {
-          // user exists, but cookie does not exist
-          // - sign out
-          await auth.signOut();
-          return;
-        }
-
-        {
-          // cookie id exists, but does not match user
-
-          if (isAuthServer) {
-            if (userId) {
-              const exp = await storage.expiry.get()
-                .then(dt => dt!.toISO());
-              userCookie.write(userId, exp, sso.domain);
-            }
-            else {
-              userCookie.delete(sso.domain);
-            }
-            return;
-          }
-          else {
-            const path = location.path();
-            if (path.startsWith(clientConfig.oauth.redirect.path))
+      return from(ready)
+        .pipe(
+          switchMap(() => merge(uid$, cid$)),
+          distinctUntilChanged((prev, curr) => prev[0] === curr[0] && prev[1] === curr[1]),
+          switchMap(async ([userId, cookieId]) => {
+            if (userId === cookieId) {
+              // user id and cookie id match, OR
+              // user id and cookie id are both empty
+              // - do nothing
               return;
+            }
 
-            const state = {
-              [RETURN_URL_KEY]: path
-            };
+            if (!cookieId && userId) {
+              // cookie does not exist, but user exists
+              // - sign out
+              await auth.signOut();
+              return;
+            }
 
-            const state64 = base64url.fromString(JSON.stringify(state));
-            await auth.signIn.easworks(state64);
-            return;
-          }
-        }
-      });
+            {
+              // cookie id exists, but does not match user
 
-      return EMPTY;
+              if (isAuthServer) {
+                const token = await storage.token.get();
+                if (token) {
+                  window.location.reload();
+                }
+                else {
+                  cookies.USER_ID.delete(sso.domain);
+                }
+                return;
+              }
+              else {
+                const path = location.path();
+                if (path.startsWith(clientConfig.oauth.redirect.path))
+                  return;
+
+                const state = {
+                  [RETURN_URL_KEY]: path
+                };
+
+                const state64 = base64url.fromString(JSON.stringify(state));
+                await auth.signIn.easworks(state64);
+                return;
+              }
+            }
+          })
+        );
     },
     { functional: true, dispatch: false }
   ),
 
-  reloadOnSignOut: createEffect(() => {
+  onSignOut: createEffect(() => {
     const actions$ = inject(Actions);
+    const sso = inject(CLIENT_CONFIG).sso;
+    const cookies = inject(CookieService);
+    const router = inject(Router);
+    const store = inject(Store);
+    const storage = inject(AuthStorageService);
 
     return actions$.pipe(
       ofType(authActions.signOut),
-      map(() => location.reload())
+      switchMap(async ({ payload }) => {
+        await storage.clear();
+        if (sso)
+          cookies.USER_ID.delete(sso.domain);
+
+        if (payload.revoked)
+          location.reload();
+        else {
+          await router.navigateByUrl('/', {
+            info: {
+              source: authActions.signOut.type
+            }
+          });
+        }
+        store.dispatch(authActions.idTokenChanged({ payload: { token: null } }));
+      }),
     );
   }, { functional: true, dispatch: false }),
 

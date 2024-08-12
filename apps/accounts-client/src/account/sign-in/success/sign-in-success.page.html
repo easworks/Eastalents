@@ -1,0 +1,18 @@
+<div class="rounded-md bg-white shadow shadow-z1 p-4 px-8">
+
+  <fa-icon [icon]="icons.faCheckCircle" class="mx-auto text-xl text-emerald-400"></fa-icon>
+
+  @let user = user$();
+
+  <div class="text-center text-sm">
+    <p class="mt-4">Signed in as</p>
+    <p class="mt-2">{{user.displayName}}</p>
+    <p class="text-gray-500">{{user.email}}</p>
+  </div>
+
+  <button class="mt-8 mx-auto text-sm stroked-button" mat-ripple
+          (click)="signOut()">
+    Sign Out
+  </button>
+
+</div>

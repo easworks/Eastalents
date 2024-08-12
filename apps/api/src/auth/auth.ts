@@ -1,15 +1,15 @@
 import { ExternalIdentityProviderType, ExternalIdpUser, IdpCredential } from 'models/identity-provider';
+import { OAuthTokenSuccessResponse } from 'models/oauth';
 import { PermissionRecord } from 'models/permission-record';
 import { ALL_ROLES, PERMISSION_DEF_DTO } from 'models/permissions';
 import { User } from 'models/user';
 import { authValidators } from 'models/validators/auth';
 import { ObjectId } from 'mongodb';
-import { SignupEmailInUse, SignupRequiresWorkEmail, SignupRoleIsInvalid, UserEmailNotRegistered, UserIsDisabled, UserNeedsEmailVerification, UserNeedsPasswordReset, UserNicknameInUse } from 'server-side/errors/definitions';
+import { SignupEmailInUse, SignupRequiresWorkEmail, SignupRoleIsInvalid, UserEmailNotRegistered, UserIsDisabled, UsernameInUse, UserNeedsEmailVerification, UserNeedsPasswordReset } from 'server-side/errors/definitions';
 import { setTypeVersion } from 'server-side/mongodb/collections';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 import { easMongo } from '../mongodb';
 import { FreeEmailProviderCache, getExternalUserForSignup, isFreeEmail, jwtUtils, oauthUtils, passwordUtils, sendVerificationEmail } from './utils';
-import { OAuthTokenSuccessResponse } from 'models/oauth';
 
 export const authHandlers: FastifyZodPluginAsync = async server => {
 
@@ -42,10 +42,10 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
           throw new SignupRequiresWorkEmail(freeEmailDomain);
       }
 
-      // validate nickname
-      const nicknameExists = await easMongo.users.findOne({ nickname: input.nickname });
-      if (nicknameExists)
-        throw new UserNicknameInUse();
+      // validate username
+      const usernameExists = await easMongo.users.findOne({ username: input.username });
+      if (usernameExists)
+        throw new UsernameInUse();
 
       // create user
       const user: User = {
@@ -54,7 +54,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
         firstName: input.firstName,
         lastName: input.lastName,
-        nickname: input.nickname,
+        username: input.username,
         imageUrl: null,
 
         enabled: true,
@@ -127,10 +127,10 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
             });
       }
 
-      // validate nickname
-      const nicknameExists = await easMongo.users.findOne({ nickname: input.nickname });
-      if (nicknameExists)
-        throw new UserNicknameInUse();
+      // validate username
+      const usernameExists = await easMongo.users.findOne({ username: input.username });
+      if (usernameExists)
+        throw new UsernameInUse();
 
 
       // create user
@@ -141,7 +141,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
         firstName: externalUser.firstName,
         lastName: externalUser.lastName,
         imageUrl: externalUser.imageUrl,
-        nickname: input.nickname,
+        username: input.username,
 
         enabled: true,
         verified: true,

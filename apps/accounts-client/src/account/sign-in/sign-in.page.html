@@ -1,10 +1,4 @@
-<div class="m-4 p-2 px-4 border rounded">
-  <code>
-    <pre class="whitespace-pre-wrap">{{user$() | json}}</pre>
-  </code>
-</div>
-
-<div class="p-4 px-6 rounded">
+<div class="rounded-md bg-white shadow shadow-z1 p-4 px-8">
   <form [id]="emailLogin.formId"
         [formGroup]="emailLogin.form"
         (ngSubmit)="emailLogin.submit()">

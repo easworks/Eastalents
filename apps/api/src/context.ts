@@ -43,6 +43,10 @@ async function mapTokenToCloudUser(token: string) {
       throw new InvalidBearerToken(e.message);
     });
 
+  const tokenRef = await easMongo.tokens.findOne({ _id: claims.jti });
+  if (!tokenRef)
+    throw new InvalidBearerToken('expired');
+
   const user = await easMongo.users.findOne({ _id: claims['_id'] });
   if (!user)
     throw new UserNotFound().withStatus(StatusCodes.UNAUTHORIZED);

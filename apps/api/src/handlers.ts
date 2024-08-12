@@ -4,12 +4,14 @@ import { printRoutes } from 'server-side/utils/print-routes.plugin';
 import { authHandlers } from './auth/auth';
 import { oauthHandlers } from './auth/oauth';
 import { migrationHandlers } from './migrations';
+import { superAdminHandlers } from './super-admin';
 import { userHandlers } from './users';
 
 const pluginImpl: FastifyPluginAsync = async server => {
 
   await server.register(printRoutes);
 
+  await server.register(superAdminHandlers, { prefix: 'super-admin' });
   await server.register(oauthHandlers, { prefix: 'oauth' });
   await server.register(authHandlers, { prefix: 'auth' });
   await server.register(userHandlers, { prefix: 'users' });

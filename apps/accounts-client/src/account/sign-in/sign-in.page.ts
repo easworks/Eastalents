@@ -4,9 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { AuthService } from '@easworks/app-shell/services/auth';
-import { authFeature } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
-import { Store } from '@ngrx/store';
 import { RETURN_URL_KEY } from 'models/auth';
 import { finalize } from 'rxjs';
 
@@ -22,7 +20,6 @@ import { finalize } from 'rxjs';
 })
 export class SignInPageComponent {
 
-  private readonly store = inject(Store);
   private readonly snap = inject(ActivatedRoute).snapshot;
   private readonly auth = inject(AuthService);
 
@@ -34,8 +31,6 @@ export class SignInPageComponent {
   ]>();
 
   protected readonly returnUrl = this.snap.queryParamMap.get(RETURN_URL_KEY);
-
-  protected readonly user$ = this.store.selectSignal(authFeature.selectUser);
 
   protected readonly emailLogin = {
     formId: 'signin-email',
@@ -69,4 +64,5 @@ export class SignInPageComponent {
       loading$: this.loading.has('signing in')
     }
   } as const;
+
 }
