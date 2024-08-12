@@ -1,1 +1,8 @@
-This is the Sign Up Page
+<div mat-tab-nav-bar [tabPanel]="formPanel">
+  <a mat-tab-link routerLink="/sign-up/talent">TALENT</a>
+  <a mat-tab-link routerLink="/sign-up/employer">EMPLOYER</a>
+</div>
+
+<mat-tab-nav-panel #formPanel>
+  <router-outlet></router-outlet>
+</mat-tab-nav-panel>

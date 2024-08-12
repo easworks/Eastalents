@@ -44,6 +44,12 @@ export const routes: Route[] = [
   },
   {
     path: 'sign-up',
+    pathMatch: 'full',
+    loadComponent: () => import('../account/sign-up/account-type-choice/sign-up-account-type-choice.page')
+      .then(m => m.SignUpAccountTypeChoicePageComponent)
+  },
+  {
+    path: 'sign-up',
     canMatch: [redirectUser],
     loadComponent: () => import('../account/sign-up/sign-up.page')
       .then(m => m.SignUpPageComponent),
@@ -60,7 +66,7 @@ export const routes: Route[] = [
         path: 'talent',
         loadComponent: () => import('../account/sign-up/talent/talent-sign-up-form.component')
           .then(m => m.TalentSignUpFormComponent),
-      }
+      },
     ]
   },
   {

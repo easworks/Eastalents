@@ -3,13 +3,13 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,
-  selector: 'account-registration-choice-page',
-  templateUrl: './sign-up-choice.page.html',
+  selector: 'sign-up-account-type-choice-page',
+  templateUrl: './sign-up-account-type-choice.page.html',
   imports: [
     RouterModule
   ]
 })
-export class AccountRegistrationTypeChoicePageComponent {
+export class SignUpAccountTypeChoicePageComponent {
 
   @HostBinding()
   private readonly class = 'page';
