@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostBinding, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -18,6 +18,9 @@ import { map } from 'rxjs';
 })
 export class SignUpPageComponent {
   private readonly route = inject(ActivatedRoute);
+
+  @HostBinding()
+  private readonly class = 'page grid content-center 3xl:max-w-screen-3xl';
 
   protected readonly query$ = toSignal(this.route.queryParams, { requireSync: true });
   protected readonly socialPrefill$ = toSignal(this.route.data.pipe(map(d => d['socialPrefill'])), { requireSync: true });
