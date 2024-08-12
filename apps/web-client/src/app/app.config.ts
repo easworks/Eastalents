@@ -6,7 +6,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
-import { authInterceptor } from '@easworks/app-shell/api/auth.interceptor';
+import { easworksApiInterceptor } from '@easworks/app-shell/api/easworks.api.interceptor';
 import { CLIENT_CONFIG, provideBrowserEnvID } from '@easworks/app-shell/dependency-injection';
 import { AuthService } from '@easworks/app-shell/services/auth';
 import { SEO_DEFAULT_CONFIG, SEOService } from '@easworks/app-shell/services/seo';
@@ -54,7 +54,7 @@ export const appConfig: ApplicationConfig = {
       withFetch(),
       withNoXsrfProtection(),
       withInterceptors([
-        authInterceptor
+        easworksApiInterceptor
       ])
     ),
 

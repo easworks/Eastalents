@@ -1,30 +1,44 @@
 import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AuthService } from '@easworks/app-shell/services/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
+import { faFacebook, faGithub, faGoogle, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 import { RETURN_URL_KEY } from 'models/auth';
-import { finalize } from 'rxjs';
+import { ProblemDetails } from 'models/problem-details';
+import { catchError, EMPTY, finalize } from 'rxjs';
 
 @Component({
   standalone: true,
   selector: 'sign-in-page',
   templateUrl: './sign-in.page.html',
+  styleUrl: './sign-in.page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
-    FormImportsModule
+    FormImportsModule,
+    RouterModule
   ]
 })
 export class SignInPageComponent {
 
   private readonly snap = inject(ActivatedRoute).snapshot;
   private readonly auth = inject(AuthService);
+  private readonly snackbar = inject(MatSnackBar);
 
   @HostBinding()
-  private readonly class = 'page grid place-content-center';
+  private readonly class = 'page grid place-content-center @container';
+
+  protected readonly icons = {
+    faGoogle,
+    faGithub,
+    faLinkedinIn,
+    faFacebook
+  } as const;
 
   private readonly loading = generateLoadingState<[
     'signing in'
@@ -35,11 +49,11 @@ export class SignInPageComponent {
   protected readonly emailLogin = {
     formId: 'signin-email',
     form: new FormGroup({
-      email: new FormControl('dibyodyutimondalnfs@gmail.com', {
+      email: new FormControl('', {
         validators: [Validators.required, Validators.email],
         nonNullable: true
       }),
-      password: new FormControl('Easworks@121', {
+      password: new FormControl('', {
         validators: [Validators.required],
         nonNullable: true
       })
@@ -54,6 +68,19 @@ export class SignInPageComponent {
         this.emailLogin.form.getRawValue(),
         this.returnUrl || undefined
       ).pipe(
+        catchError((err: ProblemDetails) => {
+          if (err.type === 'user-email-not-registered') {
+            this.emailLogin.form.controls.email.setErrors({ notRegistered: true });
+          }
+          else if (err.type === 'invalid-password') {
+            this.emailLogin.form.controls.password.setErrors({ invalidPassword: true });
+          }
+          else {
+            SnackbarComponent.forError(this.snackbar);
+          }
+
+          return EMPTY;
+        }),
         finalize(() => {
           this.loading.delete('signing in');
         })

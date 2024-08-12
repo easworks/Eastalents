@@ -1,9 +1,10 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { ProblemDetails } from 'models/problem-details';
+import { catchError, from, switchMap } from 'rxjs';
 import { AuthStorageService } from '../services/auth.storage';
-import { from, switchMap } from 'rxjs';
 
-export const authInterceptor: HttpInterceptorFn = (req, next) => {
+export const easworksApiInterceptor: HttpInterceptorFn = (req, next) => {
   const storage = inject(AuthStorageService);
 
   if (!req.url.startsWith('/api/'))
@@ -21,6 +22,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           }
         });
         return next(req);
+      }),
+      catchError(err => {
+        throw ProblemDetails.fromObject(err.error);
       })
     );
 };
