@@ -1,6 +1,6 @@
 import { OAuthTokenSuccessResponse } from 'models/oauth';
 import { TypeOf, z } from 'zod';
-import { EXTERNAL_IDENTITY_PROVIDERS } from '../identity-provider';
+import { EXTERNAL_IDENTITY_PROVIDERS, ExternalIdpUser } from '../identity-provider';
 import { pattern } from '../pattern';
 import { oauthValidators } from './oauth';
 
@@ -57,5 +57,5 @@ export type SocialOAuthCodeExchangeOutput =
   } |
   {
     result: 'sign-up',
-    accessToken: string;
+    externalUser: ExternalIdpUser;
   };

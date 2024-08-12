@@ -75,12 +75,16 @@
       <span class="font-medium">Create one now</span>
     </p>
     <div class="mt-2 flex gap-4 justify-center">
-      <button class="sign-up-button">
+      <a class="sign-up-button" mat-ripple
+         routerLink="/sign-up/talent"
+         [queryParams]="query$()">
         Join as Talent
-      </button>
-      <button class="sign-up-button">
+      </a>
+      <a class="sign-up-button" mat-ripple
+         routerLink="/sign-up/employer"
+         [queryParams]="query$()">
         Join as Company
-      </button>
+      </a>
     </div>
   </div>
 </div>

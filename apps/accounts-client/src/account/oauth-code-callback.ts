@@ -59,7 +59,7 @@ export const oauthCodeCallback: CanActivateFn = (snap) => {
 
         const info = {
           source: 'code-exchange',
-          accessToken: output.accessToken,
+          externalUser: output.externalUser,
           idp: parsed.state.idp
         };
 

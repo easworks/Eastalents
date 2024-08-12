@@ -256,7 +256,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       return {
         result: 'sign-up',
-        accessToken: externalUser.credential,
+        externalUser,
       } satisfies SocialOAuthCodeExchangeOutput;
 
     }
@@ -292,7 +292,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       // email was not present in our db
       if (!credential)
-      throw new UserEmailNotRegistered();
+        throw new UserEmailNotRegistered();
 
       // we found the email was being used by a user
       const userId = credential.userId;

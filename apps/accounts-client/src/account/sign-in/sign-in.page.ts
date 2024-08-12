@@ -46,6 +46,8 @@ export class SignInPageComponent {
     'signing in'
   ]>();
 
+  protected readonly query$ = toSignal(this.route.queryParams, { requireSync: true });
+
   private readonly returnUrl$ = toSignal(this.route.queryParamMap.pipe(map(q => q.get(RETURN_URL_KEY))), { requireSync: true });
 
   protected readonly emailLogin = {
