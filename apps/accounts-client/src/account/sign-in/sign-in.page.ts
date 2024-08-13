@@ -73,16 +73,20 @@ export class SignInPageComponent {
         this.returnUrl$() || undefined
       ).pipe(
         catchError((err: ProblemDetails) => {
-          if (err.type === 'user-email-not-registered') {
-            this.emailLogin.form.controls.email.setErrors({ notRegistered: true });
+          switch (err.type) {
+            case 'user-email-not-registered':
+              this.emailLogin.form.controls.email.setErrors({ notRegistered: true });
+              break;
+            case 'invalid-password':
+              this.emailLogin.form.controls.password.setErrors({ invalidPassword: true });
+              break;
+            case 'user-needs-password-reset':
+              this.emailLogin.form.controls.password.setErrors({ needsReset: true });
+              break;
+            default:
+              SnackbarComponent.forError(this.snackbar);
+              break;
           }
-          else if (err.type === 'invalid-password') {
-            this.emailLogin.form.controls.password.setErrors({ invalidPassword: true });
-          }
-          else {
-            SnackbarComponent.forError(this.snackbar);
-          }
-
           return EMPTY;
         }),
         finalize(() => {

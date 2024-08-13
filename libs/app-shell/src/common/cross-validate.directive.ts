@@ -17,7 +17,7 @@ export class CrossValidationDirective implements OnInit {
   private get parent() {
     const p = this.fcngd.control.parent;
     if (!p)
-      throw new Error('form control was expected to have to a parent control')
+      throw new Error('form control was expected to have to a parent control');
     return p;
   }
 
@@ -32,7 +32,7 @@ export class CrossValidationDirective implements OnInit {
     this.parent.valueChanges
       // run this logic once during initialisation as well
       .pipe(
-        startWith([null]),
+        startWith([this.parent.value]),
         takeUntilDestroyed(this.dRef),
       )
       .subscribe(() => {

@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import type { OAuthTokenSuccessResponse } from 'models/oauth';
-import type { EmailSignInInput, SocialOAuthCodeExchange, SocialOAuthCodeExchangeOutput } from 'models/validators/auth';
+import type { EmailSignInInput, SignUpInput, SignUpOutput, SocialOAuthCodeExchange, SocialOAuthCodeExchangeOutput } from 'models/validators/auth';
 import { EasworksApi } from './easworks.api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthApi extends EasworksApi {
+
+  readonly signup = (input: SignUpInput) =>
+    this.http.post<SignUpOutput>(`${this.apiUrl}/auth/signup`, input);
+
   readonly signin = {
     email: (input: EmailSignInInput) =>
       this.http.post<OAuthTokenSuccessResponse>(`${this.apiUrl}/auth/signin/email`, input)

@@ -1,7 +1,7 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { DateTime } from 'luxon';
 import { TokenRef } from 'models/auth';
-import { ExternalIdpUser } from 'models/identity-provider';
+import { ExternalIdentityProviderType, ExternalIdpUser, IdpCredential } from 'models/identity-provider';
 import { PermissionRecord } from 'models/permission-record';
 import { User, UserClaims } from 'models/user';
 import { ObjectId } from 'mongodb';
@@ -127,71 +127,99 @@ export async function sendVerificationEmail(user: User) {
 }
 
 export const getExternalUserForSignup = {
-  google: async (code: string, redirect_uri: string) => {
+  google: {
+    withCode: async (code: string, redirect_uri: string) => {
+      const accessToken = await externalUtils.google.getAccessToken(code, redirect_uri);
+      return getExternalUserForSignup.google.withToken(accessToken);
+    },
+    withToken: async (accessToken: string) => {
+      const profile = await externalUtils.google.getProfile(accessToken);
 
-    const access_token = await externalUtils.google.getAccessToken(code, redirect_uri);
-    const profile = await externalUtils.google.getProfile(access_token);
+      const externalUser: ExternalIdpUser = {
+        providerId: profile.id,
+        email: profile.email,
+        email_verified: profile.verified_email,
+        firstName: profile.given_name,
+        lastName: profile.family_name,
+        imageUrl: profile.picture,
+        credential: accessToken
+      };
 
-    const externalUser: ExternalIdpUser = {
-      providerId: profile.id,
-      email: profile.email,
-      email_verified: profile.verified_email,
-      firstName: profile.given_name,
-      lastName: profile.family_name,
-      imageUrl: profile.picture,
-      credential: access_token
-    };
-
-    return externalUser;
+      return externalUser;
+    }
   },
-  facebook: async (code: string) => {
-    // TODO: implement
-    throw new Error(`getting user from facebook is not implemented`);
+  facebook: {
+    withCode: async (code: string, redirect_uri: string) => {
+      // TODO: implement
+      throw new Error(`getting user from facebook is not implemented`);
+      const accessToken = '';
+      return getExternalUserForSignup.facebook.withToken(accessToken);
+    },
+    withToken: async (accessToken: string) => {
+      // TODO: implement
+      throw new Error(`getting user from facebook is not implemented`);
 
-    const externalUser: ExternalIdpUser = {
-      email: 'email@email.facebook',
-      email_verified: false,
-      providerId: 'facebook-user-id',
-      firstName: 'firstName',
-      lastName: 'lastName',
-      imageUrl: 'facebook-profile-image-url',
-      credential: ''
-    };
+      const externalUser: ExternalIdpUser = {
+        email: 'email@email.facebook',
+        email_verified: false,
+        providerId: 'facebook-user-id',
+        firstName: 'firstName',
+        lastName: 'lastName',
+        imageUrl: 'facebook-profile-image-url',
+        credential: ''
+      };
 
-    return externalUser;
+      return externalUser;
+    }
   },
-  github: async (code: string) => {
-    // TODO: implement
-    throw new Error(`getting user from github is not implemented`);
+  github: {
+    withCode: async (code: string, redirect_uri: string) => {
+      // TODO: implement
+      throw new Error(`getting user from github is not implemented`);
+      const accessToken = '';
+      return getExternalUserForSignup.github.withToken(accessToken);
+    },
+    withToken: async (accessToken: string) => {
+      // TODO: implement
+      throw new Error(`getting user from github is not implemented`);
 
-    const externalUser: ExternalIdpUser = {
-      email: 'email@email.github',
-      email_verified: false,
-      providerId: 'github-user-id',
-      firstName: 'firstName',
-      lastName: 'lastName',
-      imageUrl: 'github-profile-image-url',
-      credential: ''
-    };
+      const externalUser: ExternalIdpUser = {
+        email: 'email@email.facebook',
+        email_verified: false,
+        providerId: 'facebook-user-id',
+        firstName: 'firstName',
+        lastName: 'lastName',
+        imageUrl: 'facebook-profile-image-url',
+        credential: ''
+      };
 
-    return externalUser;
+      return externalUser;
+    }
   },
-  linkedin: async (code: string) => {
-    // TODO: implement
-    throw new Error(`getting user from linkedin is not implemented`);
+  linkedin: {
+    withCode: async (code: string, redirect_uri: string) => {
+      // TODO: implement
+      throw new Error(`getting user from linkedin is not implemented`);
+      const accessToken = '';
+      return getExternalUserForSignup.github.withToken(accessToken);
+    },
+    withToken: async (accessToken: string) => {
+      // TODO: implement
+      throw new Error(`getting user from linkedin is not implemented`);
 
-    const externalUser: ExternalIdpUser = {
-      email: 'email@email.linkedin',
-      email_verified: false,
-      providerId: 'linkedin-user-id',
-      firstName: 'firstName',
-      lastName: 'lastName',
-      imageUrl: 'linkedin-profile-image-url',
-      credential: ''
-    };
+      const externalUser: ExternalIdpUser = {
+        email: 'email@email.facebook',
+        email_verified: false,
+        providerId: 'facebook-user-id',
+        firstName: 'firstName',
+        lastName: 'lastName',
+        imageUrl: 'facebook-profile-image-url',
+        credential: ''
+      };
 
-    return externalUser;
-  }
+      return externalUser;
+    }
+  },
 } as const;
 
 /**
@@ -293,3 +321,22 @@ const externalUtils = {
     }
   }
 } as const;
+
+export function createCredentialFromExternalUser(
+  provider: ExternalIdentityProviderType,
+  userId: IdpCredential['userId'],
+  externalUser: ExternalIdpUser
+): IdpCredential {
+  return {
+    _id: new ObjectId().toString(),
+    userId,
+    credential: externalUser.credential,
+    provider: {
+      type: provider,
+      email: externalUser.email,
+      id: externalUser.providerId
+    },
+  };
+}
+
+
