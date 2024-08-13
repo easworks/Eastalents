@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, HostBinding, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, HostBinding, inject, signal, untracked } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -10,6 +10,7 @@ import { ClearTriggerOnSelectDirective } from '@easworks/app-shell/common/clear-
 import { controlStatus$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AuthService } from '@easworks/app-shell/services/auth';
 import { domainData } from '@easworks/app-shell/state/domain-data';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
@@ -23,7 +24,10 @@ import { RETURN_URL_KEY } from 'models/auth';
 import { Domain } from 'models/domain';
 import { ExternalIdentityProviderType, ExternalIdpUser } from 'models/identity-provider';
 import { pattern } from 'models/pattern';
-import { map } from 'rxjs';
+import { ProblemDetails } from 'models/problem-details';
+import { SoftwareProduct } from 'models/software';
+import type { SignUpInput } from 'models/validators/auth';
+import { catchError, EMPTY, finalize, map, switchMap } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -117,7 +121,7 @@ export class TalentSignUpFormComponent {
     });
 
     effect(() => {
-      const stopEmit = { onlySelf: true, };
+      const stopEmit = { onlySelf: true, emitEvent: false };
       const prefill = this.socialPrefill$()?.externalUser as ExternalIdpUser | undefined;
       if (prefill) {
         form.controls.password.disable(stopEmit);
@@ -152,49 +156,6 @@ export class TalentSignUpFormComponent {
         await sleep();
         stepper.next();
       },
-      // click: () => {
-      //   if (!form.valid)
-      //     return;
-
-      //   const fv = form.getRawValue();
-      //   const prefill = this.socialPrefill$();
-
-      //   const input: SignUpInput = {
-      //     username: fv.username,
-      //     firstName: fv.firstName,
-      //     lastName: fv.lastName,
-      //     email: fv.email,
-      //     role: 'talent',
-      //     credentials: prefill ?
-      //       {
-      //         provider: prefill.idp,
-      //         accessToken: prefill.externalUser.credential
-      //       } :
-      //       {
-      //         provider: 'email',
-      //         password: fv.password
-      //       }
-      //   };
-
-      //   this.loading.add('signing up');
-
-      //   this.api.auth.signup(input)
-      //     .pipe(
-      //       switchMap(output => {
-      //         if (output.action === 'sign-in') {
-      //           return this.auth.signIn.token(output.data.access_token, this.returnUrl$() || undefined);
-      //         }
-      //         else {
-      //           return this.router.navigateByUrl('/verify-email');
-      //         }
-      //       }),
-      //       catchError((err: ProblemDetails) => {
-      //         SnackbarComponent.forError(this.snackbar, err);
-      //         return EMPTY;
-      //       }),
-      //       finalize(() => this.loading.delete('signing up'))
-      //     ).subscribe();
-      // },
       disabled$: this.loading.any$,
       loading$: this.loading.has('signing up')
     } as const;
@@ -302,8 +263,16 @@ export class TalentSignUpFormComponent {
       disabled$: computed(() => this.loading.any$() || !valid$()),
     } as const;
 
+    const value$ = computed(() => {
+      const chips = chips$();
+      const map = untracked(map$);
+
+      return chips.map(c => map[c.id]!);
+    });
+
     return {
       chips$,
+      value$,
       count$,
       valid$,
       add,
@@ -312,6 +281,185 @@ export class TalentSignUpFormComponent {
     } as const;
   })();
 
+  protected readonly software = (() => {
+    const map$ = this.store.selectSignal(domainData.selectors.softwareProduct.selectEntities);
+
+    const list$ = computed(() => {
+      const domains = this.domains.value$();
+      const map = untracked(map$);
+
+      const software = new Set<string>();
+
+      domains.forEach(d => d.products.forEach(p => software.add(p)));
+
+      return [...software].map(id => map[id]!);
+    });
+
+    const chips$ = signal<{
+      id: string;
+      name: string;
+    }[]>([]);
+
+    const count$ = computed(() => chips$().length);
+    const valid$ = computed(() => {
+      const c = count$();
+      return c > 0 && c <= 10;
+    });
+
+    const remove = (idx: number) => {
+      chips$.update(value => {
+        value.splice(idx, 1);
+        return [...value];
+      });
+    };
+
+    const add = (() => {
+      const query$ = signal('' as SoftwareProduct | string);
+      const displayWith = (v: SoftwareProduct | string | null) => typeof v === 'string' ? v : v?.name || '';
+
+      const searchable$ = computed(() => {
+        const chips = chips$();
+        const list = list$();
+
+        const added = new Set(chips.map(r => r.id));
+        return list.filter(s => !added.has(s.id));
+      });
+
+      const search$ = computed(() => new Fuse(searchable$(), {
+        keys: ['name'],
+        includeScore: true,
+      }));
+
+      const results$ = computed(() => {
+        let q = query$();
+
+        if (typeof q === 'string') {
+          q = q.trim();
+
+          if (q)
+            return search$()
+              .search(q)
+              .map(r => r.item);
+        }
+
+        return searchable$();
+      });
+
+      const onSelect = (event: MatAutocompleteSelectedEvent) => {
+        const value = event.option.value as SoftwareProduct;
+
+        chips$.update(v => {
+          v.push({
+            id: value.id,
+            name: value.name
+          });
+
+          v.sort((a, b) => sortString(a.id, b.id));
+
+          return [...v];
+        });
+        query$.set('');
+      };
+
+      const allowed$ = computed(() => count$() < 3);
+
+      return {
+        query$,
+        displayWith,
+        results$,
+        onSelect,
+        allowed$
+      } as const;
+    })();
+
+    const submit = {
+      click: async (stepper: MatStepper) => {
+        if (!valid$())
+          return;
+
+        await sleep(0);
+        stepper.next();
+      },
+      disabled$: computed(() => this.loading.any$() || !valid$()),
+    } as const;
+
+    const value$ = computed(() => {
+      const chips = chips$();
+      const map = untracked(map$);
+
+      return chips.map(c => map[c.id]!);
+    });
+
+    return {
+      chips$,
+      value$,
+      count$,
+      valid$,
+      add,
+      remove,
+      submit
+    } as const;
+  })();
+
+
+  protected readonly consent = (() => {
+    const submit = (() => {
+      const click = () => {
+
+        const fv = this.accountBasics.form.getRawValue();
+        const prefill = this.socialPrefill$();
+
+        const input: SignUpInput = {
+          username: fv.username,
+          firstName: fv.firstName,
+          lastName: fv.lastName,
+          email: fv.email,
+          role: 'talent',
+          credentials: prefill ?
+            {
+              provider: prefill.idp,
+              accessToken: prefill.externalUser.credential
+            } :
+            {
+              provider: 'email',
+              password: fv.password
+            }
+        };
+
+        this.loading.add('signing up');
+
+        this.api.auth.signup(input)
+          .pipe(
+            switchMap(output => {
+              if (output.action === 'sign-in') {
+                return this.auth.signIn.token(output.data.access_token, this.returnUrl$() || undefined);
+              }
+              else {
+                return this.router.navigateByUrl('/verify-email');
+              }
+            }),
+            catchError((err: ProblemDetails) => {
+              SnackbarComponent.forError(this.snackbar, err);
+              return EMPTY;
+            }),
+            finalize(() => this.loading.delete('signing up'))
+          ).subscribe();
+      };
+
+      const loading$ = this.loading.has('signing up');
+      const disabled$ = this.loading.any$;
+
+      return {
+        click,
+        loading$,
+        disabled$
+      } as const;
+    })();
+
+    return {
+      submit
+    } as const;
+  })();
 
   socialSignUp(provider: ExternalIdentityProviderType) {
     this.auth.signUp.social(provider, 'talent', this.returnUrl$() || undefined);
