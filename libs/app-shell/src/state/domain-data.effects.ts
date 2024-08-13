@@ -1,29 +1,38 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { concatMap, from, map } from 'rxjs';
+import { concatMap, from, map, switchMap } from 'rxjs';
 import { AdminApi } from '../api/admin.api';
 import { DomainDataDTO } from 'models/domain';
 import { domainData, domainDataActions, softwareProductActions, techGroupActions, techSkillActions } from './domain-data';
+import { DomainsApi } from '../api/domains.api';
 
 export const domainDataEffects = {
   loadFromApi: createEffect(
     () => {
-      const api = inject(AdminApi);
+      const api = inject(DomainsApi);
 
-      // const domainApi = inject(DomainsApi);
+      return from(api.data())
+        .pipe(
+          switchMap(payload => [
+            domainDataActions.updateState({ payload: payload }),
+            domainDataActions.saveState()
+          ])
+        );
 
-      const data = Promise.all([
-        api.domains.read(),
-        api.softwareProducts.read(),
-        api.techSkills.read(),
-        api.techGroups.read(),
-      ]).then<DomainDataDTO>(results => ({
-        domains: results[0],
-        softwareProducts: results[1],
-        techSkills: results[2],
-        techGroups: results[3]
-      }));
+
+
+      // const data = Promise.all([
+      //   api.domains.read(),
+      //   api.softwareProducts.read(),
+      //   api.techSkills.read(),
+      //   api.techGroups.read(),
+      // ]).then<DomainDataDTO>(results => ({
+      //   domains: results[0],
+      //   softwareProducts: results[1],
+      //   techSkills: results[2],
+      //   techGroups: results[3]
+      // }));
       // .then(async results => {
       //   const logger = new ExtractionLogger();
 
@@ -45,10 +54,10 @@ export const domainDataEffects = {
       //   return results;
       // });
 
-      return from(data)
-        .pipe(
-          map(payload => domainDataActions.updateState({ payload: payload }))
-        );
+      // return from(data)
+      //   .pipe(
+      //     map(payload => domainDataActions.updateState({ payload: payload }))
+      //   );
     },
     { functional: true }
   ),
