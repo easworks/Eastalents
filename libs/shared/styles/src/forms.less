@@ -118,6 +118,14 @@
     }
   }
 
+  .selection-counter {
+    @apply border rounded p-1 px-2 transition-all;
+  
+    &.selected {
+      @apply bg-primary-500/5 text-primary-500 border-transparent;
+    }
+  }
+  
 }
 
 input[type=text],

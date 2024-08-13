@@ -1,25 +1,29 @@
-import { ChangeDetectionStrategy, Component, computed, effect, HostBinding, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, HostBinding, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthApi } from '@easworks/app-shell/api/auth.api';
+import { ClearTriggerOnSelectDirective } from '@easworks/app-shell/common/clear-trigger-on-select.directive';
 import { controlStatus$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AuthService } from '@easworks/app-shell/services/auth';
+import { domainData } from '@easworks/app-shell/state/domain-data';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { sleep } from '@easworks/app-shell/utilities/sleep';
+import { sortString } from '@easworks/app-shell/utilities/sort';
 import { faFacebook, faGithub, faGoogle, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faCircleCheck, faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
+import Fuse from 'fuse.js';
 import { RETURN_URL_KEY } from 'models/auth';
+import { Domain } from 'models/domain';
 import { ExternalIdentityProviderType, ExternalIdpUser } from 'models/identity-provider';
 import { pattern } from 'models/pattern';
-import { ProblemDetails } from 'models/problem-details';
-import { SignUpInput } from 'models/validators/auth';
-import { catchError, EMPTY, finalize, map, switchMap } from 'rxjs';
+import { map } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -31,7 +35,9 @@ import { catchError, EMPTY, finalize, map, switchMap } from 'rxjs';
     ImportsModule,
     FormImportsModule,
     RouterModule,
-    MatStepperModule
+    MatStepperModule,
+    MatAutocompleteModule,
+    ClearTriggerOnSelectDirective
   ]
 })
 export class TalentSignUpFormComponent {
@@ -39,6 +45,7 @@ export class TalentSignUpFormComponent {
   private readonly auth = inject(AuthService);
   private readonly snackbar = inject(MatSnackBar);
   private readonly router = inject(Router);
+  private readonly store = inject(Store);
 
   private readonly api = {
     auth: inject(AuthApi)
@@ -52,7 +59,10 @@ export class TalentSignUpFormComponent {
     faGithub,
     faLinkedinIn,
     faFacebook,
-    faCheck
+    faCheck,
+    faSquareXmark,
+    faCircleInfo,
+    faCircleCheck
   } as const;
 
   private readonly loading = generateLoadingState<[
@@ -119,6 +129,7 @@ export class TalentSignUpFormComponent {
           firstName: prefill.firstName,
           lastName: prefill.lastName,
           email: prefill.email,
+          username: (`${prefill.firstName}_${prefill.lastName}`).toLowerCase()
         }, stopEmit);
       }
       else {
@@ -137,10 +148,8 @@ export class TalentSignUpFormComponent {
 
     const submit = {
       click: async (stepper: MatStepper) => {
-        console.debug(form.status, form.value);
         if (!form.valid)
           return;
-        // wait for signal to propagate to stepper
         await sleep();
         stepper.next();
       },
@@ -203,6 +212,106 @@ export class TalentSignUpFormComponent {
 
   })();
 
+  protected readonly domains = (() => {
+    const map$ = this.store.selectSignal(domainData.selectors.domains.selectEntities);
+    const list$ = this.store.selectSignal(domainData.selectors.domains.selectAll);
+
+    const chips$ = signal<{
+      id: string;
+      name: string;
+    }[]>([]);
+
+    const count$ = computed(() => chips$().length);
+    const valid$ = computed(() => {
+      const c = count$();
+      return c > 0 && c <= 3;
+    });
+
+    const remove = (idx: number) => {
+      chips$.update(value => {
+        value.splice(idx, 1);
+        return [...value];
+      });
+    };
+
+    const add = (() => {
+      const query$ = signal('' as Domain | string);
+      const displayWith = (v: Domain | string | null) => typeof v === 'string' ? v : v?.longName || '';
+
+      const searchable$ = computed(() => {
+        const chips = chips$();
+        const list = list$();
+
+        const added = new Set(chips.map(r => r.id));
+        return list.filter(s => !added.has(s.id));
+      });
+
+      const search$ = computed(() => new Fuse(searchable$(), {
+        keys: ['longName', 'shortName'],
+        includeScore: true,
+      }));
+
+      const results$ = computed(() => {
+        let q = query$();
+
+        if (typeof q === 'string') {
+          q = q.trim();
+
+          if (q)
+            return search$()
+              .search(q)
+              .map(r => r.item);
+        }
+
+        return searchable$();
+      });
+
+      const onSelect = (event: MatAutocompleteSelectedEvent) => {
+        const value = event.option.value as Domain;
+
+        chips$.update(v => {
+          v.push({
+            id: value.id,
+            name: value.longName
+          });
+
+          v.sort((a, b) => sortString(a.id, b.id));
+
+          return [...v];
+        });
+        query$.set('');
+      };
+
+      const allowed$ = computed(() => count$() < 3);
+
+      return {
+        query$,
+        displayWith,
+        results$,
+        onSelect,
+        allowed$
+      } as const;
+    })();
+
+    const submit = {
+      click: async (stepper: MatStepper) => {
+        if (!valid$())
+          return;
+        await sleep();
+        stepper.next();
+      },
+      disabled$: computed(() => this.loading.any$() || !valid$()),
+    } as const;
+
+    return {
+      chips$,
+      count$,
+      valid$,
+      add,
+      remove,
+      submit
+    } as const;
+  })();
 
 
   socialSignUp(provider: ExternalIdentityProviderType) {

@@ -1,15 +1,18 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { concatMap, from, map, switchMap } from 'rxjs';
+import { concatMap, EMPTY, from, switchMap } from 'rxjs';
 import { AdminApi } from '../api/admin.api';
-import { DomainDataDTO } from 'models/domain';
-import { domainData, domainDataActions, softwareProductActions, techGroupActions, techSkillActions } from './domain-data';
 import { DomainsApi } from '../api/domains.api';
+import { isBrowser } from '../utilities/platform-type';
+import { domainData, domainDataActions, softwareProductActions, techGroupActions, techSkillActions } from './domain-data';
 
 export const domainDataEffects = {
   loadFromApi: createEffect(
     () => {
+      if (!isBrowser())
+        return EMPTY;
+
       const api = inject(DomainsApi);
 
       return from(api.data())
