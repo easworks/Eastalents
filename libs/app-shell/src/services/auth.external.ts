@@ -13,18 +13,9 @@ export class AuthRedirect {
     // TODO: replace demo with actual
     google: {
       url: 'https://accounts.google.com/o/oauth2/v2/auth',
-      client_id: '1074824567437-5ts3rfo6s011cl4il6dev2qeqvm10lc0.apps.googleusercontent.com',
+      client_id: '243499270913-h4645hc46b9dqvg6ejaidpch2g6q863r.apps.googleusercontent.com',
       scope: 'email profile'
     },
-
-    // actual google config
-    // google: {
-    //   url: 'https://accounts.google.com/o/oauth2/v2/auth',
-    //   response_type: 'code',
-    //   redirect_uri: `${window.location.origin}/account/social/callback`,
-    //   client_id: '243499270913-h4645hc46b9dqvg6ejaidpch2g6q863r.apps.googleusercontent.com',
-    //   scope: 'email profile'
-    // },
 
     // TODO: add actual facebook data
     facebook: {
