@@ -2,14 +2,18 @@ import { ChangeDetectionStrategy, Component, computed, effect, HostBinding, inje
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthApi } from '@easworks/app-shell/api/auth.api';
+import { controlStatus$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AuthService } from '@easworks/app-shell/services/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
+import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { faFacebook, faGithub, faGoogle, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { RETURN_URL_KEY } from 'models/auth';
 import { ExternalIdentityProviderType, ExternalIdpUser } from 'models/identity-provider';
 import { pattern } from 'models/pattern';
@@ -26,7 +30,8 @@ import { catchError, EMPTY, finalize, map, switchMap } from 'rxjs';
   imports: [
     ImportsModule,
     FormImportsModule,
-    RouterModule
+    RouterModule,
+    MatStepperModule
   ]
 })
 export class TalentSignUpFormComponent {
@@ -46,7 +51,8 @@ export class TalentSignUpFormComponent {
     faGoogle,
     faGithub,
     faLinkedinIn,
-    faFacebook
+    faFacebook,
+    faCheck
   } as const;
 
   private readonly loading = generateLoadingState<[
@@ -58,11 +64,10 @@ export class TalentSignUpFormComponent {
 
   private readonly returnUrl$ = toSignal(this.route.queryParamMap.pipe(map(q => q.get(RETURN_URL_KEY))), { requireSync: true });
 
-  protected readonly readOnly$ = computed(() => !!this.socialPrefill$());
-
-  protected readonly showSocial$ = computed(() => !this.socialPrefill$());
-
   protected readonly accountBasics = (() => {
+    const showSocial$ = computed(() => !this.socialPrefill$());
+    const readOnly$ = computed(() => !!this.socialPrefill$());
+
     const formId = 'talent-sign-up-account-basics';
     const form = new FormGroup({
       username: new FormControl('', {
@@ -127,50 +132,61 @@ export class TalentSignUpFormComponent {
 
     });
 
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
+    const valid$ = computed(() => status$() === 'VALID');
+
     const submit = {
-      click: () => {
+      click: async (stepper: MatStepper) => {
+        console.debug(form.status, form.value);
         if (!form.valid)
           return;
-
-        const fv = form.getRawValue();
-        const prefill = this.socialPrefill$();
-
-        const input: SignUpInput = {
-          username: fv.username,
-          firstName: fv.firstName,
-          lastName: fv.lastName,
-          email: fv.email,
-          role: 'talent',
-          credentials: prefill ?
-            {
-              provider: prefill.idp,
-              accessToken: prefill.externalUser.credential
-            } :
-            {
-              provider: 'email',
-              password: fv.password
-            }
-        };
-
-        this.loading.add('signing up');
-
-        this.api.auth.signup(input)
-          .pipe(
-            switchMap(output => {
-              if (output.action === 'sign-in') {
-                return this.auth.signIn.token(output.data.access_token, this.returnUrl$() || undefined);
-              }
-              else {
-                return this.router.navigateByUrl('/verify-email');
-              }
-            }),
-            catchError((err: ProblemDetails) => {
-              SnackbarComponent.forError(this.snackbar, err);
-              return EMPTY;
-            }),
-            finalize(() => this.loading.delete('signing up'))
-          ).subscribe();
+        // wait for signal to propagate to stepper
+        await sleep();
+        stepper.next();
       },
+      // click: () => {
+      //   if (!form.valid)
+      //     return;
+
+      //   const fv = form.getRawValue();
+      //   const prefill = this.socialPrefill$();
+
+      //   const input: SignUpInput = {
+      //     username: fv.username,
+      //     firstName: fv.firstName,
+      //     lastName: fv.lastName,
+      //     email: fv.email,
+      //     role: 'talent',
+      //     credentials: prefill ?
+      //       {
+      //         provider: prefill.idp,
+      //         accessToken: prefill.externalUser.credential
+      //       } :
+      //       {
+      //         provider: 'email',
+      //         password: fv.password
+      //       }
+      //   };
+
+      //   this.loading.add('signing up');
+
+      //   this.api.auth.signup(input)
+      //     .pipe(
+      //       switchMap(output => {
+      //         if (output.action === 'sign-in') {
+      //           return this.auth.signIn.token(output.data.access_token, this.returnUrl$() || undefined);
+      //         }
+      //         else {
+      //           return this.router.navigateByUrl('/verify-email');
+      //         }
+      //       }),
+      //       catchError((err: ProblemDetails) => {
+      //         SnackbarComponent.forError(this.snackbar, err);
+      //         return EMPTY;
+      //       }),
+      //       finalize(() => this.loading.delete('signing up'))
+      //     ).subscribe();
+      // },
       disabled$: this.loading.any$,
       loading$: this.loading.has('signing up')
     } as const;
@@ -179,7 +195,10 @@ export class TalentSignUpFormComponent {
     return {
       formId,
       form,
-      submit
+      submit,
+      valid$,
+      readOnly$,
+      showSocial$
     } as const;
 
   })();

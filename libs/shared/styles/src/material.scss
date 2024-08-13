@@ -18,4 +18,5 @@ html {
   @include mat.tabs-theme($theme);
   @include mat.snack-bar-theme($theme);
   @include mat.tooltip-theme($theme);
+  @include mat.stepper-theme($theme);
 }
