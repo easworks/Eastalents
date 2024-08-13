@@ -3,7 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { AuthService } from '@easworks/app-shell/services/auth';
-import { faFacebook, faGithub, faGoogle, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
+import { faGithub, faGoogle, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 import { RETURN_URL_KEY } from 'models/auth';
 import { ExternalIdentityProviderType } from 'models/identity-provider';
 import { map } from 'rxjs';
@@ -29,7 +29,6 @@ export class EmployerSignUpFormComponent {
     faGoogle,
     faGithub,
     faLinkedinIn,
-    faFacebook
   } as const;
 
   protected readonly query$ = toSignal(this.route.queryParams, { requireSync: true });

@@ -8,7 +8,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AuthService } from '@easworks/app-shell/services/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
-import { faFacebook, faGithub, faGoogle, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
+import { faGithub, faGoogle, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 import { RETURN_URL_KEY } from 'models/auth';
 import { ExternalIdentityProviderType } from 'models/identity-provider';
 import { ProblemDetails } from 'models/problem-details';
@@ -39,7 +39,6 @@ export class SignInPageComponent {
     faGoogle,
     faGithub,
     faLinkedinIn,
-    faFacebook
   } as const;
 
   private readonly loading = generateLoadingState<[

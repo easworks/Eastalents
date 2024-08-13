@@ -148,30 +148,6 @@ export const getExternalUserForSignup = {
       return externalUser;
     }
   },
-  facebook: {
-    withCode: async (code: string, redirect_uri: string) => {
-      // TODO: implement
-      throw new Error(`getting user from facebook is not implemented`);
-      const accessToken = '';
-      return getExternalUserForSignup.facebook.withToken(accessToken);
-    },
-    withToken: async (accessToken: string) => {
-      // TODO: implement
-      throw new Error(`getting user from facebook is not implemented`);
-
-      const externalUser: ExternalIdpUser = {
-        email: 'email@email.facebook',
-        email_verified: false,
-        providerId: 'facebook-user-id',
-        firstName: 'firstName',
-        lastName: 'lastName',
-        imageUrl: 'facebook-profile-image-url',
-        credential: ''
-      };
-
-      return externalUser;
-    }
-  },
   github: {
     withCode: async (code: string, redirect_uri: string) => {
       // TODO: implement
@@ -184,12 +160,12 @@ export const getExternalUserForSignup = {
       throw new Error(`getting user from github is not implemented`);
 
       const externalUser: ExternalIdpUser = {
-        email: 'email@email.facebook',
+        email: 'email@email.github',
         email_verified: false,
-        providerId: 'facebook-user-id',
+        providerId: 'github-user-id',
         firstName: 'firstName',
         lastName: 'lastName',
-        imageUrl: 'facebook-profile-image-url',
+        imageUrl: 'github-profile-image-url',
         credential: ''
       };
 
@@ -208,12 +184,12 @@ export const getExternalUserForSignup = {
       throw new Error(`getting user from linkedin is not implemented`);
 
       const externalUser: ExternalIdpUser = {
-        email: 'email@email.facebook',
+        email: 'email@email.linkedin',
         email_verified: false,
-        providerId: 'facebook-user-id',
+        providerId: 'linkedin-user-id',
         firstName: 'firstName',
         lastName: 'lastName',
-        imageUrl: 'facebook-profile-image-url',
+        imageUrl: 'linkedin-profile-image-url',
         credential: ''
       };
 
