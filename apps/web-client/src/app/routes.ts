@@ -6,12 +6,12 @@ import { ACCOUNT_ROUTES } from '../account/routes';
 import { ADMIN_ROUTES } from '../admin/routes';
 import { PUBLIC_ROUTES } from '../public/routes';
 import { EMPLOYER_ROUTES } from '../employer/routes';
-import { FREELANCER_ROUTES } from '../freelancer/routes';
+import { TALENT_ROUTES } from '../talent/routes';
 
 export const routes: Routes = [
   ...ACCOUNT_ROUTES,
   ADMIN_ROUTES,
-  ...FREELANCER_ROUTES,
+  ...TALENT_ROUTES,
   ...EMPLOYER_ROUTES,
   // JOB_POST_ROUTE,
   // MESSAGES_ROUTE,

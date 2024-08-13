@@ -2,7 +2,7 @@ import { Route } from '@angular/router';
 import { AuthGuardFn } from '@easworks/app-shell/services/auth.guard';
 import { AUTH_CHECKS } from '@easworks/app-shell/state/auth';
 
-export const FREELANCER_ROUTES: Route[] = [
+export const TALENT_ROUTES: Route[] = [
   {
     path: 'dashboard',
     pathMatch: 'full',
