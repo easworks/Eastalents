@@ -1,10 +1,20 @@
-export interface TechGroup {
+export interface TechSkill {
+  id: string,
   name: string;
-  items: Set<string>;
+  groups: string[];
 }
 
+export interface TechGroup {
+  id: string,
+  name: string;
+  skills: string[];
+}
+
+
 export interface SoftwareProduct {
+  id: string;
   name: string;
   imageUrl: string;
-  tech: TechGroup[];
+  skills: Record<string, string[]>;
+  domains: string[];
 }
