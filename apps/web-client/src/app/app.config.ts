@@ -20,10 +20,10 @@ import { uiEffects } from '@easworks/app-shell/state/ui.effects';
 import { provideEffects } from '@ngrx/effects';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { domainData } from 'app-shell/state/domain-data';
+import { domainDataEffects } from 'app-shell/state/domain-data.effects';
 import { AUTH_GUARD_ACTIONS } from '../account/auth-guard-action';
 import { signInEffects } from '../account/sign-in.effects';
-import { adminData } from '../admin/state/admin-data';
-import { adminDataEffects } from '../admin/state/admin-data.effects';
 import { provideClientConfig } from './client.config';
 import { menuItemEffects } from './menu-items/menu-item.effects';
 import { routes } from './routes';
@@ -102,7 +102,7 @@ export const appConfig: ApplicationConfig = {
     provideEffects(navMenuEffects),
     provideEffects(menuItemEffects),
 
-    provideState(adminData.feature),
-    provideEffects(adminDataEffects)
+    provideState(domainData.feature),
+    provideEffects(domainDataEffects)
   ],
 };

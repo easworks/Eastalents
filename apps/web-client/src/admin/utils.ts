@@ -1,8 +1,8 @@
 import { sortString } from '@easworks/app-shell/utilities/sort';
-import { DomainDictionaryDto, TechGroupDto } from '@easworks/models';
-import { convertToSlug } from '@easworks/models/seo';
-import { Domain } from './domain';
-import { SoftwareProduct, TechGroup, TechSkill } from './tech-skill';
+import { Domain } from 'models/domain';
+import { DomainDictionaryDto, TechGroupDto } from 'models/old/dto';
+import { convertToSlug } from 'models/seo';
+import { SoftwareProduct, TechGroup, TechSkill } from 'models/software';
 
 const alt_ids = {
   techSkills: {
@@ -145,7 +145,8 @@ export function extractDomains(dto: DomainDictionaryDto, logger: ExtractionLogge
             id,
             name,
             imageUrl: '',
-            skills: {}
+            skills: {},
+            domains: [domain.id]
           };
           map.set(product.id, product);
           products.add(product.id);

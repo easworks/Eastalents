@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } 
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { ClearTriggerOnSelectDirective } from '@easworks/app-shell/common/clear-trigger-on-select.directive';
 import { DialogLoaderComponent } from '@easworks/app-shell/common/dialog-loader.component';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
@@ -10,9 +11,8 @@ import { sortString } from '@easworks/app-shell/utilities/sort';
 import { faRemove, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import Fuse from 'fuse.js';
-import { TechGroup, TechSkill } from '../../models/tech-skill';
-import { adminData, techSkillActions } from '../../state/admin-data';
-import { ClearTriggerOnSelectDirective } from '@easworks/app-shell/common/clear-trigger-on-select.directive';
+import { TechGroup, TechSkill } from 'models/software';
+import { domainData, techSkillActions } from 'app-shell/state/domain-data';
 
 interface TechSkillGroupsDialogData {
   skill: string;
@@ -42,7 +42,7 @@ export class TechSkillGroupsDialogComponent implements OnInit {
   } as const;
 
   protected readonly skill$ = (() => {
-    const map$ = this.store.selectSignal(adminData.selectors.techSkill.selectEntities);
+    const map$ = this.store.selectSignal(domainData.selectors.techSkill.selectEntities);
 
     return computed(() => {
       const skill = map$()[this.data.skill];
@@ -54,8 +54,8 @@ export class TechSkillGroupsDialogComponent implements OnInit {
 
 
   private readonly groups = (() => {
-    const map$ = this.store.selectSignal(adminData.selectors.techGroup.selectEntities);
-    const list$ = this.store.selectSignal(adminData.selectors.techGroup.selectAll);
+    const map$ = this.store.selectSignal(domainData.selectors.techGroup.selectEntities);
+    const list$ = this.store.selectSignal(domainData.selectors.techGroup.selectAll);
 
     return {
       map$,

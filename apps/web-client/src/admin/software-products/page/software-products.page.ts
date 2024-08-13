@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, computed, effect, inject, signal, untracked } from "@angular/core";
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatCheckboxModule } from "@angular/material/checkbox";
@@ -12,10 +13,9 @@ import { generateLoadingState } from "@easworks/app-shell/state/loading";
 import { faCheck, faPen, faPlus, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { Store } from '@ngrx/store';
 import Fuse from 'fuse.js';
+import { SoftwareProduct } from 'models/software';
 import { Subscription, firstValueFrom, map } from 'rxjs';
-import { SoftwareProduct } from '../../models/tech-skill';
-import { adminData, softwareProductActions } from '../../state/admin-data';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { domainData, softwareProductActions } from 'app-shell/state/domain-data';
 
 @Component({
   standalone: true,
@@ -50,7 +50,7 @@ export class SoftwareProductsPageComponent {
   ]>();
 
   private readonly domains = (() => {
-    const map$ = this.store.selectSignal(adminData.selectors.domains.selectEntities);
+    const map$ = this.store.selectSignal(domainData.selectors.domains.selectEntities);
 
     return {
       map$
@@ -58,7 +58,7 @@ export class SoftwareProductsPageComponent {
   })();
 
   private readonly products = (() => {
-    const list$ = this.store.selectSignal(adminData.selectors.softwareProduct.selectAll);
+    const list$ = this.store.selectSignal(domainData.selectors.softwareProduct.selectAll);
 
     const search$ = computed(() => new Fuse(list$(), {
       keys: ['name'],
