@@ -16,9 +16,14 @@ const redirectUser: CanMatchFn = (() => {
   return async () => {
     const router = inject(Router);
 
+    const renderHome = () => new RedirectCommand(
+      router.createUrlTree(['/home']),
+      { skipLocationChange: true }
+    );
+
     const info = router.getCurrentNavigation()?.extras.info as any;
     if (info && info.source === authActions.signOut.type)
-      return true;
+      return renderHome();
 
     const authReady = inject(AUTH_READY);
     const store = inject(Store);
@@ -31,14 +36,10 @@ const redirectUser: CanMatchFn = (() => {
       switch (true) {
         case checks.talent(user): return router.createUrlTree(['/dashboard']);
         case checks.employer(user): return router.createUrlTree(['/dashboard']);
-        default: return new RedirectCommand(
-          router.createUrlTree(['/home']),
-          { skipLocationChange: true }
-        );
       }
     }
 
-    return true;
+    return renderHome();
   };
 
 

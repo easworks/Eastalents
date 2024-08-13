@@ -8,15 +8,15 @@ export const AUTH_GUARD_ACTIONS: Provider[] = [
   {
     provide: AUTH_GUARD_SIGN_IN_ACTION,
     useFactory: () => {
-      const location = inject(Location);
-      const auth = inject(AuthService);
-
       if (!isBrowser())
         return () => { };
 
-      return () => {
+      const location = inject(Location);
+      const auth = inject(AuthService);
+
+      return async () => {
         const returnUrl = location.path();
-        auth.signIn.easworks(returnUrl);
+        await auth.signIn.easworks(returnUrl);
       };
 
     }
