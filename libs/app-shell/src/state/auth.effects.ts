@@ -4,7 +4,6 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { RETURN_URL_KEY } from 'models/auth';
 import { distinctUntilChanged, EMPTY, from, map, merge, of, switchMap } from 'rxjs';
 import { UsersApi } from '../api/users.api';
 import { CLIENT_CONFIG } from '../dependency-injection';
@@ -13,7 +12,6 @@ import { CookieService } from '../services/auth.cookie';
 import { AUTH_READY } from '../services/auth.ready';
 import { AuthStorageService } from '../services/auth.storage';
 import { SWManagerService } from '../services/sw.manager';
-import { base64url } from '../utilities/base64url';
 import { isBrowser } from '../utilities/platform-type';
 import { authActions, authFeature, getAuthUserFromModel } from './auth';
 
@@ -49,6 +47,7 @@ export const authEffects = {
       const clientConfig = inject(CLIENT_CONFIG);
       const cookies = inject(CookieService);
 
+      const devMode = isDevMode();
 
       const oauth = clientConfig.oauth;
       const sso = clientConfig.sso;
@@ -74,7 +73,10 @@ export const authEffects = {
           }
         }),
         switchMap(async user => {
-          if (oauth.type === 'server' && sso && user) {
+          // during development, the auth server and client
+          // may exist on different domains
+          // therefore, allow client to write cookies in development
+          if ((oauth.type === 'server' || devMode) && sso && user) {
             const expiry = await storage.expiry.get();
             if (!expiry)
               throw new Error('expiry should not be null');
@@ -182,12 +184,7 @@ export const authEffects = {
                 if (path.startsWith(clientConfig.oauth.redirect.path))
                   return;
 
-                const state = {
-                  [RETURN_URL_KEY]: path
-                };
-
-                const state64 = base64url.fromString(JSON.stringify(state));
-                await auth.signIn.easworks(state64);
+                await auth.signIn.easworks(path);
                 return;
               }
             }

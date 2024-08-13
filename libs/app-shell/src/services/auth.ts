@@ -43,9 +43,17 @@ export class AuthService {
           switchMap(response => this.handleSignIn(response.access_token, returnUrl))
         );
     },
-    easworks: async (state?: string) => {
+    easworks: async (returnUrl?: string) => {
+      if (this.oauth.type === 'server')
+        throw new Error('cannot use easworks login from the easworks accounts server');
+
+      const state = {
+        [RETURN_URL_KEY]: returnUrl
+      };
+      const state64 = base64url.fromString(JSON.stringify(state));
       const code = await codeChallenge.create();
-      this.api.oauth.authorize(code, state);
+
+      this.api.oauth.authorize(code, state64);
     },
     oauthCode: (code: string, returnUrl?: string) => {
       const verifier = codeChallenge.get();

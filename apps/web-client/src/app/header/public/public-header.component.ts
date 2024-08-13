@@ -58,10 +58,7 @@ export class AppPublicHeaderComponent {
   }
 
   protected signIn() {
-    const state = {
-      [RETURN_URL_KEY]: location.pathname + location.search
-    };
-    const state64 = base64url.fromString(JSON.stringify(state));
-    this.auth.signIn.easworks(state64);
+    const returnUrl = location.pathname + location.search;
+    this.auth.signIn.easworks(returnUrl);
   }
 }
