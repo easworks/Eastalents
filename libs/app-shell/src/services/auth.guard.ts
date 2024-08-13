@@ -1,13 +1,15 @@
 import { inject, Injectable, InjectionToken } from '@angular/core';
-import { ActivatedRouteSnapshot, CanMatchFn, Route } from '@angular/router';
+import { ActivatedRouteSnapshot, CanMatchFn, MaybeAsync, Route } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { lastValueFrom, Observable } from 'rxjs';
 import { authFeature } from '../state/auth';
 import { AUTH_READY } from './auth.ready';
 
-export const AUTH_GUARD_SIGN_IN_ACTION = new InjectionToken<() => void>('', {
+export const AUTH_GUARD_SIGN_IN_ACTION = new InjectionToken<() => MaybeAsync<unknown>>('', {
   providedIn: 'root',
   factory: () => {
-    return () => console.error('auth guard sign in action not implemented');
+    console.error('auth guard sign in action not implemented');
+    return () => { };
   }
 });
 
@@ -40,8 +42,6 @@ export class AuthGuard {
         if (isAuthorized === true)
           return 'Authorized';
         else {
-          const message = typeof isAuthorized === 'string' ? isAuthorized : 'Not Authorized';
-          this.handleFailure(message);
           return 'Unauthorized';
         }
       }
@@ -49,7 +49,6 @@ export class AuthGuard {
         return 'Authorized';
     }
     else {
-      this.handleFailure('Please sign in');
       return 'Does Not Exist';
     }
   }
@@ -57,15 +56,14 @@ export class AuthGuard {
   private async processResult(result: AuthGuardResult) {
     switch (result) {
       case 'Does Not Exist':
-        this.signInAction();
-        return new Promise<never>(() => undefined);
+        let action = this.signInAction();
+        if (action instanceof Observable)
+          action = lastValueFrom(action);
+        await action;
+        return false;
       case 'Authorized': return true;
       case 'Unauthorized': return false;
     }
-  }
-
-  private handleFailure(message: string) {
-    console.error('auth check failed', message);
   }
 }
 
