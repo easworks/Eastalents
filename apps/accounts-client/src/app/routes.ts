@@ -5,7 +5,8 @@ import { AuthGuardFn } from '@easworks/app-shell/services/auth.guard';
 import { AUTH_READY } from '@easworks/app-shell/services/auth.ready';
 import { authActions, authFeature } from '@easworks/app-shell/state/auth';
 import { Store } from '@ngrx/store';
-import { oauthCallback } from '../account/oauth-callback';
+import { oauthAuthorizeCallback } from '../account/oauth-authorize-callback';
+import { oauthCodeCallback, resolveSocialPrefill } from '../account/oauth-code-callback';
 
 // TODO: add this to signup routes
 const redirectUser: CanMatchFn = async () => {
@@ -42,6 +43,51 @@ export const routes: Route[] = [
     }
   },
   {
+    path: 'sign-up',
+    pathMatch: 'full',
+    loadComponent: () => import('../account/sign-up/account-type-choice/sign-up-account-type-choice.page')
+      .then(m => m.SignUpAccountTypeChoicePageComponent),
+    data: {
+      minimalUi: true
+    },
+    resolve: {
+      socialPrefill: resolveSocialPrefill
+    },
+  },
+  {
+    path: 'sign-up',
+    canMatch: [redirectUser],
+    loadComponent: () => import('../account/sign-up/sign-up.page')
+      .then(m => m.SignUpPageComponent),
+    resolve: {
+      socialPrefill: resolveSocialPrefill
+    },
+    children: [
+      {
+        path: 'employer',
+        loadComponent: () => import('../account/sign-up/employer/employer-sign-up-form.component')
+          .then(m => m.EmployerSignUpFormComponent),
+        data: {
+          minimalUi: true
+        },
+        resolve: {
+          socialPrefill: resolveSocialPrefill
+        },
+      },
+      {
+        path: 'talent',
+        loadComponent: () => import('../account/sign-up/talent/talent-sign-up-form.component')
+          .then(m => m.TalentSignUpFormComponent),
+        data: {
+          minimalUi: true
+        },
+        resolve: {
+          socialPrefill: resolveSocialPrefill
+        },
+      },
+    ]
+  },
+  {
     path: 'sign-in/success',
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
@@ -55,7 +101,16 @@ export const routes: Route[] = [
     path: 'oauth/authorize',
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
-    canActivate: [oauthCallback],
+    canActivate: [oauthAuthorizeCallback],
+    component: NotFoundPageComponent,
+    data: {
+      minimalUi: true
+    }
+  },
+  {
+    path: 'oauth/callback',
+    pathMatch: 'full',
+    canActivate: [oauthCodeCallback],
     component: NotFoundPageComponent,
     data: {
       minimalUi: true

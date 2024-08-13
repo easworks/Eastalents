@@ -1,0 +1,122 @@
+<h2 class="text-center font-black text-lg">APPLY TO JOIN</h2>
+<p class="mt-2 text-center text-sm text-gray-400">
+  The Worlds Top Talent Enterprise Application Network &
+  work with the worlds leading Companies.
+</p>
+
+@if(showSocial$()) {
+<p class="mt-4 text-lg text-center">
+  SIGN UP WITH
+</p>
+
+<div class="mt-4 grid gap-4 grid-cols-2 @xl:grid-cols-4">
+  <button class="social-button" mat-ripple
+          (click)="socialSignUp('google')">
+    <fa-icon [icon]="icons.faGoogle"></fa-icon>
+    <span>Google</span>
+  </button>
+  <button class="social-button" mat-ripple>
+    <fa-icon [icon]="icons.faGithub"></fa-icon>
+    <span>Github</span>
+  </button>
+  <button class="social-button" mat-ripple>
+    <fa-icon [icon]="icons.faLinkedinIn"></fa-icon>
+    <span>LinkedIn</span>
+  </button>
+  <button class="social-button" mat-ripple>
+    <fa-icon [icon]="icons.faFacebook"></fa-icon>
+    <span>Facebook</span>
+  </button>
+</div>
+
+<div class="flex gap-4 items-center my-4">
+  <mat-divider class="w-full"></mat-divider>
+  <span class="italic text-divider">OR</span>
+  <mat-divider class="w-full"></mat-divider>
+</div>
+}
+
+<form *ngrxLet="accountBasics.form as form"
+      [id]="accountBasics.formId"
+      [formGroup]="form" class="mt-4"
+      (ngSubmit)="accountBasics.submit.click()">
+
+  <div *ngrxLet="form.controls.username as control"
+       [formFieldControl]="control">
+    <label>Username</label>
+    <input type="text" [formControl]="control" placeholder="Username">
+    <span class="error" *ngIf="control.hasError('required')">Required</span>
+  </div>
+
+  <div class="grid grid-flow-col gap-4">
+    <div *ngrxLet="form.controls.firstName as control"
+         [formFieldControl]="control">
+      <label>First Name</label>
+      <input type="text" [formControl]="control" placeholder="First Name">
+      <span class="error" *ngIf="control.hasError('required')">Required</span>
+    </div>
+
+    <div *ngrxLet="form.controls.lastName as control"
+         [formFieldControl]="control">
+      <label>Last Name</label>
+      <input type="text" [formControl]="control" placeholder="Last Name">
+      <span class="error" *ngIf="control.hasError('required')">Required</span>
+    </div>
+  </div>
+
+  <div *ngrxLet="form.controls.email as control"
+       [formFieldControl]="control">
+    <label>Email</label>
+    <input type="email" [formControl]="control" placeholder="Email Address" [readOnly]="readOnly$()">
+    <span class="error" *ngIf="control.hasError('required')">Required</span>
+    <span class="error" *ngIf="control.hasError('pattern')">Invalid email</span>
+  </div>
+
+  @if (form.controls.password.enabled) {
+  <div *ngrxLet="form.controls.password as control"
+       [formFieldControl]="control" class="mb-12">
+    <label>Password</label>
+    <input type="password" [formControl]="control" [crossValidate]="['passwordMismatch']"
+           placeholder="Enter your Password">
+    <span class="error" *ngIf="control.hasError('required')">Required</span>
+    <span class="error" *ngIf="control.hasError('pattern')">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character</span>
+    <span class="error" *ngIf="control.hasError('passwordMismatch')">Passwords do not match</span>
+    <span class="hint">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character</span>
+  </div>
+
+  <div *ngrxLet="form.controls.confirmPassword as control"
+       [formFieldControl]="control">
+    <label>Confirm Password</label>
+    <input type="password" [formControl]="control" [crossValidate]="['passwordMismatch']"
+           placeholder="Confirm your Password">
+    <span class="error" *ngIf="control.hasError('required')">Required</span>
+    <span class="error" *ngIf="control.hasError('passwordMismatch')">Passwords do not match</span>
+  </div>
+  }
+
+</form>
+
+<div>
+  <p class="text-sm text-center">
+    By signing up, you agree to our
+    <a routerLink="/terms-of-use" class="text-primary-500 font-medium">Terms of Use</a>,
+    <a routerLink="/privacy-policy" class="text-primary-500 font-medium">Privacy Policy</a> and
+    <a routerLink="/cookie-policy" class="text-primary-500 font-medium">Cookie Policy</a>.
+  </p>
+
+  <button class="mt-2 shaded-button primary w-full"
+          mat-ripple
+          type="submit"
+          [attr.form]="accountBasics.formId"
+          [disabled]="accountBasics.submit.disabled$()">
+    <replace-spinner [showSpinner]="accountBasics.submit.loading$()">
+      SIGN UP
+    </replace-spinner>
+  </button>
+
+  <p class="mt-4 text-center">
+    Already have an an account?
+    <a routerLink="/sign-in" [queryParams]="query$()" [info]="socialPrefill$()" class="font-medium">Sign In</a>
+  </p>
+
+</div>

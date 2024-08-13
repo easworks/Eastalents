@@ -6,7 +6,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
-import { authInterceptor } from '@easworks/app-shell/api/auth.interceptor';
+import { easworksApiInterceptor } from '@easworks/app-shell/api/easworks.api.interceptor';
 import { CLIENT_CONFIG, provideBrowserEnvID } from '@easworks/app-shell/dependency-injection';
 import { AuthService } from '@easworks/app-shell/services/auth';
 import { SEO_DEFAULT_CONFIG, SEOService } from '@easworks/app-shell/services/seo';
@@ -20,6 +20,7 @@ import { uiEffects } from '@easworks/app-shell/state/ui.effects';
 import { provideEffects } from '@ngrx/effects';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { AUTH_GUARD_ACTIONS } from '../account/auth-guard-action';
 import { signInEffects } from '../account/sign-in.effects';
 import { adminData } from '../admin/state/admin-data';
 import { adminDataEffects } from '../admin/state/admin-data.effects';
@@ -54,7 +55,7 @@ export const appConfig: ApplicationConfig = {
       withFetch(),
       withNoXsrfProtection(),
       withInterceptors([
-        authInterceptor
+        easworksApiInterceptor
       ])
     ),
 
@@ -73,6 +74,7 @@ export const appConfig: ApplicationConfig = {
         scrollPositionRestoration: 'enabled'
       })
     ),
+    AUTH_GUARD_ACTIONS,
 
     importProvidersFrom([
       MatSnackBarModule,

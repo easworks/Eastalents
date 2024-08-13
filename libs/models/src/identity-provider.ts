@@ -33,10 +33,11 @@ export interface IdpCredential extends Entity {
 
 export interface ExternalIdpUser {
   email: string;
+  email_verified: boolean;
   firstName: string;
   lastName: string;
   imageUrl: string;
 
   providerId: string;
-  credential?: string;
+  credential: string;
 }

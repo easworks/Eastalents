@@ -13,6 +13,12 @@ export interface Environment {
     privateKey: string;
     issuer: string;
   };
+  oauth?: {
+    google: {
+      id: string;
+      secret: string;
+    };
+  };
 
 }
 
@@ -30,6 +36,19 @@ export const parseEnv = {
     if (!host || !oauthHandler)
       throw new Error('auth host not provided');
     return { host, oauthHandler };
+  },
+  oauth: {
+    google: () => {
+      const id = process.env['GOOGLE_OAUTH_CLIENT_ID'];
+      if (!id)
+        throw new Error('google oauth client id not provided');
+
+      const secret = process.env['GOOGLE_OAUTH_CLIENT_SECRET'];
+      if (!secret)
+        throw new Error('google oauth client secret not provided');
+
+      return { id, secret } as const;
+    }
   },
   mongodb: () => {
     const mongodb = process.env['MONGODB'] as string;

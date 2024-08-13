@@ -16,7 +16,7 @@ const pluginImpl: FastifyPluginAsync = async (server) => {
       if (err instanceof ZodError)
         return new ValidationFailed(err).toProblemDetails();
 
-      return ProblemDetails.from(err);
+      return ProblemDetails.fromError(err);
     })();
 
     return reply

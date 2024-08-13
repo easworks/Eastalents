@@ -6,29 +6,29 @@
     <div class="w-80 border rounded p-8 text-center max-w-md">
       <p class="text-2xl font-bold">Find Opportunities</p>
       <a class="block shaded-button primary mt-4"
-         routerLink="/register/freelancer">
-        REGISTER
+         routerLink="/sign-up/talent"
+         [queryParams]="query$()"
+         [info]="socialPrefill$()">
+        SIGN UP AS TALENT
       </a>
 
-      <p class="mt-4 text-sm">Already have an account? <a routerLink="/account/sign-in" class="text-primary-500">Sign In</a></p>
     </div>
 
     <div class="w-80 border rounded p-8 text-center max-w-md">
       <p class="text-2xl font-bold">Find Talent</p>
       <a class="block shaded-button primary mt-4"
-         routerLink="/register/employer">
-        REGISTER
+         routerLink="/sign-up/employer"
+         [queryParams]="query$()"
+         [info]="socialPrefill$()">
+        SIGN UP AS EMPLOYER
       </a>
-
-      <p class="mt-4 text-sm">Already have an account? <a routerLink="/account/sign-in" class="text-primary-500">Sign In</a></p>
     </div>
 
-
-
   </div>
+
+  <p class="mt-4 text-sm col-span-2 text-center">Already have an account? <a routerLink="/account/sign-in" class="text-primary-500">Sign In</a></p>
+
 </div>
-
-
 
 <!-- 
 <div class="rounded bg-blue-100">

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { ProblemDetails } from 'models/problem-details';
 
 @Component({
   selector: 'common-snackbar',
@@ -18,13 +19,26 @@ export class SnackbarComponent {
     snackbar.openFromComponent(SnackbarComponent, SuccessSnackbarDefaults);
   }
 
-  static forError(snackbar: MatSnackBar, error: unknown) {
-    if (error instanceof Error) {
+  static forError(snackbar: MatSnackBar, error?: unknown) {
+    if (error instanceof ProblemDetails) {
+      snackbar.openFromComponent(this, {
+        ...ErrorSnackbarDefaults,
+        data: {
+          message: error.type
+        }
+      });
+    }
+    else if (error instanceof Error) {
       snackbar.openFromComponent(this, {
         ...ErrorSnackbarDefaults,
         data: {
           message: error.message
         }
+      });
+    }
+    else {
+      snackbar.openFromComponent(this, {
+        ...ErrorSnackbarDefaults,
       });
     }
   }

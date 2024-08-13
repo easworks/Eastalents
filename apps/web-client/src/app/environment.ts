@@ -6,7 +6,8 @@ const configs = {
   local: {
     oauth: {
       clientId: "66a98aad5c881fc8f3ca2a57",
-      server: 'http://localhost:4103',
+      server: 'https://accounts.development.branches.easworks.com',
+      // server: 'http://localhost:4103',
       redirect: 'http://localhost:4104'
     },
     sso: {

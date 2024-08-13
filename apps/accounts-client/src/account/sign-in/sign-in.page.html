@@ -1,33 +1,91 @@
-<div class="rounded-md bg-white shadow shadow-z1 p-4 px-8">
-  <form [id]="emailLogin.formId"
+<img class="h-8 block mx-auto" src="/assets/brand/logo-full-dark.png" alt="App Logo" loading="lazy" />
+
+
+<div class="mt-4 rounded-md bg-white shadow shadow-z1 p-4 px-8 pb-8">
+
+  <p class="text-lg text-center">
+    LOGIN TO <span class="text-primary-500">YOUR ACCOUNT</span>
+  </p>
+
+  <div class="mt-4 grid gap-4 grid-cols-2 @xl:grid-cols-4">
+    <button class="social-button" mat-ripple
+            (click)="socialSignIn('google')">
+      <fa-icon [icon]="icons.faGoogle"></fa-icon>
+      <span>Google</span>
+    </button>
+    <button class="social-button" mat-ripple>
+      <fa-icon [icon]="icons.faGithub"></fa-icon>
+      <span>Github</span>
+    </button>
+    <button class="social-button" mat-ripple>
+      <fa-icon [icon]="icons.faLinkedinIn"></fa-icon>
+      <span>LinkedIn</span>
+    </button>
+    <button class="social-button" mat-ripple>
+      <fa-icon [icon]="icons.faFacebook"></fa-icon>
+      <span>Facebook</span>
+    </button>
+  </div>
+
+  <div class="flex gap-4 items-center my-4">
+    <mat-divider class="w-full"></mat-divider>
+    <span class="italic text-divider">OR</span>
+    <mat-divider class="w-full"></mat-divider>
+  </div>
+
+  <form class="mt-4"
+        [id]="emailLogin.formId"
         [formGroup]="emailLogin.form"
         (ngSubmit)="emailLogin.submit()">
 
     <div *ngrxLet="emailLogin.form.controls.email as control"
          [formFieldControl]="control">
-      <label>Email</label>
-      <input type="email" [formControl]="control">
+      <input type="email" [formControl]="control" placeholder="Email">
       @if(control.hasError('required')) { <span class="error">Required</span> }
       @if(control.hasError('email')) { <span class="error">Invalid Email</span> }
+      @if(control.hasError('notRegistered')) { <span class="error">Email not registered</span> }
     </div>
 
     <div *ngrxLet="emailLogin.form.controls.password as control"
-         [formFieldControl]="control">
-      <label>Password</label>
-      <input type="password" [formControl]="control">
+         [formFieldControl]="control"
+         class="mb-4">
+      <input type="password" [formControl]="control" placeholder="Password">
       @if(control.hasError('required')) { <span class="error">Required</span> }
+      @if(control.hasError('invalidPassword')) { <span class="error">Invalid Password</span> }
+      @if(control.hasError('needsReset')) { <span class="error">Password needs to be reset</span> }
+      <a routerLink="/forgot-password"
+         class="block w-max mt-1 ml-auto underline text-primary-400 text-sm">Forgot Password?</a>
     </div>
-
   </form>
 
   <div class="flex gap-4">
-    <button class="shaded-button primary relative"
+    <button class="shaded-button primary relative w-full py-2"
             [attr.form]="emailLogin.formId"
             type="submit"
-            [disabled]="emailLogin.button.disabled$()">
+            [disabled]="emailLogin.button.disabled$()"
+            mat-ripple>
       <replace-spinner [showSpinner]="emailLogin.button.loading$()">
         Sign In
       </replace-spinner>
     </button>
+  </div>
+
+  <div class="mt-8">
+    <p class="text-center text-sm">
+      Don't have an account?
+      <span class="font-medium">Create one now</span>
+    </p>
+    <div class="mt-2 flex gap-4 justify-center">
+      <a class="sign-up-button" mat-ripple
+         routerLink="/sign-up/talent"
+         [queryParams]="query$()">
+        Join as Talent
+      </a>
+      <a class="sign-up-button" mat-ripple
+         routerLink="/sign-up/employer"
+         [queryParams]="query$()">
+        Join as Company
+      </a>
+    </div>
   </div>
 </div>

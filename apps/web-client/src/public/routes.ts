@@ -1,8 +1,56 @@
-import { Routes } from '@angular/router';
+import { inject } from '@angular/core';
+import { CanMatchFn, RedirectCommand, Router, Routes } from '@angular/router';
+import { NotFoundPageComponent } from '@easworks/app-shell/navigation/not-found/not-found.page';
+import { AUTH_READY } from '@easworks/app-shell/services/auth.ready';
 import { PageMetadata } from '@easworks/app-shell/services/seo';
+import { AUTH_CHECKS, authActions, authFeature } from '@easworks/app-shell/state/auth';
+import { Store } from '@ngrx/store';
 import { USE_CASES_ROUTE } from './use-cases/routes';
 
+const redirectUser: CanMatchFn = (() => {
+  const checks = {
+    talent: AUTH_CHECKS.hasRole('talent'),
+    employer: AUTH_CHECKS.hasRole('employer')
+  };
+
+  return async () => {
+    const router = inject(Router);
+
+    const info = router.getCurrentNavigation()?.extras.info as any;
+    if (info && info.source === authActions.signOut.type)
+      return true;
+
+    const authReady = inject(AUTH_READY);
+    const store = inject(Store);
+
+    await authReady;
+
+    const user = store.selectSignal(authFeature.selectUser)();
+
+    if (user) {
+      switch (true) {
+        case checks.talent(user): return router.createUrlTree(['/dashboard']);
+        case checks.employer(user): return router.createUrlTree(['/dashboard']);
+        default: return new RedirectCommand(
+          router.createUrlTree(['/home']),
+          { skipLocationChange: true }
+        );
+      }
+    }
+
+    return true;
+  };
+
+
+})();
+
+
 export const PUBLIC_ROUTES: Routes = [
+  {
+    path: 'home',
+    pathMatch: 'full',
+    loadComponent: () => import('./home/home.page').then(m => m.HomePageComponent)
+  },
   // {
   //   path: 'for-companies',
   //   pathMatch: 'full',
@@ -209,7 +257,8 @@ export const PUBLIC_ROUTES: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    loadComponent: () => import('./home/home.page').then(m => m.HomePageComponent)
+    component: NotFoundPageComponent,
+    canMatch: [redirectUser]
   },
 ];
 

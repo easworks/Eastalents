@@ -3,13 +3,13 @@ import { OAuthTokenSuccessResponse } from 'models/oauth';
 import { PermissionRecord } from 'models/permission-record';
 import { ALL_ROLES, PERMISSION_DEF_DTO } from 'models/permissions';
 import { User } from 'models/user';
-import { authValidators } from 'models/validators/auth';
+import { authValidators, SignUpOutput, SocialOAuthCodeExchangeOutput } from 'models/validators/auth';
 import { ObjectId } from 'mongodb';
 import { SignupEmailInUse, SignupRequiresWorkEmail, SignupRoleIsInvalid, UserEmailNotRegistered, UserIsDisabled, UsernameInUse, UserNeedsEmailVerification, UserNeedsPasswordReset } from 'server-side/errors/definitions';
 import { setTypeVersion } from 'server-side/mongodb/collections';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 import { easMongo } from '../mongodb';
-import { FreeEmailProviderCache, getExternalUserForSignup, isFreeEmail, jwtUtils, oauthUtils, passwordUtils, sendVerificationEmail } from './utils';
+import { createCredentialFromExternalUser, FreeEmailProviderCache, getExternalUserForSignup, isFreeEmail, jwtUtils, oauthUtils, passwordUtils, sendVerificationEmail } from './utils';
 
 export const authHandlers: FastifyZodPluginAsync = async server => {
 
@@ -17,11 +17,43 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
   server.get('/permission-definition', async () => PERMISSION_DEF_DTO);
 
-  server.post('/signup/email',
-    { schema: { body: authValidators.inputs.signup.email } },
+  server.post('/signup',
+    { schema: { body: authValidators.inputs.signup } },
     async (req) => {
 
       const input = req.body;
+
+      let externalUser: ExternalIdpUser | undefined;
+      if (input.credentials.provider !== 'email') {
+        externalUser = await getExternalUserForSignup[input.credentials.provider]
+          .withToken(input.credentials.accessToken);
+
+        // get token if user already exists
+        const tokenResponse = await trySignInExternalUser(externalUser, input.credentials.provider)
+          .catch(e => {
+            if (e instanceof UserEmailNotRegistered)
+              return null;
+            throw e;
+          });
+
+        if (tokenResponse)
+          return {
+            action: 'sign-in',
+            data: tokenResponse
+          } satisfies SignUpOutput;
+      }
+
+      // validate email
+      // - if externalUser has a value, 
+      //   then we have a guarantee that
+      //   email doe not exist, because `trySignInExternalUser`
+      //   would have checked for the existence of the email
+      const emailExists = externalUser ?
+        false :
+        await easMongo.userCredentials.findOne({ 'provider.email': input.email });
+
+      if (emailExists)
+        throw new SignupEmailInUse();
 
       // validate role
       {
@@ -29,12 +61,6 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
         if (!role || !role.allowSignup)
           throw new SignupRoleIsInvalid();
       }
-
-      // validate email
-      const emailExists = await easMongo.userCredentials.findOne({ 'provider.email': input.email });
-
-      if (emailExists)
-        throw new SignupEmailInUse();
 
       if (input.role === 'employer') {
         const freeEmailDomain = await isFreeEmail(input.email);
@@ -62,16 +88,31 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       };
       setTypeVersion(user, 'users');
 
-      const credential: IdpCredential = {
-        _id: new ObjectId().toString(),
-        provider: {
-          type: 'email',
-          email: input.email,
-          id: input.email,
-        },
-        userId: user._id,
-        credential: passwordUtils.generate(input.password)
-      };
+      if (externalUser?.email_verified)
+        user.verified = true;
+
+      let credential: IdpCredential;
+      if (input.credentials.provider === 'email') {
+        credential = {
+          _id: new ObjectId().toString(),
+          provider: {
+            type: 'email',
+            email: input.email,
+            id: input.email,
+          },
+          userId: user._id,
+          credential: passwordUtils.generate(input.credentials.password)
+        };
+      }
+      else {
+        if (!externalUser)
+          throw new Error('external user should not be null');
+        credential = createCredentialFromExternalUser(
+          input.credentials.provider as ExternalIdentityProviderType,
+          user._id,
+          externalUser
+        );
+      }
 
       const permissions: PermissionRecord = {
         _id: user._id,
@@ -81,102 +122,30 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       await saveNewUser(user, permissions, credential);
 
-      // send verification link
-      await sendVerificationEmail(user);
+      if (!user.verified) {
+        // send verification link
+        await sendVerificationEmail(user);
 
-      return true;
-    }
-  );
+        return {
+          action: 'verify-email'
+        } satisfies SignUpOutput;
+      }
+      else {
+        const accessToken = await jwtUtils.createToken('first-party', user, permissions);
 
-  server.post('/signup/social',
-    { schema: { body: authValidators.inputs.signup.social } },
-    async (req) => {
-      const input = req.body;
+        const response: OAuthTokenSuccessResponse = {
+          access_token: accessToken.token,
+          expires_in: accessToken.expiresIn,
+          token_type: 'bearer',
+          ...oauthUtils.getSuccessProps(user, permissions)
+        };
 
-      // validate role
-      {
-        const role = ALL_ROLES.get(input.role);
-        if (!role || !role.allowSignup)
-          throw new SignupRoleIsInvalid();
+        return {
+          action: 'sign-in',
+          data: response
+        } satisfies SignUpOutput;
       }
 
-      // validate the grant code
-      const externalUser = await getExternalUserForSignup[input.idp](input.code);
-
-      // sign in the user if already exists
-      // if user email not registered, continue
-      // for any other error, stop
-      const signInExistingUser = await signInExternalUser(externalUser, input.idp)
-        .catch(e => {
-          if (e instanceof UserEmailNotRegistered)
-            return null;
-          throw e;
-        });
-      if (signInExistingUser) {
-        return signInExistingUser;
-      }
-
-      // validate the email
-      if (input.role === 'employer') {
-        const freeEmailDomain = await isFreeEmail(externalUser.email);
-        if (freeEmailDomain)
-          throw new SignupRequiresWorkEmail(freeEmailDomain)
-            .withMetadata('prefill', {
-              firstName: externalUser.firstName,
-              lastName: externalUser.lastName,
-            });
-      }
-
-      // validate username
-      const usernameExists = await easMongo.users.findOne({ username: input.username });
-      if (usernameExists)
-        throw new UsernameInUse();
-
-
-      // create user
-      const user: User = {
-        _id: new ObjectId().toString(),
-        email: externalUser.email,
-
-        firstName: externalUser.firstName,
-        lastName: externalUser.lastName,
-        imageUrl: externalUser.imageUrl,
-        username: input.username,
-
-        enabled: true,
-        verified: true,
-      };
-      setTypeVersion(user, 'users');
-
-      const credential: IdpCredential = {
-        _id: new ObjectId().toString(),
-        provider: {
-          type: input.idp,
-          email: externalUser.email,
-          id: externalUser.providerId
-        },
-        userId: user._id,
-        credential: externalUser.credential
-      };
-
-      const permissions: PermissionRecord = {
-        _id: user._id,
-        permissions: [],
-        roles: [input.role]
-      };
-
-      await saveNewUser(user, permissions, credential);
-
-      const accessToken = await jwtUtils.createToken('first-party', user, permissions);
-
-      const response: OAuthTokenSuccessResponse = {
-        access_token: accessToken.token,
-        expires_in: accessToken.expiresIn,
-        token_type: 'bearer',
-        ...oauthUtils.getSuccessProps(user, permissions)
-      };
-
-      return response;
     }
   );
 
@@ -231,16 +200,35 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     }
   );
 
-  server.post('/signin/social',
-    { schema: { body: authValidators.inputs.signin.social } },
+  server.post('/social/code-exchange',
+    { schema: { body: authValidators.inputs.social.codeExchange } },
     async (req) => {
       const input = req.body;
 
       // validate the grant code
-      const externalUser = await getExternalUserForSignup[input.idp](input.code);
+      const externalUser = await getExternalUserForSignup[input.idp]
+        .withCode(input.code, input.redirect_uri);
 
-      // sign in the user if already exists
-      return signInExternalUser(externalUser, input.idp);
+      // get token if user already exists
+      const tokenResponse = await trySignInExternalUser(externalUser, input.idp)
+        .catch(e => {
+          if (e instanceof UserEmailNotRegistered)
+            return null;
+          throw e;
+        });
+
+      if (tokenResponse) {
+        return {
+          result: 'sign-in',
+          data: tokenResponse
+        } satisfies SocialOAuthCodeExchangeOutput;
+      }
+      else {
+        return {
+          result: 'sign-up',
+          data: externalUser,
+        } satisfies SocialOAuthCodeExchangeOutput;
+      }
     }
   );
 
@@ -258,36 +246,59 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     }
   );
 
-  async function signInExternalUser(external: ExternalIdpUser, idp: ExternalIdentityProviderType) {
+  async function trySignInExternalUser(external: ExternalIdpUser, idp: ExternalIdentityProviderType) {
 
-    const credentialExists = await easMongo.userCredentials.find({ 'provider.email': external.email }).toArray();
+    // look for an exact match by external user id
+    let credential = await easMongo.userCredentials.findOne({
+      'provider.type': idp,
+      'provider.id': external.providerId
+    });
 
-    if (!credentialExists.length)
-      throw new UserEmailNotRegistered();
+    if (!credential) {
+      // look for loose match by email
+      credential = await easMongo.userCredentials.findOne({
+        'provider.email': external.email
+      });
 
-    // since it is an external user, we have 'verified' the user as well
-    const user = await easMongo.users.findOneAndUpdate({ _id: credentialExists[0].userId }, { $set: { verified: true } });
-    if (!user)
-      throw new Error('user should not have been null');
+      // email was not present in our db
+      if (!credential)
+        throw new UserEmailNotRegistered();
 
-    if (!user.enabled) {
-      throw new UserIsDisabled();
-    }
+      // we found the email was being used by a user
+      const userId = credential.userId;
 
-    // create a new credential for the idp if does not exist
-    const hasSameIdp = credentialExists.find(cred => cred.provider.type === idp);
-    if (!hasSameIdp) {
-      const credential: IdpCredential = {
+      // create a new credential for the same user
+      // and add to database
+      credential = {
         _id: new ObjectId().toString(),
         provider: {
           type: idp,
           id: external.providerId,
           email: external.email,
         },
-        userId: user._id,
+        userId,
         credential: external.credential
       };
       await easMongo.userCredentials.insertOne(credential);
+    }
+
+    const user = await easMongo.users.findOne({ _id: credential.userId });
+    if (!user)
+      throw new Error('user should not have been null');
+
+    if (!user.verified) {
+      // update the user if external user was verified
+      if (external.email_verified) {
+        user.verified = true;
+        await easMongo.users.replaceOne({ _id: user._id }, user);
+      }
+      else {
+        throw new UserNeedsEmailVerification();
+      }
+    }
+
+    if (!user.enabled) {
+      throw new UserIsDisabled();
     }
 
     const permissions = await easMongo.permissions.findOne({ _id: user._id });

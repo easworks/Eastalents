@@ -6,9 +6,17 @@ export class ProblemDetails {
   instance?: string;
   [key: string]: unknown;
 
-  static from(err: Error) {
+  static fromError(err: Error) {
     const pd = new ProblemDetails();
     pd.title = err.message || undefined;
+    return pd;
+  }
+
+  static fromObject(err: unknown) {
+    if (!this.isProblemDetails(err))
+      throw new Error('cannot create problem details - invalid structure');
+    const pd = new ProblemDetails();
+    Object.assign(pd, err);
     return pd;
   }
 
@@ -38,7 +46,7 @@ export class ErrorWithMetadata extends Error {
   }
 
   public toProblemDetails() {
-    const pd = ProblemDetails.from(this);
+    const pd = ProblemDetails.fromError(this);
     Object.assign(pd, this.metadata);
     return pd;
   }

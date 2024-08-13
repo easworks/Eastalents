@@ -1,5 +1,6 @@
+import { OAuthTokenSuccessResponse } from 'models/oauth';
 import { TypeOf, z } from 'zod';
-import { EXTERNAL_IDENTITY_PROVIDERS } from '../identity-provider';
+import { EXTERNAL_IDENTITY_PROVIDERS, ExternalIdpUser } from '../identity-provider';
 import { pattern } from '../pattern';
 import { oauthValidators } from './oauth';
 
@@ -11,43 +12,67 @@ const types = {
     .refine(value => !(value.startsWith('_') || value.endsWith('_')), `should not start or end with '_'`),
   email: z.string().trim().max(64).email(),
   password: z.string().min(8).max(64), // don't trim, because user may want space
-  role: z.enum(['talent', 'employer']),
-  externalIdp: z.enum(EXTERNAL_IDENTITY_PROVIDERS)
+  role: z.string().min(1).max(32),
+  externalIdp: z.enum(EXTERNAL_IDENTITY_PROVIDERS),
+  externalAccessToken: z.string().min(1).max(512)
 };
 
 const inputs = {
-  signup: {
-    email: z.strictObject({
-      firstName: types.firstName,
-      lastName: types.lastName,
-      username: types.username,
-      email: types.email,
-      role: types.role,
-      password: types.password,
-    }),
-    social: z.strictObject({
-      code: oauthValidators.grantCode.external,
-      idp: types.externalIdp,
-      role: types.role,
-      username: types.username
-    })
-  },
+  signup: z.strictObject({
+    firstName: types.firstName,
+    lastName: types.lastName,
+    username: types.username,
+    email: types.email,
+    role: types.role,
+    credentials: z.union([
+      z.strictObject({
+        provider: z.literal('email'),
+        password: types.password
+      }),
+      z.strictObject({
+        provider: types.externalIdp,
+        accessToken: types.externalAccessToken
+      })
+    ])
+  }),
   signin: {
     email: z.strictObject({
       email: types.email,
       password: types.password
-    }),
-    social: z.strictObject({
-      code: oauthValidators.grantCode.external,
+    })
+  },
+  social: {
+    codeExchange: z.strictObject({
       idp: types.externalIdp,
+      code: oauthValidators.grantCode.external,
+      redirect_uri: oauthValidators.redirect_uri
     })
   }
 };
 
 export const authValidators = { ...types, inputs } as const;
 
-export type EmailSignupInput = TypeOf<typeof inputs['signup']['email']>;
-export type SocialSignupInput = TypeOf<typeof inputs['signup']['social']>;
+export type SignUpInput = TypeOf<typeof inputs['signup']>;
 
 export type EmailSignInInput = TypeOf<typeof inputs['signin']['email']>;
-export type SocialSignInInput = TypeOf<typeof inputs['signin']['social']>;
+
+export type SocialOAuthCodeExchange = TypeOf<typeof inputs['social']['codeExchange']>;
+
+export type SocialOAuthCodeExchangeOutput =
+  {
+    result: 'sign-in',
+    data: OAuthTokenSuccessResponse;
+  } |
+  {
+    result: 'sign-up',
+    data: ExternalIdpUser;
+  };
+
+export type SignUpOutput =
+  {
+    action: 'sign-in',
+    data: OAuthTokenSuccessResponse,
+  } |
+  {
+    action: 'verify-email';
+  };
