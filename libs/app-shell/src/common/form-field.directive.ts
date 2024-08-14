@@ -1,6 +1,6 @@
 import { Directive, HostBinding, Input } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
-import { Observable, filter, shareReplay, startWith } from 'rxjs';
+import { filter, Observable, shareReplay, startWith } from 'rxjs';
 
 @Directive({
   standalone: true,

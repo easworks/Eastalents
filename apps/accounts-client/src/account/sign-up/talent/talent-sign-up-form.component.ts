@@ -27,7 +27,7 @@ import { pattern } from 'models/pattern';
 import { ProblemDetails } from 'models/problem-details';
 import { SoftwareProduct } from 'models/software';
 import type { SignUpInput, ValidateEmailExistsInput, ValidateUsernameExistsInput } from 'models/validators/auth';
-import { catchError, EMPTY, finalize, map, switchMap } from 'rxjs';
+import { catchError, EMPTY, finalize, map, switchMap, tap } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -160,28 +160,25 @@ export class TalentSignUpFormComponent {
     effect(() => {
       const stopEmit = { onlySelf: true, emitEvent: false };
       const prefill = this.socialPrefill$()?.externalUser as ExternalIdpUser | undefined;
+
       if (prefill) {
         form.controls.password.disable(stopEmit);
         form.controls.confirmPassword.disable(stopEmit);
 
-        form.reset({}, stopEmit);
-        form.patchValue({
+        form.reset({
           firstName: prefill.firstName,
           lastName: prefill.lastName,
           email: prefill.email,
           username: (`${prefill.firstName}_${prefill.lastName}`).toLowerCase()
-        }, stopEmit);
+        });
       }
       else {
         form.controls.password.enable(stopEmit);
         form.controls.confirmPassword.enable(stopEmit);
 
-        form.reset({}, stopEmit);
+        form.reset({});
       }
-
-      form.updateValueAndValidity();
-
-    });
+    }, { allowSignalWrites: true });
 
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
     const valid$ = computed(() => status$() === 'VALID');
@@ -297,10 +294,9 @@ export class TalentSignUpFormComponent {
     })();
 
     const submit = {
-      click: async (stepper: MatStepper) => {
+      click: (stepper: MatStepper) => {
         if (!valid$())
           return;
-        await sleep();
         stepper.next();
       },
       disabled$: computed(() => this.loading.any$() || !valid$()),
@@ -416,11 +412,9 @@ export class TalentSignUpFormComponent {
     })();
 
     const submit = {
-      click: async (stepper: MatStepper) => {
+      click: (stepper: MatStepper) => {
         if (!valid$())
           return;
-
-        await sleep(0);
         stepper.next();
       },
       disabled$: computed(() => this.loading.any$() || !valid$()),
@@ -490,7 +484,8 @@ export class TalentSignUpFormComponent {
       };
 
       const loading$ = this.loading.has('signing up');
-      const disabled$ = this.loading.any$;
+      const valid$ = computed(() => this.accountBasics.valid$() && this.domains.valid$() && this.software.valid$());
+      const disabled$ = computed(() => this.loading.any$() || !valid$());
 
       return {
         click,
