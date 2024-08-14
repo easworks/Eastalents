@@ -47,6 +47,11 @@ const inputs = {
       code: oauthValidators.grantCode.external,
       redirect_uri: oauthValidators.redirect_uri
     })
+  },
+  validate: {
+    usernameExists: z.strictObject({
+      username: types.username
+    })
   }
 };
 
@@ -76,3 +81,5 @@ export type SignUpOutput =
   {
     action: 'verify-email';
   };
+
+export type ValidateUsernameExistsInput = TypeOf<typeof inputs['validate']['usernameExists']>;

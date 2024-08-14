@@ -246,6 +246,16 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     }
   );
 
+  server.post('/validate/username-exists',
+    { schema: { body: authValidators.inputs.validate.usernameExists } },
+    async (req) => {
+      const { username } = req.body;
+      const user = await easMongo.users.findOne({ username });
+      if (user) return true;
+      else return false;
+    }
+  );
+
   async function trySignInExternalUser(external: ExternalIdpUser, idp: ExternalIdentityProviderType) {
 
     // look for an exact match by external user id

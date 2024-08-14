@@ -21,4 +21,9 @@ export class AuthApi extends EasworksApi {
     codeExchange: (input: SocialOAuthCodeExchange) =>
       this.http.post<SocialOAuthCodeExchangeOutput>(`${this.apiUrl}/auth/social/code-exchange`, input)
   };
+
+  readonly validate = {
+    usernameExists: (username: string) =>
+      this.http.post<boolean>(`${this.apiUrl}/auth/validate/username-exists`, { username })
+  };
 }
