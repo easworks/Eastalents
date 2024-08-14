@@ -1,5 +1,5 @@
 cdk-tree.auth-menu {
-  @apply grid gap-2 p-2;
+  @apply grid p-2;
 
   a {
     @apply p-2 px-4 flex gap-4 items-center rounded-lg
@@ -14,16 +14,16 @@ cdk-tree.auth-menu {
     }
 
     &.active {
-      @apply bg-primary-500 text-white;
+      @apply bg-primary-200  text-primary-600;
 
       fa-icon {
-        @apply text-white;
+        @apply text-primary-600;
       }
     }
   }
 
   div.children {
-    @apply pl-12 grid gap-2;
+    @apply grid;
 
     @apply invisible max-h-0 overflow-hidden;
   }
@@ -39,8 +39,16 @@ cdk-tree.auth-menu {
     }
 
     .expansion-indicator {
-      @apply rotate-180;
+      @apply -rotate-90;
     }
   }
 
+}
+
+.toggle-link .node-icon {
+  display: none; /* Hide the icon by default */
+}
+
+.toggle-link:hover .node-icon {
+  display: inline-block; /* Show the icon on hover */
 }
