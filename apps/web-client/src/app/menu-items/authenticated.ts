@@ -1,12 +1,12 @@
 import { AuthenticatedMenuItem, NOOP_CLICK } from '@easworks/app-shell/navigation/models';
 import { AUTH_CHECKS } from '@easworks/app-shell/state/auth';
-import { faBriefcase, faBuilding, faCalculator, faGaugeHigh, faIdBadge, faMicrochip, faQuestionCircle, faSquarePollVertical, faUser, faUserCheck, faUserGear, faUsers, faUserTie } from '@fortawesome/free-solid-svg-icons';
+import { faBriefcase, faBuilding, faCalculator, faGaugeHigh, faIdBadge, faMicrochip, faQuestionCircle, faRobot, faSearch, faSquarePollVertical, faUser, faUserCheck, faUserGear, faUsers, faUserTie } from '@fortawesome/free-solid-svg-icons';
 
-
+// TODO: change icon in this file
 export const authenticatedMenu: AuthenticatedMenuItem[] = [
   {
-    id: 'dashboard', text: 'Dashboard',
-    link: '/dashboard',
+    id: 'talent-overview', text: 'Talent Overview',
+    link: '/talent-overview',
     icon: faGaugeHigh,
     auth: AUTH_CHECKS.hasRole.any([
       'talent',
@@ -21,7 +21,7 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
     ])
   },
   {
-    id: 'talent-profile', text: 'Profile',
+    id: 'talent-profile', text: 'My Profile',
     link: '/talent/profile',
     icon: faUser,
     auth: AUTH_CHECKS.hasRole('talent')
@@ -34,8 +34,10 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
   },
 
   {
-    id: 'job-opportunity', text: 'Job Opportunity',
-    link: NOOP_CLICK,
+    id: 'find-jobs', text: 'Find Jobs',
+    link: '/find-jobs',
+    icon: faSearch,
+    auth: AUTH_CHECKS.hasRole('talent')
   },
   {
     id: 'gen-ai-vetting', text: 'AI Talent Vetting',
@@ -59,6 +61,14 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
     icon: faCalculator,
     auth: AUTH_CHECKS.hasRole('employer')
   },
+  {
+    id: 'skill-assessment', text: 'Skill Assessment',
+    link: '/skill-assessment',
+    icon: faRobot,
+    auth: AUTH_CHECKS.hasRole.any([
+      'talent',
+    ])
+  },
 
   {
     id: 'support-center', text: 'Support Center',
@@ -70,8 +80,8 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
     ])
   },
   {
-    id: 'spoc', text: 'Talent Success Manager',
-    link: '/spoc',
+    id: 'talent-success-manager', text: 'Talent Success Manager',
+    link: '/talent-success-manager',
     icon: faIdBadge,
     auth: AUTH_CHECKS.hasRole.any([
       'talent',
@@ -86,14 +96,6 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
     ])
   },
   
-  {
-    id: 'account', text: 'My Account',
-    link: '/account',
-    icon: faUserGear,
-    auth: AUTH_CHECKS.hasRole.any([
-      'talent',
-    ])
-  },
 
   {
     id: 'account-setting', text: 'Account Settings',
@@ -103,7 +105,7 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
   },
 
 
-  ...itemsForParent('job-opportunity', [
+  ...itemsForParent('find-jobs', [
     {
       id: 'all-jobs', text: 'All Jobs',
       link: '/job-post/list/available',

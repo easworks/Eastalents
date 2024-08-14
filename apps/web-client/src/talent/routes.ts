@@ -4,13 +4,22 @@ import { AUTH_CHECKS } from '@easworks/app-shell/state/auth';
 
 export const TALENT_ROUTES: Route[] = [
   {
-    path: 'dashboard',
+    path: 'talent-overview',
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
     data: {
       auth: AUTH_CHECKS.hasRole('talent')
     },
     loadComponent: () => import('./dashboard/dashboard.page').then(m => m.TalentDashboardComponent)
+  },
+  {
+    path: 'talent/profile',
+    pathMatch: 'full',
+    canMatch: [AuthGuardFn],
+    data: {
+      auth: AUTH_CHECKS.hasRole('talent')
+    },
+    loadComponent: () => import('./my-profile/my-profile.component').then(m => m.MyProfileComponent)
   },
   {
     path: 'dashboard2',
@@ -20,6 +29,44 @@ export const TALENT_ROUTES: Route[] = [
       auth: AUTH_CHECKS.hasRole('talent')
     },
     loadComponent: () => import('./dashboard2/dashboard.page').then(m => m.DashboardComponent)
+  },
+  {
+    path: 'skill-assessment',
+    pathMatch: 'full',
+    canMatch: [AuthGuardFn],
+    data: {
+      auth: AUTH_CHECKS.hasRole('talent')
+    },
+    loadComponent: () => import('./gen-ai-vitting/gen-ai-vatting.component').then(m => m.GenAiVattingComponent)
+  },
+  {
+    path: 'talent-success-manager',
+    pathMatch: 'full',
+    canMatch: [AuthGuardFn],
+    data: {
+      auth: AUTH_CHECKS.hasRole('talent')
+    },
+    loadComponent: () => import('./spoc/spoc.component').then(m => m.SpocComponent
+    )
+  },
+  {
+    path: 'support-center',
+    pathMatch: 'full',
+    canMatch: [AuthGuardFn],
+    data: {
+      auth: AUTH_CHECKS.hasRole('talent')
+    },
+    loadComponent: () => import('./contact-us/contact-us.component').then(m => m.ContactUsComponent
+    )
+  },
+  {
+    path: 'account-setting',
+    pathMatch: 'full',
+    canMatch: [AuthGuardFn],
+    data: {
+      auth: AUTH_CHECKS.hasRole('talent')
+    },
+    loadComponent: () => import('./my-account/my-account.component').then(m => m.MyAccountComponent)
   },
   // {
   //   path: 'gen-ai-vetting',
@@ -31,7 +78,7 @@ export const TALENT_ROUTES: Route[] = [
   //   loadComponent: () => import('./gen-ai-vitting/gen-ai-vatting.component').then(m => m.GenAiVattingComponent)
   // },
   // {
-  //   path: 'spoc',
+  //   path: 'support-center',
   //   pathMatch: 'full',
   //   canMatch: [AuthGuard.asFunction],
   //   data: {
