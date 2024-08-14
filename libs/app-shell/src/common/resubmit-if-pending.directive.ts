@@ -6,11 +6,11 @@ import { controlStatus$ } from './form-field.directive';
 
 @Directive({
   standalone: true,
-  selector: 'form[formGroup][resubmitIfPending]'
+  selector: '[resubmitIfPending][formGroup]'
 })
 export class ResubmitIfPendingDirective implements OnInit {
   private readonly dRef = inject(DestroyRef);
-  private readonly fgd = inject(FormGroupDirective)
+  private readonly fgd = inject(FormGroupDirective);
 
   private resubmissionSub?: Subscription;
 
@@ -26,6 +26,6 @@ export class ResubmitIfPendingDirective implements OnInit {
               takeUntilDestroyed(this.dRef))
             .subscribe(() => this.fgd.ngSubmit.emit());
         }
-      })
+      });
   }
 }

@@ -26,7 +26,7 @@ import { ExternalIdentityProviderType, ExternalIdpUser } from 'models/identity-p
 import { pattern } from 'models/pattern';
 import { ProblemDetails } from 'models/problem-details';
 import { SoftwareProduct } from 'models/software';
-import type { SignUpInput } from 'models/validators/auth';
+import type { SignUpInput, ValidateEmailExistsInput, ValidateUsernameExistsInput } from 'models/validators/auth';
 import { catchError, EMPTY, finalize, map, switchMap } from 'rxjs';
 
 @Component({
@@ -69,7 +69,9 @@ export class TalentSignUpFormComponent {
   } as const;
 
   private readonly loading = generateLoadingState<[
-    'signing up'
+    'signing up',
+    'validating username',
+    'validating email',
   ]>();
 
   protected readonly query$ = toSignal(this.route.queryParams, { requireSync: true });
@@ -85,7 +87,24 @@ export class TalentSignUpFormComponent {
     const form = new FormGroup({
       username: new FormControl('', {
         validators: [Validators.required],
-        nonNullable: true
+        nonNullable: true,
+        asyncValidators: [
+          c => {
+            this.loading.add('validating username');
+            const input: ValidateUsernameExistsInput = {
+              username: c.value
+            };
+            return this.api.auth.validate.usernameExists(input)
+              .pipe(
+                map(v => v ? { exists: true } : null),
+                catchError(e => {
+                  SnackbarComponent.forError(e);
+                  return [{ validationFailed: true }];
+                }),
+                finalize(() => this.loading.delete('validating username'))
+              );
+          }
+        ]
       }),
       firstName: new FormControl('', {
         validators: [Validators.required],
@@ -97,7 +116,24 @@ export class TalentSignUpFormComponent {
       }),
       email: new FormControl('', {
         validators: [Validators.required, Validators.email],
-        nonNullable: true
+        nonNullable: true,
+        asyncValidators: [
+          c => {
+            this.loading.add('validating email');
+            const input: ValidateEmailExistsInput = {
+              email: c.value
+            };
+            return this.api.auth.validate.emailExists(input)
+              .pipe(
+                map(v => v ? { exists: true } : null),
+                catchError(e => {
+                  SnackbarComponent.forError(e);
+                  return [{ validationFailed: true }];
+                }),
+                finalize(() => this.loading.delete('validating email'))
+              );
+          }
+        ]
       }),
       password: new FormControl('', {
         validators: [Validators.required, Validators.pattern(pattern.password)],
@@ -110,7 +146,8 @@ export class TalentSignUpFormComponent {
     }, {
       validators: [
         (c) => {
-          const isMatch = c.value.password === c.value.confirmPassword;
+          const { password, confirmPassword } = c.value;
+          const isMatch = password === confirmPassword;
           if (isMatch)
             return null;
           else
@@ -149,6 +186,11 @@ export class TalentSignUpFormComponent {
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
     const valid$ = computed(() => status$() === 'VALID');
 
+    const validating = {
+      username$: this.loading.has('validating username'),
+      email$: this.loading.has('validating email')
+    } as const;
+
     const submit = {
       click: async (stepper: MatStepper) => {
         if (!form.valid)
@@ -167,7 +209,8 @@ export class TalentSignUpFormComponent {
       submit,
       valid$,
       readOnly$,
-      showSocial$
+      showSocial$,
+      validating
     } as const;
 
   })();

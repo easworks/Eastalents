@@ -42,13 +42,26 @@
     <form *ngrxLet="accountBasics.form as form"
           [id]="accountBasics.formId"
           [formGroup]="form" class="mt-2"
-          (ngSubmit)="accountBasics.submit.click(stepper)">
+          (ngSubmit)="accountBasics.submit.click(stepper)"
+          resubmitIfPending>
 
       <div *ngrxLet="form.controls.username as control"
-           [formFieldControl]="control">
+           [formFieldControl]="control"
+           [class.show-spinner]="accountBasics.validating.username$()">
         <label>Username</label>
         <input type="text" [formControl]="control" placeholder="Username">
-        <span class="error" *ngIf="control.hasError('required')">Required</span>
+
+        @if(control.hasError('required')){
+        <span class="error">Required</span>
+        }
+
+        @if(control.hasError('exists')) {
+        <span class="error">Exists</span>
+        }
+
+        <mat-progress-spinner class="field-spinner right-3 top-8"
+                              mode="indeterminate" diameter="16"></mat-progress-spinner>
+
       </div>
 
       <div class="grid grid-flow-col gap-4">
@@ -68,19 +81,30 @@
       </div>
 
       <div *ngrxLet="form.controls.email as control"
-           [formFieldControl]="control">
+           [formFieldControl]="control"
+           [class.show-spinner]="accountBasics.validating.email$()">
         <label>Email</label>
         <input type="email" [formControl]="control" placeholder="Email Address"
                [readOnly]="accountBasics.readOnly$()">
-        <span class="error" *ngIf="control.hasError('required')">Required</span>
-        <span class="error" *ngIf="control.hasError('pattern')">Invalid email</span>
+        @if(control.hasError('required')) {
+        <span class="error">Required</span>
+        }
+        @if(control.hasError('email')) {
+        <span class="error">Invalid email</span>
+        }
+        @if(control.hasError('exists')) {
+        <span class="error">Exists</span>
+        }
+
+        <mat-progress-spinner class="field-spinner right-3 top-8"
+                              mode="indeterminate" diameter="16"></mat-progress-spinner>
       </div>
 
       @if (form.controls.password.enabled) {
       <div *ngrxLet="form.controls.password as control"
            [formFieldControl]="control" class="mb-12">
         <label>Password</label>
-        <input type="password" [formControl]="control"
+        <input type="password" [formControl]="control" [crossValidate]="['passwordMismatch']"
                placeholder="Enter your Password">
         <span class="error" *ngIf="control.hasError('required')">Required</span>
         <span class="error" *ngIf="control.hasError('pattern')">Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character</span>
@@ -91,7 +115,7 @@
       <div *ngrxLet="form.controls.confirmPassword as control"
            [formFieldControl]="control">
         <label>Confirm Password</label>
-        <input type="password" [formControl]="control"
+        <input type="password" [formControl]="control" [crossValidate]="['passwordMismatch']"
                placeholder="Confirm your Password">
         <span class="error" *ngIf="control.hasError('required')">Required</span>
         <span class="error" *ngIf="control.hasError('passwordMismatch')">Passwords do not match</span>
