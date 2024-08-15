@@ -5,6 +5,8 @@ import { CACHE } from '../common/cache';
 import { sleep } from '../utilities/sleep';
 import { sortString } from '../utilities/sort';
 
+// TODO: remove this file
+
 const ONE_HOUR_MS = 60 * 60 * 1000;
 
 @Injectable({
