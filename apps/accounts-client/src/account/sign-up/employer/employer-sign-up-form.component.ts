@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, HostBinding, inject, signal, untracked, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, HostBinding, inject, signal, untracked, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -197,6 +197,34 @@ export class EmployerSignUpFormComponent {
         }
       ],
     });
+
+    effect(() => {
+      const stopEmit = { onlySelf: true, emitEvent: false };
+      const canUse = this.prefill.canUse$();
+      const externalUser = this.prefill.routeInfo$()?.externalUser;
+
+      if (canUse) {
+        form.controls.password.disable(stopEmit);
+        form.controls.confirmPassword.disable(stopEmit);
+      }
+      else {
+        form.controls.password.enable(stopEmit);
+        form.controls.confirmPassword.enable(stopEmit);
+      }
+
+      if (externalUser) {
+        form.reset({
+          firstName: externalUser.firstName,
+          lastName: externalUser.lastName,
+          email: externalUser.email,
+          username: externalUser.firstName.toLowerCase()
+        });
+      }
+      else {
+        form.reset({});
+      }
+    }, { allowSignalWrites: true });
+
     const status$ = toSignal(controlStatus$(form), { requireSync: true });
     const valid$ = computed(() => status$() === 'VALID');
 
@@ -459,7 +487,7 @@ export class EmployerSignUpFormComponent {
         const prefill = this.prefill.canUse$() && this.prefill.routeInfo$();
 
         const input: SignUpInput = {
-          username: fv.username,
+          username: '@' + fv.username,
           firstName: fv.firstName,
           lastName: fv.lastName,
           email: fv.email,
