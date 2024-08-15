@@ -50,14 +50,19 @@
            [formFieldControl]="control"
            [class.show-spinner]="accountBasics.validating.username$()">
         <label>Username</label>
-        <input type="text" [formControl]="control" placeholder="Username">
+        <div class="absolute top-6 grid place-content-center h-8 w-8
+          text-gray-500 font-bold">
+          &#64;
+        </div>
+        <input type="text" [formControl]="control" placeholder="Username"
+               class="!pl-6">
 
         @if(control.hasError('required')){
         <span class="error">Required</span>
         }
 
-        @if(control.hasError('pattern')){
-        <span class="error">Invalid username</span>
+        @if(control.hasError('zod')){
+        <span class="error">{{control.errors?.['zod']}}</span>
         }
 
         @if(control.hasError('exists')) {

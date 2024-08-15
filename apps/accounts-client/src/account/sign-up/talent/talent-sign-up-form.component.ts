@@ -16,6 +16,7 @@ import { domainData } from '@easworks/app-shell/state/domain-data';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { sortString } from '@easworks/app-shell/utilities/sort';
+import { zodValidator } from '@easworks/app-shell/validators/zod';
 import { faGithub, faGoogle, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 import { faCheck, faCircleCheck, faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
@@ -103,19 +104,30 @@ export class TalentSignUpFormComponent {
 
     const validators = {
       username: {
-        pattern: (control: AbstractControl) => {
-          const result = username.safeParse(control.value);
-          if (result.success)
-            return null;
-          else
-            return { pattern: result.error.message };
-        },
+        pattern: zodValidator(
+          username.plain,
+          undefined, err => {
+            const issue = err.issues[0];
+            switch (issue.code) {
+              case 'too_small': return `min. ${issue.minimum} characters`;
+              case 'too_big': return `max. ${issue.maximum} characters`;
+              case 'invalid_string': return `Allowed characters: 'a-z', '0-9' and '_'`;
+              case 'custom':
+                switch (issue.message) {
+                  case 'no-underscore-at-start': return 'Cannot have underscore at start';
+                  case 'no-underscore-at-end': return 'Cannot have underscore at end';
+                  case 'no-consecutive-underscores': return 'Cannot have consecutive underscores';
+                }
+                return issue.message;
+            }
+            return issue.code;
+          }),
         exists: (control: AbstractControl) => of(control.value).pipe(
           delay(500),
           tap(() => this.loading.add('validating username exists')),
           switchMap(value => {
             const input: ValidateUsernameExistsInput = {
-              username: value
+              username: '@' + value
             };
             return this.api.auth.validate.usernameExists(input);
           }),
@@ -207,7 +219,7 @@ export class TalentSignUpFormComponent {
           firstName: externalUser.firstName,
           lastName: externalUser.lastName,
           email: externalUser.email,
-          username: (`@${externalUser.firstName}`).toLowerCase()
+          username: externalUser.firstName.toLowerCase()
         });
       }
       else {

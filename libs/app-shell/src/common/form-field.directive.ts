@@ -1,4 +1,4 @@
-import { Directive, HostBinding, Input } from '@angular/core';
+import { Directive, HostBinding, input } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { filter, Observable, shareReplay, startWith } from 'rxjs';
 
@@ -7,14 +7,15 @@ import { filter, Observable, shareReplay, startWith } from 'rxjs';
   selector: '[formFieldControl]',
 })
 export class FormFieldDirective {
-  @Input({ required: true, alias: 'formFieldControl' }) public control!: FormControl | FormGroup;
+  public readonly control$ = input.required<FormGroup | FormControl>({ alias: 'formFieldControl' });
 
   @HostBinding() private get class() {
     return [
       'form-field',
-      this.control.invalid ? 'invalid' : '',
-      this.control.dirty ? 'dirty' : '',
-      this.control.disabled ? 'disabled' : ''
+      this.control$().invalid ? 'invalid' : '',
+      this.control$().dirty ? 'dirty' : '',
+      this.control$().disabled ? 'disabled' : '',
+      this.control$().touched ? 'touched' : ''
     ];
   }
 }

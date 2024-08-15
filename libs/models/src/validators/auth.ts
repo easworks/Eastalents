@@ -18,7 +18,7 @@ const inputs = {
   signup: z.strictObject({
     firstName: types.firstName,
     lastName: types.lastName,
-    username: username,
+    username: username.prefixed,
     email: types.email,
     role: types.role,
     credentials: z.union([
@@ -46,7 +46,9 @@ const inputs = {
     })
   },
   validate: {
-    usernameExists: z.strictObject({ username }),
+    usernameExists: z.strictObject({
+      username: username.prefixed
+    }),
     emailExists: z.strictObject({
       email: types.email
     })

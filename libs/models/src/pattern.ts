@@ -16,5 +16,8 @@ export const pattern = {
   },
   base64: {
     urlSafe: /^[A-Za-z0-9_-]+$/
-  }
+  },
+  username: {
+    plain: /^[a-z0-9_]+$/
+  },
 } as const; 
