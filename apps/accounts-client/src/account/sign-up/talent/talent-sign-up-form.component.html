@@ -6,7 +6,7 @@
 
 <mat-stepper orientation="vertical" linear #stepper>
   <mat-step label="Account Basics" [completed]="accountBasics.valid$()">
-    @if (accountBasics.showSocial$()) {
+    @if (!prefill.canUse$()) {
     <p class="mt-2 text-sm text-center">
       SIGN UP WITH
     </p>
@@ -33,8 +33,9 @@
       <mat-divider class="w-full"></mat-divider>
     </div>
     }
-    @else {
-    <p class="mt-2 mb-4 rounded-md flex gap-2 bg-green-100 p-2 text-sm border-green-500 text-green-600 border-2 items-start">
+
+    @if(prefill.routeInfo$()) {
+    <p class="mt-2 mb-4 rounded-md flex gap-2 bg-green-50 p-2 text-sm border-green-500 text-green-600 border-2 items-start">
       We used your social account to pre-fill the information
     </p>
     }
@@ -42,7 +43,7 @@
     <form *ngrxLet="accountBasics.form as form"
           [id]="accountBasics.formId"
           [formGroup]="form" class="mt-2"
-          (ngSubmit)="accountBasics.submit.click(stepper)"
+          (ngSubmit)="accountBasics.submit.click()"
           resubmitIfPending>
 
       <div *ngrxLet="form.controls.username as control"
@@ -53,6 +54,10 @@
 
         @if(control.hasError('required')){
         <span class="error">Required</span>
+        }
+
+        @if(control.hasError('pattern')){
+        <span class="error">Invalid username</span>
         }
 
         @if(control.hasError('exists')) {
@@ -85,7 +90,7 @@
            [class.show-spinner]="accountBasics.validating.email$()">
         <label>Email</label>
         <input type="email" [formControl]="control" placeholder="Email Address"
-               [readOnly]="accountBasics.readOnly$()">
+               [readOnly]="prefill.canUse$()">
         @if(control.hasError('required')) {
         <span class="error">Required</span>
         }
@@ -176,7 +181,7 @@
 
     <button type="button" class="mt-4 stroked-button" mat-ripple
             [disabled]="domains.submit.disabled$()"
-            (click)="domains.submit.click(stepper)">
+            (click)="domains.submit.click()">
       Next
     </button>
   </mat-step>
@@ -225,7 +230,7 @@
 
     <button type="button" class="mt-4 stroked-button" mat-ripple
             [disabled]="software.submit.disabled$()"
-            (click)="software.submit.click(stepper)">
+            (click)="software.submit.click()">
       Next
     </button>
 
@@ -251,7 +256,7 @@
 
     <p class="mt-4 text-center">
       Already have an an account?
-      <a routerLink="/sign-in" [queryParams]="query$()" [info]="socialPrefill$()" class="font-medium">Sign In</a>
+      <a routerLink="/sign-in" [queryParams]="query$()" [info]="prefill.routeInfo$()" class="font-medium">Sign In</a>
     </p>
 
   </mat-step>

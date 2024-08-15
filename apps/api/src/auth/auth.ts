@@ -9,7 +9,7 @@ import { SignupEmailInUse, SignupRequiresWorkEmail, SignupRoleIsInvalid, UserEma
 import { setTypeVersion } from 'server-side/mongodb/collections';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 import { easMongo } from '../mongodb';
-import { createCredentialFromExternalUser, FreeEmailProviderCache, getExternalUserForSignup, isFreeEmail, jwtUtils, oauthUtils, passwordUtils, sendVerificationEmail } from './utils';
+import { createCredentialFromExternalUser, ExternalUserTransfer, FreeEmailProviderCache, getExternalUserForSignup, isFreeEmail, jwtUtils, oauthUtils, passwordUtils, sendVerificationEmail } from './utils';
 
 export const authHandlers: FastifyZodPluginAsync = async server => {
 
@@ -25,22 +25,27 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       let externalUser: ExternalIdpUser | undefined;
       if (input.credentials.provider !== 'email') {
-        externalUser = await getExternalUserForSignup[input.credentials.provider]
-          .withToken(input.credentials.accessToken);
+        externalUser = ExternalUserTransfer.fromToken(input.credentials.provider, input.credentials.token);
 
-        // get token if user already exists
-        const tokenResponse = await trySignInExternalUser(externalUser, input.credentials.provider)
-          .catch(e => {
-            if (e instanceof UserEmailNotRegistered)
-              return null;
-            throw e;
-          });
-
-        if (tokenResponse)
+        try {
+          // get token if user already exists
+          const tokenResponse = await trySignInExternalUser(externalUser, input.credentials.provider);
           return {
             action: 'sign-in',
             data: tokenResponse
           } satisfies SignUpOutput;
+        }
+        catch (e) {
+          if (e instanceof UserEmailNotRegistered) undefined;
+
+          else if (e instanceof UserNeedsEmailVerification)
+            return {
+              action: 'verify-email',
+              domain: e.domain
+            } satisfies SignUpOutput;
+
+          else throw e;
+        }
       }
 
       // validate email
@@ -125,9 +130,11 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       if (!user.verified) {
         // send verification link
         await sendVerificationEmail(user);
+        const domain = new UserNeedsEmailVerification(user).domain;
 
         return {
-          action: 'verify-email'
+          action: 'verify-email',
+          domain
         } satisfies SignUpOutput;
       }
       else {
@@ -175,7 +182,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       if (!user.verified) {
         await sendVerificationEmail(user);
-        throw new UserNeedsEmailVerification();
+        throw new UserNeedsEmailVerification(user);
       }
 
       if (!user.enabled) {
@@ -209,25 +216,28 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       const externalUser = await getExternalUserForSignup[input.idp]
         .withCode(input.code, input.redirect_uri);
 
-      // get token if user already exists
-      const tokenResponse = await trySignInExternalUser(externalUser, input.idp)
-        .catch(e => {
-          if (e instanceof UserEmailNotRegistered)
-            return null;
-          throw e;
-        });
-
-      if (tokenResponse) {
+      try {
+        // get token if user already exists
+        const tokenResponse = await trySignInExternalUser(externalUser, input.idp);
         return {
-          result: 'sign-in',
+          action: 'sign-in',
           data: tokenResponse
         } satisfies SocialOAuthCodeExchangeOutput;
       }
-      else {
-        return {
-          result: 'sign-up',
-          data: externalUser,
-        } satisfies SocialOAuthCodeExchangeOutput;
+      catch (e) {
+        if (e instanceof UserEmailNotRegistered)
+          return {
+            action: 'sign-up',
+            data: ExternalUserTransfer.toToken(input.idp, externalUser)
+          } satisfies SocialOAuthCodeExchangeOutput;
+
+        else if (e instanceof UserNeedsEmailVerification)
+          return {
+            action: 'verify-email',
+            domain: e.domain
+          } satisfies SocialOAuthCodeExchangeOutput;
+
+        else throw e;
       }
     }
   );
@@ -298,8 +308,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
           id: external.providerId,
           email: external.email,
         },
-        userId,
-        credential: external.credential
+        userId
       };
       await easMongo.userCredentials.insertOne(credential);
     }
@@ -315,7 +324,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
         await easMongo.users.replaceOne({ _id: user._id }, user);
       }
       else {
-        throw new UserNeedsEmailVerification();
+        throw new UserNeedsEmailVerification(user);
       }
     }
 

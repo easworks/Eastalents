@@ -38,5 +38,5 @@ export interface ExternalIdpUser {
   imageUrl: string;
 
   providerId: string;
-  credential: string;
+  credential?: string;
 }

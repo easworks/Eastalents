@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { ExternalIdentityProviderType } from 'models/identity-provider';
 import { OAuthAuthorizeErrorType, OAuthTokenErrorType } from 'models/oauth';
+import { User } from 'models/user';
 import { ZodError } from 'zod';
 import { ApiError } from './utils';
 
@@ -102,9 +103,11 @@ export class UserNeedsPasswordReset extends ApiError {
 }
 
 export class UserNeedsEmailVerification extends ApiError {
-  constructor() {
+  constructor(readonly user: User) {
     super('user-needs-email-verification', StatusCodes.BAD_REQUEST);
+    this.withMetadata('domain', this.domain);
   }
+  readonly domain = this.user.email.split('@')[1];
 }
 
 export class UserIsDisabled extends ApiError {

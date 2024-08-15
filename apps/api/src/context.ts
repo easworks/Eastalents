@@ -55,7 +55,7 @@ async function mapTokenToCloudUser(token: string) {
     throw new UserIsDisabled();
 
   if (!user.verified)
-    throw new UserNeedsEmailVerification();
+    throw new UserNeedsEmailVerification(user);
 
   const permissionRecord = await easMongo.permissions.findOne({ _id: user._id });
   if (!permissionRecord)

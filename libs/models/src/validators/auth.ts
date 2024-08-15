@@ -1,27 +1,24 @@
 import { OAuthTokenSuccessResponse } from 'models/oauth';
 import { TypeOf, z } from 'zod';
-import { EXTERNAL_IDENTITY_PROVIDERS, ExternalIdpUser } from '../identity-provider';
-import { pattern } from '../pattern';
+import { EXTERNAL_IDENTITY_PROVIDERS } from '../identity-provider';
+import { username } from './common';
 import { oauthValidators } from './oauth';
 
 const types = {
   firstName: z.string().trim().min(1).max(24),
   lastName: z.string().trim().min(1).max(24),
-  username: z.string().trim().min(1).max(24)
-    .regex(pattern.username)
-    .refine(value => !(value.startsWith('_') || value.endsWith('_')), `should not start or end with '_'`),
   email: z.string().trim().max(64).email(),
   password: z.string().min(8).max(64), // don't trim, because user may want space
   role: z.string().min(1).max(32),
   externalIdp: z.enum(EXTERNAL_IDENTITY_PROVIDERS),
-  externalAccessToken: z.string().min(1).max(512)
+  externalUserStateToken: z.string().min(1).max(2048)
 };
 
 const inputs = {
   signup: z.strictObject({
     firstName: types.firstName,
     lastName: types.lastName,
-    username: types.username,
+    username: username,
     email: types.email,
     role: types.role,
     credentials: z.union([
@@ -31,7 +28,7 @@ const inputs = {
       }),
       z.strictObject({
         provider: types.externalIdp,
-        accessToken: types.externalAccessToken
+        token: types.externalUserStateToken
       })
     ])
   }),
@@ -49,9 +46,7 @@ const inputs = {
     })
   },
   validate: {
-    usernameExists: z.strictObject({
-      username: types.username
-    }),
+    usernameExists: z.strictObject({ username }),
     emailExists: z.strictObject({
       email: types.email
     })
@@ -68,12 +63,16 @@ export type SocialOAuthCodeExchange = TypeOf<typeof inputs['social']['codeExchan
 
 export type SocialOAuthCodeExchangeOutput =
   {
-    result: 'sign-in',
+    action: 'sign-in',
     data: OAuthTokenSuccessResponse;
   } |
   {
-    result: 'sign-up',
-    data: ExternalIdpUser;
+    action: 'sign-up',
+    data: string;
+  } |
+  {
+    action: 'verify-email';
+    domain: string;
   };
 
 export type SignUpOutput =
@@ -83,6 +82,7 @@ export type SignUpOutput =
   } |
   {
     action: 'verify-email';
+    domain: string;
   };
 
 export type ValidateUsernameExistsInput = TypeOf<typeof inputs['validate']['usernameExists']>;
