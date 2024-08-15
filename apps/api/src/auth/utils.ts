@@ -289,11 +289,12 @@ class GithubUtils {
 }
 
 export class ExternalUserTransfer {
-  public static toToken(provider: ExternalIdentityProviderType, externalUser: ExternalIdpUser) {
+  public static async toToken(provider: ExternalIdentityProviderType, externalUser: ExternalIdpUser) {
     const payload = {
       type: 'state:ExternalIdpUser',
       provider,
-      externalUser
+      externalUser,
+      isFreeEmail: await isFreeEmail(externalUser.email)
     };
 
     const { privateKey, issuer } = environment.jwt;

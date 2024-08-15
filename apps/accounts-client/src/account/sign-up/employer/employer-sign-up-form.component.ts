@@ -27,7 +27,7 @@ import { ExternalIdentityProviderType, ExternalIdpUser } from 'models/identity-p
 import { pattern } from 'models/pattern';
 import { ProblemDetails } from 'models/problem-details';
 import { SoftwareProduct } from 'models/software';
-import type { SignUpInput, ValidateEmailExistsInput, ValidateUsernameExistsInput } from 'models/validators/auth';
+import type { SignUpInput, ValidateEmailInput, ValidateUsernameInput } from 'models/validators/auth';
 import { username } from 'models/validators/common';
 import { catchError, delay, EMPTY, finalize, map, of, switchMap, tap } from 'rxjs';
 
@@ -73,6 +73,7 @@ export class EmployerSignUpFormComponent {
     'signing up',
     'validating username exists',
     'validating email exists',
+    'validating email is free',
   ]>();
 
 
@@ -85,9 +86,13 @@ export class EmployerSignUpFormComponent {
       idp: ExternalIdentityProviderType,
       externalUser: ExternalIdpUser,
       token: string;
+      isFreeEmail: boolean;
     } | null>(this.route.data.pipe(map(d => d['socialPrefill'])), { requireSync: true });
 
-    const canUse$ = computed(() => !!routeInfo$());
+    const canUse$ = computed(() => {
+      const info = routeInfo$();
+      return info && !info.isFreeEmail;
+    });
 
     return {
       routeInfo$,
@@ -124,7 +129,7 @@ export class EmployerSignUpFormComponent {
           delay(500),
           tap(() => this.loading.add('validating username exists')),
           switchMap(value => {
-            const input: ValidateUsernameExistsInput = {
+            const input: ValidateUsernameInput = {
               username: '@' + value
             };
             return this.api.auth.validate.usernameExists(input);
@@ -137,22 +142,46 @@ export class EmployerSignUpFormComponent {
           finalize(() => this.loading.delete('validating username exists'))
         )
       },
-      emailExists: (control: AbstractControl) => of(control.value).pipe(
-        delay(500),
-        tap(() => this.loading.add('validating email exists')),
-        switchMap(value => {
-          const input: ValidateEmailExistsInput = {
-            email: value
-          };
-          return this.api.auth.validate.emailExists(input);
-        }),
-        map(v => v ? { exists: true } : null),
-        catchError(e => {
-          SnackbarComponent.forError(this.snackbar, e);
-          return [{ validationFailed: true }];
-        }),
-        finalize(() => this.loading.delete('validating email exists'))
-      )
+      email: {
+        exists: (control: AbstractControl) => of(control.value).pipe(
+          delay(500),
+          tap(() => this.loading.add('validating email exists')),
+          switchMap(value => {
+            const input: ValidateEmailInput = {
+              email: value
+            };
+            return this.api.auth.validate.email.exists(input);
+          }),
+          map(v => v ? { exists: true } : null),
+          catchError(e => {
+            SnackbarComponent.forError(this.snackbar, e);
+            return [{ validationFailed: true }];
+          }),
+          finalize(() => this.loading.delete('validating email exists'))
+        ),
+        isFree: (control: AbstractControl) => of(control.value).pipe(
+          delay(500),
+          tap(() => this.loading.add('validating email is free')),
+          switchMap(value => {
+            const info = this.prefill.routeInfo$();
+            if (info) {
+              if (value === info.externalUser.email && info.isFreeEmail)
+                return [true];
+            }
+
+            const input: ValidateEmailInput = {
+              email: value
+            };
+            return this.api.auth.validate.email.isFree(input);
+          }),
+          map(v => v ? { isFree: true } : null),
+          catchError(e => {
+            SnackbarComponent.forError(this.snackbar, e);
+            return [{ validationFailed: true }];
+          }),
+          finalize(() => this.loading.delete('validating email is free'))
+        ),
+      }
     };
 
     const form = new FormGroup({
@@ -175,7 +204,7 @@ export class EmployerSignUpFormComponent {
       email: new FormControl('', {
         validators: [Validators.required, Validators.email],
         nonNullable: true,
-        asyncValidators: [validators.emailExists]
+        asyncValidators: [validators.email.exists, validators.email.isFree]
       }),
       password: new FormControl('', {
         validators: [Validators.required, Validators.pattern(pattern.password)],
@@ -201,7 +230,8 @@ export class EmployerSignUpFormComponent {
     effect(() => {
       const stopEmit = { onlySelf: true, emitEvent: false };
       const canUse = this.prefill.canUse$();
-      const externalUser = this.prefill.routeInfo$()?.externalUser;
+      const info = this.prefill.routeInfo$();
+      const externalUser = info?.externalUser;
 
       if (canUse) {
         form.controls.password.disable(stopEmit);
@@ -219,6 +249,10 @@ export class EmployerSignUpFormComponent {
           email: externalUser.email,
           username: externalUser.firstName.toLowerCase()
         });
+
+        if (info.isFreeEmail) {
+          form.controls.email.markAsTouched();
+        }
       }
       else {
         form.reset({});
@@ -230,7 +264,7 @@ export class EmployerSignUpFormComponent {
 
     const validating = {
       username$: this.loading.has('validating username exists'),
-      email$: this.loading.has('validating email exists')
+      email$: this.loading.has.any('validating email exists', 'validating email is free')
     } as const;
 
     const submit = {

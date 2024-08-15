@@ -27,7 +27,7 @@ import { ExternalIdentityProviderType, ExternalIdpUser } from 'models/identity-p
 import { pattern } from 'models/pattern';
 import { ProblemDetails } from 'models/problem-details';
 import { SoftwareProduct } from 'models/software';
-import { SignUpInput, ValidateEmailExistsInput, ValidateUsernameExistsInput } from 'models/validators/auth';
+import type { SignUpInput, ValidateEmailInput, ValidateUsernameInput } from 'models/validators/auth';
 import { username } from 'models/validators/common';
 import { catchError, delay, EMPTY, finalize, map, of, switchMap, tap } from 'rxjs';
 
@@ -124,7 +124,7 @@ export class TalentSignUpFormComponent {
           delay(500),
           tap(() => this.loading.add('validating username exists')),
           switchMap(value => {
-            const input: ValidateUsernameExistsInput = {
+            const input: ValidateUsernameInput = {
               username: '@' + value
             };
             return this.api.auth.validate.usernameExists(input);
@@ -141,10 +141,10 @@ export class TalentSignUpFormComponent {
         delay(500),
         tap(() => this.loading.add('validating email exists')),
         switchMap(value => {
-          const input: ValidateEmailExistsInput = {
+          const input: ValidateEmailInput = {
             email: value
           };
-          return this.api.auth.validate.emailExists(input);
+          return this.api.auth.validate.email.exists(input);
         }),
         map(v => v ? { exists: true } : null),
         catchError(e => {

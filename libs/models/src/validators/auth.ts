@@ -46,10 +46,10 @@ const inputs = {
     })
   },
   validate: {
-    usernameExists: z.strictObject({
+    username: z.strictObject({
       username: username.prefixed
     }),
-    emailExists: z.strictObject({
+    email: z.strictObject({
       email: types.email
     })
   }
@@ -87,5 +87,5 @@ export type SignUpOutput =
     domain: string;
   };
 
-export type ValidateUsernameExistsInput = TypeOf<typeof inputs['validate']['usernameExists']>;
-export type ValidateEmailExistsInput = TypeOf<typeof inputs['validate']['emailExists']>;
+export type ValidateUsernameInput = TypeOf<typeof inputs['validate']['username']>;
+export type ValidateEmailInput = TypeOf<typeof inputs['validate']['email']>;

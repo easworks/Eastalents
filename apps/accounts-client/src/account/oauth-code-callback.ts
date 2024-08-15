@@ -72,7 +72,8 @@ export const oauthCodeCallback: CanActivateFn = (snap) => {
             source: 'code-exchange',
             token,
             externalUser: payload.externalUser,
-            idp: query.state.idp
+            isFreeEmail: payload.isFreeEmail,
+            idp: query.state.idp,
           };
 
           return router.navigate([path], {

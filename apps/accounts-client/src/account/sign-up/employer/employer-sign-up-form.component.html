@@ -106,6 +106,9 @@
         @if(control.hasError('exists')) {
         <span class="error">Exists</span>
         }
+        @if(control.hasError('isFree')) {
+        <span class="error">Please use a work email</span>
+        }
 
         <mat-progress-spinner class="field-spinner right-3 top-8"
                               mode="indeterminate" diameter="16"></mat-progress-spinner>
