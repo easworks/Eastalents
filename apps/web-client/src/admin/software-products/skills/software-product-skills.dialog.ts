@@ -9,9 +9,9 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { faSquareXmark, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
+import { domainData, softwareProductActions } from 'app-shell/state/domain-data';
 import Fuse from 'fuse.js';
-import { TechGroup, TechSkill } from '../../models/tech-skill';
-import { adminData, softwareProductActions } from '../../state/admin-data';
+import { TechGroup, TechSkill } from 'models/software';
 
 interface SoftwareProductSkillsDialogData {
   product: string;
@@ -40,7 +40,7 @@ export class SoftwareProductSkillsDialogComponent implements OnInit {
   } as const;
 
   protected readonly product$ = (() => {
-    const map$ = this.store.selectSignal(adminData.selectors.softwareProduct.selectEntities);
+    const map$ = this.store.selectSignal(domainData.selectors.softwareProduct.selectEntities);
 
     return computed(() => {
       const product = map$()[this.data.product];
@@ -51,16 +51,16 @@ export class SoftwareProductSkillsDialogComponent implements OnInit {
   })();
 
   private readonly groups = (() => {
-    const map$ = this.store.selectSignal(adminData.selectors.techGroup.selectEntities);
-    const list$ = this.store.selectSignal(adminData.selectors.techGroup.selectAll);
+    const map$ = this.store.selectSignal(domainData.selectors.techGroup.selectEntities);
+    const list$ = this.store.selectSignal(domainData.selectors.techGroup.selectAll);
 
     return { map$, list$ };
   })();
 
 
   private readonly skills = (() => {
-    const map$ = this.store.selectSignal(adminData.selectors.techSkill.selectEntities);
-    const list$ = this.store.selectSignal(adminData.selectors.techSkill.selectAll);
+    const map$ = this.store.selectSignal(domainData.selectors.techSkill.selectEntities);
+    const list$ = this.store.selectSignal(domainData.selectors.techSkill.selectAll);
 
     return { map$, list$ };
   })();

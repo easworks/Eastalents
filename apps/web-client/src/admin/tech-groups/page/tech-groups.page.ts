@@ -9,10 +9,10 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { faCheck, faPlus, faRefresh } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
+import { domainData, techGroupActions } from 'app-shell/state/domain-data';
 import Fuse, { FuseResult } from 'fuse.js';
+import { TechSkill } from 'models/software';
 import { Subscription, map } from 'rxjs';
-import { TechSkill } from '../../models/tech-skill';
-import { adminData, techGroupActions } from '../../state/admin-data';
 
 @Component({
   standalone: true,
@@ -43,10 +43,10 @@ export class TechGroupsPageComponent {
     'updating tech group',
     'adding tech group',
   ]>();
-  private readonly groups$ = this.store.selectSignal(adminData.selectors.techGroup.selectAll);
+  private readonly groups$ = this.store.selectSignal(domainData.selectors.techGroup.selectAll);
 
   private readonly skills = (() => {
-    const list$ = this.store.selectSignal(adminData.selectors.techSkill.selectAll);
+    const list$ = this.store.selectSignal(domainData.selectors.techSkill.selectAll);
 
     const search$ = computed(() => new Fuse(list$(), {
       keys: ['name'],

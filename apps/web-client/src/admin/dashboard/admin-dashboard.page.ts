@@ -8,7 +8,7 @@ import { SnackbarComponent, SuccessSnackbarDefaults } from '@easworks/app-shell/
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { saveJSON } from '@easworks/app-shell/utilities/files';
 import { Store } from '@ngrx/store';
-import { adminData, adminDataActions } from '../state/admin-data';
+import { domainData, domainDataActions } from 'app-shell/state/domain-data';
 
 @Component({
   standalone: true,
@@ -43,8 +43,8 @@ export class AdminDashboardPageComponent {
       try {
         this.loading.add('uploading json');
         const dto = JSON.parse(await file.text());
-        this.store.dispatch(adminDataActions.updateState({ payload: dto }));
-        this.store.dispatch(adminDataActions.saveState());
+        this.store.dispatch(domainDataActions.updateState({ payload: dto }));
+        this.store.dispatch(domainDataActions.saveState());
         file$.set(null);
         this.snackbar.openFromComponent(SnackbarComponent, {
           ...SuccessSnackbarDefaults
@@ -73,7 +73,7 @@ export class AdminDashboardPageComponent {
     const click = async () => {
       try {
         this.loading.add('downloading json');
-        const dto$ = this.store.selectSignal(adminData.feature.selectDto);
+        const dto$ = this.store.selectSignal(domainData.feature.selectDto);
         await new Promise<void>(resolve => {
           saveJSON(dto$(), 'eas-admin-data.json');
           resolve();

@@ -11,11 +11,13 @@ export const pattern = {
     profile: /^(https:\/\/)?(www\.)?gitlab\.com\/[^/]+\/?$/
   },
   slug: /^[a-z0-9-]+$/,
-  username: /^[a-z0-9_]+$/,
   hex: {
     lowercase: /^[a-f0-9]+$/
   },
   base64: {
     urlSafe: /^[A-Za-z0-9_-]+$/
-  }
+  },
+  username: {
+    plain: /^[a-z0-9_]+$/
+  },
 } as const; 

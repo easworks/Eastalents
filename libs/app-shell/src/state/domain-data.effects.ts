@@ -1,29 +1,41 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { concatMap, from, map } from 'rxjs';
+import { concatMap, EMPTY, from, switchMap } from 'rxjs';
 import { AdminApi } from '../api/admin.api';
-import { AdminDataDTO } from '../models/admin-data';
-import { adminData, adminDataActions, softwareProductActions, techGroupActions, techSkillActions } from './admin-data';
+import { DomainsApi } from '../api/domains.api';
+import { isBrowser } from '../utilities/platform-type';
+import { domainData, domainDataActions, softwareProductActions, techGroupActions, techSkillActions } from './domain-data';
 
-export const adminDataEffects = {
+export const domainDataEffects = {
   loadFromApi: createEffect(
     () => {
-      const api = inject(AdminApi);
+      if (!isBrowser())
+        return EMPTY;
 
-      // const domainApi = inject(DomainsApi);
+      const api = inject(DomainsApi);
 
-      const data = Promise.all([
-        api.domains.read(),
-        api.softwareProducts.read(),
-        api.techSkills.read(),
-        api.techGroups.read(),
-      ]).then<AdminDataDTO>(results => ({
-        domains: results[0],
-        softwareProducts: results[1],
-        techSkills: results[2],
-        techGroups: results[3]
-      }));
+      return from(api.data())
+        .pipe(
+          switchMap(payload => [
+            domainDataActions.updateState({ payload: payload }),
+            domainDataActions.saveState()
+          ])
+        );
+
+
+
+      // const data = Promise.all([
+      //   api.domains.read(),
+      //   api.softwareProducts.read(),
+      //   api.techSkills.read(),
+      //   api.techGroups.read(),
+      // ]).then<DomainDataDTO>(results => ({
+      //   domains: results[0],
+      //   softwareProducts: results[1],
+      //   techSkills: results[2],
+      //   techGroups: results[3]
+      // }));
       // .then(async results => {
       //   const logger = new ExtractionLogger();
 
@@ -45,10 +57,10 @@ export const adminDataEffects = {
       //   return results;
       // });
 
-      return from(data)
-        .pipe(
-          map(payload => adminDataActions.updateState({ payload: payload }))
-        );
+      // return from(data)
+      //   .pipe(
+      //     map(payload => domainDataActions.updateState({ payload: payload }))
+      //   );
     },
     { functional: true }
   ),
@@ -59,11 +71,11 @@ export const adminDataEffects = {
       const actions$ = inject(Actions);
       const store = inject(Store);
 
-      const list$ = store.selectSignal(adminData.selectors.domains.selectAll);
+      const list$ = store.selectSignal(domainData.selectors.domains.selectAll);
 
       return actions$.pipe(
         ofType(
-          adminDataActions.saveState,
+          domainDataActions.saveState,
         ),
         concatMap(() => api.domains.write(list$()))
       );
@@ -77,11 +89,11 @@ export const adminDataEffects = {
       const actions$ = inject(Actions);
       const store = inject(Store);
 
-      const list$ = store.selectSignal(adminData.selectors.softwareProduct.selectAll);
+      const list$ = store.selectSignal(domainData.selectors.softwareProduct.selectAll);
 
       return actions$.pipe(
         ofType(
-          adminDataActions.saveState,
+          domainDataActions.saveState,
           softwareProductActions.add,
           softwareProductActions.update,
           softwareProductActions.updateSkills
@@ -98,11 +110,11 @@ export const adminDataEffects = {
       const actions$ = inject(Actions);
       const store = inject(Store);
 
-      const list$ = store.selectSignal(adminData.selectors.techSkill.selectAll);
+      const list$ = store.selectSignal(domainData.selectors.techSkill.selectAll);
 
       return actions$.pipe(
         ofType(
-          adminDataActions.saveState,
+          domainDataActions.saveState,
           techSkillActions.add,
           techSkillActions.update,
 
@@ -121,11 +133,11 @@ export const adminDataEffects = {
       const actions$ = inject(Actions);
       const store = inject(Store);
 
-      const list$ = store.selectSignal(adminData.selectors.techGroup.selectAll);
+      const list$ = store.selectSignal(domainData.selectors.techGroup.selectAll);
 
       return actions$.pipe(
         ofType(
-          adminDataActions.saveState,
+          domainDataActions.saveState,
           techGroupActions.add,
           techGroupActions.update,
 

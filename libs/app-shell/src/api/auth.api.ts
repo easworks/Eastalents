@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import type { OAuthTokenSuccessResponse } from 'models/oauth';
-import type { EmailSignInInput, SignUpInput, SignUpOutput, SocialOAuthCodeExchange, SocialOAuthCodeExchangeOutput } from 'models/validators/auth';
+import type { EmailSignInInput, SignUpInput, SignUpOutput, SocialOAuthCodeExchange, SocialOAuthCodeExchangeOutput, ValidateEmailExistsInput, ValidateUsernameExistsInput } from 'models/validators/auth';
 import { EasworksApi } from './easworks.api';
 
 @Injectable({
@@ -20,5 +20,12 @@ export class AuthApi extends EasworksApi {
   readonly social = {
     codeExchange: (input: SocialOAuthCodeExchange) =>
       this.http.post<SocialOAuthCodeExchangeOutput>(`${this.apiUrl}/auth/social/code-exchange`, input)
+  };
+
+  readonly validate = {
+    usernameExists: (input: ValidateUsernameExistsInput) =>
+      this.http.post<boolean>(`${this.apiUrl}/auth/validate/username-exists`, input),
+    emailExists: (input: ValidateEmailExistsInput) =>
+      this.http.post<boolean>(`${this.apiUrl}/auth/validate/email-exists`, input)
   };
 }

@@ -36,14 +36,18 @@ export class CrossValidationDirective implements OnInit {
         takeUntilDestroyed(this.dRef),
       )
       .subscribe(() => {
+        if (!this.control.enabled)
+          return;
+
         if (this.parent.valid) {
           if (!this.control.valid) {
             this.control.updateValueAndValidity();
           }
-          return;
+        }
+        else {
+          this.propagateErrors();
         }
 
-        this.propagateErrors();
       });
   }
 

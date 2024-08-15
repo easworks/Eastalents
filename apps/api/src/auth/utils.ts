@@ -73,14 +73,12 @@ export const jwtUtils = {
         roles: permissionRecord.roles
       };
 
-    const token = await new Promise<string>((resolve, reject) => {
-      jwt.sign(payload, privateKey, {
-        algorithm: 'RS256',
-        expiresIn,
-        jwtid: tokenRef._id,
-        issuer,
-        subject: payload._id,
-      }, (err, encoded) => err ? reject(err) : resolve(encoded as string));
+    const token = jwt.sign(payload, privateKey, {
+      algorithm: 'RS256',
+      expiresIn,
+      jwtid: tokenRef._id,
+      issuer,
+      subject: payload._id,
     });
     await easMongo.tokens.insertOne(tokenRef);
 
@@ -93,11 +91,7 @@ export const jwtUtils = {
   },
   validateToken: async (token: string) => {
     const { issuer, publicKey } = environment.jwt;
-    return await new Promise<JwtPayload>((resolve, reject) => {
-      jwt.verify(token, publicKey, { issuer },
-        (err, decoded) => err ? reject(err) : resolve(decoded as JwtPayload)
-      );
-    });
+    return jwt.verify(token, publicKey, { issuer }) as JwtPayload;
   }
 } as const;
 
@@ -126,101 +120,6 @@ export async function sendVerificationEmail(user: User) {
   // throw new Error(`email verification is not implemented : ${user.email}`);
 }
 
-export const getExternalUserForSignup = {
-  google: {
-    withCode: async (code: string, redirect_uri: string) => {
-      const accessToken = await externalUtils.google.getAccessToken(code, redirect_uri);
-      return getExternalUserForSignup.google.withToken(accessToken);
-    },
-    withToken: async (accessToken: string) => {
-      const profile = await externalUtils.google.getProfile(accessToken);
-
-      const externalUser: ExternalIdpUser = {
-        providerId: profile.id,
-        email: profile.email,
-        email_verified: profile.verified_email,
-        firstName: profile.given_name,
-        lastName: profile.family_name,
-        imageUrl: profile.picture,
-        credential: accessToken
-      };
-
-      return externalUser;
-    }
-  },
-  facebook: {
-    withCode: async (code: string, redirect_uri: string) => {
-      // TODO: implement
-      throw new Error(`getting user from facebook is not implemented`);
-      const accessToken = '';
-      return getExternalUserForSignup.facebook.withToken(accessToken);
-    },
-    withToken: async (accessToken: string) => {
-      // TODO: implement
-      throw new Error(`getting user from facebook is not implemented`);
-
-      const externalUser: ExternalIdpUser = {
-        email: 'email@email.facebook',
-        email_verified: false,
-        providerId: 'facebook-user-id',
-        firstName: 'firstName',
-        lastName: 'lastName',
-        imageUrl: 'facebook-profile-image-url',
-        credential: ''
-      };
-
-      return externalUser;
-    }
-  },
-  github: {
-    withCode: async (code: string, redirect_uri: string) => {
-      // TODO: implement
-      throw new Error(`getting user from github is not implemented`);
-      const accessToken = '';
-      return getExternalUserForSignup.github.withToken(accessToken);
-    },
-    withToken: async (accessToken: string) => {
-      // TODO: implement
-      throw new Error(`getting user from github is not implemented`);
-
-      const externalUser: ExternalIdpUser = {
-        email: 'email@email.facebook',
-        email_verified: false,
-        providerId: 'facebook-user-id',
-        firstName: 'firstName',
-        lastName: 'lastName',
-        imageUrl: 'facebook-profile-image-url',
-        credential: ''
-      };
-
-      return externalUser;
-    }
-  },
-  linkedin: {
-    withCode: async (code: string, redirect_uri: string) => {
-      // TODO: implement
-      throw new Error(`getting user from linkedin is not implemented`);
-      const accessToken = '';
-      return getExternalUserForSignup.github.withToken(accessToken);
-    },
-    withToken: async (accessToken: string) => {
-      // TODO: implement
-      throw new Error(`getting user from linkedin is not implemented`);
-
-      const externalUser: ExternalIdpUser = {
-        email: 'email@email.facebook',
-        email_verified: false,
-        providerId: 'facebook-user-id',
-        firstName: 'firstName',
-        lastName: 'lastName',
-        imageUrl: 'facebook-profile-image-url',
-        credential: ''
-      };
-
-      return externalUser;
-    }
-  },
-} as const;
 
 /**
  * 
@@ -271,57 +170,6 @@ export class FreeEmailProviderCache {
   }
 }
 
-const externalUtils = {
-  google: {
-    getAccessToken: async (code: string, redirect_uri: string) => {
-      const config = environment.oauth.google;
-
-      const params = new URLSearchParams();
-      params.set('client_id', config.id);
-      params.set('client_secret', config.secret);
-      params.set('grant_type', 'authorization_code');
-      params.set('redirect_uri', redirect_uri);
-      params.set('code', code);
-
-      const res = await fetch('https://oauth2.googleapis.com/token', {
-        method: 'POST',
-        body: params.toString(),
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded'
-        }
-      });
-
-      if (res.ok) {
-        const body = await res.json() as any;
-
-        return body.access_token as string;
-      }
-      else {
-        const body = await res.json();
-        throw new InvalidSocialOauthCode('google', body);
-      }
-    },
-    getProfile: async (accessToken: string) => {
-      const res = await fetch('https://www.googleapis.com/userinfo/v2/me', {
-        method: 'GET',
-        headers: {
-          'authorization': `Bearer ${accessToken}`
-        }
-      });
-
-      if (res.ok) {
-        const body = await res.json() as any;
-
-        return body;
-      }
-      else {
-        const body = await res.json();
-        throw new FailedSocialProfileRequest('google', body);
-      }
-    }
-  }
-} as const;
-
 export function createCredentialFromExternalUser(
   provider: ExternalIdentityProviderType,
   userId: IdpCredential['userId'],
@@ -330,7 +178,6 @@ export function createCredentialFromExternalUser(
   return {
     _id: new ObjectId().toString(),
     userId,
-    credential: externalUser.credential,
     provider: {
       type: provider,
       email: externalUser.email,
@@ -339,4 +186,139 @@ export function createCredentialFromExternalUser(
   };
 }
 
+class GoogleUtils {
 
+  public static readonly getExternalUser = {
+    withCode: async (code: string, redirect_uri: string) => {
+      const accessToken = await this.getAccessToken(code, redirect_uri);
+      return getExternalUserForSignup.google.withToken(accessToken);
+    },
+    withToken: async (accessToken: string) => {
+      const profile = await this.getProfile(accessToken);
+
+      const externalUser: ExternalIdpUser = {
+        providerId: profile.id,
+        email: profile.email,
+        email_verified: profile.verified_email,
+        firstName: profile.given_name,
+        lastName: profile.family_name,
+        imageUrl: profile.picture,
+      };
+
+      return externalUser;
+    }
+  } as const;
+
+  private static async getAccessToken(code: string, redirect_uri: string) {
+    const config = environment.oauth.google;
+
+    const params = new URLSearchParams();
+    params.set('client_id', config.id);
+    params.set('client_secret', config.secret);
+    params.set('grant_type', 'authorization_code');
+    params.set('redirect_uri', redirect_uri);
+    params.set('code', code);
+
+    const res = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      body: params.toString(),
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded'
+      }
+    });
+
+    if (res.ok) {
+      const body = await res.json() as any;
+
+      return body.access_token as string;
+    }
+    else {
+      const body = await res.json();
+      throw new InvalidSocialOauthCode('google', body);
+    }
+  }
+
+  private static async getProfile(accessToken: string) {
+    const res = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+      method: 'GET',
+      headers: {
+        'authorization': `Bearer ${accessToken}`
+      }
+    });
+
+    if (res.ok) {
+      const body = await res.json() as any;
+
+      return body;
+    }
+    else {
+      const body = await res.json();
+      throw new FailedSocialProfileRequest('google', body);
+    }
+  }
+}
+
+class LinkedinUtils {
+
+  public static readonly getExternalUser = {
+    withCode: async (code: string, redirect_uri: string) => {
+      throw new Error('not implemented');
+      return null as unknown as ExternalIdpUser;
+    },
+    withToken: async (accessToken: string) => {
+      throw new Error('not implemented');
+      return null as unknown as ExternalIdpUser;
+    }
+  } as const;
+
+}
+
+class GithubUtils {
+
+  public static readonly getExternalUser = {
+    withCode: async (code: string, redirect_uri: string) => {
+      throw new Error('not implemented');
+      return null as unknown as ExternalIdpUser;
+    },
+    withToken: async (accessToken: string) => {
+      throw new Error('not implemented');
+      return null as unknown as ExternalIdpUser;
+    }
+  } as const;
+
+}
+
+export class ExternalUserTransfer {
+  public static toToken(provider: ExternalIdentityProviderType, externalUser: ExternalIdpUser) {
+    const payload = {
+      type: 'state:ExternalIdpUser',
+      provider,
+      externalUser
+    };
+
+    const { privateKey, issuer } = environment.jwt;
+    const token = jwt.sign(payload, privateKey, {
+      algorithm: 'RS256',
+      issuer
+    });
+
+    return token;
+  }
+
+  public static fromToken(provider: ExternalIdentityProviderType, token: string) {
+    const { issuer, publicKey } = environment.jwt;
+    const payload = jwt.verify(token, publicKey, { issuer }) as JwtPayload;
+    if (payload['type'] !== 'state:ExternalIdpUser')
+      throw new Error('state token type mismatch');
+    if (payload['provider'] !== provider)
+      throw new Error('identity provider mismatch');
+
+    return payload['externalUser'] as ExternalIdpUser;
+  }
+}
+
+export const getExternalUserForSignup = {
+  google: GoogleUtils.getExternalUser,
+  linkedin: LinkedinUtils.getExternalUser,
+  github: GithubUtils.getExternalUser
+} as const;

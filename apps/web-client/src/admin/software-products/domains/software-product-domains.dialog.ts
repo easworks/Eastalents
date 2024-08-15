@@ -10,9 +10,9 @@ import { sortString } from '@easworks/app-shell/utilities/sort';
 import { faRemove, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import Fuse from 'fuse.js';
-import { Domain } from '../../models/domain';
-import { SoftwareProduct } from '../../models/tech-skill';
-import { adminData, softwareProductActions } from '../../state/admin-data';
+import { Domain } from 'models/domain';
+import { SoftwareProduct } from 'models/software';
+import { domainData, softwareProductActions } from 'app-shell/state/domain-data';
 
 interface SoftwareProductDomainsDialogData {
   product: string;
@@ -43,7 +43,7 @@ export class SoftwareProductDomainsDialogComponent implements OnInit {
 
 
   protected readonly product$ = (() => {
-    const map$ = this.store.selectSignal(adminData.selectors.softwareProduct.selectEntities);
+    const map$ = this.store.selectSignal(domainData.selectors.softwareProduct.selectEntities);
 
     return computed(() => {
       const product = map$()[this.data.product];
@@ -55,8 +55,8 @@ export class SoftwareProductDomainsDialogComponent implements OnInit {
 
 
   private readonly domains = (() => {
-    const map$ = this.store.selectSignal(adminData.selectors.domains.selectEntities);
-    const list$ = this.store.selectSignal(adminData.selectors.domains.selectAll);
+    const map$ = this.store.selectSignal(domainData.selectors.domains.selectEntities);
+    const list$ = this.store.selectSignal(domainData.selectors.domains.selectAll);
 
     return {
       map$,

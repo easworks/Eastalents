@@ -11,6 +11,8 @@ export const environment = {
   },
   authHost: parseEnv.authHost(),
   oauth: {
-    google: parseEnv.oauth.google()
+    google: parseEnv.oauth.google(),
+    linkedin: parseEnv.oauth.linkedin(),
+    github: parseEnv.oauth.github()
   }
 } as const satisfies Environment;

@@ -18,6 +18,14 @@ export interface Environment {
       id: string;
       secret: string;
     };
+    linkedin: {
+      id: string;
+      secret: string;
+    };
+    github: {
+      id: string;
+      secret: string;
+    };
   };
 
 }
@@ -38,15 +46,19 @@ export const parseEnv = {
     return { host, oauthHandler };
   },
   oauth: {
-    google: () => {
-      const id = process.env['GOOGLE_OAUTH_CLIENT_ID'];
+    google: () => parseEnv.oauth.forProvider('GOOGLE'),
+    linkedin: () => parseEnv.oauth.forProvider('LINKEDIN'),
+    github: () => parseEnv.oauth.forProvider('GITHUB'),
+    forProvider: (provider: string) => {
+      const idKey = `${provider}_OAUTH_CLIENT_ID`;
+      const id = process.env[idKey];
       if (!id)
-        throw new Error('google oauth client id not provided');
+        throw new Error(`${idKey} not provided`);
 
-      const secret = process.env['GOOGLE_OAUTH_CLIENT_SECRET'];
+      const secretKey = `${provider}_OAUTH_CLIENT_SECRET`;
+      const secret = process.env[secretKey];
       if (!secret)
-        throw new Error('google oauth client secret not provided');
-
+        throw new Error(`${secretKey} not provided`);
       return { id, secret } as const;
     }
   },

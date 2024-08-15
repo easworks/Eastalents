@@ -9,9 +9,9 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { faCheck, faPen, faPlus, faRefresh } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import Fuse from 'fuse.js';
+import { TechSkill } from 'models/software';
 import { Subscription, map } from 'rxjs';
-import { TechSkill } from '../../models/tech-skill';
-import { adminData, techSkillActions } from '../../state/admin-data';
+import { domainData, techSkillActions } from 'app-shell/state/domain-data';
 
 @Component({
   standalone: true,
@@ -43,7 +43,7 @@ export class TechSkillsPageComponent {
   ]>();
 
   private readonly skills = (() => {
-    const list$ = this.store.selectSignal(adminData.selectors.techSkill.selectAll);
+    const list$ = this.store.selectSignal(domainData.selectors.techSkill.selectAll);
 
     const search$ = computed(() => new Fuse(list$(), {
       keys: ['name'],
@@ -57,7 +57,7 @@ export class TechSkillsPageComponent {
     } as const;
   })();
 
-  private readonly techGroups$ = this.store.selectSignal(adminData.selectors.techGroup.selectEntities);
+  private readonly techGroups$ = this.store.selectSignal(domainData.selectors.techGroup.selectEntities);
 
   protected readonly search = (() => {
 

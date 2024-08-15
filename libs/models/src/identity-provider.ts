@@ -2,7 +2,6 @@ import { Entity } from './entity';
 
 export const EXTERNAL_IDENTITY_PROVIDERS = [
   'google',
-  'facebook',
   'github',
   'linkedin'
 ] as const;
@@ -39,5 +38,5 @@ export interface ExternalIdpUser {
   imageUrl: string;
 
   providerId: string;
-  credential: string;
+  credential?: string;
 }

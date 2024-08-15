@@ -7,12 +7,12 @@ import { FormImportsModule } from '@easworks/app-shell/common/form.imports.modul
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
-import { pattern } from 'models/pattern';
 import { faQuestionCircle, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import Fuse from 'fuse.js';
-import { TechSkill } from '../../models/tech-skill';
-import { adminData, techSkillActions } from '../../state/admin-data';
+import { pattern } from 'models/pattern';
+import { TechSkill } from 'models/software';
+import { domainData, techSkillActions } from 'app-shell/state/domain-data';
 
 interface CreateTechSkillDialogComponentData {
   created: (id: string) => void;
@@ -44,7 +44,7 @@ export class CreateTechSkillDialogComponent {
   ]>();
 
   private readonly skills = (() => {
-    const list$ = this.store.selectSignal(adminData.selectors.techSkill.selectAll);
+    const list$ = this.store.selectSignal(domainData.selectors.techSkill.selectAll);
     const ids$ = computed(() => new Set(list$().map(skill => skill.id)));
     const search$ = computed(() => new Fuse(list$(), {
       keys: ['name'],

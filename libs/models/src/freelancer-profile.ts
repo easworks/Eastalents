@@ -60,117 +60,117 @@ export const FREEELANCER_SIGNUP_REASON_OPTIONS = [
 export type FreelancerSignupReason = typeof FREEELANCER_SIGNUP_REASON_OPTIONS[number];
 
 export interface FreelancerProfile {
-  _id: string;
-  experience: {
-    domains: {
-      key: string;
-      years: number;
-      services: {
-        key: string;
-        years: number;
-      }[];
-      modules: string[];
-      products: {
-        key: string;
-        years: number;
-      }[];
-      roles: {
-        key: string;
-        years: number;
-      }[];
-    }[],
-    tech: JobPost['tech'];
-    industries: JobPost['industries'];
-  };
+  // _id: string;
+  // experience: {
+  //   domains: {
+  //     key: string;
+  //     years: number;
+  //     services: {
+  //       key: string;
+  //       years: number;
+  //     }[];
+  //     modules: string[];
+  //     products: {
+  //       key: string;
+  //       years: number;
+  //     }[];
+  //     roles: {
+  //       key: string;
+  //       years: number;
+  //     }[];
+  //   }[],
+  //   tech: JobPost['tech'];
+  //   industries: JobPost['industries'];
+  // };
 
-  workPreference: {
-    commitment: Commitment[];
-    rates: {
-      hourly: number | null;
-      monthly: number | null;
-      annually: number | null;
-    };
-    roles: {
-      domain: string;
-      roles: string[];
-    }[];
-    time: {
-      timezone: string;
-      start: string;
-      end: string;
-    },
-    searchStatus: JobSearchStatus;
-    interest: EmploymentOpportunity[];
-    availability: ProjectKickoffTimeline;
-  };
+  // workPreference: {
+  //   commitment: Commitment[];
+  //   rates: {
+  //     hourly: number | null;
+  //     monthly: number | null;
+  //     annually: number | null;
+  //   };
+  //   roles: {
+  //     domain: string;
+  //     roles: string[];
+  //   }[];
+  //   time: {
+  //     timezone: string;
+  //     start: string;
+  //     end: string;
+  //   },
+  //   searchStatus: JobSearchStatus;
+  //   interest: EmploymentOpportunity[];
+  //   availability: ProjectKickoffTimeline;
+  // };
 
-  personalDetails: {
-    firstName: string;
-    lastName: string;
-    image: string | null;
-    resume: string | null;
-    location: {
-      country: string;
-      state: string | null;
-      city: string | null;
-      timezone: string;
-    };
-    citizenship: string | null;
-    signupReason: FreelancerSignupReason | null;
-    contact: {
-      email: string;
-      phone: {
-        mobile: string | null;
-        whatsapp: string | null;
-        telegram: string | null;
-      };
-      address: {
-        line1: string;
-        line2: string | null;
-        country: string;
-        state: string | null;
-        city: string | null;
-        postalCode: string;
-      } | null;
-    };
-    social: {
-      linkedin: string | null;
-      github: string | null;
-      gitlab: string | null;
-    };
-    education: EducationHistory[];
-  };
+  // personalDetails: {
+  //   firstName: string;
+  //   lastName: string;
+  //   image: string | null;
+  //   resume: string | null;
+  //   location: {
+  //     country: string;
+  //     state: string | null;
+  //     city: string | null;
+  //     timezone: string;
+  //   };
+  //   citizenship: string | null;
+  //   signupReason: FreelancerSignupReason | null;
+  //   contact: {
+  //     email: string;
+  //     phone: {
+  //       mobile: string | null;
+  //       whatsapp: string | null;
+  //       telegram: string | null;
+  //     };
+  //     address: {
+  //       line1: string;
+  //       line2: string | null;
+  //       country: string;
+  //       state: string | null;
+  //       city: string | null;
+  //       postalCode: string;
+  //     } | null;
+  //   };
+  //   social: {
+  //     linkedin: string | null;
+  //     github: string | null;
+  //     gitlab: string | null;
+  //   };
+  //   education: EducationHistory[];
+  // };
 
-  professionalDetails: {
-    summary: string;
-    overallExperience: OverallExperience;
-    currentRole: string;
-    wasFreelancer: boolean;
-    englishProficiency: EnglishProficiency;
-    portfolio: string | null;
-    history: WorkHistory[];
-  };
+  // professionalDetails: {
+  //   summary: string;
+  //   overallExperience: OverallExperience;
+  //   currentRole: string;
+  //   wasFreelancer: boolean;
+  //   englishProficiency: EnglishProficiency;
+  //   portfolio: string | null;
+  //   history: WorkHistory[];
+  // };
 
-  // DISCUSS: for the profile completion, the value could be
-  // 1. decimals between 0 and 1 (inclusive), OR
-  // 2. integers between 0 and 100 (inclusive)
-  // whatever choice is made, it must be applied to all
-  // mixing is not allowed
-  profileCompletion: {
-    overall: number;
-    summary: number;
-    easExperience: number;
-    easSystemPhases: number;
-    jobRole: number;
-    experience: number;
-    techStacks: number;
-    jobSearchStatus: number;
-    rates: number;
-    about: number;
-    social: number;
-    wsa: number;
-    completed: boolean;
-  };
+  // // DISCUSS: for the profile completion, the value could be
+  // // 1. decimals between 0 and 1 (inclusive), OR
+  // // 2. integers between 0 and 100 (inclusive)
+  // // whatever choice is made, it must be applied to all
+  // // mixing is not allowed
+  // profileCompletion: {
+  //   overall: number;
+  //   summary: number;
+  //   easExperience: number;
+  //   easSystemPhases: number;
+  //   jobRole: number;
+  //   experience: number;
+  //   techStacks: number;
+  //   jobSearchStatus: number;
+  //   rates: number;
+  //   about: number;
+  //   social: number;
+  //   wsa: number;
+  //   completed: boolean;
+  // };
 }
 
 export interface WorkHistory {

@@ -7,11 +7,11 @@ import { FormImportsModule } from '@easworks/app-shell/common/form.imports.modul
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
-import { pattern } from 'models/pattern';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { TechGroup } from '../../models/tech-skill';
-import { adminData, techGroupActions } from '../../state/admin-data';
+import { domainData, techGroupActions } from 'app-shell/state/domain-data';
+import { pattern } from 'models/pattern';
+import { TechGroup } from 'models/software';
 
 @Component({
   standalone: true,
@@ -38,7 +38,7 @@ export class CreateTechGroupDialogComponent {
     'creating tech group'
   ]>();
 
-  private readonly list$ = this.store.selectSignal(adminData.selectors.techGroup.selectAll);
+  private readonly list$ = this.store.selectSignal(domainData.selectors.techGroup.selectAll);
   private readonly ids$ = computed(() => new Set(this.list$().map(group => group.id)));
 
   protected readonly formId = 'create-tech-group-form';

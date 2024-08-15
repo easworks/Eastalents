@@ -2,14 +2,14 @@ import { sortString } from '@easworks/app-shell/utilities/sort';
 import { createEntityAdapter } from '@ngrx/entity';
 import { createActionGroup, createFeature, createReducer, createSelector, emptyProps, on, props } from '@ngrx/store';
 import { produce } from 'immer';
-import { AdminDataDTO, AdminDataState } from '../models/admin-data';
-import { Domain } from '../models/domain';
-import { SoftwareProduct, TechGroup, TechSkill } from '../models/tech-skill';
+import { Domain } from 'models/domain';
+import { SoftwareProduct, TechGroup, TechSkill } from 'models/software';
+import { DomainDataDTO, DomainDataState } from 'models/domain';
 
-export const adminDataActions = createActionGroup({
+export const domainDataActions = createActionGroup({
   source: 'admin-data',
   events: {
-    'update state': props<{ payload: AdminDataDTO; }>(),
+    'update state': props<{ payload: DomainDataDTO; }>(),
     'save state': emptyProps()
   }
 });
@@ -71,8 +71,8 @@ const adapters = {
 } as const;
 
 const feature = createFeature({
-  name: 'adminData',
-  reducer: createReducer<AdminDataState>(
+  name: 'domainData',
+  reducer: createReducer<DomainDataState>(
     {
       domains: adapters.domain.getInitialState(),
       techSkills: adapters.techSkill.getInitialState(),
@@ -81,7 +81,7 @@ const feature = createFeature({
       featuredDomains: [],
     },
 
-    on(adminDataActions.updateState, (state, { payload }) => {
+    on(domainDataActions.updateState, (state, { payload }) => {
       state = {
         domains: adapters.domain.getInitialState(),
         softwareProducts: adapters.softwareProduct.getInitialState(),
@@ -272,8 +272,8 @@ const feature = createFeature({
 
     return {
       selectDto: createSelector(
-        base.selectAdminDataState,
-        (state): AdminDataDTO => ({
+        base.selectDomainDataState,
+        (state): DomainDataDTO => ({
           domains: selectors.domain.selectAll(state.domains),
           techSkills: selectors.techSkill.selectAll(state.techSkills),
           softwareProducts: selectors.softwareProduct.selectAll(state.softwareProducts),
@@ -285,7 +285,7 @@ const feature = createFeature({
   }
 });
 
-export const adminData = {
+export const domainData = {
   adapters,
   feature,
   selectors: {

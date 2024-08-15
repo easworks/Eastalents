@@ -1,5 +1,5 @@
 import { Domain } from "./domain";
-import { SoftwareProduct } from "./tech-skill";
+import { SoftwareProduct } from "./software";
 
 export interface FeaturedDomain {
   domain: string;

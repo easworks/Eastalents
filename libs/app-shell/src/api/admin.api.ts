@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { CACHE } from '@easworks/app-shell/common/cache';
 import { clear, setMany, UseStore, values } from 'idb-keyval';
-import { Domain } from '../models/domain';
-import { SoftwareProduct, TechGroup, TechSkill } from '../models/tech-skill';
+import { Domain } from 'models/domain';
+import { SoftwareProduct, TechGroup, TechSkill } from 'models/software';
 
 @Injectable({
   providedIn: 'root'

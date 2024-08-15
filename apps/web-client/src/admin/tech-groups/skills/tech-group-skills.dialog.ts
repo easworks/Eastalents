@@ -10,8 +10,8 @@ import { sortString } from '@easworks/app-shell/utilities/sort';
 import { faSquareXmark, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import Fuse from 'fuse.js';
-import { TechGroup } from '../../models/tech-skill';
-import { adminData, techGroupActions } from '../../state/admin-data';
+import { TechGroup } from 'models/software';
+import { domainData, techGroupActions } from 'app-shell/state/domain-data';
 
 interface TechGroupSkillsDialogData {
   group: string;
@@ -40,7 +40,7 @@ export class TechGroupSkillsDialogComponent implements OnInit {
   } as const;
 
   protected readonly group$ = (() => {
-    const map$ = this.store.selectSignal(adminData.selectors.techGroup.selectEntities);
+    const map$ = this.store.selectSignal(domainData.selectors.techGroup.selectEntities);
 
     return computed(() => {
       const group = map$()[this.data.group];
@@ -51,8 +51,8 @@ export class TechGroupSkillsDialogComponent implements OnInit {
   })();
 
   private readonly skills = (() => {
-    const map$ = this.store.selectSignal(adminData.selectors.techSkill.selectEntities);
-    const list$ = this.store.selectSignal(adminData.selectors.techSkill.selectAll);
+    const map$ = this.store.selectSignal(domainData.selectors.techSkill.selectEntities);
+    const list$ = this.store.selectSignal(domainData.selectors.techSkill.selectAll);
 
     return {
       map$,
