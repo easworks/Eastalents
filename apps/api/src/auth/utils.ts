@@ -191,7 +191,7 @@ class GoogleUtils {
   public static readonly getExternalUser = {
     withCode: async (code: string, redirect_uri: string) => {
       const accessToken = await this.getAccessToken(code, redirect_uri);
-      return getExternalUserForSignup.google.withToken(accessToken);
+      return this.getExternalUser.withToken(accessToken);
     },
     withToken: async (accessToken: string) => {
       const profile = await this.getProfile(accessToken);
@@ -262,14 +262,73 @@ class LinkedinUtils {
 
   public static readonly getExternalUser = {
     withCode: async (code: string, redirect_uri: string) => {
-      throw new Error('not implemented');
-      return null as unknown as ExternalIdpUser;
+      const accessToken = await this.getAccessToken(code, redirect_uri);
+      return this.getExternalUser.withToken(accessToken);
     },
     withToken: async (accessToken: string) => {
-      throw new Error('not implemented');
-      return null as unknown as ExternalIdpUser;
+      const profile = await this.getProfile(accessToken);
+
+      const externalUser: ExternalIdpUser = {
+        providerId: profile.sub,
+        email: profile.email,
+        email_verified: profile.email_verified,
+        firstName: profile.given_name,
+        lastName: profile.family_name,
+        imageUrl: profile.picture,
+      };
+
+      return externalUser;
     }
   } as const;
+
+  private static async getAccessToken(code: string, redirect_uri: string) {
+    const config = environment.oauth.linkedin;
+
+    const params = new URLSearchParams();
+    params.set('client_id', config.id);
+    params.set('client_secret', config.secret);
+    params.set('grant_type', 'authorization_code');
+    params.set('redirect_uri', redirect_uri);
+    params.set('code', code);
+
+    const res = await fetch('https://www.linkedin.com/oauth/v2/accessToken', {
+      method: 'POST',
+      body: params.toString(),
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded'
+      }
+    });
+
+    if (res.ok) {
+      const body = await res.json() as any;
+
+      return body.access_token as string;
+    }
+    else {
+      const body = await res.json();
+      throw new InvalidSocialOauthCode('linkedin', body);
+    }
+  }
+
+  private static async getProfile(accessToken: string) {
+
+    const res = await fetch('https://api.linkedin.com/v2/userinfo', {
+      method: 'GET',
+      headers: {
+        'authorization': `Bearer ${accessToken}`
+      }
+    });
+
+    if (res.ok) {
+      const body = await res.json() as any;
+
+      return body;
+    }
+    else {
+      const body = await res.json();
+      throw new FailedSocialProfileRequest('linkedin', body);
+    }
+  }
 
 }
 

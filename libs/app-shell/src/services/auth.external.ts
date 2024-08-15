@@ -24,8 +24,14 @@ export class AuthRedirect {
     },
     linkedin: {
       url: 'https://www.linkedin.com/oauth/v2/authorization',
-      client_id: '77xht7uizkpzsm',
-      scope: 'r_emailaddress r_liteprofile'
+
+      //ram
+      // client_id: '77iv0gyzyvx8w2',
+
+      // dibyodyuti
+      client_id: '86zlnwx8vdlo7j',
+
+      scope: 'openid email profile'
     },
     github: {
       url: 'https://github.com/login/oauth/authorize',

@@ -62,7 +62,7 @@ export const oauthCodeCallback: CanActivateFn = (snap) => {
           })();
 
           const token = output.data;
-          const payload = JSON.parse(atob(token.split('.')[1]));
+          const payload = JSON.parse(base64url.toString(token.split('.')[1]));
           if (payload.type !== 'state:ExternalIdpUser')
             throw new Error('state token type mismatch');
           if (payload.provider !== query.state.idp)
