@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, HostBinding, inject, INJECTOR, signal, untracked, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, HostBinding, inject, signal, untracked, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -52,8 +52,6 @@ export class TalentSignUpFormComponent {
   private readonly snackbar = inject(MatSnackBar);
   private readonly router = inject(Router);
   private readonly store = inject(Store);
-  private readonly dRef = inject(DestroyRef);
-  private readonly injector = inject(INJECTOR);
 
   private readonly api = {
     auth: inject(AuthApi)
@@ -492,7 +490,7 @@ export class TalentSignUpFormComponent {
         const prefill = this.prefill.canUse$() && this.prefill.routeInfo$();
 
         const input: SignUpInput = {
-          username: fv.username,
+          username: '@' + fv.username,
           firstName: fv.firstName,
           lastName: fv.lastName,
           email: fv.email,
