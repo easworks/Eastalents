@@ -4,7 +4,7 @@ import { AUTH_CHECKS } from '@easworks/app-shell/state/auth';
 
 export const EMPLOYER_ROUTES: Route[] = [
   {
-    path: 'dashboard',
+    path: 'hiring-overview',
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
     data: {
@@ -12,15 +12,69 @@ export const EMPLOYER_ROUTES: Route[] = [
     },
     loadComponent: () => import('./dashboard/dashboard.page').then(m => m.EmployerDashboardComponent)
   },
-  // {
-  //   path: 'spoc',
-  //   pathMatch: 'full',
-  //   canMatch: [AuthGuard.asFunction],
-  //   data: {
-  //     auth: AUTH_GUARD_CHECKS.hasPermissions(['role.employer'])
-  //   },
-  //   loadComponent: () => import('./spoc/spoc.component').then(m => m.SpocComponent)
-  // },
+  {
+    path: 'employer/general-info',
+    pathMatch: 'full',
+    canMatch: [AuthGuardFn],
+    data: {
+      auth: AUTH_CHECKS.hasRole('employer')
+    },
+    loadComponent: () => import('./general-information/general-info.component').then(m => m.EmployerGeneralInfoComponent)
+  },
+  {
+    path: 'employer/hire-talents',
+    pathMatch: 'full',
+    canMatch: [AuthGuardFn],
+    data: {
+      auth: AUTH_CHECKS.hasRole('employer')
+    },
+    loadComponent: () => import('./hire-talent/hire-talent.component').then(m => m.HireTalentComponent)
+  },
+  {
+    path: 'employer/my-teammates',
+    pathMatch: 'full',
+    canMatch: [AuthGuardFn],
+    data: {
+      auth: AUTH_CHECKS.hasRole('employer')
+    },
+    loadComponent: () => import('./my-teammates/my-teammates.components').then(m => m.MyTeammatesComponent)
+  },
+  {
+    path: 'employer/budget-planner',
+    pathMatch: 'full',
+    loadComponent: () => import('./cost-calculator/cost-calculator.component').then(m => m.CostCalculatorComponent),
+    canMatch: [AuthGuardFn],
+    data: {
+      auth: AUTH_CHECKS.hasRole('employer')
+    },
+  },
+  {
+    path: 'support-center',
+    pathMatch: 'full',
+    canMatch: [AuthGuardFn],
+    data: {
+      auth: AUTH_CHECKS.hasRole('employer')
+    },
+    loadComponent: () => import('./contact-us/contact-us.component').then(m => m.ContactUsComponent)
+  },
+  {
+    path: 'customer-success-manager',
+    pathMatch: 'full',
+    canMatch: [AuthGuardFn],
+    data: {
+      auth: AUTH_CHECKS.hasRole('employer')
+    },
+    loadComponent: () => import('./spoc/spoc.component').then(m => m.SpocComponent)
+  },
+  {
+    path: 'account-setting',
+    pathMatch: 'full',
+    canMatch: [AuthGuardFn],
+    data: {
+      auth: AUTH_CHECKS.hasRole('employer')
+    },
+    loadComponent: () => import('./my-profile/my-account.component').then(m => m.MyAccountComponent)
+  },
   // {
   //   path: 'help',
   //   pathMatch: 'full',
@@ -33,15 +87,7 @@ export const EMPLOYER_ROUTES: Route[] = [
   // {
   //   path: 'employer',
   //   loadChildren: () => [
-  //     {
-  //       path: 'cost-calculator',
-  //       pathMatch: 'full',
-  //       loadComponent: () => import('./cost-calculator/cost-calculator.component').then(m => m.CostCalculatorComponent),
-  //       canMatch: [AuthGuard.asFunction],
-  //       data: {
-  //         auth: AUTH_GUARD_CHECKS.hasPermissions(['cost-calculator'])
-  //       }
-  //     },
+  //     
   //     {
   //       path: 'general-info',
   //       pathMatch: 'full',

@@ -1,11 +1,8 @@
-<cdk-tree [dataSource]="tree.dataSource$()"
-          [treeControl]="tree.control"
-          class="auth-menu">
+<cdk-tree [dataSource]="tree.dataSource$()" [treeControl]="tree.control" class="auth-menu">
 
   <!-- This is the tree node template for leaf nodes -->
   <cdk-nested-tree-node menu-item *cdkTreeNodeDef="let node">
-    <a [routerLink]="node.link" [fragment]="node.fragment"
-       routerLinkActive="active">
+    <a [routerLink]="node.link" [fragment]="node.fragment" routerLinkActive="active">
       @if(node.icon) {
       <fa-icon [icon]="node.icon" class="text-2xl w-8 text-center"></fa-icon>
       }
@@ -15,16 +12,16 @@
 
   <!-- This is the tree node template for expandable nodes -->
   <cdk-nested-tree-node *cdkTreeNodeDef="let node; when: tree.hasChild" class="example-tree-node">
-    <div *ngrxLet="tree.control.isExpanded(node) as expanded"
-         [class.expanded]="expanded"
-         class="branch">
-      <a cdkTreeNodeToggle>
+    <div *ngrxLet="tree.control.isExpanded(node) as expanded" [class.expanded]="expanded" class="branch">
+      <a cdkTreeNodeToggle class="toggle-link">
         @if(node.icon) {
-        <fa-icon [icon]="node.icon" class="text-2xl w-8 text-center"></fa-icon>
+        <fa-icon [icon]="node.icon" class="text-2xl w-8 text-center "></fa-icon>
         }
-        <span>{{node.text}}</span>
-        <fa-icon [icon]="icons.faChevronDown" class="expansion-indicator"></fa-icon>
-      </a>
+        <div class="flex flex-row justify-center space-x-2 items-center">
+            <span class="font-bold mr-4">{{node.text}}</span>
+            <fa-icon [icon]="icons.faChevronDown" class="expansion-indicator node-icon"></fa-icon>
+        </div>
+    </a>    
       <div class="children">
         <ng-container cdkTreeNodeOutlet></ng-container>
       </div>
