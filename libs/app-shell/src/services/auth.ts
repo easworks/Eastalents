@@ -81,7 +81,7 @@ export class AuthService {
     }
   };
 
-  async signOut() {
+  signOut() {
     this.store.dispatch(authActions.signOut({ payload: { revoked: false } }));
   }
 

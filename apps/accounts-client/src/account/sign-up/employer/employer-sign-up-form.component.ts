@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, effect, HostBinding, inject, signal, untracked, viewChild } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, HostBinding, inject, signal, untracked, viewChild } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -52,6 +52,7 @@ export class EmployerSignUpFormComponent {
   private readonly snackbar = inject(MatSnackBar);
   private readonly store = inject(Store);
   private readonly router = inject(Router);
+  private readonly dRef = inject(DestroyRef);
 
   private readonly api = {
     auth: inject(AuthApi)
@@ -553,7 +554,8 @@ export class EmployerSignUpFormComponent {
               SnackbarComponent.forError(this.snackbar, err);
               return EMPTY;
             }),
-            finalize(() => this.loading.delete('signing up'))
+            finalize(() => this.loading.delete('signing up')),
+            takeUntilDestroyed(this.dRef)
           ).subscribe();
       };
 

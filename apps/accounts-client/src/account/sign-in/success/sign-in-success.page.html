@@ -15,4 +15,14 @@
     Sign Out
   </button>
 
+  @if (deleteSelf.allowed) {
+  <button class="mt-8 mx-auto text-sm stroked-button" mat-ripple
+          (click)="deleteSelf.click()"
+          [disabled]="deleteSelf.disabled$()">
+    <replace-spinner [showSpinner]="deleteSelf.loading$()">
+      Delete Account
+    </replace-spinner>
+  </button>
+  }
+
 </div>

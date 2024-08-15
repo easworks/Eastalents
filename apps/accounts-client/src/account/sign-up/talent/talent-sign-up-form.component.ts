@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, effect, HostBinding, inject, signal, untracked, viewChild } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, HostBinding, inject, signal, untracked, viewChild } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -29,7 +29,7 @@ import { ProblemDetails } from 'models/problem-details';
 import { SoftwareProduct } from 'models/software';
 import type { SignUpInput, ValidateEmailInput, ValidateUsernameInput } from 'models/validators/auth';
 import { username } from 'models/validators/common';
-import { catchError, delay, EMPTY, finalize, map, of, switchMap, tap } from 'rxjs';
+import { catchError, delay, EMPTY, finalize, map, NEVER, of, switchMap, tap } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -52,6 +52,7 @@ export class TalentSignUpFormComponent {
   private readonly snackbar = inject(MatSnackBar);
   private readonly router = inject(Router);
   private readonly store = inject(Store);
+  private readonly dRef = inject(DestroyRef);
 
   private readonly api = {
     auth: inject(AuthApi)
@@ -134,7 +135,8 @@ export class TalentSignUpFormComponent {
             SnackbarComponent.forError(this.snackbar, e);
             return [{ validationFailed: true }];
           }),
-          finalize(() => this.loading.delete('validating username exists'))
+          finalize(() => this.loading.delete('validating username exists')),
+          takeUntilDestroyed(this.dRef)
         )
       },
       emailExists: (control: AbstractControl) => of(control.value).pipe(
@@ -151,7 +153,8 @@ export class TalentSignUpFormComponent {
           SnackbarComponent.forError(this.snackbar, e);
           return [{ validationFailed: true }];
         }),
-        finalize(() => this.loading.delete('validating email exists'))
+        finalize(() => this.loading.delete('validating email exists')),
+        takeUntilDestroyed(this.dRef)
       )
     };
 
@@ -518,11 +521,13 @@ export class TalentSignUpFormComponent {
                 return this.router.navigateByUrl('/verify-email');
               }
             }),
+            switchMap(() => NEVER),
             catchError((err: ProblemDetails) => {
               SnackbarComponent.forError(this.snackbar, err);
               return EMPTY;
             }),
-            finalize(() => this.loading.delete('signing up'))
+            finalize(() => this.loading.delete('signing up')),
+            takeUntilDestroyed(this.dRef)
           ).subscribe();
       };
 
