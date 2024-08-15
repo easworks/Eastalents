@@ -36,7 +36,7 @@ export class AuthRedirect {
     github: {
       url: 'https://github.com/login/oauth/authorize',
       client_id: '7ee1b0a43b73c473e120',
-      scope: 'email profile'
+      scope: 'read:user user:email'
     }
   };
 

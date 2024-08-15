@@ -336,14 +336,111 @@ class GithubUtils {
 
   public static readonly getExternalUser = {
     withCode: async (code: string, redirect_uri: string) => {
-      throw new Error('not implemented');
-      return null as unknown as ExternalIdpUser;
+      const accessToken = await this.getAccessToken(code, redirect_uri);
+      return this.getExternalUser.withToken(accessToken);
     },
     withToken: async (accessToken: string) => {
-      throw new Error('not implemented');
-      return null as unknown as ExternalIdpUser;
+
+      const [profile, emails] = await Promise.all([
+        this.getProfile(accessToken),
+        this.getEmails(accessToken)
+      ]);
+
+      let email;
+      {
+        email = emails.find(e => e.primary);
+        if (!email)
+          email = emails.find(e => e.verified);
+
+        if (!email)
+          email = emails[0];
+      }
+
+      const [firstName, lastName] = profile.name.split(' ');
+
+      const externalUser: ExternalIdpUser = {
+        providerId: profile.id,
+        email: email.email,
+        email_verified: email.verified,
+        firstName,
+        lastName,
+        imageUrl: profile.avatar_url,
+      };
+
+      return externalUser;
     }
   } as const;
+
+  private static async getAccessToken(code: string, redirect_uri: string) {
+    const config = environment.oauth.github;
+
+    const params = new URLSearchParams();
+    params.set('client_id', config.id);
+    params.set('client_secret', config.secret);
+    params.set('grant_type', 'authorization_code');
+    params.set('redirect_uri', redirect_uri);
+    params.set('code', code);
+
+    const res = await fetch('https://github.com/login/oauth/access_token', {
+      method: 'POST',
+      body: params.toString(),
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'accept': 'application/json'
+      }
+    });
+
+    if (res.ok) {
+      const body = await res.json() as any;
+      return body.access_token as string;
+    }
+    else {
+      const body = await res.text();
+      throw new InvalidSocialOauthCode('github', body);
+    }
+  }
+
+  private static async getProfile(accessToken: string) {
+    const res = await fetch('https://api.github.com/user', {
+      method: 'GET',
+      headers: {
+        'authorization': `Bearer ${accessToken}`
+      }
+    });
+
+    if (res.ok) {
+      const body = await res.json() as any;
+      return body;
+    }
+    else {
+      const body = await res.text();
+      throw new FailedSocialProfileRequest('github', body);
+    }
+  }
+
+  private static async getEmails(accessToken: string) {
+    const res = await fetch('https://api.github.com/user/emails', {
+      method: 'GET',
+      headers: {
+        'authorization': `Bearer ${accessToken}`
+      }
+    });
+
+    if (res.ok) {
+      const body = await res.json() as {
+        email: string,
+        primary: true,
+        verified: true,
+      }[];
+
+
+      return body;
+    }
+    else {
+      const body = await res.text();
+      throw new FailedSocialProfileRequest('github', body);
+    }
+  }
 
 }
 
