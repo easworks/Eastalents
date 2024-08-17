@@ -27,7 +27,9 @@ export interface Environment {
       secret: string;
     };
   };
-
+  gmail?: {
+    sender: string;
+  };
 }
 
 export const parseEnv = {
@@ -95,5 +97,15 @@ export const parseEnv = {
 
       return value;
     }
+  },
+  gmail: () => {
+    const sender = process.env['GMAIL_SENDER'];
+
+    if (!sender)
+      throw new Error('gmail sender not provided');
+
+    return {
+      sender
+    };
   }
 };
