@@ -15,5 +15,7 @@ export const environment = {
     linkedin: parseEnv.oauth.linkedin(),
     github: parseEnv.oauth.github()
   },
-  gmail: parseEnv.gmail()
+  gmail: {
+    support: parseEnv.gmail.support()
+  }
 } as const satisfies Environment;

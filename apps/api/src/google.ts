@@ -1,27 +1,37 @@
 import { gmail } from '@googleapis/gmail';
 import { GoogleAuth, JWT } from 'google-auth-library';
-import { environment } from './environment';
 
-export const easGoogle = (async () => {
+export const easGoogle = (() => {
   const scopes = [
     'https://www.googleapis.com/auth/cloud-platform'
   ].join(' ');
 
-  const auth = new GoogleAuth({ scopes });
-  const client = await auth.getClient();
+  const auth = (() => {
+    const auth = new GoogleAuth({ scopes });
 
-  const mail = (() => {
-    if (!(client instanceof JWT))
-      throw new Error('invalid operation');
+    const getClient = async () => {
+      const client = await auth.getClient();
+      if (!(client instanceof JWT))
+        throw new Error('invalid operation');
 
-    const delegated = client.createScoped('https://mail.google.com');
-    delegated.subject = environment.gmail.sender;
+      return client;
+    };
 
-    return gmail({ version: 'v1', auth: delegated });
+    const forGmail = async (senderId: string) => {
+      const client = await getClient();
+      const delegated = client.createScoped('https://mail.google.com');
+      delegated.subject = senderId;
+      return delegated;
+    };
+
+    return {
+      getClient,
+      forGmail
+    } as const;
   })();
 
   return {
     auth,
-    mail
+    gmail: gmail('v1')
   } as const;
 })();
