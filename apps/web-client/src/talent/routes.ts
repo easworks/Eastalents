@@ -22,15 +22,6 @@ export const TALENT_ROUTES: Route[] = [
     loadComponent: () => import('./my-profile/my-profile.component').then(m => m.MyProfileComponent)
   },
   {
-    path: 'dashboard2',
-    pathMatch: 'full',
-    canMatch: [AuthGuardFn],
-    data: {
-      auth: AUTH_CHECKS.hasRole('talent')
-    },
-    loadComponent: () => import('./dashboard2/dashboard.page').then(m => m.DashboardComponent)
-  },
-  {
     path: 'skill-assessment',
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
