@@ -4,18 +4,6 @@ services:
     build: .
     ports:
       - ${PORT:?}:4200
+    env_file: ./.env
     environment:
-      - NODE_ENV=${NODE_ENV:?}
       - PORT=4200
-      - MONGODB
-      - JWT_PUBLIC_KEY
-      - JWT_PRIVATE_KEY
-      - JWT_ISSUER
-      - AUTH_HOST
-      - AUTH_HOST_OAUTH_HANDLER
-      - GOOGLE_OAUTH_CLIENT_ID
-      - GOOGLE_OAUTH_CLIENT_SECRET
-      - LINKEDIN_OAUTH_CLIENT_ID
-      - LINKEDIN_OAUTH_CLIENT_SECRET
-      - GITHUB_OAUTH_CLIENT_ID
-      - GITHUB_OAUTH_CLIENT_SECRET

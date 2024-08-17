@@ -17,7 +17,13 @@
         "thirdParty": false,
         "main": "apps/api/src/server.ts",
         "tsConfig": "apps/api/tsconfig.app.json",
-        "assets": ["apps/api/src/assets"],
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/api/src/assets",
+            "output": "assets"
+          }
+        ],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
