@@ -146,3 +146,10 @@ export class PermissionRecordNotFound extends ApiError {
     super('permission-record-not-found', StatusCodes.NOT_FOUND);
   }
 }
+
+export class GoogleApiError extends ApiError {
+  constructor(error: any) {
+    super('google-api-error', StatusCodes.INTERNAL_SERVER_ERROR);
+    this.withMetadata('data', error.response.data);
+  }
+}
