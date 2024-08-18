@@ -6,6 +6,7 @@ export interface Environment {
   authHost?: {
     host: string;
     oauthHandler: string;
+    authActionHandler: string;
   };
   mongodb?: string;
   jwt?: {
@@ -45,10 +46,11 @@ export const parseEnv = {
   authHost: () => {
     const host = process.env['AUTH_HOST'] as string;
     const oauthHandler = process.env['AUTH_HOST_OAUTH_HANDLER'] as string;
+    const authActionHandler = process.env['AUTH_HOST_AUTH_ACTION_HANDLER'];
 
-    if (!host || !oauthHandler)
+    if (!host || !oauthHandler || !authActionHandler)
       throw new Error('auth host not provided');
-    return { host, oauthHandler };
+    return { host, oauthHandler, authActionHandler };
   },
   oauth: {
     google: () => parseEnv.oauth.forProvider('GOOGLE'),
