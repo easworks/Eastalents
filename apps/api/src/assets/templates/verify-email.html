@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:v="urn:schemas-microsoft-com:vml">
 <head>
-  <meta charset="utf-8">
-  <meta name="x-apple-disable-message-reformatting">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
   <script type="application/ld+json">
     {
-      "@context": "http://schema/ld+json",
+      "@context": "http://schema.org",
       "@type": "EmailMessage",
       "description": "Verify your Easworks account email address",
       "potentialAction": {
@@ -20,7 +16,11 @@
       }
     }
   </script>
-  <!--[if mso]>
+  <title>Email Verification</title>
+  <meta charset="utf-8">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no"> <!--[if mso]>
   <noscript>
     <xml>
       <o:OfficeDocumentSettings xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -32,7 +32,6 @@
     td,th,div,p,a,h1,h2,h3,h4,h5,h6 {font-family: "Segoe UI", sans-serif; mso-line-height-rule: exactly;}
   </style>
   <![endif]-->
-  <title>User Email Verification</title>
   <style>
     h1 {
       font-size: 30px;
@@ -271,7 +270,7 @@
   </style>
 </head>
 <body class="m-0 p-0 w-full word-break-break-word -webkit-font-smoothing-antialiased bg-slate-100">
-  <div align="center" role="article" aria-roledescription="email" lang="en" class="bg-slate-100" aria-label="User Email Verification">
+  <div align="center" role="article" aria-roledescription="email" lang="en" class="bg-slate-100" aria-label="Email Verification">
     <table class="font-sans" cellpadding="0" cellspacing="0" role="none">
       <tr>
         <td class="w-600px max-w-full p-8 pb-16">
@@ -286,7 +285,7 @@
             </tr>
             <tr>
               <td class="px-8 pb-4 sm-px-4 text-base leading-6 bg-white rounded-xl">
-                <h1 class="!text-lg">User Email Verification</h1>
+                <h1 class="!text-lg">Email Verification</h1>
                 <hr>
                 <p>Hello <strong>{{ user.firstName }}</strong>,</p>
                 <p class="text-2xl font-semibold">{{ verification.code }}</p>
