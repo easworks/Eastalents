@@ -20,4 +20,7 @@ export const pattern = {
   username: {
     plain: /^[a-z0-9_]+$/
   },
+  otp: {
+    number: /^[\d]+$/
+  }
 } as const; 
