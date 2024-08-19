@@ -9,6 +9,8 @@ import * as crypto from 'node:crypto';
 import { FailedSocialProfileRequest, InvalidPassword, InvalidSocialOauthCode, KeyValueDocumentNotFound, UserNeedsPasswordReset } from 'server-side/errors/definitions';
 import { environment } from '../environment';
 import { easMongo } from '../mongodb';
+import '../utils/email';
+import { EmailSender } from '../utils/email';
 
 const TOKEN_EXPIRY_SECONDS = 60 * 60; // 1 hour
 
@@ -115,11 +117,61 @@ export const oauthUtils = {
 } as const;
 
 
-export async function sendVerificationEmail(user: User) {
-  // TODO: implement
-  // throw new Error(`email verification is not implemented : ${user.email}`);
+export class EmailVerification {
+
+  private static readonly generateCode = (() => {
+    const min = 10 ** 7;
+    const max = 10 ** 8;
+
+    return () => {
+      const num = crypto.randomInt(min, max);
+      return num.toString();
+    };
+  })();
+
+  private static createLink(code: string) {
+    const url = new URL(`${environment.authHost.host}${environment.authHost.authActionHandler}`);
+    // const url = new URL(`https://accounts.easworks.com${environment.authHost.authActionHandler}`);
+    url.searchParams.set('action', 'verify-email-address');
+    url.searchParams.set('code', code);
+
+    return url.toString();
+  }
+
+  public static async send(user: User) {
+    const code = this.generateCode();
+
+    // TODO: store code;
+
+    const link = this.createLink(code);
+
+    const compose = await EmailSender.compose.verifyEmail(user, code, link);
+
+    return EmailSender.sendEmail(compose, environment.gmail.support.id);
+  }
 }
 
+export class WelcomeEmail {
+  public static async send(user: User, permission: PermissionRecord, oauthClientName?: string) {
+
+    let raw;
+    {
+      switch (oauthClientName) {
+        case 'easdevhub-production':
+          raw = await EmailSender.compose.welcome.easdevhub(user);
+          break;
+        default:
+          if (permission.roles.includes('employer'))
+            raw = await EmailSender.compose.welcome.easworks.employer(user);
+          else
+            raw = await EmailSender.compose.welcome.easworks.talent(user);
+          break;
+      }
+    }
+
+    return EmailSender.sendEmail(raw, environment.gmail.support.id);
+  }
+}
 
 /**
  * 

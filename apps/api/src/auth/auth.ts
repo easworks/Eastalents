@@ -9,7 +9,7 @@ import { SignupEmailInUse, SignupRequiresWorkEmail, SignupRoleIsInvalid, UserEma
 import { setTypeVersion } from 'server-side/mongodb/collections';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 import { easMongo } from '../mongodb';
-import { createCredentialFromExternalUser, ExternalUserTransfer, FreeEmailProviderCache, getExternalUserForSignup, isFreeEmail, jwtUtils, oauthUtils, passwordUtils, sendVerificationEmail } from './utils';
+import { createCredentialFromExternalUser, EmailVerification, ExternalUserTransfer, FreeEmailProviderCache, getExternalUserForSignup, isFreeEmail, jwtUtils, oauthUtils, passwordUtils, WelcomeEmail } from './utils';
 
 export const authHandlers: FastifyZodPluginAsync = async server => {
 
@@ -126,10 +126,20 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       };
 
       await saveNewUser(user, permissions, credential);
+      {
+        let clientName;
+        if (input.clientId) {
+          const client = await easMongo.oauthApps.findOne({ _id: input.clientId });
+          if (!client)
+            throw new Error('invalid operation');
+          clientName = client?.name;
+        }
+        await WelcomeEmail.send(user, permissions, clientName);
+      }
 
       if (!user.verified) {
         // send verification link
-        await sendVerificationEmail(user);
+        await EmailVerification.send(user);
         const domain = new UserNeedsEmailVerification(user).domain;
 
         return {
@@ -181,7 +191,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
         throw new Error('user should exist');
 
       if (!user.verified) {
-        await sendVerificationEmail(user);
+        await EmailVerification.send(user);
         throw new UserNeedsEmailVerification(user);
       }
 
@@ -329,6 +339,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
         await easMongo.users.replaceOne({ _id: user._id }, user);
       }
       else {
+        await EmailVerification.send(user);
         throw new UserNeedsEmailVerification(user);
       }
     }

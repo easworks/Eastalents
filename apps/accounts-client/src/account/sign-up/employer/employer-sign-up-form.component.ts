@@ -30,6 +30,7 @@ import { SoftwareProduct } from 'models/software';
 import type { SignUpInput, ValidateEmailInput, ValidateUsernameInput } from 'models/validators/auth';
 import { username } from 'models/validators/common';
 import { catchError, delay, EMPTY, finalize, map, of, switchMap, tap } from 'rxjs';
+import { extractClientIdFromReturnUrl } from '../../oauth-authorize-callback';
 
 @Component({
   standalone: true,
@@ -535,7 +536,8 @@ export class EmployerSignUpFormComponent {
             {
               provider: 'email',
               password: fv.password
-            }
+            },
+          clientId: extractClientIdFromReturnUrl(this.returnUrl$())
         };
 
         this.loading.add('signing up');

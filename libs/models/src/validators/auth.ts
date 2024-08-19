@@ -30,7 +30,8 @@ const inputs = {
         provider: types.externalIdp,
         token: types.externalUserStateToken
       })
-    ])
+    ]),
+    clientId: oauthValidators.client_id.nullish()
   }),
   signin: {
     email: z.strictObject({

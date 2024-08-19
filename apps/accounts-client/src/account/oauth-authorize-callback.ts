@@ -16,3 +16,11 @@ export const oauthAuthorizeCallback: CanActivateFn = (snap) => {
       takeUntilDestroyed()
     );
 };
+
+export function extractClientIdFromReturnUrl(returnUrl: string | null) {
+  if (returnUrl && returnUrl.startsWith('/oauth/authorize?')) {
+    const url = new URL(window.location.origin + returnUrl);
+    return url.searchParams.get('client_id');
+  }
+  return null;
+}
