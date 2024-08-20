@@ -9,7 +9,7 @@ import { SignupEmailInUse, SignupRequiresWorkEmail, SignupRoleIsInvalid, UserEma
 import { setTypeVersion } from 'server-side/mongodb/collections';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 import { easMongo } from '../mongodb';
-import { createCredentialFromExternalUser, ExternalUserTransfer, FreeEmailProviderCache, getExternalUserForSignup, isFreeEmail, jwtUtils, oauthUtils, passwordUtils, sendVerificationEmail } from './utils';
+import { createCredentialFromExternalUser, EmailVerification, ExternalUserTransfer, FreeEmailProviderCache, getExternalUserForSignup, isFreeEmail, jwtUtils, oauthUtils, passwordUtils, WelcomeEmail } from './utils';
 
 export const authHandlers: FastifyZodPluginAsync = async server => {
 
@@ -126,10 +126,20 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       };
 
       await saveNewUser(user, permissions, credential);
+      {
+        let clientName;
+        if (input.clientId) {
+          const client = await easMongo.oauthApps.findOne({ _id: input.clientId });
+          if (!client)
+            throw new Error('invalid operation');
+          clientName = client?.name;
+        }
+        await WelcomeEmail.send(user, permissions, clientName);
+      }
 
       if (!user.verified) {
         // send verification link
-        await sendVerificationEmail(user);
+        await EmailVerification.send(user);
         const domain = new UserNeedsEmailVerification(user).domain;
 
         return {
@@ -181,7 +191,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
         throw new Error('user should exist');
 
       if (!user.verified) {
-        await sendVerificationEmail(user);
+        await EmailVerification.send(user);
         throw new UserNeedsEmailVerification(user);
       }
 
@@ -228,7 +238,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
         if (e instanceof UserEmailNotRegistered)
           return {
             action: 'sign-up',
-            data: ExternalUserTransfer.toToken(input.idp, externalUser)
+            data: await ExternalUserTransfer.toToken(input.idp, externalUser)
           } satisfies SocialOAuthCodeExchangeOutput;
 
         else if (e instanceof UserNeedsEmailVerification)
@@ -257,7 +267,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
   );
 
   server.post('/validate/username-exists',
-    { schema: { body: authValidators.inputs.validate.usernameExists } },
+    { schema: { body: authValidators.inputs.validate.username } },
     async (req) => {
       const { username } = req.body;
       const user = await easMongo.users.findOne({ username });
@@ -267,7 +277,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
   );
 
   server.post('/validate/email-exists',
-    { schema: { body: authValidators.inputs.validate.emailExists } },
+    { schema: { body: authValidators.inputs.validate.email } },
     async (req) => {
       const { email } = req.body;
       const cred = await easMongo.userCredentials.findOne({
@@ -276,6 +286,11 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       if (cred) return true;
       else return false;
     }
+  );
+
+  server.post('/validate/email-is-free',
+    { schema: { body: authValidators.inputs.validate.email } },
+    async (req) => isFreeEmail(req.body.email)
   );
 
   async function trySignInExternalUser(external: ExternalIdpUser, idp: ExternalIdentityProviderType) {
@@ -324,6 +339,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
         await easMongo.users.replaceOne({ _id: user._id }, user);
       }
       else {
+        await EmailVerification.send(user);
         throw new UserNeedsEmailVerification(user);
       }
     }

@@ -7,19 +7,21 @@
     LOGIN TO <span class="text-primary-500">YOUR ACCOUNT</span>
   </p>
 
-  <div class="mt-4 grid gap-4 grid-cols-2 @xl:grid-cols-4">
+  <div class="mt-4 grid gap-4 grid-cols-2 @xl:grid-cols-3">
     <button class="social-button" mat-ripple
             (click)="socialSignIn('google')">
       <fa-icon [icon]="icons.faGoogle"></fa-icon>
       <span>Google</span>
     </button>
-    <button class="social-button" mat-ripple>
-      <fa-icon [icon]="icons.faGithub"></fa-icon>
-      <span>Github</span>
-    </button>
-    <button class="social-button" mat-ripple>
+    <button class="social-button" mat-ripple
+            (click)="socialSignIn('linkedin')">
       <fa-icon [icon]="icons.faLinkedinIn"></fa-icon>
       <span>LinkedIn</span>
+    </button>
+    <button class="social-button" mat-ripple
+            (click)="socialSignIn('github')">
+      <fa-icon [icon]="icons.faGithub"></fa-icon>
+      <span>Github</span>
     </button>
   </div>
 

@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, DestroyRef, HostBinding, inject } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -31,6 +31,7 @@ export class SignInPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly auth = inject(AuthService);
   private readonly snackbar = inject(MatSnackBar);
+  private readonly dRef = inject(DestroyRef);
 
   @HostBinding()
   private readonly class = 'page grid place-content-center @container';
@@ -90,7 +91,8 @@ export class SignInPageComponent {
         }),
         finalize(() => {
           this.loading.delete('signing in');
-        })
+        }),
+        takeUntilDestroyed(this.dRef)
       ).subscribe();
     },
     button: {

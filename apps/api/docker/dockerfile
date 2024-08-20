@@ -1,6 +1,7 @@
 FROM node:lts-slim
 
 WORKDIR /root
+COPY ./application_default_credentials.json .
 
 RUN mkdir api
 

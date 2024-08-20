@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, HostBinding, inject, INJECTOR, signal, untracked, viewChild } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, HostBinding, inject, signal, untracked, viewChild } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -27,9 +27,10 @@ import { ExternalIdentityProviderType, ExternalIdpUser } from 'models/identity-p
 import { pattern } from 'models/pattern';
 import { ProblemDetails } from 'models/problem-details';
 import { SoftwareProduct } from 'models/software';
-import { SignUpInput, ValidateEmailExistsInput, ValidateUsernameExistsInput } from 'models/validators/auth';
+import type { SignUpInput, ValidateEmailInput, ValidateUsernameInput } from 'models/validators/auth';
 import { username } from 'models/validators/common';
-import { catchError, delay, EMPTY, finalize, map, of, switchMap, tap } from 'rxjs';
+import { catchError, delay, EMPTY, finalize, map, NEVER, of, switchMap, tap } from 'rxjs';
+import { extractClientIdFromReturnUrl } from '../../oauth-authorize-callback';
 
 @Component({
   standalone: true,
@@ -53,7 +54,6 @@ export class TalentSignUpFormComponent {
   private readonly router = inject(Router);
   private readonly store = inject(Store);
   private readonly dRef = inject(DestroyRef);
-  private readonly injector = inject(INJECTOR);
 
   private readonly api = {
     auth: inject(AuthApi)
@@ -126,7 +126,7 @@ export class TalentSignUpFormComponent {
           delay(500),
           tap(() => this.loading.add('validating username exists')),
           switchMap(value => {
-            const input: ValidateUsernameExistsInput = {
+            const input: ValidateUsernameInput = {
               username: '@' + value
             };
             return this.api.auth.validate.usernameExists(input);
@@ -136,24 +136,26 @@ export class TalentSignUpFormComponent {
             SnackbarComponent.forError(this.snackbar, e);
             return [{ validationFailed: true }];
           }),
-          finalize(() => this.loading.delete('validating username exists'))
+          finalize(() => this.loading.delete('validating username exists')),
+          takeUntilDestroyed(this.dRef)
         )
       },
       emailExists: (control: AbstractControl) => of(control.value).pipe(
         delay(500),
         tap(() => this.loading.add('validating email exists')),
         switchMap(value => {
-          const input: ValidateEmailExistsInput = {
+          const input: ValidateEmailInput = {
             email: value
           };
-          return this.api.auth.validate.emailExists(input);
+          return this.api.auth.validate.email.exists(input);
         }),
         map(v => v ? { exists: true } : null),
         catchError(e => {
           SnackbarComponent.forError(this.snackbar, e);
           return [{ validationFailed: true }];
         }),
-        finalize(() => this.loading.delete('validating email exists'))
+        finalize(() => this.loading.delete('validating email exists')),
+        takeUntilDestroyed(this.dRef)
       )
     };
 
@@ -492,7 +494,7 @@ export class TalentSignUpFormComponent {
         const prefill = this.prefill.canUse$() && this.prefill.routeInfo$();
 
         const input: SignUpInput = {
-          username: fv.username,
+          username: '@' + fv.username,
           firstName: fv.firstName,
           lastName: fv.lastName,
           email: fv.email,
@@ -505,7 +507,8 @@ export class TalentSignUpFormComponent {
             {
               provider: 'email',
               password: fv.password
-            }
+            },
+          clientId: extractClientIdFromReturnUrl(this.returnUrl$())
         };
 
         this.loading.add('signing up');
@@ -520,11 +523,13 @@ export class TalentSignUpFormComponent {
                 return this.router.navigateByUrl('/verify-email');
               }
             }),
+            switchMap(() => NEVER),
             catchError((err: ProblemDetails) => {
               SnackbarComponent.forError(this.snackbar, err);
               return EMPTY;
             }),
-            finalize(() => this.loading.delete('signing up'))
+            finalize(() => this.loading.delete('signing up')),
+            takeUntilDestroyed(this.dRef)
           ).subscribe();
       };
 

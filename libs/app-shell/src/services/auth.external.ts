@@ -14,23 +14,17 @@ export class AuthRedirect {
     google: {
       url: 'https://accounts.google.com/o/oauth2/v2/auth',
       scope: 'email profile',
-
-      // ram
-      // client_id: '243499270913-h4645hc46b9dqvg6ejaidpch2g6q863r.apps.googleusercontent.com',
-
-      // dibyodyuti
-      client_id: '1074824567437-5ts3rfo6s011cl4il6dev2qeqvm10lc0.apps.googleusercontent.com',
-
+      client_id: '579469758615-67877jg3b0tgiaik63p4b5qj20n8a2ng.apps.googleusercontent.com'
     },
     linkedin: {
       url: 'https://www.linkedin.com/oauth/v2/authorization',
-      client_id: '77xht7uizkpzsm',
-      scope: 'r_emailaddress r_liteprofile'
+      client_id: '860msgodp05ins',
+      scope: 'openid email profile'
     },
     github: {
       url: 'https://github.com/login/oauth/authorize',
       client_id: '7ee1b0a43b73c473e120',
-      scope: 'email profile'
+      scope: 'read:user user:email'
     }
   };
 

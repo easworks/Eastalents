@@ -162,7 +162,7 @@ export const authEffects = {
             if (!cookieId && userId) {
               // cookie does not exist, but user exists
               // - sign out
-              await auth.signOut();
+              auth.signOut();
               return;
             }
 

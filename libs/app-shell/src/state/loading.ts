@@ -27,10 +27,27 @@ export function generateLoadingState<T extends readonly string[]>() {
     }
   } as const;
 
+  const has = (() => {
+    const has = (value: L) => computed(() => set$().has(value));
+
+    return Object.assign(has, {
+      any: (...value: L[]) => computed(() => {
+        const set = set$();
+        return value.some(v => set.has(v));
+      }),
+      all: (...value: L[]) => computed(() => {
+        const set = set$();
+        return value.every(v => set.has(v));
+      })
+    });
+
+
+  })();
+
   return {
     ...ops,
 
-    has: (value: L) => computed(() => set$().has(value)),
+    has,
     react: (value: L, src: Signal<boolean>) => {
       effect(() => {
         if (src())

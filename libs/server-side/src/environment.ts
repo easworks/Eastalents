@@ -6,6 +6,7 @@ export interface Environment {
   authHost?: {
     host: string;
     oauthHandler: string;
+    authActionHandler: string;
   };
   mongodb?: string;
   jwt?: {
@@ -27,7 +28,12 @@ export interface Environment {
       secret: string;
     };
   };
-
+  gmail?: {
+    support?: {
+      id: string;
+      address: string;
+    };
+  };
 }
 
 export const parseEnv = {
@@ -40,10 +46,11 @@ export const parseEnv = {
   authHost: () => {
     const host = process.env['AUTH_HOST'] as string;
     const oauthHandler = process.env['AUTH_HOST_OAUTH_HANDLER'] as string;
+    const authActionHandler = process.env['AUTH_HOST_AUTH_ACTION_HANDLER'];
 
-    if (!host || !oauthHandler)
+    if (!host || !oauthHandler || !authActionHandler)
       throw new Error('auth host not provided');
-    return { host, oauthHandler };
+    return { host, oauthHandler, authActionHandler };
   },
   oauth: {
     google: () => parseEnv.oauth.forProvider('GOOGLE'),
@@ -94,6 +101,19 @@ export const parseEnv = {
         throw new Error('jwt issuer not provided');
 
       return value;
+    }
+  },
+  gmail: {
+    support: () => {
+      const id = process.env['GMAIL_SUPPORT_ID'];
+      const address = process.env['GMAIL_SUPPORT_ADDRESS'];
+
+      if (!id)
+        throw new Error('gmail sender id not provided');
+      if (!address)
+        throw new Error('gmail address not provided');
+
+      return { id, address } as const;
     }
   }
 };

@@ -1,4 +1,5 @@
 import { OAuthTokenSuccessResponse } from 'models/oauth';
+import { pattern } from 'models/pattern';
 import { TypeOf, z } from 'zod';
 import { EXTERNAL_IDENTITY_PROVIDERS } from '../identity-provider';
 import { username } from './common';
@@ -11,7 +12,10 @@ const types = {
   password: z.string().min(8).max(64), // don't trim, because user may want space
   role: z.string().min(1).max(32),
   externalIdp: z.enum(EXTERNAL_IDENTITY_PROVIDERS),
-  externalUserStateToken: z.string().min(1).max(2048)
+  externalUserStateToken: z.string().min(1).max(2048),
+  verficationCode: z.string().trim()
+    .length(8)
+    .regex(pattern.otp.number)
 };
 
 const inputs = {
@@ -30,7 +34,8 @@ const inputs = {
         provider: types.externalIdp,
         token: types.externalUserStateToken
       })
-    ])
+    ]),
+    clientId: oauthValidators.client_id.nullish()
   }),
   signin: {
     email: z.strictObject({
@@ -45,11 +50,26 @@ const inputs = {
       redirect_uri: oauthValidators.redirect_uri
     })
   },
+  emailVerification: {
+    sendCode: z.strictObject({
+      pkce: z.strictObject({
+        method: oauthValidators.code_challenge_method,
+        code: oauthValidators.code_challenge
+      }),
+      email: types.email,
+      firstName: types.firstName
+    }),
+    verifyEmail: z.strictObject({
+      email: types.email,
+      code: types.verficationCode,
+      code_verifier: oauthValidators.code_challenge
+    })
+  },
   validate: {
-    usernameExists: z.strictObject({
+    username: z.strictObject({
       username: username.prefixed
     }),
-    emailExists: z.strictObject({
+    email: z.strictObject({
       email: types.email
     })
   }
@@ -87,5 +107,8 @@ export type SignUpOutput =
     domain: string;
   };
 
-export type ValidateUsernameExistsInput = TypeOf<typeof inputs['validate']['usernameExists']>;
-export type ValidateEmailExistsInput = TypeOf<typeof inputs['validate']['emailExists']>;
+export type ValidateUsernameInput = TypeOf<typeof inputs['validate']['username']>;
+export type ValidateEmailInput = TypeOf<typeof inputs['validate']['email']>;
+
+export type SendEmailVerificationCodeInput = TypeOf<typeof inputs['emailVerification']['sendCode']>;
+export type VerifyEmailInput = TypeOf<typeof inputs['emailVerification']['sendCode']>;
