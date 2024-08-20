@@ -81,6 +81,19 @@ export class AuthService {
     }
   };
 
+  public readonly emailVerification = {
+    sendCode: (firstName: string, email: string) => {
+      return from(codeChallenge.create())
+        .pipe(
+          switchMap(pkce => this.api.auth.emailVerification.sendCode({ email, firstName, pkce: pkce.challenge }))
+        );
+    },
+    verifyCode: (email: string, code: string) => {
+      const code_verifier = codeChallenge.get();
+      return this.api.auth.emailVerification.verifyCode({ email, code, code_verifier });
+    }
+  };
+
   signOut() {
     this.store.dispatch(authActions.signOut({ payload: { revoked: false } }));
   }

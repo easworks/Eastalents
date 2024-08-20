@@ -1,7 +1,6 @@
 import { Entity } from './entity';
 
 export interface User extends Entity {
-  verified: boolean;
   enabled: boolean;
 
   username: string;

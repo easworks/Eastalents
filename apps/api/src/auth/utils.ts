@@ -1,12 +1,12 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { DateTime } from 'luxon';
-import { TokenRef } from 'models/auth';
+import { EmailVerificationCodeRef, TokenRef } from 'models/auth';
 import { ExternalIdentityProviderType, ExternalIdpUser, IdpCredential } from 'models/identity-provider';
 import { PermissionRecord } from 'models/permission-record';
 import { User, UserClaims } from 'models/user';
 import { ObjectId } from 'mongodb';
 import * as crypto from 'node:crypto';
-import { FailedSocialProfileRequest, InvalidPassword, InvalidSocialOauthCode, KeyValueDocumentNotFound, UserNeedsPasswordReset } from 'server-side/errors/definitions';
+import { EmailVerificationCodeExpired, FailedSocialProfileRequest, InvalidPassword, InvalidSocialOauthCode, KeyValueDocumentNotFound, UserNeedsPasswordReset } from 'server-side/errors/definitions';
 import { environment } from '../environment';
 import { easMongo } from '../mongodb';
 import '../utils/email';
@@ -103,7 +103,7 @@ export const oauthUtils = {
       user: {
         _id: user._id,
         email: user.email,
-        verified: user.verified,
+        verified: true,
         username: user.username,
 
         firstName: user.firstName,
@@ -119,7 +119,7 @@ export const oauthUtils = {
 
 export class EmailVerification {
 
-  private static readonly generateCode = (() => {
+  public static readonly generateCode = (() => {
     const min = 10 ** 7;
     const max = 10 ** 8;
 
@@ -129,25 +129,22 @@ export class EmailVerification {
     };
   })();
 
-  private static createLink(code: string) {
-    const url = new URL(`${environment.authHost.host}${environment.authHost.authActionHandler}`);
-    // const url = new URL(`https://accounts.easworks.com${environment.authHost.authActionHandler}`);
-    url.searchParams.set('action', 'verify-email-address');
-    url.searchParams.set('code', code);
-
-    return url.toString();
+  public static async send(email: string, firstName: string, code: string) {
+    const compose = await EmailSender.compose.verifyEmail(email, firstName, code);
+    return EmailSender.sendEmail(compose, environment.gmail.support.id);
   }
 
-  public static async send(user: User) {
-    const code = this.generateCode();
+  public static async verify(ref: EmailVerificationCodeRef | null, code: string, verifier: string) {
+    if (!ref)
+      throw new EmailVerificationCodeExpired();
 
-    // TODO: store code;
+    if (ref.code !== code)
+      throw new EmailVerificationCodeExpired();
 
-    const link = this.createLink(code);
-
-    const compose = await EmailSender.compose.verifyEmail(user, code, link);
-
-    return EmailSender.sendEmail(compose, environment.gmail.support.id);
+    const hash = await crypto.subtle.digest('SHA-256', Buffer.from(verifier, 'base64url'))
+      .then(bytes => Buffer.from(bytes).toString('base64url'));
+    if (ref.pkce !== hash)
+      throw new EmailVerificationCodeExpired();
   }
 }
 

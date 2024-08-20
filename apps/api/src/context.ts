@@ -4,7 +4,7 @@ import fastifyPlugin from 'fastify-plugin';
 import { StatusCodes } from 'http-status-codes';
 import { ALL_ROLES } from 'models/permissions';
 import { CloudContext, CloudUser } from 'server-side/context';
-import { InvalidBearerToken, UserIsDisabled, UserNeedsEmailVerification, UserNotFound } from 'server-side/errors/definitions';
+import { InvalidBearerToken, UserIsDisabled, UserNotFound } from 'server-side/errors/definitions';
 import { jwtUtils } from './auth/utils';
 import { easMongo } from './mongodb';
 
@@ -53,9 +53,6 @@ async function mapTokenToCloudUser(token: string) {
 
   if (!user.enabled)
     throw new UserIsDisabled();
-
-  if (!user.verified)
-    throw new UserNeedsEmailVerification(user);
 
   const permissionRecord = await easMongo.permissions.findOne({ _id: user._id });
   if (!permissionRecord)

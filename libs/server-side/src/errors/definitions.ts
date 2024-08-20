@@ -102,14 +102,6 @@ export class UserNeedsPasswordReset extends ApiError {
   }
 }
 
-export class UserNeedsEmailVerification extends ApiError {
-  constructor(readonly user: User) {
-    super('user-needs-email-verification', StatusCodes.BAD_REQUEST);
-    this.withMetadata('domain', this.domain);
-  }
-  readonly domain = this.user.email.split('@')[1];
-}
-
 export class UserIsDisabled extends ApiError {
   constructor() {
     super('user-is-disabled', StatusCodes.FORBIDDEN);
@@ -151,5 +143,11 @@ export class GoogleApiError extends ApiError {
   constructor(error: any) {
     super('google-api-error', StatusCodes.INTERNAL_SERVER_ERROR);
     this.withMetadata('data', error.response.data);
+  }
+}
+
+export class EmailVerificationCodeExpired extends ApiError {
+  constructor() {
+    super('email-verification-code-expired', StatusCodes.BAD_REQUEST);
   }
 }

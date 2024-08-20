@@ -2,7 +2,7 @@ import { IdpCredential } from 'models/identity-provider';
 import { PermissionRecord } from 'models/permission-record';
 import { User } from 'models/user';
 import { Collection, MongoClient } from 'mongodb';
-import { TokenRef } from 'models/auth';
+import { EmailVerificationCodeRef, TokenRef } from 'models/auth';
 import { OAuthClientApplication, OAuthCode } from 'models/oauth';
 
 const collections = [
@@ -43,6 +43,10 @@ export function initialiseMongo(client: MongoClient) {
 
     oauthApps: db.collection('oauth-apps') as Collection<OAuthClientApplication>,
     oauthCodes: db.collection('oauth-codes') as Collection<OAuthCode>,
+
+    otp: {
+      emailVerification: db.collection('otp-email-verification') as Collection<EmailVerificationCodeRef>
+    },
 
     keyval: {
       get: <T>(key: string) => (keyval as Collection<KeyValDocument<T>>).findOne({ key }),

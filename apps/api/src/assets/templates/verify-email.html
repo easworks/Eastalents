@@ -1,21 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:v="urn:schemas-microsoft-com:vml">
 <head>
-  <script type="application/ld+json">
-    {
-      "@context": "http://schema.org",
-      "@type": "EmailMessage",
-      "description": "Verify your Easworks account email address",
-      "potentialAction": {
-        "@type": "ConfirmAction",
-        "name": "Verify Email Address",
-        "handler": {
-          "@type": "HttpActionHandler",
-          "url": "{{ verification.link }}"
-        }
-      }
-    }
-  </script>
   <title>Email Verification</title>
   <meta charset="utf-8">
   <meta name="x-apple-disable-message-reformatting">
@@ -290,9 +275,6 @@
                 <p>Hello <strong>{{ user.firstName }}</strong>,</p>
                 <p class="text-2xl font-semibold">{{ verification.code }}</p>
                 <p>is your code for verifying your account</p>
-                <p>You can also use the following link to verify your account:<br>
-                  <a src="{{ verification.link }}">{{ verification.link }}</a>
-                </p>
                 <p><br>
                   Yours Sincerely,<br>
                   The Easworks Team</p>

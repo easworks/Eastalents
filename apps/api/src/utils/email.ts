@@ -18,16 +18,15 @@ function replaceVariables(template: string, inputs: [string, string][]) {
 
 export class EmailSender {
   static readonly compose = {
-    verifyEmail: async (user: User, code: string, link: string) => {
+    verifyEmail: async (email: string, firstName: string, code: string) => {
       const tmp = await getTemplateFile('verify-email.html');
       const html = replaceVariables(tmp, [
-        ['user.firstName', user.firstName],
-        ['verification.code', code],
-        ['verification.link', link]
+        ['user.firstName', firstName],
+        ['verification.code', code]
       ]);
 
       return new MailComposer({
-        to: user.email,
+        to: email,
         subject: 'Email Verification',
         html
       });
