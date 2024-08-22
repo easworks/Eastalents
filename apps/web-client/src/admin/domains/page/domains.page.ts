@@ -11,7 +11,7 @@ import { PaginatorComponent } from '@easworks/app-shell/common/paginator/paginat
 import { generateLoadingState } from "@easworks/app-shell/state/loading";
 import { faCheck, faPen, faPlus, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { Store } from '@ngrx/store';
-import { domainData } from 'app-shell/state/domain-data';
+import { domainActions, domainData } from 'app-shell/state/domain-data';
 import Fuse from 'fuse.js';
 import { Domain } from "models/domain";
 import { Subscription, map } from 'rxjs';
@@ -167,22 +167,7 @@ export class DomainsPageComponent {
                 rowSubs.unsubscribe();
                 rowSubs = new Subscription();
 
-                //const allDomains = this.domains.map$();
-
                 return view$().map(domain => {
-                    // const domains = (() => {
-                    //     const list = sp.domains.map(id => {
-                    //         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    //         return allDomains[id]!;
-                    //     });
-
-                    //     // const edit = () => this.editDomains(sp.id);
-
-                    //     return {
-                    //         list,
-                    //         // edit
-                    //     } as const;
-                    // })();
 
                     const form = new FormGroup({ ...rowControls() });
 
@@ -218,7 +203,7 @@ export class DomainsPageComponent {
                                     longName: value.longName,
                                     shortName: value.shortName,
                                 };
-                                //this.store.dispatch(domainDataActions.update({ payload }));
+                                this.store.dispatch(domainActions.update({ payload }));
                             }
                             finally {
                                 updating.delete(domain.id);
@@ -277,11 +262,20 @@ export class DomainsPageComponent {
             const comp = await import('../create/create-domain.dialog')
                 .then(m => m.CreateDomainDialogComponent);
             comp.open(ref, {
-                created: id => id
-                // this.editSkills(id)
-                //     .then(ref => firstValueFrom(ref.afterClosed().pipe(takeUntilDestroyed(this.dRef))))
-                //     .then(() => this.editDomains(id))
+                created: id => {
+                    // edit modules
+                    // edit services
+                    // edit roles
+                    // edit software product
+
+                    // example code:
+                    // return this.editSkills(id)
+                    //     .then(ref => firstValueFrom(ref.afterClosed().pipe(takeUntilDestroyed(this.dRef))))
+                    //     .then(() => this.editDomains(id))
+                }
+
             });
+
         };
 
         return {
