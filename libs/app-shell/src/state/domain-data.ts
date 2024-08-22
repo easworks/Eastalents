@@ -62,6 +62,14 @@ export const softwareProductActions = createActionGroup({
   }
 });
 
+export const domainActions = createActionGroup({
+  source: 'domain',
+  events: {
+    'add': props<{ payload: Domain; }>(),
+    'update': props<{ payload: Domain; }>(),
+  }
+});
+
 
 const adapters = {
   domain: createEntityAdapter<Domain>(),
@@ -120,6 +128,17 @@ const feature = createFeature({
       return state;
     }),
 
+    on(domainActions.add, (state, { payload }) => {
+      state = { ...state };
+      state.domains = adapters.domain.addOne(payload, state.domains);
+      (state.domains.ids as string[]).sort(sortString);
+      return state;
+    }),
+    on(domainActions.update, (state, { payload }) => {
+      state = { ...state };
+      state.domains = adapters.domain.setOne(payload, state.domains);
+      return state;
+    }),
     // Software Product
     on(softwareProductActions.add, (state, { payload }) => {
       state = { ...state };

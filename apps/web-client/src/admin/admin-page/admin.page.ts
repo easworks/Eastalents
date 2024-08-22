@@ -16,6 +16,7 @@ export class AdminPageComponent {
 
   protected readonly links = [
     { url: '/admin/dashboard', text: 'Dashboard' },
+    { url: '/admin/domains', text: 'Domains' },
     { url: '/admin/software-products', text: 'Software Products' },
     { url: '/admin/tech-skills', text: 'Tech Skills' },
     { url: '/admin/tech-groups', text: 'Tech Groups' },
