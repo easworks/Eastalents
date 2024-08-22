@@ -80,8 +80,6 @@ export const oauthCodeCallback: CanActivateFn = (snap) => {
             queryParams: forwardQuery,
             info
           });
-        case 'verify-email':
-          return router.navigateByUrl('/verify-email');
       }
     }),
     switchMap(() => NEVER),

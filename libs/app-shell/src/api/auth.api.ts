@@ -24,9 +24,9 @@ export class AuthApi extends EasworksApi {
 
   readonly emailVerification = {
     sendCode: (input: SendEmailVerificationCodeInput) =>
-      this.http.post<boolean>(`${this.apiUrl}/auth/email-verification/send-code`, input),
+      this.http.post<true>(`${this.apiUrl}/auth/email-verification/send-code`, input),
     verifyCode: (input: VerifyEmailVerificationCodeInput) =>
-      this.http.post<boolean>(`${this.apiUrl}/auth/email-verification/verify-code`, input)
+      this.http.post<true>(`${this.apiUrl}/auth/email-verification/verify-code`, input)
   };
 
   readonly validate = {
