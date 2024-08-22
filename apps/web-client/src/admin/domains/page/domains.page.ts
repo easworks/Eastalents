@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, computed, effect, inject, signal, untracked } from "@angular/core";
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatCheckboxModule } from "@angular/material/checkbox";
@@ -12,11 +11,10 @@ import { PaginatorComponent } from '@easworks/app-shell/common/paginator/paginat
 import { generateLoadingState } from "@easworks/app-shell/state/loading";
 import { faCheck, faPen, faPlus, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { Store } from '@ngrx/store';
+import { domainData } from 'app-shell/state/domain-data';
 import Fuse from 'fuse.js';
-import { SoftwareProduct } from 'models/software';
-import { Subscription, firstValueFrom, map } from 'rxjs';
-import { domainData, domainDataActions, softwareProductActions } from 'app-shell/state/domain-data';
 import { Domain } from "models/domain";
+import { Subscription, map } from 'rxjs';
 
 
 @Component({

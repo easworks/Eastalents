@@ -128,6 +128,7 @@ const feature = createFeature({
       return state;
     }),
 
+    // Domains
     on(domainActions.add, (state, { payload }) => {
       state = { ...state };
       state.domains = adapters.domain.addOne(payload, state.domains);
@@ -139,6 +140,7 @@ const feature = createFeature({
       state.domains = adapters.domain.setOne(payload, state.domains);
       return state;
     }),
+
     // Software Product
     on(softwareProductActions.add, (state, { payload }) => {
       state = { ...state };

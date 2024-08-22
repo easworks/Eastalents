@@ -9,11 +9,10 @@ import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { faQuestionCircle, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
+import { domainActions, domainData } from 'app-shell/state/domain-data';
 import Fuse from 'fuse.js';
-import { pattern } from 'models/pattern';
-import { SoftwareProduct } from 'models/software';
-import { domainActions, domainData, softwareProductActions } from 'app-shell/state/domain-data';
 import { Domain } from 'models/domain';
+import { pattern } from 'models/pattern';
 
 
 interface CreateDomainDialogData {
@@ -47,11 +46,11 @@ export class CreateDomainDialogComponent {
         'creating domain'
     ]>();
 
-    private readonly products = (() => {
+    private readonly domains = (() => {
         const list$ = this.store.selectSignal(domainData.selectors.domains.selectAll);
-        const ids$ = computed(() => new Set(list$().map(skill => skill.id)));//to check
+        const ids$ = computed(() => new Set(list$().map(domain => domain.id)));//to check
         const search$ = computed(() => new Fuse(list$(), {
-            keys: ['name'],
+            keys: ['longName'],
             includeScore: true
         }));
 
@@ -64,15 +63,15 @@ export class CreateDomainDialogComponent {
     protected readonly formId = 'create-domain-form';
 
     protected readonly maxlength = {
-        id: 64,
+        id: 16,
         longName: 64,
-        shortName: 30
+        shortName: 16
     } as const;
 
     private readonly validators = {
         id: (control: AbstractControl) => {
             const value = control.value as string;
-            if (this.products.ids$().has(value))
+            if (this.domains.ids$().has(value))
                 return { exists: true };
 
             return null;
@@ -116,7 +115,7 @@ export class CreateDomainDialogComponent {
 
                 const value = this.form.getRawValue();
 
-                const product: Domain = {
+                const domain: Domain = {
                     id: value.id,
                     longName: value.longName,
                     shortName: value.shortName,
@@ -126,9 +125,9 @@ export class CreateDomainDialogComponent {
                     products: []
                 };
 
-                this.store.dispatch(domainActions.add({ payload: product })); // to check this with add
+                this.store.dispatch(domainActions.add({ payload: domain })); // to check this with add
                 SnackbarComponent.forSuccess(this.snackbar);
-                this.data.created(product.id);
+                this.data.created(domain.id);
                 this.dialog.close();
             },
             loading$: this.loading.has('creating domain')
@@ -149,7 +148,7 @@ export class CreateDomainDialogComponent {
             if (!input)
                 return [];
 
-            return untracked(this.products.search$).search(input)
+            return untracked(this.domains.search$).search(input)
                 .map(result => result.item)
                 .slice(0, 5);
         });
