@@ -67,6 +67,10 @@ export const domainActions = createActionGroup({
   events: {
     'add': props<{ payload: Domain; }>(),
     'update': props<{ payload: Domain; }>(),
+    'update modules': props<{
+      id: string;
+      modules: Domain['modules'];
+    }>()
   }
 });
 
