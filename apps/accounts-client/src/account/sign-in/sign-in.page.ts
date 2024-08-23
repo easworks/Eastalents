@@ -34,7 +34,7 @@ export class SignInPageComponent {
   private readonly dRef = inject(DestroyRef);
 
   @HostBinding()
-  private readonly class = 'page grid place-content-center @container';
+  private readonly class = '';
 
   protected readonly icons = {
     faGoogle,

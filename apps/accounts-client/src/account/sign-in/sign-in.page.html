@@ -1,89 +1,108 @@
-<img class="h-8 block mx-auto" src="/assets/brand/logo-full-dark.png" alt="App Logo" loading="lazy" />
+<!-- Login Page Start -->
+<section class="bg-gray-100 min-h-screen">
+  <div class="page py-0">
+    <img
+      src="../../assets/login/logo.svg"
+      alt="Logo"
+      class="block mx-auto py-8"
+    />
+    <div
+      class="bg-white rounded-md border border-gray-200 px-10 py-6 8xl:w-2/5 6xl:w-2/4 4xl:w-3/5 2xl:w-4/5 w-full mx-auto"
+    >
+      <h4 class="3xl:text-2xl text-xl uppercase text-center">
+        Login to <span class="text-primary-500">your account</span>
+      </h4>
 
+      <div
+        class="lg:flex grid sm:grid-cols-2 items-center sm:justify-between lg:gap-5 gap-2.5 my-4"
+      >
+        <div
+          class="border border-gray-300 py-3 text-gray-700 lg:w-40 w-full flex items-center gap-2.5 justify-center rounded-sm"
+        >
+          <img
+            src="../../assets/login/ic-github.svg"
+            alt="Github Icon"
+          />
+          Github
+        </div>
 
-<div class="mt-4 rounded-md bg-white shadow shadow-z1 p-4 px-8 pb-8">
+        <div
+          class="border border-gray-300 py-3 text-gray-700 lg:w-40 w-full flex items-center gap-2.5 justify-center rounded-sm"
+        >
+          <img
+            src="../../assets/login/ic-google.svg"
+            alt="Google Icon"
+          />
+          Google
+        </div>
 
-  <p class="text-lg text-center">
-    LOGIN TO <span class="text-primary-500">YOUR ACCOUNT</span>
-  </p>
+        <div
+          class="border border-gray-300 py-3 text-gray-700 lg:w-40 w-full flex items-center gap-2.5 justify-center rounded-sm"
+        >
+          <img
+            src="../../assets/login/ic-linkedin.svg"
+            alt="LinkedIn Icon"
+          />
+          LinkedIn
+        </div>
+      </div>
 
-  <div class="mt-4 grid gap-4 grid-cols-2 @xl:grid-cols-3">
-    <button class="social-button" mat-ripple
-            (click)="socialSignIn('google')">
-      <fa-icon [icon]="icons.faGoogle"></fa-icon>
-      <span>Google</span>
-    </button>
-    <button class="social-button" mat-ripple
-            (click)="socialSignIn('linkedin')">
-      <fa-icon [icon]="icons.faLinkedinIn"></fa-icon>
-      <span>LinkedIn</span>
-    </button>
-    <button class="social-button" mat-ripple
-            (click)="socialSignIn('github')">
-      <fa-icon [icon]="icons.faGithub"></fa-icon>
-      <span>Github</span>
-    </button>
-  </div>
+      <div class="grid grid-cols-11 items-center">
+        <div class="border-t border-gray-300 w-full col-span-5"></div>
+        <h6 class="3xl:text-2xl text-xl text-gray-400 text-center">or</h6>
+        <div class="border-t border-gray-300 w-full col-span-5"></div>
+      </div>
 
-  <div class="flex gap-4 items-center my-4">
-    <mat-divider class="w-full"></mat-divider>
-    <span class="italic text-divider">OR</span>
-    <mat-divider class="w-full"></mat-divider>
-  </div>
+      <form>
+        <input
+          type="text"
+          placeholder="User name"
+          class="!rounded-sm 3xl:!p-4 !p-3 3xl:!text-xl !text-lg placeholder:3xl:!text-xl my-4 placeholder:!text-lg"
+        />
 
-  <form class="mt-4"
-        [id]="emailLogin.formId"
-        [formGroup]="emailLogin.form"
-        (ngSubmit)="emailLogin.submit()">
+        <div class="relative">
+          <input
+            type="password"
+            placeholder="Password"
+            class="!rounded-sm 3xl:!p-4 !p-3 3xl:!text-xl !text-lg placeholder:3xl:!text-xl placeholder:!text-lg"
+          />
+          <img
+            src="../../assets/login/ic-hide-pass.svg"
+            alt="Eye Close Icon"
+            class="bg-white absolute right-2.5 top-2/4 -translate-y-2/4"
+          />
+        </div>
 
-    <div *ngrxLet="emailLogin.form.controls.email as control"
-         [formFieldControl]="control">
-      <input type="email" [formControl]="control" placeholder="Email">
-      @if(control.hasError('required')) { <span class="error">Required</span> }
-      @if(control.hasError('email')) { <span class="error">Invalid Email</span> }
-      @if(control.hasError('notRegistered')) { <span class="error">Email not registered</span> }
+        <div class="flex justify-end w-full my-2.5">
+          <a href="#" class="font-medium text-primary-500">Forgot Password</a>
+        </div>
+
+        <button
+          class="3xl:text-2xl text-xl font-semibold bg-primary-500 text-white rounded-lg py-4 w-full px-5"
+        >
+          Login
+        </button>
+      </form>
+
+      <div class="text-gray-600 text-center font-medium mt-12 mb-2">
+        Don’ t have an account?
+        <a href="#" class="text-black">Create one now</a>
+      </div>
+
+      <div class="flex gap-x-10 gap-y-2 items-center lg:flex-nowrap flex-wrap">
+        <div
+          class="border border-gray-300 3xl:py-5 py-3 text-primary-500 font-semibold text-lg flex items-center gap-2.5 justify-center rounded-sm w-full"
+        >
+          Join as Talent
+        </div>
+
+        <div
+          class="border border-gray-300 3xl:py-5 py-3 text-primary-500 font-semibold text-lg flex items-center gap-2.5 justify-center rounded-sm w-full"
+        >
+          Join as Company
+        </div>
+      </div>
     </div>
-
-    <div *ngrxLet="emailLogin.form.controls.password as control"
-         [formFieldControl]="control"
-         class="mb-4">
-      <input type="password" [formControl]="control" placeholder="Password">
-      @if(control.hasError('required')) { <span class="error">Required</span> }
-      @if(control.hasError('invalidPassword')) { <span class="error">Invalid Password</span> }
-      @if(control.hasError('needsReset')) { <span class="error">Password needs to be reset</span> }
-      <a routerLink="/forgot-password"
-         class="block w-max mt-1 ml-auto underline text-primary-400 text-sm">Forgot Password?</a>
-    </div>
-  </form>
-
-  <div class="flex gap-4">
-    <button class="shaded-button primary relative w-full py-2"
-            [attr.form]="emailLogin.formId"
-            type="submit"
-            [disabled]="emailLogin.button.disabled$()"
-            mat-ripple>
-      <replace-spinner [showSpinner]="emailLogin.button.loading$()">
-        Sign In
-      </replace-spinner>
-    </button>
   </div>
-
-  <div class="mt-8">
-    <p class="text-center text-sm">
-      Don't have an account?
-      <span class="font-medium">Create one now</span>
-    </p>
-    <div class="mt-2 flex gap-4 justify-center">
-      <a class="sign-up-button" mat-ripple
-         routerLink="/sign-up/talent"
-         [queryParams]="query$()">
-        Join as Talent
-      </a>
-      <a class="sign-up-button" mat-ripple
-         routerLink="/sign-up/employer"
-         [queryParams]="query$()">
-        Join as Company
-      </a>
-    </div>
-  </div>
-</div>
+</section>
+<!-- Login Page End -->
