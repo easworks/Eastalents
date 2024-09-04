@@ -22,7 +22,7 @@ const inputs = {
   signup: z.strictObject({
     firstName: types.firstName,
     lastName: types.lastName,
-    username: username.prefixed,
+    username: username,
     email: types.email,
     role: types.role,
     credentials: z.union([
@@ -39,7 +39,7 @@ const inputs = {
     emailVerification: z.strictObject({
       code: types.verficationCode,
       code_verifier: oauthValidators.code_challenge
-    })
+    }).nullable()
   }),
   signin: {
     email: z.strictObject({
@@ -68,7 +68,7 @@ const inputs = {
   },
   validate: {
     username: z.strictObject({
-      username: username.prefixed
+      username: username
     }),
     email: z.strictObject({
       email: types.email

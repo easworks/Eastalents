@@ -130,7 +130,9 @@ export class EmailVerification {
   })();
 
   public static async send(email: string, firstName: string, code: string) {
-    const compose = await EmailSender.compose.verifyEmail(email, firstName, code);
+    const compose = await EmailSender.compose.verifyEmail(firstName, code);
+    compose.mail.to = email;
+    compose.mail.from = `Easworks ${environment.gmail.support.id}`;
     return EmailSender.sendEmail(compose, environment.gmail.support.id);
   }
 
@@ -151,22 +153,24 @@ export class EmailVerification {
 export class WelcomeEmail {
   public static async send(user: User, permission: PermissionRecord, oauthClientName?: string) {
 
-    let raw;
+    let compose;
     {
       switch (oauthClientName) {
         case 'easdevhub-production':
-          raw = await EmailSender.compose.welcome.easdevhub(user);
+          compose = await EmailSender.compose.welcome.easdevhub(user);
           break;
         default:
           if (permission.roles.includes('employer'))
-            raw = await EmailSender.compose.welcome.easworks.employer(user);
+            compose = await EmailSender.compose.welcome.easworks.employer(user);
           else
-            raw = await EmailSender.compose.welcome.easworks.talent(user);
+            compose = await EmailSender.compose.welcome.easworks.talent(user);
           break;
       }
     }
 
-    return EmailSender.sendEmail(raw, environment.gmail.support.id);
+    compose.mail.to = user.email;
+    compose.mail.from = `Easworks ${environment.gmail.support.id}`;
+    return EmailSender.sendEmail(compose, environment.gmail.support.id);
   }
 }
 

@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { RETURN_URL_KEY } from 'models/auth';
 import { ExternalIdentityProviderType } from 'models/identity-provider';
 import type { EmailSignInInput } from 'models/validators/auth';
-import { first, from, switchMap, tap } from 'rxjs';
+import { first, from, map, switchMap, tap } from 'rxjs';
 import { AuthApi } from '../api/auth.api';
 import { OAuthApi } from '../api/oauth.api';
 import { CLIENT_CONFIG } from '../dependency-injection';
@@ -90,7 +90,8 @@ export class AuthService {
     },
     verifyCode: (email: string, code: string) => {
       const code_verifier = codeChallenge.get();
-      return this.api.auth.emailVerification.verifyCode({ email, code, code_verifier });
+      return this.api.auth.emailVerification.verifyCode({ email, code, code_verifier })
+        .pipe(map(() => code_verifier));
     }
   };
 

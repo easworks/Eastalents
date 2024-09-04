@@ -18,7 +18,7 @@ function replaceVariables(template: string, inputs: [string, string][]) {
 
 export class EmailSender {
   static readonly compose = {
-    verifyEmail: async (email: string, firstName: string, code: string) => {
+    verifyEmail: async (firstName: string, code: string) => {
       const tmp = await getTemplateFile('verify-email.html');
       const html = replaceVariables(tmp, [
         ['user.firstName', firstName],
@@ -26,7 +26,6 @@ export class EmailSender {
       ]);
 
       return new MailComposer({
-        to: email,
         subject: 'Email Verification',
         html
       });
@@ -40,7 +39,6 @@ export class EmailSender {
           ]);
 
           return new MailComposer({
-            to: user.email,
             subject: 'Welcome to Easworks',
             html
           });
@@ -52,7 +50,6 @@ export class EmailSender {
           ]);
 
           return new MailComposer({
-            to: user.email,
             subject: 'Welcome to Easworks',
             html
           });
@@ -65,7 +62,6 @@ export class EmailSender {
         ]);
 
         return new MailComposer({
-          to: user.email,
           subject: 'Welcome to Easdevhub',
           html
         });
@@ -77,12 +73,6 @@ export class EmailSender {
 
     const raw = await compose.compile().build()
       .then(buf => buf.toString('base64'));
-
-    // {
-    //   const QP = await import('libqp');
-    //   const x = QP.decode(Buffer.from(raw, 'base64').toString('utf-8')).toString();
-    //   console.debug(x);
-    // }
 
     const auth = await easGoogle.auth.forGmail(senderId);
 

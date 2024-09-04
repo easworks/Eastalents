@@ -6,7 +6,7 @@ import { ALL_ROLES, PERMISSION_DEF_DTO } from 'models/permissions';
 import { User } from 'models/user';
 import { authValidators, SignUpOutput, SocialOAuthCodeExchangeOutput } from 'models/validators/auth';
 import { ObjectId } from 'mongodb';
-import { SignupEmailInUse, SignupRequiresWorkEmail, SignupRoleIsInvalid, UserEmailNotRegistered, UserIsDisabled, UsernameInUse, UserNeedsPasswordReset } from 'server-side/errors/definitions';
+import { EmailVerificationCodeExpired, SignupEmailInUse, SignupRequiresWorkEmail, SignupRoleIsInvalid, UserEmailNotRegistered, UserIsDisabled, UsernameInUse, UserNeedsPasswordReset } from 'server-side/errors/definitions';
 import { setTypeVersion } from 'server-side/mongodb/collections';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 import { easMongo } from '../mongodb';
@@ -25,10 +25,6 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     async (req) => {
 
       const input = req.body;
-
-      // verify the email
-      const ref = await easMongo.otp.emailVerification.findOne({ email: input.email });
-      await EmailVerification.verify(ref, input.emailVerification.code, input.emailVerification.code_verifier);
 
       let externalUser: ExternalIdpUser | undefined;
       if (input.credentials.provider !== 'email') {
@@ -60,6 +56,15 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       if (emailExists)
         throw new SignupEmailInUse();
+
+      if (!externalUser || !externalUser.email_verified) {
+        if (!input.emailVerification)
+          throw new EmailVerificationCodeExpired();
+
+        // verify the email
+        const ref = await easMongo.otp.emailVerification.findOne({ email: input.email });
+        await EmailVerification.verify(ref, input.emailVerification.code, input.emailVerification.code_verifier);
+      }
 
       // validate role
       {
@@ -240,7 +245,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
         pkce: input.pkce
       };
 
-      await easMongo.otp.emailVerification.updateOne({ email: input.email }, store, { upsert: true });
+      await easMongo.otp.emailVerification.replaceOne({ email: input.email }, store, { upsert: true });
 
       await EmailVerification.send(input.email, input.firstName, code);
 
