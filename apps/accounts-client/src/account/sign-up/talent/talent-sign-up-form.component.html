@@ -4,7 +4,7 @@
   work with the worlds leading Companies.
 </p>
 
-<mat-stepper orientation="vertical" linear #stepper>
+<mat-stepper orientation="horizontal" linear #stepper>
   <mat-step label="Account Basics" [completed]="accountBasics.valid$()">
     @if (!prefill.canUse$()) {
     <p class="mt-2 text-sm text-center">
@@ -52,12 +52,7 @@
            [formFieldControl]="control"
            [class.show-spinner]="accountBasics.validating.username$()">
         <label>Username</label>
-        <div class="absolute top-6 grid place-content-center h-8 w-8
-          text-gray-500 font-bold">
-          &#64;
-        </div>
-        <input type="text" [formControl]="control" placeholder="Username"
-               class="!pl-6">
+        <input type="text" [formControl]="control" placeholder="Username">
 
         @if(control.hasError('required')){
         <span class="error">Required</span>
@@ -243,6 +238,73 @@
 
   </mat-step>
 
+  <mat-step label="Email Verification" [completed]="emailVerification.verified$()">
+
+    @if(emailVerification.verified$()) {
+    <div class="mt-2 flex gap-1 items-center">
+      <fa-icon [icon]="icons.faCircleCheck" class="text-emerald-400 text-lg inline-block mr-1"></fa-icon>
+      <p> Email is verified </p>
+    </div>
+
+    <button type="button" class="mt-4 stroked-button" mat-ripple
+            (click)="stepper.next()">
+      Next
+    </button>
+    }
+    @else {
+    @if (emailVerification.mailSent$()) {
+    <p class="mt-2 text-sm">
+      A code has been sent to the email address you specified before.
+      Please enter the code you received here to verify your email address.
+    </p>
+    <form *ngrxLet="emailVerification.verifyCode.form as form"
+          class="mt-4"
+          [formGroup]="form"
+          (ngSubmit)="emailVerification.verifyCode.submit()">
+      <div *ngrxLet="form.controls.code as control"
+           [formFieldControl]="control">
+        <label>Code</label>
+        <input type="text" inputmode="numeric" [formControl]="control">
+        @if(control.hasError('required')) {<span class="error">Required</span>}
+        @if(control.hasError('minlength')) {<span class="error">Invalid code</span>}
+        @if(control.hasError('maxlength')) {<span class="error">Invalid code</span>}
+        @if(control.hasError('invalid')) {<span class="error">Invalid code</span>}
+      </div>
+
+      <div>
+        <button type="submit" class="stroked-button" mat-ripple
+                [disabled]="emailVerification.verifyCode.disabled$()">
+          <replace-spinner [showSpinner]="emailVerification.verifyCode.loading$()">
+            Verify
+          </replace-spinner>
+        </button>
+      </div>
+    </form>
+    }
+    @else {
+    <p class="mt-2 text-sm">
+      In order to create your account, we need to verify your email address exists and is controlled by you.
+      We will send you a code to the email address you provided above.
+      You will be needed to enter that code on this page to complete the verification.
+
+      <br>
+      <br>
+
+      Please click the button below when you are ready.
+
+    </p>
+
+    <button class="stroked-button primary mt-4" mat-ripple
+            (click)="emailVerification.sendCode.click()">
+      <replace-spinner [showSpinner]="emailVerification.sendCode.loading$()">
+        Send Code
+      </replace-spinner>
+    </button>
+
+    }
+    }
+  </mat-step>
+
   <mat-step label="Sign Up">
 
     <p class="mt-2 text-sm text-center">
@@ -257,14 +319,10 @@
             (click)="consent.submit.click()"
             [disabled]="consent.submit.disabled$()">
       <replace-spinner [showSpinner]="consent.submit.loading$()">
-        SIGN UP
+        FINISH SIGNING UP
       </replace-spinner>
     </button>
 
-    <p class="mt-4 text-center">
-      Already have an an account?
-      <a routerLink="/sign-in" [queryParams]="query$()" [info]="prefill.routeInfo$()" class="font-medium">Sign In</a>
-    </p>
 
   </mat-step>
 
@@ -272,3 +330,8 @@
     <fa-icon [icon]="icons.faCheck" class="text-sm"></fa-icon>
   </ng-template>
 </mat-stepper>
+
+<p class="mt-4 text-center text-gray-500">
+  Already have an an account?
+  <a routerLink="/sign-in" [queryParams]="query$()" [info]="prefill.routeInfo$()" class="font-medium">Sign In</a>
+</p>

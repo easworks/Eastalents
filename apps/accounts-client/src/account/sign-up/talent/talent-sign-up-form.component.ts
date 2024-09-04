@@ -7,7 +7,7 @@ import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthApi } from '@easworks/app-shell/api/auth.api';
 import { ClearTriggerOnSelectDirective } from '@easworks/app-shell/common/clear-trigger-on-select.directive';
-import { controlStatus$ } from '@easworks/app-shell/common/form-field.directive';
+import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
@@ -76,6 +76,8 @@ export class TalentSignUpFormComponent {
     'signing up',
     'validating username exists',
     'validating email exists',
+    'sending verification code',
+    'validating verification code'
   ]>();
 
   protected readonly query$ = toSignal(this.route.queryParams, { requireSync: true });
@@ -105,7 +107,7 @@ export class TalentSignUpFormComponent {
     const validators = {
       username: {
         pattern: zodValidator(
-          username.plain,
+          username,
           undefined, err => {
             const issue = err.issues[0];
             switch (issue.code) {
@@ -114,8 +116,8 @@ export class TalentSignUpFormComponent {
               case 'invalid_string': return `Allowed characters: 'a-z', '0-9' and '_'`;
               case 'custom':
                 switch (issue.message) {
-                  case 'no-underscore-at-start': return 'Cannot have underscore at start';
-                  case 'no-underscore-at-end': return 'Cannot have underscore at end';
+                  case 'no-underscore-at-start': return 'Cannot start with underscore';
+                  case 'no-underscore-at-end': return 'Cannot end with underscore';
                   case 'no-consecutive-underscores': return 'Cannot have consecutive underscores';
                 }
                 return issue.message;
@@ -127,7 +129,7 @@ export class TalentSignUpFormComponent {
           tap(() => this.loading.add('validating username exists')),
           switchMap(value => {
             const input: ValidateUsernameInput = {
-              username: '@' + value
+              username: value
             };
             return this.api.auth.validate.usernameExists(input);
           }),
@@ -485,6 +487,112 @@ export class TalentSignUpFormComponent {
     } as const;
   })();
 
+  protected readonly emailVerification = (() => {
+    const mailSent$ = signal(false);
+
+    type VerificationCode = SignUpInput['emailVerification'];
+    const verifiedEmails$ = signal(new Map<string, VerificationCode>(), { equal: () => false });
+    const value$ = signal<VerificationCode>(null);
+    {
+      const info = this.prefill.routeInfo$();
+      if (info?.externalUser.email_verified) {
+        verifiedEmails$.update(m => m.set(info.externalUser.email, null));
+      }
+    }
+
+    const formValue$ = toSignal(controlValue$(this.accountBasics.form), { requireSync: true });
+    const email$ = computed(() => formValue$().email);
+
+    const verified$ = computed(() => {
+      const email = email$();
+      const verified = verifiedEmails$();
+      return verified.has(email);
+    });
+
+    const sendCode = {
+      click: () => {
+        this.loading.add('sending verification code');
+
+        const fv = this.accountBasics.form.getRawValue();
+        const firstName = fv.firstName!;
+        const email = fv.email;
+        this.auth.emailVerification.sendCode(firstName, email)
+          .pipe(
+            map(() => mailSent$.set(true)),
+            catchError(e => {
+              SnackbarComponent.forError(this.snackbar, e);
+              throw e;
+            }),
+            finalize(() => this.loading.delete('sending verification code')),
+            takeUntilDestroyed(this.dRef)
+          ).subscribe();
+      },
+      disabled$: this.loading.any$,
+      loading$: this.loading.has('sending verification code')
+    } as const;
+
+    const verifyCode = (() => {
+      const form = new FormGroup({
+        code: new FormControl('', {
+          nonNullable: true,
+          validators: [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(8),
+            Validators.pattern(pattern.otp.number)
+          ]
+        })
+      }, { updateOn: 'submit' });
+
+      const loading$ = this.loading.has('validating verification code');
+      const disabled$ = this.loading.any$;
+
+      const submit = () => {
+        if (!form.valid)
+          return;
+
+        this.loading.add('validating verification code');
+
+        const email = this.accountBasics.form.getRawValue().email;
+        const code = form.getRawValue().code;
+
+        this.auth.emailVerification.verifyCode(email, code)
+          .pipe(
+            map(code_verifier => {
+              verifiedEmails$.update(v => v.set(email, { code, code_verifier }));
+              mailSent$.set(false);
+              value$.set({ code, code_verifier });
+            }),
+            catchError((e: ProblemDetails) => {
+              if (e.type === 'email-verification-code-expired')
+                form.controls.code.setErrors({ 'invalid': true });
+              else
+                SnackbarComponent.forError(this.snackbar, e);
+              throw e;
+            }),
+            finalize(() => this.loading.delete('validating verification code')),
+            takeUntilDestroyed(this.dRef)
+          ).subscribe();
+      };
+
+      return {
+        form,
+        loading$,
+        disabled$,
+        submit
+      };
+    })();
+
+
+    return {
+      verified$,
+      mailSent$,
+      sendCode,
+      verifyCode,
+      value$
+    } as const;
+  })();
+
 
   protected readonly consent = (() => {
     const submit = (() => {
@@ -494,7 +602,7 @@ export class TalentSignUpFormComponent {
         const prefill = this.prefill.canUse$() && this.prefill.routeInfo$();
 
         const input: SignUpInput = {
-          username: '@' + fv.username,
+          username: fv.username,
           firstName: fv.firstName,
           lastName: fv.lastName,
           email: fv.email,
@@ -508,7 +616,8 @@ export class TalentSignUpFormComponent {
               provider: 'email',
               password: fv.password
             },
-          clientId: extractClientIdFromReturnUrl(this.returnUrl$())
+          clientId: extractClientIdFromReturnUrl(this.returnUrl$()),
+          emailVerification: this.emailVerification.value$()
         };
 
         this.loading.add('signing up');
@@ -534,7 +643,12 @@ export class TalentSignUpFormComponent {
       };
 
       const loading$ = this.loading.has('signing up');
-      const valid$ = computed(() => this.accountBasics.valid$() && this.domains.valid$() && this.software.valid$());
+      const valid$ = computed(() =>
+        this.accountBasics.valid$() &&
+        this.domains.valid$() &&
+        this.software.valid$() &&
+        this.emailVerification.verified$()
+      );
       const disabled$ = computed(() => this.loading.any$() || !valid$());
 
       return {
