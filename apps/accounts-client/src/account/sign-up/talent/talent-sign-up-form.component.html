@@ -4,10 +4,10 @@
   work with the worlds leading Companies.
 </p>
 
-<mat-stepper orientation="horizontal" linear #stepper>
+<mat-stepper [orientation]="orientation$()" linear #stepper>
   <mat-step label="Account Basics" [completed]="accountBasics.valid$()">
     @if (!prefill.canUse$()) {
-    <p class="mt-2 text-sm text-center">
+    <p class="text-sm text-center">
       SIGN UP WITH
     </p>
 
@@ -141,7 +141,7 @@
 
   <mat-step label="Domains" [completed]="domains.valid$()">
 
-    <div class="mt-2 flex-none flex gap-2 text-slate-500 items-center justify-between">
+    <div class="flex-none flex gap-2 text-slate-500 items-center justify-between">
       <span class="flex gap-2 items-center">
         <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
         <span>Select 1 - 3 items</span>
@@ -190,7 +190,7 @@
 
   <mat-step label="Software" [completed]="software.valid$()">
 
-    <div class="mt-2 flex-none flex gap-2 text-slate-500 items-center justify-between">
+    <div class="flex-none flex gap-2 text-slate-500 items-center justify-between">
       <span class="flex gap-2 items-center">
         <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
         <span>Select 1 - 10 items</span>
@@ -241,7 +241,7 @@
   <mat-step label="Email Verification" [completed]="emailVerification.verified$()">
 
     @if(emailVerification.verified$()) {
-    <div class="mt-2 flex gap-1 items-center">
+    <div class="flex gap-1 items-center">
       <fa-icon [icon]="icons.faCircleCheck" class="text-emerald-400 text-lg inline-block mr-1"></fa-icon>
       <p> Email is verified </p>
     </div>
@@ -253,7 +253,7 @@
     }
     @else {
     @if (emailVerification.mailSent$()) {
-    <p class="mt-2 text-sm">
+    <p class="text-sm">
       A code has been sent to the email address you specified before.
       Please enter the code you received here to verify your email address.
     </p>
@@ -282,7 +282,7 @@
     </form>
     }
     @else {
-    <p class="mt-2 text-sm">
+    <p class="text-sm">
       In order to create your account, we need to verify your email address exists and is controlled by you.
       We will send you a code to the email address you provided above.
       You will be needed to enter that code on this page to complete the verification.
@@ -305,9 +305,9 @@
     }
   </mat-step>
 
-  <mat-step label="Sign Up">
+  <mat-step label="Sign Up" completed="false">
 
-    <p class="mt-2 text-sm text-center">
+    <p class="text-sm text-center">
       By signing up, you agree to our
       <a routerLink="/terms-of-use" class="text-primary-500 font-medium">Terms of Use</a>,
       <a routerLink="/privacy-policy" class="text-primary-500 font-medium">Privacy Policy</a> and
@@ -330,8 +330,3 @@
     <fa-icon [icon]="icons.faCheck" class="text-sm"></fa-icon>
   </ng-template>
 </mat-stepper>
-
-<p class="mt-4 text-center text-gray-500">
-  Already have an an account?
-  <a routerLink="/sign-in" [queryParams]="query$()" [info]="prefill.routeInfo$()" class="font-medium">Sign In</a>
-</p>

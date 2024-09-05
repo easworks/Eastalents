@@ -10,6 +10,8 @@ import { moduleMap, SwiperModuleId } from './utils';
 export class SwiperStyleInjectorService {
   private readonly document = isServer() ? null : inject(DOCUMENT);
 
+  private readonly injected = new Set<string>();
+
   private readonly coreLink = (() => {
     if (!this.document)
       return null;
@@ -35,7 +37,9 @@ export class SwiperStyleInjectorService {
     if (!this.document)
       return;
 
-    const styleSheets = modules.map(m => `/assets/swiper/modules/${m}.min.css`);
+    const styleSheets = modules
+      .filter(m => !this.injected.has(m))
+      .map(m => `/assets/swiper/modules/${m}.min.css`);
 
     const styleLinks = [] as HTMLLinkElement[];
     this.document.head.querySelectorAll('link').forEach(l => styleLinks.push(l));

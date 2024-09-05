@@ -32,6 +32,7 @@ import { catchError, delay, EMPTY, finalize, map, NEVER, of, switchMap, tap } fr
 import { extractClientIdFromReturnUrl } from '../../oauth-authorize-callback';
 import { SignUpPageComponent } from '../sign-up.page';
 import { TalentSignUpCardsComponent } from './cards/talent-sign-up-cards.component';
+import { uiFeature } from '@easworks/app-shell/state/ui';
 
 @Component({
   standalone: true,
@@ -99,6 +100,31 @@ export class TalentSignUpFormComponent implements OnInit {
   })();
 
   private readonly stepper$ = viewChild.required<MatStepper>('stepper');
+
+  protected readonly orientation$ = (() => {
+    const screen$ = this.store.selectSignal(uiFeature.selectScreenSize);
+    const $ = computed(() => {
+      const ss = screen$();
+      switch (ss) {
+        case 'xs':
+        case 'sm':
+        case 'md':
+        case 'lg':
+        case 'xl':
+        case '2xl':
+        case '3xl':
+        case '4xl':
+        case '5xl':
+        case '6xl':
+        case '7xl': return 'vertical';
+        case '8xl':
+        case '9xl':
+        case '10xl': return 'horizontal';
+      }
+    });
+
+    return $;
+  })();
 
   protected readonly accountBasics = (() => {
     const formId = 'talent-sign-up-account-basics';

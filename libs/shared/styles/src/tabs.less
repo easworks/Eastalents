@@ -1,46 +1,40 @@
-.mat-mdc-tab {
-  &-group, &-nav-bar {
-    --mdc-tab-indicator-active-indicator-color: transparent;
+html {
+  --mdc-tab-indicator-active-indicator-color: theme('colors.primary.500');
+  --mdc-tab-header-divider-color: theme('colors.divider');
 
-    --mat-tab-header-active-label-text-color: white;
-    --mat-tab-header-active-ripple-color: theme('colors.primary.500');
-    --mat-tab-header-active-focus-label-text-color: white;
-    --mat-tab-header-active-hover-label-text-color: white;
-    --mat-tab-header-active-focus-indicator-color: theme('colors.primary.500');
-    --mat-tab-header-active-hover-indicator-color: theme('colors.primary.500');
+  --mat-tab-header-active-label-text-color: theme('colors.primary.500');
+  --mat-tab-header-active-ripple-color: theme('colors.primary.500');
+  --mat-tab-header-active-focus-label-text-color: theme('colors.primary.500');
+  --mat-tab-header-active-hover-label-text-color: theme('colors.primary.500');
+  --mat-tab-header-active-focus-indicator-color: theme('colors.primary.500');
+  --mat-tab-header-active-hover-indicator-color: theme('colors.primary.500');
+
+  --mat-tab-header-inactive-label-text-color: black;
+  --mat-tab-header-inactive-ripple-color: theme('colors.primary.500');
+  --mat-tab-header-inactive-focus-label-text-color: theme('colors.primary.500');
+  --mat-tab-header-inactive-hover-label-text-color: theme('colors.primary.500');
+
+  --mat-tab-header-disabled-ripple-color: rgba(0, 0, 0, 0.38);
+  --mat-tab-header-pagination-icon-color: black;  
   
-    --mat-tab-header-inactive-label-text-color: black;
-    --mat-tab-header-inactive-ripple-color: theme('colors.primary.500');
-    --mat-tab-header-inactive-focus-label-text-color: theme('colors.primary.500');
-    --mat-tab-header-inactive-hover-label-text-color: theme('colors.primary.500');
-  
-    --mat-tab-header-disabled-ripple-color: rgba(0, 0, 0, 0.38);
-    --mat-tab-header-pagination-icon-color: black;  
-  }
-
-  &-header {
-    --mdc-secondary-navigation-tab-container-height: auto;
-  }
-
-  &.mdc-tab, &-link.mdc-tab {
-    @apply block rounded rounded-b-none p-2 px-4;
-
-    &--active {
-      @apply bg-primary-500;
-    }
-    
-    .mdc-tab__text-label {
-      @apply transition-none;
-    }
-  }
-
-  &-labels, &-links {
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      border: 1px solid theme('colors.primary.400');
-    }
-  }
 }
+
+// .mat-mdc-tab {
+
+//   &-header {
+//     --mdc-secondary-navigation-tab-container-height: auto;
+//   }
+
+//   &.mdc-tab, &-link.mdc-tab {
+//     @apply block rounded rounded-b-none p-4 px-4;
+
+//     &--active {
+//       @apply bg-primary-500;
+//     }
+    
+//     .mdc-tab__text-label {
+//       @apply transition-none;
+//     }
+//   }
+
+// }
