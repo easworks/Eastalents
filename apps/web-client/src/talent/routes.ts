@@ -28,15 +28,6 @@ export const TALENT_ROUTES: Route[] = [
       .then(m => m.TalentProfileEditCardsComponent)
   },
   {
-    path: 'dashboard2',
-    pathMatch: 'full',
-    canMatch: [AuthGuardFn],
-    data: {
-      auth: AUTH_CHECKS.hasRole('talent')
-    },
-    loadComponent: () => import('./dashboard2/dashboard.page').then(m => m.DashboardComponent)
-  },
-  {
     path: 'skill-assessment',
     pathMatch: 'full',
     canMatch: [AuthGuardFn],

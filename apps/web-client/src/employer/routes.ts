@@ -10,7 +10,7 @@ export const EMPLOYER_ROUTES: Route[] = [
     data: {
       auth: AUTH_CHECKS.hasRole('employer')
     },
-    loadComponent: () => import('./dashboard/dashboard.page').then(m => m.EmployerDashboardComponent)
+    loadComponent: () => import('./dashboard2/dashboard.page').then(m => m.DashboardComponent)
   },
   {
     path: 'employer/general-info',
