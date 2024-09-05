@@ -9,7 +9,6 @@ import { ClearTriggerOnSelectDirective } from '@easworks/app-shell/common/clear-
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { domainData } from '@easworks/app-shell/state/domain-data';
 import { sortString } from '@easworks/app-shell/utilities/sort';
-import { faGithub, faGoogle, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 import { faCheck, faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AuthApi } from 'app-shell/api/auth.api';
@@ -63,9 +62,6 @@ export class EmployerSignUpFormComponent {
   private readonly class = 'block @container';
 
   protected readonly icons = {
-    faGoogle,
-    faGithub,
-    faLinkedinIn,
     faCircleInfo,
     faSquareXmark,
     faCheck

@@ -17,7 +17,6 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { zodValidator } from '@easworks/app-shell/validators/zod';
-import { faGithub, faGoogle, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 import { faCheck, faCircleCheck, faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import Fuse from 'fuse.js';
@@ -63,9 +62,6 @@ export class TalentSignUpFormComponent {
   private readonly class = 'block @container';
 
   protected readonly icons = {
-    faGoogle,
-    faGithub,
-    faLinkedinIn,
     faCheck,
     faSquareXmark,
     faCircleInfo,
