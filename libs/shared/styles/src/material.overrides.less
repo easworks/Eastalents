@@ -1,3 +1,22 @@
+// app 
+
+html {
+  --mat-app-background-color: theme('colors.surface.container');
+}
+
+// sidenav
+html {
+  --mat-sidenav-container-background-color: theme('colors.surface.container');
+  --mat-sidenav-container-text-color: theme('colors.on.surface');
+  --mat-sidenav-content-background-color: theme('colors.surface.container');
+  --mat-sidenav-content-text-color: theme('colors.on.surface');
+  --mat-sidenav-scrim-color: rgba(51, 47, 55, 0.4);
+  --mat-sidenav-container-shape: 16px;
+  --mat-sidenav-container-elevation-shadow: none;
+  --mat-sidenav-container-width: 360px;
+  --mat-sidenav-container-divider-color: transparent;
+}
+
 .mat-expansion-panel {
   --mat-expansion-header-collapsed-state-height: auto;
   --mat-expansion-header-expanded-state-height: auto;
@@ -14,12 +33,6 @@
 
 .mat-divider {
   --mat-divider-color: theme('colors.divider');
-}
-
-// TODO: remove this marker class when it is no longer needed
-// marker to signifiy that material was loaded
-.mat-theme-loaded-marker {
-  display: none;
 }
 
 .mat-mdc-progress-spinner {

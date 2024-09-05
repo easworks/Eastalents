@@ -89,15 +89,16 @@
   }
 
   .stroked-button {
-    @apply block border rounded py-1 px-4 bg-white
-    transition-all;
+    --bg: theme('colors.surface.container-lowest');
+    @apply block border rounded py-1 px-4 transition-all;
+    background-color: var(--bg);
 
     &.small {
       @apply py-1;
     }
 
     &:hover, &:focus {
-      @apply bg-slate-100;
+      background-color: hsl(from var(--bg) h calc(s - 30) calc(l - 3));
     }
 
     &:where(.primary) {

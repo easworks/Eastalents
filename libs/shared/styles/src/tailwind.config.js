@@ -35,12 +35,10 @@ module.exports = {
       borderRadius: {
         '4xl': '2rem'
       },
-      colors: () => {
-        // primary and secondary palletes were
-        // generated from https://uicolors.app/create
-
+      // generated from https://uicolors.app/create
+      colors: {
         // primary color original: #4949fc
-        const primary = {
+        primary: {
           '50': '#edf1ff',
           '100': '#dee5ff',
           '200': '#c3ceff',
@@ -52,9 +50,9 @@ module.exports = {
           '800': '#3227ac',
           '900': '#2d2788',
           '950': '#1c174f',
-        };
+        },
         // secondary color original: #0f0f0f
-        const secondary = {
+        secondary: {
           '50': '#f6f6f6',
           '100': '#e7e7e7',
           '200': '#d1d1d1',
@@ -66,33 +64,23 @@ module.exports = {
           '800': '#454545',
           '900': '#3d3d3d',
           '950': '#0f0f0f',
-        };
-
-        const surface_source = primary[50]
-        const surface = {
-          'DEFAULT': `hsl(from ${surface_source} h 70 95 / <alpha-value>)`,
-          'container-lowest': `hsl(from ${surface_source} h 70 96 / <alpha-value>)`,
-          'container-low': `hsl(from ${surface_source} h 60 94 / <alpha-value>)`,
-          'container': `hsl(from ${surface_source} h 50 92 / <alpha-value>)`,
-          'container-high': `hsl(from ${surface_source} h 45 90 / <alpha-value>)`,
-          'container-highest': `hsl(from ${surface_source} h 40 88 / <alpha-value>)`,
-          'dim': `hsl(from ${surface_source} h 50 87 / <alpha-value>)`,
-          'bright': `hsl(from ${surface_source} h 70 97 / <alpha-value>)`,
-        }
-
-        const on = {
-          'surface': `hsl(from ${surface_source} h 100 10 / <alpha-value>)`,
-          'surface-variant': `hsl(from ${surface_source} h 25 40 / <alpha-value>)`
-        }
-
-        return {
-          primary,
-          secondary,
-          surface,
-          on,
-          'divider': colors.slate[300],
-          'warn': colors.red[600],
-        }
+        },
+        surface: {
+          'DEFAULT': `hsl(from var(--color-surface-source) h 100 99 / <alpha-value>)`,
+          'container-lowest': `hsl(from var(--color-surface-source) h 70 98 / <alpha-value>)`,
+          'container-low': `hsl(from var(--color-surface-source) h 60 94 / <alpha-value>)`,
+          'container': `hsl(from var(--color-surface-source) h 40 95 / <alpha-value>)`,
+          'container-high': `hsl(from var(--color-surface-source) h 50 95 / <alpha-value>)`,
+          'container-highest': `hsl(from var(--color-surface-source) h 40 88 / <alpha-value>)`,
+          'dim': `hsl(from var(--color-surface-source) h 50 87 / <alpha-value>)`,
+          'bright': `hsl(from var(--color-surface-source) h 70 97 / <alpha-value>)`,
+        },
+        on: {
+          'surface': `hsl(from var(--color-surface-source) h 100 10 / <alpha-value>)`,
+          'surface-variant': `hsl(from var(--color-surface-source) h 25 40 / <alpha-value>)`
+        },
+        'divider': colors.slate[400],
+        'warn': colors.red[600],
       },
       height: {
         'offset-screen': offsetScreen
