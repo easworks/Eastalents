@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, HostBinding, inject, signal, untracked, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, HostBinding, inject, OnInit, signal, untracked, viewChild } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -30,6 +30,8 @@ import type { SignUpInput, ValidateEmailInput, ValidateUsernameInput } from 'mod
 import { username } from 'models/validators/common';
 import { catchError, delay, EMPTY, finalize, map, NEVER, of, switchMap, tap } from 'rxjs';
 import { extractClientIdFromReturnUrl } from '../../oauth-authorize-callback';
+import { SignUpPageComponent } from '../sign-up.page';
+import { TalentSignUpCardsComponent } from './cards/talent-sign-up-cards.component';
 
 @Component({
   standalone: true,
@@ -46,13 +48,14 @@ import { extractClientIdFromReturnUrl } from '../../oauth-authorize-callback';
     ClearTriggerOnSelectDirective
   ]
 })
-export class TalentSignUpFormComponent {
+export class TalentSignUpFormComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly auth = inject(AuthService);
   private readonly snackbar = inject(MatSnackBar);
   private readonly router = inject(Router);
   private readonly store = inject(Store);
   private readonly dRef = inject(DestroyRef);
+  private readonly page = inject(SignUpPageComponent, { skipSelf: true });
 
   private readonly api = {
     auth: inject(AuthApi)
@@ -661,5 +664,9 @@ export class TalentSignUpFormComponent {
 
   socialSignUp(provider: ExternalIdentityProviderType) {
     this.auth.signUp.social(provider, 'talent', this.returnUrl$() || undefined);
+  }
+
+  ngOnInit(): void {
+    this.page.cards$.set(TalentSignUpCardsComponent);
   }
 }
