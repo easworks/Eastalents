@@ -1,8 +1,7 @@
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 import { authHook } from './auth/hooks';
-import { CLOUD_CONTEXT_KEY } from './context';
-import { easMongo } from './mongodb';
 import { environment } from './environment';
+import { easMongo } from './mongodb';
 
 export const developmentHandlers: FastifyZodPluginAsync = async server => {
 
@@ -12,7 +11,7 @@ export const developmentHandlers: FastifyZodPluginAsync = async server => {
   server.post('/delete-account',
     { 'onRequest': authHook() },
     async (req) => {
-      const id = req.requestContext.get(CLOUD_CONTEXT_KEY)?.auth?._id;
+      const id = req.ctx.auth!._id;
       if (!id) throw new Error();
 
       return deleteUser(id);

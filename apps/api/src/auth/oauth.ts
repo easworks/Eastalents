@@ -4,10 +4,8 @@ import { DateTime } from 'luxon';
 import { OAuthAuthorizeErrorType, OAuthCode, OAuthTokenSuccessResponse } from 'models/oauth';
 import { oauthValidators } from 'models/validators/oauth';
 import { ObjectId } from 'mongodb';
-import { AuthenticatedCloudContext } from 'server-side/context';
 import { OAuthRequestError, UserNotFound } from 'server-side/errors/definitions';
 import { ZodError } from 'zod';
-import { CLOUD_CONTEXT_KEY } from '../context';
 import { environment } from '../environment';
 import { easMongo } from '../mongodb';
 import { authHook } from './hooks';
@@ -45,7 +43,7 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
   server.post('/authorize',
     { onRequest: authHook() },
     async (req, reply) => {
-      const ctx = req.requestContext.get(CLOUD_CONTEXT_KEY) as AuthenticatedCloudContext;
+      const auth = req.ctx.auth!;
       const rawInput = req.body as Record<string, string>;
 
       let input;
@@ -65,7 +63,7 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
         _id: new ObjectId().toString(),
         value: generateRandomCode(),
         clientId: input.client_id,
-        userId: ctx.auth._id,
+        userId: auth._id,
         expiresAt: now.plus({ minutes: 5 }),
         redirectUri: input.redirect_uri.was_provided ?
           input.redirect_uri.value :

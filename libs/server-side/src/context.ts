@@ -8,15 +8,13 @@ export interface CloudUser {
   claims: JwtPayload;
 };
 
-export interface AuthenticatedCloudContext {
-  readonly auth: CloudUser;
+export interface CloudContext {
+  auth: CloudUser | null;
 }
 
-export interface UnauthenticatedCloudContext {
-  readonly auth: null;
+
+declare module 'fastify' {
+  export interface FastifyRequest {
+    ctx: CloudContext;
+  }
 }
-
-type CloudContextAuth = AuthenticatedCloudContext | UnauthenticatedCloudContext;
-
-
-export type CloudContext = CloudContextAuth;

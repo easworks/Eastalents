@@ -12,6 +12,8 @@ import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 import { easMongo } from '../mongodb';
 import { createCredentialFromExternalUser, EmailVerification, ExternalUserTransfer, FreeEmailProviderCache, getExternalUserForSignup, isFreeEmail, jwtUtils, oauthUtils, PasswordReset, passwordUtils, WelcomeEmail } from './utils';
 
+// TODO: add transactions to all the methods
+
 const EMAIL_VERIFICATION_EXPIRY_SECONDS = 300;
 const PASSWORD_RESET_EXPIRY_SECONDS = 300;
 

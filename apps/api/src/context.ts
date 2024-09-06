@@ -1,37 +1,22 @@
-import { fastifyRequestContext } from '@fastify/request-context';
 import { FastifyPluginAsync } from 'fastify';
-import fastifyPlugin from 'fastify-plugin';
+import { fastifyPlugin } from 'fastify-plugin';
 import { StatusCodes } from 'http-status-codes';
 import { ALL_ROLES } from 'models/permissions';
-import { CloudContext, CloudUser } from 'server-side/context';
+import { CloudUser } from 'server-side/context';
 import { InvalidBearerToken, UserIsDisabled, UserNotFound } from 'server-side/errors/definitions';
 import { jwtUtils } from './auth/utils';
 import { easMongo } from './mongodb';
 
-export const CLOUD_CONTEXT_KEY = 'cloudContext';
-
-declare module '@fastify/request-context' {
-  interface RequestContextData {
-    [CLOUD_CONTEXT_KEY]?: CloudContext;
-  }
-}
 
 const pluginImpl: FastifyPluginAsync = async server => {
-  server.register(fastifyRequestContext, {
-    hook: 'onRequest',
-    defaultStoreValues: {}
-  });
+
+  server.decorateRequest('ctx', null);
 
   server.addHook('onRequest', async (req) => {
     const token = req.headers.authorization?.split('Bearer ')[1];
-    const auth = token ? await mapTokenToCloudUser(token) : null;
+    const user = token ? await mapTokenToCloudUser(token) : null;
 
-    const context: CloudContext = {
-      auth,
-    };
-
-    req.requestContext.set(CLOUD_CONTEXT_KEY, context);
-
+    req.ctx.auth = user;
   });
 };
 
