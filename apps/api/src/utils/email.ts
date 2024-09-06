@@ -18,6 +18,18 @@ function replaceVariables(template: string, inputs: [string, string][]) {
 
 export class EmailSender {
   static readonly compose = {
+    resetPassword: async (firstName: string, code: string) => {
+      const tmp = await getTemplateFile('reset-password.html');
+      const html = replaceVariables(tmp, [
+        ['user.firstName', firstName],
+        ['verification.code', code]
+      ]);
+
+      return new MailComposer({
+        subject: 'Reset Password',
+        html
+      });
+    },
     verifyEmail: async (firstName: string, code: string) => {
       const tmp = await getTemplateFile('verify-email.html');
       const html = replaceVariables(tmp, [

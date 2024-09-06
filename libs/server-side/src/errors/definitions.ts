@@ -151,3 +151,9 @@ export class EmailVerificationCodeExpired extends ApiError {
     super('email-verification-code-expired', StatusCodes.BAD_REQUEST);
   }
 }
+
+export class PasswordResetCodeExpired extends ApiError {
+  constructor() {
+    super('password-reset-code-expired', StatusCodes.BAD_REQUEST);
+  }
+}

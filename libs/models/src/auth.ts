@@ -13,3 +13,10 @@ export interface EmailVerificationCodeRef extends Entity {
   code: string;
   pkce: string;
 }
+
+export interface PasswordResetCodeRef extends Entity {
+  expiresIn: number;
+  email: string;
+  code: string;
+  pkce: string;
+}
