@@ -1,0 +1,5 @@
+FROM mongodb/mongodb-community-server:latest
+
+WORKDIR /home/mongodb
+
+COPY --chown=mongodb:nogroup --chmod=600 ./mongodb.key .

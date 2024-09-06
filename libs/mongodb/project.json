@@ -10,7 +10,9 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
+          "rm -rf dist/docker/mongodb",
           "mkdir -p dist/docker/mongodb",
+          "cp libs/mongodb/docker/dockerfile dist/docker/mongodb",
           "cp libs/mongodb/docker/compose.extend.yml dist/docker/mongodb"
         ],
         "parallel": false
@@ -27,6 +29,7 @@
       "configurations": {
         "local": {
           "commands": [
+            "cp libs/mongodb/mongodb.key dist/docker/mongodb",
             "cp libs/mongodb/docker/compose.development.yml dist/docker/mongodb/compose.yml",
             "cd dist/docker/mongodb && docker compose up -d --build"
           ]
@@ -34,7 +37,7 @@
         "development": {
           "commands": [
             "cp libs/mongodb/docker/compose.development.yml dist/docker/mongodb/compose.yml",
-            "scp -r dist/docker/mongodb {args.remote}:~/development",
+            "rsync -vchr dist/docker/mongodb/ {args.remote}:~/development/mongodb",
             "ssh {args.remote} 'cd ~/development/mongodb && docker compose up -d --build'"
           ]
         }

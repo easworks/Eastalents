@@ -1,12 +1,37 @@
 services:
   mongodb:
     container_name: mongodb
-    image: mongodb/mongodb-community-server:latest
+    build: .
+    command:
+      - mongod
+      - --replSet
+      - rs0
+      - --bind_ip_all
+      - --keyFile
+      - /home/mongodb/mongodb.key
+    healthcheck:
+      test:
+        - "CMD"
+        - mongosh
+        - --eval
+        - "try { rs.status().ok } catch (err) { rs.initiate($REPLICA_SET_INIT) }"
+        - --username
+        - $MONGODB_INITDB_ROOT_USERNAME
+        - --password
+        - $MONGODB_INITDB_ROOT_PASSWORD
+      interval: 5m
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+      start_interval: 3s
+    restart: always
     volumes:
       - data:/data/db
       - config:/data/configdb
     ports:
       - ${PORT:?}:27017
+    extra_hosts:
+      - ${REPLICA_SET_HOST_1:?}
     environment:
       - MONGODB_INITDB_ROOT_USERNAME=${MONGODB_INITDB_ROOT_USERNAME:?}
       - MONGODB_INITDB_ROOT_PASSWORD=${MONGODB_INITDB_ROOT_PASSWORD:?}
