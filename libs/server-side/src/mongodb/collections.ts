@@ -1,9 +1,9 @@
+import { EmailVerificationCodeRef, PasswordResetCodeRef, TokenRef } from 'models/auth';
 import { IdpCredential } from 'models/identity-provider';
+import { OAuthClientApplication, OAuthCode } from 'models/oauth';
 import { PermissionRecord } from 'models/permission-record';
 import { User } from 'models/user';
 import { Collection, MongoClient } from 'mongodb';
-import { EmailVerificationCodeRef, TokenRef } from 'models/auth';
-import { OAuthClientApplication, OAuthCode } from 'models/oauth';
 
 const collections = [
   'users'
@@ -45,7 +45,8 @@ export function initialiseMongo(client: MongoClient) {
     oauthCodes: db.collection('oauth-codes') as Collection<OAuthCode>,
 
     otp: {
-      emailVerification: db.collection('otp-email-verification') as Collection<EmailVerificationCodeRef>
+      emailVerification: db.collection('otp-email-verification') as Collection<EmailVerificationCodeRef>,
+      passwordReset: db.collection('password-reset-verification') as Collection<PasswordResetCodeRef>
     },
 
     keyval: {

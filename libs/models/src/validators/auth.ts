@@ -66,6 +66,26 @@ const inputs = {
       code_verifier: oauthValidators.code_challenge
     })
   },
+  passwordReset: (() => {
+    const verifyCode = z.strictObject({
+      email: types.email,
+      code: types.verficationCode,
+      code_verifier: oauthValidators.code_challenge
+    });
+
+    const setPassword = verifyCode.extend({
+      password: types.password
+    });
+
+    return {
+      sendCode: z.strictObject({
+        pkce: oauthValidators.code_challenge,
+        email: types.email,
+      }),
+      verifyCode,
+      setPassword
+    };
+  })(),
   validate: {
     username: z.strictObject({
       username: username

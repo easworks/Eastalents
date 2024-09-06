@@ -1,4 +1,4 @@
-import { EmailVerificationCodeRef } from 'models/auth';
+import { EmailVerificationCodeRef, PasswordResetCodeRef } from 'models/auth';
 import { ExternalIdentityProviderType, ExternalIdpUser, IdpCredential } from 'models/identity-provider';
 import { OAuthTokenSuccessResponse } from 'models/oauth';
 import { PermissionRecord } from 'models/permission-record';
@@ -10,9 +10,10 @@ import { EmailVerificationCodeExpired, SignupEmailInUse, SignupRequiresWorkEmail
 import { setTypeVersion } from 'server-side/mongodb/collections';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 import { easMongo } from '../mongodb';
-import { createCredentialFromExternalUser, EmailVerification, ExternalUserTransfer, FreeEmailProviderCache, getExternalUserForSignup, isFreeEmail, jwtUtils, oauthUtils, passwordUtils, WelcomeEmail } from './utils';
+import { createCredentialFromExternalUser, EmailVerification, ExternalUserTransfer, FreeEmailProviderCache, getExternalUserForSignup, isFreeEmail, jwtUtils, oauthUtils, PasswordReset, passwordUtils, WelcomeEmail } from './utils';
 
 const EMAIL_VERIFICATION_EXPIRY_SECONDS = 300;
+const PASSWORD_RESET_EXPIRY_SECONDS = 300;
 
 export const authHandlers: FastifyZodPluginAsync = async server => {
 
@@ -266,10 +267,81 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     }
   );
 
+  server.post('/reset-password/send-code',
+    { schema: { body: authValidators.inputs.passwordReset.sendCode } },
+    async (req) => {
+      const input = req.body;
+
+      const cred = await easMongo.userCredentials.findOne({ 'provider.email': input.email });
+      if (!cred)
+        throw new UserEmailNotRegistered();
+
+      const user = await easMongo.users.findOne({ _id: cred.userId });
+      if (!user)
+        throw new Error('invalid operation');
+
+      const code = PasswordReset.generateCode();
+
+      const store: PasswordResetCodeRef = {
+        _id: user._id,
+        expiresIn: PASSWORD_RESET_EXPIRY_SECONDS,
+        email: input.email,
+        code,
+        pkce: input.pkce
+      };
+
+      await easMongo.otp.passwordReset.replaceOne({ _id: user._id }, store, { upsert: true });
+
+      await PasswordReset.send(input.email, user.firstName, code);
+
+      return true;
+    }
+  );
+
+  server.post('/reset-password/verify-code',
+    { schema: { body: authValidators.inputs.passwordReset.verifyCode } },
+    async (req) => {
+      const input = req.body;
+      const ref = await easMongo.otp.passwordReset.findOne({ email: input.email });
+
+      await PasswordReset.verify(ref, input.code, input.code_verifier);
+
+      return true;
+    }
+  );
+
   server.post('/reset-password',
-    async () => {
-      // TODO: implement
-      throw new Error('not implemented');
+    { schema: { body: authValidators.inputs.passwordReset.setPassword } },
+    async (req) => {
+      const input = req.body;
+
+      const ref = await easMongo.otp.passwordReset.findOne({ email: input.email });
+
+      await PasswordReset.verify(ref, input.code, input.code_verifier);
+
+      const user = await easMongo.users.findOne({ _id: ref!._id });
+
+      if (!user)
+        throw new Error('invalid operation');
+
+      const credential: IdpCredential = {
+        _id: new ObjectId().toString(),
+        provider: {
+          type: 'email',
+          email: user.email,
+          id: user.email
+        },
+        userId: user._id,
+        credential: passwordUtils.generate(input.password)
+      };
+
+      await easMongo.userCredentials.replaceOne(
+        { userId: user._id, 'provider.type': 'email' },
+        credential,
+        { upsert: true }
+      );
+
+      return true;
     }
   );
 
