@@ -6,6 +6,14 @@
   "tags": [],
   "projectType": "library",
   "targets": {
+    "mikro": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "mikro-orm --config ./src/mikro-orm.config.cli.ts",
+        "forwardAllArgs": true,
+        "cwd": "libs/mongodb"
+      }
+    },
     "prep-deploy": {
       "executor": "nx:run-commands",
       "options": {
