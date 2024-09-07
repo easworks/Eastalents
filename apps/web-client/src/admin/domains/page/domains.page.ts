@@ -9,6 +9,7 @@ import { FormImportsModule } from "@easworks/app-shell/common/form.imports.modul
 import { ImportsModule } from "@easworks/app-shell/common/imports.module";
 import { PaginatorComponent } from '@easworks/app-shell/common/paginator/paginator.component';
 import { generateLoadingState } from "@easworks/app-shell/state/loading";
+import { toPromise } from "@easworks/app-shell/utilities/to-promise";
 import { faCheck, faPen, faPlus, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { Store } from '@ngrx/store';
 import { domainActions, domainData } from 'app-shell/state/domain-data';
@@ -32,6 +33,13 @@ import { Subscription, map } from 'rxjs';
     ]
 })
 export class DomainsPageComponent {
+
+    constructor() {
+        toPromise(this.domains.list$, list => list.length > 0)
+            .then(() => this.editModules('ALM'));
+
+    }
+
     private readonly store = inject(Store);
     private readonly dRef = inject(DestroyRef);
     private readonly dialog = inject(MatDialog);
@@ -263,6 +271,7 @@ export class DomainsPageComponent {
                 .then(m => m.CreateDomainDialogComponent);
             comp.open(ref, {
                 created: id => {
+                    return this.editModules(id);
                     // edit modules
                     // edit services
                     // edit roles
@@ -282,4 +291,13 @@ export class DomainsPageComponent {
             click,
         } as const;
     })();
+
+    private readonly editModules = async (id: string) => {
+        const ref = DialogLoaderComponent.open(this.dialog);
+        const comp = await import('../modules/domain-modules.dialog')
+            .then(m => m.DomainModulesDialogComponent);
+
+        comp.open(ref, { domainId: id });
+        return ref;
+    };
 }
