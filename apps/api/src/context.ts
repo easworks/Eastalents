@@ -13,6 +13,10 @@ const pluginImpl: FastifyPluginAsync = async server => {
   server.decorateRequest('ctx', null);
 
   server.addHook('onRequest', async (req) => {
+    req.ctx = {
+      auth: null
+    };
+
     const token = req.headers.authorization?.split('Bearer ')[1];
     const user = token ? await mapTokenToCloudUser(token) : null;
 
