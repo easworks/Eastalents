@@ -11,7 +11,7 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { catchError, finalize, map, tap } from 'rxjs';
+import { catchError, EMPTY, finalize, tap } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -66,7 +66,7 @@ export class SignInSuccessPageComponent {
           tap(() => sleep().then(() => this.signOut())),
           catchError(e => {
             SnackbarComponent.forError(e);
-            throw e;
+            return EMPTY;
           }),
           finalize(() => this.loading.delete('deleting account')),
           takeUntilDestroyed(this.dRef)

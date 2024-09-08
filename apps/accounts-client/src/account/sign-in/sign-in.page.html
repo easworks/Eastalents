@@ -49,9 +49,10 @@
          class="mb-4">
       <input type="password" [formControl]="control" placeholder="Password">
       @if(control.hasError('required')) { <span class="error">Required</span> }
+      @if(control.hasError('pattern')) { <span class="error">Invalid Password</span> }
       @if(control.hasError('invalidPassword')) { <span class="error">Invalid Password</span> }
       @if(control.hasError('needsReset')) { <span class="error">Password needs to be reset</span> }
-      <a routerLink="/forgot-password"
+      <a routerLink="/password-reset"
          class="block w-max mt-1 ml-auto underline text-primary-400 text-sm">Forgot Password?</a>
     </div>
   </form>

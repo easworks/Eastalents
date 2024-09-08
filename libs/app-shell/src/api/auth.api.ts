@@ -1,6 +1,6 @@
 import { Injectable, input } from '@angular/core';
 import type { OAuthTokenSuccessResponse } from 'models/oauth';
-import type { EmailSignInInput, SendEmailVerificationCodeInput, SignUpInput, SignUpOutput, SocialOAuthCodeExchange, SocialOAuthCodeExchangeOutput, ValidateEmailInput, ValidateUsernameInput, VerifyEmailVerificationCodeInput } from 'models/validators/auth';
+import type { EmailSignInInput, PasswordResetInput, SendEmailVerificationCodeInput, SendPasswordResetVerificationCodeInput, SignUpInput, SignUpOutput, SocialOAuthCodeExchange, SocialOAuthCodeExchangeOutput, ValidateEmailInput, ValidateUsernameInput, VerifyEmailVerificationCodeInput, VerifyPasswordResetVerificationCodeInput } from 'models/validators/auth';
 import { EasworksApi } from './easworks.api';
 
 @Injectable({
@@ -27,6 +27,15 @@ export class AuthApi extends EasworksApi {
       this.http.post<true>(`${this.apiUrl}/auth/email-verification/send-code`, input),
     verifyCode: (input: VerifyEmailVerificationCodeInput) =>
       this.http.post<true>(`${this.apiUrl}/auth/email-verification/verify-code`, input)
+  };
+
+  readonly passwordReset = {
+    sendCode: (input: SendPasswordResetVerificationCodeInput) =>
+      this.http.post<true>(`${this.apiUrl}/auth/reset-password/send-code`, input),
+    verifyCode: (input: VerifyPasswordResetVerificationCodeInput) =>
+      this.http.post<true>(`${this.apiUrl}/auth/reset-password/verify-code`, input),
+    setPassword: (input: PasswordResetInput) =>
+      this.http.post<true>(`${this.apiUrl}/auth/reset-password`, input),
   };
 
   readonly validate = {

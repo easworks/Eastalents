@@ -336,10 +336,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       await PasswordReset.verify(ref, input.code, input.code_verifier);
 
-      const user = await req.ctx.em.findOne(user_schema, { _id: ref!._id });
-
-      if (!user)
-        throw new Error('invalid operation');
+      const user = await req.ctx.em.findOneOrFail(user_schema, { _id: ref!._id });
 
       const old = await req.ctx.em.findOne(user_credential_schema, { user, provider: { type: 'email' } });
       const passwordHash = passwordUtils.generate(input.password);

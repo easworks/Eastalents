@@ -19,7 +19,7 @@ function replaceVariables(template: string, inputs: [string, string][]) {
 export class EmailSender {
   static readonly compose = {
     resetPassword: async (firstName: string, code: string) => {
-      const tmp = await getTemplateFile('reset-password.html');
+      const tmp = await getTemplateFile('password-reset.html');
       const html = replaceVariables(tmp, [
         ['user.firstName', firstName],
         ['verification.code', code]

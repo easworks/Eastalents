@@ -125,3 +125,7 @@ export type ValidateEmailInput = TypeOf<typeof inputs['validate']['email']>;
 
 export type SendEmailVerificationCodeInput = TypeOf<typeof inputs['emailVerification']['sendCode']>;
 export type VerifyEmailVerificationCodeInput = TypeOf<typeof inputs['emailVerification']['verifyCode']>;
+
+export type SendPasswordResetVerificationCodeInput = TypeOf<typeof inputs['passwordReset']['sendCode']>;
+export type VerifyPasswordResetVerificationCodeInput = TypeOf<typeof inputs['passwordReset']['verifyCode']>;
+export type PasswordResetInput = TypeOf<typeof inputs['passwordReset']['setPassword']>;

@@ -517,7 +517,6 @@ export class TalentSignUpFormComponent implements OnInit {
 
     type VerificationCode = SignUpInput['emailVerification'];
     const verifiedEmails$ = signal(new Map<string, VerificationCode>(), { equal: () => false });
-    const value$ = signal<VerificationCode>(null);
     {
       const info = this.prefill.routeInfo$();
       if (info?.externalUser.email_verified) {
@@ -528,11 +527,13 @@ export class TalentSignUpFormComponent implements OnInit {
     const formValue$ = toSignal(controlValue$(this.accountBasics.form), { requireSync: true });
     const email$ = computed(() => formValue$().email);
 
-    const verified$ = computed(() => {
+    const value$ = computed(() => {
       const email = email$();
       const verified = verifiedEmails$();
-      return verified.has(email);
+      return verified.get(email) || null;
     });
+
+    const verified$ = computed(() => !!value$());
 
     const sendCode = {
       click: () => {
@@ -546,7 +547,7 @@ export class TalentSignUpFormComponent implements OnInit {
             map(() => mailSent$.set(true)),
             catchError(e => {
               SnackbarComponent.forError(this.snackbar, e);
-              throw e;
+              return EMPTY;
             }),
             finalize(() => this.loading.delete('sending verification code')),
             takeUntilDestroyed(this.dRef)
@@ -586,14 +587,13 @@ export class TalentSignUpFormComponent implements OnInit {
             map(code_verifier => {
               verifiedEmails$.update(v => v.set(email, { code, code_verifier }));
               mailSent$.set(false);
-              value$.set({ code, code_verifier });
             }),
             catchError((e: ProblemDetails) => {
               if (e.type === 'email-verification-code-expired')
                 form.controls.code.setErrors({ 'invalid': true });
               else
                 SnackbarComponent.forError(this.snackbar, e);
-              throw e;
+              return EMPTY;
             }),
             finalize(() => this.loading.delete('validating verification code')),
             takeUntilDestroyed(this.dRef)
@@ -622,6 +622,8 @@ export class TalentSignUpFormComponent implements OnInit {
   protected readonly consent = (() => {
     const submit = (() => {
       const click = () => {
+        if (!valid$())
+          return;
 
         const fv = this.accountBasics.form.getRawValue();
         const prefill = this.prefill.canUse$() && this.prefill.routeInfo$();

@@ -95,6 +95,20 @@ export class AuthService {
     }
   };
 
+  public readonly passwordReset = {
+    sendCode: (email: string) => {
+      return from(codeChallenge.create())
+        .pipe(
+          switchMap(pkce => this.api.auth.passwordReset.sendCode({ email, pkce: pkce.challenge }))
+        );
+    },
+    verifyCode: (email: string, code: string) => {
+      const code_verifier = codeChallenge.get();
+      return this.api.auth.passwordReset.verifyCode({ email, code, code_verifier })
+        .pipe(map(() => code_verifier));
+    }
+  };
+
   signOut() {
     this.store.dispatch(authActions.signOut({ payload: { revoked: false } }));
   }

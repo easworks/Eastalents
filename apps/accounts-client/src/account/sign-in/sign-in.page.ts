@@ -7,11 +7,14 @@ import { FormImportsModule } from '@easworks/app-shell/common/form.imports.modul
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AuthService } from '@easworks/app-shell/services/auth';
+import { authActions } from '@easworks/app-shell/state/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
+import { pattern } from '@easworks/models/pattern';
+import { Actions, ofType } from '@ngrx/effects';
 import { RETURN_URL_KEY } from 'models/auth';
 import { ExternalIdentityProviderType } from 'models/identity-provider';
 import { ProblemDetails } from 'models/problem-details';
-import { catchError, EMPTY, finalize, map } from 'rxjs';
+import { catchError, EMPTY, finalize, first, map, switchMap } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -31,6 +34,7 @@ export class SignInPageComponent {
   private readonly auth = inject(AuthService);
   private readonly snackbar = inject(MatSnackBar);
   private readonly dRef = inject(DestroyRef);
+  private readonly actions$ = inject(Actions);
 
   @HostBinding()
   private readonly class = 'page grid place-content-center @container';
@@ -51,7 +55,7 @@ export class SignInPageComponent {
         nonNullable: true
       }),
       password: new FormControl('', {
-        validators: [Validators.required],
+        validators: [Validators.required, Validators.pattern(pattern.password)],
         nonNullable: true
       })
     }, { updateOn: 'submit' }),
@@ -65,6 +69,8 @@ export class SignInPageComponent {
         this.emailLogin.form.getRawValue(),
         this.returnUrl$() || undefined
       ).pipe(
+        switchMap(() => this.actions$.pipe(ofType(authActions.signIn))),
+        first(),
         catchError((err: ProblemDetails) => {
           switch (err.type) {
             case 'user-email-not-registered':
