@@ -6,13 +6,8 @@ export class Migration20240907231815_1_1_add_user_email_index extends Migration 
   async up(): Promise<void> {
     const user_collection = this.getCollection(user_schema);
     await user_collection.createIndex(
-      {
-        'email': 1
-      },
-      {
-        name: 'email',
-        unique: true
-      }
+      { 'email': 1 },
+      { name: 'email', unique: true }
     );
   }
 

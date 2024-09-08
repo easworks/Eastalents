@@ -3,7 +3,7 @@ import { EntitySchema } from '@mikro-orm/mongodb';
 import { user_schema } from './user';
 import { id_prop } from '../utils';
 
-export const user_credentials_provider_schema = new EntitySchema<IdpCredential['provider']>({
+export const user_credential_provider_schema = new EntitySchema<IdpCredential['provider']>({
   name: 'IdpCredential.provider',
   embeddable: true,
   properties: {
@@ -13,13 +13,13 @@ export const user_credentials_provider_schema = new EntitySchema<IdpCredential['
   }
 });
 
-export const user_credentials_schema = new EntitySchema<IdpCredential>({
+export const user_credential_schema = new EntitySchema<IdpCredential>({
   collection: 'user-credentials',
   name: 'IdpCredential',
   properties: {
     _id: id_prop(),
     user: { kind: 'm:1', entity: () => user_schema },
-    provider: { kind: 'embedded', entity: () => user_credentials_provider_schema, object: true },
+    provider: { kind: 'embedded', entity: () => user_credential_provider_schema, object: true },
     credential: { type: 'string' },
   }
 });
