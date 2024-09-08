@@ -1,16 +1,17 @@
 import { User } from '@easworks/models/user';
-import { EntityMetadata, EntitySchema } from '@mikro-orm/mongodb';
+import { EntitySchema } from '@mikro-orm/mongodb';
+import { id_prop } from '../utils';
 
 export const user_schema = new EntitySchema<User>({
   collection: 'users',
   name: 'User',
   properties: {
-    _id: { type: 'string', primary: true, serializedName: '_id' },
+    _id: id_prop(),
     email: { type: 'string' },
     enabled: { type: 'boolean' },
     firstName: { type: 'string' },
     lastName: { type: 'string' },
-    imageUrl: { type: 'string', nullable: true },
+    imageUrl: { type: 'string' },
     username: { type: 'string' },
-  } as EntityMetadata<User>['properties']
+  }
 });

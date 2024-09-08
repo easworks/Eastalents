@@ -1,6 +1,7 @@
 import { IdpCredential } from '@easworks/models/identity-provider';
-import { EntitySchema } from '@mikro-orm/core';
+import { EntitySchema } from '@mikro-orm/mongodb';
 import { user_schema } from './user';
+import { id_prop } from '../utils';
 
 export const user_credentials_provider_schema = new EntitySchema<IdpCredential['provider']>({
   name: 'IdpCredential.provider',
@@ -16,9 +17,9 @@ export const user_credentials_schema = new EntitySchema<IdpCredential>({
   collection: 'user-credentials',
   name: 'IdpCredential',
   properties: {
-    _id: { type: 'string', primary: true, serializedName: '_id' },
-    user: { kind: '1:1', entity: () => user_schema, owner: true },
+    _id: id_prop(),
+    user: { kind: 'm:1', entity: () => user_schema },
     provider: { kind: 'embedded', entity: () => user_credentials_provider_schema, object: true },
-    credential: { type: 'string', nullable: true },
+    credential: { type: 'string' },
   }
 });
