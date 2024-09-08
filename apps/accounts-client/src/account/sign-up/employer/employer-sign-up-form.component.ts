@@ -561,11 +561,11 @@ export class EmployerSignUpFormComponent implements OnInit {
 
     const value$ = computed(() => {
       const email = email$();
-      const verified = verifiedEmails$();
-      return verified.get(email) || null;
+      const map = verifiedEmails$();
+      return map.get(email);
     });
 
-    const verified$ = computed(() => !!value$());
+    const verified$ = computed(() => value$() !== undefined);
 
     const sendCode = {
       click: () => {
@@ -675,7 +675,7 @@ export class EmployerSignUpFormComponent implements OnInit {
               password: fv.password
             },
           clientId: extractClientIdFromReturnUrl(this.returnUrl$()),
-          emailVerification: this.emailVerification.value$()
+          emailVerification: this.emailVerification.value$() as Exclude<ReturnType<typeof this.emailVerification.value$>, undefined>
         };
 
         this.loading.add('signing up');
