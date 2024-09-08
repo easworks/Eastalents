@@ -1,29 +1,18 @@
-import { Platform, TransformContext, Type } from '@mikro-orm/mongodb';
-import { DateTime } from 'luxon';
-import { ObjectId } from 'mongodb';
+import { StringObjectIdType } from './custom-types';
+import { keyval_schema } from './schema/keyval';
+import { EAS_EntityManager } from './types';
 
 export function id_prop() {
   return { type: StringObjectIdType, primary: true, serializedName: '_id' };
 }
 
-export class LuxonType extends Type<DateTime, Date> {
-  override convertToDatabaseValue(value: DateTime<boolean>, platform: Platform, context?: TransformContext): Date {
-    return value.toUTC().toJSDate();
+export async function seedKeyValueDocument<T = unknown>(em: EAS_EntityManager, key: string, value: T, overwrite?: boolean) {
+  let doc = await em.findOne(keyval_schema, key);
+  if (doc) {
+    if (overwrite)
+      doc.value = value;
   }
-
-  override convertToJSValue(value: Date, platform: Platform): DateTime<boolean> {
-    return DateTime.fromJSDate(value);
+  else {
+    doc = em.create(keyval_schema, { _id: key, value });
   }
-
-}
-
-export class StringObjectIdType extends Type<string, ObjectId> {
-  override convertToDatabaseValue(value: string, platform: Platform, context?: TransformContext): ObjectId {
-    return new ObjectId(value);
-  }
-
-  override convertToJSValue(value: ObjectId, platform: Platform): string {
-    return value.toString();
-  }
-
 }

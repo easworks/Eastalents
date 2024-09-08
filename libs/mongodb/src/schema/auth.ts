@@ -1,6 +1,7 @@
 import { EmailVerificationCodeRef, PasswordResetCodeRef, TokenRef } from '@easworks/models/auth';
 import { EntitySchema } from '@mikro-orm/mongodb';
-import { id_prop, LuxonType } from '../utils';
+import { LuxonType } from '../custom-types';
+import { id_prop } from '../utils';
 import { user_schema } from './user';
 
 export const token_ref_schema = new EntitySchema<TokenRef>({

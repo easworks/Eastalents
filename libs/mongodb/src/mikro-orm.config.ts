@@ -10,6 +10,7 @@ export function buildConfig(connectionString: string) {
     strict: false,
     validate: false,
     implicitTransactions: false,
+    flushMode: 'commit',
 
     serialization: {
       forceObject: true,

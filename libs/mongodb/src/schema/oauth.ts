@@ -1,6 +1,7 @@
 import { OAuthClientApplication, OAuthCode } from '@easworks/models/oauth';
 import { EntitySchema } from '@mikro-orm/mongodb';
-import { id_prop, LuxonType, StringObjectIdType } from '../utils';
+import { LuxonType } from '../custom-types';
+import { id_prop } from '../utils';
 import { pkce_challenge_schema } from './pkce';
 import { user_schema } from './user';
 

@@ -1,7 +1,7 @@
 import { Entity } from '@easworks/models/entity';
 import { EntitySchema } from '@mikro-orm/mongodb';
+import { EAS_EntityManager } from '../types';
 import { id_prop } from '../utils';
-import { EAS_EntityManager } from 'server-side/context';
 
 export interface KeyValDocument<T = unknown> extends Entity {
   value: T;
