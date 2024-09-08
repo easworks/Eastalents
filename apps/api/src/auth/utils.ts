@@ -1,4 +1,4 @@
-import { base64url } from '@easworks/app-shell/utilities/base64url';
+import { base64url } from '@easworks/models/utils/base64url';
 import { token_ref_schema } from '@easworks/mongodb/schema/auth';
 import { KeyValDocument } from '@easworks/mongodb/schema/keyval';
 import { EAS_EntityManager } from '@easworks/mongodb/types';

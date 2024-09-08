@@ -1,10 +1,18 @@
 import { sortString } from '@easworks/app-shell/utilities/sort';
-import { createEntityAdapter } from '@ngrx/entity';
+import { FeaturedDomain } from '@easworks/models/featured';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { createActionGroup, createFeature, createReducer, createSelector, emptyProps, on, props } from '@ngrx/store';
 import { produce } from 'immer';
-import { Domain } from 'models/domain';
+import { Domain, DomainDataDTO } from 'models/domain';
 import { SoftwareProduct, TechGroup, TechSkill } from 'models/software';
-import { DomainDataDTO, DomainDataState } from 'models/domain';
+
+export interface DomainDataState {
+  techSkills: EntityState<TechSkill>;
+  techGroups: EntityState<TechGroup>;
+  softwareProducts: EntityState<SoftwareProduct>;
+  domains: EntityState<Domain>;
+  featuredDomains: FeaturedDomain[];
+}
 
 export const domainDataActions = createActionGroup({
   source: 'admin-data',

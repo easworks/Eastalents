@@ -1,8 +1,8 @@
+import { serveAngularSSR } from '@easworks/app-shell/utilities/angular-ssr';
 import { fastifyCors } from '@fastify/cors';
 import { fastify, FastifyInstance } from 'fastify';
 import * as path from 'path';
 import { parseEnv } from 'server-side/environment';
-import { serveAngularSSR } from 'server-side/utils/angular-ssr';
 import { useProblemDetailsGlobally } from 'server-side/utils/fastify-problem-details';
 import { getLoggerOptions } from 'server-side/utils/logging';
 import { printRoutes } from 'server-side/utils/print-routes.plugin';

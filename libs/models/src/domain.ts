@@ -1,5 +1,3 @@
-import type { EntityState } from '@ngrx/entity';
-import { FeaturedDomain } from './featured';
 import { SoftwareProduct, TechGroup, TechSkill } from './software';
 
 export interface Domain {
@@ -13,13 +11,7 @@ export interface Domain {
   products: string[];
 }
 
-export interface DomainDataState {
-  techSkills: EntityState<TechSkill>;
-  techGroups: EntityState<TechGroup>;
-  softwareProducts: EntityState<SoftwareProduct>;
-  domains: EntityState<Domain>;
-  featuredDomains: FeaturedDomain[];
-}
+
 
 export interface DomainDataDTO {
   domains: Domain[];

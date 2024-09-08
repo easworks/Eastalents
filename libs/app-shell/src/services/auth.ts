@@ -1,4 +1,5 @@
 import { inject, Injectable } from '@angular/core';
+import { base64url } from '@easworks/models/utils/base64url';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { RETURN_URL_KEY } from 'models/auth';
@@ -9,7 +10,6 @@ import { AuthApi } from '../api/auth.api';
 import { OAuthApi } from '../api/oauth.api';
 import { CLIENT_CONFIG } from '../dependency-injection';
 import { authActions } from '../state/auth';
-import { base64url } from '../utilities/base64url';
 import { AuthRedirect } from './auth.external';
 import { AuthStorageService } from './auth.storage';
 
