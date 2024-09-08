@@ -1,6 +1,7 @@
-import { Entity } from './entity';
+import { User } from './user';
 
-export interface PermissionRecord extends Entity {
+export interface PermissionRecord {
+  user: User;
   permissions: string[];
   roles: string[];
 }

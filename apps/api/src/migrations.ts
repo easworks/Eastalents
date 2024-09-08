@@ -1,14 +1,15 @@
-import { Entity } from 'models/entity';
+import { user_credential_schema } from '@easworks/mongodb/schema/identity-provider';
+import { oauth_client_application_schema } from '@easworks/mongodb/schema/oauth';
+import { permission_record_schema } from '@easworks/mongodb/schema/permission-record';
+import { user_schema } from '@easworks/mongodb/schema/user';
 import { IdpCredential } from 'models/identity-provider';
 import { OAuthClientApplication } from 'models/oauth';
 import { PermissionRecord } from 'models/permission-record';
 import { User } from 'models/user';
-import { AnyBulkWriteOperation, Collection, Filter } from 'mongodb';
 import { authRules } from 'server-side/auth/rules';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 import { Readable } from 'stream';
 import { authHook } from './auth/hooks';
-import { easMongo } from './mongodb';
 
 export const migrationHandlers: FastifyZodPluginAsync = async server => {
   server.post('/import',
@@ -18,13 +19,11 @@ export const migrationHandlers: FastifyZodPluginAsync = async server => {
     async (req) => {
       const input = req.body as DataFile;
 
+      await req.ctx.em.insertMany(user_schema, input.users, { upsert: true });
+      await req.ctx.em.insertMany(permission_record_schema, input.permissions, { upsert: true });
+      await req.ctx.em.insertMany(user_credential_schema, input.userCredentials, { upsert: true });
 
-      await upsertDocuments(input.users, easMongo.users);
-      await upsertDocuments(input.permissions, easMongo.permissions);
-      await upsertDocuments(input.userCredentials, easMongo.userCredentials);
-
-      await upsertDocuments(input.oauthApps, easMongo.oauthApps);
-
+      await req.ctx.em.insertMany(oauth_client_application_schema, input.oauthApps, { upsert: true });
     }
   );
 
@@ -33,10 +32,10 @@ export const migrationHandlers: FastifyZodPluginAsync = async server => {
       onRequest: authHook(authRules.hasPermission('migration.export'))
     },
     async (req, rep) => {
-      const users = await easMongo.users.find().toArray();
-      const userCredentials = await easMongo.userCredentials.find().toArray();
-      const permissions = await easMongo.permissions.find().toArray();
-      const oauthApps = await easMongo.oauthApps.find().toArray();
+      const users = await req.ctx.em.findAll(user_schema);
+      const userCredentials = await req.ctx.em.findAll(user_credential_schema);
+      const permissions = await req.ctx.em.findAll(permission_record_schema);
+      const oauthApps = await req.ctx.em.findAll(oauth_client_application_schema);
 
       const data: DataFile = {
         users,
@@ -70,16 +69,17 @@ interface DataFile {
   oauthApps: OAuthClientApplication[];
 }
 
-function getUpsertOps<T extends Entity>(documents: T[]) {
-  return documents.map(doc => ({
-    replaceOne: {
-      filter: { _id: doc._id } as Filter<T>,
-      replacement: doc,
-      upsert: true
-    }
-  } satisfies AnyBulkWriteOperation<T>));
-}
+// included for posterity
+// function getUpsertOps<T extends Entity>(documents: T[]) {
+//   return documents.map(doc => ({
+//     replaceOne: {
+//       filter: { _id: doc._id } as Filter<T>,
+//       replacement: doc,
+//       upsert: true
+//     }
+//   } satisfies AnyBulkWriteOperation<T>));
+// }
 
-function upsertDocuments<T extends Entity>(documents: T[], collection: Collection<T>) {
-  return collection.bulkWrite(getUpsertOps(documents));
-}
+// function upsertDocuments<T extends Entity>(documents: T[], collection: Collection<T>) {
+//   return collection.bulkWrite(getUpsertOps(documents));
+// }

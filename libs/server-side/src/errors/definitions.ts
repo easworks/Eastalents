@@ -1,7 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { ExternalIdentityProviderType } from 'models/identity-provider';
 import { OAuthAuthorizeErrorType, OAuthTokenErrorType } from 'models/oauth';
-import { User } from 'models/user';
 import { ZodError } from 'zod';
 import { ApiError } from './utils';
 
@@ -16,7 +15,7 @@ export class ValidationFailed extends ApiError {
 export class KeyValueDocumentNotFound extends ApiError {
   constructor(key: string) {
     super('key-value-document-not-found', StatusCodes.INTERNAL_SERVER_ERROR);
-    this.metadata['docment'] = key;
+    this.metadata['document'] = key;
   }
 }
 

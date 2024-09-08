@@ -1,14 +1,17 @@
+import { base64url } from '@easworks/app-shell/utilities/base64url';
+import { token_ref_schema } from '@easworks/mongodb/schema/auth';
+import { KeyValDocument } from '@easworks/mongodb/schema/keyval';
+import { EAS_EntityManager } from '@easworks/mongodb/types';
+import { ObjectId } from '@mikro-orm/mongodb';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { DateTime } from 'luxon';
-import { EmailVerificationCodeRef, PasswordResetCodeRef, TokenRef } from 'models/auth';
-import { ExternalIdentityProviderType, ExternalIdpUser, IdpCredential } from 'models/identity-provider';
+import { EmailVerificationCodeRef, PasswordResetCodeRef } from 'models/auth';
+import { ExternalIdentityProviderType, ExternalIdpUser } from 'models/identity-provider';
 import { PermissionRecord } from 'models/permission-record';
 import { User, UserClaims } from 'models/user';
-import { ObjectId } from 'mongodb';
 import * as crypto from 'node:crypto';
 import { EmailVerificationCodeExpired, FailedSocialProfileRequest, InvalidPassword, InvalidSocialOauthCode, KeyValueDocumentNotFound, PasswordResetCodeExpired, UserNeedsPasswordReset } from 'server-side/errors/definitions';
 import { environment } from '../environment';
-import { easMongo } from '../mongodb';
 import '../utils/email';
 import { EmailSender } from '../utils/email';
 
@@ -50,17 +53,18 @@ export const passwordUtils = {
 
 export const jwtUtils = {
   createToken: async (
+    em: EAS_EntityManager,
     type: 'first-party' | 'third-party',
     user: User,
     permissionRecord: PermissionRecord) => {
     const { privateKey, issuer } = environment.jwt;
     const expiresIn = TOKEN_EXPIRY_SECONDS;
 
-    const tokenRef: TokenRef = {
+    const tokenRef = em.create(token_ref_schema, {
       _id: new ObjectId().toString(),
-      expiresIn,
-      userId: user._id,
-    };
+      expiresAt: null as unknown as DateTime,
+      user,
+    });
 
     const payload: UserClaims = type === 'first-party' ?
       {
@@ -82,7 +86,13 @@ export const jwtUtils = {
       issuer,
       subject: payload._id,
     });
-    await easMongo.tokens.insertOne(tokenRef);
+
+    {
+      const pl = JSON.parse(base64url.toString(token.split('.')[1]));
+      tokenRef.expiresAt = DateTime.fromSeconds(pl.exp);
+    }
+
+    await em.flush();
 
     return {
       tid: tokenRef._id,
@@ -211,23 +221,23 @@ export class WelcomeEmail {
  * @param email the email to check
  * @returns `false` if it is not a free email, the domain of the email otherwise
  */
-export async function isFreeEmail(email: string) {
+export async function isFreeEmail(em: EAS_EntityManager, email: string) {
   const domain = email.split('@')[1];
   if (
     domain === 'mailinator.com' &&
     (environment.id === 'local' || environment.id === 'development')
   )
     return false;
-  return await FreeEmailProviderCache.has(domain) ? domain : false;
+  return await FreeEmailProviderCache.has(em, domain) ? domain : false;
 }
 
 export class FreeEmailProviderCache {
-  private static readonly docKey = 'free-email-providers';
+  private static readonly docId = 'free-email-providers';
   private static _data = new Set<string>();
   private static updatedOn: DateTime | null = null;
 
-  public static async has(domain: string) {
-    if (this.isOld()) await this.fetch();
+  public static async has(em: EAS_EntityManager, domain: string) {
+    if (this.isOld()) await this.fetch(em);
 
     return this._data.has(domain);
   }
@@ -238,31 +248,31 @@ export class FreeEmailProviderCache {
       this.updatedOn.diffNow('minutes').minutes < -5;
   }
 
-  private static async fetch() {
-    const data = await easMongo.keyval.get<string[]>(this.docKey);
+  private static async fetch(em: EAS_EntityManager) {
+    const data = await KeyValDocument.get<string[]>(em, this.docId);
 
     if (!data)
       throw new Error('could not load free-email-providers from mongodb');
 
-    this._data = new Set(data.value);
+    this._data = new Set(data);
     this.updatedOn = DateTime.now();
   }
 
-  static async check() {
-    if (!(await easMongo.keyval.exists(this.docKey))) {
-      throw new KeyValueDocumentNotFound(this.docKey);
+  static async check(em: EAS_EntityManager) {
+    if (!(await KeyValDocument.exists(em, this.docId))) {
+      throw new KeyValueDocumentNotFound(this.docId);
     }
   }
 }
 
 export function createCredentialFromExternalUser(
   provider: ExternalIdentityProviderType,
-  userId: IdpCredential['userId'],
+  user: User,
   externalUser: ExternalIdpUser
-): IdpCredential {
+) {
   return {
     _id: new ObjectId().toString(),
-    userId,
+    user,
     provider: {
       type: provider,
       email: externalUser.email,
@@ -530,12 +540,12 @@ class GithubUtils {
 }
 
 export class ExternalUserTransfer {
-  public static async toToken(provider: ExternalIdentityProviderType, externalUser: ExternalIdpUser) {
+  public static async toToken(em: EAS_EntityManager, provider: ExternalIdentityProviderType, externalUser: ExternalIdpUser) {
     const payload = {
       type: 'state:ExternalIdpUser',
       provider,
       externalUser,
-      isFreeEmail: await isFreeEmail(externalUser.email)
+      isFreeEmail: await isFreeEmail(em, externalUser.email)
     };
 
     const { privateKey, issuer } = environment.jwt;

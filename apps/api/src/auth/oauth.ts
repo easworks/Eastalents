@@ -1,13 +1,17 @@
+import { token_ref_schema } from '@easworks/mongodb/schema/auth';
+import { oauth_client_application_schema, oauth_code_schema } from '@easworks/mongodb/schema/oauth';
+import { permission_record_schema } from '@easworks/mongodb/schema/permission-record';
+import { user_schema } from '@easworks/mongodb/schema/user';
+import { EAS_EntityManager } from '@easworks/mongodb/types';
+import { ObjectId } from '@mikro-orm/mongodb';
 import { FastifyPluginAsync, FastifyReply } from 'fastify';
 import { StatusCodes } from 'http-status-codes';
 import { DateTime } from 'luxon';
-import { OAuthAuthorizeErrorType, OAuthCode, OAuthTokenSuccessResponse } from 'models/oauth';
+import { OAuthAuthorizeErrorType, OAuthTokenSuccessResponse } from 'models/oauth';
 import { oauthValidators } from 'models/validators/oauth';
-import { ObjectId } from 'mongodb';
-import { OAuthRequestError, UserNotFound } from 'server-side/errors/definitions';
+import { OAuthRequestError } from 'server-side/errors/definitions';
 import { ZodError } from 'zod';
 import { environment } from '../environment';
-import { easMongo } from '../mongodb';
 import { authHook } from './hooks';
 import { jwtUtils, oauthUtils } from './utils';
 
@@ -20,7 +24,7 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
       const input = req.query as Record<string, string>;
 
       try {
-        await validateAuthorizationInput(input);
+        await validateAuthorizationInput(req.ctx.em, input);
       }
       catch (err) {
         if (err instanceof OAuthRequestError) {
@@ -48,7 +52,7 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
 
       let input;
       try {
-        input = await validateAuthorizationInput(rawInput);
+        input = await validateAuthorizationInput(req.ctx.em, rawInput);
       }
       catch (err) {
         if (err instanceof OAuthRequestError) {
@@ -59,20 +63,20 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
 
       const now = DateTime.now();
 
-      const grantCode: OAuthCode = {
+      const grantCode = req.ctx.em.create(oauth_code_schema, {
         _id: new ObjectId().toString(),
         value: generateRandomCode(),
-        clientId: input.client_id,
-        userId: auth._id,
+        client: input.client_id,
+        user: auth._id,
         expiresAt: now.plus({ minutes: 5 }),
         redirectUri: input.redirect_uri.was_provided ?
           input.redirect_uri.value :
           undefined,
         challenge: input.pkce,
         grantedTokens: []
-      };
+      });
 
-      await easMongo.oauthCodes.insertOne(grantCode);
+      req.ctx.em.flush();
 
       const url = new URL(input.redirect_uri.value);
       url.searchParams.set('code', grantCode.value);
@@ -88,14 +92,16 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
     async (req) => {
       const rawInput = req.body as Record<string, string>;
 
-      const { clientApp, storedCode } = await validateTokenInput(rawInput);
+      const { clientApp, storedCode } = await validateTokenInput(req.ctx.em, rawInput);
 
       if (storedCode.grantedTokens.length > 0) {
         // token(s) were already issued against this code
         // delete those issued tokens
-        await Promise.all(
-          storedCode.grantedTokens.map(tid => easMongo.tokens.deleteOne({ _id: tid }))
-        );
+        storedCode.grantedTokens.forEach(tid => {
+          const ref = req.ctx.em.getReference(token_ref_schema, tid);
+          req.ctx.em.remove(ref);
+        });
+        await req.ctx.em.flush();
 
         // TODO: implement - notify the user about the security incident
         // const user = await easMongo.users.findOne({ _id: storedCode.userId });
@@ -103,21 +109,20 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
         throw new OAuthRequestError('invalid_grant');
       }
 
-      const user = await easMongo.users.findOne({ _id: storedCode.userId });
-      if (!user)
-        throw new UserNotFound();
+      const user = await req.ctx.em.findOneOrFail(user_schema, storedCode.user);
 
-      const permissionRecord = await easMongo.permissions.findOne({ _id: user._id });
+      const permissionRecord = await req.ctx.em.findOneOrFail(permission_record_schema, { user });
       if (!permissionRecord)
         throw new Error('user permissions should exist');
 
       const accessToken = await jwtUtils.createToken(
+        req.ctx.em,
         clientApp.firstParty ? 'first-party' : 'third-party',
         user,
         permissionRecord);
 
       storedCode.grantedTokens.push(accessToken.tid);
-      await easMongo.oauthCodes.replaceOne({ _id: storedCode._id }, storedCode);
+      await req.ctx.em.flush();
 
       const response: OAuthTokenSuccessResponse = {
         access_token: accessToken.token,
@@ -130,7 +135,7 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
 
     });
 
-  async function validateAuthorizationInput(input: Record<string, string>) {
+  async function validateAuthorizationInput(em: EAS_EntityManager, input: Record<string, string>) {
     const validators = oauthValidators.inputs.authorize;
 
     // check if client_id is missing/malformed
@@ -140,7 +145,7 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
       });
 
     // check if client_id is in database 
-    const clientApp = await easMongo.oauthApps.findOne({ _id: client_id });
+    const clientApp = await em.findOne(oauth_client_application_schema, client_id);
     if (!clientApp)
       throw new OAuthRequestError('invalid_client_id');
 
@@ -220,7 +225,7 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
     };
   }
 
-  async function validateTokenInput(input: Record<string, string>) {
+  async function validateTokenInput(em: EAS_EntityManager, input: Record<string, string>) {
     const validators = oauthValidators.inputs.token;
 
     // check if grant_type is valid
@@ -244,7 +249,7 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
       });
 
     // check if code exists in db
-    const storedCode = await easMongo.oauthCodes.findOne({ value: code });
+    const storedCode = await em.findOne(oauth_code_schema, { value: code });
     if (!storedCode)
       throw new OAuthRequestError('invalid_grant');
 
@@ -254,10 +259,10 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
       throw new OAuthRequestError('invalid_grant');
 
     // check if client_id is same as in authorization request
-    if (client_id !== storedCode.clientId)
+    if (client_id !== storedCode.client._id)
       throw new OAuthRequestError('invalid_grant');
 
-    const clientApp = await easMongo.oauthApps.findOne({ _id: client_id });
+    const clientApp = await em.findOne(oauth_client_application_schema, client_id);
     if (!clientApp)
       throw new OAuthRequestError('invalid_client_id');
 

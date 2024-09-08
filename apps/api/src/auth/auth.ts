@@ -1,15 +1,17 @@
-import { EmailVerificationCodeRef, PasswordResetCodeRef } from 'models/auth';
-import { ExternalIdentityProviderType, ExternalIdpUser, IdpCredential } from 'models/identity-provider';
+import { email_verification_code_ref_schema, password_reset_code_ref_schema } from '@easworks/mongodb/schema/auth';
+import { user_credential_schema } from '@easworks/mongodb/schema/identity-provider';
+import { oauth_client_application_schema } from '@easworks/mongodb/schema/oauth';
+import { permission_record_schema } from '@easworks/mongodb/schema/permission-record';
+import { user_schema } from '@easworks/mongodb/schema/user';
+import { EAS_EntityManager } from '@easworks/mongodb/types';
+import { ObjectId } from '@mikro-orm/mongodb';
+import { DateTime } from 'luxon';
+import { ExternalIdentityProviderType, ExternalIdpUser } from 'models/identity-provider';
 import { OAuthTokenSuccessResponse } from 'models/oauth';
-import { PermissionRecord } from 'models/permission-record';
 import { ALL_ROLES, PERMISSION_DEF_DTO } from 'models/permissions';
-import { User } from 'models/user';
 import { authValidators, SignUpOutput, SocialOAuthCodeExchangeOutput } from 'models/validators/auth';
-import { ObjectId } from 'mongodb';
 import { EmailVerificationCodeExpired, SignupEmailInUse, SignupRequiresWorkEmail, SignupRoleIsInvalid, UserEmailNotRegistered, UserIsDisabled, UsernameInUse, UserNeedsPasswordReset } from 'server-side/errors/definitions';
-import { setTypeVersion } from 'server-side/mongodb/collections';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
-import { easMongo } from '../mongodb';
 import { createCredentialFromExternalUser, EmailVerification, ExternalUserTransfer, FreeEmailProviderCache, getExternalUserForSignup, isFreeEmail, jwtUtils, oauthUtils, PasswordReset, passwordUtils, WelcomeEmail } from './utils';
 
 // TODO: add transactions to all the methods
@@ -19,7 +21,7 @@ const PASSWORD_RESET_EXPIRY_SECONDS = 300;
 
 export const authHandlers: FastifyZodPluginAsync = async server => {
 
-  await FreeEmailProviderCache.check();
+  await FreeEmailProviderCache.check(server.orm.em.fork());
 
   server.get('/permission-definition', async () => PERMISSION_DEF_DTO);
 
@@ -35,7 +37,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
         try {
           // get token if user already exists
-          const tokenResponse = await trySignInExternalUser(externalUser, input.credentials.provider);
+          const tokenResponse = await trySignInExternalUser(req.ctx.em, externalUser, input.credentials.provider);
           return {
             action: 'sign-in',
             data: tokenResponse
@@ -51,11 +53,11 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       // validate email
       // - if externalUser has a value, 
       //   then we have a guarantee that
-      //   email doe not exist, because `trySignInExternalUser`
+      //   email does not exist, because `trySignInExternalUser`
       //   would have checked for the existence of the email
       const emailExists = externalUser ?
         false :
-        await easMongo.userCredentials.findOne({ 'provider.email': input.email });
+        await req.ctx.em.findOne(user_credential_schema, { provider: { email: input.email } });
 
       if (emailExists)
         throw new SignupEmailInUse();
@@ -65,7 +67,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
           throw new EmailVerificationCodeExpired();
 
         // verify the email
-        const ref = await easMongo.otp.emailVerification.findOne({ email: input.email });
+        const ref = await req.ctx.em.findOne(email_verification_code_ref_schema, { email: input.email });
         await EmailVerification.verify(ref, input.emailVerification.code, input.emailVerification.code_verifier);
       }
 
@@ -77,18 +79,18 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       }
 
       if (input.role === 'employer') {
-        const freeEmailDomain = await isFreeEmail(input.email);
+        const freeEmailDomain = await isFreeEmail(req.ctx.em, input.email);
         if (freeEmailDomain)
           throw new SignupRequiresWorkEmail(freeEmailDomain);
       }
 
       // validate username
-      const usernameExists = await easMongo.users.findOne({ username: input.username });
+      const usernameExists = await req.ctx.em.findOne(user_schema, { username: input.username });
       if (usernameExists)
         throw new UsernameInUse();
 
       // create user
-      const user: User = {
+      const user = req.ctx.em.create(user_schema, {
         _id: new ObjectId().toString(),
         email: input.email,
 
@@ -98,51 +100,50 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
         imageUrl: null,
 
         enabled: true,
-      };
-      setTypeVersion(user, 'users');
+      });
 
-      let credential: IdpCredential;
+
+      // create credential
       if (input.credentials.provider === 'email') {
-        credential = {
+        req.ctx.em.create(user_credential_schema, {
           _id: new ObjectId().toString(),
           provider: {
             type: 'email',
             email: input.email,
             id: input.email,
           },
-          userId: user._id,
+          user,
           credential: passwordUtils.generate(input.credentials.password)
-        };
+        });
       }
       else {
         if (!externalUser)
           throw new Error('external user should not be null');
-        credential = createCredentialFromExternalUser(
-          input.credentials.provider as ExternalIdentityProviderType,
-          user._id,
+        req.ctx.em.create(user_credential_schema, createCredentialFromExternalUser(
+          input.credentials.provider,
+          user,
           externalUser
-        );
+        ));
       }
 
-      const permissions: PermissionRecord = {
-        _id: user._id,
+      // create permission record
+      const permissions = req.ctx.em.create(permission_record_schema, {
+        user,
         permissions: [],
         roles: [input.role]
-      };
+      });
 
-      await saveNewUser(user, permissions, credential);
+      await req.ctx.em.flush();
       {
         let clientName;
         if (input.clientId) {
-          const client = await easMongo.oauthApps.findOne({ _id: input.clientId });
-          if (!client)
-            throw new Error('invalid operation');
+          const client = await req.ctx.em.findOneOrFail(oauth_client_application_schema, input.clientId);
           clientName = client?.name;
         }
         await WelcomeEmail.send(user, permissions, clientName);
       }
 
-      const accessToken = await jwtUtils.createToken('first-party', user, permissions);
+      const accessToken = await jwtUtils.createToken(req.ctx.em, 'first-party', user, permissions);
 
       const response: OAuthTokenSuccessResponse = {
         access_token: accessToken.token,
@@ -164,9 +165,10 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     },
     async (req) => {
       const input = req.body;
-      const credentials = await easMongo.userCredentials.find({
-        'provider.email': input.email
-      }).toArray();
+      const credentials = await req.ctx.em.find(
+        user_credential_schema,
+        { provider: { email: input.email } });
+
 
       if (credentials.length === 0)
         throw new UserEmailNotRegistered();
@@ -178,20 +180,15 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       passwordUtils.validate(input.password, emailCred.credential);
 
-      const user = await easMongo.users.findOne({ _id: emailCred.userId });
-      if (!user)
-        throw new Error('user should exist');
+      const user = await req.ctx.em.findOneOrFail(user_schema, emailCred.user);
 
       if (!user.enabled) {
         throw new UserIsDisabled();
       }
 
-      const permissions = await easMongo.permissions.findOne({ _id: emailCred.userId });
+      const permissions = await req.ctx.em.findOneOrFail(permission_record_schema, { user });
 
-      if (!permissions)
-        throw new Error('user permissions should exist');
-
-      const accessToken = await jwtUtils.createToken('first-party', user, permissions);
+      const accessToken = await jwtUtils.createToken(req.ctx.em, 'first-party', user, permissions);
 
       const response: OAuthTokenSuccessResponse = {
         access_token: accessToken.token,
@@ -215,7 +212,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       try {
         // get token if user already exists
-        const tokenResponse = await trySignInExternalUser(externalUser, input.idp);
+        const tokenResponse = await trySignInExternalUser(req.ctx.em, externalUser, input.idp);
         return {
           action: 'sign-in',
           data: tokenResponse
@@ -225,7 +222,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
         if (e instanceof UserEmailNotRegistered)
           return {
             action: 'sign-up',
-            data: await ExternalUserTransfer.toToken(input.idp, externalUser)
+            data: await ExternalUserTransfer.toToken(req.ctx.em, input.idp, externalUser)
           } satisfies SocialOAuthCodeExchangeOutput;
 
         else throw e;
@@ -239,16 +236,26 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       const input = req.body;
 
       const code = EmailVerification.generateCode();
+      const expiresAt = DateTime.now().plus({ seconds: EMAIL_VERIFICATION_EXPIRY_SECONDS });
 
-      const store: EmailVerificationCodeRef = {
-        _id: null as unknown as string,
-        expiresIn: EMAIL_VERIFICATION_EXPIRY_SECONDS,
-        email: input.email,
-        code,
-        pkce: input.pkce
-      };
+      const old = await req.ctx.em.findOne(email_verification_code_ref_schema, { email: input.email });
 
-      await easMongo.otp.emailVerification.replaceOne({ email: input.email }, store, { upsert: true });
+      if (old) {
+        old.expiresAt = expiresAt;
+        old.code = code;
+        old.pkce = input.pkce;
+      }
+      else {
+        req.ctx.em.create(email_verification_code_ref_schema, {
+          _id: null as unknown as string,
+          expiresAt,
+          email: input.email,
+          code,
+          pkce: input.pkce
+        });
+      }
+
+      await req.ctx.em.flush();
 
       await EmailVerification.send(input.email, input.firstName, code);
 
@@ -261,7 +268,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     async (req) => {
       const input = req.body;
 
-      const ref = await easMongo.otp.emailVerification.findOne({ email: input.email });
+      const ref = await req.ctx.em.findOne(email_verification_code_ref_schema, { email: input.email });
 
       await EmailVerification.verify(ref, input.code, input.code_verifier);
 
@@ -274,25 +281,33 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     async (req) => {
       const input = req.body;
 
-      const cred = await easMongo.userCredentials.findOne({ 'provider.email': input.email });
+      const cred = await req.ctx.em.findOne(user_credential_schema, { provider: { email: input.email } });
       if (!cred)
         throw new UserEmailNotRegistered();
 
-      const user = await easMongo.users.findOne({ _id: cred.userId });
-      if (!user)
-        throw new Error('invalid operation');
+      const user = await req.ctx.em.findOneOrFail(user_schema, cred.user);
 
       const code = PasswordReset.generateCode();
+      const expiresAt = DateTime.now().plus({ seconds: PASSWORD_RESET_EXPIRY_SECONDS });
 
-      const store: PasswordResetCodeRef = {
-        _id: user._id,
-        expiresIn: PASSWORD_RESET_EXPIRY_SECONDS,
-        email: input.email,
-        code,
-        pkce: input.pkce
-      };
+      const old = await req.ctx.em.findOne(password_reset_code_ref_schema, user._id);
+      if (old) {
+        old.expiresAt = expiresAt;
+        old.email = input.email;
+        old.code = code;
+        old.pkce = input.pkce;
+      }
+      else {
+        req.ctx.em.create(password_reset_code_ref_schema, {
+          _id: user._id,
+          expiresAt,
+          email: input.email,
+          code,
+          pkce: input.pkce
+        });
+      }
 
-      await easMongo.otp.passwordReset.replaceOne({ _id: user._id }, store, { upsert: true });
+      await req.ctx.em.flush();
 
       await PasswordReset.send(input.email, user.firstName, code);
 
@@ -304,7 +319,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     { schema: { body: authValidators.inputs.passwordReset.verifyCode } },
     async (req) => {
       const input = req.body;
-      const ref = await easMongo.otp.passwordReset.findOne({ email: input.email });
+      const ref = await req.ctx.em.findOne(password_reset_code_ref_schema, { email: input.email });
 
       await PasswordReset.verify(ref, input.code, input.code_verifier);
 
@@ -317,31 +332,37 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     async (req) => {
       const input = req.body;
 
-      const ref = await easMongo.otp.passwordReset.findOne({ email: input.email });
+      const ref = await req.ctx.em.findOne(password_reset_code_ref_schema, { email: input.email });
 
       await PasswordReset.verify(ref, input.code, input.code_verifier);
 
-      const user = await easMongo.users.findOne({ _id: ref!._id });
+      const user = await req.ctx.em.findOne(user_schema, { _id: ref!._id });
 
       if (!user)
         throw new Error('invalid operation');
 
-      const credential: IdpCredential = {
-        _id: new ObjectId().toString(),
-        provider: {
-          type: 'email',
-          email: user.email,
-          id: user.email
-        },
-        userId: user._id,
-        credential: passwordUtils.generate(input.password)
-      };
+      const old = await req.ctx.em.findOne(user_credential_schema, { user, provider: { type: 'email' } });
+      const passwordHash = passwordUtils.generate(input.password);
 
-      await easMongo.userCredentials.replaceOne(
-        { userId: user._id, 'provider.type': 'email' },
-        credential,
-        { upsert: true }
-      );
+      if (old) {
+        old.provider.email = user.email;
+        old.provider.id = user.email;
+        old.credential = passwordHash;
+      }
+      else {
+        req.ctx.em.create(user_credential_schema, {
+          _id: new ObjectId().toString(),
+          provider: {
+            type: 'email',
+            email: user.email,
+            id: user.email
+          },
+          user,
+          credential: passwordHash
+        });
+      }
+
+      await req.ctx.em.flush();
 
       return true;
     }
@@ -351,7 +372,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     { schema: { body: authValidators.inputs.validate.username } },
     async (req) => {
       const { username } = req.body;
-      const user = await easMongo.users.findOne({ username });
+      const user = await req.ctx.em.findOne(user_schema, { username });
       if (user) return true;
       else return false;
     }
@@ -361,9 +382,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     { schema: { body: authValidators.inputs.validate.email } },
     async (req) => {
       const { email } = req.body;
-      const cred = await easMongo.userCredentials.findOne({
-        'provider.email': email
-      });
+      const cred = await req.ctx.em.findOne(user_credential_schema, { provider: { email } });
       if (cred) return true;
       else return false;
     }
@@ -371,21 +390,23 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
   server.post('/validate/email-is-free',
     { schema: { body: authValidators.inputs.validate.email } },
-    async (req) => isFreeEmail(req.body.email)
+    async (req) => isFreeEmail(req.ctx.em, req.body.email)
   );
 
-  async function trySignInExternalUser(external: ExternalIdpUser, idp: ExternalIdentityProviderType) {
+  async function trySignInExternalUser(em: EAS_EntityManager, external: ExternalIdpUser, idp: ExternalIdentityProviderType) {
 
     // look for an exact match by external user id
-    let credential = await easMongo.userCredentials.findOne({
-      'provider.type': idp,
-      'provider.id': external.providerId
+    let credential = await em.findOne(user_credential_schema, {
+      provider: {
+        type: idp,
+        id: external.providerId
+      }
     });
 
     if (!credential) {
       // look for loose match by email
-      credential = await easMongo.userCredentials.findOne({
-        'provider.email': external.email
+      credential = await em.findOne(user_credential_schema, {
+        provider: { email: external.email }
       });
 
       // email was not present in our db
@@ -393,35 +414,27 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
         throw new UserEmailNotRegistered();
 
       // we found the email was being used by a user
-      const userId = credential.userId;
+      const user = credential.user;
 
       // create a new credential for the same user
       // and add to database
-      credential = {
-        _id: new ObjectId().toString(),
-        provider: {
-          type: idp,
-          id: external.providerId,
-          email: external.email,
-        },
-        userId
-      };
-      await easMongo.userCredentials.insertOne(credential);
+      credential = em.create(user_credential_schema, createCredentialFromExternalUser(
+        idp,
+        user,
+        external
+      ));
+      await em.flush();
     }
 
-    const user = await easMongo.users.findOne({ _id: credential.userId });
-    if (!user)
-      throw new Error('user should not have been null');
+    const user = await em.findOneOrFail(user_schema, credential.user);
 
     if (!user.enabled) {
       throw new UserIsDisabled();
     }
 
-    const permissions = await easMongo.permissions.findOne({ _id: user._id });
-    if (!permissions)
-      throw new Error('user permissions should not be null');
+    const permissions = await em.findOneOrFail(permission_record_schema, { user });
 
-    const accessToken = await jwtUtils.createToken('first-party', user, permissions);
+    const accessToken = await jwtUtils.createToken(em, 'first-party', user, permissions);
 
     const response: OAuthTokenSuccessResponse = {
       access_token: accessToken.token,
@@ -431,16 +444,6 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     };
 
     return response;
-  }
-
-  async function saveNewUser(
-    user: User,
-    permissions: PermissionRecord,
-    credential: IdpCredential
-  ) {
-    await easMongo.users.insertOne(user);
-    await easMongo.userCredentials.insertOne(credential);
-    await easMongo.permissions.insertOne(permissions);
   }
 };
 

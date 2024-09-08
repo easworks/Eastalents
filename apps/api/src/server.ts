@@ -7,7 +7,6 @@ import { getLoggerOptions } from 'server-side/utils/logging';
 import { useCloudContext } from './context';
 import { environment } from './environment';
 import { handlers } from './handlers';
-import { easMongo } from './mongodb';
 
 async function initServer() {
   const options = {};
@@ -31,7 +30,7 @@ async function configureServer(server: FastifyInstance) {
   await server.register(fastifyFormbody);
   await server.register(useCloudContext);
 
-  await easMongo.client.connect();
+  await server.orm.connect();
 
   await server.register(handlers);
 }
@@ -50,13 +49,15 @@ export async function startServer() {
   }
   catch (e) {
     server.log.fatal(e);
+    if (environment.id === 'local')
+      console.error(e);
     closeServer(server);
   }
 };
 
 async function closeServer(server: FastifyInstance) {
   await server.close();
-  await easMongo.client.close();
+  await server.orm.close();
   process.exit();
 }
 

@@ -1,7 +1,8 @@
+import { permission_record_schema } from '@easworks/mongodb/schema/permission-record';
+import { user_schema } from '@easworks/mongodb/schema/user';
 import { UserSelfOutput } from 'models/validators/users';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 import { authHook } from './auth/hooks';
-import { easMongo } from './mongodb';
 
 export const userHandlers: FastifyZodPluginAsync = async server => {
 
@@ -10,12 +11,8 @@ export const userHandlers: FastifyZodPluginAsync = async server => {
     async (req) => {
       const auth = req.ctx.auth!;
 
-      const user = await easMongo.users.findOne({ _id: auth._id });
-      if (!user)
-        throw new Error('user should not be null');
-      const permissionRecord = await easMongo.permissions.findOne({ _id: user._id });
-      if (!permissionRecord)
-        throw new Error('permissions should not be null');
+      const user = await req.ctx.em.findOneOrFail(user_schema, auth._id);
+      const permissionRecord = await req.ctx.em.findOneOrFail(permission_record_schema, { user });
 
       const result: UserSelfOutput = {
         user,

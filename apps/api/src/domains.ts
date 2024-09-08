@@ -1,11 +1,11 @@
-import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
-import { easMongo } from './mongodb';
+import { keyval_schema } from '@easworks/mongodb/schema/keyval';
 import { KeyValueDocumentNotFound } from 'server-side/errors/definitions';
+import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 
 export const domainHandlers: FastifyZodPluginAsync = async server => {
   server.get('/data',
-    async () => {
-      const doc = await easMongo.keyval.get('domain-data');
+    async (req) => {
+      const doc = await req.ctx.em.findOne(keyval_schema, 'domain-data');
       if (!doc)
         throw new KeyValueDocumentNotFound('domain-data');
 

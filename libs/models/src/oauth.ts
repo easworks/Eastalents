@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon';
 import { Entity } from './entity';
+import { User } from './user';
 
 export interface OAuthClientApplication extends Entity {
   name: string;
@@ -9,8 +10,8 @@ export interface OAuthClientApplication extends Entity {
 
 export interface OAuthCode extends Entity {
   value: string;
-  clientId: string;
-  userId: string;
+  client: OAuthClientApplication;
+  user: User;
   challenge?: {
     code: string;
     method: 'plain' | 'S256';
