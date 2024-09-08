@@ -1,3 +1,5 @@
+import { User } from './user';
+
 export const ORGANIZATION_TYPE_OPTIONS = [
   'Enterprise',
   'Small & Medium Business',
@@ -19,7 +21,7 @@ export const ORGANIZATION_SIZE_OPTIONS = [
 export type OrganizationSize = typeof ORGANIZATION_SIZE_OPTIONS[number];
 
 export interface EmployerProfile {
-  _id: string;
+  user: User;
   orgName: string;
   description: string;
 
@@ -29,10 +31,9 @@ export interface EmployerProfile {
     name: string;
     group: string;
   };
-  software: {
-    domain: string;
-    products: string[];
-  }[];
+
+  domains: string[];
+  softwareProducts: string[];
 
   location: {
     country: string;
