@@ -1,3 +1,4 @@
+import { CSCLocation } from './location';
 import { User } from './user';
 
 export const ORGANIZATION_TYPE_OPTIONS = [
@@ -35,12 +36,7 @@ export interface EmployerProfile {
   domains: string[];
   softwareProducts: string[];
 
-  location: {
-    country: string;
-    state: string | null;
-    city: string | null;
-    timezone: string;
-  };
+  location: CSCLocation;
 
   contact: {
     email: string | null;

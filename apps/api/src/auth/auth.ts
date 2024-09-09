@@ -1,7 +1,9 @@
 import { email_verification_code_ref_schema, password_reset_code_ref_schema } from '@easworks/mongodb/schema/auth';
+import { employer_profile_schema, initialEmployerProfile } from '@easworks/mongodb/schema/employer-profile';
 import { user_credential_schema } from '@easworks/mongodb/schema/identity-provider';
 import { oauth_client_application_schema } from '@easworks/mongodb/schema/oauth';
 import { permission_record_schema } from '@easworks/mongodb/schema/permission-record';
+import { initialTalentProfile, talent_profile_schema } from '@easworks/mongodb/schema/talent-profile';
 import { user_schema } from '@easworks/mongodb/schema/user';
 import { EAS_EntityManager } from '@easworks/mongodb/types';
 import { ObjectId } from '@mikro-orm/mongodb';
@@ -133,6 +135,17 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
         roles: [input.role]
       });
 
+      // create profile
+      switch (input.role) {
+        case 'employer':
+          req.ctx.em.create(employer_profile_schema, initialEmployerProfile(user, input.profileData));
+          break;
+        case 'talent':
+          req.ctx.em.create(talent_profile_schema, initialTalentProfile(user, input.profileData));
+          break;
+        default: break;
+      }
+
       await req.ctx.em.flush();
       {
         let clientName;
@@ -247,7 +260,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       }
       else {
         req.ctx.em.create(email_verification_code_ref_schema, {
-          _id: null as unknown as string,
+          _id: new ObjectId().toString(),
           expiresAt,
           email: input.email,
           code,
@@ -443,4 +456,3 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
     return response;
   }
 };
-

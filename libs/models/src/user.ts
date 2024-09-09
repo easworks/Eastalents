@@ -28,3 +28,8 @@ export interface FirstPartyUserClaims extends UserClaimsBase {
 }
 
 export type UserClaims = FirstPartyUserClaims | ThirdPartyUserClaims;
+
+export interface InitialProfileData {
+  domains: string[];
+  softwareProducts: string[];
+}

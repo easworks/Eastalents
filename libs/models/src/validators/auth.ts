@@ -39,7 +39,11 @@ const inputs = {
     emailVerification: z.strictObject({
       code: types.verficationCode,
       code_verifier: oauthValidators.code_challenge
-    }).nullable()
+    }).nullable(),
+    profileData: z.strictObject({
+      domains: z.array(z.string().trim()),
+      softwareProducts: z.array(z.string().trim()),
+    })
   }),
   signin: {
     email: z.strictObject({

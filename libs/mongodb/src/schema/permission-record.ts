@@ -8,7 +8,7 @@ export const permission_record_schema = new EntitySchema<PermissionRecord & { us
   name: 'PermissionRecord',
   properties: {
     user: { kind: '1:1', entity: () => user_schema, owner: true, fieldName: '_id', primary: true },
-    permissions: { type: 'array' },
-    roles: { type: 'array' },
+    permissions: { type: 'string', array: true },
+    roles: { type: 'string', array: true },
   }
 });
