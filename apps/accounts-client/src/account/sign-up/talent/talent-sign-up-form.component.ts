@@ -644,7 +644,11 @@ export class TalentSignUpFormComponent implements OnInit {
               password: fv.password
             },
           clientId: extractClientIdFromReturnUrl(this.returnUrl$()),
-          emailVerification: this.emailVerification.value$() as Exclude<ReturnType<typeof this.emailVerification.value$>, undefined>
+          emailVerification: this.emailVerification.value$() as Exclude<ReturnType<typeof this.emailVerification.value$>, undefined>,
+          profileData: {
+            domains: this.domains.value$().map(d => d.id),
+            softwareProducts: this.software.value$().map(s => s.id)
+          }
         };
 
         this.loading.add('signing up');
