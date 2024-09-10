@@ -6,12 +6,10 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '@easworks/app-shell/services/auth';
 import { SWManagerService } from '@easworks/app-shell/services/sw.manager';
 import { sidebarActions } from '@easworks/app-shell/state/ui';
-import { base64url } from '@easworks/app-shell/utilities/base64url';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { faHighTechFourLeaf } from 'custom-icons';
-import { RETURN_URL_KEY } from 'models/auth';
 import { PUBLIC_MENU } from '../../menu-items/public';
 
 @Component({

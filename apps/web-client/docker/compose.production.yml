@@ -2,6 +2,7 @@ name: eas-production
 
 services:
   web-client:
+    container_name: web-client-production
     extends:
       file: compose.extend.yml
       service: web-client
