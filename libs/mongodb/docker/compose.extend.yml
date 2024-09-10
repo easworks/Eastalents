@@ -10,10 +10,10 @@ services:
       - /home/mongodb/mongodb.key
     healthcheck:
       test:
-        - "CMD"
+        - CMD
         - mongosh
         - --eval
-        - "try { rs.status().ok } catch (err) { rs.initiate($REPLICA_SET_INIT) }"
+        - try { rs.status().ok } catch (err) { rs.initiate($REPLICA_SET_INIT) }
         - --username
         - $MONGODB_INITDB_ROOT_USERNAME
         - --password
