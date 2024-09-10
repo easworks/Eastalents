@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, HostBinding, inject, signal, untracked, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, HostBinding, inject, OnInit, signal, untracked, viewChild } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -7,7 +7,7 @@ import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthApi } from '@easworks/app-shell/api/auth.api';
 import { ClearTriggerOnSelectDirective } from '@easworks/app-shell/common/clear-trigger-on-select.directive';
-import { controlStatus$ } from '@easworks/app-shell/common/form-field.directive';
+import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
@@ -17,7 +17,6 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { zodValidator } from '@easworks/app-shell/validators/zod';
-import { faGithub, faGoogle, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 import { faCheck, faCircleCheck, faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import Fuse from 'fuse.js';
@@ -31,6 +30,9 @@ import type { SignUpInput, ValidateEmailInput, ValidateUsernameInput } from 'mod
 import { username } from 'models/validators/common';
 import { catchError, delay, EMPTY, finalize, map, NEVER, of, switchMap, tap } from 'rxjs';
 import { extractClientIdFromReturnUrl } from '../../oauth-authorize-callback';
+import { SignUpPageComponent } from '../sign-up.page';
+import { TalentSignUpCardsComponent } from './cards/talent-sign-up-cards.component';
+import { uiFeature } from '@easworks/app-shell/state/ui';
 
 @Component({
   standalone: true,
@@ -47,13 +49,14 @@ import { extractClientIdFromReturnUrl } from '../../oauth-authorize-callback';
     ClearTriggerOnSelectDirective
   ]
 })
-export class TalentSignUpFormComponent {
+export class TalentSignUpFormComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly auth = inject(AuthService);
   private readonly snackbar = inject(MatSnackBar);
   private readonly router = inject(Router);
   private readonly store = inject(Store);
   private readonly dRef = inject(DestroyRef);
+  private readonly page = inject(SignUpPageComponent, { skipSelf: true });
 
   private readonly api = {
     auth: inject(AuthApi)
@@ -63,9 +66,6 @@ export class TalentSignUpFormComponent {
   private readonly class = 'block @container';
 
   protected readonly icons = {
-    faGoogle,
-    faGithub,
-    faLinkedinIn,
     faCheck,
     faSquareXmark,
     faCircleInfo,
@@ -76,6 +76,8 @@ export class TalentSignUpFormComponent {
     'signing up',
     'validating username exists',
     'validating email exists',
+    'sending verification code',
+    'validating verification code'
   ]>();
 
   protected readonly query$ = toSignal(this.route.queryParams, { requireSync: true });
@@ -99,13 +101,38 @@ export class TalentSignUpFormComponent {
 
   private readonly stepper$ = viewChild.required<MatStepper>('stepper');
 
+  protected readonly orientation$ = (() => {
+    const screen$ = this.store.selectSignal(uiFeature.selectScreenSize);
+    const $ = computed(() => {
+      const ss = screen$();
+      switch (ss) {
+        case 'xs':
+        case 'sm':
+        case 'md':
+        case 'lg':
+        case 'xl':
+        case '2xl':
+        case '3xl':
+        case '4xl':
+        case '5xl':
+        case '6xl':
+        case '7xl': return 'vertical';
+        case '8xl':
+        case '9xl':
+        case '10xl': return 'horizontal';
+      }
+    });
+
+    return $;
+  })();
+
   protected readonly accountBasics = (() => {
     const formId = 'talent-sign-up-account-basics';
 
     const validators = {
       username: {
         pattern: zodValidator(
-          username.plain,
+          username,
           undefined, err => {
             const issue = err.issues[0];
             switch (issue.code) {
@@ -114,8 +141,8 @@ export class TalentSignUpFormComponent {
               case 'invalid_string': return `Allowed characters: 'a-z', '0-9' and '_'`;
               case 'custom':
                 switch (issue.message) {
-                  case 'no-underscore-at-start': return 'Cannot have underscore at start';
-                  case 'no-underscore-at-end': return 'Cannot have underscore at end';
+                  case 'no-underscore-at-start': return 'Cannot start with underscore';
+                  case 'no-underscore-at-end': return 'Cannot end with underscore';
                   case 'no-consecutive-underscores': return 'Cannot have consecutive underscores';
                 }
                 return issue.message;
@@ -127,7 +154,7 @@ export class TalentSignUpFormComponent {
           tap(() => this.loading.add('validating username exists')),
           switchMap(value => {
             const input: ValidateUsernameInput = {
-              username: '@' + value
+              username: value
             };
             return this.api.auth.validate.usernameExists(input);
           }),
@@ -485,16 +512,124 @@ export class TalentSignUpFormComponent {
     } as const;
   })();
 
+  protected readonly emailVerification = (() => {
+    const mailSent$ = signal(false);
+
+    type VerificationCode = SignUpInput['emailVerification'];
+    const verifiedEmails$ = signal(new Map<string, VerificationCode>(), { equal: () => false });
+    {
+      const info = this.prefill.routeInfo$();
+      if (info?.externalUser.email_verified) {
+        verifiedEmails$.update(m => m.set(info.externalUser.email, null));
+      }
+    }
+
+    const formValue$ = toSignal(controlValue$(this.accountBasics.form), { requireSync: true });
+    const email$ = computed(() => formValue$().email);
+
+    const value$ = computed(() => {
+      const email = email$();
+      const map = verifiedEmails$();
+      return map.get(email);
+    });
+
+    const verified$ = computed(() => value$() !== undefined);
+
+    const sendCode = {
+      click: () => {
+        this.loading.add('sending verification code');
+
+        const fv = this.accountBasics.form.getRawValue();
+        const firstName = fv.firstName!;
+        const email = fv.email;
+        this.auth.emailVerification.sendCode(firstName, email)
+          .pipe(
+            map(() => mailSent$.set(true)),
+            catchError(e => {
+              SnackbarComponent.forError(this.snackbar, e);
+              return EMPTY;
+            }),
+            finalize(() => this.loading.delete('sending verification code')),
+            takeUntilDestroyed(this.dRef)
+          ).subscribe();
+      },
+      disabled$: this.loading.any$,
+      loading$: this.loading.has('sending verification code')
+    } as const;
+
+    const verifyCode = (() => {
+      const form = new FormGroup({
+        code: new FormControl('', {
+          nonNullable: true,
+          validators: [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(8),
+            Validators.pattern(pattern.otp.number)
+          ]
+        })
+      }, { updateOn: 'submit' });
+
+      const loading$ = this.loading.has('validating verification code');
+      const disabled$ = this.loading.any$;
+
+      const submit = () => {
+        if (!form.valid)
+          return;
+
+        this.loading.add('validating verification code');
+
+        const email = this.accountBasics.form.getRawValue().email;
+        const code = form.getRawValue().code;
+
+        this.auth.emailVerification.verifyCode(email, code)
+          .pipe(
+            map(code_verifier => {
+              verifiedEmails$.update(v => v.set(email, { code, code_verifier }));
+              mailSent$.set(false);
+            }),
+            catchError((e: ProblemDetails) => {
+              if (e.type === 'email-verification-code-expired')
+                form.controls.code.setErrors({ 'invalid': true });
+              else
+                SnackbarComponent.forError(this.snackbar, e);
+              return EMPTY;
+            }),
+            finalize(() => this.loading.delete('validating verification code')),
+            takeUntilDestroyed(this.dRef)
+          ).subscribe();
+      };
+
+      return {
+        form,
+        loading$,
+        disabled$,
+        submit
+      };
+    })();
+
+
+    return {
+      verified$,
+      mailSent$,
+      sendCode,
+      verifyCode,
+      value$
+    } as const;
+  })();
+
 
   protected readonly consent = (() => {
     const submit = (() => {
       const click = () => {
+        if (!valid$())
+          return;
 
         const fv = this.accountBasics.form.getRawValue();
         const prefill = this.prefill.canUse$() && this.prefill.routeInfo$();
 
         const input: SignUpInput = {
-          username: '@' + fv.username,
+          username: fv.username,
           firstName: fv.firstName,
           lastName: fv.lastName,
           email: fv.email,
@@ -508,7 +643,12 @@ export class TalentSignUpFormComponent {
               provider: 'email',
               password: fv.password
             },
-          clientId: extractClientIdFromReturnUrl(this.returnUrl$())
+          clientId: extractClientIdFromReturnUrl(this.returnUrl$()),
+          emailVerification: this.emailVerification.value$() as Exclude<ReturnType<typeof this.emailVerification.value$>, undefined>,
+          profileData: {
+            domains: this.domains.value$().map(d => d.id),
+            softwareProducts: this.software.value$().map(s => s.id)
+          }
         };
 
         this.loading.add('signing up');
@@ -534,7 +674,12 @@ export class TalentSignUpFormComponent {
       };
 
       const loading$ = this.loading.has('signing up');
-      const valid$ = computed(() => this.accountBasics.valid$() && this.domains.valid$() && this.software.valid$());
+      const valid$ = computed(() =>
+        this.accountBasics.valid$() &&
+        this.domains.valid$() &&
+        this.software.valid$() &&
+        this.emailVerification.verified$()
+      );
       const disabled$ = computed(() => this.loading.any$() || !valid$());
 
       return {
@@ -551,5 +696,9 @@ export class TalentSignUpFormComponent {
 
   socialSignUp(provider: ExternalIdentityProviderType) {
     this.auth.signUp.social(provider, 'talent', this.returnUrl$() || undefined);
+  }
+
+  ngOnInit(): void {
+    this.page.cards$.set(TalentSignUpCardsComponent);
   }
 }

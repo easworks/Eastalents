@@ -1,7 +1,7 @@
 import { ALL_ROLES, isPermissionDefined, isPermissionGranted } from 'models/permissions';
-import { AuthenticatedCloudContext } from '../context';
+import { CloudUser } from '../context';
 
-export type AuthValidator = (ctx: AuthenticatedCloudContext) => boolean;
+export type AuthValidator = (user: CloudUser) => boolean;
 
 const cache = {
   hasPermission: new Map<string, AuthValidator>(),
@@ -20,7 +20,7 @@ export const authRules = {
       throw new Error(`role '${role}' is not defined`);
     }
 
-    const validator: AuthValidator = ({ auth }) => auth.roles.has(role);
+    const validator: AuthValidator = (user) => user.roles.has(role);
 
     cache.hasRole.set(role, validator);
     return validator;
@@ -34,7 +34,7 @@ export const authRules = {
     if (!isPermissionDefined(permission))
       throw new Error(`permission '${permission}' is not defined`);
 
-    const validator: AuthValidator = ({ auth }) => isPermissionGranted(permission, auth.permissions);
+    const validator: AuthValidator = (user) => isPermissionGranted(permission, user.permissions);
 
     cache.hasPermission.set(permission, validator);
     return validator;

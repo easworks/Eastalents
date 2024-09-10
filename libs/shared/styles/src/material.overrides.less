@@ -1,3 +1,22 @@
+// app 
+
+html {
+  --mat-app-background-color: theme('colors.surface.container');
+}
+
+// sidenav
+html {
+  --mat-sidenav-container-background-color: theme('colors.surface.container');
+  --mat-sidenav-container-text-color: theme('colors.on.surface');
+  --mat-sidenav-content-background-color: theme('colors.surface.container');
+  --mat-sidenav-content-text-color: theme('colors.on.surface');
+  --mat-sidenav-scrim-color: rgba(51, 47, 55, 0.4);
+  --mat-sidenav-container-shape: 16px;
+  --mat-sidenav-container-elevation-shadow: none;
+  --mat-sidenav-container-width: 360px;
+  --mat-sidenav-container-divider-color: transparent;
+}
+
 .mat-expansion-panel {
   --mat-expansion-header-collapsed-state-height: auto;
   --mat-expansion-header-expanded-state-height: auto;
@@ -14,12 +33,6 @@
 
 .mat-divider {
   --mat-divider-color: theme('colors.divider');
-}
-
-// TODO: remove this marker class when it is no longer needed
-// marker to signifiy that material was loaded
-.mat-theme-loaded-marker {
-  display: none;
 }
 
 .mat-mdc-progress-spinner {
@@ -155,7 +168,7 @@
   .mat-mdc-optgroup-label {
     @apply font-semibold min-h-0 p-2 px-4;
 
-    & ~ .mat-mdc-option:not(.mat-mdc-option-multiple) {
+    &~.mat-mdc-option:not(.mat-mdc-option-multiple) {
       @apply !pl-8;
     }
   }
@@ -166,7 +179,8 @@
     @apply w-full;
   }
 
-  &--selected, &--activated {
+  &--selected,
+  &--activated {
     .mdc-list-item__primary-text {
       @apply text-primary-600;
     }
@@ -177,7 +191,7 @@
   &:not(.mat-pseudo-checkbox-checked) {
     @apply border-black;
   }
-  
+
   &.mat-pseudo-checkbox-checked {
     @apply bg-secondary-600;
 
@@ -187,33 +201,38 @@
   }
 }
 
-.mat-stepper-vertical {
-  --mat-stepper-header-icon-foreground-color: #fffbff;
-  --mat-stepper-header-selected-state-icon-background-color: theme('colors.primary.500');
-  --mat-stepper-header-selected-state-icon-foreground-color: #ffffff;
-  --mat-stepper-header-edit-state-icon-background-color: theme('colors.primary.400');
-  --mat-stepper-header-edit-state-icon-foreground-color: #ffffff;
-  --mat-stepper-container-color: transparent;
-  --mat-stepper-line-color: #7b757f;
-  --mat-stepper-header-hover-state-layer-color: rgba(50, 48, 51, 0.08);
-  --mat-stepper-header-focus-state-layer-color: rgba(50, 48, 51, 0.12);
-  --mat-stepper-header-label-text-color: #49454e;
-  --mat-stepper-header-optional-label-text-color: #49454e;
-  --mat-stepper-header-selected-state-label-text-color: #49454e;
-  --mat-stepper-header-error-state-label-text-color: #ba1a1a;
-  --mat-stepper-header-icon-background-color: #49454e;
-  --mat-stepper-header-error-state-icon-foreground-color: #ba1a1a;
-  --mat-stepper-container-text-font: Roboto, sans-serif;
-  --mat-stepper-header-label-text-font: Roboto, sans-serif;
-  --mat-stepper-header-label-text-size: 0.875rem;
-  --mat-stepper-header-label-text-weight: 500;
-  --mat-stepper-header-error-state-label-text-size: 0.875rem;
-  --mat-stepper-header-selected-state-label-text-size: 0.875rem;
-  --mat-stepper-header-selected-state-label-text-weight: 500;
-  --mat-stepper-header-height: 72px;
-  --mat-stepper-header-focus-state-layer-shape: 12px;
-  --mat-stepper-header-hover-state-layer-shape: 12px;
-  --mat-stepper-header-error-state-icon-background-color: transparent;
+.mat-stepper {
+
+  &-horizontal,
+  &-vertical {
+    --mat-stepper-header-icon-foreground-color: #fffbff;
+    --mat-stepper-header-selected-state-icon-background-color: theme('colors.primary.500');
+    --mat-stepper-header-selected-state-icon-foreground-color: #ffffff;
+    --mat-stepper-header-edit-state-icon-background-color: theme('colors.primary.400');
+    --mat-stepper-header-edit-state-icon-foreground-color: #ffffff;
+    --mat-stepper-container-color: transparent;
+    --mat-stepper-line-color: #7b757f;
+    --mat-stepper-header-hover-state-layer-color: rgba(50, 48, 51, 0.08);
+    --mat-stepper-header-focus-state-layer-color: rgba(50, 48, 51, 0.12);
+    --mat-stepper-header-label-text-color: #49454e;
+    --mat-stepper-header-optional-label-text-color: #49454e;
+    --mat-stepper-header-selected-state-label-text-color: #49454e;
+    --mat-stepper-header-error-state-label-text-color: #ba1a1a;
+    --mat-stepper-header-icon-background-color: #49454e;
+    --mat-stepper-header-error-state-icon-foreground-color: #ba1a1a;
+    --mat-stepper-container-text-font: Roboto, sans-serif;
+    --mat-stepper-header-label-text-font: Roboto, sans-serif;
+    --mat-stepper-header-label-text-size: 0.875rem;
+    --mat-stepper-header-label-text-weight: 500;
+    --mat-stepper-header-error-state-label-text-size: 0.875rem;
+    --mat-stepper-header-selected-state-label-text-size: 0.875rem;
+    --mat-stepper-header-selected-state-label-text-weight: 500;
+    --mat-stepper-header-height: 72px;
+    --mat-stepper-header-focus-state-layer-shape: 12px;
+    --mat-stepper-header-hover-state-layer-shape: 12px;
+    --mat-stepper-header-error-state-icon-background-color: transparent;
+  }
+
 }
 
 // virtual viewport 
@@ -227,7 +246,7 @@
 }
 
 .mat-mdc-autocomplete-panel {
-  > cdk-virtual-scroll-viewport {
+  >cdk-virtual-scroll-viewport {
     @apply h-screen max-h-full;
   }
 
@@ -241,10 +260,9 @@
 }
 
 .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs {
-  > .mat-mdc-tab-header {
+  >.mat-mdc-tab-header {
     .mat-mdc-tab {
       @apply flex-grow-0;
     }
-  } 
-} 
-
+  }
+}

@@ -1,14 +1,17 @@
+import { base64url } from '@easworks/models/utils/base64url';
+import { token_ref_schema } from '@easworks/mongodb/schema/auth';
+import { KeyValDocument } from '@easworks/mongodb/schema/keyval';
+import { EAS_EntityManager } from '@easworks/mongodb/types';
+import { ObjectId } from '@mikro-orm/mongodb';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { DateTime } from 'luxon';
-import { TokenRef } from 'models/auth';
-import { ExternalIdentityProviderType, ExternalIdpUser, IdpCredential } from 'models/identity-provider';
+import { EmailVerificationCodeRef, PasswordResetCodeRef } from 'models/auth';
+import { ExternalIdentityProviderType, ExternalIdpUser } from 'models/identity-provider';
 import { PermissionRecord } from 'models/permission-record';
 import { User, UserClaims } from 'models/user';
-import { ObjectId } from 'mongodb';
 import * as crypto from 'node:crypto';
-import { FailedSocialProfileRequest, InvalidPassword, InvalidSocialOauthCode, KeyValueDocumentNotFound, UserNeedsPasswordReset } from 'server-side/errors/definitions';
+import { EmailVerificationCodeExpired, FailedSocialProfileRequest, InvalidPassword, InvalidSocialOauthCode, KeyValueDocumentNotFound, PasswordResetCodeExpired, UserNeedsPasswordReset } from 'server-side/errors/definitions';
 import { environment } from '../environment';
-import { easMongo } from '../mongodb';
 import '../utils/email';
 import { EmailSender } from '../utils/email';
 
@@ -50,17 +53,18 @@ export const passwordUtils = {
 
 export const jwtUtils = {
   createToken: async (
+    em: EAS_EntityManager,
     type: 'first-party' | 'third-party',
     user: User,
     permissionRecord: PermissionRecord) => {
     const { privateKey, issuer } = environment.jwt;
     const expiresIn = TOKEN_EXPIRY_SECONDS;
 
-    const tokenRef: TokenRef = {
+    const tokenRef = em.create(token_ref_schema, {
       _id: new ObjectId().toString(),
-      expiresIn,
-      userId: user._id,
-    };
+      expiresAt: null as unknown as DateTime,
+      user,
+    });
 
     const payload: UserClaims = type === 'first-party' ?
       {
@@ -82,7 +86,13 @@ export const jwtUtils = {
       issuer,
       subject: payload._id,
     });
-    await easMongo.tokens.insertOne(tokenRef);
+
+    {
+      const pl = JSON.parse(base64url.toString(token.split('.')[1]));
+      tokenRef.expiresAt = DateTime.fromSeconds(pl.exp);
+    }
+
+    await em.flush();
 
     return {
       tid: tokenRef._id,
@@ -103,7 +113,7 @@ export const oauthUtils = {
       user: {
         _id: user._id,
         email: user.email,
-        verified: user.verified,
+        verified: true,
         username: user.username,
 
         firstName: user.firstName,
@@ -119,7 +129,7 @@ export const oauthUtils = {
 
 export class EmailVerification {
 
-  private static readonly generateCode = (() => {
+  public static readonly generateCode = (() => {
     const min = 10 ** 7;
     const max = 10 ** 8;
 
@@ -129,47 +139,80 @@ export class EmailVerification {
     };
   })();
 
-  private static createLink(code: string) {
-    const url = new URL(`${environment.authHost.host}${environment.authHost.authActionHandler}`);
-    // const url = new URL(`https://accounts.easworks.com${environment.authHost.authActionHandler}`);
-    url.searchParams.set('action', 'verify-email-address');
-    url.searchParams.set('code', code);
-
-    return url.toString();
+  public static async send(email: string, firstName: string, code: string) {
+    const compose = await EmailSender.compose.verifyEmail(firstName, code);
+    compose.mail.to = email;
+    compose.mail.from = `Easworks ${environment.gmail.support.id}`;
+    return EmailSender.sendEmail(compose, environment.gmail.support.id);
   }
 
-  public static async send(user: User) {
-    const code = this.generateCode();
+  public static async verify(ref: EmailVerificationCodeRef | null, code: string, verifier: string) {
+    if (!ref)
+      throw new EmailVerificationCodeExpired();
 
-    // TODO: store code;
+    if (ref.code !== code)
+      throw new EmailVerificationCodeExpired();
 
-    const link = this.createLink(code);
+    const hash = await crypto.subtle.digest('SHA-256', Buffer.from(verifier, 'base64url'))
+      .then(bytes => Buffer.from(bytes).toString('base64url'));
+    if (ref.pkce !== hash)
+      throw new EmailVerificationCodeExpired();
+  }
+}
 
-    const compose = await EmailSender.compose.verifyEmail(user, code, link);
+export class PasswordReset {
+  public static readonly generateCode = (() => {
+    const min = 10 ** 7;
+    const max = 10 ** 8;
 
+    return () => {
+      const num = crypto.randomInt(min, max);
+      return num.toString();
+    };
+  })();
+
+  public static async send(email: string, firstName: string, code: string) {
+    const compose = await EmailSender.compose.resetPassword(firstName, code);
+    compose.mail.to = email;
+    compose.mail.from = `Easworks ${environment.gmail.support.id}`;
     return EmailSender.sendEmail(compose, environment.gmail.support.id);
+  }
+
+  public static async verify(ref: PasswordResetCodeRef | null, code: string, verifier: string) {
+    if (!ref)
+      throw new PasswordResetCodeExpired();
+
+    if (ref.code !== code)
+      throw new PasswordResetCodeExpired();
+
+    const hash = await crypto.subtle.digest('SHA-256', Buffer.from(verifier, 'base64url'))
+      .then(bytes => Buffer.from(bytes).toString('base64url'));
+    if (ref.pkce !== hash)
+      throw new PasswordResetCodeExpired();
   }
 }
 
 export class WelcomeEmail {
   public static async send(user: User, permission: PermissionRecord, oauthClientName?: string) {
 
-    let raw;
+    let compose;
     {
       switch (oauthClientName) {
         case 'easdevhub-production':
-          raw = await EmailSender.compose.welcome.easdevhub(user);
+          compose = await EmailSender.compose.welcome.easdevhub(user);
           break;
         default:
           if (permission.roles.includes('employer'))
-            raw = await EmailSender.compose.welcome.easworks.employer(user);
+            compose = await EmailSender.compose.welcome.easworks.employer(user);
           else
-            raw = await EmailSender.compose.welcome.easworks.talent(user);
+            compose = await EmailSender.compose.welcome.easworks.talent(user);
           break;
       }
     }
 
-    return EmailSender.sendEmail(raw, environment.gmail.support.id);
+    compose.mail.to = user.email;
+    compose.mail.from = `Easworks ${environment.gmail.support.id}`;
+    return EmailSender.sendEmail(compose, environment.gmail.support.id);
   }
 }
 
@@ -178,23 +221,23 @@ export class WelcomeEmail {
  * @param email the email to check
  * @returns `false` if it is not a free email, the domain of the email otherwise
  */
-export async function isFreeEmail(email: string) {
+export async function isFreeEmail(em: EAS_EntityManager, email: string) {
   const domain = email.split('@')[1];
   if (
     domain === 'mailinator.com' &&
     (environment.id === 'local' || environment.id === 'development')
   )
     return false;
-  return await FreeEmailProviderCache.has(domain) ? domain : false;
+  return await FreeEmailProviderCache.has(em, domain) ? domain : false;
 }
 
 export class FreeEmailProviderCache {
-  private static readonly docKey = 'free-email-providers';
+  private static readonly docId = 'free-email-providers';
   private static _data = new Set<string>();
   private static updatedOn: DateTime | null = null;
 
-  public static async has(domain: string) {
-    if (this.isOld()) await this.fetch();
+  public static async has(em: EAS_EntityManager, domain: string) {
+    if (this.isOld()) await this.fetch(em);
 
     return this._data.has(domain);
   }
@@ -205,31 +248,31 @@ export class FreeEmailProviderCache {
       this.updatedOn.diffNow('minutes').minutes < -5;
   }
 
-  private static async fetch() {
-    const data = await easMongo.keyval.get<string[]>(this.docKey);
+  private static async fetch(em: EAS_EntityManager) {
+    const data = await KeyValDocument.get<string[]>(em, this.docId);
 
     if (!data)
       throw new Error('could not load free-email-providers from mongodb');
 
-    this._data = new Set(data.value);
+    this._data = new Set(data);
     this.updatedOn = DateTime.now();
   }
 
-  static async check() {
-    if (!(await easMongo.keyval.exists(this.docKey))) {
-      throw new KeyValueDocumentNotFound(this.docKey);
+  static async check(em: EAS_EntityManager) {
+    if (!(await KeyValDocument.exists(em, this.docId))) {
+      throw new KeyValueDocumentNotFound(this.docId);
     }
   }
 }
 
 export function createCredentialFromExternalUser(
   provider: ExternalIdentityProviderType,
-  userId: IdpCredential['userId'],
+  user: User,
   externalUser: ExternalIdpUser
-): IdpCredential {
+) {
   return {
     _id: new ObjectId().toString(),
-    userId,
+    user,
     provider: {
       type: provider,
       email: externalUser.email,
@@ -497,12 +540,12 @@ class GithubUtils {
 }
 
 export class ExternalUserTransfer {
-  public static async toToken(provider: ExternalIdentityProviderType, externalUser: ExternalIdpUser) {
+  public static async toToken(em: EAS_EntityManager, provider: ExternalIdentityProviderType, externalUser: ExternalIdpUser) {
     const payload = {
       type: 'state:ExternalIdpUser',
       provider,
       externalUser,
-      isFreeEmail: await isFreeEmail(externalUser.email)
+      isFreeEmail: await isFreeEmail(em, externalUser.email)
     };
 
     const { privateKey, issuer } = environment.jwt;

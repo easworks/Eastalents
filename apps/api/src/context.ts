@@ -1,65 +1,56 @@
-import { fastifyRequestContext } from '@fastify/request-context';
+import { ALL_ROLES } from '@easworks/models/permissions';
+import { buildConfig } from '@easworks/mongodb/mikro-orm.config';
+import { token_ref_schema } from '@easworks/mongodb/schema/auth';
+import { permission_record_schema } from '@easworks/mongodb/schema/permission-record';
+import { user_schema } from '@easworks/mongodb/schema/user';
+import { EAS_EntityManager } from '@easworks/mongodb/types';
+import { MikroORM } from '@mikro-orm/mongodb';
 import { FastifyPluginAsync } from 'fastify';
-import fastifyPlugin from 'fastify-plugin';
+import { fastifyPlugin } from 'fastify-plugin';
 import { StatusCodes } from 'http-status-codes';
-import { ALL_ROLES } from 'models/permissions';
-import { CloudContext, CloudUser } from 'server-side/context';
-import { InvalidBearerToken, UserIsDisabled, UserNeedsEmailVerification, UserNotFound } from 'server-side/errors/definitions';
+import { CloudUser } from 'server-side/context';
+import { InvalidBearerToken, UserIsDisabled, UserNotFound } from 'server-side/errors/definitions';
 import { jwtUtils } from './auth/utils';
-import { easMongo } from './mongodb';
-
-export const CLOUD_CONTEXT_KEY = 'cloudContext';
-
-declare module '@fastify/request-context' {
-  interface RequestContextData {
-    [CLOUD_CONTEXT_KEY]?: CloudContext;
-  }
-}
+import { environment } from './environment';
 
 const pluginImpl: FastifyPluginAsync = async server => {
-  server.register(fastifyRequestContext, {
-    hook: 'onRequest',
-    defaultStoreValues: {}
-  });
+  server.decorate('orm', await MikroORM.init(buildConfig(environment.mongodb)));
+
+  server.decorateRequest('ctx', null);
 
   server.addHook('onRequest', async (req) => {
-    const token = req.headers.authorization?.split('Bearer ')[1];
-    const auth = token ? await mapTokenToCloudUser(token) : null;
-
-    const context: CloudContext = {
-      auth,
+    req.ctx = {
+      auth: null,
+      em: server.orm.em.fork()
     };
 
-    req.requestContext.set(CLOUD_CONTEXT_KEY, context);
+    const token = req.headers.authorization?.split('Bearer ')[1];
+    const user = token ? await mapTokenToCloudUser(req.ctx.em, token) : null;
 
+    req.ctx.auth = user;
   });
 };
 
 export const useCloudContext = fastifyPlugin(pluginImpl);
 
-async function mapTokenToCloudUser(token: string) {
+async function mapTokenToCloudUser(em: EAS_EntityManager, token: string) {
   const claims = await jwtUtils.validateToken(token)
     .catch(e => {
       throw new InvalidBearerToken(e.message);
     });
 
-  const tokenRef = await easMongo.tokens.findOne({ _id: claims.jti });
+  const tokenRef = await em.findOne(token_ref_schema, claims.jti!);
   if (!tokenRef)
     throw new InvalidBearerToken('expired');
 
-  const user = await easMongo.users.findOne({ _id: claims['_id'] });
+  const user = await em.findOne(user_schema, tokenRef.user);
   if (!user)
     throw new UserNotFound().withStatus(StatusCodes.UNAUTHORIZED);
 
   if (!user.enabled)
     throw new UserIsDisabled();
 
-  if (!user.verified)
-    throw new UserNeedsEmailVerification(user);
-
-  const permissionRecord = await easMongo.permissions.findOne({ _id: user._id });
-  if (!permissionRecord)
-    throw new Error('permissions document should exist');
+  const permissionRecord = await em.findOneOrFail(permission_record_schema, { user });
 
   const roles = new Set(permissionRecord.roles);
   const permissions = getPermissionSet(permissionRecord.roles, permissionRecord.permissions);

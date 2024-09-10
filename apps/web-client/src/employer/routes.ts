@@ -10,7 +10,7 @@ export const EMPLOYER_ROUTES: Route[] = [
     data: {
       auth: AUTH_CHECKS.hasRole('employer')
     },
-    loadComponent: () => import('./dashboard/dashboard.page').then(m => m.EmployerDashboardComponent)
+    loadComponent: () => import('./dashboard2/dashboard.page').then(m => m.DashboardComponent)
   },
   {
     path: 'employer/general-info',
@@ -74,6 +74,12 @@ export const EMPLOYER_ROUTES: Route[] = [
       auth: AUTH_CHECKS.hasRole('employer')
     },
     loadComponent: () => import('./my-profile/my-account.component').then(m => m.MyAccountComponent)
+  },
+  {
+    path: 'employer/profile/edit/cards',
+    pathMatch: 'full',
+    loadComponent: () => import('./profile/edit/cards/profile-edit-cards.component')
+      .then(m => m.EmployerProfileEditCardsComponent)
   },
   // {
   //   path: 'help',

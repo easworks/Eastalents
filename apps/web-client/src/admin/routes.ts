@@ -13,6 +13,12 @@ export const ADMIN_ROUTES: Route =
         .then(m => m.AdminDashboardPageComponent)
     },
     {
+      path: 'domains',
+      pathMatch: 'full',
+      loadComponent: () => import('./domains/page/domains.page')
+        .then(m => m.DomainsPageComponent)
+    },
+    {
       path: 'software-products',
       pathMatch: 'full',
       loadComponent: () => import('./software-products/page/software-products.page')

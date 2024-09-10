@@ -1,17 +1,16 @@
 import { FastifyRequest } from 'fastify';
 import { AuthValidator } from 'server-side/auth/rules';
-import { CLOUD_CONTEXT_KEY } from '../context';
 import { Forbidden, Unauthorized } from 'server-side/errors/definitions';
 
 export const authHook = (validator?: AuthValidator) => {
   return async (req: FastifyRequest) => {
-    const ctx = req.requestContext.get(CLOUD_CONTEXT_KEY);
+    const auth = req.ctx.auth;
 
-    if (!ctx?.auth)
+    if (!auth)
       throw new Unauthorized();
 
     if (validator) {
-      if (!validator(ctx))
+      if (!validator(auth))
         throw new Forbidden();
     }
 

@@ -22,7 +22,7 @@ const inputs = {
   signup: z.strictObject({
     firstName: types.firstName,
     lastName: types.lastName,
-    username: username.prefixed,
+    username: username,
     email: types.email,
     role: types.role,
     credentials: z.union([
@@ -35,7 +35,15 @@ const inputs = {
         token: types.externalUserStateToken
       })
     ]),
-    clientId: oauthValidators.client_id.nullish()
+    clientId: oauthValidators.client_id.nullish(),
+    emailVerification: z.strictObject({
+      code: types.verficationCode,
+      code_verifier: oauthValidators.code_challenge
+    }).nullable(),
+    profileData: z.strictObject({
+      domains: z.array(z.string().trim()),
+      softwareProducts: z.array(z.string().trim()),
+    })
   }),
   signin: {
     email: z.strictObject({
@@ -52,22 +60,39 @@ const inputs = {
   },
   emailVerification: {
     sendCode: z.strictObject({
-      pkce: z.strictObject({
-        method: oauthValidators.code_challenge_method,
-        code: oauthValidators.code_challenge
-      }),
+      pkce: oauthValidators.code_challenge,
       email: types.email,
       firstName: types.firstName
     }),
-    verifyEmail: z.strictObject({
+    verifyCode: z.strictObject({
       email: types.email,
       code: types.verficationCode,
       code_verifier: oauthValidators.code_challenge
     })
   },
+  passwordReset: (() => {
+    const verifyCode = z.strictObject({
+      email: types.email,
+      code: types.verficationCode,
+      code_verifier: oauthValidators.code_challenge
+    });
+
+    const setPassword = verifyCode.extend({
+      password: types.password
+    });
+
+    return {
+      sendCode: z.strictObject({
+        pkce: oauthValidators.code_challenge,
+        email: types.email,
+      }),
+      verifyCode,
+      setPassword
+    };
+  })(),
   validate: {
     username: z.strictObject({
-      username: username.prefixed
+      username: username
     }),
     email: z.strictObject({
       email: types.email
@@ -91,24 +116,20 @@ export type SocialOAuthCodeExchangeOutput =
   {
     action: 'sign-up',
     data: string;
-  } |
-  {
-    action: 'verify-email';
-    domain: string;
   };
 
 export type SignUpOutput =
   {
     action: 'sign-in',
     data: OAuthTokenSuccessResponse,
-  } |
-  {
-    action: 'verify-email';
-    domain: string;
   };
 
 export type ValidateUsernameInput = TypeOf<typeof inputs['validate']['username']>;
 export type ValidateEmailInput = TypeOf<typeof inputs['validate']['email']>;
 
 export type SendEmailVerificationCodeInput = TypeOf<typeof inputs['emailVerification']['sendCode']>;
-export type VerifyEmailInput = TypeOf<typeof inputs['emailVerification']['sendCode']>;
+export type VerifyEmailVerificationCodeInput = TypeOf<typeof inputs['emailVerification']['verifyCode']>;
+
+export type SendPasswordResetVerificationCodeInput = TypeOf<typeof inputs['passwordReset']['sendCode']>;
+export type VerifyPasswordResetVerificationCodeInput = TypeOf<typeof inputs['passwordReset']['verifyCode']>;
+export type PasswordResetInput = TypeOf<typeof inputs['passwordReset']['setPassword']>;

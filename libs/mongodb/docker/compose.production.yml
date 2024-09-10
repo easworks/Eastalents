@@ -1,0 +1,22 @@
+name: eas-production
+
+services:
+  mongodb:
+    container_name: mongodb-production
+    extends:
+      file: compose.extend.yml
+      service: mongodb
+    extra_hosts:
+      - ${REPLICA_SET_HOST_1:?}
+    networks:
+      - eas-production
+
+networks:
+  eas-production:
+    name: eas-production
+
+volumes:
+  data:
+    name: eas-production-data
+  config:
+    name: eas-production-config

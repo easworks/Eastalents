@@ -2,6 +2,7 @@
 <app-splash class="z-[1000]"></app-splash>
 }
 
+@if(!minimalUi$()) {
 <header id="app-header" class="z-10 sticky top-0">
   <app-header></app-header>
 
@@ -10,6 +11,7 @@
   </mat-progress-bar>
   }
 </header>
+}
 
 <mat-sidenav-container class="flex-grow !flex flex-col !overflow-visible">
   <mat-sidenav #appSidenav fixedInViewport
@@ -19,7 +21,21 @@
                position="start">
   </mat-sidenav>
 
-  <mat-sidenav-content class="flex-grow !flex flex-col !overflow-visible bg-white">
+  <mat-sidenav-content class="flex-grow !flex flex-col !overflow-visible">
     <router-outlet class="hidden [&_+_*]:flex-1"></router-outlet>
+
+
+    <!-- <div class="grid gap-2 p-8 text-on-surface-variant">
+      surface-default
+      <div class="p-8 rounded-md bg-surface-dim">surface-dim</div>
+      <div class="p-8 rounded-md bg-surface-bright">surface-bright</div>
+      <div class="p-8 rounded-md bg-surface-container-lowest">surface-container-lowest</div>
+      <div class="p-8 rounded-md bg-surface-container-low">surface-container-low</div>
+      <div class="p-8 rounded-md bg-surface-container">surface-container</div>
+      <div class="p-8 rounded-md bg-surface-container-high">surface-container-high</div>
+      <div class="p-8 rounded-md bg-surface-container-highest">surface-container-highest</div>
+
+    </div> -->
+
   </mat-sidenav-content>
 </mat-sidenav-container>

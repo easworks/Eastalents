@@ -26,6 +26,12 @@
             "input": "libs/shared/assets/src",
             "output": "./assets"
           },
+          {
+            "glob": "**/*.min.css",
+            "input": "node_modules/swiper",
+            "ignore": ["**/*-element.min.css", "**/*-bundle.min.css"],
+            "output": "assets/swiper"
+          },
           "apps/accounts-client/src/assets"
         ],
         "styles": [
@@ -47,7 +53,7 @@
           {
             "type": "initial",
             "maximumWarning": "500kb",
-            "maximumError": "1mb"
+            "maximumError": "1.5mb"
           },
           {
             "type": "anyComponentStyle",
@@ -160,6 +166,14 @@
             "rsync -vchr --delete dist/apps/accounts-client/ {args.remote}:~/development/accounts-client/dist",
             "rsync -vchr dist/docker/accounts-client/ {args.remote}:~/development/accounts-client",
             "ssh {args.remote} 'cd ~/development/accounts-client && docker compose up -d --build'"
+          ]
+        },
+        "production": {
+          "commands": [
+            "cp apps/accounts-client/docker/compose.production.yml dist/docker/accounts-client/compose.yml",
+            "rsync -vchr --delete dist/apps/accounts-client/ {args.remote}:~/production/accounts-client/dist",
+            "rsync -vchr dist/docker/accounts-client/ {args.remote}:~/production/accounts-client",
+            "ssh {args.remote} 'cd ~/production/accounts-client && docker compose up -d --build'"
           ]
         }
       },

@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
 
   protected readonly navigating$ = computed(() => this.ui$().navigating);
   private readonly screenSize$ = computed(() => this.ui$().screenSize);
-  private readonly minimalUi$ = computed(() => this.ui$().minimalUi);
+  protected readonly minimalUi$ = computed(() => this.ui$().minimalUi);
   protected readonly showSplashScreen$ = computed(() => this.ui$().showSplashScreen);
 
   protected readonly sideBarState = (() => {

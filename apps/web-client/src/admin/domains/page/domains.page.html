@@ -1,0 +1,87 @@
+<div class="form-field mt-4 mb-0">
+    <input type="text" [(ngModel)]="search.query$" placeholder="Search Domains">
+</div>
+
+<div class="mt-4 table-container">
+    <div class="overflow-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Long Name</th>
+                    <th>Short Name</th>
+                    <th colspan="2"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (table.empty$()) {
+                <tr>
+                    <td colspan="6" class="italics text-gray-400 text-center">
+                        No data
+                    </td>
+                </tr>
+                }
+                @for(row of table.rows.$(); track row.data.id) {
+                <tr>
+                    <td>{{ row.data.id }}</td>
+                    <td *ngrxLet="row.form.controls.longName as control" [formFieldControl]="control">
+                        <input type="text" [formControl]="control">
+                    </td>
+                    <td *ngrxLet="row.form.controls.shortName  as control" [formFieldControl]="control">
+                        <input type="text" [formControl]="control">
+                    </td>
+                    <!-- <td class="!p-1 group">
+                        <div class="flex gap-2 items-center justify-between">
+                            <div class="flex flex-wrap gap-2 items-center relative">
+                                @for(domain of row.domains.list; track domain.id) {
+                                <div class="font-normal text-sm rounded-md p-1 px-2 
+                      bg-primary-500/10 text-primary-500">
+                                    {{domain.shortName}}
+                                </div>
+                                }
+                            </div>
+                            <button class="icon-button small p-1 px-2 rounded-md" mat-ripple
+                                (click)="row.domains.edit()" matTooltip="Edit Groups">
+                                <fa-icon [icon]="icons.faPen"></fa-icon>
+                            </button>
+                        </div>
+                    </td> -->
+                    <td class="actions">
+                        <div class="flex">
+                            <button class="icon-button small enabled:text-emerald-500" mat-ripple
+                                [disabled]="row.submit.disabled$()" (click)="row.submit.click()">
+                                <replace-spinner [showSpinner]="row.submit.loading$()">
+                                    <fa-icon [icon]="icons.faCheck"></fa-icon>
+                                </replace-spinner>
+                            </button>
+                            <button class="icon-button small enabled:text-warn" mat-ripple
+                                [disabled]="row.reset.disabled$()" (click)="row.reset.click()">
+                                <fa-icon [icon]="icons.faRefresh"></fa-icon>
+                            </button>
+                        </div>
+                    </td>
+                    <!-- <td class="actions">
+                        <button class="highlight-button font-normal text-sm rounded-full my-1 p-1 px-3" mat-ripple
+                            (click)="row.skills()">
+                            Skills
+                        </button>
+                    </td> -->
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="border-t p-2">
+        <paginator class="w-max ml-auto" showFirstLast [pages]="table.paginator.pages$()"
+            [current]="table.paginator.current$()" [disablePrev]="table.paginator.prev.disabled$()"
+            [disableNext]="table.paginator.next.disabled$()" (first)="table.paginator.first()"
+            (previous)="table.paginator.prev.click()" (next)="table.paginator.next.click()"
+            (last)="table.paginator.last()"></paginator>
+    </div>
+</div>
+
+
+<button class="icon-button primary large !sticky bottom-4 ml-auto mr-4 mt-4 shadow-z1 shadow-gray-500" mat-ripple
+    (click)="create.click()">
+    <fa-icon [icon]="icons.faPlus"></fa-icon>
+</button>

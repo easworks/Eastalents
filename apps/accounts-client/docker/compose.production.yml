@@ -1,0 +1,14 @@
+name: eas-production
+
+services:
+  accounts-client:
+    container_name: accounts-client-production
+    extends:
+      file: compose.extend.yml
+      service: accounts-client
+    networks:
+      - eas-production
+
+networks:
+  eas-production:
+    name: eas-production

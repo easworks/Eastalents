@@ -2,6 +2,7 @@ name: eas-development
 
 services:
   accounts-client:
+    container_name: accounts-client-development
     extends:
       file: compose.extend.yml
       service: accounts-client

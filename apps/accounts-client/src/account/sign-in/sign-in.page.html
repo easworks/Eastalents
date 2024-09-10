@@ -1,7 +1,7 @@
 <img class="h-8 block mx-auto" src="/assets/brand/logo-full-dark.png" alt="App Logo" loading="lazy" />
 
 
-<div class="mt-4 rounded-md bg-white shadow shadow-z1 p-4 px-8 pb-8">
+<div class="mt-4 rounded-md bg-surface p-4 px-8 pb-8">
 
   <p class="text-lg text-center">
     LOGIN TO <span class="text-primary-500">YOUR ACCOUNT</span>
@@ -10,17 +10,17 @@
   <div class="mt-4 grid gap-4 grid-cols-2 @xl:grid-cols-3">
     <button class="social-button" mat-ripple
             (click)="socialSignIn('google')">
-      <fa-icon [icon]="icons.faGoogle"></fa-icon>
+      <img src="/assets/google/colored.svg">
       <span>Google</span>
     </button>
     <button class="social-button" mat-ripple
             (click)="socialSignIn('linkedin')">
-      <fa-icon [icon]="icons.faLinkedinIn"></fa-icon>
+      <img src="/assets/linkedin/colored.svg">
       <span>LinkedIn</span>
     </button>
     <button class="social-button" mat-ripple
             (click)="socialSignIn('github')">
-      <fa-icon [icon]="icons.faGithub"></fa-icon>
+      <img src="/assets/github/github-mark.svg">
       <span>Github</span>
     </button>
   </div>
@@ -49,9 +49,10 @@
          class="mb-4">
       <input type="password" [formControl]="control" placeholder="Password">
       @if(control.hasError('required')) { <span class="error">Required</span> }
+      @if(control.hasError('pattern')) { <span class="error">Invalid Password</span> }
       @if(control.hasError('invalidPassword')) { <span class="error">Invalid Password</span> }
       @if(control.hasError('needsReset')) { <span class="error">Password needs to be reset</span> }
-      <a routerLink="/forgot-password"
+      <a routerLink="/password-reset"
          class="block w-max mt-1 ml-auto underline text-primary-400 text-sm">Forgot Password?</a>
     </div>
   </form>

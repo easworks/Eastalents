@@ -1,7 +1,6 @@
 import { Entity } from './entity';
 
 export interface User extends Entity {
-  verified: boolean;
   enabled: boolean;
 
   username: string;
@@ -29,3 +28,8 @@ export interface FirstPartyUserClaims extends UserClaimsBase {
 }
 
 export type UserClaims = FirstPartyUserClaims | ThirdPartyUserClaims;
+
+export interface InitialProfileData {
+  domains: string[];
+  softwareProducts: string[];
+}

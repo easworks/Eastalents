@@ -5,7 +5,7 @@ import { concatMap, EMPTY, from, switchMap } from 'rxjs';
 import { AdminApi } from '../api/admin.api';
 import { DomainsApi } from '../api/domains.api';
 import { isBrowser } from '../utilities/platform-type';
-import { domainData, domainDataActions, softwareProductActions, techGroupActions, techSkillActions } from './domain-data';
+import { domainActions, domainData, domainDataActions, softwareProductActions, techGroupActions, techSkillActions } from './domain-data';
 
 export const domainDataEffects = {
   loadFromApi: createEffect(
@@ -76,6 +76,8 @@ export const domainDataEffects = {
       return actions$.pipe(
         ofType(
           domainDataActions.saveState,
+          domainActions.add,
+          domainActions.update
         ),
         concatMap(() => api.domains.write(list$()))
       );

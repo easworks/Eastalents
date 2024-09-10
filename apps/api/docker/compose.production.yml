@@ -1,0 +1,14 @@
+name: eas-production
+
+services:
+  api:
+    container_name: api-production
+    extends:
+      file: compose.extend.yml
+      service: api
+    networks:
+      - eas-production
+
+networks:
+  eas-production:
+    name: eas-production

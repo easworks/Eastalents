@@ -1,5 +1,5 @@
 import { FastifyPluginAsync } from 'fastify';
-import fastifyPlugin from 'fastify-plugin';
+import { fastifyPlugin } from 'fastify-plugin';
 import { printRoutes } from 'server-side/utils/print-routes.plugin';
 import { authHandlers } from './auth/auth';
 import { oauthHandlers } from './auth/oauth';

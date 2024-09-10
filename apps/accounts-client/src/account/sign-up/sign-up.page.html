@@ -1,16 +1,35 @@
-<div mat-tab-nav-bar [tabPanel]="formPanel">
-  <a mat-tab-link routerLink="/sign-up/talent"
-     [queryParams]="query$()"
-     [info]="socialPrefill$()">
-    TALENT
-  </a>
-  <a mat-tab-link routerLink="/sign-up/employer"
-     [queryParams]="query$()"
-     [info]="socialPrefill$()">
-    EMPLOYER
-  </a>
-</div>
+<div class="flex flex-1">
+  <div class="flex flex-col flex-1 bg-surface">
+    <div mat-tab-nav-bar [tabPanel]="formPanel">
+      <a mat-tab-link routerLink="/sign-up/talent"
+         [queryParams]="query$()"
+         [info]="socialPrefill$()"
+         routerLinkActive #rla1="routerLinkActive"
+         [active]="rla1.isActive">
+        TALENT
+      </a>
+      <a mat-tab-link routerLink="/sign-up/employer"
+         [queryParams]="query$()"
+         [info]="socialPrefill$()"
+         routerLinkActive #rla2="routerLinkActive"
+         [active]="rla2.isActive">
+        EMPLOYER
+      </a>
+    </div>
 
-<mat-tab-nav-panel #formPanel class="mt-4 block">
-  <router-outlet></router-outlet>
-</mat-tab-nav-panel>
+    <mat-tab-nav-panel #formPanel class="mt-4 flex flex-col flex-1 px-4 pb-8 4xl:page">
+      <router-outlet></router-outlet>
+
+      <p class="mt-auto text-center text-sm text-gray-500">
+        Already have an an account?
+        <a routerLink="/sign-in" [queryParams]="query$()" [info]="socialPrefill$()" class="font-medium">Sign In</a>
+      </p>
+    </mat-tab-nav-panel>
+  </div>
+
+  <div class="hidden transition-all
+    4xl:block 4xl:max-w-md 5xl:max-w-lg 6xl:max-w-xl">
+    <ng-container *ngComponentOutlet="cards$()"></ng-container>
+
+  </div>
+</div>

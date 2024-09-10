@@ -1,15 +1,15 @@
 import { inject, Injectable } from '@angular/core';
+import { base64url } from '@easworks/models/utils/base64url';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { RETURN_URL_KEY } from 'models/auth';
 import { ExternalIdentityProviderType } from 'models/identity-provider';
 import type { EmailSignInInput } from 'models/validators/auth';
-import { first, from, switchMap, tap } from 'rxjs';
+import { first, from, map, switchMap, tap } from 'rxjs';
 import { AuthApi } from '../api/auth.api';
 import { OAuthApi } from '../api/oauth.api';
 import { CLIENT_CONFIG } from '../dependency-injection';
 import { authActions } from '../state/auth';
-import { base64url } from '../utilities/base64url';
 import { AuthRedirect } from './auth.external';
 import { AuthStorageService } from './auth.storage';
 
@@ -78,6 +78,34 @@ export class AuthService {
         [RETURN_URL_KEY]: returnUrl
       };
       return this.socialCodeExchange(provider, state);
+    }
+  };
+
+  public readonly emailVerification = {
+    sendCode: (firstName: string, email: string) => {
+      return from(codeChallenge.create())
+        .pipe(
+          switchMap(pkce => this.api.auth.emailVerification.sendCode({ email, firstName, pkce: pkce.challenge }))
+        );
+    },
+    verifyCode: (email: string, code: string) => {
+      const code_verifier = codeChallenge.get();
+      return this.api.auth.emailVerification.verifyCode({ email, code, code_verifier })
+        .pipe(map(() => code_verifier));
+    }
+  };
+
+  public readonly passwordReset = {
+    sendCode: (email: string) => {
+      return from(codeChallenge.create())
+        .pipe(
+          switchMap(pkce => this.api.auth.passwordReset.sendCode({ email, pkce: pkce.challenge }))
+        );
+    },
+    verifyCode: (email: string, code: string) => {
+      const code_verifier = codeChallenge.get();
+      return this.api.auth.passwordReset.verifyCode({ email, code, code_verifier })
+        .pipe(map(() => code_verifier));
     }
   };
 

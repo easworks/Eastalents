@@ -94,6 +94,15 @@ export const routes: Route[] = [
     ]
   },
   {
+    path: 'password-reset',
+    pathMatch: 'full',
+    loadComponent: () => import('../account/password-reset/password-reset.page')
+      .then(m => m.PasswordRestPageComponent),
+    data: {
+      minimalUi: true
+    }
+  },
+  {
     path: 'sign-in/success',
     pathMatch: 'full',
     canMatch: [AuthGuardFn],

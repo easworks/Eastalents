@@ -6,8 +6,8 @@ import { AuthApi } from '@easworks/app-shell/api/auth.api';
 import { CLIENT_CONFIG } from '@easworks/app-shell/dependency-injection';
 import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AuthService } from '@easworks/app-shell/services/auth';
-import { base64url } from '@easworks/app-shell/utilities/base64url';
 import { isServer } from '@easworks/app-shell/utilities/platform-type';
+import { base64url } from '@easworks/models/utils/base64url';
 import { RETURN_URL_KEY } from 'models/auth';
 import { pattern } from 'models/pattern';
 import { authValidators } from 'models/validators/auth';
@@ -80,8 +80,6 @@ export const oauthCodeCallback: CanActivateFn = (snap) => {
             queryParams: forwardQuery,
             info
           });
-        case 'verify-email':
-          return router.navigateByUrl('/verify-email');
       }
     }),
     switchMap(() => NEVER),

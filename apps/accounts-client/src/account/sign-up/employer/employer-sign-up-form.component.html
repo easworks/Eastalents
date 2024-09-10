@@ -3,29 +3,29 @@
   The Worlds Top Talent Enterprise Application Network &
   work with the worlds leading Companies.
 </p>
-<mat-stepper orientation="vertical" linear #stepper>
+<mat-stepper [orientation]="orientation$()" linear #stepper>
 
   <mat-step label="Account Basics" [completed]="accountBasics.valid$()">
 
     @if (!prefill.canUse$()) {
-    <p class="mt-2 text-sm text-center">
+    <p class="text-sm text-center">
       SIGN UP WITH
     </p>
 
     <div class="mt-4 grid gap-4 grid-cols-2 @xl:grid-cols-3">
       <button class="social-button" mat-ripple
               (click)="socialSignUp('google')">
-        <fa-icon [icon]="icons.faGoogle"></fa-icon>
+        <img src="/assets/google/colored.svg">
         <span>Google</span>
       </button>
       <button class="social-button" mat-ripple
               (click)="socialSignUp('linkedin')">
-        <fa-icon [icon]="icons.faLinkedinIn"></fa-icon>
+        <img src="/assets/linkedin/colored.svg">
         <span>LinkedIn</span>
       </button>
       <button class="social-button" mat-ripple
               (click)="socialSignUp('github')">
-        <fa-icon [icon]="icons.faGithub"></fa-icon>
+        <img src="/assets/github/github-mark.svg">
         <span>Github</span>
       </button>
     </div>
@@ -53,12 +53,7 @@
            [formFieldControl]="control"
            [class.show-spinner]="accountBasics.validating.username$()">
         <label>Username</label>
-        <div class="absolute top-6 grid place-content-center h-8 w-8
-          text-gray-500 font-bold">
-          &#64;
-        </div>
-        <input type="text" [formControl]="control" placeholder="Username"
-               class="!pl-6">
+        <input type="text" [formControl]="control" placeholder="Username">
 
         @if(control.hasError('required')){
         <span class="error">Required</span>
@@ -151,7 +146,7 @@
 
   <mat-step label="Domains" [completed]="domains.valid$()">
 
-    <div class="mt-2 flex-none flex gap-2 text-slate-500 items-center justify-between">
+    <div class="flex-none flex gap-2 text-slate-500 items-center justify-between">
       <span class="flex gap-2 items-center">
         <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
         <span>Select 1 - 3 items</span>
@@ -200,7 +195,7 @@
 
   <mat-step label="Software" [completed]="software.valid$()">
 
-    <div class="mt-2 flex-none flex gap-2 text-slate-500 items-center justify-between">
+    <div class="flex-none flex gap-2 text-slate-500 items-center justify-between">
       <span class="flex gap-2 items-center">
         <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
         <span>Select 1 - 10 items</span>
@@ -248,9 +243,76 @@
 
   </mat-step>
 
-  <mat-step label="Sign Up">
+  <mat-step label="Email Verification" [completed]="emailVerification.verified$()">
 
-    <p class="mt-2 text-sm text-center">
+    @if(emailVerification.verified$()) {
+    <div class="flex gap-1 items-center">
+      <fa-icon [icon]="icons.faCircleCheck" class="text-emerald-400 text-lg inline-block mr-1"></fa-icon>
+      <p> Email is verified </p>
+    </div>
+
+    <button type="button" class="mt-4 stroked-button" mat-ripple
+            (click)="stepper.next()">
+      Next
+    </button>
+    }
+    @else {
+    @if (emailVerification.mailSent$()) {
+    <p class="text-sm">
+      A code has been sent to the email address you specified before.
+      Please enter the code you received here to verify your email address.
+    </p>
+    <form *ngrxLet="emailVerification.verifyCode.form as form"
+          class="mt-4"
+          [formGroup]="form"
+          (ngSubmit)="emailVerification.verifyCode.submit()">
+      <div *ngrxLet="form.controls.code as control"
+           [formFieldControl]="control">
+        <label>Code</label>
+        <input type="text" inputmode="numeric" [formControl]="control">
+        @if(control.hasError('required')) {<span class="error">Required</span>}
+        @if(control.hasError('minlength')) {<span class="error">Invalid code</span>}
+        @if(control.hasError('maxlength')) {<span class="error">Invalid code</span>}
+        @if(control.hasError('invalid')) {<span class="error">Invalid code</span>}
+      </div>
+
+      <div>
+        <button type="submit" class="stroked-button" mat-ripple
+                [disabled]="emailVerification.verifyCode.disabled$()">
+          <replace-spinner [showSpinner]="emailVerification.verifyCode.loading$()">
+            Verify
+          </replace-spinner>
+        </button>
+      </div>
+    </form>
+    }
+    @else {
+    <p class="text-sm">
+      In order to create your account, we need to verify your email address exists and is controlled by you.
+      We will send you a code to the email address you provided above.
+      You will be needed to enter that code on this page to complete the verification.
+
+      <br>
+      <br>
+
+      Please click the button below when you are ready.
+
+    </p>
+
+    <button class="stroked-button primary mt-4" mat-ripple
+            (click)="emailVerification.sendCode.click()">
+      <replace-spinner [showSpinner]="emailVerification.sendCode.loading$()">
+        Send Code
+      </replace-spinner>
+    </button>
+
+    }
+    }
+  </mat-step>
+
+  <mat-step label="Sign Up" completed="false">
+
+    <p class="text-sm text-center">
       By signing up, you agree to our
       <a routerLink="/terms-of-use" class="text-primary-500 font-medium">Terms of Use</a>,
       <a routerLink="/privacy-policy" class="text-primary-500 font-medium">Privacy Policy</a> and
@@ -262,14 +324,9 @@
             (click)="consent.submit.click()"
             [disabled]="consent.submit.disabled$()">
       <replace-spinner [showSpinner]="consent.submit.loading$()">
-        SIGN UP
+        FINISH SIGNING UP
       </replace-spinner>
     </button>
-
-    <p class="mt-4 text-center">
-      Already have an an account?
-      <a routerLink="/sign-in" [queryParams]="query$()" [info]="prefill.routeInfo$()" class="font-medium">Sign In</a>
-    </p>
 
   </mat-step>
 

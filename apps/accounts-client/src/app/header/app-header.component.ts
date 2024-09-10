@@ -27,8 +27,6 @@ export class AppHeaderComponent {
     faBars
   } as const;
 
-  protected readonly minimalUi$ = this.store.selectSignal(uiFeature.selectMinimalUi);
-
   protected toggleSidebar() {
     this.store.dispatch(sidebarActions.toggleExpansion());
   }

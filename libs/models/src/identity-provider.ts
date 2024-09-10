@@ -1,4 +1,5 @@
 import { Entity } from './entity';
+import { User } from './user';
 
 export const EXTERNAL_IDENTITY_PROVIDERS = [
   'google',
@@ -26,7 +27,7 @@ export interface IdpCredential extends Entity {
     id: string;
     email: string;
   };
-  userId: string;
+  user: User;
   credential?: string;
 }
 

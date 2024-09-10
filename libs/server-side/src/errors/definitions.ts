@@ -1,7 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { ExternalIdentityProviderType } from 'models/identity-provider';
 import { OAuthAuthorizeErrorType, OAuthTokenErrorType } from 'models/oauth';
-import { User } from 'models/user';
 import { ZodError } from 'zod';
 import { ApiError } from './utils';
 
@@ -16,7 +15,7 @@ export class ValidationFailed extends ApiError {
 export class KeyValueDocumentNotFound extends ApiError {
   constructor(key: string) {
     super('key-value-document-not-found', StatusCodes.INTERNAL_SERVER_ERROR);
-    this.metadata['docment'] = key;
+    this.metadata['document'] = key;
   }
 }
 
@@ -102,14 +101,6 @@ export class UserNeedsPasswordReset extends ApiError {
   }
 }
 
-export class UserNeedsEmailVerification extends ApiError {
-  constructor(readonly user: User) {
-    super('user-needs-email-verification', StatusCodes.BAD_REQUEST);
-    this.withMetadata('domain', this.domain);
-  }
-  readonly domain = this.user.email.split('@')[1];
-}
-
 export class UserIsDisabled extends ApiError {
   constructor() {
     super('user-is-disabled', StatusCodes.FORBIDDEN);
@@ -151,5 +142,17 @@ export class GoogleApiError extends ApiError {
   constructor(error: any) {
     super('google-api-error', StatusCodes.INTERNAL_SERVER_ERROR);
     this.withMetadata('data', error.response.data);
+  }
+}
+
+export class EmailVerificationCodeExpired extends ApiError {
+  constructor() {
+    super('email-verification-code-expired', StatusCodes.BAD_REQUEST);
+  }
+}
+
+export class PasswordResetCodeExpired extends ApiError {
+  constructor() {
+    super('password-reset-code-expired', StatusCodes.BAD_REQUEST);
   }
 }

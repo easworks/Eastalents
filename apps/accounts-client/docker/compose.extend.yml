@@ -1,6 +1,5 @@
 services:
   accounts-client:
-    container_name: accounts-client
     build: .
     ports:
       - ${PORT:?}:4200
