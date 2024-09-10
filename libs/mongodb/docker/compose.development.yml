@@ -2,9 +2,12 @@ name: eas-development
 
 services:
   mongodb:
+    container_name: mongodb-development
     extends:
       file: compose.extend.yml
       service: mongodb
+    extra_hosts:
+      - ${REPLICA_SET_HOST_1:?}
     networks:
       - eas-development
 
