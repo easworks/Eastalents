@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, GuardResult } from '@angular/router';
 import { AuthService } from '@easworks/app-shell/services/auth';
-import { base64url } from '@easworks/app-shell/utilities/base64url';
+import { base64url } from '@easworks/models/utils/base64url';
 import { RETURN_URL_KEY } from 'models/auth';
 import { switchMap } from 'rxjs';
 

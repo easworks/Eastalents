@@ -1,7 +1,9 @@
 import { token_ref_schema } from '@easworks/mongodb/schema/auth';
+import { employer_profile_schema } from '@easworks/mongodb/schema/employer-profile';
 import { user_credential_schema } from '@easworks/mongodb/schema/identity-provider';
 import { oauth_code_schema } from '@easworks/mongodb/schema/oauth';
 import { permission_record_schema } from '@easworks/mongodb/schema/permission-record';
+import { talent_profile_schema } from '@easworks/mongodb/schema/talent-profile';
 import { user_schema } from '@easworks/mongodb/schema/user';
 import { EAS_EntityManager } from '@easworks/mongodb/types';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
@@ -31,6 +33,8 @@ export async function deleteUser(em: EAS_EntityManager, _id: string) {
     em.nativeDelete(oauth_code_schema, { user }),
     em.nativeDelete(user_credential_schema, { user }),
     em.nativeDelete(permission_record_schema, { user }),
+    em.nativeDelete(talent_profile_schema, { user }),
+    em.nativeDelete(employer_profile_schema, { user }),
     em.nativeDelete(user_schema, user)
   ]);
 }
