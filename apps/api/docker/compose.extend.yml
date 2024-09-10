@@ -1,6 +1,5 @@
 services:
   api:
-    container_name: api
     build: .
     ports:
       - ${PORT:?}:4200

@@ -39,14 +39,21 @@
           "commands": [
             "cp libs/mongodb/mongodb.key dist/docker/mongodb",
             "cp libs/mongodb/docker/compose.development.yml dist/docker/mongodb/compose.yml",
-            "cd dist/docker/mongodb && docker compose up -d --build"
+            "cd dist/docker/mongodb && docker compose up -d --build --force-recreate"
           ]
         },
         "development": {
           "commands": [
             "cp libs/mongodb/docker/compose.development.yml dist/docker/mongodb/compose.yml",
             "rsync -vchr dist/docker/mongodb/ {args.remote}:~/development/mongodb",
-            "ssh {args.remote} 'cd ~/development/mongodb && docker compose up -d --build'"
+            "ssh {args.remote} 'cd ~/development/mongodb && docker compose up -d --build --force-recreate'"
+          ]
+        },
+        "production": {
+          "commands": [
+            "cp libs/mongodb/docker/compose.production.yml dist/docker/mongodb/compose.yml",
+            "rsync -vchr dist/docker/mongodb/ {args.remote}:~/production/mongodb",
+            "ssh {args.remote} 'cd ~/production/mongodb && docker compose up -d --build --force-recreate'"
           ]
         }
       },

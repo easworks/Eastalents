@@ -106,6 +106,14 @@
             "rsync -vchr dist/docker/api/ {args.remote}:~/development/api",
             "ssh {args.remote} 'cd ~/development/api && docker compose up -d --build'"
           ]
+        },
+        "production": {
+          "commands": [
+            "cp apps/api/docker/compose.production.yml dist/docker/api/compose.yml",
+            "rsync -vchr --delete dist/apps/api/ {args.remote}:~/production/api/dist",
+            "rsync -vchr dist/docker/api/ {args.remote}:~/production/api",
+            "ssh {args.remote} 'cd ~/production/api && docker compose up -d --build'"
+          ]
         }
       },
       "defaultConfiguration": "development",
