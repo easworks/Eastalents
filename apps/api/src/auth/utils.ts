@@ -142,7 +142,7 @@ export class EmailVerification {
   public static async send(email: string, firstName: string, code: string) {
     const compose = await EmailSender.compose.verifyEmail(firstName, code);
     compose.mail.to = email;
-    compose.mail.from = `Easworks ${environment.gmail.support.id}`;
+    compose.mail.from = `Easworks ${environment.gmail.support.address}`;
     return EmailSender.sendEmail(compose, environment.gmail.support.id);
   }
 
@@ -174,7 +174,7 @@ export class PasswordReset {
   public static async send(email: string, firstName: string, code: string) {
     const compose = await EmailSender.compose.resetPassword(firstName, code);
     compose.mail.to = email;
-    compose.mail.from = `Easworks ${environment.gmail.support.id}`;
+    compose.mail.from = `Easworks ${environment.gmail.support.address}`;
     return EmailSender.sendEmail(compose, environment.gmail.support.id);
   }
 
@@ -211,8 +211,8 @@ export class WelcomeEmail {
     }
 
     compose.mail.to = user.email;
-    compose.mail.from = `Easworks ${environment.gmail.support.id}`;
-    return EmailSender.sendEmail(compose, environment.gmail.support.id);
+    compose.mail.from = `Easworks ${environment.gmail.hello.address}`;
+    return EmailSender.sendEmail(compose, environment.gmail.hello.id);
   }
 }
 

@@ -33,6 +33,10 @@ export interface Environment {
       id: string;
       address: string;
     };
+    hello?: {
+      id: string;
+      address: string;
+    };
   };
 }
 
@@ -109,9 +113,20 @@ export const parseEnv = {
       const address = process.env['GMAIL_SUPPORT_ADDRESS'];
 
       if (!id)
-        throw new Error('gmail sender id not provided');
+        throw new Error('GMAIL_SUPPORT sender id not provided');
       if (!address)
-        throw new Error('gmail address not provided');
+        throw new Error('GMAIL_SUPPORT address not provided');
+
+      return { id, address } as const;
+    },
+    hello: () => {
+      const id = process.env['GMAIL_HELLO_ID'];
+      const address = process.env['GMAIL_HELLO_ADDRESS'];
+
+      if (!id)
+        throw new Error('GMAIL_HELLO sender id not provided');
+      if (!address)
+        throw new Error('GMAIL_HELLO address not provided');
 
       return { id, address } as const;
     }
