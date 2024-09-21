@@ -19,12 +19,12 @@ function replaceVariables(template: string, inputs: [string, string][]) {
 export class EmailSender {
   static readonly from = {
     easworks: {
-      support: 'Easworks support@easworks.com',
-      hello: 'Easworks hello@easworks.com'
+      support: 'EASWORKS support@easworks.com',
+      hello: 'EASWORKS hello@easworks.com'
     },
     easdevhub: {
-      support: 'Easdevhub support@easdevhub.com',
-      hello: 'Easdevhub hello@easdevhub.com'
+      support: 'EASDEVHUB support@easdevhub.com',
+      hello: 'EASDEVHUB hello@easdevhub.com'
     }
   };
 
