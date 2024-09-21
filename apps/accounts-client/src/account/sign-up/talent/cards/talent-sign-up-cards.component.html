@@ -1,95 +1,130 @@
-<swiper [options]="swiperOptions" [modules]="['autoplay']">
+<swiper [options]="swiperOptions" [modules]="['autoplay']" class="h-full">
   <div class="swiper-wrapper">
-
     <!-- What's our Jobseekers Said Screen Start -->
-    <div class="swiper-slide">
-      <div class="bg-img bg-no-repeat bg-cover relative pt-16">
-        <div class="px-6 py-8 bg-pink-img bg-no-repeat 3xl:w-10/12 w-11/12 mx-auto 5xl:mt-28 z-10 relative">
-          <h2 class="5xl:text-5xl lg:text-4xl text-3xl text-primary-500 font-black 7xl:!leading-[3.5rem]">
-            What's our Jobseekers Said.
-          </h2>
+    <div class="swiper-slide h-full">
+      <div class="flex justify-center items-center h-full">
+        <div class="bg-img bg-no-repeat bg-cover relative pt-16 h-full">
+          <div
+            class="px-6 py-8 bg-pink-img bg-no-repeat 3xl:w-10/12 w-11/12 mx-auto 5xl:mt-28 z-10 relative"
+          >
+            <h2
+              class="5xl:text-5xl lg:text-4xl text-3xl text-primary-500 font-black 7xl:!leading-[3.5rem]"
+            >
+              What's our Jobseekers Said.
+            </h2>
 
-          <p class="text-gray-600 text-sm mt-10 mb-5">
-            Finding your dream job has never been easier. Simply browse through
-            available job listings and apply for the ones that align with your
-            aspirations.
-          </p>
+            <p class="text-gray-600 text-sm mt-10 mb-5">
+              Finding your dream job has never been easier. Simply browse
+              through available job listings and apply for the ones that align
+              with your aspirations.
+            </p>
 
-          <div>
-            <h6 class="text-sm text-black">Kristin Watson</h6>
-            <p class="text-sm text-gray-500">UI Designer at Google</p>
+            <div>
+              <h6 class="text-sm text-black">Kristin Watson</h6>
+              <p class="text-sm text-gray-500">UI Designer at Google</p>
 
-            <div class="mt-2.5 mb-3.5 flex gap-2.5 items-center justify-start">
-              <div class="border p-2 w-fit border-gray-800 rounded-full">
-                <img src="../../assets/sign-up/talent-signup/ic-left-arrow.svg" alt="Left Arrow" />
+              <div
+                class="mt-2.5 mb-3.5 flex gap-2.5 items-center justify-start"
+              >
+                <div class="border p-2 w-fit border-gray-800 rounded-full">
+                  <img
+                    src="../../assets/sign-up/talent-signup/ic-left-arrow.svg"
+                    alt="Left Arrow"
+                  />
+                </div>
+                <div class="border p-2 w-fit border-gray-800 rounded-full">
+                  <img
+                    src="../../assets/sign-up/talent-signup/ic-right-arrow.svg"
+                    alt="Right Arrow"
+                  />
+                </div>
               </div>
-              <div class="border p-2 w-fit border-gray-800 rounded-full">
-                <img src="../../assets/sign-up/talent-signup/ic-right-arrow.svg" alt="Right Arrow" />
+            </div>
+
+            <div class="rounded-4xl bg-white p-4 relative">
+              <div class="w-3/5">
+                <h5 class="text-black text-lg leading-6">
+                  Get your right job and right place apply now
+                </h5>
+                <p class="text-xs text-gray-700 mt-4">
+                  Be among the first founders to experience the easiest way to
+                  Start run a business.
+                </p>
               </div>
+              <img
+                src="../../assets/sign-up/talent-signup/user-profiles.svg"
+                alt="User Profiles"
+                class="ms-auto block -mt-2"
+              />
             </div>
           </div>
 
-          <div class="rounded-4xl bg-white p-4 relative">
-            <div class="w-3/5">
-              <h5 class="text-black text-lg leading-6">
-                Get your right job and right place apply now
-              </h5>
-              <p class="text-xs text-gray-700 mt-4">
-                Be among the first founders to experience the easiest way to Start run
-                a business.
-              </p>
-            </div>
-            <img src="../../assets/sign-up/talent-signup/user-profiles.svg" alt="User Profiles" class="ms-auto block -mt-2" />
-          </div>
+          <img
+            src="../../assets/sign-up/talent-signup/bg-shadow.png"
+            alt="Background Shadow"
+            class="absolute top-[20%] -translate-y-[20%] left-20 w-10/12 5xl:block"
+          />
         </div>
-
-        <img src="../../assets/sign-up/talent-signup/bg-shadow.png" alt="Background Shadow"
-             class="absolute top-[40%] -translate-y-[40%] left-20 w-10/12 5xl:block" />
       </div>
     </div>
     <!-- What's our Jobseekers Said Screen End -->
 
     <!-- Success starts here Screen Start -->
-    <div class="swiper-slide">
-      <div class="bg-img bg-no-repeat bg-cover 5xl:col-span-5 relative text-white pt-16">
+    <div class="swiper-slide h-full">
+      <div
+        class="bg-img bg-no-repeat bg-cover h-full 5xl:col-span-5 relative text-white pt-16"
+      >
+        <div class="flex flex-col items-stretch justify-center gap-10">
+          <div>
+            <div
+              class="lg:px-10 px-5 py-6 rounded-3xl bg-gradient-to-b from-[#7D7DFF] from-0% to-[#1C174F] to-100% lg:w-10/12 w-11/12 mt-6 mx-auto"
+            >
+              <h2
+                class="5xl:text-[40px] 3xl:text-4xl text-3xl xl:!leading-[50px] font-black"
+              >
+                Success starts here
+              </h2>
 
-        <div
-             class="lg:px-10 px-5 py-6 rounded-3xl bg-gradient-to-b from-[#7D7DFF] from-0% to-[#1C174F] to-100% lg:w-10/12 w-11/12 mt-6 mx-auto">
-          <h2 class="5xl:text-[40px] 3xl:text-4xl text-3xl xl:!leading-[50px] font-black">
-            Success starts here
-          </h2>
+              <ul class="list-disc ps-6 my-1">
+                <li class="3xl:text-xl text-lg mb-1">
+                  Talented freelancers for any project
+                </li>
+                <li class="3xl:text-xl text-lg mb-1">
+                  Quality work for any budget
+                </li>
+                <li class="3xl:text-xl text-lg">
+                  Trusted by 4+ million customers globally
+                </li>
+              </ul>
+            </div>
 
-          <ul class="list-disc ps-6 my-1">
-            <li class="3xl:text-xl text-lg mb-1">Talented freelancers for any project</li>
-            <li class="3xl:text-xl text-lg mb-1">Quality work for any budget
-            </li>
-            <li class="3xl:text-xl text-lg">Trusted by 4+ million customers
-              globally</li>
-          </ul>
+            <div class="flex justify-center items-center gap-4">
+              <div class="w-2.5 h-2.5 rounded-full bg-primary-400"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+            </div>
+          </div>
 
+          <div class="3xl:mt-40 mt-20">
+            <img
+              src="../../assets/sign-up/gadgets-around-woman.png"
+              alt="Image not found"
+              class="w-full"
+            />
+          </div>
         </div>
-
-        <div class="flex justify-center items-center gap-4">
-          <div class="w-2.5 h-2.5 rounded-full bg-primary-400"></div>
-          <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
-          <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
-          <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
-        </div>
-
-        <div class="3xl:mt-40 mt-20">
-          <img src="../../assets/sign-up/gadgets-around-woman.png" alt="Image not found" class="w-full">
-        </div>
-
-
-
       </div>
     </div>
     <!-- Success starts here Screen End -->
-
   </div>
 </swiper>
 
-<marquee scrollamount="5" loop="infinite" class="bg-primary-500 py-3.5 px-7 fixed bottom-0 z-10">
+<marquee
+  scrollamount="5"
+  loop="infinite"
+  class="bg-primary-500 py-3.5 px-7 fixed bottom-0 z-10"
+>
   <div class="flex items-center gap-14">
     <img src="/assets/sign-up/okta-logo.svg" alt="Image not found" />
     <img src="/assets/sign-up/deckers-logo.svg" alt="Image not found" />

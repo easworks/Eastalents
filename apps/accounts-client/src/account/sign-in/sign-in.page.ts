@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, HostBinding, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, HostBinding, inject } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -15,6 +15,7 @@ import { RETURN_URL_KEY } from 'models/auth';
 import { ExternalIdentityProviderType } from 'models/identity-provider';
 import { ProblemDetails } from 'models/problem-details';
 import { catchError, EMPTY, finalize, first, map, switchMap } from 'rxjs';
+import { extractClientIdFromReturnUrl, getBrandImageForClient } from '../oauth-authorize-callback';
 
 @Component({
   standalone: true,
@@ -46,6 +47,11 @@ export class SignInPageComponent {
   protected readonly query$ = toSignal(this.route.queryParams, { requireSync: true });
 
   private readonly returnUrl$ = toSignal(this.route.queryParamMap.pipe(map(q => q.get(RETURN_URL_KEY))), { requireSync: true });
+
+  protected readonly brandImage$ = computed(() => {
+    const clientId = extractClientIdFromReturnUrl(this.returnUrl$());
+    return getBrandImageForClient(clientId);
+  });
 
   protected readonly emailLogin = {
     formId: 'signin-email',
