@@ -11,7 +11,7 @@ export const oauth_client_application_schema = new EntitySchema<OAuthClientAppli
     _id: id_prop(),
     name: { type: 'string' },
     redirectUris: { type: 'string', array: true },
-    firstParty: { type: 'boolean' }
+    firstPartyDomain: { type: 'boolean', nullable: true }
   }
 });
 

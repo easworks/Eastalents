@@ -15,7 +15,7 @@ export class Migration20240908145408_1_5_add_oauth_data extends Migration {
       "redirectUris": [
         "http://localhost:4104/oauth/callback"
       ],
-      "firstParty": true
+      firstPartyDomain: 'easworks'
     });
 
     em.create(oauth_client_application_schema, {
@@ -24,7 +24,7 @@ export class Migration20240908145408_1_5_add_oauth_data extends Migration {
       "redirectUris": [
         "https://development.branches.easworks.com/oauth/callback"
       ],
-      "firstParty": true
+      firstPartyDomain: 'easworks'
     });
 
     em.create(oauth_client_application_schema, {
@@ -33,7 +33,7 @@ export class Migration20240908145408_1_5_add_oauth_data extends Migration {
       "redirectUris": [
         "https://easworks.com/oauth/callback"
       ],
-      "firstParty": true
+      firstPartyDomain: 'easworks'
     });
 
     em.create(oauth_client_application_schema, {
@@ -42,7 +42,7 @@ export class Migration20240908145408_1_5_add_oauth_data extends Migration {
       "redirectUris": [
         "https://easdevhub.com/auth/oauth2_basic/callback"
       ],
-      "firstParty": true
+      firstPartyDomain: 'easdevhub'
     });
 
     await seedKeyValueDocument<DomainDataDTO>(em, 'domain-data', {

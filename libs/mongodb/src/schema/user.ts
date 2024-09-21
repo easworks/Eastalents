@@ -13,5 +13,6 @@ export const user_schema = new EntitySchema<User>({
     lastName: { type: 'string' },
     imageUrl: { type: 'string' },
     username: { type: 'string' },
+    sourceDomain: { type: 'string' }
   }
 });
