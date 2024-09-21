@@ -1,6 +1,7 @@
 services:
   web-client:
     build: .
+    restart: always
     ports:
       - ${PORT:?}:4200
     environment:

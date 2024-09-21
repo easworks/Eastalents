@@ -82,10 +82,15 @@ export class AuthService {
   };
 
   public readonly emailVerification = {
-    sendCode: (firstName: string, email: string) => {
+    sendCode: (firstName: string, email: string, clientId: string | null) => {
       return from(codeChallenge.create())
         .pipe(
-          switchMap(pkce => this.api.auth.emailVerification.sendCode({ email, firstName, pkce: pkce.challenge }))
+          switchMap(pkce => this.api.auth.emailVerification.sendCode({
+            email,
+            firstName,
+            pkce: pkce.challenge,
+            clientId
+          }))
         );
     },
     verifyCode: (email: string, code: string) => {

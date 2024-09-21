@@ -1,6 +1,7 @@
 services:
   api:
     build: .
+    restart: always
     ports:
       - ${PORT:?}:4200
     env_file: ./.env

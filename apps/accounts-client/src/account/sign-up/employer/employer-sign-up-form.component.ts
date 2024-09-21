@@ -574,7 +574,8 @@ export class EmployerSignUpFormComponent implements OnInit {
         const fv = this.accountBasics.form.getRawValue();
         const firstName = fv.firstName!;
         const email = fv.email;
-        this.auth.emailVerification.sendCode(firstName, email)
+        const clientId = extractClientIdFromReturnUrl(this.returnUrl$());
+        this.auth.emailVerification.sendCode(firstName, email, clientId)
           .pipe(
             map(() => mailSent$.set(true)),
             catchError(e => {
