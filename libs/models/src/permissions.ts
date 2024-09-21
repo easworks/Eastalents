@@ -33,7 +33,7 @@ const roleList: Role[] = [
     allowSignup: true,
   },
   {
-    id: 'employer',
+    id: 'client',
     permissions: [
       'job-post.create',
       'job-post.update.details'

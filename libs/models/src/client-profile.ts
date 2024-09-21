@@ -32,7 +32,7 @@ export const ANNUAL_REVENUE_RANGE_OPTIONS = [
 
 export type AnnualRevenueRange = typeof ANNUAL_REVENUE_RANGE_OPTIONS[number];
 
-export interface EmployerProfile {
+export interface ClientProfile {
   user: User;
   orgName: string;
   description: string;
