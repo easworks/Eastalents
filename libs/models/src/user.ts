@@ -1,5 +1,7 @@
 import { Entity } from './entity';
 
+export type FirstPartyDomain = 'easworks' | 'easdevhub';
+
 export interface User extends Entity {
   enabled: boolean;
 
@@ -9,6 +11,8 @@ export interface User extends Entity {
   firstName: string;
   lastName: string;
   imageUrl: string | null;
+
+  sourceDomain: FirstPartyDomain;
 }
 
 interface UserClaimsBase {

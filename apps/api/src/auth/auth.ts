@@ -1,3 +1,4 @@
+import { FirstPartyDomain } from '@easworks/models/user';
 import { email_verification_code_ref_schema, password_reset_code_ref_schema } from '@easworks/mongodb/schema/auth';
 import { employer_profile_schema, initialEmployerProfile } from '@easworks/mongodb/schema/employer-profile';
 import { user_credential_schema } from '@easworks/mongodb/schema/identity-provider';
@@ -86,6 +87,14 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
           throw new SignupRequiresWorkEmail(freeEmailDomain);
       }
 
+      let sourceDomain: FirstPartyDomain = 'easworks';
+      {
+        if (input.clientId) {
+          const client = await req.ctx.em.findOneOrFail(oauth_client_application_schema, input.clientId);
+          sourceDomain = client.firstPartyDomain || 'easworks';
+        }
+      }
+
       // validate username
       const usernameExists = await req.ctx.em.findOne(user_schema, { username: input.username });
       if (usernameExists)
@@ -102,6 +111,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
         imageUrl: null,
 
         enabled: true,
+        sourceDomain
       });
 
 
@@ -147,14 +157,8 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
       }
 
       await req.ctx.em.flush();
-      {
-        let clientName;
-        if (input.clientId) {
-          const client = await req.ctx.em.findOneOrFail(oauth_client_application_schema, input.clientId);
-          clientName = client?.name;
-        }
-        await WelcomeEmail.send(user, permissions, clientName);
-      }
+
+      await WelcomeEmail.send(user, permissions);
 
       const accessToken = await jwtUtils.createToken(req.ctx.em, 'first-party', user, permissions);
 
@@ -270,7 +274,16 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       await req.ctx.em.flush();
 
-      await EmailVerification.send(input.email, input.firstName, code);
+      let domain: FirstPartyDomain = 'easworks';
+      {
+        if (input.clientId) {
+          const clientApp = await req.ctx.em.findOne(oauth_client_application_schema, input.clientId);
+          if (clientApp)
+            domain = clientApp.firstPartyDomain || 'easworks';
+        }
+      }
+
+      await EmailVerification.send(input.email, input.firstName, code, domain);
 
       return true;
     }
@@ -322,7 +335,7 @@ export const authHandlers: FastifyZodPluginAsync = async server => {
 
       await req.ctx.em.flush();
 
-      await PasswordReset.send(input.email, user.firstName, code);
+      await PasswordReset.send(input.email, user, code);
 
       return true;
     }

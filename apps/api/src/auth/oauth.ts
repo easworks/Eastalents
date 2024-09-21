@@ -117,7 +117,7 @@ export const oauthHandlers: FastifyPluginAsync = async server => {
 
       const accessToken = await jwtUtils.createToken(
         req.ctx.em,
-        clientApp.firstParty ? 'first-party' : 'third-party',
+        clientApp.firstPartyDomain ? 'first-party' : 'third-party',
         user,
         permissionRecord);
 

@@ -17,11 +17,22 @@ function replaceVariables(template: string, inputs: [string, string][]) {
 }
 
 export class EmailSender {
+  static readonly from = {
+    easworks: {
+      support: 'Easworks support@easworks.com',
+      hello: 'Easworks hello@easworks.com'
+    },
+    easdevhub: {
+      support: 'Easdevhub support@easdevhub.com',
+      hello: 'Easdevhub hello@easdevhub.com'
+    }
+  };
+
   static readonly compose = {
-    resetPassword: async (firstName: string, code: string) => {
+    resetPassword: async (user: User, code: string) => {
       const tmp = await getTemplateFile('password-reset.html');
       const html = replaceVariables(tmp, [
-        ['user.firstName', firstName],
+        ['user.firstName', user.firstName],
         ['verification.code', code]
       ]);
 

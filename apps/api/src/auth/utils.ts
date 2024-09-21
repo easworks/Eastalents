@@ -8,7 +8,7 @@ import { DateTime } from 'luxon';
 import { EmailVerificationCodeRef, PasswordResetCodeRef } from 'models/auth';
 import { ExternalIdentityProviderType, ExternalIdpUser } from 'models/identity-provider';
 import { PermissionRecord } from 'models/permission-record';
-import { User, UserClaims } from 'models/user';
+import { FirstPartyDomain, User, UserClaims } from 'models/user';
 import * as crypto from 'node:crypto';
 import { EmailVerificationCodeExpired, FailedSocialProfileRequest, InvalidPassword, InvalidSocialOauthCode, KeyValueDocumentNotFound, PasswordResetCodeExpired, UserNeedsPasswordReset } from 'server-side/errors/definitions';
 import { environment } from '../environment';
@@ -139,11 +139,11 @@ export class EmailVerification {
     };
   })();
 
-  public static async send(email: string, firstName: string, code: string) {
+  public static async send(email: string, firstName: string, code: string, domain: FirstPartyDomain) {
     const compose = await EmailSender.compose.verifyEmail(firstName, code);
     compose.mail.to = email;
-    compose.mail.from = `Easworks ${environment.gmail.support.address}`;
-    return EmailSender.sendEmail(compose, environment.gmail.support.id);
+    compose.mail.from = EmailSender.from[domain].support;
+    return EmailSender.sendEmail(compose, environment.gmail.senderId);
   }
 
   public static async verify(ref: EmailVerificationCodeRef | null, code: string, verifier: string) {
@@ -171,11 +171,11 @@ export class PasswordReset {
     };
   })();
 
-  public static async send(email: string, firstName: string, code: string) {
-    const compose = await EmailSender.compose.resetPassword(firstName, code);
+  public static async send(email: string, user: User, code: string) {
+    const compose = await EmailSender.compose.resetPassword(user, code);
     compose.mail.to = email;
-    compose.mail.from = `Easworks ${environment.gmail.support.address}`;
-    return EmailSender.sendEmail(compose, environment.gmail.support.id);
+    compose.mail.from = EmailSender.from[user.sourceDomain].support;
+    return EmailSender.sendEmail(compose, environment.gmail.senderId);
   }
 
   public static async verify(ref: PasswordResetCodeRef | null, code: string, verifier: string) {
@@ -193,12 +193,12 @@ export class PasswordReset {
 }
 
 export class WelcomeEmail {
-  public static async send(user: User, permission: PermissionRecord, oauthClientName?: string) {
+  public static async send(user: User, permission: PermissionRecord) {
 
     let compose;
     {
-      switch (oauthClientName) {
-        case 'easdevhub-production':
+      switch (user.sourceDomain) {
+        case 'easdevhub':
           compose = await EmailSender.compose.welcome.easdevhub(user);
           break;
         default:
@@ -211,8 +211,8 @@ export class WelcomeEmail {
     }
 
     compose.mail.to = user.email;
-    compose.mail.from = `Easworks ${environment.gmail.hello.address}`;
-    return EmailSender.sendEmail(compose, environment.gmail.hello.id);
+    compose.mail.from = EmailSender.from[user.sourceDomain].hello;
+    return EmailSender.sendEmail(compose, environment.gmail.senderId);
   }
 }
 

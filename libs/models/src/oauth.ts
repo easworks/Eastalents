@@ -1,11 +1,11 @@
 import { DateTime } from 'luxon';
 import { Entity } from './entity';
-import { User } from './user';
+import { FirstPartyDomain, User } from './user';
 
 export interface OAuthClientApplication extends Entity {
   name: string;
   redirectUris: string[];
-  firstParty: boolean;
+  firstPartyDomain: FirstPartyDomain | null;
 }
 
 export interface OAuthCode extends Entity {
