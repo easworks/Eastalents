@@ -1,7 +1,7 @@
 {
   "domains": [
     {
-      "id": "AI",
+      "id": "ai",
       "longName": "Artificial Intelligence (AI)",
       "shortName": "AI",
       "modules": [
@@ -105,7 +105,7 @@
       ]
     },
     {
-      "id": "ALM",
+      "id": "alm",
       "longName": "Application Lifecycle Management (ALM)",
       "shortName": "ALM",
       "modules": [
@@ -217,7 +217,7 @@
       ]
     },
     {
-      "id": "BI",
+      "id": "bi",
       "longName": "Business Analytics and BI (BA/BI)",
       "shortName": "BI",
       "modules": [
@@ -349,7 +349,7 @@
       ]
     },
     {
-      "id": "BPM",
+      "id": "bpm",
       "longName": "Business Process Management (BPM)",
       "shortName": "BPM",
       "modules": [
@@ -452,7 +452,7 @@
       ]
     },
     {
-      "id": "CRM",
+      "id": "crm",
       "longName": "Customer Relationship Management  (CRM)",
       "shortName": "CRM",
       "modules": [
@@ -610,7 +610,7 @@
       ]
     },
     {
-      "id": "EAM",
+      "id": "eam",
       "longName": "Enterprise Asset Management (EAM)",
       "shortName": "EAM",
       "modules": [
@@ -711,7 +711,7 @@
       ]
     },
     {
-      "id": "ECM",
+      "id": "ecm",
       "longName": "Enterprise Content Management (ECM)",
       "shortName": "ECM",
       "modules": [
@@ -844,7 +844,7 @@
       ]
     },
     {
-      "id": "eCommerce platform",
+      "id": "ecommerce",
       "longName": "eCommerce platform",
       "shortName": "eCommerce platform",
       "modules": [
@@ -976,7 +976,7 @@
       ]
     },
     {
-      "id": "ECS",
+      "id": "ecs",
       "longName": "Enterprise Collaboration Software (ECS)",
       "shortName": "ECS",
       "modules": [
@@ -1111,7 +1111,7 @@
       ]
     },
     {
-      "id": "EPM",
+      "id": "epm",
       "longName": "Enterprise Performance Management (EPM)",
       "shortName": "EPM",
       "modules": [
@@ -1226,7 +1226,7 @@
       ]
     },
     {
-      "id": "EQMS",
+      "id": "eqms",
       "longName": "Enterprise Quality Management Software (EQMS)",
       "shortName": "EQMS",
       "modules": [
@@ -1352,7 +1352,7 @@
       ]
     },
     {
-      "id": "ERP Finance",
+      "id": "erp-finance",
       "longName": "ERP Financial Management (ERP Finance)",
       "shortName": "ERP Finance",
       "modules": [
@@ -1541,7 +1541,7 @@
       ]
     },
     {
-      "id": "ERP Ops",
+      "id": "erp-ops",
       "longName": "ERP Operations and Services (ERP Ops)",
       "shortName": "ERP Ops",
       "modules": [
@@ -1744,7 +1744,7 @@
       ]
     },
     {
-      "id": "HCM",
+      "id": "hcm",
       "longName": "Human Capital Management (HCM)",
       "shortName": "HCM",
       "modules": [
@@ -1886,7 +1886,7 @@
       ]
     },
     {
-      "id": "IaaS",
+      "id": "iaas",
       "longName": "Infrastructure as a Service (IaaS)",
       "shortName": "IaaS",
       "modules": [
@@ -2029,7 +2029,7 @@
       ]
     },
     {
-      "id": "IoT",
+      "id": "iot",
       "longName": "Internet of Things (IoT)",
       "shortName": "IoT",
       "modules": ["Custom Application", "IoT Platform"],
@@ -2143,7 +2143,7 @@
       ]
     },
     {
-      "id": "ITSM",
+      "id": "itsm",
       "longName": "IT Service Management (ITSM)",
       "shortName": "ITSM",
       "modules": [
@@ -2313,7 +2313,7 @@
       ]
     },
     {
-      "id": "LMS",
+      "id": "lms",
       "longName": "Learning Management System (LMS)",
       "shortName": "LMS",
       "modules": [
@@ -2419,7 +2419,7 @@
       ]
     },
     {
-      "id": "MES",
+      "id": "mes",
       "longName": "Manufacturing Execution System (MES)",
       "shortName": "MES",
       "modules": [
@@ -2537,7 +2537,7 @@
       ]
     },
     {
-      "id": "PaaS",
+      "id": "paas",
       "longName": "Platform as a Service (PaaS)",
       "shortName": "PaaS",
       "modules": [
@@ -2669,7 +2669,7 @@
       ]
     },
     {
-      "id": "PLM",
+      "id": "plm",
       "longName": "Product Lifecycle Management (PLM)",
       "shortName": "PLM",
       "modules": [
@@ -2821,7 +2821,7 @@
       ]
     },
     {
-      "id": "PPM",
+      "id": "ppm",
       "longName": "Project Portfolio Management (PPM)",
       "shortName": "PPM",
       "modules": [
@@ -2956,7 +2956,7 @@
       ]
     },
     {
-      "id": "SCM",
+      "id": "scm",
       "longName": "Supply Chain Management (SCM)",
       "shortName": "SCM",
       "modules": [
@@ -3166,7 +3166,7 @@
       ]
     },
     {
-      "id": "TRM",
+      "id": "trm",
       "longName": "Treasury and Risk Management (TRM)",
       "shortName": "TRM",
       "modules": [
