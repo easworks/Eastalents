@@ -7,7 +7,6 @@ import { authActions, authFeature } from '@easworks/app-shell/state/auth';
 import { Store } from '@ngrx/store';
 import { oauthAuthorizeCallback } from '../account/oauth-authorize-callback';
 import { oauthCodeCallback, resolveSocialPrefill } from '../account/oauth-code-callback';
-import { DemoPageComponent } from '../account/sign-up/demo.component';
 
 // TODO: add this to signup routes
 const redirectUser: CanMatchFn = async () => {
@@ -33,11 +32,6 @@ const redirectUser: CanMatchFn = async () => {
 
 
 export const routes: Route[] = [
-  {
-    path: 'demo',
-    pathMatch: 'full',
-    component: DemoPageComponent
-  },
   {
     path: 'sign-in',
     pathMatch: 'full',
@@ -70,9 +64,9 @@ export const routes: Route[] = [
     },
     children: [
       {
-        path: 'employer',
-        loadComponent: () => import('../account/sign-up/employer/employer-sign-up-form.component')
-          .then(m => m.EmployerSignUpFormComponent),
+        path: 'client',
+        loadComponent: () => import('../account/sign-up/client/client-sign-up-form.component')
+          .then(m => m.ClientSignUpFormComponent),
         data: {
           minimalUi: true
         },

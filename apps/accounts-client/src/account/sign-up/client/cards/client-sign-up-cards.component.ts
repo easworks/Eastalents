@@ -4,14 +4,14 @@ import { SwiperOptions } from 'swiper/types';
 
 @Component({
   standalone: true,
-  templateUrl: './employer-sign-up-cards.component.html',
-  styleUrl: './employer-sign-up-cards.component.less',
-  selector: 'employer-sign-up-cards',
+  templateUrl: './client-sign-up-cards.component.html',
+  styleUrl: './client-sign-up-cards.component.less',
+  selector: 'client-sign-up-cards',
   imports: [
     NgSwiperModule
   ]
 })
-export class EmployerSignUpCardsComponent {
+export class ClientSignUpCardsComponent {
   protected readonly swiperOptions: SwiperOptions = {
     autoplay: true,
     loop: true

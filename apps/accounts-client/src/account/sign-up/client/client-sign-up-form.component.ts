@@ -32,13 +32,13 @@ import { username } from 'models/validators/common';
 import { catchError, delay, EMPTY, finalize, map, of, switchMap, tap } from 'rxjs';
 import { extractClientIdFromReturnUrl } from '../../oauth-authorize-callback';
 import { SignUpPageComponent } from '../sign-up.page';
-import { EmployerSignUpCardsComponent } from './cards/employer-sign-up-cards.component';
+import { ClientSignUpCardsComponent } from './cards/client-sign-up-cards.component';
 
 @Component({
   standalone: true,
-  selector: 'employer-sign-up-form',
-  templateUrl: './employer-sign-up-form.component.html',
-  styleUrl: './employer-sign-up-form.component.less',
+  selector: 'client-sign-up-form',
+  templateUrl: './client-sign-up-form.component.html',
+  styleUrl: './client-sign-up-form.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
@@ -49,7 +49,7 @@ import { EmployerSignUpCardsComponent } from './cards/employer-sign-up-cards.com
     ClearTriggerOnSelectDirective
   ]
 })
-export class EmployerSignUpFormComponent implements OnInit {
+export class ClientSignUpFormComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly auth = inject(AuthService);
   private readonly snackbar = inject(MatSnackBar);
@@ -134,7 +134,7 @@ export class EmployerSignUpFormComponent implements OnInit {
   })();
 
   protected readonly accountBasics = (() => {
-    const formId = 'employer-sign-up-account-basics';
+    const formId = 'client-sign-up-account-basics';
 
     const validators = {
       username: {
@@ -665,7 +665,7 @@ export class EmployerSignUpFormComponent implements OnInit {
           firstName: fv.firstName,
           lastName: fv.lastName,
           email: fv.email,
-          role: 'employer',
+          role: 'client',
           credentials: prefill ?
             {
               provider: prefill.idp,
@@ -726,10 +726,10 @@ export class EmployerSignUpFormComponent implements OnInit {
   })();
 
   socialSignUp(provider: ExternalIdentityProviderType) {
-    this.auth.signUp.social(provider, 'employer', this.returnUrl$() || undefined);
+    this.auth.signUp.social(provider, 'client', this.returnUrl$() || undefined);
   }
 
   ngOnInit(): void {
-    this.page.cards$.set(EmployerSignUpCardsComponent);
+    this.page.cards$.set(ClientSignUpCardsComponent);
   }
 }
