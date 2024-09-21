@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, HostBinding, inject, signal } from '@angular/core';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, HostBinding, inject, signal } from '@angular/core';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthApi } from '@easworks/app-shell/api/auth.api';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
@@ -10,10 +10,12 @@ import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AuthService } from '@easworks/app-shell/services/auth';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { isBrowser } from '@easworks/app-shell/utilities/platform-type';
+import { RETURN_URL_KEY } from '@easworks/models/auth';
 import { pattern } from '@easworks/models/pattern';
 import { ProblemDetails } from '@easworks/models/problem-details';
 import { PasswordResetInput } from '@easworks/models/validators/auth';
 import { catchError, EMPTY, finalize, first, interval, map, switchMap, take } from 'rxjs';
+import { extractClientIdFromReturnUrl, getBrandImageForClient } from '../oauth-authorize-callback';
 
 @Component({
   standalone: true,
@@ -32,6 +34,7 @@ export class PasswordRestPageComponent {
   private readonly dRef = inject(DestroyRef);
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly api = {
     auth: inject(AuthApi)
   } as const;
@@ -47,6 +50,13 @@ export class PasswordRestPageComponent {
   ]>();
 
   protected readonly step$ = signal<Step>('send verification code');
+
+  private readonly returnUrl$ = toSignal(this.route.queryParamMap.pipe(map(q => q.get(RETURN_URL_KEY))), { requireSync: true });
+
+  protected readonly brandImage$ = computed(() => {
+    const clientId = extractClientIdFromReturnUrl(this.returnUrl$());
+    return getBrandImageForClient(clientId);
+  });
 
   protected readonly emailForm = (() => {
     const form = new FormGroup({

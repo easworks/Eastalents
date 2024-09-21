@@ -1,4 +1,4 @@
-<img class="h-8 block mx-auto" src="/assets/brand/logo-full-dark.png" alt="App Logo" loading="lazy" />
+<img class="h-8 block mx-auto" [src]="brandImage$()" alt="App Logo" loading="lazy" />
 
 
 <div class="mt-4 rounded-md bg-surface p-4 px-8 pb-8">
@@ -52,7 +52,7 @@
       @if(control.hasError('pattern')) { <span class="error">Invalid Password</span> }
       @if(control.hasError('invalidPassword')) { <span class="error">Invalid Password</span> }
       @if(control.hasError('needsReset')) { <span class="error">Password needs to be reset</span> }
-      <a routerLink="/password-reset"
+      <a routerLink="/password-reset" [queryParams]="query$()"
          class="block w-max mt-1 ml-auto underline text-primary-400 text-sm">Forgot Password?</a>
     </div>
   </form>

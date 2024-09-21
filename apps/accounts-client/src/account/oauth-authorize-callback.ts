@@ -24,3 +24,10 @@ export function extractClientIdFromReturnUrl(returnUrl: string | null) {
   }
   return null;
 }
+
+export function getBrandImageForClient(id: string | null) {
+  if (id === '66b84b4eacd0805ec87197b2')
+    return '/assets/easdevhub/logo.png';
+  else
+    return '/assets/brand/logo-full-dark.png';
+}
