@@ -36,7 +36,7 @@ export class DomainsPageComponent {
 
     constructor() {
         toPromise(this.domains.list$, list => list.length > 0)
-            .then(() => this.editModules('ALM'));
+            .then(() => this.editModules('alm'));
 
     }
 
