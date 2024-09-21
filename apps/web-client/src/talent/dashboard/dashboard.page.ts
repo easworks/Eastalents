@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faAngleRight, faCheck, faFileLines, faSchoolCircleExclamation, faSearch, faVolleyballBall } from '@fortawesome/free-solid-svg-icons';
-import { JobPostCardComponent } from '../../employer/job-post-card/job-post-card.component';
+import { JobPostCardComponent } from '../../client/job-post-card/job-post-card.component';
 
 @Component({
   selector: 'Talent-dashboard-page',
