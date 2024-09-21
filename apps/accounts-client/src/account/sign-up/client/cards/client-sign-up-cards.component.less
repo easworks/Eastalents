@@ -1,0 +1,53 @@
+.bg-img {
+  background-image: url(/assets/sign-up/client/bg-dark.png);
+}
+
+.bg-pink-img {
+  background-image: url(/assets/sign-up/slide1/lightpink-bg.png);
+  background-size: 100% 100%;
+}
+
+.custom-border {
+  &:before {
+    background: linear-gradient(91.96deg,
+        #ffffff 2.5%,
+        rgba(255, 255, 255, 0) 100.46%);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+}
+
+// Discover Elite Enterprise
+.elite-enterprise-bg {
+  background-image: url(/assets/sign-up/subtract-bg.svg);
+  background-size: 100%;
+}
+
+.elite-enterprise-img,
+.elite-enterprise-text {
+  transition: all 0.5s;
+}
+
+.elite-enterprise-card:hover .elite-enterprise-img {
+  transform: translateX(20px);
+  transition: all 0.5s;
+}
+
+.elite-enterprise-card:hover .elite-enterprise-text {
+  transform: rotate(-90deg) translateY(5px);
+  transition:
+    all 0.5s,
+    visibility 0.2s;
+  visibility: hidden;
+}
+
+.elite-enterprise-card:hover .elite-enterprise-logo-img {
+  box-shadow: 0 0px 20px 10px #4949fc;
+}
+
+.elite-enterprise-card:hover .elite-enterprise-bg {
+  box-shadow: 0px -10px 10px #9b9bff;
+}

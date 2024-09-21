@@ -10,7 +10,7 @@ import { USE_CASES_ROUTE } from './use-cases/routes';
 const redirectUser: CanMatchFn = (() => {
   const checks = {
     talent: AUTH_CHECKS.hasRole('talent'),
-    employer: AUTH_CHECKS.hasRole('employer')
+    client: AUTH_CHECKS.hasRole('client')
   };
 
   return async () => {
@@ -35,7 +35,7 @@ const redirectUser: CanMatchFn = (() => {
     if (user) {
       switch (true) {
         case checks.talent(user): return router.createUrlTree(['/dashboard']);
-        case checks.employer(user): return router.createUrlTree(['/dashboard']);
+        case checks.client(user): return router.createUrlTree(['/dashboard']);
       }
     }
 

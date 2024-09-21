@@ -56,7 +56,7 @@ export const oauthCodeCallback: CanActivateFn = (snap) => {
           const path = (() => {
             switch (query.state.role) {
               case 'talent': return '/sign-up/talent';
-              case 'employer': return '/sign-up/employer';
+              case 'client': return '/sign-up/client';
               default: return '/sign-up';
             }
           })();
