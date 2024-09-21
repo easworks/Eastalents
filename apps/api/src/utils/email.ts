@@ -66,8 +66,8 @@ export class EmailSender {
             html
           });
         },
-        employer: async (user: User) => {
-          const tmp = await getTemplateFile('welcome/employer.html');
+        client: async (user: User) => {
+          const tmp = await getTemplateFile('welcome/client.html');
           const html = replaceVariables(tmp, [
             ['user.firstName', user.firstName],
           ]);

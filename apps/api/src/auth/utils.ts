@@ -202,8 +202,8 @@ export class WelcomeEmail {
           compose = await EmailSender.compose.welcome.easdevhub(user);
           break;
         default:
-          if (permission.roles.includes('employer'))
-            compose = await EmailSender.compose.welcome.easworks.employer(user);
+          if (permission.roles.includes('client'))
+            compose = await EmailSender.compose.welcome.easworks.client(user);
           else
             compose = await EmailSender.compose.welcome.easworks.talent(user);
           break;
