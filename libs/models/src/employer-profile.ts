@@ -1,3 +1,4 @@
+import { EasworksServiceType, RequiredExperience, WorkEnvironment } from './job-post';
 import { CSCLocation } from './location';
 import { User } from './user';
 
@@ -21,6 +22,16 @@ export const ORGANIZATION_SIZE_OPTIONS = [
 
 export type OrganizationSize = typeof ORGANIZATION_SIZE_OPTIONS[number];
 
+export const ANNUAL_REVENUE_RANGE_OPTIONS = [
+  'upto 1 million USD',
+  '1 - 10 million USD',
+  '10 - 50 million USD',
+  '50 - 100 million USD',
+  'above 100 million USD'
+] as const;
+
+export type AnnualRevenueRange = typeof ANNUAL_REVENUE_RANGE_OPTIONS[number];
+
 export interface EmployerProfile {
   user: User;
   orgName: string;
@@ -28,9 +39,16 @@ export interface EmployerProfile {
 
   orgType: OrganizationType;
   orgSize: OrganizationSize;
+  annualRevenueRange: AnnualRevenueRange;
   industry: {
     name: string;
     group: string;
+  };
+
+  hiringPreferences: {
+    serviceType: EasworksServiceType[];
+    experience: RequiredExperience[];
+    workEnvironment: WorkEnvironment[];
   };
 
   domains: string[];
@@ -39,8 +57,10 @@ export interface EmployerProfile {
   location: CSCLocation;
 
   contact: {
+    name: string;
+    primary: boolean;
     email: string | null;
     phone: string | null;
     website: string | null;
-  };
+  }[];
 }
