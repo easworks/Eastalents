@@ -62,7 +62,8 @@ const inputs = {
     sendCode: z.strictObject({
       pkce: oauthValidators.code_challenge,
       email: types.email,
-      firstName: types.firstName
+      firstName: types.firstName,
+      clientId: oauthValidators.client_id.nullable()
     }),
     verifyCode: z.strictObject({
       email: types.email,
