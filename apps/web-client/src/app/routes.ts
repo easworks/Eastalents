@@ -5,14 +5,14 @@ import { AUTH_READY } from '@easworks/app-shell/services/auth.ready';
 import { ACCOUNT_ROUTES } from '../account/routes';
 import { ADMIN_ROUTES } from '../admin/routes';
 import { PUBLIC_ROUTES } from '../public/routes';
-import { EMPLOYER_ROUTES } from '../client/routes';
+import { CLIENT_ROUTES } from '../client/routes';
 import { TALENT_ROUTES } from '../talent/routes';
 
 export const routes: Routes = [
   ...ACCOUNT_ROUTES,
   ADMIN_ROUTES,
   ...TALENT_ROUTES,
-  ...EMPLOYER_ROUTES,
+  ...CLIENT_ROUTES,
   // JOB_POST_ROUTE,
   // MESSAGES_ROUTE,
   ...PUBLIC_ROUTES,

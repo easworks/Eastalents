@@ -17,7 +17,7 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
     link: '/hiring-overview',
     icon: faGaugeHigh,
     auth: AUTH_CHECKS.hasRole.any([
-      'employer'
+      'client'
     ])
   },
   {
@@ -27,10 +27,10 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
     auth: AUTH_CHECKS.hasRole('talent')
   },
   {
-    id: 'employer-profile', text: 'Company Profile',
-    link: '/employer/profile',
+    id: 'client-profile', text: 'Company Profile',
+    link: '/client/profile',
     icon: faBuilding,
-    auth: AUTH_CHECKS.hasRole('employer')
+    auth: AUTH_CHECKS.hasRole('client')
   },
 
   {
@@ -57,9 +57,9 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
   },
   {
     id: 'budget-planner', text: 'Budget Planner',
-    link: '/employer/budget-planner',
+    link: '/client/budget-planner',
     icon: faCalculator,
-    auth: AUTH_CHECKS.hasRole('employer')
+    auth: AUTH_CHECKS.hasRole('client')
   },
   {
     id: 'skill-assessment', text: 'Skill Assessment',
@@ -76,7 +76,7 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
     icon: faQuestionCircle,
     auth: AUTH_CHECKS.hasRole.any([
       'talent',
-      'employer'
+      'client'
     ])
   },
   {
@@ -92,16 +92,16 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
     link: '/customer-success-manager',
     icon: faUserTie,
     auth: AUTH_CHECKS.hasRole.any([
-      'employer',
+      'client',
     ])
   },
-  
+
 
   {
     id: 'account-setting', text: 'Account Settings',
     link: '/account-setting',
     icon: faUserGear,
-    
+
   },
 
 
@@ -125,41 +125,41 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
 
   ...itemsForParent('manage-job-listing', [
     {
-      id: 'employer-all-jobs', text: 'All Jobs',
+      id: 'client-all-jobs', text: 'All Jobs',
       link: '/job-post/list/available',
-      auth: AUTH_CHECKS.hasRole('employer')
+      auth: AUTH_CHECKS.hasRole('client')
     },
     {
-      id: 'employer-my-applications', text: 'My Applications',
+      id: 'client-my-applications', text: 'My Applications',
       link: '/job-post/list/applied',
-      auth: AUTH_CHECKS.hasRole('employer')
+      auth: AUTH_CHECKS.hasRole('client')
     },
     {
-      id: 'employer-saved-jobs', text: 'Saved Jobs',
+      id: 'client-saved-jobs', text: 'Saved Jobs',
       link: '/job-post/list/saved-jobs',
-      auth: AUTH_CHECKS.hasRole('employer')
+      auth: AUTH_CHECKS.hasRole('client')
     }
   ]),
 
   ...itemsForParent('manage-talents', [
     {
       id: 'hire-talents', text: 'Hire Talents',
-      link: '/employer/hire-talents',
-      auth: AUTH_CHECKS.hasRole('employer')
+      link: '/client/hire-talents',
+      auth: AUTH_CHECKS.hasRole('client')
 
     },
     {
       id: 'my-teammates', text: 'My Teammates',
-      link: '/employer/my-teammates',
-      auth: AUTH_CHECKS.hasRole('employer')
+      link: '/client/my-teammates',
+      auth: AUTH_CHECKS.hasRole('client')
     }
   ]),
 
-  ...itemsForParent('employer-profile', [
+  ...itemsForParent('client-profile', [
     {
       id: 'general-info', text: 'General Information',
-      link: '/employer/general-info',
-      auth: AUTH_CHECKS.hasRole('employer')
+      link: '/client/general-info',
+      auth: AUTH_CHECKS.hasRole('client')
     }
   ])
 

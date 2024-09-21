@@ -39,8 +39,8 @@ export const signInEffects = {
       //       if (role === 'freelancer') {
       //         router.navigateByUrl('/freelancer/profile/edit?new');
       //       }
-      //       else if (role === 'employer') {
-      //         router.navigateByUrl('/employer/profile/edit?new');
+      //       else if (role === 'client') {
+      //         router.navigateByUrl('/client/profile/edit?new');
       //       }
       //     }
       //     else if (returnUrl && noRedirects.every(r => !returnUrl.startsWith(r))) {
@@ -48,8 +48,8 @@ export const signInEffects = {
       //     } else {
       //       if (role === 'freelancer')
       //         router.navigateByUrl('/freelancer');
-      //       else if (role === 'employer')
-      //         router.navigateByUrl('/employer');
+      //       else if (role === 'client')
+      //         router.navigateByUrl('/client');
       //     }
       //   })
       // );

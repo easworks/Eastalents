@@ -2,50 +2,50 @@ import { Route } from '@angular/router';
 import { AuthGuardFn } from '@easworks/app-shell/services/auth.guard';
 import { AUTH_CHECKS } from '@easworks/app-shell/state/auth';
 
-export const EMPLOYER_ROUTES: Route[] = [
+export const CLIENT_ROUTES: Route[] = [
   {
     path: 'hiring-overview',
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
     data: {
-      auth: AUTH_CHECKS.hasRole('employer')
+      auth: AUTH_CHECKS.hasRole('client')
     },
     loadComponent: () => import('./dashboard2/dashboard.page').then(m => m.DashboardComponent)
   },
   {
-    path: 'employer/general-info',
+    path: 'client/general-info',
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
     data: {
-      auth: AUTH_CHECKS.hasRole('employer')
+      auth: AUTH_CHECKS.hasRole('client')
     },
     loadComponent: () => import('./general-information/general-info.component').then(m => m.EmployerGeneralInfoComponent)
   },
   {
-    path: 'employer/hire-talents',
+    path: 'client/hire-talents',
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
     data: {
-      auth: AUTH_CHECKS.hasRole('employer')
+      auth: AUTH_CHECKS.hasRole('client')
     },
     loadComponent: () => import('./hire-talent/hire-talent.component').then(m => m.HireTalentComponent)
   },
   {
-    path: 'employer/my-teammates',
+    path: 'client/my-teammates',
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
     data: {
-      auth: AUTH_CHECKS.hasRole('employer')
+      auth: AUTH_CHECKS.hasRole('client')
     },
     loadComponent: () => import('./my-teammates/my-teammates.components').then(m => m.MyTeammatesComponent)
   },
   {
-    path: 'employer/budget-planner',
+    path: 'client/budget-planner',
     pathMatch: 'full',
     loadComponent: () => import('./cost-calculator/cost-calculator.component').then(m => m.CostCalculatorComponent),
     canMatch: [AuthGuardFn],
     data: {
-      auth: AUTH_CHECKS.hasRole('employer')
+      auth: AUTH_CHECKS.hasRole('client')
     },
   },
   {
@@ -53,7 +53,7 @@ export const EMPLOYER_ROUTES: Route[] = [
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
     data: {
-      auth: AUTH_CHECKS.hasRole('employer')
+      auth: AUTH_CHECKS.hasRole('client')
     },
     loadComponent: () => import('./contact-us/contact-us.component').then(m => m.ContactUsComponent)
   },
@@ -62,7 +62,7 @@ export const EMPLOYER_ROUTES: Route[] = [
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
     data: {
-      auth: AUTH_CHECKS.hasRole('employer')
+      auth: AUTH_CHECKS.hasRole('client')
     },
     loadComponent: () => import('./spoc/spoc.component').then(m => m.SpocComponent)
   },
@@ -71,12 +71,12 @@ export const EMPLOYER_ROUTES: Route[] = [
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
     data: {
-      auth: AUTH_CHECKS.hasRole('employer')
+      auth: AUTH_CHECKS.hasRole('client')
     },
     loadComponent: () => import('./my-profile/my-account.component').then(m => m.MyAccountComponent)
   },
   {
-    path: 'employer/profile/edit/cards',
+    path: 'client/profile/edit/cards',
     pathMatch: 'full',
     loadComponent: () => import('./profile/edit/cards/profile-edit-cards.component')
       .then(m => m.EmployerProfileEditCardsComponent)
