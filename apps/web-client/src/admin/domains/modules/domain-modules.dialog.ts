@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormArray, FormControl, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -36,7 +36,6 @@ export class DomainModulesDialogComponent {
 
   private readonly store = inject(Store);
   private readonly data = inject<DomainModulesDialogData>(MAT_DIALOG_DATA);
-  private readonly dRef = inject(DestroyRef);
   private readonly snackbar = inject(MatSnackBar);
 
   protected readonly icons = {
@@ -89,14 +88,16 @@ export class DomainModulesDialogComponent {
       for (const item of value) {
         if (!item)
           continue;
-        if (present.has(item))
-          duplicates.add(item);
+        const toCheck = item.toLowerCase();
+        if (present.has(toCheck))
+          duplicates.add(toCheck);
         else
-          present.add(item);
+          present.add(toCheck);
       }
 
       form.controls.forEach(control => {
-        if (duplicates.has(control.value)) {
+        const toCheck = control.value.toLowerCase();
+        if (duplicates.has(toCheck)) {
           control.markAsDirty({ emitEvent: false });
           control.setErrors({ duplicate: true });
         }
@@ -156,7 +157,6 @@ export class DomainModulesDialogComponent {
 
       const click = () => {
         const form = this.table.form;
-        console.debug(form.status);
         if (!form.valid)
           return;
 

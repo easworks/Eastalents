@@ -9,6 +9,7 @@ import { FormImportsModule } from "@easworks/app-shell/common/form.imports.modul
 import { ImportsModule } from "@easworks/app-shell/common/imports.module";
 import { PaginatorComponent } from '@easworks/app-shell/common/paginator/paginator.component';
 import { generateLoadingState } from "@easworks/app-shell/state/loading";
+import { isBrowser } from '@easworks/app-shell/utilities/platform-type';
 import { toPromise } from "@easworks/app-shell/utilities/to-promise";
 import { faCheck, faPen, faPlus, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { Store } from '@ngrx/store';
@@ -35,9 +36,10 @@ import { Subscription, map } from 'rxjs';
 export class DomainsPageComponent {
 
     constructor() {
-        toPromise(this.domains.list$, list => list.length > 0)
-            .then(() => this.editModules('alm'));
-
+        if (isBrowser()) {
+            toPromise(this.domains.list$, list => list.length > 0)
+                .then(() => this.editModules('alm'));
+        }
     }
 
     private readonly store = inject(Store);
