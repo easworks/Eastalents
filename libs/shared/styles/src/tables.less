@@ -81,20 +81,6 @@
 
     &.form-field {
       @apply m-0 p-0 h-0;
-      
-      .field {
-        @apply rounded-none ring-0 shadow-none h-full w-full;
-        border-radius: inherit;
-        // border-radius: calc(var(--table-radius) - 1px);
-        
-        &:where(:hover) {
-          @apply ring-1;
-        }
-  
-        &:where(:focus),&:where(:focus-within) {
-          @apply ring-2;
-        }
-      }
     }
 
     &.actions {

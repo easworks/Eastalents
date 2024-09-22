@@ -91,7 +91,23 @@
       }
     }
   }
+  
+  td.form-field {
+    .field {
+      @apply rounded-none shadow-none h-full w-full;
+      border-radius: inherit;
+      // border-radius: calc(var(--table-radius) - 1px);
+    }
 
+    &:not(.dirty.invalid) {
+      .field {
+        &:not(:hover:focus:focus-within) {
+          @apply ring-0;
+        }      
+      }
+    }
+  }
+  
   form.ng-submitted .form-field,
   form.ng-touched .form-field.touched,
   td.form-field.dirty {
