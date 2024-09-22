@@ -33,7 +33,7 @@ import { faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 
 @Component({
-  selector: 'employer-profile-edit-page',
+  selector: 'client-profile-edit-page',
   templateUrl: './profile-edit.page.html',
   styleUrls: ['./profile-edit.page.less'],
   standalone: true,
@@ -47,7 +47,7 @@ import { Store } from '@ngrx/store';
     DropDownIndicatorComponent
   ]
 })
-export class EmployerProfileEditPageComponent {
+export class ClientProfileEditPageComponent {
 
   constructor() {
     const status$ = toSignal(controlStatus$(this.form), { requireSync: true });
