@@ -1,36 +1,25 @@
-import { KeyValue } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding, INJECTOR, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, HostBinding, inject, input, OnInit, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AccountApi } from '@easworks/app-shell/api/account.api';
-import { CSCApi, City, Country, State, Timezone } from '@easworks/app-shell/api/csc.api';
-import { EmployerApi } from '@easworks/app-shell/api/employer.api';
-import { GMapsApi } from '@easworks/app-shell/api/gmap.api';
+import { MatSelectModule } from '@angular/material/select';
+import { ClearTriggerOnSelectDirective } from '@easworks/app-shell/common/clear-trigger-on-select.directive';
 import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator.component';
-import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
+import { controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
-import { isTimezone } from '@easworks/app-shell/common/location';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
-import { filterCountryCode, getCombinedNumber, getPhoneCodeOptions, updatePhoneValidatorEffect } from '@easworks/app-shell/common/phone-code';
-import { ErrorSnackbarDefaults, SnackbarComponent, SuccessSnackbarDefaults } from '@easworks/app-shell/notification/snackbar';
-import { GeoLocationService } from '@easworks/app-shell/services/geolocation';
-import { authFeature } from '@easworks/app-shell/state/auth';
-import { DomainState } from '@easworks/app-shell/state/domains';
-import { generateLoadingState } from '@easworks/app-shell/state/loading';
-import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-required';
-import { forceEmit } from '@easworks/app-shell/utilities/force-emit';
-import { SelectableOption } from '@easworks/app-shell/utilities/options';
-import { sortString } from '@easworks/app-shell/utilities/sort';
-import { toPromise } from '@easworks/app-shell/utilities/to-promise';
-import { emailBlacklist } from '@easworks/app-shell/validators/email-blacklist';
-import { EmployerProfile, IndustryGroup, LatLng, ORGANIZATION_SIZE_OPTIONS, ORGANIZATION_TYPE_OPTIONS, OrganizationSize, OrganizationType, pattern } from '@easworks/models';
+import { domainData } from '@easworks/app-shell/state/domain-data';
+import { sortNumber, sortString } from '@easworks/app-shell/utilities/sort';
+import { ANNUAL_REVENUE_RANGE_OPTIONS, AnnualRevenueRange, CLIENT_SIZE_OPTIONS, CLIENT_TYPE_OPTIONS, ClientProfile, ClientSize, ClientType } from '@easworks/models/client-profile';
+import { Domain } from '@easworks/models/domain';
+import { EASWORKS_SERVICE_TYPE_OPTIONS, EasworksServiceType, REQUIRED_EXPERIENCE_OPTIONS, RequiredExperience, WORK_ENVIRONMENT_OPTIONS, WorkEnvironment } from '@easworks/models/job-post';
 import { faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
+import Fuse from 'fuse.js';
+import { ClientProfileEditCardsComponent } from './cards/profile-edit-cards.component';
+import { SoftwareProduct } from '@easworks/models/software';
 
 @Component({
   selector: 'client-profile-edit-page',
@@ -44,72 +33,33 @@ import { Store } from '@ngrx/store';
     FormImportsModule,
     MatPseudoCheckboxModule,
     MatAutocompleteModule,
-    DropDownIndicatorComponent
+    DropDownIndicatorComponent,
+    ClientProfileEditCardsComponent,
+    MatSelectModule,
+    ClearTriggerOnSelectDirective
   ]
 })
-export class ClientProfileEditPageComponent {
-
-  constructor() {
-    const status$ = toSignal(controlStatus$(this.form), { requireSync: true });
-    const isInvalid$ = computed(() => status$() !== 'VALID');
-    this.submitting$ = this.loading.has('submitting');
-    this.disableSubmit$ = computed(() => this.loading.any$() || isInvalid$() || this.submitting$());
-  }
-
-  private readonly router = inject(Router);
-  private readonly snackbar = inject(MatSnackBar);
-  private readonly injector = inject(INJECTOR);
-  private readonly route = inject(ActivatedRoute);
-  private readonly domainState = inject(DomainState);
+export class ClientProfileEditPageComponent implements OnInit {
   private readonly store = inject(Store);
-  private readonly api = {
-    csc: inject(CSCApi),
-    gmap: inject(GMapsApi),
-    account: inject(AccountApi),
-    employer: inject(EmployerApi),
-  } as const;
 
-  private readonly user$ = this.store.selectSignal(authFeature.guaranteedUser);
+  @HostBinding()
+  private readonly class = 'block @container';
 
   protected readonly icons = {
     faCircleInfo,
     faSquareXmark
   } as const;
 
-  @HostBinding() private readonly class = 'flex flex-col lg:flex-row';
-  private readonly loading = generateLoadingState<[
-    'industries',
-    'domains',
-    'geolocation',
-    'country',
-    'state',
-    'city',
-    'timezone',
-    'email',
-    'submitting'
-  ]>();
+  readonly profile$ = input.required<ClientProfile>({ alias: 'profile' });
 
-  protected readonly trackBy = {
-    country: (_: number, c: Country) => c.iso2,
-    state: (_: number, s: State) => s.iso2,
-    name: (_: number, i: { name: string; }) => i.name,
-    stringOption: (_: number, s: SelectableOption<string>) => s.value,
-    key: (_: number, kv: KeyValue<string, unknown>) => kv.key
-  } as const;
-
-  protected readonly displayWith = {
-    checkbox: (value: boolean) => value ? 'checked' : 'unchecked'
-  } as const;
-
-  protected readonly isNew = this.route.snapshot.queryParamMap.has('new');
-  private readonly allCountries = this.api.csc.allCountries();
+  protected readonly isNew$ = signal(true);
 
   protected readonly form = new FormGroup({
     name: new FormControl('', {
       nonNullable: true,
       validators: [
         Validators.required,
-        Validators.maxLength(300)
+        Validators.maxLength(128)
       ]
     }),
     description: new FormControl('', {
@@ -119,598 +69,251 @@ export class ClientProfileEditPageComponent {
         Validators.maxLength(1500)
       ]
     }),
-    orgType: new FormControl(null as unknown as SelectableOption<OrganizationType>, {
+    type: new FormControl(null as unknown as ClientType, {
       nonNullable: true,
       validators: [
         Validators.required
       ]
     }),
-    orgSize: new FormControl(null as unknown as SelectableOption<OrganizationSize>, {
+    size: new FormControl(null as unknown as ClientSize, {
       nonNullable: true,
       validators: [
         Validators.required
       ]
     }),
-    industry: new FormGroup({
-      group: new FormControl(null as unknown as IndustryGroup, {
+    annualRevenueRange: new FormControl(null as unknown as AnnualRevenueRange, {
+      nonNullable: true,
+      validators: [
+        Validators.required
+      ]
+    }),
+    hiringPreferences: new FormGroup({
+      serviceType: new FormControl([] as EasworksServiceType[], {
         nonNullable: true,
         validators: [Validators.required]
       }),
-      name: new FormControl('', {
+      experience: new FormControl([] as RequiredExperience[], {
         nonNullable: true,
         validators: [Validators.required]
-      })
-    }),
-    software: new FormRecord<FormControl<SelectableOption<string>[]>>({}),
-    contact: new FormGroup({
-      email: new FormControl(
-        this.isNew && this.user$().email || '', {
+      }),
+      workEnvironment: new FormControl([] as WorkEnvironment[], {
         nonNullable: true,
-        validators: [Validators.required, Validators.pattern(pattern.email), Validators.maxLength(300)],
-        asyncValidators: [
-          emailBlacklist(this.api.account.freeEmailProviders())
-        ]
+        validators: [Validators.required]
       }),
-      phoneNumber: new FormGroup({
-        code: new FormControl(''),
-        number: new FormControl(''),
-      }),
-      website: new FormControl('', {
-        validators: [Validators.maxLength(300)]
-      })
     }),
-    location: new FormGroup({
-      country: new FormControl('', {
-        validators: [Validators.required],
-        nonNullable: true
-      }),
-      state: new FormControl('', { nonNullable: true }),
-      city: new FormControl('', { nonNullable: true }),
-      timezone: new FormControl('', {
-        validators: [
-          Validators.required,
-          isTimezone
-        ],
-        nonNullable: true
-      })
+    domains: new FormControl([] as Domain[], {
+      nonNullable: true,
+      validators: [Validators.required]
+    }),
+    softwareProducts: new FormControl([] as SoftwareProduct[], {
+      nonNullable: true,
+      validators: [Validators.required]
     })
   });
 
-  protected readonly disableSubmit$;
-  protected readonly submitting$;
-
-  protected readonly orgType = {
-    toggle: (option: SelectableOption<OrganizationType>) => {
-      if (option.selected)
-        return;
-
-      const control = this.form.controls.orgType;
-      option.selected = true;
-      const old = control.value;
-      if (old) {
-        old.selected = false;
-      }
-      control.setValue(option);
-    },
-    options: ORGANIZATION_TYPE_OPTIONS.map<SelectableOption<OrganizationType>>(t => ({
-      selected: false,
-      value: t,
-      label: t
-    }))
+  protected readonly options = {
+    clientType: CLIENT_TYPE_OPTIONS,
+    clientSize: CLIENT_SIZE_OPTIONS,
+    annualRevenue: ANNUAL_REVENUE_RANGE_OPTIONS,
+    serviceType: EASWORKS_SERVICE_TYPE_OPTIONS,
+    experience: REQUIRED_EXPERIENCE_OPTIONS,
+    workEnvironment: WORK_ENVIRONMENT_OPTIONS
   } as const;
 
-  protected readonly orgSize = {
-    toggle: (option: SelectableOption<OrganizationSize>) => {
-      if (option.selected)
-        return;
+  protected readonly domains = (() => {
+    const list$ = this.store.selectSignal(domainData.selectors.domains.selectAll);
+    const map$ = this.store.selectSignal(domainData.selectors.domains.selectEntities);
 
-      const control = this.form.controls.orgSize;
-      option.selected = true;
-      const old = control.value;
-      if (old) {
-        old.selected = false;
-      }
-      control.setValue(option);
-    },
-    options: ORGANIZATION_SIZE_OPTIONS.map<SelectableOption<OrganizationSize>>(s => ({
-      selected: false,
-      value: s,
-      label: s
-    }))
-  } as const;
+    const value$ = toSignal(controlValue$(this.form.controls.domains), { requireSync: true });
+    const added$ = computed(() => new Set(value$().map(d => d.id)));
 
-  protected readonly industry = this.initIndustry();
-  protected readonly software = this.initSoftware();
-  protected readonly contact = this.initContact();
+    const count$ = computed(() => added$().size);
+    const allowAdd$ = computed(() => count$() < 3);
 
-  private initIndustry() {
-    this.loading.react('industries', computed(() => this.domainState.industries$().length === 0));
-    this.domainState.loadIndustries();
-    const loading$ = this.loading.has('industries');
+    const searchable$ = computed(() => {
+      const added = added$();
+      const list = list$();
 
-    const query$ = signal<string>('');
-
-    const filteredOptions$ = computed(() => {
-      const q = query$();
-      const all = this.domainState.industries$();
-
-      const filter = q && q.trim().toLowerCase();
-
-      if (filter) {
-        const filtered = all
-          .map<IndustryGroup>(g => {
-            const matchGroup = g.name.toLowerCase().includes(filter);
-            if (matchGroup) {
-              return g;
-            }
-            return {
-              name: g.name,
-              industries: g.industries.filter(i => i.toLowerCase().includes(filter)),
-            };
-          })
-          .filter(ig => ig.industries.length);
-        return filtered;
-      }
-
-      return all;
+      return list.filter(item => !added.has(item.id));
     });
 
-    const select = (group: IndustryGroup, name: string) => {
-      this.form.controls.industry.setValue({ group, name });
+    const search$ = computed(() => new Fuse(searchable$(), {
+      keys: ['longName', 'shortName'],
+      includeScore: true
+    }));
+
+    const query$ = signal<string>('');
+    const displayWith = (v: Domain | string | null) => typeof v === 'string' ? v : v?.longName || '';
+
+    const results$ = computed(() => {
+      let q = query$();
+
+      if (typeof q === 'string') {
+        q = q.trim();
+        if (q)
+          return search$()
+            .search(q)
+            .map(r => r.item);
+      }
+
+      return searchable$();
+    });
+
+    const onSelect = (event: MatAutocompleteSelectedEvent) => {
+      const value = event.option.value as Domain;
+      const control = this.form.controls.domains;
+
+      let newVal = [...control.value];
+      newVal.push(value);
+      newVal = newVal.sort((a, b) => sortString(a.id, b.id));
+
+      control.setValue(newVal);
+      query$.set('');
     };
 
-    const clear = () => {
-      this.form.controls.industry.setValue({
-        group: null as unknown as IndustryGroup,
-        name: ''
-      });
+    const remove = (idx: number) => {
+      const control = this.form.controls.domains;
+      const newValue = [...control.value];
+      newValue.splice(idx, 1);
+      control.setValue(newValue);
     };
 
     return {
-      query$,
-      options$: filteredOptions$,
-      select,
-      clear,
-      loading$
-    };
-  }
-
-  private initSoftware() {
-    this.loading.react('domains', computed(() => this.domainState.domains.list$().length === 0));
-    const loading$ = this.loading.has('domains');
-
-    const count$ = signal(0);
-    const hasItems$ = computed(() => count$() > 0);
-
-    const form = this.form.controls.software;
-    const value$ = toSignal(controlValue$(form), { requireSync: true });
-
-    const query$ = signal<string>('');
-
-    type OptionGroup = {
-      name: string;
-      software: SelectableOption<string>[];
-    };
-
-    const all$ = computed(() => this.domainState.domains.list$()
-      .map<OptionGroup>(d => ({
-        name: d.longName,
-        software: d.products.map(p => ({
-          selected: false,
-          value: p.name,
-          label: p.name
-        }))
-      })));
-
-    const filteredOptions$ = computed(() => {
-      const q = query$();
-      const all = all$();
-
-      const filter = q && q.trim().toLowerCase();
-
-      const filtered = all
-        .map(g => {
-          const matchGroup = filter && g.name.toLowerCase().includes(filter);
-          if (matchGroup) {
-            return {
-              name: g.name,
-              software: g.software.filter(i => !i.selected),
-            };
-          }
-          return {
-            name: g.name,
-            software: g.software.filter(i => !i.selected && (!filter || i.value.toLowerCase().includes(filter)))
-          };
-        })
-        .filter(g => g.software.length);
-
-      return filtered;
-    });
-
-    const handlers = {
-      add: (domain: string, option: SelectableOption<string>) => {
-        if (option.selected)
-          return;
-        option.selected = true;
-        let control = form.controls[domain];
-        if (!control) {
-          control = new FormControl([], { nonNullable: true });
-          form.addControl(domain, control);
-        }
-        control.value.push(option);
-        control.value.sort((a, b) => sortString(a.value, b.value));
-        control.updateValueAndValidity();
-        forceEmit(query$);
-        count$.update(v => ++v);
-      },
-      remove: (domain: string, i: number) => {
-        const control = form.controls[domain];
-        if (!control)
-          throw new Error('invalid operation');
-        const option = control.value.at(i);
-        if (!option)
-          throw new Error('invalid operation');
-
-        option.selected = false;
-        control.value.splice(i, 1);
-        if (control.value.length)
-          control.updateValueAndValidity();
-        else
-          form.removeControl(domain);
-        forceEmit(query$);
-        count$.update(v => --v);
-      }
-    };
-
-    return {
-      count$,
-      hasItems$,
-      loading$,
+      map$,
       value$,
+      count$,
       query$,
-      options$: filteredOptions$,
-      ...handlers
+      displayWith,
+      results$,
+      onSelect,
+      remove,
+      allowAdd$
+    } as const;
+  })();
+
+  protected readonly software = (() => {
+    const list$ = this.store.selectSignal(domainData.selectors.softwareProduct.selectAll);
+    const map$ = this.store.selectSignal(domainData.selectors.softwareProduct.selectEntities);
+
+    const value$ = toSignal(controlValue$(this.form.controls.softwareProducts), { requireSync: true });
+    const added$ = computed(() => new Set(value$().map(d => d.id)));
+
+    const count$ = computed(() => added$().size);
+    const allowAdd$ = computed(() => count$() < 3);
+
+    const searchable$ = computed(() => {
+      const added = added$();
+      const list = list$();
+
+      return list.filter(item => !added.has(item.id));
+    });
+
+    const preferred$ = computed(() => {
+      const preferred = new Set<string>();
+      this.domains.value$().forEach(domain =>
+        domain.products.forEach(product =>
+          preferred.add(product)));
+
+      return preferred;
+    });
+
+    const search$ = computed(() => {
+      const list = searchable$();
+      return new Fuse(searchable$(), {
+        keys: ['name'],
+        includeScore: true,
+        sortFn: (a, b) => {
+          const preferred = preferred$();
+
+          const has_a = preferred.has(list[a.idx].id);
+          const has_b = preferred.has(list[b.idx].id);
+
+          if (has_a && !has_b)
+            return -1;
+          if (!has_a && has_b)
+            return 1;
+          return sortNumber(a.score, b.score);
+        }
+      });
+    });
+
+    const query$ = signal<string>('');
+    const displayWith = (v: SoftwareProduct | string | null) => typeof v === 'string' ? v : v?.name || '';
+
+    const results$ = computed(() => {
+      let q = query$();
+
+      if (typeof q === 'string') {
+        q = q.trim();
+        if (q)
+          return search$()
+            .search(q)
+            .map(r => r.item);
+      }
+
+      return searchable$();
+    });
+
+    const onSelect = (event: MatAutocompleteSelectedEvent) => {
+      const value = event.option.value as SoftwareProduct;
+      const control = this.form.controls.softwareProducts;
+
+      let newVal = [...control.value];
+      newVal.push(value);
+      newVal = newVal.sort((a, b) => sortString(a.id, b.id));
+
+      control.setValue(newVal);
+      query$.set('');
     };
-  }
 
-  private initContact() {
-    const { contact, location } = this.form.controls;
-    const values = {
-      phone: {
-        code: toSignal(controlValue$(contact.controls.phoneNumber.controls.code), { requireSync: true }),
-      },
-      country: toSignal(controlValue$(location.controls.country), { requireSync: true }),
-      state: toSignal(controlValue$(location.controls.state), { requireSync: true }),
-      city: toSignal(controlValue$(location.controls.city), { requireSync: true }),
-      timezone: toSignal(controlValue$(location.controls.timezone), { requireSync: true })
-    } as const;
-
-    const status = {
-      country: toSignal(controlStatus$(location.controls.country), { requireSync: true }),
-      state: toSignal(controlStatus$(location.controls.state), { requireSync: true }),
-      email: toSignal(controlStatus$(contact.controls.email), { requireSync: true })
+    const remove = (idx: number) => {
+      const control = this.form.controls.softwareProducts;
+      const newValue = [...control.value];
+      newValue.splice(idx, 1);
+      control.setValue(newValue);
     };
-
-    const allOptions = {
-      country$: signal<Country[]>([]),
-      state$: signal<State[]>([]),
-      city$: signal<City[]>([]),
-      timezone$: signal<Timezone[]>([]),
-      countryCode: signal<(Country & { plainPhoneCode: string; })[]>([]),
-    } as const;
-
-    const filteredOptions = {
-      phoneCode$: filterCountryCode(allOptions.countryCode, values.phone.code),
-      country$: computed(() => {
-        const value = values.country();
-        const all = allOptions.country$();
-        const filter = value && value.trim().toLowerCase();
-        if (filter)
-          return all.filter(c => c.name.toLowerCase().includes(filter));
-        return all;
-      }),
-      state$: computed(() => {
-        const value = values.state();
-        const all = allOptions.state$();
-        const filter = value && value.trim().toLowerCase();
-        if (filter)
-          return all.filter(s => s.name.toLowerCase().includes(filter));
-        return all;
-      }),
-      city$: computed(() => {
-        const value = values.city();
-        const all = allOptions.city$();
-        const filter = value && value.trim().toLowerCase();
-        if (filter)
-          return all.filter(c => c.name.toLowerCase().includes(filter));
-        return all;
-      }),
-      timezone$: computed(() => {
-        const value = values.timezone();
-        const all = allOptions.timezone$();
-        const filter = value && value.trim().toLowerCase();
-        if (filter)
-          return all.filter(c => c.zoneName.toLowerCase().includes(filter));
-        return all;
-      })
-    } as const;
-
-    const validation = {
-      stateRequired$: computed(() => allOptions.state$().length > 0),
-      cityRequired$: computed(() => allOptions.city$().length > 0)
-    };
-
-    // show loading for email
-    this.loading.react('email', computed(() => status.email() === 'PENDING'));
-
-    const loading = {
-      geo$: this.loading.has('geolocation'),
-      country$: this.loading.has('country'),
-      state$: this.loading.has('state'),
-      city$: this.loading.has('city'),
-      timezone$: this.loading.has('timezone'),
-      email$: this.loading.has('email')
-    } as const;
-
-    const disabled = {
-      country$: computed(() => loading.geo$() || loading.country$()),
-      state$: computed(() => loading.geo$() || loading.state$() || status.country() !== 'VALID'),
-      city$: computed(() => loading.geo$() || loading.city$() || status.country() !== 'VALID'),
-      timezone$: computed(() => loading.geo$() || loading.timezone$() || status.country() !== 'VALID' || allOptions.timezone$().length === 0),
-    } as const;
-
-    effect(() => disabled.country$() ? location.controls.country.disable() : location.controls.country.enable(), { allowSignalWrites: true });
-    effect(() => disabled.state$() ? location.controls.state.disable() : location.controls.state.enable(), { allowSignalWrites: true });
-    effect(() => disabled.city$() ? location.controls.city.disable() : location.controls.city.enable(), { allowSignalWrites: true });
-    effect(() => disabled.timezone$() ? location.controls.timezone.disable() : location.controls.timezone.enable(), { allowSignalWrites: true });
-
-    // dynamically add/remove validators for the state and city controls
-    {
-      dynamicallyRequired(validation.stateRequired$, location.controls.state);
-      dynamicallyRequired(validation.cityRequired$, location.controls.city);
-    }
-
-    updatePhoneValidatorEffect(contact.controls.phoneNumber);
-
-    // react to changes in the country control
-    effect(async () => {
-      const options = filteredOptions.country$();
-      const country = values.country();
-      location.controls.state.reset();
-      location.controls.city.reset();
-      location.controls.timezone.reset();
-
-      allOptions.state$.set([]);
-      allOptions.city$.set([]);
-      allOptions.timezone$.set([]);
-
-      if (options.length < 25) {
-        const match = options.find(o => o.name.toLowerCase() === country.trim().toLowerCase());
-        if (match) {
-          // populate the options for timezone
-          {
-            this.loading.add('timezone');
-            const cscTz = match.timezones;
-            if (cscTz.length)
-              allOptions.timezone$.set(cscTz);
-            else {
-              const all = await this.api.csc.allTimezones();
-              allOptions.timezone$.set(all);
-            }
-            this.loading.delete('timezone');
-          }
-
-          // populate the options for state
-          this.loading.add('state');
-          if (match.name.length === country.length) {
-            if (match.name !== country) {
-              location.controls.country.setValue(match.name);
-            }
-            else {
-              const states = await this.api.csc.allStates(match.iso2);
-              if (states.length) {
-                states.sort((a, b) => sortString(a.name, b.name));
-                allOptions.state$.set(states);
-              }
-              // populate the options for cities when no states were found
-              else {
-                this.loading.add('city');
-                const cities = await this.api.csc.allCities(match.iso2);
-                cities.sort((a, b) => sortString(a.name, b.name));
-                allOptions.city$.set(cities);
-                this.loading.delete('city');
-              }
-            }
-          }
-          this.loading.delete('state');
-        }
-      }
-    }, { allowSignalWrites: true });
-
-    effect(async () => {
-      const options = filteredOptions.state$();
-      const state = values.state();
-      location.controls.city.reset();
-      allOptions.city$.set([]);
-
-      if (options.length < 25) {
-        const match = options.find(o => o.name.toLowerCase() === state.trim().toLowerCase());
-        if (match && match.name.length === state.length) {
-          if (match.name !== state) {
-            location.controls.state.setValue(match.name);
-          }
-          else {
-            // populate the options for cities
-            this.loading.add('city');
-            const cities = await this.api.csc.allCities(match.country_code, match.iso2);
-            if (cities.length) {
-              cities.sort((a, b) => sortString(a.name, b.name));
-              allOptions.city$.set(cities);
-            }
-            else {
-              const cities = await this.api.csc.allCities(match.country_code);
-              cities.sort((a, b) => sortString(a.name, b.name));
-              allOptions.city$.set(cities);
-            }
-            this.loading.delete('city');
-          }
-        }
-      }
-    }, { allowSignalWrites: true });
-
-    effect(async () => {
-      const options = filteredOptions.city$();
-      if (options.length < 25) {
-        const city = values.city();
-        const match = options.find(o => o.name.toLowerCase() === city.trim().toLowerCase());
-        if (match && match.name.length === city.length && match.name !== city) {
-          location.controls.city.setValue(match.name);
-        }
-      }
-    }, { allowSignalWrites: true });
-
-    effect(() => {
-      const options = allOptions.timezone$();
-      if (options.length === 1) {
-        location.controls.timezone.setValue(options[0].zoneName);
-      }
-    }, { allowSignalWrites: true });
-
-    effect(() => {
-      const options = filteredOptions.timezone$();
-      if (options.length < 25) {
-        const tz = values.timezone();
-        const match = options.find(o => o.zoneName.toLowerCase() === tz.trim().toLowerCase());
-        if (match && match.zoneName.length === tz.length && match.zoneName !== tz) {
-          location.controls.timezone.setValue(match.zoneName);
-        }
-      }
-    }, { allowSignalWrites: true });
-
-    // populate the country list
-    // pre-fill the current location
-    {
-      this.loading.add('country');
-      this.allCountries
-        .then(async countries => {
-          allOptions.country$.set([...countries].sort((a, b) => sortString(a.name, b.name)));
-          allOptions.countryCode.set(getPhoneCodeOptions(allOptions.country$()));
-          this.loading.delete('country');
-
-          if (this.isNew) {
-            const cl = await this.getCurrentLocation();
-            if (cl) {
-              location.controls.country.setValue(cl.country?.long_name || '');
-
-              await toPromise(loading.state$, v => v, this.injector);
-              await toPromise(loading.state$, v => !v, this.injector);
-              location.controls.state.setValue(cl.state?.long_name || '');
-
-              await toPromise(loading.city$, v => v, this.injector);
-              await toPromise(loading.city$, v => !v, this.injector);
-              location.controls.city.setValue(cl.city?.long_name || '');
-            }
-          }
-        });
-    }
-
-
 
     return {
-      options: filteredOptions,
-      loading,
-      validation
+      map$,
+      value$,
+      count$,
+      query$,
+      displayWith,
+      results$,
+      onSelect,
+      remove,
+      allowAdd$
+    } as const;
+  })();
+
+  protected reset() {
+    const original = this.profile$();
+
+    let domains;
+    {
+      const map = this.domains.map$();
+      domains = original.domains.map(id => map[id]!);
     };
-  }
 
-  private async getCurrentLocation() {
-    try {
-      this.loading.add('geolocation');
-
-      const device = this.injector.get(GeoLocationService);
-
-      const fromDevice = await device.get(true);
-
-      const coords: LatLng = fromDevice ?
-        { lat: fromDevice.coords.latitude, lng: fromDevice.coords.longitude } :
-        await this.api.gmap.geolocateByIPAddress()
-          .then(r => r.location);
-
-
-      const response = await this.api.gmap.reverseGeocode(coords, ['postal_code']);
-
-      if (response.status !== 'OK')
-        return null;
-
-      const components = response.results[0].address_components;
-
-      const country = components.find(c => c.types.includes('country'));
-      const state = components.find(c => c.types.includes('administrative_area_level_1'));
-      const city = components.find(c => c.types.includes('locality'));
-
-      return { country, state, city };
-    }
-    catch (e) {
-      console.error(e);
-      return null;
-    }
-    finally {
-      this.loading.delete('geolocation');
-    }
-  }
-
-  protected submit() {
-    if (!this.form.valid)
-      return;
-
-    this.loading.add('submitting');
-
-    const fv = this.form.getRawValue();
-
-    const profile: EmployerProfile = {
-      _id: this.user$()._id,
-      orgName: fv.name,
-      description: fv.description,
-      orgType: fv.orgType.value,
-      orgSize: fv.orgSize.value,
-      industry: {
-        group: fv.industry.group.name,
-        name: fv.industry.name,
-      },
-      software: Object.entries(fv.software)
-        .map(([domain, opt]) => ({
-          domain,
-          products: opt.map(o => o.value)
-        })),
-      contact: {
-        email: fv.contact.email || null,
-        phone: getCombinedNumber(fv.contact.phoneNumber),
-        website: fv.contact.website || null
-      },
-      location: {
-        country: fv.location.country,
-        state: fv.location.state || null,
-        city: fv.location.city || null,
-        timezone: fv.location.timezone
-      }
+    let softwareProducts;
+    {
+      const map = this.software.map$();
+      softwareProducts = original.softwareProducts.map(id => map[id]!);
     };
-    this.api.employer.profile.create(profile)
-      .then(() => {
-        this.snackbar.openFromComponent(SnackbarComponent, {
-          ...SuccessSnackbarDefaults,
-          data: {
-            message: 'Profile saved successfully'
-          }
-        });
-        console.debug(profile);
-        this.router.navigateByUrl('/employer/profile');
-      })
-      .catch(e => this.snackbar.openFromComponent(SnackbarComponent, {
-        ...ErrorSnackbarDefaults,
-        data: {
-          message: e.message,
-        }
-      }))
-      .finally(() => this.loading.delete('submitting'));
+
+    this.form.reset({
+      name: original.name || '',
+      description: original.description || '',
+      type: original.type,
+      size: original.size,
+      annualRevenueRange: original.annualRevenueRange,
+      domains,
+      softwareProducts
+    });
   }
-}
+
+  ngOnInit(): void {
+    this.reset();
+  }
+
+};
