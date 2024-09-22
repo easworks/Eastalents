@@ -2,7 +2,7 @@ import { EasworksServiceType, RequiredExperience, WorkEnvironment } from './job-
 import { CSCLocation } from './location';
 import { User } from './user';
 
-export const ORGANIZATION_TYPE_OPTIONS = [
+export const CLIENT_TYPE_OPTIONS = [
   'Enterprise',
   'Small & Medium Business',
   'Startup',
@@ -10,17 +10,17 @@ export const ORGANIZATION_TYPE_OPTIONS = [
   'Technology Services'
 ] as const;
 
-export type OrganizationType = typeof ORGANIZATION_TYPE_OPTIONS[number];
+export type ClientType = typeof CLIENT_TYPE_OPTIONS[number];
 
-export const ORGANIZATION_SIZE_OPTIONS = [
-  '1 - 10 Employees',
-  '11 - 50 Employees',
+export const CLIENT_SIZE_OPTIONS = [
+  '1 - 10 employees',
+  '11 - 50 employees',
   '51 - 100 employees',
   '101 - 500 employees',
   '501+ employees'
 ] as const;
 
-export type OrganizationSize = typeof ORGANIZATION_SIZE_OPTIONS[number];
+export type ClientSize = typeof CLIENT_SIZE_OPTIONS[number];
 
 export const ANNUAL_REVENUE_RANGE_OPTIONS = [
   'upto 1 million USD',
@@ -34,11 +34,11 @@ export type AnnualRevenueRange = typeof ANNUAL_REVENUE_RANGE_OPTIONS[number];
 
 export interface ClientProfile {
   user: User;
-  orgName: string;
+  name: string;
   description: string;
 
-  orgType: OrganizationType;
-  orgSize: OrganizationSize;
+  type: ClientType;
+  size: ClientSize;
   annualRevenueRange: AnnualRevenueRange;
   industry: {
     name: string;

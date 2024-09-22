@@ -2,10 +2,11 @@ import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
 import { NotFoundPageComponent } from '@easworks/app-shell/navigation/not-found/not-found.page';
 import { AUTH_READY } from '@easworks/app-shell/services/auth.ready';
+import { DOMAIN_DATA_READY } from '@easworks/app-shell/state/domain-data.effects';
 import { ACCOUNT_ROUTES } from '../account/routes';
 import { ADMIN_ROUTES } from '../admin/routes';
-import { PUBLIC_ROUTES } from '../public/routes';
 import { CLIENT_ROUTES } from '../client/routes';
+import { PUBLIC_ROUTES } from '../public/routes';
 import { TALENT_ROUTES } from '../talent/routes';
 
 export const routes: Routes = [
@@ -27,7 +28,9 @@ routes.forEach(route => {
   route.canMatch ||= [];
   route.canMatch.splice(0, 0, async () => {
     const authReady = inject(AUTH_READY);
+    const domainDataRady = inject(DOMAIN_DATA_READY);
 
     await authReady;
+    await domainDataRady;
   });
 });

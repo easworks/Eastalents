@@ -1,28 +1,43 @@
-import { inject } from '@angular/core';
+import { inject, InjectionToken } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { concatMap, EMPTY, from, switchMap } from 'rxjs';
+import { concatMap, map, switchMap, zip } from 'rxjs';
 import { AdminApi } from '../api/admin.api';
 import { DomainsApi } from '../api/domains.api';
 import { isBrowser } from '../utilities/platform-type';
+import { toPromise } from '../utilities/to-promise';
 import { domainActions, domainData, domainDataActions, softwareProductActions, techGroupActions, techSkillActions } from './domain-data';
 
+export const DOMAIN_DATA_READY = new InjectionToken<Promise<boolean>>('DOMAIN_DATA_READY', {
+  factory: () => {
+    const store = inject(Store);
+    const ready = toPromise(store.selectSignal(domainData.feature.selectReady), v => v);
+    return ready;
+  }
+});
 export const domainDataEffects = {
   loadFromApi: createEffect(
     () => {
-      if (!isBrowser())
-        return EMPTY;
-
       const api = inject(DomainsApi);
 
-      return from(api.data())
-        .pipe(
-          switchMap(payload => [
-            domainDataActions.updateState({ payload: payload }),
-            domainDataActions.saveState()
-          ])
-        );
+      const data$ = zip(api.data(), api.industries())
+        .pipe(map(([domain, industries]) => Object.assign(domain, { industries })));
 
+      if (isBrowser())
+        return data$
+          .pipe(
+            switchMap(payload => [
+              domainDataActions.updateState({ payload }),
+              domainDataActions.saveState()
+            ])
+          );
+      else
+        return data$
+          .pipe(
+            switchMap(payload => [
+              domainDataActions.updateState({ payload })
+            ])
+          );
 
 
       // const data = Promise.all([

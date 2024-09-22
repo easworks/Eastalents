@@ -1,4 +1,6 @@
+import { inject } from '@angular/core';
 import { Route } from '@angular/router';
+import { ClientApi } from '@easworks/app-shell/api/client.api';
 import { AuthGuardFn } from '@easworks/app-shell/services/auth.guard';
 import { AUTH_CHECKS } from '@easworks/app-shell/state/auth';
 
@@ -76,10 +78,20 @@ export const CLIENT_ROUTES: Route[] = [
     loadComponent: () => import('./my-profile/my-account.component').then(m => m.MyAccountComponent)
   },
   {
-    path: 'client/profile/edit/cards',
+    path: 'client/profile/edit',
     pathMatch: 'full',
-    loadComponent: () => import('./profile/edit/cards/profile-edit-cards.component')
-      .then(m => m.EmployerProfileEditCardsComponent)
+    canMatch: [AuthGuardFn],
+    loadComponent: () => import('./profile/edit/profile-edit.page')
+      .then(m => m.ClientProfileEditPageComponent),
+    data: {
+      auth: AUTH_CHECKS.hasRole('client')
+    },
+    resolve: {
+      profile: () => {
+        const api = inject(ClientApi);
+        return api.profile.get();
+      }
+    }
   },
   // {
   //   path: 'help',

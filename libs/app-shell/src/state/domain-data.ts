@@ -1,5 +1,6 @@
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { FeaturedDomain } from '@easworks/models/featured';
+import { IndustryGroup, IndustryGroupDTO } from '@easworks/models/industry';
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { createActionGroup, createFeature, createReducer, createSelector, emptyProps, on, props } from '@ngrx/store';
 import { produce } from 'immer';
@@ -7,17 +8,21 @@ import { Domain, DomainDataDTO } from 'models/domain';
 import { SoftwareProduct, TechGroup, TechSkill } from 'models/software';
 
 export interface DomainDataState {
+  ready: boolean;
   techSkills: EntityState<TechSkill>;
   techGroups: EntityState<TechGroup>;
   softwareProducts: EntityState<SoftwareProduct>;
   domains: EntityState<Domain>;
   featuredDomains: FeaturedDomain[];
+  industries: IndustryGroup[];
 }
 
 export const domainDataActions = createActionGroup({
   source: 'admin-data',
   events: {
-    'update state': props<{ payload: DomainDataDTO; }>(),
+    'update state': props<{
+      payload: DomainDataDTO & { industries: IndustryGroupDTO; };
+    }>(),
     'save state': emptyProps()
   }
 });
@@ -96,30 +101,27 @@ const feature = createFeature({
   name: 'domainData',
   reducer: createReducer<DomainDataState>(
     {
+      ready: false,
       domains: adapters.domain.getInitialState(),
       techSkills: adapters.techSkill.getInitialState(),
       softwareProducts: adapters.softwareProduct.getInitialState(),
       techGroups: adapters.techGroup.getInitialState(),
       featuredDomains: [],
+      industries: []
     },
 
     on(domainDataActions.updateState, (state, { payload }) => {
-      state = {
-        domains: adapters.domain.getInitialState(),
-        softwareProducts: adapters.softwareProduct.getInitialState(),
-        techGroups: adapters.techGroup.getInitialState(),
-        techSkills: adapters.techSkill.getInitialState(),
-        featuredDomains: []
-      };
+      state = { ...state, ready: true };
 
-      state.domains = adapters.domain.setMany(payload.domains, state.domains);
-      state.softwareProducts = adapters.softwareProduct.setMany(
+      state.domains = adapters.domain.setAll(payload.domains, state.domains);
+      state.softwareProducts = adapters.softwareProduct.setAll(
         payload.softwareProducts.map(p => ({ ...p, domains: [] })),
         state.softwareProducts);
-      state.techSkills = adapters.techSkill.setMany(payload.techSkills, state.techSkills);
-      state.techGroups = adapters.techGroup.setMany(
+      state.techSkills = adapters.techSkill.setAll(payload.techSkills, state.techSkills);
+      state.techGroups = adapters.techGroup.setAll(
         payload.techGroups.map(g => ({ ...g, skills: [] })),
         state.techGroups);
+      state.industries = IndustryGroupDTO.toList(payload.industries);
 
       for (const skill of payload.techSkills) {
         for (const id of skill.groups) {

@@ -12,4 +12,14 @@ export const domainHandlers: FastifyZodPluginAsync = async server => {
       return doc.value;
     }
   );
+
+  server.get('/industries',
+    async (req) => {
+      const doc = await req.ctx.em.findOne(keyval_schema, 'industries');
+      if (!doc)
+        throw new KeyValueDocumentNotFound('industries');
+
+      return doc.value;
+    }
+  );
 };
