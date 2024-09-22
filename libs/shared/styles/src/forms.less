@@ -5,7 +5,7 @@
   
   textarea {
     @apply block w-full h-full outline-none placeholder:text-sm
-      pr-1 leading-tight;
+      pr-1 leading-tight bg-transparent;
 
     &::-webkit-scrollbar {
       @apply absolute h-1 w-1 rounded-full;
@@ -118,6 +118,7 @@
 
       .field {
         @apply ring-warn/80 placeholder-warn;
+        --mat-select-placeholder-text-color: theme('colors.warn');
       }
 
       > .error {
@@ -151,6 +152,28 @@ input[type=password],
 input[type=email],
 input[type=time],
 input[type=tel],
+.mat-mdc-select,
 select {
   @apply field;
+}
+
+.mat-mdc-select {
+  --mat-select-trigger-text-line-height: theme('lineHeight.5');
+  --mat-select-trigger-text-size: theme('fontSize.sm');
+
+  --mat-select-placeholder-text-color: theme('colors.gray.500 / 0.8');
+
+  .mat-mdc-select-arrow-wrapper {
+    @apply h-auto;
+  }
+}
+
+div.mat-mdc-select-panel {
+  @apply -ml-2 mt-2;
+}
+
+.mat-mdc-select-panel-above {
+  .mat-mdc-select-panel {
+    @apply !mb-2;
+  }
 }

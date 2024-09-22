@@ -39,7 +39,19 @@ html {
   --mdc-circular-progress-active-indicator-color: theme('colors.primary.500');
 }
 
-.mat-mdc-checkbox {
+
+// checkbox 
+
+html {
+  --mat-full-pseudo-checkbox-selected-icon-color: theme('colors.primary.500');
+  --mat-full-pseudo-checkbox-selected-checkmark-color: white;
+  --mat-full-pseudo-checkbox-unselected-icon-color: theme('colors.slate.500');
+  --mat-full-pseudo-checkbox-disabled-selected-checkmark-color: white;
+  --mat-full-pseudo-checkbox-disabled-unselected-icon-color: theme('colors.slate.400');
+  --mat-full-pseudo-checkbox-disabled-selected-icon-color: theme('colors.slate.400');
+  --mat-minimal-pseudo-checkbox-selected-checkmark-color: theme('colors.primary.500');
+  --mat-minimal-pseudo-checkbox-disabled-selected-checkmark-color: theme('colors.slate.400');
+
   --mdc-checkbox-state-layer-size: theme('height.4');
   --mdc-checkbox-disabled-selected-icon-color: theme('colors.divider');
   --mdc-checkbox-disabled-unselected-icon-color: theme('colors.divider');
@@ -58,7 +70,9 @@ html {
   --mdc-checkbox-unselected-focus-state-layer-color: black;
   --mdc-checkbox-unselected-hover-state-layer-color: black;
   --mdc-checkbox-unselected-pressed-state-layer-color: black;
+}
 
+.mat-mdc-checkbox {
   &.primary {
     --mdc-checkbox-disabled-selected-icon-color: theme('colors.divider');
     --mdc-checkbox-disabled-unselected-icon-color: theme('colors.divider');
@@ -118,33 +132,20 @@ html {
   @apply p-0;
 }
 
-.mat-mdc-select {
-  .mat-mdc-select-trigger {
-    @apply field;
-  }
-
-  &:not(.mat-mdc-select-disabled) {
-    &.with-non-empty-null {
-      .mat-mdc-select-placeholder {
-        @apply text-inherit;
-      }
-    }
-  }
+// mat-select
+html {
+  --mat-select-panel-background-color: theme('colors.surface.DEFAULT');
 }
 
 .mat-mdc-select-panel {
-  @apply !p-0 !text-sm !mt-1 !rounded;
+  @apply !py-1 !text-sm !rounded;
 }
 
-.mat-mdc-select-panel-above {
-  .mat-mdc-select-panel {
-    @apply !mb-4;
-  }
-}
+
 
 .mat-mdc-option {
-  --mat-option-selected-state-label-text-color: white;
-  --mat-option-selected-state-layer-color: theme('colors.primary.500');
+  --mat-option-selected-state-label-text-color: theme('colors.primary.900');
+  --mat-option-selected-state-layer-color: theme('colors.surface.bright');
 
   --mat-option-label-text-color: #1d1b1e;
   --mat-option-label-text-font: theme('fontFamily.sans');
@@ -153,15 +154,11 @@ html {
   --mat-option-label-text-tracking: 0.006rem;
   --mat-option-label-text-weight: 400;
 
-  --mat-option-hover-state-layer-color: theme('colors.gray.100');
-  --mat-option-focus-state-layer-color: theme('colors.gray.200');
+  --mat-option-hover-state-layer-color: theme('colors.surface.container');
+  --mat-option-focus-state-layer-color: theme('colors.surface.container-high');
 
 
   @apply !min-h-0 !p-2 !px-4;
-
-  .mat-pseudo-checkbox {
-    @apply !mr-0;
-  }
 }
 
 .mat-mdc-optgroup {
@@ -174,6 +171,12 @@ html {
   }
 }
 
+mat-option.mat-mdc-option-multiple {
+  .mat-mdc-option-pseudo-checkbox {
+    margin-inline-end: theme('margin[2.5]')
+  }
+}
+
 .mdc-list-item {
   .mdc-list-item__primary-text {
     @apply w-full;
@@ -183,20 +186,6 @@ html {
   &--activated {
     .mdc-list-item__primary-text {
       @apply text-primary-600;
-    }
-  }
-}
-
-.mat-pseudo-checkbox-full {
-  &:not(.mat-pseudo-checkbox-checked) {
-    @apply border-black;
-  }
-
-  &.mat-pseudo-checkbox-checked {
-    @apply bg-secondary-600;
-
-    &.primary {
-      @apply bg-primary-600;
     }
   }
 }
