@@ -1,19 +1,19 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal, untracked } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormArray, FormControl, Validators } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClearTriggerOnSelectDirective } from '@easworks/app-shell/common/clear-trigger-on-select.directive';
 import { DialogLoaderComponent } from '@easworks/app-shell/common/dialog-loader.component';
+import { controlStatus$, controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
+import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
-import { sortString } from '@easworks/app-shell/utilities/sort';
-import { faSquareXmark, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faAdd, faRemove, faSquareXmark, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { domainData, softwareProductActions } from 'app-shell/state/domain-data';
-import Fuse from 'fuse.js';
-import { TechGroup, TechSkill } from 'models/software';
-import { Subscription } from 'rxjs';
+import { domainActions, domainData } from 'app-shell/state/domain-data';
 
 interface DomainModulesDialogData {
   domainId: string;
@@ -32,18 +32,23 @@ interface DomainModulesDialogData {
     ClearTriggerOnSelectDirective
   ]
 })
-export class DomainModulesDialogComponent implements OnInit {
+export class DomainModulesDialogComponent {
 
   private readonly store = inject(Store);
   private readonly data = inject<DomainModulesDialogData>(MAT_DIALOG_DATA);
   private readonly dRef = inject(DestroyRef);
+  private readonly snackbar = inject(MatSnackBar);
 
   protected readonly icons = {
     faXmark,
-    faSquareXmark
+    faSquareXmark,
+    faRemove,
+    faAdd
   } as const;
 
-  protected readonly loading = generateLoadingState<[]>();
+  protected readonly loading = generateLoadingState<[
+    'saving domain modules'
+  ]>();
 
 
   protected readonly domain$ = (() => {
@@ -60,124 +65,85 @@ export class DomainModulesDialogComponent implements OnInit {
 
   protected readonly table = (() => {
 
-    const changes = generateLoadingState<string[]>();
-
-    const original$ = computed(() => new Set(this.domain$().modules));
-
-    const current$ = signal(this.domain$().modules);
-
-    const rowControls = () => {
-      return {
-        name: new FormControl('', {
-          nonNullable: true,
-          validators: [Validators.required]
-        })
-      };
+    const rowControl = (initial = '') => {
+      return new FormControl(initial, {
+        nonNullable: true,
+        validators: [Validators.required]
+      });
     };
 
-    const rows = (() => {
-      let rowSubs = new Subscription();
-      this.dRef.onDestroy(() => rowSubs.unsubscribe());
+    const controls = this.domain$().modules.map(module => rowControl(module));
 
-      const $ = computed(() => {
-        rowSubs.unsubscribe();
-        rowSubs = new Subscription();
+    const form = new FormArray(controls);
 
-        return current$().map(module => {
-          const form = new FormGroup(rowControls());
+    const value$ = toSignal(controlValue$(form), { requireSync: true });
+    const status$ = toSignal(controlStatus$(form), { requireSync: true });
 
-          const changeCheck = (value: typeof form['value']) =>
-            value.name === module;
+    // check for duplicates
+    effect(() => {
+      const value = value$();
 
-          const unchanged$ = signal(changeCheck(form.value));
+      const present = new Set<string>();
+      const duplicates = new Set<string>();
 
-          const disableButtons$ = computed(() => this.loading.any$() || unchanged$());
+      for (const item of value) {
+        if (!item)
+          continue;
+        if (present.has(item))
+          duplicates.add(item);
+        else
+          present.add(item);
+      }
 
-          const reset = {
-            click: () => {
-              form.reset({
-                name: module,
-              });
-            },
-            disabled$: disableButtons$
-          } as const;
-
-
-        });
-
-
+      form.controls.forEach(control => {
+        if (duplicates.has(control.value)) {
+          control.markAsDirty({ emitEvent: false });
+          control.setErrors({ duplicate: true });
+        }
+        else {
+          const keys = control.errors && Object.keys(control.errors) || [];
+          if (keys.length === 1 && keys[0] === 'duplicate')
+            control.updateValueAndValidity();
+        }
       });
 
-      return {
-        $
-      } as const;
-    })();
+    });
 
-    const empty$ = computed(() => rows.$.length === 0);
+    const empty$ = computed(() => {
+      const v = value$();
+      return !v || v.length === 0;
+    });
 
-    const computeChanges = (module: string) => {
-      const original = original$();
-      if (original.has(module))
-        changes.add(module);
-      else
-        changes.delete(module);
+    const add = () => {
+      form.push(rowControl());
     };
 
-    // const remove = (module: string) => {
-    //     rows$.update(rows => rows.filter(r => r !== module));
-    //     computeChanges(module);
-    // };
+    const remove = (idx: number) => {
+      form.removeAt(idx);
+    };
 
-    // const add = (() => {
-    //     const input$ = signal('');
+    const changed$ = computed(() => {
+      const original = this.domain$().modules;
+      const value = value$();
 
-    //     const searchable$ = rows$;
+      return value.length !== original.length ||
+        value.some((v, i) => original[i] !== v);
+    });
 
-    //     const search$ = computed(() => new Fuse(searchable$(), { includeScore: true, }));
-
-    //     const similarity = (() => {
-
-    //         const items$ = computed(() => {
-
-    //             const input = input$();
-    //             if (!input)
-    //                 return [];
-
-    //             return untracked(search$).search(input)
-    //                 .map(result => result.item)
-    //                 .slice(0, 5);
-    //         });
-
-    //         const show$ = computed(() => items$().length > 0);
-
-    //         return {
-    //             items$,
-    //             show$
-    //         } as const;
-    //     })();
-
-    //     const click = (module: string) => {
-    //         rows$.update(rows => {
-    //             rows.push(module);
-    //             rows.sort();
-    //             return [...rows];
-    //         });
-    //         computeChanges(module);
-    //     };
-
-    //     return {
-    //         input$,
-    //         similarity,
-    //         click
-    //     } as const;
-    // })();
+    const reset = () => {
+      form.clear({ emitEvent: false });
+      this.domain$().modules.forEach(module => form.push(rowControl(module), { emitEvent: false }));
+      form.updateValueAndValidity();
+    };
 
     return {
-      // rows$,
+      form,
       empty$,
-      changes,
-      // add,
-      // remove
+      add,
+      remove,
+      changed$,
+      reset,
+      status$
     } as const;
   })();
 
@@ -185,24 +151,34 @@ export class DomainModulesDialogComponent implements OnInit {
 
   protected readonly buttons = (() => {
     const save = (() => {
-      const disabled$ = computed(() => true);
+      const disabled$ = computed(() => !this.table.changed$() || this.table.status$() !== 'VALID' || this.loading.any$());
+      const loading$ = this.loading.has('saving domain modules');
 
       const click = () => {
-        // const value: SoftwareProduct['domains'] = this.table.rows$()
-        //     .map(row => row.id);
+        const form = this.table.form;
+        console.debug(form.status);
+        if (!form.valid)
+          return;
 
-        // this.store.dispatch(softwareProductActions.updateDomains({
-        //     payload: {
-        //         id: this.product$().id,
-        //         domains: value
-        //     }
-        // }));
+        let value = form.value;
+        value = value.map(v => v.trim());
+        value = value.filter(v => !!v);
+        value.sort();
 
-        // this.table.changes.clear();
+        this.store.dispatch(domainActions.updateModules({
+          payload: {
+            id: this.domain$().id,
+            modules: value
+          }
+        }));
+        SnackbarComponent.forSuccess(this.snackbar);
+
+        this.table.reset();
       };
 
       return {
         disabled$,
+        loading$,
         click
       } as const;
 
@@ -211,16 +187,7 @@ export class DomainModulesDialogComponent implements OnInit {
     const reset = (() => {
 
       const click = () => {
-        // const domains = this.domains.map$();
-        // const product = this.product$();
-        // const value = product.domains.map(id => ({
-        //     id,
-        //     name: domains[id]?.longName || ''
-        // }));
-
-        // this.table.rows$.set(value);
-        // this.table.changes.clear();
-        // this.table.add.query$.set('');
+        this.table.reset();
       };
 
       return { click } as const;
@@ -233,9 +200,4 @@ export class DomainModulesDialogComponent implements OnInit {
     DialogLoaderComponent.replace(ref, this, data);
     ref.addPanelClass('w-80');
   }
-
-  ngOnInit() {
-    this.buttons.reset.click();
-  }
-
 }
