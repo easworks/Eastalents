@@ -79,7 +79,7 @@ module.exports = {
           'surface': `hsl(from var(--color-surface-source) h 100 10 / <alpha-value>)`,
           'surface-variant': `hsl(from var(--color-surface-source) h 25 40 / <alpha-value>)`
         },
-        'divider': colors.slate[400],
+        'divider': colors.slate[300],
         'warn': colors.red[600],
       },
       height: {
