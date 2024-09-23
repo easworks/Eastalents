@@ -1,11 +1,12 @@
-import { Signal, effect } from '@angular/core';
+import { Injector, Signal, effect } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 export function dynamicallyRequired(
   isRequired: Signal<boolean>,
-  control: FormControl<string>
+  control: FormControl<string>,
+  injector?: Injector
 ) {
-  effect(() => {
+  return effect(() => {
     if (isRequired()) {
       control.addValidators(Validators.required);
     }
@@ -13,6 +14,6 @@ export function dynamicallyRequired(
       control.removeValidators(Validators.required);
     }
     control.updateValueAndValidity();
-  }, { allowSignalWrites: true })
+  }, { allowSignalWrites: true, injector });
 
 }

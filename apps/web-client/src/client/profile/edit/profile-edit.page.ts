@@ -5,6 +5,7 @@ import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/ma
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { ClearTriggerOnSelectDirective } from '@easworks/app-shell/common/clear-trigger-on-select.directive';
+import { CSCFormComponent } from '@easworks/app-shell/common/csc-form/csc-form.component';
 import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator.component';
 import { controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
@@ -15,11 +16,11 @@ import { sortNumber, sortString } from '@easworks/app-shell/utilities/sort';
 import { ANNUAL_REVENUE_RANGE_OPTIONS, AnnualRevenueRange, CLIENT_SIZE_OPTIONS, CLIENT_TYPE_OPTIONS, ClientProfile, ClientSize, ClientType } from '@easworks/models/client-profile';
 import { Domain } from '@easworks/models/domain';
 import { EASWORKS_SERVICE_TYPE_OPTIONS, EasworksServiceType, REQUIRED_EXPERIENCE_OPTIONS, RequiredExperience, WORK_ENVIRONMENT_OPTIONS, WorkEnvironment } from '@easworks/models/job-post';
+import { SoftwareProduct } from '@easworks/models/software';
 import { faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import Fuse from 'fuse.js';
 import { ClientProfileEditCardsComponent } from './cards/profile-edit-cards.component';
-import { SoftwareProduct } from '@easworks/models/software';
 
 type ClientIndustry = ClientProfile['industry'];
 
@@ -38,7 +39,8 @@ type ClientIndustry = ClientProfile['industry'];
     DropDownIndicatorComponent,
     ClientProfileEditCardsComponent,
     MatSelectModule,
-    ClearTriggerOnSelectDirective
+    ClearTriggerOnSelectDirective,
+    CSCFormComponent
   ]
 })
 export class ClientProfileEditPageComponent implements OnInit {
@@ -115,6 +117,7 @@ export class ClientProfileEditPageComponent implements OnInit {
       nonNullable: true,
       validators: [Validators.required]
     }),
+    location: CSCFormComponent.createForm()
   });
 
   protected readonly options = {
@@ -373,7 +376,13 @@ export class ClientProfileEditPageComponent implements OnInit {
       size: original.size,
       annualRevenueRange: original.annualRevenueRange,
       domains,
-      softwareProducts
+      softwareProducts,
+      location: {
+        city: original.location.city || '',
+        country: original.location.country || '',
+        state: original.location.state || '',
+        timezone: original.location.timezone || ''
+      }
     });
   }
 

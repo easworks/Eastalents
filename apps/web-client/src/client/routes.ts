@@ -93,6 +93,15 @@ export const CLIENT_ROUTES: Route[] = [
       }
     }
   },
+  {
+    path: 'account-setting',
+    pathMatch: 'full',
+    canMatch: [AuthGuardFn],
+    data: {
+      auth: AUTH_CHECKS.hasRole('client')
+    },
+    loadComponent: () => import('./my-profile/my-account.component').then(m => m.MyAccountComponent)
+  },
   // {
   //   path: 'help',
   //   pathMatch: 'full',

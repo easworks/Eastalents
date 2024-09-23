@@ -137,8 +137,8 @@ html {
   --mat-select-panel-background-color: theme('colors.surface.DEFAULT');
 }
 
-.mat-mdc-select-panel {
-  @apply !py-1 !text-sm !rounded;
+.mat-mdc-select-panel, {
+  @apply !py-1 !rounded;
 }
 
 
@@ -235,11 +235,13 @@ mat-option.mat-mdc-option-multiple {
 }
 
 .mat-mdc-autocomplete-panel {
+  @apply !py-1 !rounded;
+
   >cdk-virtual-scroll-viewport {
     @apply h-screen max-h-full;
   }
 
-  --mat-autocomplete-background-color: theme('colors.white');
+  --mat-autocomplete-background-color: theme('colors.surface.DEFAULT');
 }
 
 // cdk overlay

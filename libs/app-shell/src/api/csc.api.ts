@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { firstValueFrom, map, of, zip } from 'rxjs';
+import { map, of, switchMap, zip } from 'rxjs';
 import { isBrowser } from '../utilities/platform-type';
+import { sortNumber } from '../utilities/sort';
 
 @Injectable({
   providedIn: 'root'
@@ -23,24 +24,16 @@ export class CSCApi {
 
     const url = `${this.apiUrl}/countries`;
 
-    return this.http.get<Country[]>(url, { headers: this.headers });
+    return this.http.get<Country[]>(url, { headers: this.headers })
+      .pipe(switchMap(countries => zip(countries.map(c => this.countryDetails(c.iso2)))));
   }
 
-  async allTimezones() {
-    return [];
-    // const id = 'timezones';
-
-    // const cached = this.cache && await this.cache.get<Timezone[]>(id, THREE_DAY_MS);
-    // if (cached)
-    //   return cached;
-
-    // const countries = await this.allCountries();
-    // const tz = countries.flatMap(c => c.timezones)
-    //   .sort((a, b) => sortNumber(a.gmtOffset, b.gmtOffset));
-
-    // if (this.cache)
-    //   await this.cache.set(id, tz);
-    // return tz;
+  allTimezones() {
+    return this.allCountries()
+      .pipe(map(countries =>
+        countries.flatMap(c => c.timezones)
+          .sort((a, b) => sortNumber(a.gmtOffset, b.gmtOffset))
+      ));
   }
 
   allStates(ciso2: string) {
