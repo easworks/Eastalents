@@ -2,11 +2,11 @@ import { Component, DestroyRef, effect, HostBinding, inject, INJECTOR, input, On
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Subscription } from 'rxjs';
-import { DropDownIndicatorComponent } from '../../drop-down-indicator.component';
-import { controlValue$ } from '../../form-field.directive';
-import { FormImportsModule } from '../../form.imports.module';
-import { ImportsModule } from '../../imports.module';
-import { filterCountryCode, PhoneCodeForm, PhoneCodeOption } from '../../phone-code';
+import { DropDownIndicatorComponent } from '../drop-down-indicator.component';
+import { controlValue$ } from '../form-field.directive';
+import { FormImportsModule } from '../form.imports.module';
+import { ImportsModule } from '../imports.module';
+import { filterCountryCode, PhoneCodeForm, PhoneCodeOption } from '../phone-code';
 
 @Component({
   standalone: true,

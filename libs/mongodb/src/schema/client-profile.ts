@@ -29,15 +29,15 @@ export function initialClientProfile(
 ): ClientProfile {
   return {
     user,
-    contact: [
-      {
+    contact: {
+      primary: {
         name: `${user.firstName} ${user.lastName}`,
-        primary: true,
         email: user.email,
         phone: null,
         website: null,
-      }
-    ],
+      },
+      secondary: null
+    },
     description: null as unknown as string,
     domains: data.domains,
     industry: {

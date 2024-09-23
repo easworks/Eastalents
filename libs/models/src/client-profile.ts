@@ -57,10 +57,14 @@ export interface ClientProfile {
   location: CSCLocation;
 
   contact: {
-    name: string;
-    primary: boolean;
-    email: string | null;
-    phone: string | null;
-    website: string | null;
-  }[];
+    primary: ClientProfileContact,
+    secondary: ClientProfileContact | null;
+  };
+}
+
+export interface ClientProfileContact {
+  name: string;
+  email: string | null;
+  phone: string | null;
+  website: string | null;
 }
