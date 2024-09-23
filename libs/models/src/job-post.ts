@@ -51,13 +51,13 @@ export type ExistingProjectType = typeof EXISTING_PROJECT_TYPE_OPTIONS[number];
 export type ProjectType = NewProjectType | ExistingProjectType;
 
 export const REQUIRED_EXPERIENCE_OPTIONS = [
-  'Entry Level (0-1 yrs)',
-  'Intermediate (1-3 yrs)',
-  'Mid-Senior (3-5 yrs)',
-  'Senior (5-8 yrs)',
-  'Senior+ (8-10 yrs)',
-  'Staff+ (10+ yrs)',
-  'Senior/Executive Leadership (15+)',
+  '0-2 yrs (Emerging Professional)',
+  '3-5 yrs (Experienced Professional)',
+  '6-9 yrs (Seasoned Professional)',
+  '10-15 yrs (Senior Professional)',
+  '16-20 yrs (Industry Expert)',
+  '21-25 yrs (Strategic Leader)',
+  '26+ yrs (Visionary Leader)',
 ] as const;
 
 export type RequiredExperience = typeof REQUIRED_EXPERIENCE_OPTIONS[number];

@@ -1,13 +1,14 @@
 @layer components {
   .chip {
-    @apply bg-primary-50 text-primary-500 rounded flex gap-2 justify-between ring-inset ring-primary-500 ring-2 overflow-hidden;
+    @apply text-sm ring-1 ring-divider ring-inset rounded-md flex gap-2 justify-between items-center overflow-hidden;
 
     >span {
-      @apply p-2 px-4;
+      @apply p-1 pl-2;
     }
 
     >button {
-      @apply h-10 w-10 flex-none text-primary-500/70 hover:text-warn focus:text-warn;
+      @apply icon-button h-8 w-8 flex-none text-on-surface-variant hover:text-warn focus:text-warn
+        rounded-none;
     }
   }
 }

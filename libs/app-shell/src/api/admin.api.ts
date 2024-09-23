@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { CACHE } from '@easworks/app-shell/common/cache';
-import { clear, setMany, UseStore, values } from 'idb-keyval';
+import { IndustryGroupDTO } from '@easworks/models/industry';
+import { clear, get, set, setMany, UseStore, values } from 'idb-keyval';
 import { Domain } from 'models/domain';
 import { SoftwareProduct, TechGroup, TechSkill } from 'models/software';
 
@@ -41,6 +42,11 @@ export class AdminApi {
       entityCache<TechGroup>(cache) :
       dummyCache;
   })();
+
+  readonly industries = {
+    read: () => get<IndustryGroupDTO>('industries'),
+    write: (dto: IndustryGroupDTO) => set('industries', dto)
+  } as const;
 
 }
 

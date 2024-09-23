@@ -63,9 +63,10 @@ function extractImportChain(
   if (files.has(name)) {
     return;
   }
-  files.add(name);
+
   if (opts.external)
     return;
+  files.add(name);
 
   const file = metaFile.outputs[name];
   file.imports.filter(i => i.kind === opts.followImport)

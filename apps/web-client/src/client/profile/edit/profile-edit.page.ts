@@ -21,6 +21,8 @@ import Fuse from 'fuse.js';
 import { ClientProfileEditCardsComponent } from './cards/profile-edit-cards.component';
 import { SoftwareProduct } from '@easworks/models/software';
 
+type ClientIndustry = ClientProfile['industry'];
+
 @Component({
   selector: 'client-profile-edit-page',
   templateUrl: './profile-edit.page.html',
@@ -108,7 +110,11 @@ export class ClientProfileEditPageComponent implements OnInit {
     softwareProducts: new FormControl([] as SoftwareProduct[], {
       nonNullable: true,
       validators: [Validators.required]
-    })
+    }),
+    industry: new FormControl(null as unknown as ClientIndustry, {
+      nonNullable: true,
+      validators: [Validators.required]
+    }),
   });
 
   protected readonly options = {
@@ -283,6 +289,65 @@ export class ClientProfileEditPageComponent implements OnInit {
       onSelect,
       remove,
       allowAdd$
+    } as const;
+  })();
+
+  protected readonly industry = (() => {
+    const data$ = this.store.selectSignal(domainData.feature.selectIndustries);
+
+    const list$ = computed(() => {
+      const data = data$();
+      const list = [] as ClientIndustry[];
+      data.forEach(group =>
+        group.industries.forEach(item =>
+          list.push({ name: item, group: group.name })
+        ));
+      return list;
+    });
+
+    const value$ = toSignal(controlValue$(this.form.controls.industry), { requireSync: true });
+
+    const search$ = computed(() => new Fuse(list$(), {
+      keys: [
+        { name: 'name', weight: 4 },
+        { name: 'group', weight: 1 }
+      ],
+      includeScore: true
+    }));
+
+    const query$ = signal<string>('');
+    const displayWith = (v: ClientIndustry | string | null) => v ? (typeof v === 'string' ? v : `${v.name} - ${v.group}`) : '';
+
+    const results$ = computed(() => {
+      let q = query$();
+
+      if (typeof q === 'string') {
+        q = q.trim();
+        if (q)
+          return search$()
+            .search(q)
+            .map(r => r.item);
+      }
+
+      return list$();
+    });
+
+    const onSelect = (event: MatAutocompleteSelectedEvent) => {
+      this.form.controls.industry.setValue(event.option.value);
+      query$.set('');
+    };
+
+    const remove = () => {
+      this.form.controls.industry.setValue(null as unknown as ClientIndustry);
+    };
+
+    return {
+      value$,
+      query$,
+      displayWith,
+      results$,
+      onSelect,
+      remove,
     } as const;
   })();
 
