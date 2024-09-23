@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, effect, HostBinding, in
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { Country } from '@easworks/app-shell/api/csc.api';
+import { Country, State } from '@easworks/app-shell/api/csc.api';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { Subscription } from 'rxjs';
 import { controlValue$ } from '../form-field.directive';
@@ -39,6 +39,9 @@ export class CSCFormComponent implements OnInit {
     const query$ = signal<InputType>('');
     const displayWith = (v: InputType) => v ? (typeof v === 'string' ? v : v.name) : '';
 
+    const results$ = this.optionsService.filter.country(query$);
+    const loading$ = this.optionsService.loading.has('countries');
+
     let sub: Subscription | null = null;
 
     effect(() => {
@@ -50,8 +53,6 @@ export class CSCFormComponent implements OnInit {
         .subscribe(v => query$.set(v));
     }, { injector: this.injector, allowSignalWrites: true });
 
-    const results$ = this.optionsService.filter.country(query$);
-    const loading$ = this.optionsService.loading.has('countries');
 
     effect(() => {
       const value = query$();
@@ -66,6 +67,10 @@ export class CSCFormComponent implements OnInit {
           untracked(this.form$).controls.country.setValue(match);
         }
       }
+      else {
+        untracked(this.form$).controls.state.setValue('');
+        untracked(() => this.optionsService.load.state(value.iso2));
+      }
     });
 
     return {
@@ -76,13 +81,58 @@ export class CSCFormComponent implements OnInit {
 
   })();
 
+  protected readonly state = (() => {
+    type InputType = State | string | null;
+    const query$ = signal<InputType>('');
+    const displayWith = (v: InputType) => v ? (typeof v === 'string' ? v : v.name) : '';
+
+    const results$ = this.optionsService.filter.state(query$);
+    const loading$ = this.optionsService.loading.has('states');
+
+    let sub: Subscription | null = null;
+
+    effect(() => {
+      const control = this.form$().controls.state;
+      sub?.unsubscribe();
+
+      sub = controlValue$(control)
+        .pipe(takeUntilDestroyed(this.dRef))
+        .subscribe(v => query$.set(v));
+    }, { injector: this.injector, allowSignalWrites: true });
+
+    effect(() => {
+      const value = query$();
+      if (!value)
+        return;
+
+      const options = results$().slice(0, 10);
+
+      if (typeof value === 'string') {
+        const match = options.find(o => o.name.toLowerCase() === value.toLowerCase());
+        if (match) {
+          untracked(this.form$).controls.state.setValue(match);
+        }
+      }
+      else {
+        untracked(this.form$).controls.city.setValue('');
+        untracked(() => this.optionsService.load.cities(value.country_iso2, value.iso2));
+      }
+    });
+
+    return {
+      results$,
+      displayWith,
+      loading$
+    } as const;
+  })();
+
   public static createForm() {
     return new FormGroup({
-      country: new FormControl('' as unknown as Country | string, {
+      country: new FormControl('' as Country | string, {
         validators: [Validators.required],
         nonNullable: true
       }),
-      state: new FormControl('', { nonNullable: true }),
+      state: new FormControl('' as State | string, { nonNullable: true }),
       city: new FormControl('', { nonNullable: true }),
       timezone: new FormControl('', {
         validators: [
@@ -104,10 +154,17 @@ export class CSCFormComponent implements OnInit {
       .then(() => this.optionsService.allOptions.country$())
       .then(list => list.find(c => c.name === value.country));
 
-    if (!country)
-      return;
+    if (country) {
+      form.controls.country.setValue(country);
 
-    form.controls.country.setValue(country);
+      const state = await toPromise(this.optionsService.loading.has('states'), v => !v, this.injector)
+        .then(() => this.optionsService.allOptions.state$())
+        .then(list => list.find(c => c.name === value.state));
+
+      if (state) {
+        form.controls.state.setValue(state);
+      }
+    }
   }
 
   ngOnInit(): void {

@@ -28,4 +28,29 @@
     <mat-progress-spinner class="field-spinner right-3 top-8"
                           mode="indeterminate" diameter="16"></mat-progress-spinner>
   </div>
+
+  <div *ngrxLet="form.controls.state as control"
+       [formFieldControl]="control"
+       [class.show-spinner]="state.loading$()">
+
+    <label> State </label>
+
+    <input type="text" [formControl]="control" placeholder="Type to filter"
+           [matAutocomplete]="stateOptions">
+    @if (control.hasError('required')){<span class="error">Required</span>}
+
+
+    <mat-autocomplete #stateOptions hideSingleSelectionIndicator [displayWith]="state.displayWith">
+      @for(option of state.results$(); track option) {
+      <mat-option [value]="option" (onSelectionChange)="$event.source.deselect()">
+        <div class="flex gap-4 items-center"> {{option.name}} </div>
+      </mat-option>
+      }
+
+    </mat-autocomplete>
+
+    <mat-progress-spinner class="field-spinner right-3 top-8"
+                          mode="indeterminate" diameter="16"></mat-progress-spinner>
+
+  </div>
 </div>
