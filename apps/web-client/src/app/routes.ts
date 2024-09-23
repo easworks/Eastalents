@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
 import { NotFoundPageComponent } from '@easworks/app-shell/navigation/not-found/not-found.page';
 import { AUTH_READY } from '@easworks/app-shell/services/auth.ready';
-import { DOMAIN_DATA_READY } from '@easworks/app-shell/state/domain-data.effects';
+import { DOMAIN_DATA_READY } from '@easworks/app-shell/services/domain-data.ready';
 import { ACCOUNT_ROUTES } from '../account/routes';
 import { ADMIN_ROUTES } from '../admin/routes';
 import { CLIENT_ROUTES } from '../client/routes';

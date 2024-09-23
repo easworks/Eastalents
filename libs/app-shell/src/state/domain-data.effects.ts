@@ -1,20 +1,12 @@
-import { inject, InjectionToken } from '@angular/core';
+import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { concatMap, map, switchMap, zip } from 'rxjs';
 import { AdminApi } from '../api/admin.api';
 import { DomainsApi } from '../api/domains.api';
 import { isBrowser } from '../utilities/platform-type';
-import { toPromise } from '../utilities/to-promise';
 import { domainActions, domainData, domainDataActions, softwareProductActions, techGroupActions, techSkillActions } from './domain-data';
 
-export const DOMAIN_DATA_READY = new InjectionToken<Promise<boolean>>('DOMAIN_DATA_READY', {
-  factory: () => {
-    const store = inject(Store);
-    const ready = toPromise(store.selectSignal(domainData.feature.selectReady), v => v);
-    return ready;
-  }
-});
 export const domainDataEffects = {
   loadFromApi: createEffect(
     () => {

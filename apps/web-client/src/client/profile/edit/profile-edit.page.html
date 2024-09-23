@@ -92,9 +92,9 @@
 
         <!-- domains -->
         <div class="p-4 @container">
-          <div class="flex gap-2 flex-col justify-between @xs:flex-row">
+          <div class="flex gap-2 flex-col justify-between text-sm @xs:flex-row">
             <span class="font-bold">Domains</span>
-            <div class="flex-grow @xs:flex-none flex gap-2 text-sm text-slate-500 items-center justify-between">
+            <div class="flex-grow @xs:flex-none flex gap-2 text-slate-500 items-center justify-between">
               <span class="flex gap-2 items-center">
                 <fa-icon [icon]="icons.faCircleInfo" class=""></fa-icon>
                 <span>Select 1 - 3 items</span>
@@ -106,7 +106,7 @@
           </div>
 
           @if(domains.count$() > 0) {
-          <div class="mt-2 flex flex-wrap gap-4">
+          <div class="mt-4 flex flex-wrap gap-4">
             @for(chip of domains.value$(); track chip.id) {
             <div class="chip">
               <span>{{chip.longName}}</span>
@@ -143,9 +143,9 @@
 
         <!-- software products -->
         <div class="p-4 @container">
-          <div class="flex gap-2 flex-col justify-between @xs:flex-row">
+          <div class="flex gap-2 flex-col justify-between text-sm @xs:flex-row">
             <span class="font-bold">Software Products</span>
-            <div class="flex-grow @xs:flex-none flex gap-2 text-sm text-slate-500 items-center justify-between">
+            <div class="flex-grow @xs:flex-none flex gap-2 text-slate-500 items-center justify-between">
               <span class="flex gap-2 items-center">
                 <fa-icon [icon]="icons.faCircleInfo" class=""></fa-icon>
                 <span>Select 1 - 3 items</span>
@@ -157,7 +157,7 @@
           </div>
 
           @if(software.count$() > 0) {
-          <div class="mt-2 flex flex-wrap gap-4">
+          <div class="mt-4 flex flex-wrap gap-4">
             @for(chip of software.value$(); track chip.id) {
             <div class="chip">
               <span>{{chip.name}}</span>
@@ -186,6 +186,57 @@
             </mat-autocomplete>
           </div>
           }
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- industry -->
+        <div class="p-4 @container">
+          <div class="flex gap-2 flex-col justify-between text-sm @xs:flex-row">
+            <span class="font-bold">Industry</span>
+            <div class="flex-grow @xs:flex-none flex gap-2 text-slate-500 items-center justify-between">
+              <span class="flex gap-2 items-center">
+                <fa-icon [icon]="icons.faCircleInfo" class=""></fa-icon>
+                <span>Select 1 - 3 items</span>
+              </span>
+              <span *ngrxLet="software.count$() as count" class="selection-counter" [class.selected]="count > 0">
+                {{count}} selected
+              </span>
+            </div>
+          </div>
+
+          @if (industry.value$(); as clientIndustry) {
+          <div class="mt-4 flex flex-wrap gap-4">
+            <div class="chip">
+              <span class="flex gap-4 justify-between items-center">
+                <span>{{clientIndustry.name}}</span>
+                <span class="text-sm italic text-on-surface-variant/80">{{clientIndustry.group}}</span>
+              </span>
+              <button type="button" mat-ripple (click)="industry.remove()">
+                <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
+              </button>
+            </div>
+          </div>
+          }
+          @else {
+          <div class="mt-4">
+            <div class="form-field mb-0">
+              <input type="text" [(ngModel)]="industry.query$" [ngModelOptions]="{ standalone: true }"
+                     [matAutocomplete]="searchOptions" clearTriggerOnSelect
+                     placeholder="Select Industry">
+            </div>
+
+            <mat-autocomplete #searchOptions hideSingleSelectionIndicator [displayWith]="industry.displayWith"
+                              (optionSelected)="industry.onSelect($event)">
+              @for(option of industry.results$(); track option) {
+              <mat-option [value]="option">
+                {{option.name}} - {{option.group}}
+              </mat-option>
+              }
+            </mat-autocomplete>
+          </div>
+          }
+
         </div>
 
         <mat-divider></mat-divider>
