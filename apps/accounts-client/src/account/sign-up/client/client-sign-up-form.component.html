@@ -1,9 +1,10 @@
 <h2 class="text-center font-black text-lg">APPLY TO JOIN</h2>
-<p class="mt-2 text-center text-sm text-gray-400">
+<p class="mt-2 text-center text-sm text-on-surface-variant">
   The Worlds Top Talent Enterprise Application Network &
   work with the worlds leading Companies.
 </p>
-<mat-stepper [orientation]="orientation$()" linear #stepper>
+
+<mat-stepper [orientation]="orientation$()" linear #stepper class="mt-4">
 
   <mat-step label="Account Basics" [completed]="accountBasics.valid$()">
 
