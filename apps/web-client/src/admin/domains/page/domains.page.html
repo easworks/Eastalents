@@ -12,6 +12,7 @@
                     <th>Short Name</th>
                     <th>Modules</th>
                     <th>Roles</th>
+                    <th>Services</th>
                     <th colspan="2"></th>
                 </tr>
             </thead>
@@ -41,6 +42,12 @@
                     <td class="actions">
                         <button class="icon-button small p-1 px-2 rounded-md" mat-ripple (click)="row.roles()"
                             matTooltip="Edit roles">
+                            <fa-icon [icon]="icons.faPen"></fa-icon>
+                        </button>
+                    </td>
+                    <td class="actions">
+                        <button class="icon-button small p-1 px-2 rounded-md" mat-ripple (click)="row.services()"
+                            matTooltip="Edit services">
                             <fa-icon [icon]="icons.faPen"></fa-icon>
                         </button>
                     </td>

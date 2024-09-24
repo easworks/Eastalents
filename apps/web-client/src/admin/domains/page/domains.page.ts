@@ -239,7 +239,7 @@ export class DomainsPageComponent {
 
                     const modules = () => this.editModules(domain.id);
                     const roles = () => this.editRoles(domain.id);
-
+                    const services = () => this.editServices(domain.id);
                     return {
                         data: domain,
                         // domains,
@@ -247,7 +247,8 @@ export class DomainsPageComponent {
                         submit,
                         reset,
                         modules,
-                        roles
+                        roles,
+                        services
                     };
                 });
             });
@@ -309,6 +310,15 @@ export class DomainsPageComponent {
         const ref = DialogLoaderComponent.open(this.dialog);
         const comp = await import('../roles/domain-roles.dialog')
             .then(m => m.DomainRolesDialogComponent);
+
+        comp.open(ref, { domainId: id });
+        return ref;
+    };
+
+    private readonly editServices = async (id: string) => {
+        const ref = DialogLoaderComponent.open(this.dialog);
+        const comp = await import('../services/domain-services.dialog')
+            .then(m => m.DomainServicesDialogComponent);
 
         comp.open(ref, { domainId: id });
         return ref;

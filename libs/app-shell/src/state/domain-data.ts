@@ -92,6 +92,12 @@ export const domainActions = createActionGroup({
         roles: Domain['roles'];
       };
     }>(),
+    'update services': props<{
+      payload: {
+        id: string;
+        services: Domain['services'];
+      };
+    }>(),
   }
 });
 
@@ -181,6 +187,18 @@ const feature = createFeature({
         map: domain => {
           domain = { ...domain };
           domain.roles = payload.roles;
+          return domain;
+        }
+      }, state.domains);
+      return state;
+    }),
+    on(domainActions.updateServices, (state, { payload }) => {
+      state = { ...state };
+      state.domains = adapters.domain.mapOne({
+        id: payload.id,
+        map: domain => {
+          domain = { ...domain };
+          domain.services = payload.services;
           return domain;
         }
       }, state.domains);
