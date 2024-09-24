@@ -85,7 +85,8 @@ export const domainDataEffects = {
           domainDataActions.saveState,
           domainActions.add,
           domainActions.update,
-          domainActions.updateModules
+          domainActions.updateModules,
+          domainActions.updateRoles
         ),
         concatMap(() => api.domains.write(list$()))
       );

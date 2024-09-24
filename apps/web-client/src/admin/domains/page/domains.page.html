@@ -10,6 +10,8 @@
                     <th>Id</th>
                     <th>Long Name</th>
                     <th>Short Name</th>
+                    <th>Modules</th>
+                    <th>Roles</th>
                     <th colspan="2"></th>
                 </tr>
             </thead>
@@ -29,6 +31,18 @@
                     </td>
                     <td *ngrxLet="row.form.controls.shortName  as control" [formFieldControl]="control">
                         <input type="text" [formControl]="control">
+                    </td>
+                    <td class="actions">
+                        <button class="icon-button small p-1 px-2 rounded-md" mat-ripple (click)="row.modules()"
+                            matTooltip="Edit Modules">
+                            <fa-icon [icon]="icons.faPen"></fa-icon>
+                        </button>
+                    </td>
+                    <td class="actions">
+                        <button class="icon-button small p-1 px-2 rounded-md" mat-ripple (click)="row.roles()"
+                            matTooltip="Edit roles">
+                            <fa-icon [icon]="icons.faPen"></fa-icon>
+                        </button>
                     </td>
                     <!-- <td class="!p-1 group">
                         <div class="flex gap-2 items-center justify-between">
