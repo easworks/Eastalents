@@ -1,6 +1,7 @@
 import { OAuthTokenSuccessResponse } from 'models/oauth';
 import { pattern } from 'models/pattern';
 import { TypeOf, z } from 'zod';
+import { CLIENT_PROFILE_MAX_DOMAINS, CLIENT_PROFILE_MAX_SOFTWARE } from '../client-profile';
 import { EXTERNAL_IDENTITY_PROVIDERS } from '../identity-provider';
 import { username } from './common';
 import { oauthValidators } from './oauth';
@@ -41,8 +42,10 @@ const inputs = {
       code_verifier: oauthValidators.code_challenge
     }).nullable(),
     profileData: z.strictObject({
-      domains: z.array(z.string().trim()),
-      softwareProducts: z.array(z.string().trim()),
+      domains: z.array(z.string().trim())
+        .max(CLIENT_PROFILE_MAX_DOMAINS),
+      softwareProducts: z.array(z.string().trim())
+        .max(CLIENT_PROFILE_MAX_SOFTWARE),
     })
   }),
   signin: {

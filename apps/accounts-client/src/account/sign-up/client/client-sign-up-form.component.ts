@@ -10,6 +10,7 @@ import { FormImportsModule } from '@easworks/app-shell/common/form.imports.modul
 import { domainData } from '@easworks/app-shell/state/domain-data';
 import { uiFeature } from '@easworks/app-shell/state/ui';
 import { sortString } from '@easworks/app-shell/utilities/sort';
+import { CLIENT_PROFILE_MAX_DOMAINS, CLIENT_PROFILE_MAX_SOFTWARE } from '@easworks/models/client-profile';
 import { faCheck, faCircleCheck, faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AuthApi } from 'app-shell/api/auth.api';
@@ -61,6 +62,11 @@ export class ClientSignUpFormComponent implements OnInit {
   private readonly api = {
     auth: inject(AuthApi)
   } as const;
+
+  protected readonly maxLength = {
+    domain: CLIENT_PROFILE_MAX_DOMAINS,
+    software: CLIENT_PROFILE_MAX_SOFTWARE
+  };
 
   @HostBinding()
   private readonly class = 'block @container';
@@ -388,7 +394,7 @@ export class ClientSignUpFormComponent implements OnInit {
         query$.set('');
       };
 
-      const allowed$ = computed(() => count$() < 3);
+      const allowed$ = computed(() => count$() < this.maxLength.domain);
 
       return {
         query$,
@@ -506,7 +512,7 @@ export class ClientSignUpFormComponent implements OnInit {
         query$.set('');
       };
 
-      const allowed$ = computed(() => count$() < 3);
+      const allowed$ = computed(() => count$() < this.maxLength.software);
 
       return {
         query$,
