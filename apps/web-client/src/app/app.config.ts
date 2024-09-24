@@ -9,6 +9,8 @@ import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from 
 import { easworksApiInterceptor } from '@easworks/app-shell/api/easworks.api.interceptor';
 import { CLIENT_CONFIG, provideBrowserEnvID } from '@easworks/app-shell/dependency-injection';
 import { AuthService } from '@easworks/app-shell/services/auth';
+import { AUTH_READY } from '@easworks/app-shell/services/auth.ready';
+import { DOMAIN_DATA_READY } from '@easworks/app-shell/services/domain-data.ready';
 import { SEO_DEFAULT_CONFIG, SEOService } from '@easworks/app-shell/services/seo';
 import { SWManagerService } from '@easworks/app-shell/services/sw.manager';
 import { authFeature } from '@easworks/app-shell/state/auth';
@@ -87,6 +89,8 @@ export const appConfig: ApplicationConfig = {
         SWManagerService,
         AuthService,
         SEOService,
+        AUTH_READY,
+        DOMAIN_DATA_READY
       ],
       multi: true
     },

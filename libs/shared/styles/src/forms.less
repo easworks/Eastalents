@@ -89,6 +89,10 @@
       > label {
         @apply text-gray-500;
       }
+
+      .field {
+        @apply ring-divider bg-surface-container-lowest;
+      }
     }
   }
   
@@ -158,7 +162,7 @@ select {
 }
 
 .mat-mdc-select {
-  --mat-select-trigger-text-line-height: theme('lineHeight.5');
+  --mat-select-trigger-text-line-height: theme('lineHeight.tight');
   --mat-select-trigger-text-size: theme('fontSize.sm');
 
   --mat-select-placeholder-text-color: theme('colors.gray.500 / 0.8');

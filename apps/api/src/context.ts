@@ -8,7 +8,7 @@ import { MikroORM } from '@mikro-orm/mongodb';
 import { FastifyPluginAsync } from 'fastify';
 import { fastifyPlugin } from 'fastify-plugin';
 import { StatusCodes } from 'http-status-codes';
-import { CloudUser } from 'server-side/context';
+import { CloudContext, CloudUser } from 'server-side/context';
 import { InvalidBearerToken, UserIsDisabled, UserNotFound } from 'server-side/errors/definitions';
 import { jwtUtils } from './auth/utils';
 import { environment } from './environment';
@@ -16,7 +16,7 @@ import { environment } from './environment';
 const pluginImpl: FastifyPluginAsync = async server => {
   server.decorate('orm', await MikroORM.init(buildConfig(environment.mongodb)));
 
-  server.decorateRequest('ctx', null);
+  server.decorateRequest('ctx', null as unknown as CloudContext);
 
   server.addHook('onRequest', async (req) => {
     req.ctx = {

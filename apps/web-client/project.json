@@ -143,12 +143,10 @@
         "webWorkerTsConfig": "apps/web-client/tsconfig.worker.json"
       }
     },
-    "serve-static": {
-      "executor": "@nx/web:file-server",
+    "serve-dist": {
+      "executor": "nx:run-commands",
       "options": {
-        "staticFilePath": "dist/apps/web-client/browser",
-        "spa": true,
-        "buildTarget": "web-client:build"
+        "command": "node --watch dist/apps/web-client/server/server.mjs"
       }
     },
     "prep-deploy": {

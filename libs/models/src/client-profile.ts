@@ -2,6 +2,9 @@ import { EasworksServiceType, RequiredExperience, WorkEnvironment } from './job-
 import { CSCLocation } from './location';
 import { User } from './user';
 
+export const CLIENT_PROFILE_MAX_DOMAINS = 4;
+export const CLIENT_PROFILE_MAX_SOFTWARE = 6;
+
 export const CLIENT_TYPE_OPTIONS = [
   'Enterprise',
   'Small & Medium Business',
@@ -57,10 +60,14 @@ export interface ClientProfile {
   location: CSCLocation;
 
   contact: {
-    name: string;
-    primary: boolean;
-    email: string | null;
-    phone: string | null;
-    website: string | null;
-  }[];
+    primary: ClientProfileContact,
+    secondary: ClientProfileContact | null;
+  };
+}
+
+export interface ClientProfileContact {
+  name: string;
+  email: string | null;
+  phone: string | null;
+  website: string | null;
 }

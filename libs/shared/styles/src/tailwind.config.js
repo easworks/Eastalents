@@ -24,7 +24,7 @@ module.exports = {
         ...generateShadows()
       },
       boxShadowColor: ({ theme }) => ({
-        DEFAULT: theme('colors.black / 30%')
+        DEFAULT: theme('colors.black / 0.20')
       }),
       borderWidth: {
         '3': 3
@@ -66,13 +66,13 @@ module.exports = {
           '950': '#0f0f0f',
         },
         surface: {
-          'DEFAULT': `hsl(from var(--color-surface-source) h 100 99 / <alpha-value>)`,
+          'DEFAULT': `hsl(from var(--color-surface-source) h 0 100 / <alpha-value>)`,
           'container-lowest': `hsl(from var(--color-surface-source) h 70 98 / <alpha-value>)`,
           'container-low': `hsl(from var(--color-surface-source) h 60 94 / <alpha-value>)`,
-          'container': `hsl(from var(--color-surface-source) h 40 95 / <alpha-value>)`,
+          'container': `hsl(from var(--color-surface-source) h 30 94 / <alpha-value>)`,
           'container-high': `hsl(from var(--color-surface-source) h 50 95 / <alpha-value>)`,
           'container-highest': `hsl(from var(--color-surface-source) h 40 88 / <alpha-value>)`,
-          'dim': `hsl(from var(--color-surface-source) h 50 87 / <alpha-value>)`,
+          'dim': `hsl(from var(--color-surface-source) h 25 87 / <alpha-value>)`,
           'bright': `hsl(from var(--color-surface-source) h 70 97 / <alpha-value>)`,
         },
         on: {

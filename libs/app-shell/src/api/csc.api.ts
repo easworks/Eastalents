@@ -1,7 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { firstValueFrom, of } from 'rxjs';
+import { map, of, switchMap, zip } from 'rxjs';
 import { isBrowser } from '../utilities/platform-type';
+import { sortNumber } from '../utilities/sort';
+import { SingleRequest } from './single-request';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,7 @@ export class CSCApi {
     'X-CSCAPI-KEY': this.apiKey
   });
   private readonly http = inject(HttpClient);
+  private readonly singleReq = inject(SingleRequest);
 
   private readonly isBrowser = isBrowser();
 
@@ -23,96 +26,70 @@ export class CSCApi {
 
     const url = `${this.apiUrl}/countries`;
 
-    const countries = this.http.get<Country[]>(url, { headers: this.headers });
-
-
-    return countries;
+    return this.singleReq.process(
+      url,
+      this.http.get<Country[]>(url, { headers: this.headers })
+        .pipe(switchMap(countries => zip(countries.map(c => this.countryDetails(c.iso2)))))
+    );
   }
 
-  async allTimezones() {
-    return [];
-    // const id = 'timezones';
-
-    // const cached = this.cache && await this.cache.get<Timezone[]>(id, THREE_DAY_MS);
-    // if (cached)
-    //   return cached;
-
-    // const countries = await this.allCountries();
-    // const tz = countries.flatMap(c => c.timezones)
-    //   .sort((a, b) => sortNumber(a.gmtOffset, b.gmtOffset));
-
-    // if (this.cache)
-    //   await this.cache.set(id, tz);
-    // return tz;
+  allTimezones() {
+    return this.allCountries()
+      .pipe(map(countries =>
+        countries.flatMap(c => c.timezones)
+          .sort((a, b) => sortNumber(a.gmtOffset, b.gmtOffset))
+      ));
   }
 
-  async allStates(ciso2: string) {
-    return [];
-    // try {
-    //   const url = `${this.apiUrl}/countries/${ciso2}/states`;
-    //   const id = url;
-    //   const country = await this.countryDetails(ciso2);
+  allStates(ciso2: string) {
+    if (!this.isBrowser)
+      return of([]);
 
-    //   const cached = this.cache && await this.cache.get<State[]>(id, THREE_DAY_MS);
-    //   if (cached)
-    //     return cached;
+    const url = `${this.apiUrl}/countries/${ciso2}/states`;
 
-    //   const states = await fetch(url, { headers: this.headers })
-    //     .then(this.verifyOk)
-    //     .then<State[]>(r => r.json())
-    //     .catch(this.handleError);
-
-    //   states.forEach(s => {
-    //     s.country_code = country.iso2;
-    //     s.country_id = country.id;
-    //   });
-
-    //   if (this.cache)
-    //     await this.cache.set(id, states);
-    //   return states;
-    // }
-    // catch (e) {
-    //   console.error(e);
-    //   return [];
-    // }
+    return this.singleReq.process(
+      url,
+      zip(
+        this.countryDetails(ciso2),
+        this.http.get<State[]>(url, { headers: this.headers }),
+      ).pipe(map(([country, states]) => {
+        states.forEach(s => {
+          s.country_iso2 = country.iso2;
+          s.country_id = country.id;
+        });
+        return states;
+      }))
+    );
   }
 
-  async allCities(ciso2: string, siso2?: string) {
-    // try {
-    //   const url = siso2 ?
-    //     `${this.apiUrl}/countries/${ciso2}/states/${siso2}/cities` :
-    //     `${this.apiUrl}/countries/${ciso2}/cities`;
-    //   const id = url;
+  allCities(ciso2: string, siso2?: string) {
+    if (!this.isBrowser)
+      return of([]);
 
-    //   const cached = this.cache && await this.cache.get<City[]>(id, THREE_DAY_MS);
-    //   if (cached)
-    //     return cached;
+    const url = siso2 ?
+      `${this.apiUrl}/countries/${ciso2}/states/${siso2}/cities` :
+      `${this.apiUrl}/countries/${ciso2}/cities`;
 
-    //   const cities = await fetch(url, { headers: this.headers })
-    //     .then(this.verifyOk)
-    //     .then<City[]>(r => r.json())
-    //     .catch(this.handleError);
-
-    //   if (this.cache)
-    //     await this.cache.set(id, cities);
-    //   return cities;
-    // }
-    // catch (e) {
-    //   console.error(e);
-    //   return [];
-    // }
+    return this.singleReq.process(
+      url,
+      this.http.get<City[]>(url, { headers: this.headers })
+    );
   }
 
-  private async countryDetails(ciso2: string) {
+  private countryDetails(ciso2: string) {
     const url = `${this.apiUrl}/countries/${ciso2}`;
-    const country = await firstValueFrom(this.http.get<Country>(url, { headers: this.headers }));
 
-    const tzData = (country.timezones as unknown as string).trim();
+    return this.singleReq.process(
+      url,
+      this.http.get<Country>(url, { headers: this.headers })
+        .pipe(map(country => {
+          const tzData = (country.timezones as unknown as string).trim();
+          country.timezones = tzData ? JSON.parse(tzData) : [];
+          country.translations = JSON.parse(country.translations as unknown as string);
 
-    country.timezones = tzData ? JSON.parse(tzData) : [];
-    country.translations = JSON.parse(country.translations as unknown as string);
-
-    return country;
+          return country;
+        }))
+    );
   }
 }
 
@@ -134,7 +111,7 @@ export interface State {
   name: string;
   iso2: string;
 
-  country_code: string;
+  country_iso2: string;
   country_id: number;
 }
 

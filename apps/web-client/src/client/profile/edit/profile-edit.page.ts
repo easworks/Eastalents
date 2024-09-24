@@ -5,6 +5,7 @@ import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/ma
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { ClearTriggerOnSelectDirective } from '@easworks/app-shell/common/clear-trigger-on-select.directive';
+import { CSCFormComponent } from '@easworks/app-shell/common/csc-form/csc-form.component';
 import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator.component';
 import { controlValue$ } from '@easworks/app-shell/common/form-field.directive';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
@@ -12,14 +13,17 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { domainData } from '@easworks/app-shell/state/domain-data';
 import { sortNumber, sortString } from '@easworks/app-shell/utilities/sort';
-import { ANNUAL_REVENUE_RANGE_OPTIONS, AnnualRevenueRange, CLIENT_SIZE_OPTIONS, CLIENT_TYPE_OPTIONS, ClientProfile, ClientSize, ClientType } from '@easworks/models/client-profile';
+import { ANNUAL_REVENUE_RANGE_OPTIONS, AnnualRevenueRange, CLIENT_PROFILE_MAX_DOMAINS, CLIENT_PROFILE_MAX_SOFTWARE, CLIENT_SIZE_OPTIONS, CLIENT_TYPE_OPTIONS, ClientProfile, ClientSize, ClientType } from '@easworks/models/client-profile';
 import { Domain } from '@easworks/models/domain';
 import { EASWORKS_SERVICE_TYPE_OPTIONS, EasworksServiceType, REQUIRED_EXPERIENCE_OPTIONS, RequiredExperience, WORK_ENVIRONMENT_OPTIONS, WorkEnvironment } from '@easworks/models/job-post';
+import { SoftwareProduct } from '@easworks/models/software';
 import { faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import Fuse from 'fuse.js';
 import { ClientProfileEditCardsComponent } from './cards/profile-edit-cards.component';
-import { SoftwareProduct } from '@easworks/models/software';
+import { ClientProfileContactFormComponent } from './contact-info-form/contact-info-form.component';
+
+type ClientIndustry = ClientProfile['industry'];
 
 @Component({
   selector: 'client-profile-edit-page',
@@ -36,7 +40,9 @@ import { SoftwareProduct } from '@easworks/models/software';
     DropDownIndicatorComponent,
     ClientProfileEditCardsComponent,
     MatSelectModule,
-    ClearTriggerOnSelectDirective
+    ClearTriggerOnSelectDirective,
+    CSCFormComponent,
+    ClientProfileContactFormComponent
   ]
 })
 export class ClientProfileEditPageComponent implements OnInit {
@@ -48,6 +54,11 @@ export class ClientProfileEditPageComponent implements OnInit {
   protected readonly icons = {
     faCircleInfo,
     faSquareXmark
+  } as const;
+
+  protected readonly maxLength = {
+    domains: CLIENT_PROFILE_MAX_DOMAINS,
+    software: CLIENT_PROFILE_MAX_SOFTWARE
   } as const;
 
   readonly profile$ = input.required<ClientProfile>({ alias: 'profile' });
@@ -108,6 +119,16 @@ export class ClientProfileEditPageComponent implements OnInit {
     softwareProducts: new FormControl([] as SoftwareProduct[], {
       nonNullable: true,
       validators: [Validators.required]
+    }),
+    industry: new FormControl(null as unknown as ClientIndustry, {
+      nonNullable: true,
+      validators: [Validators.required]
+    }),
+    location: CSCFormComponent.createForm(),
+    contact: new FormGroup({
+      primary: ClientProfileContactFormComponent.createForm(),
+      secondary: ClientProfileContactFormComponent.createForm(),
+
     })
   });
 
@@ -128,7 +149,7 @@ export class ClientProfileEditPageComponent implements OnInit {
     const added$ = computed(() => new Set(value$().map(d => d.id)));
 
     const count$ = computed(() => added$().size);
-    const allowAdd$ = computed(() => count$() < 3);
+    const allowAdd$ = computed(() => count$() < this.maxLength.domains);
 
     const searchable$ = computed(() => {
       const added = added$();
@@ -199,7 +220,7 @@ export class ClientProfileEditPageComponent implements OnInit {
     const added$ = computed(() => new Set(value$().map(d => d.id)));
 
     const count$ = computed(() => added$().size);
-    const allowAdd$ = computed(() => count$() < 3);
+    const allowAdd$ = computed(() => count$() < this.maxLength.software);
 
     const searchable$ = computed(() => {
       const added = added$();
@@ -286,6 +307,65 @@ export class ClientProfileEditPageComponent implements OnInit {
     } as const;
   })();
 
+  protected readonly industry = (() => {
+    const data$ = this.store.selectSignal(domainData.feature.selectIndustries);
+
+    const list$ = computed(() => {
+      const data = data$();
+      const list = [] as ClientIndustry[];
+      data.forEach(group =>
+        group.industries.forEach(item =>
+          list.push({ name: item, group: group.name })
+        ));
+      return list;
+    });
+
+    const value$ = toSignal(controlValue$(this.form.controls.industry), { requireSync: true });
+
+    const search$ = computed(() => new Fuse(list$(), {
+      keys: [
+        { name: 'name', weight: 4 },
+        { name: 'group', weight: 1 }
+      ],
+      includeScore: true
+    }));
+
+    const query$ = signal<string>('');
+    const displayWith = (v: ClientIndustry | string | null) => v ? (typeof v === 'string' ? v : `${v.name} - ${v.group}`) : '';
+
+    const results$ = computed(() => {
+      let q = query$();
+
+      if (typeof q === 'string') {
+        q = q.trim();
+        if (q)
+          return search$()
+            .search(q)
+            .map(r => r.item);
+      }
+
+      return list$();
+    });
+
+    const onSelect = (event: MatAutocompleteSelectedEvent) => {
+      this.form.controls.industry.setValue(event.option.value);
+      query$.set('');
+    };
+
+    const remove = () => {
+      this.form.controls.industry.setValue(null as unknown as ClientIndustry);
+    };
+
+    return {
+      value$,
+      query$,
+      displayWith,
+      results$,
+      onSelect,
+      remove,
+    } as const;
+  })();
+
   protected reset() {
     const original = this.profile$();
 
@@ -308,7 +388,13 @@ export class ClientProfileEditPageComponent implements OnInit {
       size: original.size,
       annualRevenueRange: original.annualRevenueRange,
       domains,
-      softwareProducts
+      softwareProducts,
+      location: {
+        city: original.location.city || '',
+        country: original.location.country || '',
+        state: original.location.state || '',
+        timezone: original.location.timezone || ''
+      }
     });
   }
 

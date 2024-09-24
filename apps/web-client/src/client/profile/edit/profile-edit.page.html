@@ -1,12 +1,24 @@
 <div class="flex flex-wrap">
 
   <div class="page flex-1">
+
+    <!-- <div class="bg-surface shadow-md shadow-slate-300"> -->
+    <h1 class="bg-surface shadow
+        rounded-md p-2 px-4
+        text-2xl font-bold text-primary-900">Company Profile</h1>
+    <!-- </div> -->
+
+
+    <mat-divider class="!mt-4"></mat-divider>
+
     <form [formGroup]="form">
-      <div class="rounded-md bg-surface">
-        <h2 class="p-4 text-xl font-semibold">Company Profile</h2>
-        <mat-divider></mat-divider>
-        <!-- name and summary -->
-        <div class="p-4">
+
+      <!-- company details -->
+      <div class="page-section mt-4">
+        <h2 class="header">Company Details</h2>
+
+        <div class="content mt-4">
+          <!-- name -->
           <div *ngrxLet="form.controls.name as control"
                [formFieldControl]="control">
             <label>
@@ -17,6 +29,7 @@
             @if(control.hasError('required')){<span class="error">Required</span>}
           </div>
 
+          <!-- description -->
           <div *ngrxLet="form.controls.description as control"
                [formFieldControl]="control">
             <label>
@@ -33,11 +46,7 @@
             @if(control.hasError('maxlength')){<span class="error">{{control.value.length || 0}}/1500</span>}
             <span class="hint">{{control.value.length || 0}}/1500</span>
           </div>
-        </div>
 
-        <mat-divider></mat-divider>
-
-        <div class="p-4">
           <!-- company type -->
           <div *ngrxLet="form.controls.type as control"
                [formFieldControl]="control">
@@ -88,16 +97,20 @@
           </div>
         </div>
 
-        <mat-divider></mat-divider>
+      </div>
+
+      <!-- enterprise applications and software -->
+      <div class="page-section mt-4">
+        <h2 class="header">Enterprise Applications & Software</h2>
 
         <!-- domains -->
-        <div class="p-4 @container">
-          <div class="flex gap-2 flex-col justify-between @xs:flex-row">
-            <span class="font-bold">Domains</span>
-            <div class="flex-grow @xs:flex-none flex gap-2 text-sm text-slate-500 items-center justify-between">
+        <div class="content mb-4 mt-2 @container">
+          <div class="flex gap-2 flex-col justify-between text-sm @xs:flex-row">
+            <span class="font-bold self-center">Enterprise Application Domains</span>
+            <div class="flex-grow @xs:flex-none flex gap-2 text-slate-500 items-center justify-between">
               <span class="flex gap-2 items-center">
                 <fa-icon [icon]="icons.faCircleInfo" class=""></fa-icon>
-                <span>Select 1 - 3 items</span>
+                <span>Select 1 - {{maxLength.domains}} items</span>
               </span>
               <span *ngrxLet="domains.count$() as count" class="selection-counter" [class.selected]="count > 0">
                 {{count}} selected
@@ -120,7 +133,7 @@
           }
 
           @if(domains.allowAdd$()) {
-          <div class="mt-4">
+          <div class="mt-2">
             <div class="form-field mb-0">
               <input type="text" [(ngModel)]="domains.query$" [ngModelOptions]="{ standalone: true }"
                      [matAutocomplete]="searchOptions" clearTriggerOnSelect
@@ -135,20 +148,16 @@
             </mat-autocomplete>
           </div>
           }
-
-
         </div>
 
-        <mat-divider></mat-divider>
-
-        <!-- software products -->
-        <div class="p-4 @container">
-          <div class="flex gap-2 flex-col justify-between @xs:flex-row">
-            <span class="font-bold">Software Products</span>
-            <div class="flex-grow @xs:flex-none flex gap-2 text-sm text-slate-500 items-center justify-between">
+        <!-- software -->
+        <div class="content mb-4 mt-4 @container">
+          <div class="flex gap-2 flex-col justify-between text-sm @xs:flex-row">
+            <span class="font-bold self-center">Software Products</span>
+            <div class="flex-grow @xs:flex-none flex gap-2 text-slate-500 items-center justify-between">
               <span class="flex gap-2 items-center">
                 <fa-icon [icon]="icons.faCircleInfo" class=""></fa-icon>
-                <span>Select 1 - 3 items</span>
+                <span>Select 1 - {{maxLength.software}} items</span>
               </span>
               <span *ngrxLet="software.count$() as count" class="selection-counter" [class.selected]="count > 0">
                 {{count}} selected
@@ -171,7 +180,7 @@
           }
 
           @if(software.allowAdd$()) {
-          <div class="mt-4">
+          <div class="mt-2">
             <div class="form-field mb-0">
               <input type="text" [(ngModel)]="software.query$" [ngModelOptions]="{ standalone: true }"
                      [matAutocomplete]="searchOptions" clearTriggerOnSelect
@@ -187,62 +196,87 @@
           </div>
           }
         </div>
+      </div>
 
-        <mat-divider></mat-divider>
+      <!-- industry information -->
+      <div class="page-section mt-4">
+        <h2 class="header">Industry Information</h2>
 
-        <div class="p-4">
-
-          <!-- preferred service type -->
-          <div *ngrxLet="form.controls.hiringPreferences.controls.serviceType as control"
-               [formFieldControl]="control">
-            <label>
-              Preferred Service Type
-              <span class="text-warn">*</span>
-            </label>
-
-            <mat-select [formControl]="control" multiple placeholder="Service Type">
-              @for(option of options.serviceType; track option) {
-              <mat-option [value]="option">{{option}}</mat-option>
-              }
-            </mat-select>
-            @if(control.hasError('required')){<span class="error">Required</span>}
+        <div class="content mt-2 mb-4 @container">
+          <div class="flex gap-2 flex-col justify-between text-sm @xs:flex-row">
+            <span class="font-bold">Industry</span>
+            <div class="flex-grow @xs:flex-none flex gap-2 text-slate-500 items-center justify-between">
+              <span class="flex gap-2 items-center">
+                <fa-icon [icon]="icons.faCircleInfo" class=""></fa-icon>
+                <span>Select 1 item</span>
+              </span>
+            </div>
           </div>
 
-          <!-- preferred talent experience -->
-          <div *ngrxLet="form.controls.hiringPreferences.controls.experience as control"
-               [formFieldControl]="control">
-            <label>
-              Preferred Talent Experience
-              <span class="text-warn">*</span>
-            </label>
+          @if (industry.value$(); as clientIndustry) {
+          <div class="mt-4 flex flex-wrap gap-4">
+            <div class="chip">
+              <span class="flex gap-4 justify-between items-center">
+                <span>{{clientIndustry.name}}</span>
+                <span class="text-sm italic text-on-surface-variant/80">{{clientIndustry.group}}</span>
+              </span>
+              <button type="button" mat-ripple (click)="industry.remove()">
+                <fa-icon [icon]="icons.faSquareXmark"></fa-icon>
+              </button>
+            </div>
+          </div>
+          }
+          @else {
+          <div class="mt-4">
+            <div class="form-field mb-0">
+              <input type="text" [(ngModel)]="industry.query$" [ngModelOptions]="{ standalone: true }"
+                     [matAutocomplete]="searchOptions" clearTriggerOnSelect
+                     placeholder="Select Industry">
+            </div>
 
-            <mat-select [formControl]="control" multiple placeholder="Experience">
-              @for(option of options.experience; track option) {
-              <mat-option [value]="option">{{option}}</mat-option>
+            <mat-autocomplete #searchOptions hideSingleSelectionIndicator [displayWith]="industry.displayWith"
+                              (optionSelected)="industry.onSelect($event)">
+              @for(option of industry.results$(); track option) {
+              <mat-option [value]="option">
+                {{option.name}} - {{option.group}}
+              </mat-option>
               }
-            </mat-select>
-            @if(control.hasError('required')){<span class="error">Required</span>}
+            </mat-autocomplete>
+          </div>
+          }
+        </div>
+      </div>
+
+      <!-- location and timezone -->
+      <div class="page-section mt-4">
+        <h2 class="header">Location & Timezone</h2>
+
+        <div class="content mt-2 @container">
+          <csc-form [control]="form.controls.location"></csc-form>
+        </div>
+      </div>
+
+      <!-- contact information -->
+      <div class="page-section mt-4">
+        <h2 class="header">Contact Information</h2>
+
+        <div class="content mb-4 @container">
+          <div class="border rounded-md mt-4">
+            <div class="p-2 text-sm font-semibold">Primary</div>
+            <mat-divider></mat-divider>
+            <div class="p-4">
+              <client-profile-contact-form [control]="form.controls.contact.controls.primary"></client-profile-contact-form>
+            </div>
           </div>
 
-          <!-- preferred work environment -->
-          <div *ngrxLet="form.controls.hiringPreferences.controls.workEnvironment as control"
-               [formFieldControl]="control">
-            <label>
-              Preferred Work Environment
-              <span class="text-warn">*</span>
-            </label>
-
-            <mat-select [formControl]="control" multiple placeholder="Work Environment">
-              @for(option of options.workEnvironment; track option) {
-              <mat-option [value]="option">{{option}}</mat-option>
-              }
-            </mat-select>
-            @if(control.hasError('required')){<span class="error">Required</span>}
+          <div class="border rounded-md mt-4">
+            <div class="p-2 text-sm font-semibold">Secondary</div>
+            <mat-divider></mat-divider>
+            <div class="p-4">
+              <client-profile-contact-form [control]="form.controls.contact.controls.secondary"></client-profile-contact-form>
+            </div>
           </div>
         </div>
-
-
-
       </div>
     </form>
   </div>

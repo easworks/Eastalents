@@ -1,17 +1,19 @@
-import { Component, DestroyRef, effect, HostBinding, inject, INJECTOR, input, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, effect, HostBinding, inject, INJECTOR, input, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormGroupDirective } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Subscription } from 'rxjs';
-import { DropDownIndicatorComponent } from '../../drop-down-indicator.component';
-import { controlValue$ } from '../../form-field.directive';
-import { FormImportsModule } from '../../form.imports.module';
-import { ImportsModule } from '../../imports.module';
-import { filterCountryCode, PhoneCodeForm, PhoneCodeOption } from '../../phone-code';
+import { DropDownIndicatorComponent } from '../drop-down-indicator.component';
+import { controlValue$ } from '../form-field.directive';
+import { FormImportsModule } from '../form.imports.module';
+import { ImportsModule } from '../imports.module';
+import { filterCountryCode, PhoneCodeForm, PhoneCodeOption } from '../phone-code';
 
 @Component({
   standalone: true,
   selector: 'phone-number-input',
   templateUrl: './phone-number-input.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
     FormImportsModule,
@@ -22,11 +24,14 @@ import { filterCountryCode, PhoneCodeForm, PhoneCodeOption } from '../../phone-c
 export class PhoneNumberInputComponent implements OnInit {
   private readonly dRef = inject(DestroyRef);
   private readonly injector = inject(INJECTOR);
+  private readonly formGroupDirective = inject(FormGroupDirective, { self: true });
 
   @HostBinding()
   private readonly class = 'flex gap-2 justify-start';
 
-  public readonly form$ = input.required<PhoneCodeForm>({ alias: 'control' });
+  protected get form() {
+    return this.formGroupDirective.control as PhoneCodeForm;
+  }
 
   public readonly options$ = input.required<PhoneCodeOption[]>({ alias: 'options' });
 
@@ -46,7 +51,7 @@ export class PhoneNumberInputComponent implements OnInit {
     let sub: Subscription | null = null;
 
     effect(() => {
-      const control = this.form$().controls.code;
+      const control = this.form.controls.code;
       sub?.unsubscribe();
 
       sub = controlValue$(control)
