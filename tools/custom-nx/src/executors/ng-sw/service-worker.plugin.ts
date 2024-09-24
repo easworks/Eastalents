@@ -15,6 +15,10 @@ export default async function serviceWorkerPlugin(config: ServiceWorkerPluginOpt
     name: pluginName,
     setup: (build) => {
       const options = build.initialOptions;
+
+      const isDevServer = !(options.entryPoints && ('server' in options.entryPoints));
+      const index = isDevServer ? '/' : '/index.csr.html';
+
       if (options.platform !== 'browser')
         return;
 
@@ -29,11 +33,12 @@ export default async function serviceWorkerPlugin(config: ServiceWorkerPluginOpt
         const main = path.relative(options.absWorkingDir!, (options.entryPoints as Record<string, string>)['main'])
           .replace(/\\/g, '/');
 
-        const manifest = extractManifest(main, metafile);
+        const manifest = extractManifest(main, metafile, index);
 
         const swBuild = await build.esbuild.build({
           ...getSwBuildConfig(
             config,
+            index,
             manifest,
             options.define!['ngDevMode']
           ),

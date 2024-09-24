@@ -1,8 +1,8 @@
 import { ImportKind, Metafile } from 'esbuild';
 
-export function extractManifest(main: string, metaFile: Metafile) {
+export function extractManifest(main: string, metaFile: Metafile, index: string) {
 
-  const files = new Set(['/index.csr.html']);
+  const files = new Set([index]);
 
   for (const outputName in metaFile.outputs) {
     const file = metaFile.outputs[outputName];
