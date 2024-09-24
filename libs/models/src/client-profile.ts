@@ -2,6 +2,9 @@ import { EasworksServiceType, RequiredExperience, WorkEnvironment } from './job-
 import { CSCLocation } from './location';
 import { User } from './user';
 
+export const CLIENT_PROFILE_MAX_DOMAINS = 4;
+export const CLIENT_PROFILE_MAX_SOFTWARE = 6;
+
 export const CLIENT_TYPE_OPTIONS = [
   'Enterprise',
   'Small & Medium Business',

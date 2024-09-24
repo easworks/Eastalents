@@ -23,6 +23,18 @@
     @apply p-4 md:p-8 container transition-all;
   }
 
+  .page-section {
+    @apply grid rounded-md bg-surface;
+
+    >.header {
+      @apply rounded-md m-2 p-2 px-4 font-semibold text-primary-500 text-xl bg-primary-50;
+    }
+
+    >.content {
+      @apply px-4;
+    }
+  }
+
   .demo-placeholder {
     @apply rounded bg-slate-500/50 animate-pulse p-4;
   }
