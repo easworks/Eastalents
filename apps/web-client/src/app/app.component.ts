@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, HostBinding, inject, INJECTOR, OnInit, signal, untracked, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, HostBinding, inject, INJECTOR, OnInit, untracked, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { AuthenticateVerticalMenuComponent } from '@easworks/app-shell/navigation/authenticated-vertical-menu/authenticated-vertical-menu.component';
 import { authFeature } from '@easworks/app-shell/state/auth';
 import { ScreenSize, sidebarActions, uiFeature } from '@easworks/app-shell/state/ui';
-import { isServer } from '@easworks/app-shell/utilities/platform-type';
 import { Store } from '@ngrx/store';
 import { AppFooterComponent } from './footer/footer.component';
 import { AppAuthenticatedHeaderComponent } from './header/authenticated/authenticated-header.component';
@@ -35,7 +34,6 @@ export class AppComponent implements OnInit {
   private readonly store = inject(Store);
   private readonly injector = inject(INJECTOR);
   private readonly dRef = inject(DestroyRef);
-  private readonly isServer = isServer();
 
 
   private readonly ui$ = this.store.selectSignal(uiFeature.selectUiState);
@@ -49,7 +47,6 @@ export class AppComponent implements OnInit {
   private readonly appSidenav$ = viewChild.required<MatSidenav>('appSidenav');
 
   protected readonly navigating$ = computed(() => this.ui$().navigating);
-  protected readonly blankPage$ = signal(false);
 
   private readonly screenSize$ = computed(() => this.ui$().screenSize);
 
@@ -106,23 +103,7 @@ export class AppComponent implements OnInit {
     }, { injector: this.injector });
   }
 
-  private serveBlankPage() {
-    if (!this.isServer)
-      return;
-
-    const route = this.injector.get(ActivatedRoute);
-
-    route.queryParamMap
-      .pipe(takeUntilDestroyed(this.dRef))
-      .subscribe(params => {
-        if (params.has('__blank_page')) {
-          this.blankPage$.set(true);
-        }
-      });
-  }
-
   ngOnInit() {
     this.updateSidebarIfNeeded();
-    this.serveBlankPage();
   }
 }
