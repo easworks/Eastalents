@@ -2,11 +2,15 @@ cdk-tree.auth-menu {
   @apply grid p-2;
 
   a {
-    @apply p-2 px-4 flex gap-4 items-center rounded-lg
-      cursor-pointer;
+    @apply p-2 px-4 flex gap-4 items-center rounded-lg cursor-pointer font-normal mb-1;
 
-    &:where(:hover), &:where(:focus) {
-      @apply bg-primary-50 ;
+    &:where(:hover),
+    &:where(:focus) {
+      @apply bg-primary-100;
+
+      fa-icon {
+        @apply !text-primary-600;
+      }
     }
 
     fa-icon {
@@ -14,7 +18,7 @@ cdk-tree.auth-menu {
     }
 
     &.active {
-      @apply bg-primary-200  text-primary-600;
+      @apply bg-primary-100 text-primary-600 font-medium;
 
       fa-icon {
         @apply text-primary-600;
@@ -22,33 +26,45 @@ cdk-tree.auth-menu {
     }
   }
 
+  .toggle-link {
+    &:hover {
+      @apply text-primary-600;
+    }
+  }
+
   div.children {
-    @apply grid;
+    @apply grid ml-12;
 
     @apply invisible max-h-0 overflow-hidden;
   }
 
   .expansion-indicator {
-    @apply ml-auto transition-all;
+    @apply ml-auto transition-all block -rotate-90 !text-xs;
   }
 
-
   div.expanded {
-    > .children {
+    >.children {
       @apply visible max-h-max;
     }
 
     .expansion-indicator {
-      @apply -rotate-90;
+      @apply rotate-0;
     }
   }
 
+  .children a {
+    gap: 12px;
+
+    &::before {
+      content: '⚬︎';
+    }
+  }
 }
 
-.toggle-link .node-icon {
-  display: none; /* Hide the icon by default */
-}
+// .toggle-link .node-icon {
+//   display: none; /* Hide the icon by default */
+// }
 
-.toggle-link:hover .node-icon {
-  display: inline-block; /* Show the icon on hover */
-}
+// .toggle-link:hover .node-icon {
+//   display: inline-block; /* Show the icon on hover */
+// }
