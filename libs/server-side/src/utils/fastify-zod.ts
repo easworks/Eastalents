@@ -16,7 +16,8 @@ const pluginImpl: FastifyPluginAsync = async server => {
 export const useZodValidation = fastifyPlugin(pluginImpl);
 
 export interface ZodTypeProvider extends FastifyTypeProvider {
-  output: this['input'] extends ZodTypeAny ? z.infer<this['input']> : unknown;
+  validator: this['schema'] extends z.ZodTypeAny ? z.infer<this['schema']> : unknown;
+  serializer: this['schema'] extends z.ZodTypeAny ? z.infer<this['schema']> : unknown;
 }
 
 export type FastifyZodPluginAsync<
