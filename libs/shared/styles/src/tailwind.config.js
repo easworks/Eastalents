@@ -24,7 +24,7 @@ module.exports = {
         ...generateShadows()
       },
       boxShadowColor: ({ theme }) => ({
-        DEFAULT: theme('colors.black / 30%')
+        DEFAULT: theme('colors.black / 0.20')
       }),
       borderWidth: {
         '3': 3
