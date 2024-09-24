@@ -13,7 +13,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { domainData } from '@easworks/app-shell/state/domain-data';
 import { sortNumber, sortString } from '@easworks/app-shell/utilities/sort';
-import { ANNUAL_REVENUE_RANGE_OPTIONS, AnnualRevenueRange, CLIENT_SIZE_OPTIONS, CLIENT_TYPE_OPTIONS, ClientProfile, ClientSize, ClientType } from '@easworks/models/client-profile';
+import { ANNUAL_REVENUE_RANGE_OPTIONS, AnnualRevenueRange, CLIENT_PROFILE_MAX_DOMAINS, CLIENT_PROFILE_MAX_SOFTWARE, CLIENT_SIZE_OPTIONS, CLIENT_TYPE_OPTIONS, ClientProfile, ClientSize, ClientType } from '@easworks/models/client-profile';
 import { Domain } from '@easworks/models/domain';
 import { EASWORKS_SERVICE_TYPE_OPTIONS, EasworksServiceType, REQUIRED_EXPERIENCE_OPTIONS, RequiredExperience, WORK_ENVIRONMENT_OPTIONS, WorkEnvironment } from '@easworks/models/job-post';
 import { SoftwareProduct } from '@easworks/models/software';
@@ -21,6 +21,7 @@ import { faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import Fuse from 'fuse.js';
 import { ClientProfileEditCardsComponent } from './cards/profile-edit-cards.component';
+import { ClientProfileContactFormComponent } from './contact-info-form/contact-info-form.component';
 
 type ClientIndustry = ClientProfile['industry'];
 
@@ -40,7 +41,8 @@ type ClientIndustry = ClientProfile['industry'];
     ClientProfileEditCardsComponent,
     MatSelectModule,
     ClearTriggerOnSelectDirective,
-    CSCFormComponent
+    CSCFormComponent,
+    ClientProfileContactFormComponent
   ]
 })
 export class ClientProfileEditPageComponent implements OnInit {
@@ -52,6 +54,11 @@ export class ClientProfileEditPageComponent implements OnInit {
   protected readonly icons = {
     faCircleInfo,
     faSquareXmark
+  } as const;
+
+  protected readonly maxLength = {
+    domains: CLIENT_PROFILE_MAX_DOMAINS,
+    software: CLIENT_PROFILE_MAX_SOFTWARE
   } as const;
 
   readonly profile$ = input.required<ClientProfile>({ alias: 'profile' });
@@ -117,7 +124,12 @@ export class ClientProfileEditPageComponent implements OnInit {
       nonNullable: true,
       validators: [Validators.required]
     }),
-    location: CSCFormComponent.createForm()
+    location: CSCFormComponent.createForm(),
+    contact: new FormGroup({
+      primary: ClientProfileContactFormComponent.createForm(),
+      secondary: ClientProfileContactFormComponent.createForm(),
+
+    })
   });
 
   protected readonly options = {
@@ -137,7 +149,7 @@ export class ClientProfileEditPageComponent implements OnInit {
     const added$ = computed(() => new Set(value$().map(d => d.id)));
 
     const count$ = computed(() => added$().size);
-    const allowAdd$ = computed(() => count$() < 3);
+    const allowAdd$ = computed(() => count$() < this.maxLength.domains);
 
     const searchable$ = computed(() => {
       const added = added$();
@@ -208,7 +220,7 @@ export class ClientProfileEditPageComponent implements OnInit {
     const added$ = computed(() => new Set(value$().map(d => d.id)));
 
     const count$ = computed(() => added$().size);
-    const allowAdd$ = computed(() => count$() < 3);
+    const allowAdd$ = computed(() => count$() < this.maxLength.software);
 
     const searchable$ = computed(() => {
       const added = added$();

@@ -15,13 +15,29 @@ export const CLIENT_ROUTES: Route[] = [
     loadComponent: () => import('./dashboard2/dashboard.page').then(m => m.DashboardComponent)
   },
   {
-    path: 'client/general-info',
+    path: 'client/profile',
     pathMatch: 'full',
     canMatch: [AuthGuardFn],
     data: {
       auth: AUTH_CHECKS.hasRole('client')
     },
     loadComponent: () => import('./general-information/general-info.component').then(m => m.EmployerGeneralInfoComponent)
+  },
+  {
+    path: 'client/profile/edit',
+    pathMatch: 'full',
+    canMatch: [AuthGuardFn],
+    loadComponent: () => import('./profile/edit/profile-edit.page')
+      .then(m => m.ClientProfileEditPageComponent),
+    data: {
+      auth: AUTH_CHECKS.hasRole('client')
+    },
+    resolve: {
+      profile: () => {
+        const api = inject(ClientApi);
+        return api.profile.get();
+      }
+    }
   },
   {
     path: 'client/hire-talents',
@@ -76,22 +92,6 @@ export const CLIENT_ROUTES: Route[] = [
       auth: AUTH_CHECKS.hasRole('client')
     },
     loadComponent: () => import('./my-profile/my-account.component').then(m => m.MyAccountComponent)
-  },
-  {
-    path: 'client/profile/edit',
-    pathMatch: 'full',
-    canMatch: [AuthGuardFn],
-    loadComponent: () => import('./profile/edit/profile-edit.page')
-      .then(m => m.ClientProfileEditPageComponent),
-    data: {
-      auth: AUTH_CHECKS.hasRole('client')
-    },
-    resolve: {
-      profile: () => {
-        const api = inject(ClientApi);
-        return api.profile.get();
-      }
-    }
   },
   {
     path: 'account-setting',

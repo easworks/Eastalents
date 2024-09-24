@@ -2,17 +2,22 @@
 
   <div class="page flex-1">
 
-    <h1 class="text-2xl font-bold text-primary-900">Company Profile</h1>
+    <!-- <div class="bg-surface shadow-md shadow-slate-300"> -->
+    <h1 class="bg-surface shadow
+        rounded-md p-2 px-4
+        text-2xl font-bold text-primary-900">Company Profile</h1>
+    <!-- </div> -->
 
-    <mat-divider class="!mt-2"></mat-divider>
+
+    <mat-divider class="!mt-4"></mat-divider>
 
     <form [formGroup]="form">
 
       <!-- company details -->
-      <div class="grid rounded-md bg-surface mt-4">
-        <h2 class="rounded-md m-2 p-2 font-semibold text-primary-500 text-xl bg-primary-50">Company Details</h2>
+      <div class="page-section mt-4">
+        <h2 class="header">Company Details</h2>
 
-        <div class="px-4 mt-2">
+        <div class="content mt-4">
           <!-- name -->
           <div *ngrxLet="form.controls.name as control"
                [formFieldControl]="control">
@@ -95,11 +100,11 @@
       </div>
 
       <!-- enterprise applications and software -->
-      <div class="grid rounded-md bg-surface mt-4">
-        <h2 class="rounded-md m-2 p-2 font-semibold text-primary-500 text-xl bg-primary-50">Enterprise Applications & Software</h2>
+      <div class="page-section mt-4">
+        <h2 class="header">Enterprise Applications & Software</h2>
 
         <!-- domains -->
-        <div class="px-4 pb-4 mt-2 @container">
+        <div class="content mb-4 mt-2 @container">
           <div class="flex gap-2 flex-col justify-between text-sm @xs:flex-row">
             <span class="font-bold self-center">Enterprise Application Domains</span>
             <div class="flex-grow @xs:flex-none flex gap-2 text-slate-500 items-center justify-between">
@@ -146,7 +151,7 @@
         </div>
 
         <!-- software -->
-        <div class="px-4 pb-4 mt-4 @container">
+        <div class="content mb-4 mt-4 @container">
           <div class="flex gap-2 flex-col justify-between text-sm @xs:flex-row">
             <span class="font-bold self-center">Software Products</span>
             <div class="flex-grow @xs:flex-none flex gap-2 text-slate-500 items-center justify-between">
@@ -194,19 +199,16 @@
       </div>
 
       <!-- industry information -->
-      <div class="grid rounded-md bg-surface mt-4">
-        <h2 class="rounded-md m-2 p-2 font-semibold text-primary-500 text-xl bg-primary-50">Industry Information</h2>
+      <div class="page-section mt-4">
+        <h2 class="header">Industry Information</h2>
 
-        <div class="px-4 pb-4 mt-2 @container">
+        <div class="content mt-2 mb-4 @container">
           <div class="flex gap-2 flex-col justify-between text-sm @xs:flex-row">
             <span class="font-bold">Industry</span>
             <div class="flex-grow @xs:flex-none flex gap-2 text-slate-500 items-center justify-between">
               <span class="flex gap-2 items-center">
                 <fa-icon [icon]="icons.faCircleInfo" class=""></fa-icon>
-                <span>Select 1 - 3 items</span>
-              </span>
-              <span *ngrxLet="software.count$() as count" class="selection-counter" [class.selected]="count > 0">
-                {{count}} selected
+                <span>Select 1 item</span>
               </span>
             </div>
           </div>
@@ -246,19 +248,19 @@
       </div>
 
       <!-- location and timezone -->
-      <div class="grid rounded-md bg-surface mt-4">
-        <h2 class="rounded-md m-2 p-2 font-semibold text-primary-500 text-xl bg-primary-50">Location & Timezone</h2>
+      <div class="page-section mt-4">
+        <h2 class="header">Location & Timezone</h2>
 
-        <div class="px-4 pb-4 mt-2 @container">
+        <div class="content mt-2 @container">
           <csc-form [control]="form.controls.location"></csc-form>
         </div>
       </div>
 
       <!-- contact information -->
-      <div class="grid rounded-md bg-surface mt-4">
-        <h2 class="rounded-md m-2 p-2 font-semibold text-primary-500 text-xl bg-primary-50">Contact Information</h2>
+      <div class="page-section mt-4">
+        <h2 class="header">Contact Information</h2>
 
-        <div class="px-4 pb-4 @container">
+        <div class="content mb-4 @container">
           <div class="border rounded-md mt-4">
             <div class="p-2 text-sm font-semibold">Primary</div>
             <mat-divider></mat-divider>
