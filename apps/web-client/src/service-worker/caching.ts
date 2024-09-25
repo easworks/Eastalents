@@ -22,7 +22,7 @@ export function setupCaching(cachePrefix: string) {
 
 
   registerRoute(new NavigationRoute(
-    createHandlerBoundToURL(self.__INDEX_URL)
+    createHandlerBoundToURL('/index.html')
   ));
 
   registerRoute(new Route(
