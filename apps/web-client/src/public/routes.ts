@@ -5,6 +5,7 @@ import { AUTH_READY } from '@easworks/app-shell/services/auth.ready';
 import { PageMetadata } from '@easworks/app-shell/services/seo';
 import { AUTH_CHECKS, authActions, authFeature } from '@easworks/app-shell/state/auth';
 import { Store } from '@ngrx/store';
+import { HELP_CENTER_ROUTES } from './help-center/routes';
 import { USE_CASES_ROUTE } from './use-cases/routes';
 
 const redirectUser: CanMatchFn = (() => {
@@ -145,7 +146,7 @@ export const PUBLIC_ROUTES: Routes = [
   //   }
   // },
   USE_CASES_ROUTE,
-  // ...HELP_CENTER_ROUTES,
+  ...HELP_CENTER_ROUTES,
   // {
   //   path: 'about-us',
   //   pathMatch: 'full',
