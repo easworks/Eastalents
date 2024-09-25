@@ -180,5 +180,10 @@
       "defaultConfiguration": "development",
       "dependsOn": ["prep-deploy"]
     }
+  },
+  "cli": {
+    "cache": {
+      "enabled": false
+    }
   }
 }

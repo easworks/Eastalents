@@ -31,7 +31,10 @@ export const serveAngularSSR: FastifyPluginAsync<ServeAngularSSROptions> = async
   server.get('*', async (req, rep) => {
     const extension = mime.getType(req.url);
 
-    if (extension) {
+    if (req.url === '/index.html') {
+      return rep.sendFile('/index.csr.html');
+    }
+    else if (extension) {
       return rep.sendFile(req.url);
     }
     else {

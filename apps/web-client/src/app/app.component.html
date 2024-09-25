@@ -27,9 +27,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content class="flex-grow !flex flex-col !overflow-visible">
-    @if (!blankPage$()) {
     <router-outlet class="hidden [&_+_*]:flex-1"></router-outlet>
-    }
 
     <app-footer class="mt-auto !flex-none"></app-footer>
   </mat-sidenav-content>

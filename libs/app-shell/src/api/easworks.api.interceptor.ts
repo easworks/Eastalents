@@ -27,7 +27,15 @@ export const easworksApiInterceptor: HttpInterceptorFn = (req, next) => {
         return next(req);
       }),
       catchError(err => {
-        const pd = ProblemDetails.fromObject(err.error);
+        let pd;
+        try {
+          pd = ProblemDetails.fromObject(err.error);
+        }
+        catch {
+          pd = new ProblemDetails();
+          pd.type = 'unknown-error';
+          pd['error'] = err;
+        }
         if (pd.type === 'invalid-bearer-token')
           store.dispatch(authActions.signOut({ payload: { revoked: true } }));
         throw pd;

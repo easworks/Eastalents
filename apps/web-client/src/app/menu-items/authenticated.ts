@@ -154,15 +154,6 @@ export const authenticatedMenu: AuthenticatedMenuItem[] = [
       auth: AUTH_CHECKS.hasRole('client')
     }
   ]),
-
-  ...itemsForParent('client-profile', [
-    {
-      id: 'general-info', text: 'General Information',
-      link: '/client/general-info',
-      auth: AUTH_CHECKS.hasRole('client')
-    }
-  ])
-
 ];
 
 function itemsForParent(parent: string, items: AuthenticatedMenuItem[]) {

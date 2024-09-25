@@ -1,10 +1,10 @@
 <h2 class="text-center font-black text-lg">APPLY TO JOIN</h2>
-<p class="mt-2 text-center text-sm text-gray-400">
+<p class="mt-2 text-center text-sm text-on-surface-variant">
   The Worlds Top Talent Enterprise Application Network &
   work with the worlds leading Companies.
 </p>
 
-<mat-stepper [orientation]="orientation$()" linear #stepper>
+<mat-stepper [orientation]="orientation$()" linear #stepper class="mt-4">
   <mat-step label="Account Basics" [completed]="accountBasics.valid$()">
     @if (!prefill.canUse$()) {
     <p class="text-sm text-center">
@@ -37,7 +37,7 @@
     }
 
     @if(prefill.routeInfo$()) {
-    <p class="mt-2 mb-4 rounded-md flex gap-2 bg-green-50 p-2 text-sm border-green-500 text-green-600 border-2 items-start">
+    <p class="mb-4 rounded-md flex gap-2 bg-green-50 p-2 text-sm border-green-500 text-green-600 border-2 items-start">
       We used your social account to pre-fill the information
     </p>
     }

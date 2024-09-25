@@ -27,7 +27,7 @@ export function getSwBuildConfig(
     write: false,
     define: {
       'ngDevMode': ngDevMode || 'undefined',
-      'self.__WB_MANIFEST': JSON.stringify(manifest)
+      'self.__WB_MANIFEST': JSON.stringify(manifest),
     }
   };
 }

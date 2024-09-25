@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ContactUsRequest } from 'models/contact-us';
-import { pattern } from 'models/pattern';
 import { finalize, firstValueFrom } from 'rxjs';
 import { ContactUsApi } from '../../api/contact-us';
 import { Country, CSCApi } from '../../api/csc.api';
@@ -15,9 +15,8 @@ import { DropDownIndicatorComponent } from '../drop-down-indicator.component';
 import { FormImportsModule } from '../form.imports.module';
 import { ImportsModule } from '../imports.module';
 import { getPhoneCodeOptions, PhoneCodeOption, updatePhoneValidatorEffect } from '../phone-code';
+import { PhoneNumberInputComponent } from '../phone-number-input/phone-number-input.component';
 import { ContactFormAcknowledgementComponent } from './acknowledgement.snackbar';
-import { PhoneNumberInputComponent } from './phone-number-input/phone-number-input.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,

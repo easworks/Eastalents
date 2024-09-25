@@ -1,7 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { firstValueFrom, map, of, zip } from 'rxjs';
+import { map, of, switchMap, zip } from 'rxjs';
 import { isBrowser } from '../utilities/platform-type';
+import { sortNumber } from '../utilities/sort';
+import { SingleRequest } from './single-request';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,7 @@ export class CSCApi {
     'X-CSCAPI-KEY': this.apiKey
   });
   private readonly http = inject(HttpClient);
+  private readonly singleReq = inject(SingleRequest);
 
   private readonly isBrowser = isBrowser();
 
@@ -23,24 +26,19 @@ export class CSCApi {
 
     const url = `${this.apiUrl}/countries`;
 
-    return this.http.get<Country[]>(url, { headers: this.headers });
+    return this.singleReq.process(
+      url,
+      this.http.get<Country[]>(url, { headers: this.headers })
+        .pipe(switchMap(countries => zip(countries.map(c => this.countryDetails(c.iso2)))))
+    );
   }
 
-  async allTimezones() {
-    return [];
-    // const id = 'timezones';
-
-    // const cached = this.cache && await this.cache.get<Timezone[]>(id, THREE_DAY_MS);
-    // if (cached)
-    //   return cached;
-
-    // const countries = await this.allCountries();
-    // const tz = countries.flatMap(c => c.timezones)
-    //   .sort((a, b) => sortNumber(a.gmtOffset, b.gmtOffset));
-
-    // if (this.cache)
-    //   await this.cache.set(id, tz);
-    // return tz;
+  allTimezones() {
+    return this.allCountries()
+      .pipe(map(countries =>
+        countries.flatMap(c => c.timezones)
+          .sort((a, b) => sortNumber(a.gmtOffset, b.gmtOffset))
+      ));
   }
 
   allStates(ciso2: string) {
@@ -49,16 +47,19 @@ export class CSCApi {
 
     const url = `${this.apiUrl}/countries/${ciso2}/states`;
 
-    return zip(
-      this.countryDetails(ciso2),
-      this.http.get<State[]>(url, { headers: this.headers }),
-    ).pipe(map(([country, states]) => {
-      states.forEach(s => {
-        s.country_iso2 = country.iso2;
-        s.country_id = country.id;
-      });
-      return states;
-    }));
+    return this.singleReq.process(
+      url,
+      zip(
+        this.countryDetails(ciso2),
+        this.http.get<State[]>(url, { headers: this.headers }),
+      ).pipe(map(([country, states]) => {
+        states.forEach(s => {
+          s.country_iso2 = country.iso2;
+          s.country_id = country.id;
+        });
+        return states;
+      }))
+    );
   }
 
   allCities(ciso2: string, siso2?: string) {
@@ -69,20 +70,26 @@ export class CSCApi {
       `${this.apiUrl}/countries/${ciso2}/states/${siso2}/cities` :
       `${this.apiUrl}/countries/${ciso2}/cities`;
 
-    return this.http.get<City[]>(url, { headers: this.headers });
+    return this.singleReq.process(
+      url,
+      this.http.get<City[]>(url, { headers: this.headers })
+    );
   }
 
   private countryDetails(ciso2: string) {
     const url = `${this.apiUrl}/countries/${ciso2}`;
 
-    return this.http.get<Country>(url, { headers: this.headers })
-      .pipe(map(country => {
-        const tzData = (country.timezones as unknown as string).trim();
-        country.timezones = tzData ? JSON.parse(tzData) : [];
-        country.translations = JSON.parse(country.translations as unknown as string);
+    return this.singleReq.process(
+      url,
+      this.http.get<Country>(url, { headers: this.headers })
+        .pipe(map(country => {
+          const tzData = (country.timezones as unknown as string).trim();
+          country.timezones = tzData ? JSON.parse(tzData) : [];
+          country.translations = JSON.parse(country.translations as unknown as string);
 
-        return country;
-      }));
+          return country;
+        }))
+    );
   }
 }
 

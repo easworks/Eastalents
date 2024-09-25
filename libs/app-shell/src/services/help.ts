@@ -6,7 +6,7 @@ import { forkJoin, map, switchMap } from 'rxjs';
   providedIn: 'root'
 })
 export class HelpCenterService {
-  private readonly assets = '/assets/pages/help-center/content';
+  private readonly assets = '/assets/public/help-center/content';
 
   private readonly http = inject(HttpClient);
 
@@ -20,8 +20,8 @@ export class HelpCenterService {
     if (hydrate)
       all = all.pipe(
         switchMap(all =>
-          forkJoin(all.map(g => this.hydrateGroup(category, g))).pipe(
-            map(() => all))
+          forkJoin(all.map(g => this.hydrateGroup(category, g)))
+            .pipe(map(() => all))
         )
       );
 

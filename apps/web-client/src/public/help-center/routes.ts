@@ -1,17 +1,16 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, Routes } from '@angular/router';
 import { HelpCategory, HelpCenterService } from '@easworks/app-shell/services/help';
-import { firstValueFrom } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 
 export const HELP_CENTER_ROUTES: Routes = [
   {
     path: 'help-center',
     loadComponent: () => import('./help-center.page').then(m => m.HelpCenterPageComponent),
     resolve: {
-      categories: async () => {
+      categories: () => {
         const service = inject(HelpCenterService);
-        const all = await service.getCategories();
-        return all;
+        return service.getCategories();
       }
     },
     children: [
@@ -19,7 +18,7 @@ export const HELP_CENTER_ROUTES: Routes = [
         path: ':category',
         loadComponent: () => import('./category.page').then(m => m.HelpCenterCategoryPageComponent),
         resolve: {
-          groups: async (route: ActivatedRouteSnapshot) => {
+          groups: (route: ActivatedRouteSnapshot) => {
             const router = inject(Router);
             const service = inject(HelpCenterService);
 
@@ -32,9 +31,7 @@ export const HELP_CENTER_ROUTES: Routes = [
               throw new Error('not found');
             }
 
-            const groups = await service.getGroups(category);
-
-            return groups;
+            return service.getGroups(category);
           }
         }
       },
@@ -51,35 +48,41 @@ export const HELP_CENTER_ROUTES: Routes = [
     loadComponent: () => import('./group.page')
       .then(m => m.HelpCenterGroupPageComponent),
     resolve: {
-      content: async (route: ActivatedRouteSnapshot) => {
+      content: (route: ActivatedRouteSnapshot) => {
         const router = inject(Router);
         const service = inject(HelpCenterService);
 
         const catKey = ensureParameter('category', route);
         const gKey = ensureParameter('group', route);
 
-        const categories = await firstValueFrom(service.getCategories());
+        return service.getCategories()
+          .pipe(
+            switchMap(categories => {
+              const category = categories.find(c => c.slug === catKey);
+              if (!category) {
+                router.navigateByUrl(`/error-404`, { skipLocationChange: true });
+                throw new Error('not found');
+              }
+              return service.getGroups(catKey)
+                .pipe(map(groups => {
+                  category.groups = groups;
+                  return category;
+                }));
+            }),
+            switchMap(category => {
+              const group = category.groups.find(g => g.slug === gKey);
+              if (!group) {
+                router.navigateByUrl(`/error-404`, { skipLocationChange: true });
+                throw new Error('not found');
+              }
 
-        const category = categories.find(c => c.slug === catKey);
-        if (!category) {
-          router.navigateByUrl(`/error-404`, { skipLocationChange: true });
-          throw new Error('not found');
-        }
-
-        category.groups = await firstValueFrom(service.getGroups(catKey));
-
-        const group = category.groups.find(g => g.slug === gKey);
-        if (!group) {
-          router.navigateByUrl(`/error-404`, { skipLocationChange: true });
-          throw new Error('not found');
-        }
-
-        await service.hydrateGroup(category.slug, group);
-
-        return {
-          category,
-          group
-        };
+              return service.hydrateGroup(category.slug, group)
+                .pipe(map(() => ({
+                  category,
+                  group
+                })));
+            })
+          );
       }
     }
   },

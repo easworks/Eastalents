@@ -138,7 +138,7 @@ html {
 }
 
 .mat-mdc-select-panel {
-  @apply !py-1 !text-sm !rounded;
+  @apply !py-1 !rounded;
 }
 
 
@@ -190,38 +190,67 @@ mat-option.mat-mdc-option-multiple {
   }
 }
 
-.mat-stepper {
+// stepper 
 
-  &-horizontal,
-  &-vertical {
-    --mat-stepper-header-icon-foreground-color: #fffbff;
-    --mat-stepper-header-selected-state-icon-background-color: theme('colors.primary.500');
-    --mat-stepper-header-selected-state-icon-foreground-color: #ffffff;
-    --mat-stepper-header-edit-state-icon-background-color: theme('colors.primary.400');
-    --mat-stepper-header-edit-state-icon-foreground-color: #ffffff;
-    --mat-stepper-container-color: transparent;
-    --mat-stepper-line-color: #7b757f;
-    --mat-stepper-header-hover-state-layer-color: rgba(50, 48, 51, 0.08);
-    --mat-stepper-header-focus-state-layer-color: rgba(50, 48, 51, 0.12);
-    --mat-stepper-header-label-text-color: #49454e;
-    --mat-stepper-header-optional-label-text-color: #49454e;
-    --mat-stepper-header-selected-state-label-text-color: #49454e;
-    --mat-stepper-header-error-state-label-text-color: #ba1a1a;
-    --mat-stepper-header-icon-background-color: #49454e;
-    --mat-stepper-header-error-state-icon-foreground-color: #ba1a1a;
-    --mat-stepper-container-text-font: Roboto, sans-serif;
-    --mat-stepper-header-label-text-font: Roboto, sans-serif;
-    --mat-stepper-header-label-text-size: 0.875rem;
-    --mat-stepper-header-label-text-weight: 500;
-    --mat-stepper-header-error-state-label-text-size: 0.875rem;
-    --mat-stepper-header-selected-state-label-text-size: 0.875rem;
-    --mat-stepper-header-selected-state-label-text-weight: 500;
-    --mat-stepper-header-height: 72px;
-    --mat-stepper-header-focus-state-layer-shape: 12px;
-    --mat-stepper-header-hover-state-layer-shape: 12px;
-    --mat-stepper-header-error-state-icon-background-color: transparent;
+html {
+  --mat-stepper-header-icon-foreground-color: #fffbff;
+  --mat-stepper-header-selected-state-icon-background-color: theme('colors.primary.500');
+  --mat-stepper-header-selected-state-icon-foreground-color: #ffffff;
+  --mat-stepper-header-edit-state-icon-background-color: theme('colors.primary.400');
+  --mat-stepper-header-edit-state-icon-foreground-color: #ffffff;
+  --mat-stepper-container-color: transparent;
+  --mat-stepper-line-color: #7b757f;
+  --mat-stepper-header-hover-state-layer-color: rgba(50, 48, 51, 0.08);
+  --mat-stepper-header-focus-state-layer-color: rgba(50, 48, 51, 0.12);
+  --mat-stepper-header-label-text-color: #49454e;
+  --mat-stepper-header-optional-label-text-color: #49454e;
+  --mat-stepper-header-selected-state-label-text-color: #49454e;
+  --mat-stepper-header-error-state-label-text-color: #ba1a1a;
+  --mat-stepper-header-icon-background-color: #49454e;
+  --mat-stepper-header-error-state-icon-foreground-color: #ba1a1a;
+  --mat-stepper-container-text-font: Roboto, sans-serif;
+  --mat-stepper-header-label-text-font: Roboto, sans-serif;
+  --mat-stepper-header-label-text-size: 0.875rem;
+  --mat-stepper-header-label-text-weight: 500;
+  --mat-stepper-header-error-state-label-text-size: 0.875rem;
+  --mat-stepper-header-selected-state-label-text-size: 0.875rem;
+  --mat-stepper-header-selected-state-label-text-weight: 500;
+  --mat-stepper-header-height: 72px;
+  --mat-stepper-header-focus-state-layer-shape: 12px;
+  --mat-stepper-header-hover-state-layer-shape: 12px;
+  --mat-stepper-header-error-state-icon-background-color: transparent;
+}
+
+.mat-horizontal-stepper-header-container {
+  @apply rounded-lg bg-surface-dim;
+}
+
+.mat-horizontal-content-container {
+  @apply mt-4;
+}
+
+.mat-vertical-content-container {
+  .mat-vertical-content {
+    @apply p-0;
   }
+}
 
+.mat-vertical-stepper-content,
+.mat-horizontal-stepper-content {
+  @apply bg-surface p-4 rounded-md;
+}
+
+.mat-horizontal-stepper-content {
+  @apply mx-auto max-w-3xl;
+}
+
+.mat-vertical-stepper-content {
+  @apply ml-4 ;
+}
+
+.mat-vertical-stepper-content.mat-vertical-stepper-content-inactive,
+.mat-horizontal-stepper-content.mat-horizontal-stepper-content-inactive {
+  @apply p-0;
 }
 
 // virtual viewport 
@@ -235,11 +264,13 @@ mat-option.mat-mdc-option-multiple {
 }
 
 .mat-mdc-autocomplete-panel {
+  @apply !py-1 !rounded;
+
   >cdk-virtual-scroll-viewport {
     @apply h-screen max-h-full;
   }
 
-  --mat-autocomplete-background-color: theme('colors.white');
+  --mat-autocomplete-background-color: theme('colors.surface.DEFAULT');
 }
 
 // cdk overlay

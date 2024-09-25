@@ -12,16 +12,16 @@
     <input type="text" [formControl]="control">
   </div>
 
-  <div *ngrxLet="form.controls.phoneNumber as form"
-       [formFieldControl]="form">
+  <div *ngrxLet="form.controls.phoneNumber as control"
+       [formFieldControl]="control">
 
     <label>Phone Number</label>
 
-    <phone-number-input [control]="form" [options]="contact.options.countryCodes$()"></phone-number-input>
+    <phone-number-input [formGroup]="form" [options]="contact.options.countryCodes$()"></phone-number-input>
 
-    <span class="error" *ngIf="form.controls.code.invalid">Invalid Code</span>
-    <span class="error" *ngIf="form.controls.number.hasError('pattern')">Invalid number</span>
-    <span class="error" *ngIf="form.controls.number.hasError('required')">Number required</span>
+    @if (control.controls.code.invalid) {<span class="error">Invalid Code</span>}
+    @if (control.controls.number.hasError('pattern')) {<span class="error">Invalid number</span>}
+    @if (control.controls.number.hasError('required')) {<span class="error">Number required</span>}
   </div>
 
   <div *ngrxLet="form.controls.subject as control"

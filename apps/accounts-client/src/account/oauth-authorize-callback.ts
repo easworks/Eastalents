@@ -19,7 +19,7 @@ export const oauthAuthorizeCallback: CanActivateFn = (snap) => {
 
 export function extractClientIdFromReturnUrl(returnUrl: string | null) {
   if (returnUrl && returnUrl.startsWith('/oauth/authorize?')) {
-    const url = new URL(window.location.origin + returnUrl);
+    const url = new URL('http://localhost' + returnUrl);
     return url.searchParams.get('client_id');
   }
   return null;
