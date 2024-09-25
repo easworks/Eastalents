@@ -200,7 +200,7 @@
   },
   "cli": {
     "cache": {
-      "enabled": false
+      "path": ".angular/web-client"
     }
   }
 }
