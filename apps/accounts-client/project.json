@@ -184,7 +184,7 @@
   "cli": {
     "cli": {
       "cache": {
-        "path": ".angular/accounts-client"
+        "enabled": false
       }
     }
   }

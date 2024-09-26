@@ -144,7 +144,7 @@
     <div class="flex-none flex gap-2 text-slate-500 items-center justify-between">
       <span class="flex gap-2 items-center">
         <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
-        <span>Select 1 - 3 items</span>
+        <span>Select 1 - {{maxLength.domain}} items</span>
       </span>
       <span *ngrxLet="domains.count$() as count" class="selection-counter" [class.selected]="count > 0">
         {{count}} selected
@@ -193,7 +193,7 @@
     <div class="flex-none flex gap-2 text-slate-500 items-center justify-between">
       <span class="flex gap-2 items-center">
         <fa-icon [icon]="icons.faCircleInfo" class="text-lg"></fa-icon>
-        <span>Select 1 - 10 items</span>
+        <span>Select 1 - {{maxLength.software}} items</span>
       </span>
       <span *ngrxLet="software.count$() as count" class="selection-counter" [class.selected]="count > 0">
         {{count}} selected

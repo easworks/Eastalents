@@ -14,9 +14,11 @@ import { SnackbarComponent } from '@easworks/app-shell/notification/snackbar';
 import { AuthService } from '@easworks/app-shell/services/auth';
 import { domainData } from '@easworks/app-shell/state/domain-data';
 import { generateLoadingState } from '@easworks/app-shell/state/loading';
+import { uiFeature } from '@easworks/app-shell/state/ui';
 import { sleep } from '@easworks/app-shell/utilities/sleep';
 import { sortString } from '@easworks/app-shell/utilities/sort';
 import { zodValidator } from '@easworks/app-shell/validators/zod';
+import { TALENT_PROFILE_MAX_DOMAINS, TALENT_PROFILE_MAX_SOFTWARE } from '@easworks/models/talent-profile';
 import { faCheck, faCircleCheck, faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import Fuse from 'fuse.js';
@@ -32,7 +34,6 @@ import { catchError, delay, EMPTY, finalize, map, NEVER, of, switchMap, tap } fr
 import { extractClientIdFromReturnUrl } from '../../oauth-authorize-callback';
 import { SignUpPageComponent } from '../sign-up.page';
 import { TalentSignUpCardsComponent } from './cards/talent-sign-up-cards.component';
-import { uiFeature } from '@easworks/app-shell/state/ui';
 
 @Component({
   standalone: true,
@@ -61,6 +62,11 @@ export class TalentSignUpFormComponent implements OnInit {
   private readonly api = {
     auth: inject(AuthApi)
   } as const;
+
+  protected readonly maxLength = {
+    domain: TALENT_PROFILE_MAX_DOMAINS,
+    software: TALENT_PROFILE_MAX_SOFTWARE
+  };
 
   @HostBinding()
   private readonly class = 'block @container';
@@ -356,7 +362,7 @@ export class TalentSignUpFormComponent implements OnInit {
         query$.set('');
       };
 
-      const allowed$ = computed(() => count$() < 3);
+      const allowed$ = computed(() => count$() < this.maxLength.domain);
 
       return {
         query$,
@@ -474,7 +480,7 @@ export class TalentSignUpFormComponent implements OnInit {
         query$.set('');
       };
 
-      const allowed$ = computed(() => count$() < 3);
+      const allowed$ = computed(() => count$() < this.maxLength.software);
 
       return {
         query$,
