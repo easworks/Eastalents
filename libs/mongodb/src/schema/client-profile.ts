@@ -1,4 +1,4 @@
-import { AnnualRevenueRange, ClientProfile, ClientSize, ClientType } from '@easworks/models/client-profile';
+import { AnnualRevenueRange, BusinessEntityType, ClientProfile, ClientType, EmployeeCount } from '@easworks/models/client-profile';
 import { InitialProfileData, User } from '@easworks/models/user';
 import { EntitySchema } from '@mikro-orm/mongodb';
 import { user_schema } from './user';
@@ -11,7 +11,8 @@ export const client_profile_schema = new EntitySchema<ClientProfile>({
     name: { type: 'string' },
     description: { type: 'string' },
     type: { type: 'string' },
-    size: { type: 'string' },
+    businessEntityType: { type: 'string' },
+    employeeCount: { type: 'string' },
     industry: { type: 'json', object: true },
     domains: { type: 'string', array: true },
     softwareProducts: { type: 'string', array: true },
@@ -29,6 +30,35 @@ export function initialClientProfile(
 ): ClientProfile {
   return {
     user,
+    name: null as unknown as string,
+    description: null as unknown as string,
+
+    type: null as unknown as ClientType,
+    employeeCount: null as unknown as EmployeeCount,
+    businessEntityType: null as unknown as BusinessEntityType,
+    annualRevenueRange: null as unknown as AnnualRevenueRange,
+
+    industry: {
+      name: null as unknown as string,
+      group: null as unknown as string
+    },
+
+    hiringPreferences: {
+      experience: [],
+      serviceType: [],
+      workEnvironment: []
+    },
+
+    domains: data.domains,
+    softwareProducts: data.softwareProducts,
+
+    location: {
+      city: null,
+      country: null as unknown as string,
+      state: null,
+      timezone: null as unknown as string
+    },
+
     contact: {
       primary: {
         name: `${user.firstName} ${user.lastName}`,
@@ -38,27 +68,5 @@ export function initialClientProfile(
       },
       secondary: null
     },
-    description: null as unknown as string,
-    domains: data.domains,
-    industry: {
-      name: null as unknown as string,
-      group: null as unknown as string
-    },
-    location: {
-      city: null,
-      country: null as unknown as string,
-      state: null,
-      timezone: null as unknown as string
-    },
-    name: null as unknown as string,
-    size: null as unknown as ClientSize,
-    type: null as unknown as ClientType,
-    softwareProducts: data.softwareProducts,
-    annualRevenueRange: null as unknown as AnnualRevenueRange,
-    hiringPreferences: {
-      experience: [],
-      serviceType: [],
-      workEnvironment: []
-    }
   };
 }

@@ -13,7 +13,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { domainData } from '@easworks/app-shell/state/domain-data';
 import { sortNumber, sortString } from '@easworks/app-shell/utilities/sort';
-import { ANNUAL_REVENUE_RANGE_OPTIONS, AnnualRevenueRange, CLIENT_PROFILE_MAX_DOMAINS, CLIENT_PROFILE_MAX_SOFTWARE, CLIENT_SIZE_OPTIONS, CLIENT_TYPE_OPTIONS, ClientProfile, ClientSize, ClientType } from '@easworks/models/client-profile';
+import { ANNUAL_REVENUE_RANGE_OPTIONS, AnnualRevenueRange, BUSINESS_ENTITY_TYPE_OPTIONS, BusinessEntityType, CLIENT_PROFILE_MAX_DOMAINS, CLIENT_PROFILE_MAX_SOFTWARE, CLIENT_TYPE_OPTIONS, ClientProfile, ClientType, EMPLOYEE_COUNT_OPTIONS, EmployeeCount } from '@easworks/models/client-profile';
 import { Domain } from '@easworks/models/domain';
 import { EASWORKS_SERVICE_TYPE_OPTIONS, EasworksServiceType, REQUIRED_EXPERIENCE_OPTIONS, RequiredExperience, WORK_ENVIRONMENT_OPTIONS, WorkEnvironment } from '@easworks/models/job-post';
 import { SoftwareProduct } from '@easworks/models/software';
@@ -86,7 +86,13 @@ export class ClientProfileEditPageComponent implements OnInit {
         Validators.required
       ]
     }),
-    size: new FormControl(null as unknown as ClientSize, {
+    businessEntityType: new FormControl(null as unknown as BusinessEntityType, {
+      nonNullable: true,
+      validators: [
+        Validators.required
+      ]
+    }),
+    employeeCount: new FormControl(null as unknown as EmployeeCount, {
       nonNullable: true,
       validators: [
         Validators.required
@@ -134,7 +140,8 @@ export class ClientProfileEditPageComponent implements OnInit {
 
   protected readonly options = {
     clientType: CLIENT_TYPE_OPTIONS,
-    clientSize: CLIENT_SIZE_OPTIONS,
+    businessType: BUSINESS_ENTITY_TYPE_OPTIONS,
+    employeeCount: EMPLOYEE_COUNT_OPTIONS,
     annualRevenue: ANNUAL_REVENUE_RANGE_OPTIONS,
     serviceType: EASWORKS_SERVICE_TYPE_OPTIONS,
     experience: REQUIRED_EXPERIENCE_OPTIONS,
@@ -385,7 +392,8 @@ export class ClientProfileEditPageComponent implements OnInit {
       name: original.name || '',
       description: original.description || '',
       type: original.type,
-      size: original.size,
+      businessEntityType: original.businessEntityType,
+      employeeCount: original.employeeCount,
       annualRevenueRange: original.annualRevenueRange,
       domains,
       softwareProducts,
