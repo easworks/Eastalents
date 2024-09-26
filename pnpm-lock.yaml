@@ -191,6 +191,9 @@ importers:
       socket.io-client:
         specifier: ^4.7.5
         version: 4.8.0
+      stripe:
+        specifier: ^16.12.0
+        version: 16.12.0
       superjson:
         specifier: ^2.2.1
         version: 2.2.1
@@ -8624,6 +8627,10 @@ packages:
   strip-outer@2.0.0:
     resolution: {integrity: sha512-A21Xsm1XzUkK0qK1ZrytDUvqsQWict2Cykhvi0fBQntGG5JSprESasEyV1EZ/4CiR5WB5KjzLTrP/bO37B0wPg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
+  stripe@16.12.0:
+    resolution: {integrity: sha512-H7eFVLDxeTNNSn4JTRfL2//LzCbDrMSZ+2q1c7CanVWgK2qIW5TwS+0V7N9KcKZZNpYh/uCqK0PyZh/2UsaAtQ==}
+    engines: {node: '>=12.*'}
 
   strong-log-transformer@2.1.0:
     resolution: {integrity: sha512-B3Hgul+z0L9a236FAUC9iZsL+nVHgoCJnqCbN588DjYxvGXaXaaFbfmQ/JhvKjZwsOukuR72XbHv71Qkug0HxA==}
@@ -19486,6 +19493,11 @@ snapshots:
   strip-json-comments@3.1.1: {}
 
   strip-outer@2.0.0: {}
+
+  stripe@16.12.0:
+    dependencies:
+      '@types/node': 22.6.1
+      qs: 6.13.0
 
   strong-log-transformer@2.1.0:
     dependencies:

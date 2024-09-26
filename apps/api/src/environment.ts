@@ -17,5 +17,8 @@ export const environment = {
   },
   gmail: {
     senderId: parseEnv.gmail.senderId()
+  },
+  stripe: {
+    key: parseEnv.stripe.key()
   }
 } as const satisfies Environment;

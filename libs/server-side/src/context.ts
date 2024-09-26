@@ -1,5 +1,6 @@
 import { EAS_MikroORM } from '@easworks/mongodb/types';
 import type { JwtPayload } from 'jsonwebtoken';
+import type Stripe from 'stripe';
 
 export interface CloudUser {
   _id: string;
@@ -21,5 +22,6 @@ declare module 'fastify' {
 
   export interface FastifyInstance {
     orm: EAS_MikroORM;
+    stripe: Stripe;
   }
 }
