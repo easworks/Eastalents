@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { AddressFormComponent } from '@easworks/app-shell/common/address-form/address-form.component';
 import { ClearTriggerOnSelectDirective } from '@easworks/app-shell/common/clear-trigger-on-select.directive';
 import { CSCFormComponent } from '@easworks/app-shell/common/csc-form/csc-form.component';
 import { DropDownIndicatorComponent } from '@easworks/app-shell/common/drop-down-indicator.component';
@@ -42,7 +43,8 @@ type ClientIndustry = ClientProfile['industry'];
     MatSelectModule,
     ClearTriggerOnSelectDirective,
     CSCFormComponent,
-    ClientProfileContactFormComponent
+    ClientProfileContactFormComponent,
+    AddressFormComponent
   ]
 })
 export class ClientProfileEditPageComponent implements OnInit {
@@ -135,7 +137,8 @@ export class ClientProfileEditPageComponent implements OnInit {
       primary: ClientProfileContactFormComponent.createForm(),
       secondary: ClientProfileContactFormComponent.createForm(),
 
-    })
+    }),
+    corporateAddress: AddressFormComponent.createForm()
   });
 
   protected readonly options = {
