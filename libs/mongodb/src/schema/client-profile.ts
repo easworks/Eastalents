@@ -1,4 +1,5 @@
 import { AnnualRevenueRange, BusinessEntityType, ClientProfile, ClientType, EmployeeCount } from '@easworks/models/client-profile';
+import { Address } from '@easworks/models/location';
 import { InitialProfileData, User } from '@easworks/models/user';
 import { EntitySchema } from '@mikro-orm/mongodb';
 import { user_schema } from './user';
@@ -7,13 +8,16 @@ export const client_profile_schema = new EntitySchema<ClientProfile>({
   collection: 'client-profiles',
   name: 'ClientProfile',
   properties: {
-    user: { kind: '1:1', entity: () => user_schema, fieldName: '_id', primary: true, owner: true },
+    user: { kind: '1:1', entity: () => user_schema, fieldName: '_id', primary: true, owner: true, serializedName: 'user' },
     name: { type: 'string' },
     description: { type: 'string' },
     type: { type: 'string' },
     businessEntityType: { type: 'string' },
     employeeCount: { type: 'string' },
     industry: { type: 'json', object: true },
+    registration: { type: 'json', object: true },
+    bankAccount: { type: 'json', object: true },
+    billingAddress: { type: 'json', object: true },
     domains: { type: 'string', array: true },
     softwareProducts: { type: 'string', array: true },
     location: { type: 'json', object: true },
@@ -42,6 +46,31 @@ export function initialClientProfile(
       name: null as unknown as string,
       group: null as unknown as string
     },
+
+    registration: {
+      id: {
+        value: null,
+        descriptor: null,
+      },
+      address: null as unknown as Address,
+      tax: {
+        value: {
+          taxId: null,
+          gstId: null
+        },
+        descriptor: null
+      }
+    },
+
+    bankAccount: {
+      value: {
+        account: null as unknown as string,
+        code: null
+      },
+      descriptor: null
+    },
+
+    billingAddress: null,
 
     hiringPreferences: {
       experience: [],

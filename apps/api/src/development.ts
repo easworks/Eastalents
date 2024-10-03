@@ -68,7 +68,10 @@ export const developmentHandlers: FastifyZodPluginAsync = async server => {
               account: row.bankAccount.fieldName,
               code: row.bankCode.fieldName
             },
-            business: []
+            business: {
+              id: [],
+              tax: []
+            }
           };
 
           countries[c.iso2] = c;
@@ -76,11 +79,12 @@ export const developmentHandlers: FastifyZodPluginAsync = async server => {
 
         const country = countries[row.iso2];
 
-        country.business.push({
+        if (row.companyReg.fieldName)
+          country.business.id.push(row.companyReg.fieldName);
+        country.business.tax.push({
           enumeration: row.enumeration,
-          company: row.companyReg.fieldName,
-          tax: row.taxId.fieldName,
-          gst: row.gst.fieldName
+          taxId: row.taxId.fieldName,
+          gstId: row.gst.fieldName
         });
       }
 
@@ -96,10 +100,10 @@ export const developmentHandlers: FastifyZodPluginAsync = async server => {
       const stripeIds = (() => {
         const list = stripe.map(s => s.externalType);
         return new Set(list);
-      })();;
+      })();
 
       const ourIds = (() => {
-        const list = ours.flatMap(c => c.business.map(b => b.enumeration));
+        const list = ours.flatMap(c => c.business.tax.map(t => t.enumeration));
         return [...new Set(list)];
       })();
 

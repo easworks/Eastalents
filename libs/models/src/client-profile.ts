@@ -1,5 +1,6 @@
+import { BankAccount, BankAccountDescriptor, BusinessRegistrationDescriptor, BusinessTaxationDescriptor, BusinessTaxInfo } from './billing';
 import { EasworksServiceType, RequiredExperience, WorkEnvironment } from './job-post';
-import { CSCLocation } from './location';
+import { Address, CSCLocation } from './location';
 import { User } from './user';
 
 export const CLIENT_PROFILE_MAX_DOMAINS = 4;
@@ -68,6 +69,25 @@ export interface ClientProfile {
     name: string;
     group: string;
   };
+
+  registration: {
+    id: {
+      value: string | null;
+      descriptor: BusinessRegistrationDescriptor | null;
+    },
+    address: Address,
+    tax: {
+      value: BusinessTaxInfo;
+      descriptor: BusinessTaxationDescriptor | null;
+    };
+  };
+
+  bankAccount: {
+    value: BankAccount;
+    descriptor: BankAccountDescriptor | null;
+  };
+
+  billingAddress: Address | null;
 
   hiringPreferences: {
     serviceType: EasworksServiceType[];
