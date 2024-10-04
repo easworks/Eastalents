@@ -10,6 +10,7 @@ import { CSCFormOptions } from '../csc-form/csc-form-options.service';
 import { controlValue$ } from '../form-field.directive';
 import { FormImportsModule } from '../form.imports.module';
 import { ImportsModule } from '../imports.module';
+import { Country } from '@easworks/app-shell/api/csc.api';
 
 
 @Component({
@@ -37,6 +38,7 @@ export class AddressFormComponent implements OnInit {
 
   protected readonly country = (() => {
     const query$ = signal('');
+    const displayWith = (v: string | Country) => v && typeof v !== 'string' ? v.name : v;
 
     const results$ = this.options.filter.country(query$);
     const loading$ = this.options.loading.has('countries');
@@ -49,7 +51,14 @@ export class AddressFormComponent implements OnInit {
 
       sub = controlValue$(control)
         .pipe(takeUntilDestroyed(this.dRef))
-        .subscribe(v => query$.set(v));
+        .subscribe(v => {
+          if (v && typeof v !== 'string') {
+            query$.set(v.name);
+          }
+          else {
+            query$.set(v);
+          }
+        });
     }, { injector: this.injector, allowSignalWrites: true });
 
 
@@ -67,7 +76,7 @@ export class AddressFormComponent implements OnInit {
       const match = options.find(o => o.name.toLowerCase() === value.toLowerCase());
       if (match) {
         if (match.name !== value) {
-          untracked(this.form$).controls.country.setValue(match.name);
+          untracked(this.form$).controls.country.setValue(match);
         }
         else {
           this.options.load.state(match.iso2);
@@ -79,6 +88,7 @@ export class AddressFormComponent implements OnInit {
     return {
       results$,
       loading$,
+      displayWith
     } as const;
 
   })();
@@ -186,7 +196,7 @@ export class AddressFormComponent implements OnInit {
 
   public static createForm() {
     return new FormGroup({
-      country: new FormControl('', {
+      country: new FormControl('' as string | Country, {
         validators: [Validators.required],
         nonNullable: true
       }),
