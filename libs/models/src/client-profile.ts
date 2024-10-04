@@ -119,3 +119,44 @@ export interface ClientProfileContact {
   phone: string | null;
   website: string | null;
 }
+
+export interface HiringOverview {
+
+  jobPost: {
+    activeJobPosts: number;
+    totalApplications: number;
+    newApplications: number;
+  },
+
+  jobStatus: {
+    hiring: number;
+    interviewing: number;
+    completed: number;
+  },
+
+  candidates: {
+    top: number;
+    pipelined: number;
+    acceptanceRate: number;
+  };
+
+  jobPerformance: {
+    views: number;
+    applicationConversionRate: number;
+  };
+
+  interviews: {
+    upcoming: number;
+  };
+
+  hiring: {
+    total: number;
+    filled: number;
+    avgTimeToHire: number;
+  };
+
+  engagement: {
+    profileViews: number;
+  };
+
+}
