@@ -36,7 +36,7 @@ const redirectUser: CanMatchFn = (() => {
     if (user) {
       switch (true) {
         case checks.talent(user): return router.createUrlTree(['/dashboard']);
-        case checks.client(user): return router.createUrlTree(['/dashboard']);
+        case checks.client(user): return router.createUrlTree(['/hiring-overview']);
       }
     }
 
