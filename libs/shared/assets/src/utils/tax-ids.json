@@ -536,13 +536,19 @@
     },
     "business": {
       "id": [
-        "PAN"
+        "BRN",
+        "CIN"
       ],
       "tax": [
         {
           "enumeration": "in_pan",
-          "taxId": "GSTIN",
-          "gstId": "GST Number"
+          "taxId": "PAN",
+          "gstId": null
+        },
+        {
+          "enumeration": "unknown",
+          "taxId": "TAN",
+          "gstId": "GSTIN"
         }
       ]
     }

@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, effect, HostBinding, inject, input, OnInit, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, HostBinding, inject, input, OnInit, signal, untracked } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { FormControl, FormGroup, StatusChangeEvent, Validators } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { BillingApi } from '@easworks/app-shell/api/billing';
 import { AddressFormComponent } from '@easworks/app-shell/common/address-form/address-form.component';
 import { ClearTriggerOnSelectDirective } from '@easworks/app-shell/common/clear-trigger-on-select.directive';
 import { CSCFormComponent } from '@easworks/app-shell/common/csc-form/csc-form.component';
@@ -16,6 +17,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { domainData } from '@easworks/app-shell/state/domain-data';
 import { sortNumber, sortString } from '@easworks/app-shell/utilities/sort';
+import { BankAccountDescriptor, BusinessRegistrationDescriptor, BusinessTaxationDescriptor, CountryBillingDescriptor } from '@easworks/models/billing';
 import { ANNUAL_REVENUE_RANGE_OPTIONS, AnnualRevenueRange, BUSINESS_ENTITY_TYPE_OPTIONS, BusinessEntityType, CLIENT_PROFILE_MAX_DOMAINS, CLIENT_PROFILE_MAX_SOFTWARE, CLIENT_TYPE_OPTIONS, ClientProfile, ClientType, EMPLOYEE_COUNT_OPTIONS, EmployeeCount } from '@easworks/models/client-profile';
 import { PhoneNumber } from '@easworks/models/contact-us';
 import { Domain } from '@easworks/models/domain';
@@ -24,6 +26,7 @@ import { SoftwareProduct } from '@easworks/models/software';
 import { faCircleInfo, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import Fuse from 'fuse.js';
+import { filter, map, startWith } from 'rxjs';
 import { ClientProfileEditCardsComponent } from './cards/profile-edit-cards.component';
 import { ClientProfileContactFormComponent } from './contact-info-form/contact-info-form.component';
 
@@ -54,6 +57,10 @@ type ClientIndustry = ClientProfile['industry'];
 })
 export class ClientProfileEditPageComponent implements OnInit {
   private readonly store = inject(Store);
+  private readonly dref = inject(DestroyRef);
+  private readonly api = {
+    billing: inject(BillingApi)
+  };
 
   @HostBinding()
   private readonly class = 'block @container';
@@ -144,7 +151,39 @@ export class ClientProfileEditPageComponent implements OnInit {
 
     }),
     registration: new FormGroup({
-      address: AddressFormComponent.createForm()
+      address: AddressFormComponent.createForm(),
+      companyId: new FormGroup({
+        descriptor: new FormControl(null as BusinessRegistrationDescriptor | null),
+        value: new FormControl('', {
+          validators: [Validators.required]
+        })
+      }),
+      tax: new FormGroup({
+        descriptor: new FormControl(null as BusinessTaxationDescriptor | null),
+        value: new FormGroup({
+          taxId: new FormControl('', {
+            nonNullable: true,
+            validators: [Validators.required]
+          }),
+          gstId: new FormControl('', {
+            nonNullable: true,
+            validators: [Validators.required]
+          })
+        })
+      })
+    }),
+    bankAccount: new FormGroup({
+      desciptor: new FormControl(null as BankAccountDescriptor | null),
+      value: new FormGroup({
+        account: new FormControl('', {
+          nonNullable: true,
+          validators: [Validators.required]
+        }),
+        code: new FormControl('', {
+          nonNullable: true,
+          validators: [Validators.required]
+        })
+      })
     }),
     billingAddress: AddressFormComponent.createForm()
   });
@@ -418,6 +457,216 @@ export class ClientProfileEditPageComponent implements OnInit {
     return { enableSecondary$ } as const;
   })();
 
+  protected readonly registration = (() => {
+
+    const descriptors = (() => {
+      const list$ = signal<CountryBillingDescriptor[]>([]);
+
+      const control = this.form.controls.registration.controls.address.controls.country;
+      const country$ = toSignal(control.events.pipe(
+        filter((ev) => ev instanceof StatusChangeEvent && ev.status === 'VALID'),
+        startWith(control.value),
+        map(() => typeof control.value !== 'string' && control.value),
+      ));
+
+      const countryDesc$ = computed(() => {
+        const country = country$();
+        if (!country)
+          return null;
+
+        const list = list$();
+        const descriptor = list.find(d => d.iso2 === country?.iso2);
+
+        return descriptor || null;
+      });
+
+      const tax = (() => {
+        const options$ = computed(() => countryDesc$()?.business.tax || []);
+
+        const showControl$ = computed(() => options$().length > 1);
+
+        const taxDesc$ = toSignal(controlValue$(this.form.controls.registration.controls.tax.controls.descriptor), { initialValue: null });
+
+        return {
+          options$,
+          taxDesc$,
+          showControl$
+        } as const;
+      })();
+
+      const companyId = (() => {
+        const options$ = computed(() => countryDesc$()?.business.id || []);
+
+        const showControl$ = computed(() => options$().length > 1);
+
+        const idDesc$ = toSignal(controlValue$(this.form.controls.registration.controls.companyId.controls.descriptor), { initialValue: null });
+
+        return {
+          options$,
+          idDesc$,
+          showControl$
+        } as const;
+      })();
+
+      const bankDesc$ = toSignal(controlValue$(this.form.controls.bankAccount.controls.desciptor), { initialValue: null });
+
+      effect(() => {
+        const options = companyId.options$();
+        const control = this.form.controls.registration
+          .controls.companyId
+          .controls.descriptor;
+
+        if (options.length === 0) {
+          control.setValue(null);
+        }
+        else if (options.length === 1) {
+          control.setValue(options[0]);
+        }
+        else {
+          const profile = untracked(this.profile$);
+          const existing = profile.registration.id.descriptor;
+
+          if (existing) {
+            const match = options.find(o => o === existing);
+            if (match)
+              control.setValue(match);
+          }
+          else {
+            control.setValue(options[0]);
+          }
+        }
+      });
+
+      effect(() => {
+        const options = tax.options$();
+        const control = this.form.controls.registration
+          .controls.tax
+          .controls.descriptor;
+
+        if (options.length === 0) {
+          control.setValue(null);
+        }
+        else if (options.length === 1) {
+          control.setValue(options[0]);
+        }
+        else {
+          const profile = untracked(this.profile$);
+          const existing = profile.registration.tax.descriptor;
+
+          if (existing) {
+            const match = options.find(o =>
+              o.taxId === (existing?.taxId || null) &&
+              o.gstId === (existing?.gstId || null)
+            );
+            if (match)
+              control.setValue(match);
+          }
+          else {
+            control.setValue(options[0]);
+          }
+        }
+      });
+
+      effect(() => {
+        const control = this.form.controls.bankAccount
+          .controls.desciptor;
+
+        const countryDesc = countryDesc$();
+        if (countryDesc) {
+          control.setValue(countryDesc.bank);
+        }
+        else {
+          control.setValue(null);
+        }
+      });
+
+      return {
+        list$,
+        tax,
+        bankDesc$,
+        companyId
+      } as const;
+    })();
+
+    const labels = {
+      companyId$: signal(''),
+      taxId$: signal(''),
+      gstId$: signal(''),
+      bank: {
+        account$: signal(''),
+        code$: signal(''),
+      }
+    };
+
+    effect(() => {
+      const descriptor = descriptors.companyId.idDesc$();
+
+      let label = 'Company Registration Number';
+
+      if (descriptor) {
+        label = descriptor;
+      }
+
+      labels.companyId$.set(label);
+    }, { allowSignalWrites: true });
+
+    effect(() => {
+      const descriptor = descriptors.tax.taxDesc$();
+
+      let label = {
+        taxId: 'Tax Information Number',
+        gstId: 'GST Number'
+      };
+
+      if (descriptor?.taxId) {
+        label.taxId = descriptor.taxId;
+      }
+
+      if (descriptor?.gstId) {
+        label.gstId = descriptor.gstId;
+        this.form.controls.registration
+          .controls.tax
+          .controls.value
+          .controls.gstId
+          .enable();
+      }
+      else {
+        this.form.controls.registration
+          .controls.tax
+          .controls.value
+          .controls.gstId
+          .disable();
+      }
+
+      labels.taxId$.set(label.taxId);
+      labels.gstId$.set(label.gstId);
+
+    }, { allowSignalWrites: true });
+
+    effect(() => {
+      const descriptor = descriptors.bankDesc$();
+
+      let label = {
+        account: 'Bank Account',
+        code: 'Bank Code'
+      };
+
+      if (descriptor?.account)
+        label.account = descriptor.account;
+
+      if (descriptor?.code)
+        label.code = descriptor.code;
+
+      labels.bank.account$.set(label.account);
+      labels.bank.code$.set(label.code);
+    }, { allowSignalWrites: true });
+
+    return {
+      labels,
+      descriptors,
+    } as const;
+  })();
+
   protected reset() {
     const original = this.profile$();
 
@@ -498,6 +747,10 @@ export class ClientProfileEditPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.reset();
+
+    this.api.billing.taxIds()
+      .pipe(takeUntilDestroyed(this.dref))
+      .subscribe(data => this.registration.descriptors.list$.set(data));
   }
 
 };

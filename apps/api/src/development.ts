@@ -93,9 +93,9 @@ export const developmentHandlers: FastifyZodPluginAsync = async server => {
 
   server.post('/tax-enumerations-not-supported-by-stripe',
     async () => {
-      const stripe = JSON.parse(await readFile('libs/shared/assets/src/utils/stripe-tax-id.json', { encoding: 'utf-8' })) as StripeTaxIDDescriptor[];
+      const stripe = JSON.parse(await readFile('libs/shared/assets/src/utils/stripe-tax-ids.json', { encoding: 'utf-8' })) as StripeTaxIDDescriptor[];
 
-      const ours = JSON.parse(await readFile('libs/shared/assets/src/utils/tax-id.json', { encoding: 'utf-8' })) as CountryBillingDescriptor[];
+      const ours = JSON.parse(await readFile('libs/shared/assets/src/utils/tax-ids.json', { encoding: 'utf-8' })) as CountryBillingDescriptor[];
 
       const stripeIds = (() => {
         const list = stripe.map(s => s.externalType);

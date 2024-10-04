@@ -143,6 +143,119 @@
         </div>
       </div>
 
+      <!-- registration and tax -->
+      <div class="page-section mt-4">
+        <h2 class="header">Registration & Tax</h2>
+        <div class="content mt-4">
+
+          <div class="flex gap-x-4">
+            @if(registration.descriptors.companyId.showControl$()) {
+            <div *ngrxLet="form.controls.registration.controls.companyId.controls.descriptor as control"
+                 [formFieldControl]="control"
+                 class="min-w-48">
+              <label>
+                Company ID Type
+                <span class="text-warn">*</span>
+              </label>
+
+              <mat-select [formControl]="control">
+                @for (option of registration.descriptors.companyId.options$(); track option) {
+                <mat-option [value]="option">{{option}}</mat-option>
+                }
+              </mat-select>
+            </div>
+            }
+
+            <div *ngrxLet="form.controls.registration.controls.companyId.controls.value as control"
+                 [formFieldControl]="control"
+                 class="flex-1">
+              <label>
+                {{registration.labels.companyId$()}}
+                <span class="text-warn">*</span>
+              </label>
+
+              <input type="text" [formControl]="control">
+              @if(control.hasError('required')){<span class="error">Required</span>}
+            </div>
+          </div>
+
+          <div class="flex gap-x-4">
+
+            @if(registration.descriptors.tax.showControl$()) {
+            <div *ngrxLet="form.controls.registration.controls.tax.controls.descriptor as control"
+                 [formFieldControl]="control"
+                 class="min-w-48">
+              <label>
+                Tax ID Type
+                <span class="text-warn">*</span>
+              </label>
+
+              <mat-select [formControl]="control">
+                @for (option of registration.descriptors.tax.options$(); track option) {
+                <mat-option [value]="option">{{option.taxId}}</mat-option>
+                }
+              </mat-select>
+            </div>
+            }
+
+            <div *ngrxLet="form.controls.registration.controls.tax.controls.value.controls.taxId as control"
+                 [formFieldControl]="control"
+                 class="flex-grow">
+              <label>
+                {{registration.labels.taxId$()}}
+                <span class="text-warn">*</span>
+              </label>
+
+              <input type="text" [formControl]="control">
+              @if(control.hasError('required')){<span class="error">Required</span>}
+            </div>
+          </div>
+
+          <ng-container *ngrxLet="form.controls.registration.controls.tax.controls.value.controls.gstId as control">
+            @if (control.enabled) {
+            <div [formFieldControl]="control">
+              <label>
+                {{registration.labels.gstId$()}}
+                <span class="text-warn">*</span>
+              </label>
+
+              <input type="text" [formControl]="control">
+              @if(control.hasError('required')){<span class="error">Required</span>}
+            </div>
+            }
+
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- bank details -->
+      <div class="page-section mt-4">
+        <h2 class="header">Bank Details</h2>
+        <div class="content mt-4">
+          <div *ngrxLet="form.controls.bankAccount.controls.value.controls.account as control"
+               [formFieldControl]="control">
+            <label>
+              {{registration.labels.bank.account$()}}
+              <span class="text-warn">*</span>
+            </label>
+
+            <input type="text" [formControl]="control">
+            @if(control.hasError('required')){<span class="error">Required</span>}
+          </div>
+
+          <div *ngrxLet="form.controls.bankAccount.controls.value.controls.code as control"
+               [formFieldControl]="control">
+            <label>
+              {{registration.labels.bank.code$()}}
+              <span class="text-warn">*</span>
+            </label>
+
+            <input type="text" [formControl]="control">
+            @if(control.hasError('required')){<span class="error">Required</span>}
+          </div>
+        </div>
+      </div>
+
       <!-- enterprise applications and software -->
       <div class="page-section mt-4">
         <h2 class="header">Enterprise Applications & Software</h2>
