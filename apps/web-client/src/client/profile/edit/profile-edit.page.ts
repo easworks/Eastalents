@@ -17,7 +17,7 @@ import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.directive';
 import { domainData } from '@easworks/app-shell/state/domain-data';
 import { sortNumber, sortString } from '@easworks/app-shell/utilities/sort';
-import { BankAccountDescriptor, BusinessRegistrationDescriptor, BusinessTaxationDescriptor, CountryBillingDescriptor } from '@easworks/models/billing';
+import { ACCEPTED_CURRENCY_OPTIONS, AcceptedCurrency, BankAccountDescriptor, BusinessRegistrationDescriptor, BusinessTaxationDescriptor, CountryBillingDescriptor, PAYMENT_METHOD_OPTIONS, PAYMENT_TERM_OPTIONS, PaymentMethod, PaymentTerm } from '@easworks/models/billing';
 import { ANNUAL_REVENUE_RANGE_OPTIONS, AnnualRevenueRange, BUSINESS_ENTITY_TYPE_OPTIONS, BusinessEntityType, CLIENT_PROFILE_MAX_DOMAINS, CLIENT_PROFILE_MAX_SOFTWARE, CLIENT_TYPE_OPTIONS, ClientProfile, ClientType, EMPLOYEE_COUNT_OPTIONS, EmployeeCount } from '@easworks/models/client-profile';
 import { PhoneNumber } from '@easworks/models/contact-us';
 import { Domain } from '@easworks/models/domain';
@@ -185,7 +185,14 @@ export class ClientProfileEditPageComponent implements OnInit {
         })
       })
     }),
-    billingAddress: AddressFormComponent.createForm()
+    billing: new FormGroup({
+      address: AddressFormComponent.createForm(),
+      preferences: new FormGroup({
+        paymentMethod: new FormControl(null as unknown as PaymentMethod),
+        paymentTerm: new FormControl(null as unknown as PaymentTerm),
+        paymentCurrency: new FormControl(null as unknown as AcceptedCurrency)
+      })
+    })
   });
 
   protected readonly options = {
@@ -428,16 +435,28 @@ export class ClientProfileEditPageComponent implements OnInit {
 
     effect(() => {
       const enabled = !sameAsCorporate$();
+      const control = this.form.controls.billing.controls.address;
       if (enabled) {
-        this.form.controls.billingAddress.enable();
+        control.enable();
       }
       else {
-        this.form.controls.billingAddress.disable();
+        control.disable();
       }
     });
 
     return {
       sameAsCorporate$,
+    } as const;
+  })();
+
+  protected readonly paymentPreferences = (() => {
+    const options = {
+      method: PAYMENT_METHOD_OPTIONS,
+      term: PAYMENT_TERM_OPTIONS,
+      currency: ACCEPTED_CURRENCY_OPTIONS
+    };
+    return {
+      options
     } as const;
   })();
 
@@ -699,17 +718,28 @@ export class ClientProfileEditPageComponent implements OnInit {
           state: original.registration.address.state || '',
           country: original.registration.address.country,
           postalCode: original.registration.address.postalCode
-        } : undefined
+        } : undefined,
+        companyId: original.registration.id,
+        tax: {
+          descriptor: original.registration.tax.descriptor,
+          value: {
+            taxId: original.registration.tax.value.taxId || '',
+            gstId: original.registration.tax.value.gstId || ''
+          }
+        }
       },
 
-      billingAddress: original.billingAddress ? {
-        line1: original.billingAddress.line1,
-        line2: original.billingAddress.line2 || '',
-        city: original.billingAddress.city || '',
-        state: original.billingAddress.state || '',
-        country: original.billingAddress.country,
-        postalCode: original.billingAddress.postalCode
-      } : undefined,
+      billing: {
+        address: original.billing.address ? {
+          line1: original.billing.address.line1,
+          line2: original.billing.address.line2 || '',
+          city: original.billing.address.city || '',
+          state: original.billing.address.state || '',
+          country: original.billing.address.country,
+          postalCode: original.billing.address.postalCode
+        } : undefined,
+        preferences: original.billing.preferences
+      },
 
       domains,
       softwareProducts,
@@ -741,7 +771,7 @@ export class ClientProfileEditPageComponent implements OnInit {
 
     });
 
-    this.billingAddress.sameAsCorporate$.set(!original.billingAddress);
+    this.billingAddress.sameAsCorporate$.set(!original.billing.address);
     this.contact.enableSecondary$.set(!!original.contact.secondary);
   }
 

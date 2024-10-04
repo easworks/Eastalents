@@ -1,4 +1,4 @@
-import { BankAccount, BankAccountDescriptor, BusinessRegistrationDescriptor, BusinessTaxationDescriptor, BusinessTaxInfo } from './billing';
+import { AcceptedCurrency, BankAccount, BankAccountDescriptor, BusinessRegistrationDescriptor, BusinessTaxationDescriptor, BusinessTaxInfo, PaymentMethod, PaymentTerm } from './billing';
 import { EasworksServiceType, RequiredExperience, WorkEnvironment } from './job-post';
 import { Address, CSCLocation } from './location';
 import { User } from './user';
@@ -87,7 +87,14 @@ export interface ClientProfile {
     descriptor: BankAccountDescriptor | null;
   };
 
-  billingAddress: Address | null;
+  billing: {
+    address: Address | null;
+    preferences: {
+      paymentMethod: PaymentMethod;
+      paymentTerm: PaymentTerm;
+      paymentCurrency: AcceptedCurrency;
+    };
+  };
 
   hiringPreferences: {
     serviceType: EasworksServiceType[];

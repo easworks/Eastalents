@@ -1,3 +1,4 @@
+import { AcceptedCurrency, PaymentMethod, PaymentTerm } from '@easworks/models/billing';
 import { AnnualRevenueRange, BusinessEntityType, ClientProfile, ClientType, EmployeeCount } from '@easworks/models/client-profile';
 import { Address } from '@easworks/models/location';
 import { InitialProfileData, User } from '@easworks/models/user';
@@ -17,7 +18,7 @@ export const client_profile_schema = new EntitySchema<ClientProfile>({
     industry: { type: 'json', object: true },
     registration: { type: 'json', object: true },
     bankAccount: { type: 'json', object: true },
-    billingAddress: { type: 'json', object: true },
+    billing: { type: 'json', object: true },
     domains: { type: 'string', array: true },
     softwareProducts: { type: 'string', array: true },
     location: { type: 'json', object: true },
@@ -67,7 +68,14 @@ export function initialClientProfile(
       descriptor: null
     },
 
-    billingAddress: null,
+    billing: {
+      address: null,
+      preferences: {
+        paymentMethod: null as unknown as PaymentMethod,
+        paymentTerm: null as unknown as PaymentTerm,
+        paymentCurrency: null as unknown as AcceptedCurrency
+      }
+    },
 
     hiringPreferences: {
       experience: [],

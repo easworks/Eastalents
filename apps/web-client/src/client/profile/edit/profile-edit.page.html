@@ -135,11 +135,53 @@
             </mat-checkbox>
           </div>
 
-          <address-form [control]="form.controls.billingAddress"
-                        class="mt-4"
-                        [class.hidden]="form.controls.billingAddress.disabled"></address-form>
+          <address-form [control]="form.controls.billing.controls.address"
+                        class="mt-8"
+                        [class.hidden]="form.controls.billing.controls.address.disabled"></address-form>
 
+        </div>
+      </div>
 
+      <!-- payment preferences -->
+      <div class="page-section mt-4">
+        <h2 class="header">Payment Preferences</h2>
+
+        <div class="content mt-4 grid grid-cols-2 gap-x-4">
+          <!-- payment method -->
+          <div *ngrxLet="form.controls.billing.controls.preferences.controls.paymentMethod as control"
+               [formFieldControl]="control">
+            <label> Payment Method </label>
+
+            <mat-select [formControl]="control">
+              @for (option of paymentPreferences.options.method; track option) {
+              <mat-option [value]="option">{{option}}</mat-option>
+              }
+            </mat-select>
+          </div>
+
+          <!-- payment term -->
+          <div *ngrxLet="form.controls.billing.controls.preferences.controls.paymentTerm as control"
+               [formFieldControl]="control">
+            <label> Payment Term </label>
+
+            <mat-select [formControl]="control">
+              @for (option of paymentPreferences.options.term; track option) {
+              <mat-option [value]="option">{{option}}</mat-option>
+              }
+            </mat-select>
+          </div>
+
+          <!-- payment currency -->
+          <div *ngrxLet="form.controls.billing.controls.preferences.controls.paymentCurrency as control"
+               [formFieldControl]="control">
+            <label> Payment Currency </label>
+
+            <mat-select [formControl]="control">
+              @for (option of paymentPreferences.options.currency; track option) {
+              <mat-option [value]="option">{{option}}</mat-option>
+              }
+            </mat-select>
+          </div>
         </div>
       </div>
 
