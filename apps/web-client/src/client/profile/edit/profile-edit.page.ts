@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, HostBinding, inject, input, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, HostBinding, inject, input, OnInit, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AddressFormComponent } from '@easworks/app-shell/common/address-form/address-form.component';
 import { ClearTriggerOnSelectDirective } from '@easworks/app-shell/common/clear-trigger-on-select.directive';
 import { CSCFormComponent } from '@easworks/app-shell/common/csc-form/csc-form.component';
@@ -15,6 +17,7 @@ import { LottiePlayerDirective } from '@easworks/app-shell/common/lottie-player.
 import { domainData } from '@easworks/app-shell/state/domain-data';
 import { sortNumber, sortString } from '@easworks/app-shell/utilities/sort';
 import { ANNUAL_REVENUE_RANGE_OPTIONS, AnnualRevenueRange, BUSINESS_ENTITY_TYPE_OPTIONS, BusinessEntityType, CLIENT_PROFILE_MAX_DOMAINS, CLIENT_PROFILE_MAX_SOFTWARE, CLIENT_TYPE_OPTIONS, ClientProfile, ClientType, EMPLOYEE_COUNT_OPTIONS, EmployeeCount } from '@easworks/models/client-profile';
+import { PhoneNumber } from '@easworks/models/contact-us';
 import { Domain } from '@easworks/models/domain';
 import { EASWORKS_SERVICE_TYPE_OPTIONS, EasworksServiceType, REQUIRED_EXPERIENCE_OPTIONS, RequiredExperience, WORK_ENVIRONMENT_OPTIONS, WorkEnvironment } from '@easworks/models/job-post';
 import { SoftwareProduct } from '@easworks/models/software';
@@ -44,7 +47,9 @@ type ClientIndustry = ClientProfile['industry'];
     ClearTriggerOnSelectDirective,
     CSCFormComponent,
     ClientProfileContactFormComponent,
-    AddressFormComponent
+    AddressFormComponent,
+    MatCheckboxModule,
+    MatSlideToggleModule
   ]
 })
 export class ClientProfileEditPageComponent implements OnInit {
@@ -138,7 +143,10 @@ export class ClientProfileEditPageComponent implements OnInit {
       secondary: ClientProfileContactFormComponent.createForm(),
 
     }),
-    corporateAddress: AddressFormComponent.createForm()
+    registration: new FormGroup({
+      address: AddressFormComponent.createForm()
+    }),
+    billingAddress: AddressFormComponent.createForm()
   });
 
   protected readonly options = {
@@ -376,6 +384,40 @@ export class ClientProfileEditPageComponent implements OnInit {
     } as const;
   })();
 
+  protected readonly billingAddress = (() => {
+    const sameAsCorporate$ = signal(false);
+
+    effect(() => {
+      const enabled = !sameAsCorporate$();
+      if (enabled) {
+        this.form.controls.billingAddress.enable();
+      }
+      else {
+        this.form.controls.billingAddress.disable();
+      }
+    });
+
+    return {
+      sameAsCorporate$,
+    } as const;
+  })();
+
+  protected readonly contact = (() => {
+    const enableSecondary$ = signal(false);
+
+    effect(() => {
+      const enabled = enableSecondary$();
+      if (enabled) {
+        this.form.controls.contact.controls.secondary.enable();
+      }
+      else {
+        this.form.controls.contact.controls.secondary.disable();
+      }
+    });
+
+    return { enableSecondary$ } as const;
+  })();
+
   protected reset() {
     const original = this.profile$();
 
@@ -398,6 +440,28 @@ export class ClientProfileEditPageComponent implements OnInit {
       businessEntityType: original.businessEntityType,
       employeeCount: original.employeeCount,
       annualRevenueRange: original.annualRevenueRange,
+      industry: original.industry,
+
+      registration: {
+        address: original.registration.address ? {
+          line1: original.registration.address.line1,
+          line2: original.registration.address.line2 || '',
+          city: original.registration.address.city || '',
+          state: original.registration.address.state || '',
+          country: original.registration.address.country,
+          postalCode: original.registration.address.postalCode
+        } : undefined
+      },
+
+      billingAddress: original.billingAddress ? {
+        line1: original.billingAddress.line1,
+        line2: original.billingAddress.line2 || '',
+        city: original.billingAddress.city || '',
+        state: original.billingAddress.state || '',
+        country: original.billingAddress.country,
+        postalCode: original.billingAddress.postalCode
+      } : undefined,
+
       domains,
       softwareProducts,
       location: {
@@ -405,8 +469,31 @@ export class ClientProfileEditPageComponent implements OnInit {
         country: original.location.country || '',
         state: original.location.state || '',
         timezone: original.location.timezone || ''
+      },
+
+      contact: {
+        primary: {
+          email: original.contact.primary.email || '',
+          name: original.contact.primary.name,
+          phoneNumber: original.contact.primary.phone ?
+            PhoneNumber.split(original.contact.primary.phone)
+            : undefined,
+          website: original.contact.primary.website || ''
+        },
+        secondary: original.contact.secondary ? {
+          email: original.contact.secondary.email || '',
+          name: original.contact.secondary.name,
+          phoneNumber: original.contact.secondary.phone ?
+            PhoneNumber.split(original.contact.secondary.phone)
+            : undefined,
+          website: original.contact.primary.website || ''
+        } : undefined
       }
+
     });
+
+    this.billingAddress.sameAsCorporate$.set(!original.billingAddress);
+    this.contact.enableSecondary$.set(!!original.contact.secondary);
   }
 
   ngOnInit(): void {

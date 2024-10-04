@@ -8,17 +8,6 @@
         text-2xl font-bold text-primary-900">Company Profile</h1>
     <!-- </div> -->
 
-
-    <mat-divider class="!mt-4"></mat-divider>
-
-    <div class="page-section mt-4">
-      <h2 class="header">Corporate Address</h2>
-
-      <div class="content mt-4">
-        <address-form [control]="form.controls.corporateAddress"></address-form>
-      </div>
-    </div>
-
     <mat-divider class="!mt-4"></mat-divider>
 
     <form [formGroup]="form">
@@ -122,6 +111,36 @@
           </div>
         </div>
 
+      </div>
+
+      <!-- corporate address -->
+      <div class="page-section mt-4">
+        <h2 class="header">Corporate Address</h2>
+
+        <div class="content mt-4">
+          <address-form [control]="form.controls.registration.controls.address"></address-form>
+        </div>
+      </div>
+
+      <!-- billing address -->
+      <div class="page-section mt-4">
+        <h2 class="header">Billing Address</h2>
+
+        <div class="content mt-4">
+
+          <div [class.mb-4]="billingAddress.sameAsCorporate$()">
+            <mat-checkbox [checked]="billingAddress.sameAsCorporate$()"
+                          (change)="billingAddress.sameAsCorporate$.set($event.checked)">
+              Same as Corporate Address
+            </mat-checkbox>
+          </div>
+
+          <address-form [control]="form.controls.billingAddress"
+                        class="mt-4"
+                        [class.hidden]="form.controls.billingAddress.disabled"></address-form>
+
+
+        </div>
       </div>
 
       <!-- enterprise applications and software -->
@@ -295,7 +314,12 @@
           </div>
 
           <div class="border rounded-md mt-4">
-            <div class="p-2 text-sm font-semibold">Secondary</div>
+            <div class="p-2 text-sm font-semibold flex gap-4">
+              <span>Secondary</span>
+              <mat-slide-toggle [checked]="contact.enableSecondary$()"
+                                (change)="contact.enableSecondary$.set($event.checked)"
+                                class="ml-auto"></mat-slide-toggle>
+            </div>
             <mat-divider></mat-divider>
             <div class="p-4">
               <client-profile-contact-form [control]="form.controls.contact.controls.secondary"></client-profile-contact-form>
@@ -303,6 +327,7 @@
           </div>
         </div>
       </div>
+
     </form>
   </div>
 

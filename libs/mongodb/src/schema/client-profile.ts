@@ -42,10 +42,7 @@ export function initialClientProfile(
     businessEntityType: null as unknown as BusinessEntityType,
     annualRevenueRange: null as unknown as AnnualRevenueRange,
 
-    industry: {
-      name: null as unknown as string,
-      group: null as unknown as string
-    },
+    industry: null as unknown as ClientProfile['industry'],
 
     registration: {
       id: {
