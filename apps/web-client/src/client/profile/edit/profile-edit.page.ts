@@ -743,6 +743,9 @@ export class ClientProfileEditPageComponent implements OnInit {
 
       domains,
       softwareProducts,
+
+      hiringPreferences: original.hiringPreferences,
+
       location: {
         city: original.location.city || '',
         country: original.location.country || '',

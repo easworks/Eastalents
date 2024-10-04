@@ -397,6 +397,60 @@
         </div>
       </div>
 
+      <!-- hiring preferences -->
+      <div class="page-section mt-4">
+        <h2 class="header">Hiring Preferences</h2>
+        <div class="content mt-4">
+          <!-- service type -->
+          <div *ngrxLet="form.controls.hiringPreferences.controls.serviceType as control"
+               [formFieldControl]="control">
+            <label>
+              Hiring Type
+              <span class="text-warn">*</span>
+            </label>
+
+            <mat-select [formControl]="control" placeholder="Hiring Type" multiple>
+              @for(option of options.serviceType; track option) {
+              <mat-option [value]="option">{{option}}</mat-option>
+              }
+            </mat-select>
+            @if(control.hasError('required')){<span class="error">Required</span>}
+          </div>
+
+          <!-- experience level -->
+          <div *ngrxLet="form.controls.hiringPreferences.controls.experience as control"
+               [formFieldControl]="control">
+            <label>
+              Experience Level
+              <span class="text-warn">*</span>
+            </label>
+
+            <mat-select [formControl]="control" placeholder="Experience Level" multiple>
+              @for(option of options.experience; track option) {
+              <mat-option [value]="option">{{option}}</mat-option>
+              }
+            </mat-select>
+            @if(control.hasError('required')){<span class="error">Required</span>}
+          </div>
+
+          <!-- work environment -->
+          <div *ngrxLet="form.controls.hiringPreferences.controls.workEnvironment as control"
+               [formFieldControl]="control">
+            <label>
+              Work Environment
+              <span class="text-warn">*</span>
+            </label>
+
+            <mat-select [formControl]="control" placeholder="Work Environment" multiple>
+              @for(option of options.workEnvironment; track option) {
+              <mat-option [value]="option">{{option}}</mat-option>
+              }
+            </mat-select>
+            @if(control.hasError('required')){<span class="error">Required</span>}
+          </div>
+        </div>
+      </div>
+
       <!-- industry information -->
       <div class="page-section mt-4">
         <h2 class="header">Industry Information</h2>
