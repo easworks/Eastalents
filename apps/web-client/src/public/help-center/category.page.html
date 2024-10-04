@@ -1,7 +1,7 @@
-@for(group of groups$(); track group.slug) {
+<!-- @for(group of groups$(); track group.slug) {
 <div class="help-group">
   <a class="title" [routerLink]="group.slug">{{group.title}}</a>
-  <ul class="item-list">
+  <ul class="item-list ">
     <li *ngFor="let item of group.items">
       <a [routerLink]="group.slug" [fragment]="item.slug">{{item.title}}</a>
     </li>
@@ -11,4 +11,64 @@
     View All <fa-icon [icon]="icons.faCircleArrowRight"></fa-icon>
   </a>
 </div>
-}
+} -->
+
+<div *ngFor="let faq of faqs$()" class="3xl:px-10 px-5">
+  <div *ngIf="faq.id === 1; else defaultTemplate">
+    <h2 class="3xl:text-2xl text-xl font-semibold">{{faq.heading}}</h2>
+    <div class="grid 7xl:grid-cols-4 3xl:grid-cols-3 lg:grid-cols-2 gap-3.5 items-stretch my-5">
+      <div *ngFor="let item of faq.list">
+        <div class="bg-primary-50 rounded-lg p-5 w-full shadow-sm h-full">
+          <img src="./../../assets/public/help-center/content/talent/{{ item.icon }}" alt="Image" width="30px"
+            height="30px" />
+          <h3 class="mt-2 mb-1 5xl:text-xl text-lg font-semibold">
+            {{ item.heading }}
+          </h3>
+          <p class="text-sm text-gray-600">{{ item.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #defaultTemplate>
+    <h2 class="3xl:text-2xl text-xl font-semibold mt-10">{{faq.heading}}</h2>
+    <div class="grid 7xl:grid-cols-4 3xl:grid-cols-3 lg:grid-cols-2 gap-3.5 items-stretch my-5">
+      <div *ngFor="let item of faq.list">
+        <div class="bg-primary-50 rounded-lg p-5 w-full shadow-sm h-full">
+          <img src="./../../assets/public/help-center/content/talent/{{ item.icon }}" alt="Image" width="30px"
+            height="30px" />
+          <h3 class="mt-2 mb-1 5xl:text-xl text-lg font-semibold">
+            {{ item.heading }}
+          </h3>
+          <p class="text-sm text-gray-600">{{ item.description }}</p>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<!-- <div class="3xl:px-10 px-5 3xl:mt-16 mt-8">
+  <h2 class="3xl:text-2xl text-xl font-semibold">Still Need Help?</h2>
+  <div class="grid lg:grid-cols-2 gap-3.5 items-stretch my-5">
+    <div class="bg-gray-200 rounded-lg p-5 w-full shadow-sm h-full">
+      <img
+        src="./../../assets/public/help-center/content/talent/ic-info.png"
+        alt="Image"
+        width="30px"
+        height="30px"
+      />
+      <h3 class="mt-2 mb-1 5xl:text-xl text-lg font-semibold">Contact us</h3>
+      <p class="text-sm text-gray-600">Get help from our support team</p>
+    </div>
+
+    <div class="bg-gray-200 rounded-lg p-5 w-full shadow-sm h-full">
+      <img
+        src="./../../assets/public/help-center/content/talent/ic-info.png"
+        alt="Image"
+        width="30px"
+        height="30px"
+      />
+      <h3 class="mt-2 mb-1 5xl:text-xl text-lg font-semibold">Ask the community</h3>
+      <p class="text-sm text-gray-600">Get answers from EASWORKS talents</p>
+    </div>
+  </div>
+</div> -->

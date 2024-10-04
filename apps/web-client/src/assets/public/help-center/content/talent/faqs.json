@@ -1,0 +1,74 @@
+[
+    {
+        "id": 1,
+        "heading": "Talent's FAQ",
+        "list": [
+            {
+                "icon": "ic-info.png",
+                "heading": "Overview",
+                "description": "Intro, platform, community, opportunities"
+            },
+            {
+                "icon": "ic-info.png",
+                "heading": "Requirements",
+                "description": "Skills, English proficiency, tech stacks, schedule"
+            },
+            {
+                "icon": "ic-info.png",
+                "heading": "Selection Process",
+                "description": "Profile, application, interview, top clients"
+            },
+            {
+                "icon": "ic-info.png",
+                "heading": "Finalizing Candidature",
+                "description": "Interview, updates, selection, response"
+            },
+            {
+                "icon": "ic-info.png",
+                "heading": "Working at EASWORKS",
+                "description": "Projects, rates, contracts, support"
+            },
+            {
+                "icon": "ic-info.png",
+                "heading": "Payments",
+                "description": "Rates, billing, timeline, process"
+            },
+            {
+                "icon": "ic-info.png",
+                "heading": "Work Skill Assessments",
+                "description": "Behavior, assessment, methodology, recruitment"
+            },
+            {
+                "icon": "ic-info.png",
+                "heading": "Career Growth",
+                "description": "Learning, networking, industry trends"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "heading":"Access your account",
+        "list": [
+            {
+                "icon": "ic-info.png",
+                "heading": "Update Billing",
+                "description": "Change or update your billing methods"
+            },
+            {
+                "icon": "ic-info.png",
+                "heading": "Manage Contracts",
+                "description": "Update or manage active contracts"
+            },
+            {
+                "icon": "ic-info.png",
+                "heading": "Close Account",
+                "description": "Permanently close your account"
+            },
+            {
+                "icon": "ic-info.png",
+                "heading": "Reset Password",
+                "description": "Change your account password"
+            }
+        ]
+    }
+]
