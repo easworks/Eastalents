@@ -37,8 +37,12 @@ export class AddressFormComponent implements OnInit {
   public readonly form$ = input.required<AddressFormGroup>({ alias: 'control' });
 
   protected readonly country = (() => {
-    const query$ = signal('');
+    const value$ = signal('' as string | Country);
     const displayWith = (v: string | Country) => v && typeof v !== 'string' ? v.name : v;
+    const query$ = computed(() => {
+      const v = value$();
+      return v && typeof v !== 'string' ? v.name : v;
+    });
 
     const results$ = this.options.filter.country(query$);
     const loading$ = this.options.loading.has('countries');
@@ -51,19 +55,13 @@ export class AddressFormComponent implements OnInit {
 
       sub = controlValue$(control)
         .pipe(takeUntilDestroyed(this.dRef))
-        .subscribe(v => {
-          if (v && typeof v !== 'string') {
-            query$.set(v.name);
-          }
-          else {
-            query$.set(v);
-          }
-        });
+        .subscribe(v => value$.set(v));
     }, { injector: this.injector, allowSignalWrites: true });
 
 
     effect(() => {
-      const value = query$();
+      const value = value$();
+      const query = query$();
       if (!value)
         return;
 
@@ -73,9 +71,9 @@ export class AddressFormComponent implements OnInit {
 
       const options = results$().slice(0, 20);
 
-      const match = options.find(o => o.name.toLowerCase() === value.toLowerCase());
+      const match = options.find(o => o.name.toLowerCase() === query.toLowerCase());
       if (match) {
-        if (match.name !== value) {
+        if (match !== value) {
           untracked(this.form$).controls.country.setValue(match);
         }
         else {
