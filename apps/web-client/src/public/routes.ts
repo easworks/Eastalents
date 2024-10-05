@@ -60,7 +60,7 @@ export const PUBLIC_ROUTES: Routes = [
   //   resolve: {
   //     help: () => {
   //       const hcs = inject(HelpCenterService);
-  //       return hcs.getGroups('employer', true);
+  //       return hcs.getGroups('client', true);
   //     }
   //   }
   // },
