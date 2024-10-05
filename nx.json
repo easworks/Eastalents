@@ -58,6 +58,9 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
+    },
+    "build-storybook": {
+      "cache": true
     }
   },
   "$schema": "./node_modules/nx/schemas/nx-schema.json",

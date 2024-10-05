@@ -23,6 +23,7 @@
     "@nx/js": "19.8.0",
     "@nx/node": "19.8.0",
     "@nx/plugin": "19.8.0",
+    "@nx/storybook": "19.8.0",
     "@nx/web": "19.8.0",
     "@nx/workspace": "19.8.0",
     "@schematics/angular": "18.2.5",
