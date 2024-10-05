@@ -6,9 +6,7 @@
       "code": null
     },
     "business": {
-      "id": [
-        "NRT Number"
-      ],
+      "id": ["NRT Number"],
       "tax": [
         {
           "enumeration": "ad_nrt",
@@ -25,9 +23,7 @@
       "code": "CBU"
     },
     "business": {
-      "id": [
-        "CUIT"
-      ],
+      "id": ["CUIT"],
       "tax": [
         {
           "enumeration": "ar_cuit",
@@ -44,10 +40,7 @@
       "code": "BSB"
     },
     "business": {
-      "id": [
-        "ABN",
-        "Australian Taxation Office Reference Number"
-      ],
+      "id": ["ABN", "Australian Taxation Office Reference Number"],
       "tax": [
         {
           "enumeration": "au_abn",
@@ -69,9 +62,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "Firmenbuchnummer"
-      ],
+      "id": ["Firmenbuchnummer"],
       "tax": [
         {
           "enumeration": "eu_vat",
@@ -88,9 +79,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "CR Number"
-      ],
+      "id": ["CR Number"],
       "tax": [
         {
           "enumeration": "bh_vat",
@@ -107,9 +96,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "KBO Number"
-      ],
+      "id": ["KBO Number"],
       "tax": [
         {
           "enumeration": "eu_vat",
@@ -126,9 +113,7 @@
       "code": null
     },
     "business": {
-      "id": [
-        "Bolivian tax ID"
-      ],
+      "id": ["Bolivian tax ID"],
       "tax": [
         {
           "enumeration": "bo_tin",
@@ -145,10 +130,7 @@
       "code": "Bank Branch Code"
     },
     "business": {
-      "id": [
-        "CNPJ",
-        "CPF"
-      ],
+      "id": ["CNPJ", "CPF"],
       "tax": [
         {
           "enumeration": "br_cnpj",
@@ -170,10 +152,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "Bulgaria Unified Identification Code",
-        "VAT Number"
-      ],
+      "id": ["Bulgaria Unified Identification Code", "VAT Number"],
       "tax": [
         {
           "enumeration": "bg_uic",
@@ -250,9 +229,7 @@
       "code": null
     },
     "business": {
-      "id": [
-        "USCC"
-      ],
+      "id": ["USCC"],
       "tax": [
         {
           "enumeration": "cn_tin",
@@ -269,9 +246,7 @@
       "code": null
     },
     "business": {
-      "id": [
-        "NIT"
-      ],
+      "id": ["NIT"],
       "tax": [
         {
           "enumeration": "co_nit",
@@ -288,9 +263,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "Cédula Jurídica"
-      ],
+      "id": ["Cédula Jurídica"],
       "tax": [
         {
           "enumeration": "cr_tin",
@@ -307,9 +280,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "I?O"
-      ],
+      "id": ["I?O"],
       "tax": [
         {
           "enumeration": "cz_ico",
@@ -326,9 +297,7 @@
       "code": "Reg. Number"
     },
     "business": {
-      "id": [
-        "CVR Number"
-      ],
+      "id": ["CVR Number"],
       "tax": [
         {
           "enumeration": "dk_cvr",
@@ -345,9 +314,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "TIN"
-      ],
+      "id": ["TIN"],
       "tax": [
         {
           "enumeration": "eg_tin",
@@ -364,9 +331,7 @@
       "code": null
     },
     "business": {
-      "id": [
-        "NIT"
-      ],
+      "id": ["NIT"],
       "tax": [
         {
           "enumeration": "sv_nit",
@@ -383,9 +348,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "Registrikood"
-      ],
+      "id": ["Registrikood"],
       "tax": [
         {
           "enumeration": "ee_registrikood",
@@ -402,9 +365,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "Business ID"
-      ],
+      "id": ["Business ID"],
       "tax": [
         {
           "enumeration": "fi_bi",
@@ -421,9 +382,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "SIRET"
-      ],
+      "id": ["SIRET"],
       "tax": [
         {
           "enumeration": "fr_siret",
@@ -440,9 +399,7 @@
       "code": "Bank Code (BLZ)"
     },
     "business": {
-      "id": [
-        "Handelsregisternummer"
-      ],
+      "id": ["Handelsregisternummer"],
       "tax": [
         {
           "enumeration": "de_hnr",
@@ -459,9 +416,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "AFM"
-      ],
+      "id": ["AFM"],
       "tax": [
         {
           "enumeration": "gr_afm",
@@ -478,9 +433,7 @@
       "code": "Bank Code"
     },
     "business": {
-      "id": [
-        "Business Registration Number"
-      ],
+      "id": ["Business Registration Number"],
       "tax": [
         {
           "enumeration": "hk_br",
@@ -497,9 +450,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "Company Registration Number"
-      ],
+      "id": ["Company Registration Number"],
       "tax": [
         {
           "enumeration": "hu_company_reg",
@@ -516,9 +467,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "Company Registration Number"
-      ],
+      "id": ["Company Registration Number"],
       "tax": [
         {
           "enumeration": "is_company_reg",
@@ -535,10 +484,7 @@
       "code": "IFSC"
     },
     "business": {
-      "id": [
-        "BRN",
-        "CIN"
-      ],
+      "id": ["BRN", "CIN"],
       "tax": [
         {
           "enumeration": "in_pan",
@@ -560,9 +506,7 @@
       "code": "Bank Code"
     },
     "business": {
-      "id": [
-        "NPWP"
-      ],
+      "id": ["NPWP"],
       "tax": [
         {
           "enumeration": "id_npwp",
@@ -579,9 +523,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "Company Registration Number"
-      ],
+      "id": ["Company Registration Number"],
       "tax": [
         {
           "enumeration": "ie_crn",
@@ -598,9 +540,7 @@
       "code": "Branch Code"
     },
     "business": {
-      "id": [
-        "Company Registration Number"
-      ],
+      "id": ["Company Registration Number"],
       "tax": [
         {
           "enumeration": "il_crn",
@@ -617,9 +557,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "Partita IVA"
-      ],
+      "id": ["Partita IVA"],
       "tax": [
         {
           "enumeration": "it_piva",
@@ -636,9 +574,7 @@
       "code": "Bank Code"
     },
     "business": {
-      "id": [
-        "Corporate Number"
-      ],
+      "id": ["Corporate Number"],
       "tax": [
         {
           "enumeration": "jp_cn",
@@ -655,9 +591,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "BIN"
-      ],
+      "id": ["BIN"],
       "tax": [
         {
           "enumeration": "kz_bin",
@@ -674,9 +608,7 @@
       "code": "Bank Code"
     },
     "business": {
-      "id": [
-        "PIN"
-      ],
+      "id": ["PIN"],
       "tax": [
         {
           "enumeration": "ke_pin",
@@ -693,9 +625,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "Company Registration Number"
-      ],
+      "id": ["Company Registration Number"],
       "tax": [
         {
           "enumeration": "lv_crn",
@@ -712,9 +642,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "Company Code"
-      ],
+      "id": ["Company Code"],
       "tax": [
         {
           "enumeration": "lt_company_code",
@@ -731,9 +659,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "RCS Number"
-      ],
+      "id": ["RCS Number"],
       "tax": [
         {
           "enumeration": "lu_rcs",
@@ -750,9 +676,7 @@
       "code": "SWIFT/BIC"
     },
     "business": {
-      "id": [
-        "Company Registration Number"
-      ],
+      "id": ["Company Registration Number"],
       "tax": [
         {
           "enumeration": "my_crn",
@@ -769,9 +693,7 @@
       "code": "CLABE"
     },
     "business": {
-      "id": [
-        "RFC"
-      ],
+      "id": ["RFC"],
       "tax": [
         {
           "enumeration": "mx_rfc",
@@ -788,9 +710,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "KvK Number"
-      ],
+      "id": ["KvK Number"],
       "tax": [
         {
           "enumeration": "nl_kvk",
@@ -807,9 +727,7 @@
       "code": "Bank Branch Code"
     },
     "business": {
-      "id": [
-        "NZBN"
-      ],
+      "id": ["NZBN"],
       "tax": [
         {
           "enumeration": "nz_nzbn",
@@ -826,9 +744,7 @@
       "code": "NUBAN"
     },
     "business": {
-      "id": [
-        "TIN"
-      ],
+      "id": ["TIN"],
       "tax": [
         {
           "enumeration": "ng_tin",
@@ -845,9 +761,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "Organisation Number"
-      ],
+      "id": ["Organisation Number"],
       "tax": [
         {
           "enumeration": "no_org_num",
@@ -864,9 +778,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "Commercial Registration Number"
-      ],
+      "id": ["Commercial Registration Number"],
       "tax": [
         {
           "enumeration": "om_crn",
@@ -883,9 +795,7 @@
       "code": "SWIFT/BIC"
     },
     "business": {
-      "id": [
-        "NTN"
-      ],
+      "id": ["NTN"],
       "tax": [
         {
           "enumeration": "pk_ntn",
@@ -902,9 +812,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "RUC"
-      ],
+      "id": ["RUC"],
       "tax": [
         {
           "enumeration": "pe_ruc",
@@ -921,9 +829,7 @@
       "code": "SWIFT/BIC"
     },
     "business": {
-      "id": [
-        "TIN"
-      ],
+      "id": ["TIN"],
       "tax": [
         {
           "enumeration": "ph_tin",
@@ -940,9 +846,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "REGON"
-      ],
+      "id": ["REGON"],
       "tax": [
         {
           "enumeration": "pl_regon",
@@ -959,9 +863,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "NIF"
-      ],
+      "id": ["NIF"],
       "tax": [
         {
           "enumeration": "pt_nif",
@@ -978,9 +880,7 @@
       "code": "SWIFT/BIC"
     },
     "business": {
-      "id": [
-        "INN"
-      ],
+      "id": ["INN"],
       "tax": [
         {
           "enumeration": "ru_inn",
@@ -997,9 +897,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "CR Number"
-      ],
+      "id": ["CR Number"],
       "tax": [
         {
           "enumeration": "sa_cr",
@@ -1016,9 +914,7 @@
       "code": "SWIFT/BIC"
     },
     "business": {
-      "id": [
-        "UEN"
-      ],
+      "id": ["UEN"],
       "tax": [
         {
           "enumeration": "sg_uen",
@@ -1035,9 +931,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "Company Registration Number"
-      ],
+      "id": ["Company Registration Number"],
       "tax": [
         {
           "enumeration": "za_crn",
@@ -1054,9 +948,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "CIF"
-      ],
+      "id": ["CIF"],
       "tax": [
         {
           "enumeration": "es_cif",
@@ -1073,9 +965,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "Organisationsnummer"
-      ],
+      "id": ["Organisationsnummer"],
       "tax": [
         {
           "enumeration": "se_orgnr",
@@ -1092,9 +982,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "UID"
-      ],
+      "id": ["UID"],
       "tax": [
         {
           "enumeration": "ch_uid",
@@ -1111,9 +999,7 @@
       "code": "SWIFT/BIC"
     },
     "business": {
-      "id": [
-        "GUI Number"
-      ],
+      "id": ["GUI Number"],
       "tax": [
         {
           "enumeration": "tw_gui",
@@ -1130,9 +1016,7 @@
       "code": "SWIFT/BIC"
     },
     "business": {
-      "id": [
-        "TIN"
-      ],
+      "id": ["TIN"],
       "tax": [
         {
           "enumeration": "th_tin",
@@ -1149,9 +1033,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "Vergi No"
-      ],
+      "id": ["Vergi No"],
       "tax": [
         {
           "enumeration": "tr_vergino",
@@ -1168,9 +1050,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "VAT"
-      ],
+      "id": ["VAT"],
       "tax": [
         {
           "enumeration": "ua_vat",
@@ -1187,9 +1067,7 @@
       "code": "IBAN"
     },
     "business": {
-      "id": [
-        "TRN"
-      ],
+      "id": ["TRN"],
       "tax": [
         {
           "enumeration": "ae_trn",
@@ -1206,9 +1084,7 @@
       "code": "Sort Code"
     },
     "business": {
-      "id": [
-        "Company Registration Number"
-      ],
+      "id": ["Company Registration Number"],
       "tax": [
         {
           "enumeration": "gb_crn",
@@ -1225,9 +1101,7 @@
       "code": "Routing Number"
     },
     "business": {
-      "id": [
-        "EIN"
-      ],
+      "id": ["EIN"],
       "tax": [
         {
           "enumeration": "us_ein",
@@ -1244,9 +1118,7 @@
       "code": null
     },
     "business": {
-      "id": [
-        "RUC"
-      ],
+      "id": ["RUC"],
       "tax": [
         {
           "enumeration": "uy_ruc",
@@ -1263,9 +1135,7 @@
       "code": "SWIFT/BIC"
     },
     "business": {
-      "id": [
-        "RIF"
-      ],
+      "id": ["RIF"],
       "tax": [
         {
           "enumeration": "ve_rif",
@@ -1282,9 +1152,7 @@
       "code": null
     },
     "business": {
-      "id": [
-        "MST"
-      ],
+      "id": ["MST"],
       "tax": [
         {
           "enumeration": "vn_mst",
