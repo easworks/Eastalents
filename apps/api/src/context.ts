@@ -8,7 +8,7 @@ import { MikroORM } from '@mikro-orm/mongodb';
 import { FastifyPluginAsync } from 'fastify';
 import { fastifyPlugin } from 'fastify-plugin';
 import { StatusCodes } from 'http-status-codes';
-import { CloudContext, CloudUser } from 'server-side/context';
+import { CloudUser } from 'server-side/context';
 import { InvalidBearerToken, UserIsDisabled, UserNotFound } from 'server-side/errors/definitions';
 import Stripe from 'stripe';
 import { jwtUtils } from './auth/utils';
@@ -18,7 +18,7 @@ const pluginImpl: FastifyPluginAsync = async server => {
   server.decorate('orm', await MikroORM.init(buildConfig(environment.mongodb)));
   server.decorate('stripe', new Stripe(environment.stripe.key));
 
-  server.decorateRequest('ctx', null as unknown as CloudContext);
+  server.decorateRequest('ctx');
 
   server.addHook('onRequest', async (req) => {
     req.ctx = {

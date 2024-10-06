@@ -4,9 +4,7 @@ import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from
 import { NavigationRoute, Route, registerRoute } from 'workbox-routing';
 import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
 
-declare const self: ServiceWorkerGlobalScope & {
-  __INDEX_URL: string;
-};
+declare const self: ServiceWorkerGlobalScope;
 
 export function setupCaching(cachePrefix: string) {
   setCacheNameDetails({
