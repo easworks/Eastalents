@@ -1,0 +1,33 @@
+<!-- <div class="feature-domain-conatiner">
+    @if(listOfFeatureDomainData.empty$()){
+    <div> No Data Found</div>
+    }
+
+    @for(row of listOfFeatureDomainData.rows.$(); track row.data.domain){
+    <div>{{row.domainLongName}}</div>
+    <h1>Roles</h1>
+    <div class="roles">
+        @for(role of row.data.roles; track role){
+        <div class="font-normal text-sm rounded-md p-1 px-2 
+            bg-primary-500/10 text-primary-500">
+            {{role}}
+        </div>
+        }
+    </div>
+    }
+</div> -->
+
+
+<div>
+    <mat-select [(ngModel)]="addDomain.query$" [ngModelOptions]="{ standalone: true }">
+        @for (domain of addDomain.options$(); track domain.id) {
+        <mat-option [value]="domain"> {{domain.longName}} </mat-option>
+        }
+    </mat-select>
+
+    <button class="shaded-button secondary 
+      mt-4 md:mt-6 whitespace-nowrap
+      flex-grow md:flex-none" mat-ripple (click)="addDomain.click(addDomain.query$())">
+        Add Domain
+    </button>
+</div>

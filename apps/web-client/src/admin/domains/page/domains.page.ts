@@ -36,10 +36,10 @@ import { Subscription, map } from 'rxjs';
 export class DomainsPageComponent {
 
     constructor() {
-        if (isBrowser()) {
-            toPromise(this.domains.list$, list => list.length > 0)
-                .then(() => this.editModules('alm'));
-        }
+        // if (isBrowser()) {
+        //     toPromise(this.domains.list$, list => list.length > 0)
+        //         .then(() => this.editModules('alm'));
+        // }
     }
 
     private readonly store = inject(Store);
@@ -237,15 +237,18 @@ export class DomainsPageComponent {
 
                     reset.click();
 
-                    // const skills = () => this.editSkills(sp.id);
-
+                    const modules = () => this.editModules(domain.id);
+                    const roles = () => this.editRoles(domain.id);
+                    const services = () => this.editServices(domain.id);
                     return {
                         data: domain,
                         // domains,
                         form,
                         submit,
                         reset,
-                        // skills
+                        modules,
+                        roles,
+                        services
                     };
                 });
             });
@@ -298,6 +301,24 @@ export class DomainsPageComponent {
         const ref = DialogLoaderComponent.open(this.dialog);
         const comp = await import('../modules/domain-modules.dialog')
             .then(m => m.DomainModulesDialogComponent);
+
+        comp.open(ref, { domainId: id });
+        return ref;
+    };
+
+    private readonly editRoles = async (id: string) => {
+        const ref = DialogLoaderComponent.open(this.dialog);
+        const comp = await import('../roles/domain-roles.dialog')
+            .then(m => m.DomainRolesDialogComponent);
+
+        comp.open(ref, { domainId: id });
+        return ref;
+    };
+
+    private readonly editServices = async (id: string) => {
+        const ref = DialogLoaderComponent.open(this.dialog);
+        const comp = await import('../services/domain-services.dialog')
+            .then(m => m.DomainServicesDialogComponent);
 
         comp.open(ref, { domainId: id });
         return ref;

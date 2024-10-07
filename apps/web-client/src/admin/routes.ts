@@ -37,6 +37,12 @@ export const ADMIN_ROUTES: Route =
         .then(m => m.TechGroupsPageComponent)
     },
     {
+      path: 'feature-domain',
+      pathMatch: 'full',
+      loadComponent: () => import('./feature-domain/page/feature-domain.page')
+        .then(m => m.FeatureDomainPageComponent)
+    },
+    {
       path: '',
       pathMatch: 'full',
       redirectTo: 'dashboard',
