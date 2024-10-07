@@ -12,7 +12,7 @@ export const domainDataEffects = {
     () => {
       const api = inject(DomainsApi);
 
-      const data$ = zip(api.data(), api.industries())
+      const data$ = zip(api.data.get(), api.industries())
         .pipe(map(([domain, industries]) => Object.assign(domain, { industries })));
 
       if (isBrowser())

@@ -13,12 +13,20 @@
     </button>
   </div>
   <mat-divider vertical class="self-stretch"></mat-divider>
-  <div class="flex-1 flex justify-center">
+  <div class="flex-1 grid gap-4 justify-center justify-items-center">
     <button class="stroked-button max-w-max" mat-ripple
             (click)="download.click()"
             [disabled]="download.disabled$()">
       <replace-spinner [showSpinner]="download.loading$()">
         Download JSON
+      </replace-spinner>
+    </button>
+
+    <button class="stroked-button max-w-max" mat-ripple
+            (click)="saveToDatabase.click()"
+            [disabled]="saveToDatabase.disabled$()">
+      <replace-spinner [showSpinner]="saveToDatabase.loading$()">
+        Save to DB
       </replace-spinner>
     </button>
   </div>

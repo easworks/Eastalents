@@ -1,6 +1,7 @@
-import { Component, HostBinding, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
+import { DomainsApi } from '@easworks/app-shell/api/domains.api';
 import { FileUploadComponent } from '@easworks/app-shell/common/file-upload/file-upload.component';
 import { FormImportsModule } from '@easworks/app-shell/common/form.imports.module';
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
@@ -9,6 +10,7 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { saveJSON } from '@easworks/app-shell/utilities/files';
 import { Store } from '@ngrx/store';
 import { domainData, domainDataActions } from 'app-shell/state/domain-data';
+import { finalize } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -24,10 +26,14 @@ import { domainData, domainDataActions } from 'app-shell/state/domain-data';
 export class AdminDashboardPageComponent {
   private readonly store = inject(Store);
   protected readonly snackbar = inject(MatSnackBar);
+  protected readonly api = {
+    domains: inject(DomainsApi)
+  } as const;
 
   private readonly loading = generateLoadingState<[
     'uploading json',
-    'downloading json'
+    'downloading json',
+    'saving to db'
   ]>();
 
   protected readonly upload = (() => {
@@ -82,6 +88,27 @@ export class AdminDashboardPageComponent {
       finally {
         this.loading.delete('downloading json');
       }
+    };
+
+    return {
+      loading$,
+      disabled$,
+      click
+    } as const;
+  })();
+
+  protected readonly saveToDatabase = (() => {
+    const loading$ = this.loading.has('saving to db');
+    const disabled$ = this.loading.any$;
+
+    const click = async () => {
+
+      this.loading.add('saving to db');
+      const dto$ = this.store.selectSignal(domainData.feature.selectDto);
+      this.api.domains.data.set(dto$())
+        .pipe(
+          finalize(() => this.loading.delete('saving to db'))
+        ).subscribe();
     };
 
     return {

@@ -8,7 +8,11 @@ import { EasworksApi } from './easworks.api';
 })
 export class DomainsApi extends EasworksApi {
 
-  readonly data = () => this.http.get<DomainDataDTO>(`${this.apiUrl}/domains/data`);
+  readonly data = {
+    get: () => this.http.get<DomainDataDTO>(`${this.apiUrl}/domains/data`),
+    set: (value: DomainDataDTO) => this.http.post(`${this.apiUrl}/domains/data`, value)
+  } as const;
+
   readonly industries = () => this.http.get<IndustryGroupDTO>(`${this.apiUrl}/domains/industries`);
 
 }
