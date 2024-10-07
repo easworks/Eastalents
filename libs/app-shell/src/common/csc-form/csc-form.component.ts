@@ -11,6 +11,7 @@ import { FormImportsModule } from '../form.imports.module';
 import { ImportsModule } from '../imports.module';
 import { isTimezone } from '../location';
 import { CSCFormOptions } from './csc-form-options.service';
+import { Country } from '@easworks/app-shell/api/csc.api';
 
 
 @Component({
@@ -37,7 +38,12 @@ export class CSCFormComponent implements OnInit {
   public readonly form$ = input.required<CSCFormGroup>({ alias: 'control' });
 
   protected readonly country = (() => {
-    const query$ = signal('');
+    const value$ = signal('' as string | Country);
+    const displayWith = (v: string | Country) => v && typeof v !== 'string' ? v.name : v;
+    const query$ = computed(() => {
+      const v = value$();
+      return v && typeof v !== 'string' ? v.name : v;
+    });
 
     const results$ = this.options.filter.country(query$);
     const loading$ = this.options.loading.has('countries');
@@ -50,12 +56,13 @@ export class CSCFormComponent implements OnInit {
 
       sub = controlValue$(control)
         .pipe(takeUntilDestroyed(this.dRef))
-        .subscribe(v => query$.set(v));
+        .subscribe(v => value$.set(v));
     }, { injector: this.injector, allowSignalWrites: true });
 
 
     effect(() => {
-      const value = query$();
+      const value = value$();
+      const query = query$();
       if (!value)
         return;
 
@@ -65,10 +72,10 @@ export class CSCFormComponent implements OnInit {
 
       const options = results$().slice(0, 20);
 
-      const match = options.find(o => o.name.toLowerCase() === value.toLowerCase());
+      const match = options.find(o => o.name.toLowerCase() === query.toLowerCase());
       if (match) {
-        if (match.name !== value) {
-          untracked(this.form$).controls.country.setValue(match.name);
+        if (match !== value) {
+          untracked(this.form$).controls.country.setValue(match);
         }
         else {
           this.options.load.state(match.iso2);
@@ -80,6 +87,7 @@ export class CSCFormComponent implements OnInit {
     return {
       results$,
       loading$,
+      displayWith
     } as const;
 
   })();
@@ -204,7 +212,7 @@ export class CSCFormComponent implements OnInit {
 
   public static createForm() {
     return new FormGroup({
-      country: new FormControl('', {
+      country: new FormControl('' as string | Country, {
         validators: [Validators.required],
         nonNullable: true
       }),

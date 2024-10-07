@@ -5,15 +5,19 @@ import { concatMap, map, switchMap, zip } from 'rxjs';
 import { AdminApi } from '../api/admin.api';
 import { DomainsApi } from '../api/domains.api';
 import { isBrowser } from '../utilities/platform-type';
-import { domainActions, domainData, domainDataActions, softwareProductActions, techGroupActions, techSkillActions } from './domain-data';
+import { domainActions, domainData, domainDataActions, featuredDomainActions, softwareProductActions, techGroupActions, techSkillActions } from './domain-data';
 
 export const domainDataEffects = {
   loadFromApi: createEffect(
     () => {
       const api = inject(DomainsApi);
 
-      const data$ = zip(api.data(), api.industries())
-        .pipe(map(([domain, industries]) => Object.assign(domain, { industries })));
+      const data$ = zip(
+        api.data.get(),
+        api.industries(),
+        api.featured.get()
+      )
+        .pipe(map(([domainDto, industries, featured]) => Object.assign(domainDto, { industries, featured })));
 
       if (isBrowser())
         return data$
@@ -158,6 +162,25 @@ export const domainDataEffects = {
       );
     },
     { functional: true, dispatch: false }
-  )
+  ),
+
+  saveFeaturedDomains: createEffect(
+    () => {
+      const api = inject(AdminApi);
+      const actions$ = inject(Actions);
+
+      const store = inject(Store);
+
+      const list$ = store.selectSignal(domainData.selectors.featuredDomains);
+
+      return actions$.pipe(
+        ofType(
+          domainDataActions.saveState,
+          featuredDomainActions.add,
+        ),
+        concatMap(() => api.featuredDomains.write(list$()))
+      );
+    },
+    { functional: true, dispatch: false })
 
 };

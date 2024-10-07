@@ -4,6 +4,11 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/web-client/src",
+  "cli": {
+    "cache": {
+      "enabled": false
+    }
+  },
   "tags": [],
   "targets": {
     "build": {
@@ -196,6 +201,35 @@
       },
       "defaultConfiguration": "development",
       "dependsOn": ["prep-deploy"]
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "apps/web-client/.storybook",
+        "browserTarget": "web-client:build-storybook",
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/web-client",
+        "configDir": "apps/web-client/.storybook",
+        "browserTarget": "web-client:build-storybook",
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
     }
   }
 }

@@ -114,6 +114,7 @@ export const JOB_POST_STATUS_OPTIONS = [
   'Awaiting Approval',
   'Approved',
   'Hiring',
+  'On Hold',
   'Complete',
 ] as const;
 
@@ -154,7 +155,10 @@ export interface JobPost {
   }[];
 
 
-  metrics: JobMetrics;
+  metrics: JobPostApplicationMetrics & {
+    // the number of people who have viewed this job post
+    viewed: number;
+  };
 }
 
 export interface JobPostRole {
@@ -165,7 +169,7 @@ export interface JobPostRole {
   positions: JobPostPosition[];
   description: string;
 
-  metrics: JobMetrics;
+  metrics: JobPostApplicationMetrics;
 }
 
 export interface JobPostPosition {
@@ -173,6 +177,7 @@ export interface JobPostPosition {
   quantity: number;
   experience: RequiredExperience;
   engagement: PartTimeEngagement | FullTimeEngagement;
+  metrics: JobPostApplicationMetrics;
 }
 
 interface EngagementBase {
@@ -191,22 +196,22 @@ interface FullTimeEngagement extends EngagementBase {
   salary: number;
 }
 
-export interface JobMetrics {
+export interface JobPostApplicationMetrics {
   // the number of positions in this job listing
   positions: number;
 
   // the number of individual people who have applied
   applications: number;
 
+  // the number of applicants in the pipeline
+  pipelined: number;
+
+  // the number of applicants who are currently being interviewed
+  interviewing: number;
+
   // the number of applicants who have been hired
   hired: number;
 
   // the number of applicants who have been rejected 
   rejected: number;
-
-  // the number of applicants who are currently being interviewed
-  interviewScheduled: number;
-
-  // the number of applicants who have not been processed yet
-  unseen: number;
 }

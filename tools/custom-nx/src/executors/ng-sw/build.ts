@@ -8,7 +8,6 @@ export interface NgSwBuildOptions {
 
 export function getSwBuildConfig(
   options: NgSwBuildOptions,
-  index: string,
   manifest: {
     url: string;
     revision: string;
@@ -29,7 +28,6 @@ export function getSwBuildConfig(
     define: {
       'ngDevMode': ngDevMode || 'undefined',
       'self.__WB_MANIFEST': JSON.stringify(manifest),
-      'self.__INDEX_URL': JSON.stringify(index)
     }
   };
 }

@@ -8,7 +8,6 @@
         text-2xl font-bold text-primary-900">Company Profile</h1>
     <!-- </div> -->
 
-
     <mat-divider class="!mt-4"></mat-divider>
 
     <form [formGroup]="form">
@@ -63,9 +62,24 @@
             @if(control.hasError('required')){<span class="error">Required</span>}
           </div>
 
+          <!-- business entity type -->
+          <div *ngrxLet="form.controls.businessEntityType as control"
+               [formFieldControl]="control">
+            <label>
+              Business Entity Type
+              <span class="text-warn">*</span>
+            </label>
+
+            <mat-select [formControl]="control" placeholder="Entity Type">
+              @for(option of options.businessType; track option) {
+              <mat-option [value]="option">{{option}}</mat-option>
+              }
+            </mat-select>
+            @if(control.hasError('required')){<span class="error">Required</span>}
+          </div>
 
           <!-- business size by employee -->
-          <div *ngrxLet="form.controls.size as control"
+          <div *ngrxLet="form.controls.employeeCount as control"
                [formFieldControl]="control">
             <label>
               Company Size
@@ -73,8 +87,8 @@
             </label>
 
             <mat-select [formControl]="control" placeholder="Size">
-              @for(option of options.clientSize; track option) {
-              <mat-option [value]="option">{{option}}</mat-option>
+              @for(option of options.employeeCount; track option) {
+              <mat-option [value]="option">{{option}} employees</mat-option>
               }
             </mat-select>
             @if(control.hasError('required')){<span class="error">Required</span>}
@@ -97,6 +111,191 @@
           </div>
         </div>
 
+      </div>
+
+      <!-- corporate address -->
+      <div class="page-section mt-4">
+        <h2 class="header">Corporate Address</h2>
+
+        <div class="content mt-4">
+          <address-form [control]="form.controls.registration.controls.address"></address-form>
+        </div>
+      </div>
+
+      <!-- billing address -->
+      <div class="page-section mt-4">
+        <h2 class="header">Billing Address</h2>
+
+        <div class="content mt-4">
+
+          <div [class.mb-4]="billingAddress.sameAsCorporate$()">
+            <mat-checkbox [checked]="billingAddress.sameAsCorporate$()"
+                          (change)="billingAddress.sameAsCorporate$.set($event.checked)">
+              Same as Corporate Address
+            </mat-checkbox>
+          </div>
+
+          <address-form [control]="form.controls.billing.controls.address"
+                        class="mt-8"
+                        [class.hidden]="form.controls.billing.controls.address.disabled"></address-form>
+
+        </div>
+      </div>
+
+      <!-- payment preferences -->
+      <div class="page-section mt-4">
+        <h2 class="header">Payment Preferences</h2>
+
+        <div class="content mt-4 grid grid-cols-2 gap-x-4">
+          <!-- payment method -->
+          <div *ngrxLet="form.controls.billing.controls.preferences.controls.paymentMethod as control"
+               [formFieldControl]="control">
+            <label> Payment Method </label>
+
+            <mat-select [formControl]="control">
+              @for (option of paymentPreferences.options.method; track option) {
+              <mat-option [value]="option">{{option}}</mat-option>
+              }
+            </mat-select>
+          </div>
+
+          <!-- payment term -->
+          <div *ngrxLet="form.controls.billing.controls.preferences.controls.paymentTerm as control"
+               [formFieldControl]="control">
+            <label> Payment Term </label>
+
+            <mat-select [formControl]="control">
+              @for (option of paymentPreferences.options.term; track option) {
+              <mat-option [value]="option">{{option}}</mat-option>
+              }
+            </mat-select>
+          </div>
+
+          <!-- payment currency -->
+          <div *ngrxLet="form.controls.billing.controls.preferences.controls.paymentCurrency as control"
+               [formFieldControl]="control">
+            <label> Payment Currency </label>
+
+            <mat-select [formControl]="control">
+              @for (option of paymentPreferences.options.currency; track option) {
+              <mat-option [value]="option">{{option}}</mat-option>
+              }
+            </mat-select>
+          </div>
+        </div>
+      </div>
+
+      <!-- registration and tax -->
+      <div class="page-section mt-4">
+        <h2 class="header">Registration & Tax</h2>
+        <div class="content mt-4">
+
+          <div class="flex gap-x-4">
+            @if(registration.descriptors.companyId.showControl$()) {
+            <div *ngrxLet="form.controls.registration.controls.companyId.controls.descriptor as control"
+                 [formFieldControl]="control"
+                 class="min-w-48">
+              <label>
+                Company ID Type
+                <span class="text-warn">*</span>
+              </label>
+
+              <mat-select [formControl]="control">
+                @for (option of registration.descriptors.companyId.options$(); track option) {
+                <mat-option [value]="option">{{option}}</mat-option>
+                }
+              </mat-select>
+            </div>
+            }
+
+            <div *ngrxLet="form.controls.registration.controls.companyId.controls.value as control"
+                 [formFieldControl]="control"
+                 class="flex-1">
+              <label>
+                {{registration.labels.companyId$()}}
+                <span class="text-warn">*</span>
+              </label>
+
+              <input type="text" [formControl]="control">
+              @if(control.hasError('required')){<span class="error">Required</span>}
+            </div>
+          </div>
+
+          <div class="flex gap-x-4">
+
+            @if(registration.descriptors.tax.showControl$()) {
+            <div *ngrxLet="form.controls.registration.controls.tax.controls.descriptor as control"
+                 [formFieldControl]="control"
+                 class="min-w-48">
+              <label>
+                Tax ID Type
+                <span class="text-warn">*</span>
+              </label>
+
+              <mat-select [formControl]="control">
+                @for (option of registration.descriptors.tax.options$(); track option) {
+                <mat-option [value]="option">{{option.taxId}}</mat-option>
+                }
+              </mat-select>
+            </div>
+            }
+
+            <div *ngrxLet="form.controls.registration.controls.tax.controls.value.controls.taxId as control"
+                 [formFieldControl]="control"
+                 class="flex-grow">
+              <label>
+                {{registration.labels.taxId$()}}
+                <span class="text-warn">*</span>
+              </label>
+
+              <input type="text" [formControl]="control">
+              @if(control.hasError('required')){<span class="error">Required</span>}
+            </div>
+          </div>
+
+          <ng-container *ngrxLet="form.controls.registration.controls.tax.controls.value.controls.gstId as control">
+            @if (control.enabled) {
+            <div [formFieldControl]="control">
+              <label>
+                {{registration.labels.gstId$()}}
+                <span class="text-warn">*</span>
+              </label>
+
+              <input type="text" [formControl]="control">
+              @if(control.hasError('required')){<span class="error">Required</span>}
+            </div>
+            }
+
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- bank details -->
+      <div class="page-section mt-4">
+        <h2 class="header">Bank Details</h2>
+        <div class="content mt-4">
+          <div *ngrxLet="form.controls.bankAccount.controls.value.controls.account as control"
+               [formFieldControl]="control">
+            <label>
+              {{registration.labels.bank.account$()}}
+              <span class="text-warn">*</span>
+            </label>
+
+            <input type="text" [formControl]="control">
+            @if(control.hasError('required')){<span class="error">Required</span>}
+          </div>
+
+          <div *ngrxLet="form.controls.bankAccount.controls.value.controls.code as control"
+               [formFieldControl]="control">
+            <label>
+              {{registration.labels.bank.code$()}}
+              <span class="text-warn">*</span>
+            </label>
+
+            <input type="text" [formControl]="control">
+            @if(control.hasError('required')){<span class="error">Required</span>}
+          </div>
+        </div>
       </div>
 
       <!-- enterprise applications and software -->
@@ -198,6 +397,60 @@
         </div>
       </div>
 
+      <!-- hiring preferences -->
+      <div class="page-section mt-4">
+        <h2 class="header">Hiring Preferences</h2>
+        <div class="content mt-4">
+          <!-- service type -->
+          <div *ngrxLet="form.controls.hiringPreferences.controls.serviceType as control"
+               [formFieldControl]="control">
+            <label>
+              Hiring Type
+              <span class="text-warn">*</span>
+            </label>
+
+            <mat-select [formControl]="control" placeholder="Hiring Type" multiple>
+              @for(option of options.serviceType; track option) {
+              <mat-option [value]="option">{{option}}</mat-option>
+              }
+            </mat-select>
+            @if(control.hasError('required')){<span class="error">Required</span>}
+          </div>
+
+          <!-- experience level -->
+          <div *ngrxLet="form.controls.hiringPreferences.controls.experience as control"
+               [formFieldControl]="control">
+            <label>
+              Experience Level
+              <span class="text-warn">*</span>
+            </label>
+
+            <mat-select [formControl]="control" placeholder="Experience Level" multiple>
+              @for(option of options.experience; track option) {
+              <mat-option [value]="option">{{option}}</mat-option>
+              }
+            </mat-select>
+            @if(control.hasError('required')){<span class="error">Required</span>}
+          </div>
+
+          <!-- work environment -->
+          <div *ngrxLet="form.controls.hiringPreferences.controls.workEnvironment as control"
+               [formFieldControl]="control">
+            <label>
+              Work Environment
+              <span class="text-warn">*</span>
+            </label>
+
+            <mat-select [formControl]="control" placeholder="Work Environment" multiple>
+              @for(option of options.workEnvironment; track option) {
+              <mat-option [value]="option">{{option}}</mat-option>
+              }
+            </mat-select>
+            @if(control.hasError('required')){<span class="error">Required</span>}
+          </div>
+        </div>
+      </div>
+
       <!-- industry information -->
       <div class="page-section mt-4">
         <h2 class="header">Industry Information</h2>
@@ -270,7 +523,12 @@
           </div>
 
           <div class="border rounded-md mt-4">
-            <div class="p-2 text-sm font-semibold">Secondary</div>
+            <div class="p-2 text-sm font-semibold flex gap-4">
+              <span>Secondary</span>
+              <mat-slide-toggle [checked]="contact.enableSecondary$()"
+                                (change)="contact.enableSecondary$.set($event.checked)"
+                                class="ml-auto"></mat-slide-toggle>
+            </div>
             <mat-divider></mat-divider>
             <div class="p-4">
               <client-profile-contact-form [control]="form.controls.contact.controls.secondary"></client-profile-contact-form>
@@ -278,6 +536,7 @@
           </div>
         </div>
       </div>
+
     </form>
   </div>
 

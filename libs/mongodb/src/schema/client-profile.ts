@@ -1,4 +1,6 @@
-import { AnnualRevenueRange, ClientProfile, ClientSize, ClientType } from '@easworks/models/client-profile';
+import { AcceptedCurrency, PaymentMethod, PaymentTerm } from '@easworks/models/billing';
+import { AnnualRevenueRange, BusinessEntityType, ClientProfile, ClientType, EmployeeCount } from '@easworks/models/client-profile';
+import { Address } from '@easworks/models/location';
 import { InitialProfileData, User } from '@easworks/models/user';
 import { EntitySchema } from '@mikro-orm/mongodb';
 import { user_schema } from './user';
@@ -7,12 +9,16 @@ export const client_profile_schema = new EntitySchema<ClientProfile>({
   collection: 'client-profiles',
   name: 'ClientProfile',
   properties: {
-    user: { kind: '1:1', entity: () => user_schema, fieldName: '_id', primary: true, owner: true },
+    user: { kind: '1:1', entity: () => user_schema, fieldName: '_id', primary: true, owner: true, serializedName: 'user' },
     name: { type: 'string' },
     description: { type: 'string' },
     type: { type: 'string' },
-    size: { type: 'string' },
+    businessEntityType: { type: 'string' },
+    employeeCount: { type: 'string' },
     industry: { type: 'json', object: true },
+    registration: { type: 'json', object: true },
+    bankAccount: { type: 'json', object: true },
+    billing: { type: 'json', object: true },
     domains: { type: 'string', array: true },
     softwareProducts: { type: 'string', array: true },
     location: { type: 'json', object: true },
@@ -29,6 +35,64 @@ export function initialClientProfile(
 ): ClientProfile {
   return {
     user,
+    name: null as unknown as string,
+    description: null as unknown as string,
+
+    type: null as unknown as ClientType,
+    employeeCount: null as unknown as EmployeeCount,
+    businessEntityType: null as unknown as BusinessEntityType,
+    annualRevenueRange: null as unknown as AnnualRevenueRange,
+
+    industry: null as unknown as ClientProfile['industry'],
+
+    registration: {
+      id: {
+        value: null,
+        descriptor: null,
+      },
+      address: null as unknown as Address,
+      tax: {
+        value: {
+          taxId: null,
+          gstId: null
+        },
+        descriptor: null
+      }
+    },
+
+    bankAccount: {
+      value: {
+        account: null as unknown as string,
+        code: null
+      },
+      descriptor: null
+    },
+
+    billing: {
+      address: null,
+      preferences: {
+        paymentMethod: null as unknown as PaymentMethod,
+        paymentTerm: null as unknown as PaymentTerm,
+        paymentCurrency: null as unknown as AcceptedCurrency
+      }
+    },
+
+    hiringPreferences: {
+      experience: [],
+      serviceType: [],
+      workEnvironment: []
+    },
+
+    domains: data.domains,
+    softwareProducts: data.softwareProducts,
+
+    location: {
+      city: null,
+      country: null as unknown as string,
+      state: null,
+      timezone: null as unknown as string
+    },
+
     contact: {
       primary: {
         name: `${user.firstName} ${user.lastName}`,
@@ -38,27 +102,5 @@ export function initialClientProfile(
       },
       secondary: null
     },
-    description: null as unknown as string,
-    domains: data.domains,
-    industry: {
-      name: null as unknown as string,
-      group: null as unknown as string
-    },
-    location: {
-      city: null,
-      country: null as unknown as string,
-      state: null,
-      timezone: null as unknown as string
-    },
-    name: null as unknown as string,
-    size: null as unknown as ClientSize,
-    type: null as unknown as ClientType,
-    softwareProducts: data.softwareProducts,
-    annualRevenueRange: null as unknown as AnnualRevenueRange,
-    hiringPreferences: {
-      experience: [],
-      serviceType: [],
-      workEnvironment: []
-    }
   };
 }

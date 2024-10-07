@@ -1,16 +1,6 @@
-import { Domain } from "./domain";
-import { SoftwareProduct } from "./software";
 
 export interface FeaturedDomain {
-  domain: string;
+  id: string; // domain
   software: string[];
   roles: string[];
-}
-
-export interface updateDisplayFeatureProduct {
-  domainId: string;
-  domainName: string;
-  domainData: Domain[];
-  softareId?: string[];
-  softwareProduct?: SoftwareProduct[];
 }

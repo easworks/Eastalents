@@ -19,4 +19,5 @@ html {
   @include mat.snack-bar-theme($theme);
   @include mat.tooltip-theme($theme);
   @include mat.stepper-theme($theme);
+  @include mat.slide-toggle-theme($theme);
 }

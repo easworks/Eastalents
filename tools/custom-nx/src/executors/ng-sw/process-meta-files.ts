@@ -1,8 +1,8 @@
 import { ImportKind, Metafile } from 'esbuild';
 
-export function extractManifest(main: string, metaFile: Metafile, index: string) {
+export function extractManifest(main: string, metaFile: Metafile) {
 
-  const files = new Set([index]);
+  const files = new Set(['/index.html']);
 
   for (const outputName in metaFile.outputs) {
     const file = metaFile.outputs[outputName];

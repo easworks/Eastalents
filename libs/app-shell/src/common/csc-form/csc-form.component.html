@@ -13,7 +13,7 @@
     @if (control.hasError('required')){<span class="error">Required</span>}
 
 
-    <mat-autocomplete #countryOptions hideSingleSelectionIndicator>
+    <mat-autocomplete #countryOptions hideSingleSelectionIndicator [displayWith]="country.displayWith">
       @for(option of country.results$(); track option) {
       <mat-option [value]="option.name" (onSelectionChange)="$event.source.deselect()">
         <div class="flex gap-4 items-center">

@@ -30,7 +30,7 @@ export class HelpCenterPageComponent {
   }
 
   @HostBinding()
-  private readonly class = 'page';
+  private readonly class = '';
 
   protected readonly icons = {
     faCircleArrowRight

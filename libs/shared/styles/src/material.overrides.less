@@ -73,6 +73,10 @@ html {
 }
 
 .mat-mdc-checkbox {
+  .mdc-label {
+    @apply ml-1;
+  }
+
   &.primary {
     --mdc-checkbox-disabled-selected-icon-color: theme('colors.divider');
     --mdc-checkbox-disabled-unselected-icon-color: theme('colors.divider');
@@ -122,6 +126,97 @@ html {
     --mat-radio-ripple-color: theme('colors.primary.500');
     --mat-radio-checked-ripple-color: theme('colors.primary.500');
   }
+}
+
+// slide-toggle
+html {
+  --mat-switch-with-icon-handle-size: theme('size.4');
+  --mdc-switch-handle-shape: theme('borderRadius.full');
+  --mdc-switch-track-height: theme('size.6');
+  --mdc-switch-track-shape: theme('borderRadius.full');
+  --mdc-switch-track-width: theme('size.10');
+  --mdc-switch-state-layer-size: theme('size.6');
+  --mat-switch-pressed-handle-size: theme('size.4');
+
+
+  --mdc-switch-selected-handle-color: white;
+  --mdc-switch-selected-track-color: theme('colors.primary.500');
+  --mdc-switch-selected-icon-color: theme('colors.primary.500');
+  --mdc-switch-selected-icon-size: theme('size.3');
+  --mat-switch-selected-handle-size: theme('size.4');
+  --mat-switch-selected-handle-horizontal-margin: 0 theme('size.5');
+  --mat-switch-selected-with-icon-handle-horizontal-margin: 0 theme('size.5');
+  --mat-switch-selected-track-outline-width: 2px;
+  --mat-switch-selected-track-outline-color: transparent;
+
+  --mdc-switch-selected-focus-state-layer-opacity: 0.12;
+  --mdc-switch-selected-focus-state-layer-color: theme('colors.primary.700');
+  --mdc-switch-selected-focus-handle-color: white;
+  --mdc-switch-selected-focus-track-color: theme('colors.primary.700');
+
+  --mdc-switch-selected-hover-state-layer-opacity: 0.08;
+  --mdc-switch-selected-hover-state-layer-color: theme('colors.primary.700');
+  --mdc-switch-selected-hover-handle-color: white;
+  --mdc-switch-selected-hover-track-color: theme('colors.primary.700');
+
+  --mdc-switch-selected-pressed-state-layer-opacity: 0.12;
+  --mdc-switch-selected-pressed-state-layer-color: theme('colors.primary.700');
+  --mdc-switch-selected-pressed-handle-color: #ecdcff;
+  --mdc-switch-selected-pressed-track-color: theme('colors.primary.700');
+  --mat-switch-selected-pressed-handle-horizontal-margin: 0 theme('size.5');
+
+  
+
+  --mdc-switch-unselected-focus-state-layer-opacity: 0.12;
+  --mdc-switch-unselected-hover-state-layer-opacity: 0.08;
+  --mdc-switch-unselected-pressed-state-layer-opacity: 0.12;
+  
+  
+  --mdc-switch-disabled-selected-handle-color: #fef8fc;
+  --mdc-switch-disabled-selected-icon-color: #1d1b1e;
+  --mdc-switch-disabled-selected-track-color: #1d1b1e;
+  --mdc-switch-disabled-unselected-handle-color: #1d1b1e;
+  --mdc-switch-disabled-unselected-icon-color: #e8e0eb;
+  --mdc-switch-disabled-unselected-track-color: #e8e0eb;
+  --mdc-switch-unselected-focus-handle-color: #49454e;
+  --mdc-switch-unselected-focus-state-layer-color: #1d1b1e;
+  --mdc-switch-unselected-focus-track-color: #e8e0eb;
+  --mdc-switch-unselected-handle-color: #7b757f;
+  --mdc-switch-unselected-hover-handle-color: #49454e;
+  --mdc-switch-unselected-hover-state-layer-color: #1d1b1e;
+  --mdc-switch-unselected-hover-track-color: #e8e0eb;
+  --mdc-switch-unselected-icon-color: #e8e0eb;
+  --mdc-switch-unselected-pressed-handle-color: #49454e;
+  --mdc-switch-unselected-pressed-state-layer-color: #1d1b1e;
+  --mdc-switch-unselected-pressed-track-color: #e8e0eb;
+  --mdc-switch-unselected-track-color: #e8e0eb;
+  --mdc-switch-disabled-selected-icon-opacity: 0.38;
+  --mdc-switch-disabled-track-opacity: 0.12;
+  --mdc-switch-disabled-unselected-icon-opacity: 0.38;
+  
+  --mdc-switch-unselected-icon-size: 16px;
+  --mat-switch-track-outline-color: #7b757f;
+  --mat-switch-disabled-unselected-track-outline-color: #1d1b1e;
+  --mat-switch-label-text-color: #1d1b1e;
+  --mat-switch-label-text-font: Roboto, sans-serif;
+  --mat-switch-label-text-line-height: 1.25rem;
+  --mat-switch-label-text-size: 0.875rem;
+  --mat-switch-label-text-tracking: 0.016rem;
+  --mat-switch-label-text-weight: 400;
+  --mat-switch-disabled-selected-handle-opacity: 1;
+  --mat-switch-disabled-unselected-handle-opacity: 0.38;
+  --mat-switch-unselected-handle-size: 16px;
+  
+  --mat-switch-unselected-handle-horizontal-margin: 0 8px;
+  --mat-switch-unselected-with-icon-handle-horizontal-margin: 0 4px;
+  --mat-switch-unselected-pressed-handle-horizontal-margin: 0 theme('size.5');
+  --mat-switch-visible-track-opacity: 1;
+  --mat-switch-hidden-track-opacity: 0;
+  --mat-switch-visible-track-transition: opacity 75ms;
+  --mat-switch-hidden-track-transition: opacity 75ms;
+  --mat-switch-track-outline-width: 2px;
+  
+  --mat-switch-disabled-unselected-track-outline-width: 2px;
 }
 
 .mat-mdc-progress-bar {

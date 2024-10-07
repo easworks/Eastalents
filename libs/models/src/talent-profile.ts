@@ -1,6 +1,9 @@
 import { ProjectKickoffTimeline } from './job-post';
 import { User } from './user';
 
+export const TALENT_PROFILE_MAX_DOMAINS = 2;
+export const TALENT_PROFILE_MAX_SOFTWARE = 5;
+
 export const OVERALL_EXPERIENCE_OPTIONS = [
   'Less than 2 years',
   '2 to 5 years',

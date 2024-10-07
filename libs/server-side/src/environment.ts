@@ -31,6 +31,9 @@ export interface Environment {
   gmail?: {
     senderId: string;
   };
+  stripe?: {
+    key: string;
+  };
 }
 
 export const parseEnv = {
@@ -108,6 +111,15 @@ export const parseEnv = {
         throw new Error('GMAIL_SENDER_ID not provided');
 
       return id;
+    }
+  },
+  stripe: {
+    key: () => {
+      const key = process.env['STRIPE_API_KEY'];
+      if (!key)
+        throw new Error('STRIPE_API_KEY not provided');
+
+      return key;
     }
   }
 };

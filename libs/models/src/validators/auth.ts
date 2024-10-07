@@ -3,6 +3,7 @@ import { pattern } from 'models/pattern';
 import { TypeOf, z } from 'zod';
 import { CLIENT_PROFILE_MAX_DOMAINS, CLIENT_PROFILE_MAX_SOFTWARE } from '../client-profile';
 import { EXTERNAL_IDENTITY_PROVIDERS } from '../identity-provider';
+import { TALENT_PROFILE_MAX_DOMAINS, TALENT_PROFILE_MAX_SOFTWARE } from '../talent-profile';
 import { username } from './common';
 import { oauthValidators } from './oauth';
 
@@ -43,9 +44,9 @@ const inputs = {
     }).nullable(),
     profileData: z.strictObject({
       domains: z.array(z.string().trim())
-        .max(CLIENT_PROFILE_MAX_DOMAINS),
+        .max(Math.max(CLIENT_PROFILE_MAX_DOMAINS, TALENT_PROFILE_MAX_DOMAINS)),
       softwareProducts: z.array(z.string().trim())
-        .max(CLIENT_PROFILE_MAX_SOFTWARE),
+        .max(Math.max(CLIENT_PROFILE_MAX_SOFTWARE, TALENT_PROFILE_MAX_SOFTWARE)),
     })
   }),
   signin: {
