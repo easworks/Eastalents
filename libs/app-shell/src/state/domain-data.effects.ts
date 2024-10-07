@@ -176,7 +176,8 @@ export const domainDataEffects = {
       return actions$.pipe(
         ofType(
           domainDataActions.saveState,
-          featuredDomainActions.add,
+          featuredDomainActions.addDomain,
+          featuredDomainActions.removeDomain
         ),
         concatMap(() => api.featuredDomains.write(list$()))
       );

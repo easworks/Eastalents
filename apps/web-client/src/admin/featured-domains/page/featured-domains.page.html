@@ -1,38 +1,11 @@
-<div class="grid gap-4">
+<div class="grid gap-4 mt-4">
   @if(featuredDomains.empty$()){
   <div> No Data Found</div>
   }
   @else {
-  @for(featured of featuredDomains.hydrated$(); track featured.domain){
-  <div class="rounded-md border">
-    <div class="p-2 px-4">{{featured.domain.longName}}</div>
-    <mat-divider></mat-divider>
-    <div class="p-2 px-4">
-      <h3>Roles</h3>
-      <div>
-        @for(role of featured.roles; track role){
-        <div class="font-normal text-sm rounded-md p-1 px-2 
-            bg-primary-500/10 text-primary-500">
-          {{role}}
-        </div>
-        }
-      </div>
-    </div>
-    <mat-divider></mat-divider>
-    <div class="p-2 px-4">
-      <h3>Software</h3>
-      <div>
-        @for(software of featured.software; track software.id){
-        <div class="font-normal text-sm rounded-md p-1 px-2 
-            bg-primary-500/10 text-primary-500">
-          {{software.name}}
-        </div>
-        }
-      </div>
-    </div>
-  </div>
+  @for(featured of featuredDomains.list$(); track featured.id){
+  <admin-featured-domain-card [featuredDomain]="featured" />
   }
-
   }
 
 </div>
@@ -47,7 +20,8 @@
 
   <button class="shaded-button secondary 
       mt-4 md:mt-6 whitespace-nowrap
-      flex-grow md:flex-none" mat-ripple (click)="addDomain.click(addDomain.query$())">
+      flex-grow md:flex-none" mat-ripple (click)="addDomain.click(addDomain.query$())"
+          [disabled]="addDomain.disabled$()">
     Add Domain
   </button>
 </div>
