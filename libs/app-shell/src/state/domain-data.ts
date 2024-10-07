@@ -107,7 +107,8 @@ export const domainActions = createActionGroup({
 export const featuredDomainActions = createActionGroup({
   source: 'featured-domains',
   events: {
-    'add': props<{ payload: { domain: Domain; }; }>()
+    'add domain': props<{ payload: { domain: Domain; }; }>(),
+    'remove domain': props<{ payload: { domain: string; }; }>()
   }
 });
 
@@ -359,7 +360,7 @@ const feature = createFeature({
     })),
 
     // featured domains
-    on(featuredDomainActions.add, produce((state, { payload }) => {
+    on(featuredDomainActions.addDomain, produce((state, { payload }) => {
       const exists = state.featuredDomains.find(d => d.id === payload.domain.id);
       if (exists)
         throw new Error('cannot add existing domain to list');
@@ -369,7 +370,13 @@ const feature = createFeature({
         software: []
       });
       state.featuredDomains.sort((a, b) => sortString(a.id, b.id));
-    }))
+    })),
+
+    on(featuredDomainActions.removeDomain, produce((state, { payload }) => {
+      const domainIdx = state.featuredDomains.findIndex(d => d.id === payload.domain);
+      if (domainIdx >= 0)
+        state.featuredDomains.splice(domainIdx, 1);
+    })),
   ),
   extraSelectors: base => {
     const selectors = {

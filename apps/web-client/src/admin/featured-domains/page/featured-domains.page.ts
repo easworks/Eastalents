@@ -10,6 +10,7 @@ import { SnackbarComponent } from "@easworks/app-shell/notification/snackbar";
 import { Domain } from "@easworks/models/domain";
 import { Store } from '@ngrx/store';
 import { domainData, featuredDomainActions, } from 'app-shell/state/domain-data';
+import { AdminFeaturedDomainCardComponent } from '../domain-card/domain-card.component';
 
 @Component({
   standalone: true,
@@ -22,7 +23,8 @@ import { domainData, featuredDomainActions, } from 'app-shell/state/domain-data'
     MatCheckboxModule,
     MatSelectModule,
     MatAutocompleteModule,
-    PaginatorComponent
+    PaginatorComponent,
+    AdminFeaturedDomainCardComponent
   ]
 })
 export class FeaturedDomainsPageComponent {
@@ -34,7 +36,7 @@ export class FeaturedDomainsPageComponent {
     domain: (_: number, d: Domain) => d.id,
   } as const;
 
-  protected readonly domain = (() => {
+  readonly domain = (() => {
     const list$ = this.store.selectSignal(domainData.selectors.domains.selectAll);
     const map$ = this.store.selectSignal(domainData.selectors.domains.selectEntities);
 
@@ -57,57 +59,40 @@ export class FeaturedDomainsPageComponent {
   protected readonly featuredDomains = (() => {
     const list$ = this.store.selectSignal(domainData.feature.selectFeaturedDomains);
 
-    const hydrated$ = computed(() => {
-      const data = {
-        domains: this.domain.map$(),
-        softwareProduct: this.software.map$()
-      };
-
-      const list = list$();
-
-      return list.map(fd => {
-        const domain = data.domains[fd.id];
-        if (!domain)
-          throw new Error(`invalid operation - domain '${fd.id}' cannot be found`);
-
-        return {
-          domain,
-          roles: fd.roles,
-          software: fd.software.map(s => {
-            const software = data.softwareProduct[s];
-            if (!software)
-              throw new Error(`invalid operation - software product '${s}' cannot be found`);
-            return software;
-          })
-        };
-      });
-    });
-
-    const empty$ = computed(() => hydrated$().length === 0);
+    const empty$ = computed(() => list$().length === 0);
 
     return {
       list$,
-      hydrated$,
       empty$
     } as const;
   })();
 
-  readonly addDomain = {
-    query$: signal<Domain | null>(null),
-    options$: computed(() => {
+  readonly addDomain = (() => {
+    const query$ = signal<Domain | null>(null);
+    const disabled$ = computed(() => !query$());
+
+    const options$ = computed(() => {
       const all = this.domain.list$();
 
       const existingIds = new Set(this.featuredDomains.list$().map(fd => fd.id));
 
       return all.filter(d => !existingIds.has(d.id));
-    }),
-    click: (query: Domain | null) => {
+    });
+
+    const click = (query: Domain | null) => {
       if (!query) {
         return;
       }
-      this.store.dispatch(featuredDomainActions.add({ payload: { domain: query } }));
+      this.store.dispatch(featuredDomainActions.addDomain({ payload: { domain: query } }));
       SnackbarComponent.forSuccess(this.snackbar);
-    }
-  };
+    };
+
+    return {
+      query$,
+      disabled$,
+      options$,
+      click
+    } as const;
+  })();
 
 }
