@@ -1,14 +1,72 @@
-<div class="text-center">
+<!-- <div class="text-center">
   <h1 class="text-4xl font-bold">How can we help you today?</h1>
   <p class="mt-4">Get information about setting up and using EASWORKS to its fullest.</p>
+</div> -->
+<div class="px-0 py-20 bg-primary-500">
+  <div class="px-12 text-white text-center">
+    <div
+      class="text-white 8xl:text-[56px] 3xl:text-4xl xl:text-3xl text-2xl 7xl:leading-tight transition-all font-bold">
+      Help Center</div>
+    <div class="text-white mb-8 mt-1.5 3xl:text-2xl text-xl capitalize">Answers to frequently asked questions from
+      EASWORKS
+      Clients.</div>
+
+    <div class="flex items-center justify-center gap-3 mt-6">
+      <input type="search" placeholder="Find Answers for your Questions here"
+        class="bg-transparent border border-white h-10 5xl:w-1/4 2xl:w-1/2 w-full px-4 placeholder:text-white text-white rounded-lg" />
+      <button type="button" class="bg-white text-primary-500 px-5 h-10 rounded-lg text-sm">Search</button>
+    </div>
+  </div>
 </div>
 
-<nav mat-tab-nav-bar [tabPanel]="$helpContent" class="mt-16">
+<!-- <nav mat-tab-nav-bar [tabPanel]="$helpContent" class="mt-16">
   @for(category of categories$(); track category.slug) {
-  <a mat-tab-link [routerLink]="category.slug"
-     routerLinkActive="mdc-tab--active">{{category.title}}</a>
+  <a mat-tab-link [routerLink]="category.slug" routerLinkActive="mdc-tab--active">{{category.title}}</a>
   }
 </nav>
+
 <mat-tab-nav-panel #$helpContent class="block mt-8">
   <router-outlet></router-outlet>
-</mat-tab-nav-panel>
+</mat-tab-nav-panel> -->
+
+<div class="page">
+  <h5 class="text-2xl font-medium mt-3 mb-5">
+    Select your category to get tailored assistance
+  </h5>
+  <div class="bg-white pb-10">
+    <nav mat-tab-nav-bar [tabPanel]="$helpContent">
+      @for(category of categories$(); track category.slug) {
+      <a mat-tab-link [routerLink]="category.slug" routerLinkActive="mdc-tab--active">{{category.title}}</a>
+      }
+    </nav>
+    <mat-tab-nav-panel #$helpContent class="block mt-8">
+      <router-outlet></router-outlet>
+    </mat-tab-nav-panel>
+  </div>
+</div>
+
+<!-- Help Section starts here -->
+<div class="max-w-7xl mx-auto 5xl:px-0 px-4">
+  <h5 class="text-primary-600 text-center font-bold text-3xl mb-5">Still Need Help?</h5>
+  <div class="5xl:flex gap-4 max-w-5xl mx-auto">
+    <div
+      class="shadow-[5px_5px_18.3px_0px_#4949FC66] bg-primary-500 px-4 py-8 rounded-xl text-center 2xl:w-1/2 w-full mb-3">
+      <div class="text-white">
+        <img src="https://img.icons8.com/ios-filled/50/000000/info.png" alt="Overview Icon"
+          class="w-8 h-8 mb-2 mx-auto invert">
+        <h5 class="text-white my-1.5 3xl:text-2xl text-xl font-bold">Contact Us</h5>
+        <p>Get help from our support team</p>
+      </div>
+    </div>
+    <div
+      class="shadow-[5px_5px_18.3px_0px_#4949FC66] bg-primary-500 px-4 py-8 rounded-xl text-center 2xl:w-1/2 w-full mb-3">
+      <div class="text-white">
+        <img src="https://img.icons8.com/ios-filled/50/000000/info.png" alt="Overview Icon"
+          class="w-8 h-8 mb-2 mx-auto invert">
+        <h5 class="text-white my-1.5 3xl:text-2xl text-xl font-bold">Ask the community</h5>
+        <p>Get answers from EASWORKS talents</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Help Section ends here -->

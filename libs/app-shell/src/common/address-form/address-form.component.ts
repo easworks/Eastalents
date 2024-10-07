@@ -6,18 +6,17 @@ import { MatSelectModule } from '@angular/material/select';
 import { dynamicallyRequired } from '@easworks/app-shell/utilities/dynamically-required';
 import { toPromise } from '@easworks/app-shell/utilities/to-promise';
 import { Subscription } from 'rxjs';
+import { CSCFormOptions } from '../csc-form/csc-form-options.service';
 import { controlValue$ } from '../form-field.directive';
 import { FormImportsModule } from '../form.imports.module';
 import { ImportsModule } from '../imports.module';
-import { isTimezone } from '../location';
-import { CSCFormOptions } from './csc-form-options.service';
 import { Country } from '@easworks/app-shell/api/csc.api';
 
 
 @Component({
   standalone: true,
-  selector: 'csc-form',
-  templateUrl: './csc-form.component.html',
+  selector: 'address-form',
+  templateUrl: './address-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ImportsModule,
@@ -27,7 +26,7 @@ import { Country } from '@easworks/app-shell/api/csc.api';
   ],
   providers: [CSCFormOptions]
 })
-export class CSCFormComponent implements OnInit {
+export class AddressFormComponent implements OnInit {
   private readonly options = inject(CSCFormOptions);
   private readonly dRef = inject(DestroyRef);
   private readonly injector = inject(INJECTOR);
@@ -35,7 +34,7 @@ export class CSCFormComponent implements OnInit {
   @HostBinding()
   private readonly class = 'block @container';
 
-  public readonly form$ = input.required<CSCFormGroup>({ alias: 'control' });
+  public readonly form$ = input.required<AddressFormGroup>({ alias: 'control' });
 
   protected readonly country = (() => {
     const value$ = signal('' as string | Country);
@@ -193,23 +192,6 @@ export class CSCFormComponent implements OnInit {
     } as const;
   })();
 
-  protected readonly timezone = (() => {
-    const results$ = this.options.all.timezone$;
-    const loading$ = this.options.loading.has('timezones');
-
-    effect(() => {
-      const list = results$();
-
-      if (list.length === 1)
-        untracked(this.form$).controls.timezone.setValue(list[0].zoneName);
-    });
-
-    return {
-      results$,
-      loading$
-    } as const;
-  })();
-
   public static createForm() {
     return new FormGroup({
       country: new FormControl('' as string | Country, {
@@ -218,17 +200,14 @@ export class CSCFormComponent implements OnInit {
       }),
       state: new FormControl('', { nonNullable: true }),
       city: new FormControl('', { nonNullable: true }),
-      timezone: new FormControl('', {
-        validators: [
-          Validators.required,
-          isTimezone
-        ],
-        nonNullable: true
-      })
+      line1: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+      line2: new FormControl('', { nonNullable: true, }),
+      postalCode: new FormControl('', { nonNullable: true, validators: [Validators.required] })
     });
   }
 
   private async fillValue(value = this.form$().value) {
+
     const form = this.form$();
 
     if (typeof value.country !== 'string')
@@ -236,10 +215,6 @@ export class CSCFormComponent implements OnInit {
 
     if (value.country) {
       form.controls.country.setValue(value.country);
-
-      if (value.timezone) {
-        form.controls.timezone.setValue(value.timezone);
-      }
 
       // wait for states to be loaded
       {
@@ -270,5 +245,5 @@ export class CSCFormComponent implements OnInit {
   }
 }
 
-type CSCFormGroup = ReturnType<typeof CSCFormComponent['createForm']>;
+type AddressFormGroup = ReturnType<typeof AddressFormComponent['createForm']>;
 

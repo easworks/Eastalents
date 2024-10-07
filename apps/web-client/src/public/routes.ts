@@ -36,7 +36,7 @@ const redirectUser: CanMatchFn = (() => {
     if (user) {
       switch (true) {
         case checks.talent(user): return router.createUrlTree(['/dashboard']);
-        case checks.client(user): return router.createUrlTree(['/dashboard']);
+        case checks.client(user): return router.createUrlTree(['/hiring-overview']);
       }
     }
 
@@ -60,7 +60,7 @@ export const PUBLIC_ROUTES: Routes = [
   //   resolve: {
   //     help: () => {
   //       const hcs = inject(HelpCenterService);
-  //       return hcs.getGroups('employer', true);
+  //       return hcs.getGroups('client', true);
   //     }
   //   }
   // },

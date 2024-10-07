@@ -1,5 +1,29 @@
 @let form = form$();
 <div class="grid @xl:grid-cols-2 gap-x-8">
+
+  <div *ngrxLet="form.controls.line1 as control"
+       [formFieldControl]="control"
+       class=" @xl:col-span-2">
+
+    <label>
+      Line 1
+      <span class="text-warn">*</span>
+    </label>
+
+    <input type="text" [formControl]="control" placeholder="Line 1">
+    @if (control.hasError('required')){<span class="error">Required</span>}
+
+  </div>
+
+  <div *ngrxLet="form.controls.line1 as control"
+       [formFieldControl]="control"
+       class=" @xl:col-span-2">
+
+    <label> Line 2 </label>
+
+    <input type="text" [formControl]="control" placeholder="Line 2">
+  </div>
+
   <div *ngrxLet="form.controls.country as control"
        [formFieldControl]="control"
        [class.show-spinner]="country.loading$()">
@@ -86,24 +110,17 @@
 
   </div>
 
-  <div *ngrxLet="form.controls.timezone as control"
-       [formFieldControl]="control"
-       [class.show-spinner]="timezone.loading$()">
+  <div *ngrxLet="form.controls.postalCode as control"
+       [formFieldControl]="control">
 
     <label>
-      Timezone
+      Postal Code
       <span class="text-warn">*</span>
     </label>
 
-    <mat-select [formControl]="control" placeholder="Timezone">
-      @for(option of timezone.results$(); track option) {
-      <mat-option [value]="option.zoneName">{{option.zoneName}}</mat-option>
-      }
-    </mat-select>
+    <input type="text" [formControl]="control" placeholder="Postal Code">
     @if (control.hasError('required')){<span class="error">Required</span>}
 
-    <mat-progress-spinner class="field-spinner right-3 top-8"
-                          mode="indeterminate" diameter="16"></mat-progress-spinner>
-
   </div>
+
 </div>

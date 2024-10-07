@@ -1,0 +1,1165 @@
+[
+  {
+    "iso2": "AD",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": null
+    },
+    "business": {
+      "id": ["NRT Number"],
+      "tax": [
+        {
+          "enumeration": "ad_nrt",
+          "taxId": "NRT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "AR",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "CBU"
+    },
+    "business": {
+      "id": ["CUIT"],
+      "tax": [
+        {
+          "enumeration": "ar_cuit",
+          "taxId": "CUIT",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "AU",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "BSB"
+    },
+    "business": {
+      "id": ["ABN", "Australian Taxation Office Reference Number"],
+      "tax": [
+        {
+          "enumeration": "au_abn",
+          "taxId": "ABN",
+          "gstId": "GST Number"
+        },
+        {
+          "enumeration": "au_arn",
+          "taxId": "ABN",
+          "gstId": "GST Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "AT",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["Firmenbuchnummer"],
+      "tax": [
+        {
+          "enumeration": "eu_vat",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "BH",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["CR Number"],
+      "tax": [
+        {
+          "enumeration": "bh_vat",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "BE",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["KBO Number"],
+      "tax": [
+        {
+          "enumeration": "eu_vat",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "BO",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": null
+    },
+    "business": {
+      "id": ["Bolivian tax ID"],
+      "tax": [
+        {
+          "enumeration": "bo_tin",
+          "taxId": "TIN",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "BR",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "Bank Branch Code"
+    },
+    "business": {
+      "id": ["CNPJ", "CPF"],
+      "tax": [
+        {
+          "enumeration": "br_cnpj",
+          "taxId": "CNPJ",
+          "gstId": "ICMS (VAT equivalent)"
+        },
+        {
+          "enumeration": "br_cpf",
+          "taxId": "CPF",
+          "gstId": "ICMS (VAT equivalent)"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "BG",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["Bulgaria Unified Identification Code", "VAT Number"],
+      "tax": [
+        {
+          "enumeration": "bg_uic",
+          "taxId": "UIC",
+          "gstId": "VAT Number"
+        },
+        {
+          "enumeration": "eu_vat",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "CA",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "Transit Number"
+    },
+    "business": {
+      "id": [
+        "Business Number (BN)",
+        "BN",
+        "GST/HST Number",
+        "PST Number (British Columbia)",
+        "PST Number (Manitoba)",
+        "PST Number (Saskatchewan)",
+        "QST Number (Québec)"
+      ],
+      "tax": [
+        {
+          "enumeration": "ca_bn",
+          "taxId": "BN",
+          "gstId": "GST/HST Number"
+        },
+        {
+          "enumeration": "ca_bn",
+          "taxId": "BN",
+          "gstId": "GST/HST Number"
+        },
+        {
+          "enumeration": "ca_gst_hst",
+          "taxId": "GST/HST Number",
+          "gstId": "GST/HST Number"
+        },
+        {
+          "enumeration": "ca_pst_bc",
+          "taxId": "PST Number",
+          "gstId": "PST"
+        },
+        {
+          "enumeration": "ca_pst_mb",
+          "taxId": "PST Number",
+          "gstId": "PST"
+        },
+        {
+          "enumeration": "ca_pst_sk",
+          "taxId": "PST Number",
+          "gstId": "PST"
+        },
+        {
+          "enumeration": "ca_qst",
+          "taxId": "QST Number",
+          "gstId": "QST"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "CN",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": null
+    },
+    "business": {
+      "id": ["USCC"],
+      "tax": [
+        {
+          "enumeration": "cn_tin",
+          "taxId": "USCC",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "CO",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": null
+    },
+    "business": {
+      "id": ["NIT"],
+      "tax": [
+        {
+          "enumeration": "co_nit",
+          "taxId": "NIT",
+          "gstId": "VAT Number (IVA)"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "CR",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["Cédula Jurídica"],
+      "tax": [
+        {
+          "enumeration": "cr_tin",
+          "taxId": "Cédula Jurídica",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "CZ",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["I?O"],
+      "tax": [
+        {
+          "enumeration": "cz_ico",
+          "taxId": "I?O",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "DK",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "Reg. Number"
+    },
+    "business": {
+      "id": ["CVR Number"],
+      "tax": [
+        {
+          "enumeration": "dk_cvr",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "EG",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["TIN"],
+      "tax": [
+        {
+          "enumeration": "eg_tin",
+          "taxId": "TIN",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "SV",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": null
+    },
+    "business": {
+      "id": ["NIT"],
+      "tax": [
+        {
+          "enumeration": "sv_nit",
+          "taxId": "NIT",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "EE",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["Registrikood"],
+      "tax": [
+        {
+          "enumeration": "ee_registrikood",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "FI",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["Business ID"],
+      "tax": [
+        {
+          "enumeration": "fi_bi",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "FR",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["SIRET"],
+      "tax": [
+        {
+          "enumeration": "fr_siret",
+          "taxId": "SIRET",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "DE",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "Bank Code (BLZ)"
+    },
+    "business": {
+      "id": ["Handelsregisternummer"],
+      "tax": [
+        {
+          "enumeration": "de_hnr",
+          "taxId": "Steuernummer",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "GR",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["AFM"],
+      "tax": [
+        {
+          "enumeration": "gr_afm",
+          "taxId": "AFM",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "HK",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "Bank Code"
+    },
+    "business": {
+      "id": ["Business Registration Number"],
+      "tax": [
+        {
+          "enumeration": "hk_br",
+          "taxId": "Business Registration Number",
+          "gstId": null
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "HU",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["Company Registration Number"],
+      "tax": [
+        {
+          "enumeration": "hu_company_reg",
+          "taxId": "Tax Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "IS",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["Company Registration Number"],
+      "tax": [
+        {
+          "enumeration": "is_company_reg",
+          "taxId": "VSK Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "IN",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IFSC"
+    },
+    "business": {
+      "id": ["BRN", "CIN"],
+      "tax": [
+        {
+          "enumeration": "in_pan",
+          "taxId": "PAN",
+          "gstId": null
+        },
+        {
+          "enumeration": "unknown",
+          "taxId": "TAN",
+          "gstId": "GSTIN"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "ID",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "Bank Code"
+    },
+    "business": {
+      "id": ["NPWP"],
+      "tax": [
+        {
+          "enumeration": "id_npwp",
+          "taxId": "NPWP",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "IE",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["Company Registration Number"],
+      "tax": [
+        {
+          "enumeration": "ie_crn",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "IL",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "Branch Code"
+    },
+    "business": {
+      "id": ["Company Registration Number"],
+      "tax": [
+        {
+          "enumeration": "il_crn",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "IT",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["Partita IVA"],
+      "tax": [
+        {
+          "enumeration": "it_piva",
+          "taxId": "Partita IVA",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "JP",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "Bank Code"
+    },
+    "business": {
+      "id": ["Corporate Number"],
+      "tax": [
+        {
+          "enumeration": "jp_cn",
+          "taxId": "Corporate Tax Number",
+          "gstId": "Consumption Tax Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "KZ",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["BIN"],
+      "tax": [
+        {
+          "enumeration": "kz_bin",
+          "taxId": "BIN",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "KE",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "Bank Code"
+    },
+    "business": {
+      "id": ["PIN"],
+      "tax": [
+        {
+          "enumeration": "ke_pin",
+          "taxId": "PIN",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "LV",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["Company Registration Number"],
+      "tax": [
+        {
+          "enumeration": "lv_crn",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "LT",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["Company Code"],
+      "tax": [
+        {
+          "enumeration": "lt_company_code",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "LU",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["RCS Number"],
+      "tax": [
+        {
+          "enumeration": "lu_rcs",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "MY",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "SWIFT/BIC"
+    },
+    "business": {
+      "id": ["Company Registration Number"],
+      "tax": [
+        {
+          "enumeration": "my_crn",
+          "taxId": "GST Number",
+          "gstId": "GST Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "MX",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "CLABE"
+    },
+    "business": {
+      "id": ["RFC"],
+      "tax": [
+        {
+          "enumeration": "mx_rfc",
+          "taxId": "RFC",
+          "gstId": "VAT Number (IVA)"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "NL",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["KvK Number"],
+      "tax": [
+        {
+          "enumeration": "nl_kvk",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "NZ",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "Bank Branch Code"
+    },
+    "business": {
+      "id": ["NZBN"],
+      "tax": [
+        {
+          "enumeration": "nz_nzbn",
+          "taxId": "GST Number",
+          "gstId": "GST Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "NG",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "NUBAN"
+    },
+    "business": {
+      "id": ["TIN"],
+      "tax": [
+        {
+          "enumeration": "ng_tin",
+          "taxId": "TIN",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "NO",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["Organisation Number"],
+      "tax": [
+        {
+          "enumeration": "no_org_num",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "OM",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["Commercial Registration Number"],
+      "tax": [
+        {
+          "enumeration": "om_crn",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "PK",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "SWIFT/BIC"
+    },
+    "business": {
+      "id": ["NTN"],
+      "tax": [
+        {
+          "enumeration": "pk_ntn",
+          "taxId": "NTN",
+          "gstId": "GST Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "PE",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["RUC"],
+      "tax": [
+        {
+          "enumeration": "pe_ruc",
+          "taxId": "RUC",
+          "gstId": "VAT Number (IGV)"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "PH",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "SWIFT/BIC"
+    },
+    "business": {
+      "id": ["TIN"],
+      "tax": [
+        {
+          "enumeration": "ph_tin",
+          "taxId": "TIN",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "PL",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["REGON"],
+      "tax": [
+        {
+          "enumeration": "pl_regon",
+          "taxId": "NIP",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "PT",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["NIF"],
+      "tax": [
+        {
+          "enumeration": "pt_nif",
+          "taxId": "NIF",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "RU",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "SWIFT/BIC"
+    },
+    "business": {
+      "id": ["INN"],
+      "tax": [
+        {
+          "enumeration": "ru_inn",
+          "taxId": "INN",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "SA",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["CR Number"],
+      "tax": [
+        {
+          "enumeration": "sa_cr",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "SG",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "SWIFT/BIC"
+    },
+    "business": {
+      "id": ["UEN"],
+      "tax": [
+        {
+          "enumeration": "sg_uen",
+          "taxId": "UEN",
+          "gstId": "GST Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "ZA",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["Company Registration Number"],
+      "tax": [
+        {
+          "enumeration": "za_crn",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "ES",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["CIF"],
+      "tax": [
+        {
+          "enumeration": "es_cif",
+          "taxId": "CIF",
+          "gstId": "VAT Number (NIF)"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "SE",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["Organisationsnummer"],
+      "tax": [
+        {
+          "enumeration": "se_orgnr",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "CH",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["UID"],
+      "tax": [
+        {
+          "enumeration": "ch_uid",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "TW",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "SWIFT/BIC"
+    },
+    "business": {
+      "id": ["GUI Number"],
+      "tax": [
+        {
+          "enumeration": "tw_gui",
+          "taxId": "GUI Number",
+          "gstId": "Business Tax (GST equivalent)"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "TH",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "SWIFT/BIC"
+    },
+    "business": {
+      "id": ["TIN"],
+      "tax": [
+        {
+          "enumeration": "th_tin",
+          "taxId": "TIN",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "TR",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["Vergi No"],
+      "tax": [
+        {
+          "enumeration": "tr_vergino",
+          "taxId": "Vergi No",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "UA",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["VAT"],
+      "tax": [
+        {
+          "enumeration": "ua_vat",
+          "taxId": "VAT",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "AE",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "IBAN"
+    },
+    "business": {
+      "id": ["TRN"],
+      "tax": [
+        {
+          "enumeration": "ae_trn",
+          "taxId": "TRN",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "GB",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "Sort Code"
+    },
+    "business": {
+      "id": ["Company Registration Number"],
+      "tax": [
+        {
+          "enumeration": "gb_crn",
+          "taxId": "VAT Number",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "US",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "Routing Number"
+    },
+    "business": {
+      "id": ["EIN"],
+      "tax": [
+        {
+          "enumeration": "us_ein",
+          "taxId": "EIN",
+          "gstId": "Sales Tax Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "UY",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": null
+    },
+    "business": {
+      "id": ["RUC"],
+      "tax": [
+        {
+          "enumeration": "uy_ruc",
+          "taxId": "RUC",
+          "gstId": "VAT Number (IVA)"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "VE",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": "SWIFT/BIC"
+    },
+    "business": {
+      "id": ["RIF"],
+      "tax": [
+        {
+          "enumeration": "ve_rif",
+          "taxId": "RIF",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  },
+  {
+    "iso2": "VN",
+    "bank": {
+      "account": "Bank Account Number",
+      "code": null
+    },
+    "business": {
+      "id": ["MST"],
+      "tax": [
+        {
+          "enumeration": "vn_mst",
+          "taxId": "MST",
+          "gstId": "VAT Number"
+        }
+      ]
+    }
+  }
+]

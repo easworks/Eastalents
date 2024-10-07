@@ -1,0 +1,608 @@
+[
+  {
+    "country": "AD",
+    "externalType": "ad_nrt",
+    "description": "Andorran NRT number",
+    "placeholder": "A-123456-Z"
+  },
+  {
+    "country": "AR",
+    "externalType": "ar_cuit",
+    "description": "Argentinian tax ID number",
+    "placeholder": "12-3456789-01"
+  },
+  {
+    "country": "AT",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "ATU12345678"
+  },
+  {
+    "country": "BE",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "BE0123456789"
+  },
+  {
+    "country": "BG",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "BG0123456789"
+  },
+  {
+    "country": "BO",
+    "externalType": "bo_tin",
+    "description": "Bolivian tax ID",
+    "placeholder": "123456789"
+  },
+  {
+    "country": "BR",
+    "externalType": "br_cnpj",
+    "description": "Brazilian CNPJ number",
+    "placeholder": "01.234.456\u002F5432-10"
+  },
+  {
+    "country": "BR",
+    "externalType": "br_cpf",
+    "description": "Brazilian CPF number",
+    "placeholder": "123.456.789-87"
+  },
+  {
+    "country": "CN",
+    "externalType": "cn_tin",
+    "description": "Chinese tax ID",
+    "placeholder": "123456789012345678"
+  },
+  {
+    "country": "CO",
+    "externalType": "co_nit",
+    "description": "Colombian NIT number",
+    "placeholder": "123.456.789-0"
+  },
+  {
+    "country": "CR",
+    "externalType": "cr_tin",
+    "description": "Costa Rican tax ID",
+    "placeholder": "1-234-567890"
+  },
+  {
+    "country": "CY",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "CY12345678Z"
+  },
+  {
+    "country": "CZ",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "CZ1234567890"
+  },
+  {
+    "country": "DE",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "DE123456789"
+  },
+  {
+    "country": "DK",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "DK12345678"
+  },
+  {
+    "country": "DO",
+    "externalType": "do_rcn",
+    "description": "Dominican RCN number",
+    "placeholder": "123-4567890-1"
+  },
+  {
+    "country": "EC",
+    "externalType": "ec_ruc",
+    "description": "Ecuadorian RUC number",
+    "placeholder": "1234567890001"
+  },
+  {
+    "country": "EE",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "EE123456789"
+  },
+  {
+    "country": "ES",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "ESA1234567Z"
+  },
+  {
+    "country": "EU",
+    "externalType": "eu_oss_vat",
+    "description": "European One Stop Shop VAT number for non-Union scheme",
+    "placeholder": "EU123456789"
+  },
+  {
+    "country": "FI",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "FI12345678"
+  },
+  {
+    "country": "FR",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "FRAB123456789"
+  },
+  {
+    "country": "GR",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "EL123456789"
+  },
+  {
+    "country": "HR",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "HR12345678912"
+  },
+  {
+    "country": "HR",
+    "externalType": "hr_oib",
+    "description": "Croatian Personal Identification Number",
+    "placeholder": "12345678901"
+  },
+  {
+    "country": "HU",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "HU12345678"
+  },
+  {
+    "country": "IE",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "IE1234567AB"
+  },
+  {
+    "country": "IT",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "IT12345678912"
+  },
+  {
+    "country": "LT",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "LT123456789123"
+  },
+  {
+    "country": "LU",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "LU12345678"
+  },
+  {
+    "country": "LV",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "LV12345678912"
+  },
+  {
+    "country": "MT",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "MT12345678"
+  },
+  {
+    "country": "NL",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "NL123456789B12"
+  },
+  {
+    "country": "PE",
+    "externalType": "pe_ruc",
+    "description": "Peruvian RUC number",
+    "placeholder": "12345678901"
+  },
+  {
+    "country": "PL",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "PL1234567890"
+  },
+  {
+    "country": "PT",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "PT123456789"
+  },
+  {
+    "country": "RO",
+    "externalType": "ro_tin",
+    "description": "Romanian tax ID number",
+    "placeholder": "1234567890123"
+  },
+  {
+    "country": "RO",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "RO1234567891"
+  },
+  {
+    "country": "RS",
+    "externalType": "rs_pib",
+    "description": "Serbian PIB number",
+    "placeholder": "123456789"
+  },
+  {
+    "country": "SE",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "SE123456789123"
+  },
+  {
+    "country": "SI",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "SI12345678"
+  },
+  {
+    "country": "SK",
+    "externalType": "eu_vat",
+    "description": "European VAT number",
+    "placeholder": "SK1234567891"
+  },
+  {
+    "country": "SV",
+    "externalType": "sv_nit",
+    "description": "El Salvadorian NIT number",
+    "placeholder": "1234-567890-123-4"
+  },
+  {
+    "country": "UY",
+    "externalType": "uy_ruc",
+    "description": "Uruguayan RUC number",
+    "placeholder": "123456789012"
+  },
+  {
+    "country": "VE",
+    "externalType": "ve_rif",
+    "description": "Venezuelan RIF number",
+    "placeholder": "A-12345678-9"
+  },
+  {
+    "country": "VN",
+    "externalType": "vn_tin",
+    "description": "Vietnamese tax ID number",
+    "placeholder": "1234567890"
+  },
+  {
+    "country": "GB",
+    "externalType": "eu_vat",
+    "description": "Northern Ireland VAT number",
+    "placeholder": "XI123456789"
+  },
+  {
+    "country": "GB",
+    "externalType": "gb_vat",
+    "description": "United Kingdom VAT number",
+    "placeholder": "GB123456789"
+  },
+  {
+    "country": "NZ",
+    "externalType": "nz_gst",
+    "description": "New Zealand GST number",
+    "placeholder": "123456789"
+  },
+  {
+    "country": "AU",
+    "externalType": "au_abn",
+    "description": "Australian Business Number \u0028AU ABN\u0029",
+    "placeholder": "12345678912"
+  },
+  {
+    "country": "AU",
+    "externalType": "au_arn",
+    "description": "Australian Taxation Office Reference Number",
+    "placeholder": "123456789123"
+  },
+  {
+    "country": "IN",
+    "externalType": "in_gst",
+    "description": "Indian GST number",
+    "placeholder": "12ABCDE3456FGZH"
+  },
+  {
+    "country": "NO",
+    "externalType": "no_vat",
+    "description": "Norwegian VAT number",
+    "placeholder": "123456789MVA"
+  },
+  {
+    "country": "NO",
+    "externalType": "no_voec",
+    "description": "Norwegian VAT on e-commerce number",
+    "placeholder": "1234567"
+  },
+  {
+    "country": "ZA",
+    "externalType": "za_vat",
+    "description": "South African VAT number",
+    "placeholder": "4123456789"
+  },
+  {
+    "country": "CH",
+    "externalType": "ch_vat",
+    "description": "Switzerland VAT number",
+    "placeholder": "CHE-123.456.789 MWST"
+  },
+  {
+    "country": "MX",
+    "externalType": "mx_rfc",
+    "description": "Mexican RFC number",
+    "placeholder": "ABC010203AB9"
+  },
+  {
+    "country": "SG",
+    "externalType": "sg_uen",
+    "description": "Singaporean UEN",
+    "placeholder": "123456789F"
+  },
+  {
+    "country": "RU",
+    "externalType": "ru_inn",
+    "description": "Russian INN",
+    "placeholder": "1234567891"
+  },
+  {
+    "country": "RU",
+    "externalType": "ru_kpp",
+    "description": "Russian KPP",
+    "placeholder": "123456789"
+  },
+  {
+    "country": "CA",
+    "externalType": "ca_bn",
+    "description": "Canadian BN",
+    "placeholder": "123456789"
+  },
+  {
+    "country": "HK",
+    "externalType": "hk_br",
+    "description": "Hong Kong BR number",
+    "placeholder": "12345678"
+  },
+  {
+    "country": "ES",
+    "externalType": "es_cif",
+    "description": "Spanish NIF number \u0028previously Spanish CIF number\u0029",
+    "placeholder": "A12345678"
+  },
+  {
+    "country": "TW",
+    "externalType": "tw_vat",
+    "description": "Taiwanese VAT",
+    "placeholder": "12345678"
+  },
+  {
+    "country": "TH",
+    "externalType": "th_vat",
+    "description": "Thai VAT",
+    "placeholder": "1234567891234"
+  },
+  {
+    "country": "JP",
+    "externalType": "jp_cn",
+    "description": "Japanese Corporate Number \u0028*Hōjin Bangō*\u0029",
+    "placeholder": "1234567891234"
+  },
+  {
+    "country": "JP",
+    "externalType": "jp_rn",
+    "description": "Japanese Registered Foreign Businesses' Registration Number \u0028*Tōroku Kokugai Jigyōsha no Tōroku Bangō*\u0029",
+    "placeholder": "12345"
+  },
+  {
+    "country": "JP",
+    "externalType": "jp_trn",
+    "description": "Japanese Tax Registration Number \u0028*Tōroku Bangō*\u0029",
+    "placeholder": "T1234567891234"
+  },
+  {
+    "country": "LI",
+    "externalType": "li_uid",
+    "description": "Liechtensteinian UID number",
+    "placeholder": "CHE123456789"
+  },
+  {
+    "country": "MY",
+    "externalType": "my_itn",
+    "description": "Malaysian ITN",
+    "placeholder": "C 1234567890"
+  },
+  {
+    "country": "US",
+    "externalType": "us_ein",
+    "description": "United States EIN",
+    "placeholder": "12-3456789"
+  },
+  {
+    "country": "KR",
+    "externalType": "kr_brn",
+    "description": "Korean BRN",
+    "placeholder": "123-45-67890"
+  },
+  {
+    "country": "CA",
+    "externalType": "ca_qst",
+    "description": "Canadian QST number \u0028Québec\u0029",
+    "placeholder": "1234567890TQ1234"
+  },
+  {
+    "country": "CA",
+    "externalType": "ca_gst_hst",
+    "description": "Canadian GST\u002FHST number",
+    "placeholder": "123456789RT0002"
+  },
+  {
+    "country": "CA",
+    "externalType": "ca_pst_bc",
+    "description": "Canadian PST number \u0028British Columbia\u0029",
+    "placeholder": "PST-1234-5678"
+  },
+  {
+    "country": "CA",
+    "externalType": "ca_pst_mb",
+    "description": "Canadian PST number \u0028Manitoba\u0029",
+    "placeholder": "123456-7"
+  },
+  {
+    "country": "CA",
+    "externalType": "ca_pst_sk",
+    "description": "Canadian PST number \u0028Saskatchewan\u0029",
+    "placeholder": "1234567"
+  },
+  {
+    "country": "MY",
+    "externalType": "my_sst",
+    "description": "Malaysian SST number",
+    "placeholder": "A12-3456-78912345"
+  },
+  {
+    "country": "SG",
+    "externalType": "sg_gst",
+    "description": "Singaporean GST",
+    "placeholder": "M12345678X"
+  },
+  {
+    "country": "AE",
+    "externalType": "ae_trn",
+    "description": "United Arab Emirates TRN",
+    "placeholder": "123456789012345"
+  },
+  {
+    "country": "CL",
+    "externalType": "cl_tin",
+    "description": "Chilean TIN",
+    "placeholder": "12.345.678-K"
+  },
+  {
+    "country": "SA",
+    "externalType": "sa_vat",
+    "description": "Saudi Arabia VAT",
+    "placeholder": "123456789012345"
+  },
+  {
+    "country": "ID",
+    "externalType": "id_npwp",
+    "description": "Indonesian NPWP number",
+    "placeholder": "012.345.678.9-012.345"
+  },
+  {
+    "country": "MY",
+    "externalType": "my_frp",
+    "description": "Malaysian FRP number",
+    "placeholder": "12345678"
+  },
+  {
+    "country": "IL",
+    "externalType": "il_vat",
+    "description": "Israel VAT",
+    "placeholder": "000012345"
+  },
+  {
+    "country": "GE",
+    "externalType": "ge_vat",
+    "description": "Georgian VAT",
+    "placeholder": "123456789"
+  },
+  {
+    "country": "UA",
+    "externalType": "ua_vat",
+    "description": "Ukrainian VAT",
+    "placeholder": "123456789"
+  },
+  {
+    "country": "IS",
+    "externalType": "is_vat",
+    "description": "Icelandic VAT",
+    "placeholder": "123456"
+  },
+  {
+    "country": "BG",
+    "externalType": "bg_uic",
+    "description": "Bulgaria Unified Identification Code",
+    "placeholder": "123456789"
+  },
+  {
+    "country": "HU",
+    "externalType": "hu_tin",
+    "description": "Hungary tax number \u0028adószám\u0029",
+    "placeholder": "12345678-1-23"
+  },
+  {
+    "country": "SI",
+    "externalType": "si_tin",
+    "description": "Slovenia tax number \u0028davčna številka\u0029",
+    "placeholder": "12345678"
+  },
+  {
+    "country": "KE",
+    "externalType": "ke_pin",
+    "description": "Kenya Revenue Authority Personal Identification Number",
+    "placeholder": "P000111111A"
+  },
+  {
+    "country": "TR",
+    "externalType": "tr_tin",
+    "description": "Turkish Tax Identification Number",
+    "placeholder": "0123456789"
+  },
+  {
+    "country": "EG",
+    "externalType": "eg_tin",
+    "description": "Egyptian Tax Identification Number",
+    "placeholder": "123456789"
+  },
+  {
+    "country": "PH",
+    "externalType": "ph_tin",
+    "description": "Philippines Tax Identification Number",
+    "placeholder": "123456789012"
+  },
+  {
+    "country": "BH",
+    "externalType": "bh_vat",
+    "description": "Bahraini VAT Number",
+    "placeholder": "123456789012345"
+  },
+  {
+    "country": "KZ",
+    "externalType": "kz_bin",
+    "description": "Kazakhstani Business Identification Number",
+    "placeholder": "123456789012"
+  },
+  {
+    "country": "NG",
+    "externalType": "ng_tin",
+    "description": "Nigerian Tax Identification Number",
+    "placeholder": "12345678-0001"
+  },
+  {
+    "country": "OM",
+    "externalType": "om_vat",
+    "description": "Omani VAT Number",
+    "placeholder": "OM1234567890"
+  },
+  {
+    "country": "DE",
+    "externalType": "de_stn",
+    "description": "German Tax Number \u0028Steuernummer\u0029",
+    "placeholder": "1234567890"
+  },
+  {
+    "country": "CH",
+    "externalType": "ch_uid",
+    "description": "Switzerland UID number",
+    "placeholder": "CHE-123.456.789 HR"
+  }
+]

@@ -26,35 +26,38 @@
             <fa-icon [icon]="icons.faAngleLeft" mat-ripple class="swiper-button swiper-button-prev"></fa-icon>
           </div>
           <div class="swiper-wrapper">
-            <swiper-slide *ngFor="let Slides of EASTalent; let index = index" index={{index}}>
+            @for(slide of EASTalent; track $index) {
+            <div class="swiper-slide">
               <div class="border rounded-md overflow-hidden h-full">
                 <div class="flex justify-center p-5 bg-[#cbd5e1]">
-                  <img [src]="Slides.image" class="w-[120px] h-[120px] rounded-full" alt="">
+                  <img [src]="slide.image" class="w-[120px] h-[120px] rounded-full" alt="">
                 </div>
                 <div class="py-4 px-5 text-center bg-white h-full">
                   <div class="mb-3">
                     <h4 class="text-[20px] text-primary-500">
-                      <a href="">{{Slides.name}}</a>
+                      <a href="">{{slide.name}}</a>
                     </h4>
                   </div>
                   <div class="mb-3">
                     <h4 class="text-[14px] text-gray-400">
-                      <a href="">{{Slides.position}}</a>
+                      <a href="">{{slide.position}}</a>
                     </h4>
                   </div>
                   <div class="mb-3">
                     <h4 class="text-[14px] text-gray-400">
-                      <a href="">{{Slides.Skills}}</a>
+                      <a href="">{{slide.Skills}}</a>
                     </h4>
                   </div>
                   <div>
                     <h4 class="text-[18px] text-primary-500">
-                      <a href="">{{Slides.moreword}}</a>
+                      <a href="">{{slide.moreword}}</a>
                     </h4>
                   </div>
                 </div>
               </div>
-            </swiper-slide>
+            </div>
+            }
+
 
             <!-- <swiper-slide *ngFor="let i of [1,2,3]; let ix = index" [index]="ix">{{i}} </swiper-slide> -->
           </div>
