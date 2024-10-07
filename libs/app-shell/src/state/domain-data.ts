@@ -1,4 +1,4 @@
-import { sortString } from '@easworks/app-shell/utilities/sort';
+import { sortString } from '../utilities/sort';
 import { FeaturedDomain } from '@easworks/models/featured';
 import { IndustryGroup, IndustryGroupDTO } from '@easworks/models/industry';
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
@@ -21,7 +21,10 @@ export const domainDataActions = createActionGroup({
   source: 'admin-data',
   events: {
     'update state': props<{
-      payload: DomainDataDTO & { industries: IndustryGroupDTO; };
+      payload: DomainDataDTO & {
+        industries: IndustryGroupDTO;
+        featured: FeaturedDomain[];
+      };
     }>(),
     'save state': emptyProps()
   }
@@ -101,6 +104,13 @@ export const domainActions = createActionGroup({
   }
 });
 
+export const featuredDomainActions = createActionGroup({
+  source: 'featured-domains',
+  events: {
+    'add': props<{ payload: { domain: Domain; }; }>()
+  }
+});
+
 
 const adapters = {
   domain: createEntityAdapter<Domain>(),
@@ -134,6 +144,7 @@ const feature = createFeature({
         payload.techGroups.map(g => ({ ...g, skills: [] })),
         state.techGroups);
       state.industries = IndustryGroupDTO.toList(payload.industries);
+      state.featuredDomains = payload.featured;
 
       for (const skill of payload.techSkills) {
         for (const id of skill.groups) {
@@ -345,6 +356,19 @@ const feature = createFeature({
       // update tech group
       group.skills = [...payload.skills].sort(sortString);
 
+    })),
+
+    // featured domains
+    on(featuredDomainActions.add, produce((state, { payload }) => {
+      const exists = state.featuredDomains.find(d => d.id === payload.domain.id);
+      if (exists)
+        throw new Error('cannot add existing domain to list');
+      state.featuredDomains.push({
+        id: payload.domain.id,
+        roles: [],
+        software: []
+      });
+      state.featuredDomains.sort((a, b) => sortString(a.id, b.id));
     }))
   ),
   extraSelectors: base => {
@@ -378,6 +402,7 @@ export const domainData = {
     softwareProduct: adapters.softwareProduct.getSelectors(feature.selectSoftwareProducts),
     techSkill: adapters.techSkill.getSelectors(feature.selectTechSkills),
     techGroup: adapters.techGroup.getSelectors(feature.selectTechGroups),
+    featuredDomains: feature.selectFeaturedDomains
   }
 } as const;
 

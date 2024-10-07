@@ -37,10 +37,10 @@ export const ADMIN_ROUTES: Route =
         .then(m => m.TechGroupsPageComponent)
     },
     {
-      path: 'feature-domain',
+      path: 'featured-domains',
       pathMatch: 'full',
-      loadComponent: () => import('./feature-domain/page/feature-domain.page')
-        .then(m => m.FeatureDomainPageComponent)
+      loadComponent: () => import('./featured-domains/page/featured-domains.page')
+        .then(m => m.FeaturedDomainsPageComponent)
     },
     {
       path: '',

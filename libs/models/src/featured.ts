@@ -1,6 +1,6 @@
 
 export interface FeaturedDomain {
-  domain: string;
+  id: string; // domain
   software: string[];
   roles: string[];
 }

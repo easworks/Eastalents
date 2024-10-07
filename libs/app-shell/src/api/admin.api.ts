@@ -1,9 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-import { CACHE } from '@easworks/app-shell/common/cache';
+import { FeaturedDomain } from '@easworks/models/featured';
 import { IndustryGroupDTO } from '@easworks/models/industry';
 import { clear, get, set, setMany, UseStore, values } from 'idb-keyval';
 import { Domain } from 'models/domain';
 import { SoftwareProduct, TechGroup, TechSkill } from 'models/software';
+import { CACHE } from '../common/cache';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,14 @@ export class AdminApi {
 
     return cache ?
       entityCache<TechGroup>(cache) :
+      dummyCache;
+  })();
+
+  readonly featuredDomains = (() => {
+    const cache = this.cache?.domainData.featuredDomains;
+
+    return cache ?
+      entityCache<FeaturedDomain>(cache) :
       dummyCache;
   })();
 

@@ -20,6 +20,6 @@ export class AdminPageComponent {
     { url: '/admin/software-products', text: 'Software Products' },
     { url: '/admin/tech-skills', text: 'Tech Skills' },
     { url: '/admin/tech-groups', text: 'Tech Groups' },
-    { url: '/admin/feature-domain', text: 'Feature Domain' },
+    { url: '/admin/featured-domains', text: 'Featured Domains' },
   ];
 }

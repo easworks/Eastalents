@@ -10,7 +10,7 @@ import { generateLoadingState } from '@easworks/app-shell/state/loading';
 import { saveJSON } from '@easworks/app-shell/utilities/files';
 import { Store } from '@ngrx/store';
 import { domainData, domainDataActions } from 'app-shell/state/domain-data';
-import { finalize } from 'rxjs';
+import { finalize, zip } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -104,11 +104,14 @@ export class AdminDashboardPageComponent {
     const click = async () => {
 
       this.loading.add('saving to db');
-      const dto$ = this.store.selectSignal(domainData.feature.selectDto);
-      this.api.domains.data.set(dto$())
-        .pipe(
-          finalize(() => this.loading.delete('saving to db'))
-        ).subscribe();
+      const domainDto$ = this.store.selectSignal(domainData.feature.selectDto);
+      const featuredDomains$ = this.store.selectSignal(domainData.selectors.featuredDomains);
+      zip(
+        this.api.domains.data.set(domainDto$()),
+        this.api.domains.featured.set(featuredDomains$()),
+      ).pipe(
+        finalize(() => this.loading.delete('saving to db'))
+      ).subscribe();
     };
 
     return {
