@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faPencil } from '@fortawesome/free-solid-svg-icons';
 import { ImportsModule } from '../../common/imports.module';
 
 @Component({
@@ -16,6 +16,6 @@ export class ButtonsShowcaseComponent {
   private readonly class = 'block';
 
   protected readonly icons = {
-    faEdit
+    faPencil
   } as const;
 }
