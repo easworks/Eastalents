@@ -12,6 +12,20 @@ import { CACHE } from '../common/cache';
 export class AdminApi {
   private readonly cache = inject(CACHE);
 
+  readonly version = (() => {
+    const key = 'domain-data-version';
+
+    return this.cache ?
+      {
+        get: () => get(key),
+        set: (version: string) => set(key, version)
+      } : {
+        get: () => Promise.resolve(undefined),
+        set: () => Promise.resolve()
+      };
+
+  })();
+
   readonly domains = (() => {
     const cache = this.cache?.domainData.domains;
 
@@ -64,7 +78,7 @@ const entityCache = <T extends { id: string | number; }>(cache: UseStore) => {
     read: () => values<T>(cache),
     write: (data: T[]) =>
       clear(cache)
-        .then(() => setMany(data.map(group => [group.id, group]), cache))
+        .then(() => setMany(data.map(item => [item.id, item]), cache))
   };
 };
 
