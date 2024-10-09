@@ -1,125 +1,83 @@
-@layer components {
+@layer components {  
   button {
     @apply outline-none;
   }
-  
-  .icon-button {
-    @apply grid place-content-center rounded-full
-      w-10 h-10 text-lg
-      transition-all;
-    
-    fa-icon {
-      @apply leading-none;
-    }
-    
-    &.small {
-      @apply h-6 w-6 text-sm;
-    }
 
-    &.large {
-      @apply h-12 w-12 text-2xl;
-    }
+  .filled-button {
+    --source-color: theme('colors.primary.600');
 
-    &:where(:hover), &:where(:focus) {
-      @apply bg-slate-500/10;
-    }
+    @apply p-1 px-4 rounded-md font-medium transition-all w-max;
 
-    &.primary {
-      @apply bg-primary-500 text-white;
+    @apply text-on-primary;
+    --tw-ring-color: var(--source-color);
+    background-color: var(--source-color);
 
-      &:where(:hover), &:where(:focus) {
-        @apply bg-primary-600;
-      }
-    }
-      
-    &:disabled  {
-      @apply bg-slate-50 text-slate-400 transition-none;
+    @apply ring-1 ring-opacity-10
+      before:absolute after:absolute
+      shadow-[0_1px_theme(colors.white/0.07)_inset,0_1px_3px_theme(colors.gray.900/0.2)];
+
+    &::before {
+      @apply transition-all inset-0 -z-10
+        rounded-md bg-gradient-to-b
+        from-white/15 
+        opacity-50;
     }
 
-  }
-
-  .shaded-button {
-    @apply rounded py-1 px-3 font-medium transition-all text-sm;
-
-    @apply bg-white;
-
-    &:where(:hover), &:where(:focus) {
-      @apply bg-slate-200;
+    &::after {
+      @apply pointer-events-none inset-0 -z-10
+        rounded-md bg-gradient-to-b from-white/10
+        from-[46%] to-[54%]
+        mix-blend-overlay;
     }
 
-    &:where(.primary) {
-      @apply bg-primary-500 text-white;
-
-      &:hover, &:focus {
-        @apply bg-primary-600 text-white;
-      }
-    }
-
-    &:where(.secondary) {
-      @apply bg-secondary-950 text-white;
-
-      &:hover, &:focus {
-        @apply bg-secondary-900 text-white;
-      }
-    }
-
-    &:disabled {
-      @apply bg-slate-300 text-slate-500;
-    }
-  }
-
-  .highlight-button {
-    @apply block rounded py-2 px-4 font-medium transition-all;
 
     &:hover, &:focus {
-      @apply bg-slate-100 text-primary-500;
-    }
-
-    &:where(.primary) {
-      @apply bg-primary-500/5 text-primary-500;
-
-      &:hover, &:focus {
-        @apply bg-primary-500/10 text-primary-500;
+      &::before {
+        @apply opacity-100;
       }
     }
 
-    &:disabled {
-      @apply text-slate-500;
+    &:disabled, &.disabled {
+      @apply text-gray-400 bg-gray-200 ring-gray-200;
     }
   }
 
-  .stroked-button {
-    --bg: theme('colors.surface.container-lowest');
-    @apply block border rounded py-1 px-4 transition-all;
-    background-color: var(--bg);
+  .tonal-button {
+    --source-color: theme('colors.primary.900');
+    --tone: hsl(from var(--source-color) h 50 90);
 
-    &.small {
-      @apply py-1;
+    @apply p-1 px-4 rounded-md font-medium transition-all w-max;
+    @apply text-primary;
+    background-color: var(--tone);
+    --tw-ring-color: var(--tone);
+
+    @apply ring-1 ring-opacity-10
+      before:absolute after:absolute
+      shadow-[0_1px_theme(colors.white/0.07)_inset,0_1px_3px_theme(colors.gray.900/0.2)];
+
+    &::before {
+      @apply transition-all inset-0 -z-10
+        rounded-md bg-gradient-to-b
+        from-white/40 
+        opacity-50;
+    }
+
+    &::after {
+      @apply pointer-events-none inset-0 -z-10
+        rounded-md bg-gradient-to-b from-white/10
+        from-[46%] to-[54%]
+        mix-blend-overlay;
     }
 
     &:hover, &:focus {
-      background-color: hsl(from var(--bg) h calc(s - 30) calc(l - 3));
+      &::before {
+        @apply opacity-100;
+      }
     }
 
-    &:where(.primary) {
-      @apply text-primary-500;
-    }
-
-    &:where(.warn) {
-      @apply text-warn;
-    }
-
-    &:disabled {
-      @apply bg-slate-300 text-slate-500;
+    &:disabled, &.disabled {
+      @apply text-gray-400 bg-gray-200 ring-gray-200;
     }
   }
 
-  // links
-  a:where([href]) {
-    @apply transition-all outline-none;
-    
-    &:where(:hover), &:where(:focus) {
-      @apply text-primary-500;
-    }
-  }
 }

@@ -13,7 +13,7 @@ import { ImportsModule } from '../../common/imports.module';
 })
 export class ButtonsShowcaseComponent {
   @HostBinding()
-  private readonly class = 'block bg-surface-container text-on-surface rounded-md';
+  private readonly class = 'block';
 
   protected readonly icons = {
     faEdit
