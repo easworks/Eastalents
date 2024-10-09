@@ -1,15 +1,16 @@
-import type { StorybookConfig } from '@storybook/angular';
+import { StorybookConfigVite } from '@storybook/builder-vite';
+import type { StorybookConfig } from '@storybook/types';
 
-const config: StorybookConfig = {
+const config: StorybookConfig & StorybookConfigVite = {
   stories: [
-    '../src/app/**/*.@(mdx|stories.@(js|jsx|ts|tsx))',
+    '../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))',
     '../../../libs/app-shell/src/**/*.stories.ts'
   ],
-  addons: ['@storybook/addon-essentials'],
-  framework: {
-    name: '@storybook/angular',
-    options: {},
-  },
+  addons: [
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
+  ],
+  framework: '@storybook/angular',
 };
 
 export default config;

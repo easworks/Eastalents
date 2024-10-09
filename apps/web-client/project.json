@@ -207,7 +207,7 @@
       "options": {
         "port": 4400,
         "configDir": "apps/web-client/.storybook",
-        "browserTarget": "web-client:build-storybook",
+        "browserTarget": "web-client:build",
         "compodoc": false
       },
       "configurations": {
