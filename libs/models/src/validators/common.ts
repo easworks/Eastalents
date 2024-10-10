@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import { pattern } from '../pattern';
 import { z } from 'zod';
 
@@ -11,3 +12,7 @@ export const username = z.string().trim()
   .refine(v => !v.startsWith('_'), 'no-underscore-at-start')
   .refine(v => !v.endsWith('_'), 'no-underscore-at-end')
   .refine(v => !v.includes('__'), 'no-consecutive-underscores');
+
+export const datetime = z.string().trim()
+  .transform(s => s ? DateTime.fromISO(s) : null)
+  .refine(d => !d || d.isValid, 'invalid date time');

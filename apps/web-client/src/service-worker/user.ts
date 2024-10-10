@@ -1,4 +1,4 @@
-import { UserWithToken } from '@easworks/models';
+import { UserWithToken } from '@easworks/models/user';
 import { BehaviorSubject } from 'rxjs';
 
 declare const self: ServiceWorkerGlobalScope;

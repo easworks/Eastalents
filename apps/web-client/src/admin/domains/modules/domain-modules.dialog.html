@@ -25,7 +25,8 @@
 
 <mat-divider></mat-divider>
 <div class="p-2">
-  <div class="table-container">
+  <!-- TODO; fix vertical scrolling for this dialog box -->
+  <div class="table-container max-h-[50vh] overflow-auto">
     <div class="overlay-wrapper">
       <table>
         <thead>
@@ -49,7 +50,7 @@
             </td>
             <td class="!p-0">
               <button class="icon-button rounded-md hover:text-warn" mat-ripple matTooltip="Remove"
-                      (click)="table.remove($index)">
+                (click)="table.remove($index)">
                 <fa-icon [icon]="icons.faRemove"></fa-icon>
               </button>
             </td>
@@ -57,8 +58,7 @@
           }
           <tr>
             <td colspan="2" class="!p-0">
-              <button class="stroked-button w-full border-none p-2.5" mat-ripple matTooltip="Add"
-                      (click)="table.add()">
+              <button class="stroked-button w-full border-none p-2.5" mat-ripple matTooltip="Add" (click)="table.add()">
                 <fa-icon [icon]="icons.faAdd" class="mx-auto"></fa-icon>
               </button>
             </td>
@@ -73,7 +73,7 @@
 
 <div class="flex gap-2 p-2">
   <button type="button" class="stroked-button primary" mat-ripple [disabled]="buttons.save.disabled$()"
-          (click)="buttons.save.click()">
+    (click)="buttons.save.click()">
     Save
   </button>
   <button type="button" class="stroked-button" mat-ripple (click)="buttons.reset.click()">
