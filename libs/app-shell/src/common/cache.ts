@@ -16,7 +16,8 @@ export const CACHE = new InjectionToken('CACHE', {
         domains: domainDataDB('domains'),
         softwareProducts: domainDataDB('software-products'),
         techSkills: domainDataDB('tech-skills'),
-        techGroups: domainDataDB('tech-groups')
+        techGroups: domainDataDB('tech-groups'),
+        featuredDomains: domainDataDB('featured-domains')
       },
       auth: createStore('auth', 'auth')
     };

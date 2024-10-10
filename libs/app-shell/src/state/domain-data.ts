@@ -1,4 +1,4 @@
-import { sortString } from '@easworks/app-shell/utilities/sort';
+import { sortString } from '../utilities/sort';
 import { FeaturedDomain } from '@easworks/models/featured';
 import { IndustryGroup, IndustryGroupDTO } from '@easworks/models/industry';
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
@@ -21,7 +21,10 @@ export const domainDataActions = createActionGroup({
   source: 'admin-data',
   events: {
     'update state': props<{
-      payload: DomainDataDTO & { industries: IndustryGroupDTO; };
+      payload: DomainDataDTO & {
+        industries: IndustryGroupDTO;
+        featured: FeaturedDomain[];
+      };
     }>(),
     'save state': emptyProps()
   }
@@ -85,7 +88,27 @@ export const domainActions = createActionGroup({
         id: string;
         modules: Domain['modules'];
       };
-    }>()
+    }>(),
+    'update roles': props<{
+      payload: {
+        id: string;
+        roles: Domain['roles'];
+      };
+    }>(),
+    'update services': props<{
+      payload: {
+        id: string;
+        services: Domain['services'];
+      };
+    }>(),
+  }
+});
+
+export const featuredDomainActions = createActionGroup({
+  source: 'featured-domains',
+  events: {
+    'add domain': props<{ payload: { domain: Domain; }; }>(),
+    'remove domain': props<{ payload: { domain: string; }; }>()
   }
 });
 
@@ -122,6 +145,7 @@ const feature = createFeature({
         payload.techGroups.map(g => ({ ...g, skills: [] })),
         state.techGroups);
       state.industries = IndustryGroupDTO.toList(payload.industries);
+      state.featuredDomains = payload.featured;
 
       for (const skill of payload.techSkills) {
         for (const id of skill.groups) {
@@ -163,6 +187,30 @@ const feature = createFeature({
         map: domain => {
           domain = { ...domain };
           domain.modules = payload.modules;
+          return domain;
+        }
+      }, state.domains);
+      return state;
+    }),
+    on(domainActions.updateRoles, (state, { payload }) => {
+      state = { ...state };
+      state.domains = adapters.domain.mapOne({
+        id: payload.id,
+        map: domain => {
+          domain = { ...domain };
+          domain.roles = payload.roles;
+          return domain;
+        }
+      }, state.domains);
+      return state;
+    }),
+    on(domainActions.updateServices, (state, { payload }) => {
+      state = { ...state };
+      state.domains = adapters.domain.mapOne({
+        id: payload.id,
+        map: domain => {
+          domain = { ...domain };
+          domain.services = payload.services;
           return domain;
         }
       }, state.domains);
@@ -309,7 +357,26 @@ const feature = createFeature({
       // update tech group
       group.skills = [...payload.skills].sort(sortString);
 
-    }))
+    })),
+
+    // featured domains
+    on(featuredDomainActions.addDomain, produce((state, { payload }) => {
+      const exists = state.featuredDomains.find(d => d.id === payload.domain.id);
+      if (exists)
+        throw new Error('cannot add existing domain to list');
+      state.featuredDomains.push({
+        id: payload.domain.id,
+        roles: [],
+        software: []
+      });
+      state.featuredDomains.sort((a, b) => sortString(a.id, b.id));
+    })),
+
+    on(featuredDomainActions.removeDomain, produce((state, { payload }) => {
+      const domainIdx = state.featuredDomains.findIndex(d => d.id === payload.domain);
+      if (domainIdx >= 0)
+        state.featuredDomains.splice(domainIdx, 1);
+    })),
   ),
   extraSelectors: base => {
     const selectors = {
@@ -342,6 +409,7 @@ export const domainData = {
     softwareProduct: adapters.softwareProduct.getSelectors(feature.selectSoftwareProducts),
     techSkill: adapters.techSkill.getSelectors(feature.selectTechSkills),
     techGroup: adapters.techGroup.getSelectors(feature.selectTechGroups),
+    featuredDomains: feature.selectFeaturedDomains
   }
 } as const;
 

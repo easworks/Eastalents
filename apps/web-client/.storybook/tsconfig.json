@@ -10,6 +10,7 @@
     "../src/**/*.stories.jsx",
     "../src/**/*.stories.tsx",
     "../src/**/*.stories.mdx",
+    "../../../libs/app-shell/src/**/*.stories.ts",
     "*.js",
     "*.ts"
   ]

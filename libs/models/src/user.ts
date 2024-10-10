@@ -37,3 +37,7 @@ export interface InitialProfileData {
   domains: string[];
   softwareProducts: string[];
 }
+
+export type UserWithToken = FirstPartyUserClaims & {
+  token: string;
+};

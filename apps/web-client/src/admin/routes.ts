@@ -37,6 +37,12 @@ export const ADMIN_ROUTES: Route =
         .then(m => m.TechGroupsPageComponent)
     },
     {
+      path: 'featured-domains',
+      pathMatch: 'full',
+      loadComponent: () => import('./featured-domains/page/featured-domains.page')
+        .then(m => m.FeaturedDomainsPageComponent)
+    },
+    {
       path: '',
       pathMatch: 'full',
       redirectTo: 'dashboard',

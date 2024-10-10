@@ -1,15 +1,59 @@
+import { domainValidators } from '@easworks/models/validators/domains';
 import { keyval_schema } from '@easworks/mongodb/schema/keyval';
+import { DateTime } from 'luxon';
 import { KeyValueDocumentNotFound } from 'server-side/errors/definitions';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 
 export const domainHandlers: FastifyZodPluginAsync = async server => {
   server.get('/data',
+    { schema: { querystring: domainValidators.inputs.getData } },
     async (req) => {
+
+      const doc = await req.ctx.em.findOne(keyval_schema, {
+        _id: 'domain-data',
+        updatedOn: { $ne: req.query.version },
+      });
+
+      return doc || true;
+    }
+  );
+
+  server.post('/data',
+    async req => {
+      const value = req.body;
       const doc = await req.ctx.em.findOne(keyval_schema, 'domain-data');
       if (!doc)
         throw new KeyValueDocumentNotFound('domain-data');
+      doc.value = value;
+      doc.updatedOn = DateTime.now();
+
+      req.ctx.em.flush();
+
+      return true;
+    }
+  );
+
+  server.get('/featured-domains',
+    async (req) => {
+      const doc = await req.ctx.em.findOne(keyval_schema, 'featured-domains');
+      if (!doc)
+        throw new KeyValueDocumentNotFound('featured-domains');
 
       return doc.value;
+    }
+  );
+
+  server.post('/featured-domains',
+    async req => {
+      const value = req.body;
+      const doc = await req.ctx.em.findOne(keyval_schema, 'featured-domains');
+      if (!doc)
+        throw new KeyValueDocumentNotFound('featured-domains');
+      doc.value = value;
+
+      req.ctx.em.flush();
+
+      return true;
     }
   );
 

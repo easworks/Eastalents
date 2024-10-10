@@ -1,0 +1,27 @@
+<div class="grid gap-4 mt-4">
+  @if(featuredDomains.empty$()){
+  <div> No Data Found</div>
+  }
+  @else {
+  @for(featured of featuredDomains.list$(); track featured.id){
+  <admin-featured-domain-card [featuredDomain]="featured" />
+  }
+  }
+
+</div>
+
+
+<div class="mt-4">
+  <mat-select [(ngModel)]="addDomain.query$" [ngModelOptions]="{ standalone: true }">
+    @for (domain of addDomain.options$(); track domain.id) {
+    <mat-option [value]="domain"> {{domain.longName}} </mat-option>
+    }
+  </mat-select>
+
+  <button class="shaded-button secondary 
+      mt-4 md:mt-6 whitespace-nowrap
+      flex-grow md:flex-none" mat-ripple (click)="addDomain.click(addDomain.query$())"
+          [disabled]="addDomain.disabled$()">
+    Add Domain
+  </button>
+</div>
