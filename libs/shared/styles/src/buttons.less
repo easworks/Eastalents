@@ -6,7 +6,7 @@
   .filled-button {
     --source-color: theme('colors.primary.600');
 
-    @apply p-1 px-4 rounded-md font-medium transition-all w-max;
+    @apply relative p-1 px-4 rounded-md font-medium transition-all w-max;
 
     @apply text-on-primary;
     --tw-ring-color: var(--source-color);
@@ -17,14 +17,14 @@
       shadow-[0_1px_theme(colors.white/0.07)_inset,0_1px_3px_theme(colors.gray.900/0.2)];
 
     &::before {
-      @apply transition-all inset-0 -z-10
+      @apply transition-all inset-0 rounded-md
         bg-gradient-to-b
         from-white/15 
         opacity-50;
     }
 
     &::after {
-      @apply pointer-events-none inset-0 -z-10
+      @apply pointer-events-none inset-0 rounded-md
         bg-gradient-to-b from-white/10
         from-[46%] to-[54%]
         mix-blend-overlay;
@@ -39,6 +39,10 @@
 
     &:disabled, &.disabled {
       @apply text-gray-400 bg-gray-200 ring-gray-200;
+
+      &::before, &::after {
+        @apply hidden;
+      }
     }
   }
 
@@ -46,7 +50,7 @@
     --source-color: theme('colors.primary.900');
     --tone: hsl(from var(--source-color) h 50 90);
 
-    @apply p-1 px-4 rounded-md font-medium transition-all w-max;
+    @apply relative p-1 px-4 rounded-md font-medium transition-all w-max;
     @apply text-primary;
     background-color: var(--tone);
     --tw-ring-color: var(--tone);
@@ -56,14 +60,14 @@
       shadow-[0_1px_theme(colors.white/0.07)_inset,0_1px_3px_theme(colors.gray.900/0.2)];
 
     &::before {
-      @apply transition-all inset-0 -z-10
+      @apply transition-all inset-0 rounded-md
         bg-gradient-to-b
         from-white/40 
         opacity-50;
     }
 
     &::after {
-      @apply pointer-events-none inset-0 -z-10
+      @apply pointer-events-none inset-0 rounded-md
         bg-gradient-to-b from-white/10
         from-[46%] to-[54%]
         mix-blend-overlay;
@@ -77,17 +81,21 @@
 
     &:disabled, &.disabled {
       @apply text-gray-400 bg-gray-200 ring-gray-200;
+
+      &::before, &::after {
+        @apply hidden;
+      }
     }
   }
 
   .outlined-button {
     --source-color: transparent;
-    @apply block rounded-md py-1 px-4 transition-all;
+    @apply relative block rounded-md py-1 px-4 transition-all;
 
     @apply border after:absolute;
 
     &::after {
-      @apply transition-all pointer-events-none inset-0 -z-10
+      @apply transition-all pointer-events-none inset-0 rounded-md
         mix-blend-overlay
         opacity-0;
       background-color: theme('colors.black / 0.075');
@@ -111,12 +119,12 @@
     
   .text-button {
     --source-color: transparent;
-    @apply block rounded-md py-1 px-4 transition-all;
+    @apply relative block rounded-md py-1 px-4 transition-all;
 
     @apply after:absolute;
 
     &::after {
-      @apply transition-all pointer-events-none inset-0 -z-10
+      @apply transition-all pointer-events-none inset-0 rounded-md
         mix-blend-overlay
         opacity-0;
       background-color: theme('colors.black / 0.075');
@@ -139,14 +147,14 @@
 
   .icon-button {
     --source-color: transparent;
-    @apply grid place-content-center rounded-full
+    @apply relative grid place-content-center rounded-full
       w-10 h-10 text-lg
       transition-all;
 
     @apply after:absolute;
 
     &::after {
-      @apply transition-all pointer-events-none inset-0 -z-10
+      @apply transition-all pointer-events-none inset-0 rounded-full
         mix-blend-overlay
         opacity-0;
       background-color: theme('colors.black / 0.075');

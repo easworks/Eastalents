@@ -17,7 +17,7 @@ module.exports = {
         '10xl': '120rem',
       },
       fontFamily: {
-        'sans': ['Nunito', ...defaultTheme.fontFamily.sans],
+        'sans': ['Lexend Deca', ...defaultTheme.fontFamily.sans],
         'emoji': ['Noto Color Emoji']
       },
       boxShadow: {
