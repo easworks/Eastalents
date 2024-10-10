@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { CanMatchFn, RedirectCommand, Router, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, CanMatchFn, RedirectCommand, Router, Routes } from '@angular/router';
 import { NotFoundPageComponent } from '@easworks/app-shell/navigation/not-found/not-found.page';
 import { AUTH_READY } from '@easworks/app-shell/services/auth.ready';
 import { PageMetadata } from '@easworks/app-shell/services/seo';
@@ -7,6 +7,7 @@ import { AUTH_CHECKS, authActions, authFeature } from '@easworks/app-shell/state
 import { Store } from '@ngrx/store';
 import { HELP_CENTER_ROUTES } from './help-center/routes';
 import { USE_CASES_ROUTE } from './use-cases/routes';
+import { domainActions, domainData } from '@easworks/app-shell/state/domain-data';
 
 const redirectUser: CanMatchFn = (() => {
   const checks = {
@@ -48,6 +49,29 @@ const redirectUser: CanMatchFn = (() => {
 
 
 export const PUBLIC_ROUTES: Routes = [
+  {
+    path:'domains/:domainId',
+    pathMatch:'full',
+    loadComponent: () => import('./domains/domains.page').then(m =>m.DomainsPageComponent),
+    resolve: {
+      domain: (snap:ActivatedRouteSnapshot) =>{
+        const store = inject(Store);
+        const router = inject(Router);
+
+        const domainId = snap.paramMap.get('domainId')!;
+
+        const map$ = store.selectSignal(domainData.selectors.domains.selectEntities);
+        const domain = map$()[domainId];
+
+        if(!domain){
+          router.navigateByUrl('/error-404',{skipLocationChange:true});
+        }
+        
+        return domain;    
+      }
+    }
+
+  },
   {
     path: 'home',
     pathMatch: 'full',
