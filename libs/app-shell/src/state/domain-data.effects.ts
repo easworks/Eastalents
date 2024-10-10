@@ -1,7 +1,8 @@
 import { inject } from '@angular/core';
+import { DomainDataDTO } from '@easworks/models/domain';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { concatMap, map, switchMap, zip } from 'rxjs';
+import { concatMap, defer, map, Observable, switchMap, zip } from 'rxjs';
 import { AdminApi } from '../api/admin.api';
 import { DomainsApi } from '../api/domains.api';
 import { isBrowser } from '../utilities/platform-type';
@@ -10,30 +11,65 @@ import { domainActions, domainData, domainDataActions, featuredDomainActions, so
 export const domainDataEffects = {
   loadFromApi: createEffect(
     () => {
-      const api = inject(DomainsApi);
+      const api = {
+        admin: inject(AdminApi),
+        domains: inject(DomainsApi)
+      };
 
-      const data$ = zip(
-        api.data.get(),
-        api.industries(),
-        api.featured.get()
-      )
-        .pipe(map(([domainDto, industries, featured]) => Object.assign(domainDto, { industries, featured })));
+      const data$ = (domainDto$: Observable<DomainDataDTO>) =>
+        zip(
+          domainDto$,
+          api.domains.industries(),
+          api.domains.featured.get()
+        )
+          .pipe(map(([domainDto, industries, featured]) => Object.assign(domainDto, { industries, featured })));
 
-      if (isBrowser())
-        return data$
+      if (isBrowser()) {
+
+        const dto$ = defer(() => api.admin.version.get())
+          .pipe(
+            switchMap(version => api.domains.data.get(version)),
+            switchMap(async kvDoc => {
+              if (kvDoc === true) {
+                return Promise.all([
+                  api.admin.domains.read(),
+                  api.admin.softwareProducts.read(),
+                  api.admin.techSkills.read(),
+                  api.admin.techGroups.read(),
+                ]).then<DomainDataDTO>(results => ({
+                  domains: results[0],
+                  softwareProducts: results[1],
+                  techSkills: results[2],
+                  techGroups: results[3]
+                }));
+              }
+              else {
+                await api.admin.version.set(kvDoc.updatedOn as unknown as string);
+                return kvDoc.value;
+              }
+            })
+          );
+
+
+        return data$(dto$)
           .pipe(
             switchMap(payload => [
               domainDataActions.updateState({ payload }),
               domainDataActions.saveState()
             ])
           );
-      else
-        return data$
+      }
+      else {
+        const dto$ = api.domains.data.get()
+          .pipe(map(doc => doc.value));
+
+        return data$(dto$)
           .pipe(
             switchMap(payload => [
               domainDataActions.updateState({ payload })
             ])
           );
+      }
 
 
       // const data = Promise.all([

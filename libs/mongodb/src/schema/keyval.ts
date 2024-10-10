@@ -1,11 +1,10 @@
-import { Entity } from '@easworks/models/entity';
+import { KeyValDocument as KvEntity } from '@easworks/models/keyval';
 import { EntitySchema } from '@mikro-orm/mongodb';
+import { LuxonType } from '../custom-types';
 import { EAS_EntityManager } from '../types';
 import { id_prop } from '../utils';
 
-export interface KeyValDocument<T = unknown> extends Entity {
-  value: T;
-};
+export interface KeyValDocument extends KvEntity { };
 
 export class KeyValDocument {
   public static async get<T>(em: EAS_EntityManager, key: string) {
@@ -24,6 +23,7 @@ export const keyval_schema = new EntitySchema<KeyValDocument>({
   name: 'KeyValDocument',
   properties: {
     _id: { ...id_prop(), type: 'string' },
-    value: { type: 'jsonb' }
+    value: { type: 'jsonb' },
+    updatedOn: { type: LuxonType, nullable: true }
   }
 });

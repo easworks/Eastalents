@@ -1,15 +1,20 @@
+import { domainValidators } from '@easworks/models/validators/domains';
 import { keyval_schema } from '@easworks/mongodb/schema/keyval';
+import { DateTime } from 'luxon';
 import { KeyValueDocumentNotFound } from 'server-side/errors/definitions';
 import { FastifyZodPluginAsync } from 'server-side/utils/fastify-zod';
 
 export const domainHandlers: FastifyZodPluginAsync = async server => {
   server.get('/data',
+    { schema: { querystring: domainValidators.inputs.getData } },
     async (req) => {
-      const doc = await req.ctx.em.findOne(keyval_schema, 'domain-data');
-      if (!doc)
-        throw new KeyValueDocumentNotFound('domain-data');
 
-      return doc.value;
+      const doc = await req.ctx.em.findOne(keyval_schema, {
+        _id: 'domain-data',
+        updatedOn: { $ne: req.query.version },
+      });
+
+      return doc || true;
     }
   );
 
@@ -20,6 +25,7 @@ export const domainHandlers: FastifyZodPluginAsync = async server => {
       if (!doc)
         throw new KeyValueDocumentNotFound('domain-data');
       doc.value = value;
+      doc.updatedOn = DateTime.now();
 
       req.ctx.em.flush();
 

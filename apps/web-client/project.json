@@ -223,7 +223,12 @@
         "outputDir": "dist/storybook/web-client",
         "configDir": "apps/web-client/.storybook",
         "browserTarget": "web-client:build-storybook",
-        "compodoc": false
+        "compodoc": false,
+        "styles": [
+          "libs/shared/styles/src/fonts.css",
+          "libs/shared/styles/src/material.scss",
+          "apps/web-client/src/styles.less"
+        ]
       },
       "configurations": {
         "ci": {

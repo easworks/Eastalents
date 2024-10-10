@@ -1,20 +1,18 @@
 @import './tailwind.less';
-@import './snackbar.less';
-@import './material.overrides.less';
+// @import './snackbar.less';
+// @import './material.overrides.less';
 @import './buttons.less';
-@import './forms.less';
-@import './tables.less';
-@import './swiper.less';
-@import './tabs.less';
-@import './chips.less';
+// @import './forms.less';
+// @import './tables.less';
+// @import './swiper.less';
+// @import './tabs.less';
+// @import './chips.less';
 
 @layer base {
-  html {
-    --color-surface-source: theme('colors.primary.500');
-  }
-
   body {
-    min-width: 22.5rem;
+    min-width: theme('containers.sm');
+    background-color: theme('colors.surface.container');
+    color: theme('colors.on.surface')
   }
 }
 
