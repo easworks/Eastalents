@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { facCertificateCheck, facCornerRibbon } from 'custom-icons';
+import { achievements } from '../common/achievements';
 import { ScrollToTopComponent } from '../common/scroll-to-top/scroll-to-top.component';
 
 @Component({
@@ -11,7 +12,7 @@ import { ScrollToTopComponent } from '../common/scroll-to-top/scroll-to-top.comp
   styleUrl: './home.page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    FontAwesomeModule,
+    ImportsModule,
     ScrollToTopComponent
   ]
 })
@@ -21,6 +22,8 @@ export class HomePageComponent {
     facCertificateCheck,
     facCornerRibbon
   } as const;
+
+  protected readonly achievements = achievements;
 
   protected readonly madeEasySection = {
     devs: [
