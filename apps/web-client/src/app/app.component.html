@@ -1,4 +1,4 @@
-<header id="app-header" class="z-10 sticky top-0">
+<header id="app-header">
   @if (isSignedIn$()) {
   <app-authenticated-header></app-authenticated-header>
   }
@@ -29,6 +29,6 @@
   <mat-sidenav-content class="flex-grow !flex flex-col !overflow-visible">
     <router-outlet class="hidden [&_+_*]:flex-1"></router-outlet>
 
-    <app-footer class="mt-auto !flex-none"></app-footer>
+    <!-- <app-footer class="mt-auto !flex-none"></app-footer> -->
   </mat-sidenav-content>
 </mat-sidenav-container>

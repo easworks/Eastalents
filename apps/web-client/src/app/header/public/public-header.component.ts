@@ -32,7 +32,7 @@ export class AppPublicHeaderComponent {
   private readonly auth = inject(AuthService);
 
   @HostBinding()
-  private readonly class = 'flex h-full gap-4 items-center bg-black p-1 px-4';
+  private readonly class = 'flex h-full gap-4 items-center p-1 px-4 bg-surface-bright';
 
   protected readonly icons = {
     faHighTechFourLeaf,
