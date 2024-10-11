@@ -63,7 +63,7 @@
     }
 
     > .error {
-      @apply absolute hidden text-warn transition-all;
+      @apply absolute hidden text-warn-500 transition-all;
     }
 
     .mat-mdc-select-value {
@@ -117,12 +117,12 @@
   td.form-field.dirty {
     &.invalid {
       label {
-        @apply text-warn;
+        @apply text-warn-500;
       }
 
       .field {
-        @apply ring-warn/80 placeholder-warn;
-        --mat-select-placeholder-text-color: theme('colors.warn');
+        @apply ring-warn-500/80 placeholder-warn-500;
+        --mat-select-placeholder-text-color: theme('colors.warn.500');
       }
 
       > .error {

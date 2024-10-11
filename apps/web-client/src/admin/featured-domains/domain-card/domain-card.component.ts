@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, HostBinding, inject, inpu
 import { ImportsModule } from '@easworks/app-shell/common/imports.module';
 import { featuredDomainActions } from '@easworks/app-shell/state/domain-data';
 import { FeaturedDomain } from '@easworks/models/featured';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faSquareXmark, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { FeaturedDomainsPageComponent } from '../page/featured-domains.page';
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
@@ -33,9 +33,10 @@ export class AdminFeaturedDomainCardComponent {
   private readonly snackbar = inject(MatSnackBar);
 
   @HostBinding()
-  private readonly class = 'rounded-md border';
+  private readonly class = 'rounded-md border bg-surface';
   protected readonly icons = {
-    faXmark,
+    faSquareXmark,
+    faXmark
   } as const;
 
   readonly domainInput$ = input.required<FeaturedDomain>({ alias: 'featuredDomain' });
