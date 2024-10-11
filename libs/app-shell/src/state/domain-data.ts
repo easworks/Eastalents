@@ -108,7 +108,11 @@ export const featuredDomainActions = createActionGroup({
   source: 'featured-domains',
   events: {
     'add domain': props<{ payload: { domain: Domain; }; }>(),
-    'remove domain': props<{ payload: { domain: string; }; }>()
+    'remove domain': props<{ payload: { domain: string; }; }>(),
+    'add role': props<{ payload: { domain: string, role: string; }; }>(),
+    'remove role': props<{ payload: { domain: string, role: string; }; }>(),
+    'add software': props<{ payload: { domain: string, software: string; }; }>(),
+    'remove software': props<{ payload: { domain: string, software: string; }; }>(),
   }
 });
 
@@ -377,6 +381,43 @@ const feature = createFeature({
       if (domainIdx >= 0)
         state.featuredDomains.splice(domainIdx, 1);
     })),
+
+    on(featuredDomainActions.addRole, produce((state, { payload }) => {
+      const domain = state.featuredDomains.find(d => d.id === payload.domain);
+      if (!domain) {
+        throw new Error('Could Not find Feature Domain');
+      }
+      domain.roles.push(payload.role);
+      domain.roles.sort();
+    })),
+
+    on(featuredDomainActions.removeRole, produce((state, { payload }) => {
+      const domain = state.featuredDomains.find(d => d.id === payload.domain);
+      if (!domain) {
+        throw new Error('Could Not find Feature Domain');
+      }
+      const roleIdx = domain.roles.findIndex(x => x === payload.role);
+      if (roleIdx >= 0)
+        domain.roles.splice(roleIdx, 1);
+    })),
+
+    on(featuredDomainActions.addSoftware, produce((state, { payload }) => {
+      const exists = state.featuredDomains.find(d => d.id === payload.domain);
+      if (!exists)
+        throw new Error('cannot Not Find Feature Domain');
+      exists.software.push(payload.software);
+      exists.software.sort();
+    })),
+
+    on(featuredDomainActions.removeSoftware, produce((state, { payload }) => {
+      const domain = state.featuredDomains.find(d => d.id === payload.domain);
+      if (!domain)
+        throw new Error('cannot Not Find Feature Domain');
+      const softwareIdx = domain.software.findIndex(x => x === payload.software);
+      if (softwareIdx >= 0)
+        domain.software.splice(softwareIdx, 1);
+    })),
+
   ),
   extraSelectors: base => {
     const selectors = {

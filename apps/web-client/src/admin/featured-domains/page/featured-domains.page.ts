@@ -46,7 +46,7 @@ export class FeaturedDomainsPageComponent {
     } as const;
   })();
 
-  protected readonly software = (() => {
+  readonly software = (() => {
     const list$ = this.store.selectSignal(domainData.selectors.softwareProduct.selectAll);
     const map$ = this.store.selectSignal(domainData.selectors.softwareProduct.selectEntities);
 

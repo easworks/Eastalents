@@ -213,7 +213,11 @@ export const domainDataEffects = {
         ofType(
           domainDataActions.saveState,
           featuredDomainActions.addDomain,
-          featuredDomainActions.removeDomain
+          featuredDomainActions.removeDomain,
+          featuredDomainActions.addRole,
+          featuredDomainActions.removeRole,
+          featuredDomainActions.addSoftware,
+          featuredDomainActions.removeSoftware
         ),
         concatMap(() => api.featuredDomains.write(list$()))
       );

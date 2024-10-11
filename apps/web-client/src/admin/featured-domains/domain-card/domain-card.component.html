@@ -9,10 +9,73 @@
 
 <div class="p-2 px-4">
   Roles
+  @if(featuredRoles.empty$()){
+  <div>No Roles Added</div>
+  }
+  <div class="flex gap-2 items-center justify-between">
+    <div class="flex flex-wrap gap-2 items-center relative">
+      @for(role of featuredRoles.list$(); track role) {
+      <div class="font-normal text-sm rounded-md p-1 px-2 
+          bg-primary-500/10 text-primary-500">
+        {{role}}
+      </div>
+      <button class="icon-button small p-1 px-2 rounded-md" mat-ripple (click)="removeRole(role)"
+        matTooltip="Remove Role">
+        <fa-icon [icon]="icons.faXmark"></fa-icon>
+      </button>
+      }
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <mat-select [(ngModel)]="addRole.query$" [ngModelOptions]="{ standalone: true }">
+      @for (role of addRole.options$(); track role) {
+      <mat-option [value]="role"> {{role}} </mat-option>
+      }
+    </mat-select>
+
+    <button class="shaded-button secondary 
+        mt-4 md:mt-6 whitespace-nowrap
+        flex-grow md:flex-none" mat-ripple (click)="addRole.click(addRole.query$())" [disabled]="addRole.disabled$()">
+      Add Role
+    </button>
+  </div>
 </div>
 
 <mat-divider></mat-divider>
 
 <div class="p-2 px-4">
   Software
+  @if(featuredSoftwareProduct.empty$()){
+  <div>No Software Product Added</div>
+  }
+  <div class="flex gap-2 items-center justify-between">
+    <div class="flex flex-wrap gap-2 items-center relative">
+      @for(sp of featuredSoftwareProduct.list$(); track sp.id) {
+      <div class="font-normal text-sm rounded-md p-1 px-2 
+            bg-primary-500/10 text-primary-500">
+        {{sp.name}}
+      </div>
+      <button class="icon-button small p-1 px-2 rounded-md" mat-ripple (click)="removeSoftwareProduct(sp)"
+        matTooltip="Remove Software">
+        <fa-icon [icon]="icons.faXmark"></fa-icon>
+      </button>
+      }
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <mat-select [(ngModel)]="addSoftwareProduct.query$" [ngModelOptions]="{ standalone: true }">
+      @for (sp of addSoftwareProduct.options$(); track sp.id) {
+      <mat-option [value]="sp"> {{sp.name}} </mat-option>
+      }
+    </mat-select>
+
+    <button class="shaded-button secondary 
+        mt-4 md:mt-6 whitespace-nowrap
+        flex-grow md:flex-none" mat-ripple (click)="addSoftwareProduct.click(addSoftwareProduct.query$())"
+      [disabled]="addSoftwareProduct.disabled$()">
+      Add Software Product
+    </button>
+  </div>
 </div>
