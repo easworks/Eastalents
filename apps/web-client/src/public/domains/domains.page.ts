@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 import { ImportsModule } from "@easworks/app-shell/common/imports.module";
+import { Domain } from "@easworks/models/domain";
+import { achievements } from "../common/achievements";
 
 @Component({
     standalone:true,
@@ -12,6 +14,8 @@ import { ImportsModule } from "@easworks/app-shell/common/imports.module";
 
 export class DomainsPageComponent{
 
+protected readonly domain$ = input.required<Domain>({alias:'domain'});
+protected readonly achievements = achievements;
 
 
 }

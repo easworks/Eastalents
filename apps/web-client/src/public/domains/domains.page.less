@@ -1,0 +1,32 @@
+#achievements {
+    > h3 {
+      .mat-divider {
+        @apply !border-transparent xl:!border-gray-400;
+        
+      }
+    }
+  
+    > div {
+      @apply text-white max-xl:mt-8;
+  
+      @apply flex flex-wrap gap-8 gap-x-16 grid-cols-2 justify-evenly justify-items-center;
+  
+      > div  {
+        @apply text-center;
+  
+        > p {
+          &:first-child {
+            @apply text-4xl font-bold;
+  
+            background: linear-gradient(110.93deg, #EDF1FF -1.39%, #6A6C76 93.3%);
+            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+          }
+  
+          &:last-child {
+            @apply mt-2 text-xl;
+          }
+        }
+      }
+    }  
+  }
