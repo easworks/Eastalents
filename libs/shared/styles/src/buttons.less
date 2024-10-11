@@ -92,7 +92,7 @@
     --source-color: transparent;
     @apply relative block rounded-md py-1 px-4 transition-all;
 
-    @apply border after:absolute;
+    @apply ring-2 ring-divider after:absolute;
 
     &::after {
       @apply transition-all pointer-events-none inset-0 rounded-md
@@ -108,7 +108,7 @@
     }
 
     &:disabled, &.disabled {
-      @apply text-gray-400 bg-gray-200 border-gray-200;
+      @apply text-gray-400 bg-gray-200 ring-gray-200;
 
       &::before, &::after {
         @apply hidden;
