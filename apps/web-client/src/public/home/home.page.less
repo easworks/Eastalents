@@ -1,44 +1,47 @@
 // New CSS Start
-.hero-sec {
-  @apply relative flex justify-center items-center 4xl:py-20 py-10 before:content-[''] before:bg-cover before:bg-no-repeat before:absolute before:inset-0 before:z-10;
+#hero-section {
+  @apply min-h-offset-screen relative flex;
 
   &::before {
-    background-image: url(/assets/public/home/hero-sec-bg.png);
-    background: color-mix(in srgb, #060606, transparent 50%);
+    @apply absolute bg-cover h-full w-full -z-10;
+    content: '';
+    background-color: hsl(from theme('colors.primary.500') h s 10);
   }
+}
 
-  .hero-sec-btns {
-    @apply relative 3xl:text-2xl text-xl text-primary-500 lg:py-3 py-1.5 5xl:px-16 lg:px-10 px-5 rounded-xl hover:hover:text-white hover:bg-black hover:duration-500 before:content-[''] before:absolute before:inset-0 before:rounded-xl before:p-[1px];
-
-    &:before {
-      background: linear-gradient(95.23deg, #4B4BF0 28.56%, #F34A02 100%);
-      -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
+#achievements {
+  > h3 {
+    .mat-divider {
+      @apply !border-transparent xl:!border-gray-400;
+      
     }
   }
+
+  > div {
+    @apply text-white max-xl:mt-8;
+
+    @apply flex flex-wrap gap-8 gap-x-16 grid-cols-2 justify-evenly justify-items-center;
+
+    > div  {
+      @apply text-center;
+
+      > p {
+        &:first-child {
+          @apply text-4xl font-bold;
+
+          background: linear-gradient(110.93deg, #EDF1FF -1.39%, #6A6C76 93.3%);
+          -webkit-text-fill-color: transparent;
+          -webkit-background-clip: text;
+        }
+
+        &:last-child {
+          @apply mt-2 text-xl;
+        }
+      }
+    }
+  }  
 }
 
-.achievement-sec {
-  @apply grid gap-12 mt-8 4xl:grid-cols-4 grid-cols-2 justify-between items-center 2xl:flex-row flex-col gap-y-5 py-6 overflow-auto relative 4xl:before:content-[''] before:content-none before:absolute before:inset-0 before:rounded-full before:p-[1px];
-
-  &:before {
-    background: linear-gradient(91.19deg, #FFFFFF 12.46%, rgba(255, 255, 255, 0) 100.28%);
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-  }
-
-  .shaded-text {
-    background: linear-gradient(110.93deg, #EDF1FF -1.39%, #6A6C76 93.3%);
-    -webkit-text-fill-color: transparent;
-    -webkit-background-clip: text;
-  }
-}
 
 // Maximize Project section classes
 .maximize-project {
@@ -108,10 +111,8 @@
 }
 
 .enterprise-app-dev {
-  background-image: url(/assets/public/home/enterprise-app-dev/sec-bg.png);
-
   &-card {
-    @apply relative transition-all;
+    @apply text-white relative transition-all w-full;
 
     &.highlight {
       @apply ring-4 ring-primary-500 4xl:translate-x-12;
