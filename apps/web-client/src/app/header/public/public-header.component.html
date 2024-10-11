@@ -1,7 +1,7 @@
 <!-- Logo -->
 <a routerLink="/" class="flex-none">
-  <img class="h-8 hidden 5xl:block" src="/assets/brand/logo-full-light.png" alt="App Logo" loading="lazy" />
-  <img class="h-8 block 5xl:hidden" src="/assets/brand/symbol-white.png" alt="App Logo" loading="lazy" />
+  <img class="h-8 hidden 5xl:block" src="/assets/brand/logo-full-dark.png" alt="App Logo" loading="lazy" />
+  <img class="h-8 block 5xl:hidden" src="/assets/brand/symbol-purple.png" alt="App Logo" loading="lazy" />
 </a>
 <!-- Logo -->
 
@@ -12,8 +12,8 @@
     @for(item of menuItems$(); track item) {
     <li>
       <a [routerLink]="item.link"
-         class="text-sm font-bold text-nowrap
-        text-white hover:text-primary-400 focus:text-primary-400">
+         class="text-sm font-bold text-nowrap transition-all
+        hover:text-primary-600 focus:text-primary-600 ">
         {{item.text}}
       </a>
     </li>
@@ -24,7 +24,7 @@
 <!-- Main Navigation container -->
 
 <!-- right-side elements -->
-<div class="flex flex-nowrap gap-4 text-nowrap items-center">
+<!-- <div class="flex flex-nowrap gap-4 text-nowrap items-center">
   <button class="shaded-button border-gradient border-only-btn">
     Find Jobs
   </button>
@@ -48,6 +48,6 @@
           matTooltip="Site Update Available">
     <fa-icon [icon]="icons.faCircleArrowUp"></fa-icon>
   </button>
-</div>
+</div> -->
 
 <!-- right-side elements -->
