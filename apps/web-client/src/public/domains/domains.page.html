@@ -1,75 +1,77 @@
 <!-- Hero Section Start -->
 <section class="bg-white bg-auto bg-no-repeat bg-right 5xl:pt-12 hero-sec">
-  <div class="page grid items-center 5xl:grid-cols-2 gap-10">
-    <div class="8xl:pe-44">
-      <h1 class="text-xl 2xl:text-2xl 7xl:text-3xl 
-      font-bold transition-all">
-        Hire Pre-vetted
-        <span class="text-primary-500 tracking-wide font-bold my-2 block
-              text-2xl 2xl:text-3xl 7xl:text-4xl">
-          {{domain$().longName}}
-        </span>
-        Domain Expert
-      </h1>
-      
-      <div class="mt-8">
-        <p >
-          Designs comprehensive {{domain$().shortName}} solutions aligned with business requirements.
-          This role is key to developing effective and strategic {{domain$().shortName}} systems.
-          EASWORKS delivers skilled
-          <span class="text-primary-500">{{domain$().shortName}}</span> Solution Architects
-          quickly to develop effective {{domain$().shortName}} strategies.
-        </p>
-  
-        <p class="mt-4"> 
-          <span class="text-primary-500">{{domain$().shortName}}</span> Solution Architect
-          ensures effective use of BI tools like Tableau, Power
-          BI, QlikView, SAP Business Objects, IBM Congo's, and other leading BI software to analyse data,
-          generate insights, and support decision-making.
-        </p>
-  
-        <div class="flex lg:flex-row flex-col gap-4 mt-8">
-          <button class="filled-button"> Hire {{domain$().shortName}} Domain Expert </button>
-        </div>
-  
+  <div class="page">
+    <div class="grid items-center 5xl:grid-cols-2 gap-10">
+      <div class="8xl:pe-44">
+        <h1 class="text-xl 2xl:text-2xl 7xl:text-3xl 
+        font-bold transition-all">
+          Hire Pre-vetted
+          <span class="text-primary-500 tracking-wide font-bold my-2 block
+                text-2xl 2xl:text-3xl 7xl:text-4xl">
+            {{domain$().longName}}
+          </span>
+          Domain Expert
+        </h1>
+
         <div class="mt-8">
-          <button class="tonal-button">Join our community!</button>
-          <p class="mt-4">
-            Network, learn, and grow in the enterprise application ecosystem.
+          <p>
+            Designs comprehensive {{domain$().shortName}} solutions aligned with business requirements.
+            This role is key to developing effective and strategic {{domain$().shortName}} systems.
+            EASWORKS delivers skilled
+            <span class="text-primary-500">{{domain$().shortName}}</span> Solution Architects
+            quickly to develop effective {{domain$().shortName}} strategies.
           </p>
+
+          <p class="mt-4">
+            <span class="text-primary-500">{{domain$().shortName}}</span> Solution Architect
+            ensures effective use of BI tools like Tableau, Power
+            BI, QlikView, SAP Business Objects, IBM Congo's, and other leading BI software to analyse data,
+            generate insights, and support decision-making.
+          </p>
+
+          <div class="flex lg:flex-row flex-col gap-4 mt-8">
+            <button class="filled-button"> Hire {{domain$().shortName}} Domain Expert </button>
+          </div>
+
+          <div class="mt-8">
+            <button class="tonal-button">Join our community!</button>
+            <p class="mt-4">
+              Network, learn, and grow in the enterprise application ecosystem.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="hidden 5xl:block justify-between items-center">
+        <div class="flex justify-end">
+          <img src="../../assets/public/generic-roles/hero-sec/img1.png" alt="Profile Picture">
+        </div>
+
+        <div class="flex justify-center">
+          <img src="../../assets/public/generic-roles/hero-sec/img2.png" alt="Profile Picture">
         </div>
       </div>
-      
     </div>
 
-    <div class="5xl:block flex justify-between items-center">
-      <div class="flex justify-end">
-        <img src="../../assets/public/generic-roles/hero-sec/img1.png" alt="Profile Picture">
+    <!-- achievements -->
+    <div id="achievements">
+      <h3 class="mt-16 flex gap-8 items-center">
+        <mat-divider class="flex-1"></mat-divider>
+        <h3 class="text-2xl font-bold">ACHIEVEMENTS</h3>
+        <mat-divider class="flex-1"></mat-divider>
+      </h3>
+
+      <div class="my-4">
+
+        @for(ach of achievements; track ach) {
+        <div>
+          <p>{{ach.value}}</p>
+          <p>{{ach.text}}</p>
+        </div>
+        }
+
       </div>
-
-      <div class="flex justify-center">
-        <img src="../../assets/public/generic-roles/hero-sec/img2.png" alt="Profile Picture">
-      </div>
-    </div>
-  </div>
-
-  <!-- achievements -->
-  <div id="achievements">
-    <h3 class="mt-16 flex gap-8 items-center">
-      <mat-divider class="flex-1"></mat-divider>
-      <h3 class="text-gray-400 text-2xl font-bold">ACHIEVEMENTS</h3>
-      <mat-divider class="flex-1"></mat-divider>
-    </h3>
-
-    <div class="my-4">
-
-      @for(ach of achievements; track ach) {
-      <div>
-        <p>{{ach.value}}</p>
-        <p>{{ach.text}}</p>
-      </div>
-      }
-
     </div>
   </div>
 

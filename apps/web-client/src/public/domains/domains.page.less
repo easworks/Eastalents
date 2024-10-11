@@ -1,13 +1,13 @@
 #achievements {
     > h3 {
       .mat-divider {
-        @apply !border-transparent xl:!border-gray-400;
+        @apply !border-transparent xl:!border-gray-600;
         
       }
     }
   
     > div {
-      @apply text-white max-xl:mt-8;
+      @apply  max-xl:mt-8;
   
       @apply flex flex-wrap gap-8 gap-x-16 grid-cols-2 justify-evenly justify-items-center;
   
@@ -18,7 +18,7 @@
           &:first-child {
             @apply text-4xl font-bold;
   
-            background: linear-gradient(110.93deg, #EDF1FF -1.39%, #6A6C76 93.3%);
+            background: linear-gradient(110.93deg, theme('colors.gray.400') -1.39%, theme('colors.gray.600') 93.3%);
             -webkit-text-fill-color: transparent;
             -webkit-background-clip: text;
           }
